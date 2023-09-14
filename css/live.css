@@ -1,0 +1,93 @@
+* {
+    margin: 0;
+    padding: 0;
+
+    font-family: '思源黑体';
+}
+
+:root {
+    --corner-marker-color: rgba(255,255,255,0.5);
+    --corner-marker: linear-gradient(-135deg, var(--corner-marker-color) 5px, transparent 5px);
+    --corner-marker-black: linear-gradient(-135deg, #CCC 15px, transparent 15px);
+
+    user-select: none;
+}
+
+.echo-output[data-before='「'],
+.echo-output[data-before='『'],
+.echo-output[data-before='“'],
+.echo-output[data-before='‘']
+{text-indent: -1em;}
+
+.echo-output[data-before='"'] {text-indent: -0.5em;}
+
+.echo-output[data-before="'"] {text-indent: -0.3em;}
+
+#echo-live {
+    min-height: 150px;
+    max-height: 500px;
+    height: 100vh;
+    background-color: #FFF;
+    background-image: var(--corner-marker-black);
+    display: flex;
+    flex-direction: column;
+}
+
+#echo-live .top {
+    border-top: #CCC 2px solid;
+}
+
+#echo-live .center {
+    display: flex;
+    flex: 1;
+}
+
+#echo-live .top,
+#echo-live .bottom {
+    display: flex;
+}
+
+#echo-live .top-left,
+#echo-live .center-left,
+#echo-live .bottom-left {
+    flex: 2;
+}
+
+#echo-live .top-right,
+#echo-live .center-right,
+#echo-live .bottom-right {
+    flex: 3;
+}
+
+#echo-live .top-center,
+#echo-live .center-center,
+#echo-live .bottom-center {
+    flex: 7;
+}
+
+#echo-live .bottom-center {
+    font-size: 28px;
+}
+
+#echo-live .center-center {
+    font-size: 40px;
+    padding: 0.5em;
+    box-sizing: border-box;
+    color: #000;
+}
+
+#echo-live .name {
+    margin-bottom: 0.5em;
+    position: relative;
+    left: -1em;
+}
+
+.bottom-center {
+    padding: 0.25em 1em;
+}
+
+.bottom-center span {
+    display: inline-block;
+    margin-right: 1em;
+    color: #888;
+}

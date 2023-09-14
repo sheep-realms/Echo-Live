@@ -1,0 +1,206 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: '思源黑体', 'Microsoft YaHei', sans-serif;
+
+    --text-primary: #303133;
+    --text-regular: #606266;
+    --text-secondary: #909399;
+}
+
+main {
+    width: min(1000px, calc(100vw - 32px));
+    margin: 0 auto;
+}
+
+textarea.code {
+    font-family: Monaco, Consolas,'Lucida Console', 'Courier New', serif;
+}
+
+.tabpage-nav {
+    border-bottom: #AAAAAA 1px solid;
+    display: flex;
+    margin-bottom: 16px;
+    --corner-marker-color: rgba(0, 0, 0, 0.25);
+    background-image: var(--corner-marker);
+    background-color: #FAFAFA;
+    position: sticky;
+    top: 0;
+}
+
+.tabpage-nav-item {
+    flex: 1;
+    border: unset;
+    border-bottom: transparent 4px solid;
+    background-color: unset;
+    font-size: 16px;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    display: inline-block;
+    color: var(--text-secondary);
+    transition: color .3s, border .3s;
+}
+
+.tabpage-nav-item[aria-selected="true"] {
+    border-bottom: var(--color-general-dark) 4px solid;
+    color: var(--text-primary);
+}
+
+.tabpage-panel.hide,
+.collapse-content.hide {
+    display: none;
+}
+
+.tabpage-panel-title {
+    font-size: 0;
+}
+
+.echo-editor-from label,
+.echo-editor-from textarea {
+    display: block;
+}
+
+.echo-editor-from label {
+    padding: 0.25em 0;
+    color: var(--text-regular);
+}
+
+.echo-editor-from textarea {
+    resize: vertical;
+    width: 100%;
+    min-height: 100px;
+    font-size: 16px;
+    box-sizing: border-box;
+    padding: 0.5em;
+    border: unset;
+    border-bottom: #AAAAAA 1px solid;
+    outline: none;
+    background-color: #FFFFFF;
+    transition: border .3s;
+}
+
+.echo-editor-from textarea:focus {
+    border-bottom: var(--color-general) 1px solid;
+}
+
+.editor-controller-bottom {
+    margin: 16px 0;
+}
+
+.editor-controller-bottom>* {
+    flex: 1;
+    margin: 0;
+}
+
+.editor-controller-bottom>*+* {
+    margin-left: 16px;
+}
+
+#output-content {
+    height: 60vh;
+}
+
+.collapse-title {
+    border-bottom: #AAAAAA 1px solid;
+    display: flex;
+}
+
+.collapse-content {
+    border-bottom: #AAAAAA 1px solid;
+}
+
+.collapse-title button {
+    flex: 1;
+}
+
+.checkbox {
+    display: flex;
+    background-color: transparent;
+    border: unset;
+    padding: 0.5em;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: left;
+    align-items: center;
+    color: var(--text-regular);
+}
+
+.checkbox .icon {
+    display: inline-block;
+    width: 1.25em;
+    height: 1.25em;
+    box-sizing: border-box;
+    border: var(--color-general-dark) 1px solid;
+    margin-right: 0.5em;
+    --corner-marker-color: var(--color-general-dark);
+    background-image: var(--corner-marker);
+}
+
+.checkbox .text {
+    position: relative;
+    top: -0.05em;
+}
+
+.checkbox:hover .icon {
+    background-color: var(--color-general-glass);
+}
+
+.checkbox.selected .icon {
+    --corner-marker-color: rgba(255,255,255,0.5);
+    background-color: var(--color-general-dark);
+    border: unset;
+}
+
+.checkbox:hover {
+    filter: brightness(1.15);
+}
+
+.checkbox:active {
+    transition: filter 0s, background-color 0s, box-shadow var(--animation-speed-button-switch);
+    filter: brightness(0.85);
+}
+
+.echo-editor-from-row {
+    display: flex;
+    padding: 0.5em;
+    align-items: center;
+}
+
+.echo-editor-from-row>label {
+    width: 200px;
+}
+
+.echo-editor-from-row>input {
+    flex: 1;
+}
+
+.echo-editor-from-checkbox-list {
+    width: calc(100% - 200px);
+    margin-left: 200px;
+}
+
+.echo-editor-from-input-tip {
+    padding-bottom: 0.5em;
+    color: var(--text-secondary);
+    display: block;
+    font-size: 14px;
+}
+
+input[type=number],
+input[type=text] {
+    width: 100%;
+    font-size: 16px;
+    box-sizing: border-box;
+    padding: 0.25em 0.5em;
+    border: unset;
+    border-bottom: #AAAAAA 1px solid;
+    outline: none;
+    background-color: #FFFFFF;
+    transition: border .3s;
+}
+
+input[type=number]:focus,
+input[type=text]:focus {
+    border-bottom: var(--color-general) 1px solid;
+}

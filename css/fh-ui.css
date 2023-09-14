@@ -1,0 +1,631 @@
+* {
+    margin: 0;
+    padding: 0;
+
+    --color-main: rgb(64, 173, 235);
+    --color-main-dark: rgb(40, 144, 204);
+
+    --color-general: rgb(64, 173, 235);
+    --color-safe: rgb(69, 204, 56);
+    --color-warn: rgb(230, 189, 53);
+    --color-danger: rgb(230, 82, 89);
+    --color-special: rgb(171, 82, 203);
+
+    --color-general-dark: rgb(40, 144, 204);
+    --color-safe-dark: rgb(57, 163, 46);
+    --color-warn-dark: rgb(194, 161, 52);
+    --color-danger-dark: rgb(204, 61, 68);
+    --color-special-dark: rgb(147, 61, 178);
+
+    --color-general-glass: rgba(45, 147, 206, 0.12);
+    --color-safe-glass: rgba(69, 204, 56, 0.12);
+    --color-warn-glass: rgba(230, 189, 53, 0.12);
+    --color-danger-glass: rgba(230, 82, 89, 0.12);
+    --color-special-glass: rgba(147, 61, 178, 0.12);
+
+    --corner-marker-color: rgba(255,255,255,0.5);
+    --corner-marker-angle: -135deg;
+    --corner-marker-angle-reverse: 45deg;
+    --corner-marker: linear-gradient(var(--corner-marker-angle), var(--corner-marker-color) 5px, transparent 5px);
+
+    --color-msgbox-background: #EEE;
+
+    --animation-speed: 1.0s;
+    --animation-speed-button-switch: 0.1s;
+}
+
+body {
+    background-color: #FAFAFA;
+}
+
+code, pre {
+    background-color: #EEE;
+    font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', serif;
+}
+
+code {
+    display: inline-block;
+    padding: 0 3px;
+    margin: 0 5px;
+    border-radius: 3px;
+}
+
+ruby>rt {
+    font-size: 0.75em;
+}
+
+ruby>.fh-ruby-hidden {
+    display: inline-block;
+    width: 0;
+    font-size: 0;
+}
+
+.fh-main {
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.fh-flex-row {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.fh-col-24 {
+    display: block;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+.fh-col-18 {
+    display: block;
+    flex: 0 0 75%;
+    max-width: 75%;
+}
+
+.fh-col-offset-18 {
+    margin-left: 75%;
+}
+
+.fh-col-16 {
+    display: block;
+    flex: 0 0 66.66666667%;
+    max-width: 66.66666667%;
+}
+
+.fh-col-offset-16 {
+    margin-left: 66.66666667%;
+}
+
+.fh-col-12 {
+    display: block;
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+
+.fh-col-offset-12 {
+    margin-left: 50%;
+}
+
+.fh-col-8 {
+    display: block;
+    flex: 0 0 33.33333333%;
+    max-width: 33.33333333%;
+}
+
+.fh-col-offset-8 {
+    margin-left: 33.33333333%;
+}
+
+.fh-col-6 {
+    display: block;
+    flex: 0 0 25%;
+    max-width: 25%;
+}
+
+.fh-col-offset-6 {
+    margin-left: 25%;
+}
+
+/* Article */
+
+.fh-article {
+    font-size: 16px;
+    padding: 25px 10px;
+}
+
+.fh-article h1.big-title {
+    font-size: 36px;
+    border-bottom: #AAA 3px solid;
+    margin-bottom: 15px;
+    padding: 15px 0;
+    text-align: center;
+}
+
+.fh-article h1 {
+    font-size: 30px;
+    margin-top: 24px;
+    border-bottom: #AAA 2px solid;
+    margin-bottom: 12px;
+}
+
+.fh-article h2 {
+    font-size: 24px;
+    border-bottom: #AAA 1px solid;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.fh-article h3 {
+    font-size: 19px;
+    margin-top: 14px;
+    margin-bottom: 6px;
+}
+
+.fh-article p {
+    line-height: 1.5em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+#fh-startpage {
+    margin: 50px auto;
+    width: 940px;
+    padding: 30px;
+    background-color: #FFF;
+    box-shadow: #CCC 0 5px 25px;
+}
+
+
+.fh-loading {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    display: inline-block;
+}
+
+.fh-loading.fh-big {
+    width: 50px;
+    height: 50px;
+}
+
+.fh-loading.fh-small {
+    width: 16px;
+    height: 16px;
+}
+
+p .fh-loading {
+    top: 2.5px;
+}
+
+.fh-loading>* {
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    background-color: var(--color-general);
+    filter: opacity(0.75);
+}
+
+.fh-loading>*:nth-child(1) {
+    top: 0;
+    right: 0;
+    animation: fh-loading-d1 4s infinite;
+    transform: rotate(0deg);
+}
+
+.fh-loading>*:nth-child(2) {
+    top: 50%;
+    right: 50%;
+    transform: rotate(0deg);
+    animation: fh-loading-d2 4s infinite;
+}
+
+@keyframes fh-loading-d1 {
+    0% {top: 0%; right: 0%; transform: rotate(0deg)}
+    12.5% {top: 25%; right: 25%; transform: rotate(45deg)}
+    25% {top: 50%; right: 0%; transform: rotate(90deg)}
+    37.5% {top: 25%; right: 25%; transform: rotate(135deg)}
+    50% {top: 50%; right: 50%; transform: rotate(180deg)}
+    62.5% {top: 25%; right: 25%; transform: rotate(225deg)}
+    75% {top: 0%; right: 50%; transform: rotate(270deg)}
+    87.5% {top: 25%; right: 25%; transform: rotate(315deg)}
+    100% {top: 0%; right: 0%; transform: rotate(360deg)}
+}
+
+@keyframes fh-loading-d2 {
+    0% {top: 50%; right: 50%; transform: rotate(0deg)}
+    12.5% {top: 25%; right: 25%; transform: rotate(45deg)}
+    25% {top: 0%; right: 50%; transform: rotate(90deg)}
+    37.5% {top: 25%; right: 25%; transform: rotate(135deg)}
+    50% {top: 0%; right: 0%; transform: rotate(180deg)}
+    62.5% {top: 25%; right: 25%; transform: rotate(225deg)}
+    75% {top: 50%; right: 0%; transform: rotate(270deg)}
+    87.5% {top: 25%; right: 25%; transform: rotate(315deg)}
+    100% {top: 50%; right: 50%; transform: rotate(360deg)}
+}
+
+
+/* FH Window */
+
+.fh-window {
+    --width: 500px;
+    --height: 300px;
+    --title-height: 35px;
+    width: var(--width);
+    position: fixed;
+    top: calc(50vh - (var(--height) + var(--title-height)) / 2);
+    right: calc(50vw - var(--width) / 2);;
+    background-color: #FFF;
+    box-shadow: #CCC 0 3px 15px;
+    overflow: hidden;
+    animation: fh-window-show calc(var(--animation-speed) * 0.5);
+}
+
+@keyframes fh-window-show {
+    0% {width: 0px; color: transparent; box-shadow: transparent 0 3px 15px;}
+    100% {}
+}
+
+.fh-window.window-close {
+    width: 0;
+    box-shadow: none;
+    animation: fh-window-close var(--animation-speed);
+}
+
+@keyframes fh-window-close {
+    0% {width: var(--width); color: inherit; box-shadow: #CCC 0 3px 15px; display: block;}
+    50% {width: var(--width); color: inherit; box-shadow: #CCC 0 3px 15px; display: block;}
+    100% {width: 0px; color: transparent; box-shadow: transparent 0 3px 15px; display: block;}
+}
+
+.fh-window-title {
+    height: var(--title-height);
+    display: flex;
+    align-items: center;
+}
+
+.fh-window-title .title {
+    width: calc(100% - 60px);
+    padding-left: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    white-space: nowrap;
+}
+
+.fh-window-title .close {
+    width: 50px;
+    height: var(--title-height);
+    --corner-marker-color: rgba(0,0,0,0.15);
+    background-image: var(--corner-marker);
+    background-color: transparent;
+    transition: background-color var(--animation-speed-button-switch);
+}
+
+.fh-window-title .close:hover {
+    background-color: var(--color-danger);
+}
+
+.fh-window-content {
+    height: var(--height);
+    background-image: linear-gradient(rgba(0,0,0,0.15) 0, transparent 15px);
+    word-break: break-all;
+    overflow-y: auto;
+    animation: fh-window-show-content var(--animation-speed);
+}
+
+.fh-window.window-close .fh-window-content {
+    height: 0;
+    animation: fh-window-close-content calc(var(--animation-speed) * 0.5);
+}
+
+.fh-window-content::-webkit-scrollbar,
+.fh-msgbox-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.fh-window-content::-webkit-scrollbar-thumb,
+.fh-msgbox-content::-webkit-scrollbar-thumb {
+    width: 8px;
+    background-color: rgba(0,0,0,0.15);
+}
+
+.fh-window-content::-webkit-scrollbar-thumb:hover,
+.fh-msgbox-content::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0,0,0,0.35);
+}
+
+@keyframes fh-window-show-content {
+    0% {height:0; color: transparent; overflow-y: hidden;}
+    50% {height:0; color: transparent; overflow-y: hidden;}
+    100% {overflow-y: hidden;}
+}
+
+@keyframes fh-window-close-content {
+    0% {height: var(--height); overflow-y: hidden;}
+    100% {height:0; color: transparent; overflow-y: hidden;}
+}
+
+.fh-msgbox-content {
+    height: calc(var(--height) - 60px);
+    background-color: var(--color-msgbox-background);
+    background-image: linear-gradient(rgba(0,0,0,0.1) 0, transparent 15px), linear-gradient(to top, rgba(0,0,0,0.1) 0, transparent 15px);
+    display: flex;
+    overflow: auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.fh-msgbox-controller {
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* FH Button */
+
+.fh-button {
+    height: 35px;
+    line-height: 35px;
+    padding: 0 10px;
+    margin: 0 3px;
+    font-size: 14px;
+    color: #FFF;
+    border: none;
+    cursor: pointer;
+    vertical-align: baseline;
+    outline: none;
+    background-color: var(--color-general-dark);
+    background-image: var(--corner-marker);
+    background-repeat: no-repeat;
+    transition: filter var(--animation-speed-button-switch), background-color var(--animation-speed-button-switch), box-shadow var(--animation-speed-button-switch);
+}
+
+.fh-button:hover:not(.fh-disabled, :disabled) {
+    filter: brightness(1.15);
+}
+
+.fh-button:active:not(.fh-disabled, :disabled) {
+    transition: filter 0s, background-color 0s, box-shadow var(--animation-speed-button-switch);
+    filter: brightness(0.85);
+}
+
+.fh-button.fh-safe {
+    background-color: var(--color-safe-dark);
+}
+
+.fh-button.fh-warn {
+    background-color: var(--color-warn-dark);
+}
+
+.fh-button.fh-danger {
+    background-color: var(--color-danger-dark);
+}
+
+.fh-button.fh-special {
+    background-color: var(--color-special-dark);
+}
+
+.fh-button:focus:not(.fh-disabled, :disabled, :active) {
+    --color-focus: var(--color-general-glass);
+    --box-shadow-size: 5px;
+    filter: brightness(1.05);
+    box-shadow: var(--color-focus) 0 0 var(--box-shadow-size), var(--color-focus) 0 0 var(--box-shadow-size), var(--color-focus) 0 0 var(--box-shadow-size), var(--color-focus) 0 0 var(--box-shadow-size), var(--color-focus) 0 0 var(--box-shadow-size);
+}
+
+.fh-button.fh-air:focus {
+    box-shadow: none;
+}
+
+.fh-button.fh-safe:focus {
+    --color-focus: var(--color-safe-glass);
+}
+
+.fh-button.fh-warn:focus {
+    --color-focus: var(--color-warn-glass);
+}
+
+.fh-button.fh-danger:focus {
+    --color-focus: var(--color-danger-glass);
+}
+
+.fh-button.fh-special:focus {
+    --color-focus: var(--color-special-glass);
+}
+
+
+.fh-button.fh-ghost {
+    height: 35px;
+    line-height: 33px;
+    padding: 0 9px;
+    color: var(--color-general-dark);
+    --border-style: solid;
+    border: var(--color-general-dark) 1px var(--border-style);
+    background-color: transparent;
+    --corner-marker-color: var(--color-general-dark);
+    background-image: var(--corner-marker);
+    background-position: 0.5px -0.5px;
+}
+
+.fh-button.fh-dashed {
+    height: 35px;
+    line-height: 33px;
+    padding: 0 9px;
+    color: var(--color-general-dark);
+    --border-style: dashed;
+    border: var(--color-general-dark) 1px dashed;
+    background-color: transparent;
+    --corner-marker-color: var(--color-general-dark);
+    background-image: var(--corner-marker);
+    background-position: 1px -1px;
+}
+
+.fh-button.fh-air {
+    height: 35px;
+    line-height: 35px;
+    padding: 0 10px;
+    color: var(--color-general-dark);
+    --border-style: dashed;
+    border: none;
+    background-color: transparent;
+    --corner-marker-color: var(--color-general-dark);
+    background-image: var(--corner-marker);
+}
+
+.fh-button.fh-ghost:hover:not(.fh-disabled, :disabled),
+.fh-button.fh-ghost:active:not(.fh-disabled, :disabled),
+.fh-button.fh-dashed:hover:not(.fh-disabled, :disabled),
+.fh-button.fh-dashed:active:not(.fh-disabled, :disabled),
+.fh-button.fh-air:hover:not(.fh-disabled, :disabled),
+.fh-button.fh-air:active:not(.fh-disabled, :disabled) {
+    background-color: var(--color-general-glass);
+}
+
+.fh-button.fh-ghost.fh-safe:hover:not(.fh-disabled, :disabled),
+.fh-button.fh-ghost.fh-safe:active:not(.fh-disabled, :disabled),
+.fh-button.fh-dashed.fh-safe:hover:not(.fh-disabled, :disabled),
+.fh-button.fh-dashed.fh-safe:active:not(.fh-disabled, :disabled),
+.fh-button.fh-air.fh-safe:hover:not(.fh-disabled, :disabled),
+.fh-button.fh-air.fh-safe:active:not(.fh-disabled, :disabled) {
+    background-color: var(--color-safe-glass);
+}
+
+.fh-button.fh-ghost.fh-warn:hover:not(.fh-disabled, :disabled),
+.fh-button.fh-ghost.fh-warn:active:not(.fh-disabled, :disabled),
+.fh-button.fh-dashed.fh-warn:hover:not(.fh-disabled, :disabled),
+.fh-button.fh-dashed.fh-warn:active:not(.fh-disabled, :disabled),
+.fh-button.fh-air.fh-warn:hover:not(.fh-disabled, :disabled),
+.fh-button.fh-air.fh-warn:active:not(.fh-disabled, :disabled) {
+    background-color: var(--color-warn-glass);
+}
+
+.fh-button.fh-ghost.fh-danger:hover:not(.fh-disabled, :disabled),
+.fh-button.fh-ghost.fh-danger:active:not(.fh-disabled, :disabled),
+.fh-button.fh-dashed.fh-danger:hover:not(.fh-disabled, :disabled),
+.fh-button.fh-dashed.fh-danger:active:not(.fh-disabled, :disabled),
+.fh-button.fh-air.fh-danger:hover:not(.fh-disabled, :disabled),
+.fh-button.fh-air.fh-danger:active:not(.fh-disabled, :disabled) {
+    background-color: var(--color-danger-glass);
+}
+
+.fh-button.fh-ghost.fh-special:hover:not(.fh-disabled, :disabled),
+.fh-button.fh-ghost.fh-special:active:not(.fh-disabled, :disabled),
+.fh-button.fh-dashed.fh-special:hover:not(.fh-disabled, :disabled),
+.fh-button.fh-dashed.fh-special:active:not(.fh-disabled, :disabled),
+.fh-button.fh-air.fh-special:hover:not(.fh-disabled, :disabled),
+.fh-button.fh-air.fh-special:active:not(.fh-disabled, :disabled) {
+    background-color: var(--color-special-glass);
+}
+
+.fh-button.fh-ghost.fh-safe,
+.fh-button.fh-dashed.fh-safe {
+    color: var(--color-safe-dark);
+    border: var(--color-safe-dark) 1px var(--border-style);
+    --corner-marker-color: var(--color-safe-dark);
+    background-image: var(--corner-marker);
+}
+
+.fh-button.fh-ghost.fh-warn,
+.fh-button.fh-dashed.fh-warn {
+    color: var(--color-warn-dark);
+    border: var(--color-warn-dark) 1px var(--border-style);
+    --corner-marker-color: var(--color-warn-dark);
+    background-image: var(--corner-marker);
+}
+
+.fh-button.fh-ghost.fh-danger,
+.fh-button.fh-dashed.fh-danger {
+    color: var(--color-danger-dark);
+    border: var(--color-danger-dark) 1px var(--border-style);
+    --corner-marker-color: var(--color-danger-dark);
+    background-image: var(--corner-marker);
+}
+
+.fh-button.fh-ghost.fh-special,
+.fh-button.fh-dashed.fh-special {
+    color: var(--color-special-dark);
+    border: var(--color-special-dark) 1px var(--border-style);
+    --corner-marker-color: var(--color-special-dark);
+    background-image: var(--corner-marker);
+}
+
+.fh-button.fh-air.fh-safe {
+    color: var(--color-safe-dark);
+    --corner-marker-color: var(--color-safe-dark);
+    background-image: var(--corner-marker);
+}
+
+.fh-button.fh-air.fh-warn {
+    color: var(--color-warn-dark);
+    --corner-marker-color: var(--color-warn-dark);
+    background-image: var(--corner-marker);
+}
+
+.fh-button.fh-air.fh-danger {
+    color: var(--color-danger-dark);
+    --corner-marker-color: var(--color-danger-dark);
+    background-image: var(--corner-marker);
+}
+
+.fh-button.fh-air.fh-special {
+    color: var(--color-special-dark);
+    --corner-marker-color: var(--color-special-dark);
+    background-image: var(--corner-marker);
+}
+
+.fh-button.fh-disabled,
+.fh-button:disabled {
+    cursor: not-allowed;
+    filter: opacity(0.35);
+}
+
+.fh-button.fh-big {
+    height: 45px;
+    line-height: 43px;
+    padding: 0 15px;
+    font-size: 16px;
+}
+
+.fh-button.fh-small {
+    height: 26px;
+    line-height: 23px;
+    padding: 0 8px;
+}
+
+.fh-button.fh-block {
+    display: block;
+    width: calc(100% - 10px);
+    margin: 10px 5px;
+}
+
+/* FH MsgBox-Button */
+
+.fh-msgbox-controller .fh-button {
+    min-width: 120px;
+    margin: 0 10px;
+}
+
+
+.fh-input-text {
+    height: 35px;
+    line-height: 35px;
+    padding: 0 10px;
+    margin: 0 3px;
+    font-size: 14px;
+    color: #000;
+    border: #D9D9D9 1px solid;
+    --corner-marker-color: #D9D9D9;
+    --corner-marker-angle: var(--corner-marker-angle-reverse);
+    vertical-align: baseline;
+    outline: none;
+    background-color: #FFF;
+    background-image: var(--corner-marker);
+    background-repeat: no-repeat;
+    transition: filter var(--animation-speed-button-switch), background-color var(--animation-speed-button-switch), box-shadow var(--animation-speed-button-switch), border var(--animation-speed-button-switch), background-image var(--animation-speed-button-switch);
+}
+
+.fh-input-text:hover:not(.fh-disabled, :disabled) {
+    filter: brightness(1.15);
+    --corner-marker-color: var(--color-general-dark);
+    border: var(--color-general-dark) 1px solid;
+}

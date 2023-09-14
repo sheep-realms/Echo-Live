@@ -1,0 +1,14 @@
+.echo-text-bold {font-weight: bold;}
+.echo-text-italic {font-style: italic;}
+.echo-text-underline {border-bottom: 1px solid var(--echo-span-color, #000);}
+.echo-text-typewrite {background-color: rgba(0, 0, 0, 0.05); border-bottom: 1px dotted var(--echo-span-color, #000);}
+
+@keyframes echo-text-rock-y {
+    0% {position: relative; top: 0px;}
+    25% {position: relative; top: -2px;}
+    75% {position: relative; top: 2px;}
+    100% {position: relative; top: 0px;}
+}
+.echo-text-rock-y {
+    animation: echo-text-rock-y .5s infinite;
+}

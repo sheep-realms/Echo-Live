@@ -84,7 +84,12 @@ textarea.code {
 }
 
 .editor-controller-bottom {
-    margin: 16px 0;
+    padding: 16px 0;
+    margin-top: -1px;
+    border-top: #AAAAAA 1px solid;
+    position: sticky;
+    bottom: 0;
+    background-color: #FAFAFA;
 }
 
 .editor-controller-bottom>* {
@@ -182,6 +187,7 @@ textarea.code {
 
 .echo-editor-from-input-tip {
     padding-bottom: 0.5em;
+    padding-left: 1em;
     color: var(--text-secondary);
     display: block;
     font-size: 14px;

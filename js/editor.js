@@ -1,5 +1,3 @@
-const jsonBefore = 'const data = ';
-
 $('.tabpage-nav .tabpage-nav-item').click(function() {
     $(this).parent().children().attr('aria-selected', 'false');
     $(this).attr('aria-selected', 'true');
@@ -10,7 +8,11 @@ $('.tabpage-nav .tabpage-nav-item').click(function() {
 
 $('#ptext-btn-clear').click(function() {
     $('#ptext-content').val('');
-    $('#ptext-ipt-print-speed').val('30');
+    // $('#ptext-ipt-print-speed').val('30');
+    let $sel = $('.tabpage-panel[data-pageid="ptext"] input.reset');
+    for (let i = 0; i < $sel.length; i++) {
+        $sel.eq(i).val($sel.eq(i).data('default'));
+    }
     $('#ptext-content').focus();
 });
 
@@ -22,6 +24,11 @@ $('#output-btn-clear').click(function() {
 $('#ptext-btn-submit').click(function() {
     let txt = $('#ptext-content').val();
     let username = $('#ptext-character').val();
+
+    if ($('#ptext-chk-quote').val() == 1) {
+        txt = $('#ptext-ipt-quote-before').val() + txt + $('#ptext-ipt-quote-after').val();
+    }
+
     let d = {
         username: username,
         messages: [
@@ -40,7 +47,7 @@ $('#ptext-btn-submit').click(function() {
 
     
 
-    $('#output-content').val(jsonBefore + formatJson(d));
+    $('#output-content').val(getOutputBefore() + formatJson(d));
     $('#tabpage-nav-output').click();
     $('#output-content').focus();
     $('#output-content').select();
@@ -64,6 +71,15 @@ $('.checkbox').click(function() {
         }
     }
 });
+
+function getOutputBefore() {
+    let v = $('#config-output-use-before').val();
+    if (v == 1) {
+        return $('#config-output-before').val();
+    } else {
+        return '';
+    }
+}
 
 function formatJson(json, options) {
     var reg = null,

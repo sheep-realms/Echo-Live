@@ -28,13 +28,21 @@
                 title="包含特殊样式的文本 [alt+2]"
             >富文本</button>
             <button
+                class="tabpage-nav-item"
+                data-pageid="config"
+                role="tab"
+                aria-selected="false"
+                accesskey="3"
+                title="编辑配置 [alt+3]"
+            >配置</button>
+            <button
                 id="tabpage-nav-output"
                 class="tabpage-nav-item"
                 data-pageid="output"
                 role="tab"
                 aria-selected="false"
-                accesskey="3"
-                title="输出代码 [alt+3]"
+                accesskey="4"
+                title="输出代码 [alt+4]"
             >输出</button>
         </nav>
         <div class="tabpage-centent">
@@ -58,10 +66,33 @@
                         <div class="collapse-content hide">
                             <div class="echo-editor-from-row">
                                 <label for="print-speed">打印速度</label>
-                                <input type="number" name="print-speed" id="ptext-ipt-print-speed" value="30">
+                                <input type="number" name="print-speed" id="ptext-ipt-print-speed" class="reset" value="30" data-default="30">
                             </div>
                             <div class="echo-editor-from-checkbox-list">
                                 <span class="echo-editor-from-input-tip">每个打印循环的延迟时间（毫秒），默认为 30。数字越大，耗时越长。中日韩字符延迟 × 2。</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="collapse">
+                        <div class="collapse-title">
+                            <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
+                                <span class="icon"></span>
+                                <span class="text">引用符号</span>
+                                <input type="hidden" name="ptext-chk-quote" id="ptext-chk-quote" value="0">
+                            </button>
+                        </div>
+                        <div class="collapse-content hide">
+                            <div class="echo-editor-from-row">
+                                <label for="quote-before">开头</label>
+                                <input type="text" name="quote-before" id="ptext-ipt-quote-before" class="reset" value="「" data-default="「">
+                            </div>
+                            <div class="echo-editor-from-row">
+                                <label for="quote-after">结尾</label>
+                                <input type="text" name="quote-after" id="ptext-ipt-quote-after" class="reset" value="」" data-default="」">
+                            </div>
+                            <div class="echo-editor-from-checkbox-list">
+                                <span class="echo-editor-from-input-tip">自动在每一句话开头和结尾添加引用符号，Echo Live 会为一些引用符号自动缩进。</span>
                             </div>
                         </div>
                     </div>
@@ -76,6 +107,19 @@
             <section class="tabpage-panel hide" role="tabpanel" data-pageid="rtext">
                 <h2 class="tabpage-panel-title">富文本</h2>
                 <p>（施工中）</p>
+            </section>
+
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="config">
+                <h2 class="tabpage-panel-title">配置</h2>
+                <div class="echo-editor-from">
+                    <label for="output-before">头部内容</label>
+                    <textarea name="output-before" id="config-output-before" class="code">const data = </textarea>
+                    <button role="checkbox" aria-selected="true" class="checkbox selected">
+                        <span class="icon"></span>
+                        <span class="text">在输出内容之前插入头部内容</span>
+                        <input type="hidden" name="config-output-use-before" id="config-output-use-before" value="1">
+                    </button>
+                </div>
             </section>
 
             <section class="tabpage-panel hide" role="tabpanel" data-pageid="output">

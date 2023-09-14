@@ -1,3 +1,9 @@
+let textList = [
+    {text: ''}
+];
+
+
+
 $('.tabpage-nav .tabpage-nav-item').click(function() {
     $(this).parent().children().attr('aria-selected', 'false');
     $(this).attr('aria-selected', 'true');
@@ -14,6 +20,40 @@ $('#ptext-btn-clear').click(function() {
         $sel.eq(i).val($sel.eq(i).data('default'));
     }
     $('#ptext-content').focus();
+});
+
+$('#rtext-btn-text-clear').click(rtextTextClear);
+
+$('#rtext-btn-text-save').click(function() {
+    let index = $('#editor-text-index-now').val();
+    let message = {
+        text: $('#rtext-text').val()
+    };
+    textList[index] = message;
+    editorTextListUpdate();  
+});
+
+$('#editor-text-list-add').click(function() {
+    rtextTextClear();
+    let i = textList.push({text: ''});
+    editorTextListUpdate();
+    $('#editor-text-index-now').val(i - 1);
+    $('.editor-text-index-now').text(i);
+});
+
+$('#rtext-btn-clear').click(function() {
+    $('#rtext-text').val('');
+    $('#rtext-style').val('');
+    let $sel = $('.tabpage-panel[data-pageid="rtext"] input.reset');
+    for (let i = 0; i < $sel.length; i++) {
+        $sel.eq(i).val($sel.eq(i).data('default'));
+    }
+    textList = [
+        {text: ''}
+    ];
+    editorTextListUpdate();
+    $('#editor-text-index-now').val(0);
+    $('#rtext-text').focus();
 });
 
 $('#output-btn-clear').click(function() {
@@ -71,6 +111,21 @@ $('.checkbox').click(function() {
         }
     }
 });
+
+
+function editorTextListUpdate() {
+    $('.editor-text-list-content').html(EditorTextList.getList(textList));  
+}
+
+function rtextTextClear() {
+    $('#rtext-text').val('');
+    $('#rtext-style').val('');
+    let $sel = $('.tabpage-panel[data-pageid="rtext"] .editor-text-item input.reset');
+    for (let i = 0; i < $sel.length; i++) {
+        $sel.eq(i).val($sel.eq(i).data('default'));
+    }
+    $('#rtext-text').focus();
+}
 
 function getOutputBefore() {
     let v = $('#config-output-use-before').val();

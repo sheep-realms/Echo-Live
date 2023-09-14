@@ -7,9 +7,11 @@
     <link rel="stylesheet" href="css/fh-ui.css">
     <link rel="stylesheet" href="css/editor.css">
     <script src="js/jquery-1.7.2.min.js"></script>
+    <script src="js/editor-constructor.js"></script>
 </head>
 <body>
     <main>
+        <!-- 标签页标题 -->
         <nav id="echo-editor-nav" class="tabpage-nav">
             <button
                 class="tabpage-nav-item"
@@ -45,7 +47,9 @@
                 title="输出代码 [alt+4]"
             >输出</button>
         </nav>
+        <!-- 标签页面板 -->
         <div class="tabpage-centent">
+            <!-- 纯文本标签页 -->
             <section class="tabpage-panel" role="tabpanel" data-pageid="ptext">
                 <h2 class="tabpage-panel-title">纯文本</h2>
                 <div class="echo-editor-from">
@@ -104,11 +108,159 @@
                 </div>
             </section>
 
+            <!-- 富文本标签页 -->
             <section class="tabpage-panel hide" role="tabpanel" data-pageid="rtext">
                 <h2 class="tabpage-panel-title">富文本</h2>
-                <p>（施工中）</p>
+                <p style="color: red;">该页面正在施工中，暂不可用。</p>
+                <div class="echo-editor-from">
+                    <label for="character">说话人</label>
+                    <input type="text" name="character" id="ptext-character">
+
+                    <div class="editor-text">
+                        <div class="editor-text-item">
+                            <label for="text">字段</label>
+
+                            <div class="editor-text-title">
+                                <span>正在编辑：<span class="editor-text-index-now">1</span></span>
+                                <span>
+                                    <button id="rtext-btn-text-clear" class="fh-button fh-danger">清空</button>
+                                    <button id="rtext-btn-text-save" class="fh-button">暂存 →</button>
+                                    <input type="hidden" id="editor-text-index-now" name="editor-text-index-now" value="0">
+                                </span>
+                            </div>
+
+                            <div class="editor-text-controller">
+                                <button role="checkbox" aria-selected="false" class="checkbox">
+                                    <span class="icon"></span>
+                                    <span class="text">粗体</span>
+                                    <input type="hidden" name="editor-text-controller-bold" value="0">
+                                </button>
+
+                                <button role="checkbox" aria-selected="false" class="checkbox">
+                                    <span class="icon"></span>
+                                    <span class="text">斜体</span>
+                                    <input type="hidden" name="editor-text-controller-italic" value="0">
+                                </button>
+
+                                <button role="checkbox" aria-selected="false" class="checkbox">
+                                    <span class="icon"></span>
+                                    <span class="text">下划线</span>
+                                    <input type="hidden" name="editor-text-controller-underline" value="0">
+                                </button>
+
+                                <button role="checkbox" aria-selected="false" class="checkbox">
+                                    <span class="icon"></span>
+                                    <span class="text">颜色</span>
+                                    <input type="hidden" name="editor-text-controller-color" value="0">
+                                </button>
+
+                                <input type="text" name="" id="" style="width: 5.5em; text-align: center;" class="reset" value="#000000" data-default="#000000">
+                            </div>
+                            <textarea name="text" id="rtext-text" class="rtext-text" aria-label="字段编辑框"></textarea>
+
+                            <div class="collapse">
+                                <div class="collapse-title">
+                                    <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
+                                        <span class="icon"></span>
+                                        <span class="text">打字模拟</span>
+                                        <input type="hidden" name="rtext-chk-typewrite" id="rtext-chk-typewrite" value="0">
+                                    </button>
+                                </div>
+                                <div class="collapse-content hide">
+                                    <div class="echo-editor-from-row">
+                                        <label for="typewrite">被替换的内容</label>
+                                        <input type="text" name="typewrite" class="reset" value="" data-default="">
+                                    </div>
+                                    <div class="echo-editor-from-checkbox-list">
+                                        <span class="echo-editor-from-input-tip">例如：shu'ru'fa</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="collapse">
+                                <div class="collapse-title">
+                                    <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
+                                        <span class="icon"></span>
+                                        <span class="text">自定义样式</span>
+                                        <input type="hidden" name="rtext-chk-style" id="rtext-chk-style" value="0">
+                                    </button>
+                                </div>
+                                <div class="collapse-content hide">
+                                    <textarea name="style" id="rtext-style" class="rtext-style code" aria-label="CSS样式编辑框"></textarea>
+                                    <span class="echo-editor-from-input-tip">自定义内联 CSS 样式。</span>
+                                    <div class="echo-editor-from-row">
+                                        <label for="class">类</label>
+                                        <input type="text" name="class" class="reset" value="" data-default="">
+                                    </div>
+                                    <div class="echo-editor-from-checkbox-list">
+                                        <span class="echo-editor-from-input-tip">该字段的类属性，使用空格分隔。</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="collapse">
+                                <div class="collapse-title">
+                                    <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
+                                        <span class="icon"></span>
+                                        <span class="text">杂项</span>
+                                        <input type="hidden" name="rtext-chk-misc" id="rtext-chk-misc" value="0">
+                                    </button>
+                                </div>
+                                <div class="collapse-content hide">
+                                    <div class="echo-editor-from-row">
+                                        <label for="pause">完成后停顿</label>
+                                        <input type="number" name="pause" id="rtext-ipt-pause" class="reset" value="10" data-default="10">
+                                    </div>
+                                    <div class="echo-editor-from-checkbox-list">
+                                        <span class="echo-editor-from-input-tip">当前字段打印完毕后的停顿循环次数。</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="editor-text-list">
+                            <label>字段列表</label>
+                            <div class="editor-text-list-content">
+                                <div class="editor-text-list-item">
+                                    <span class="index">1.</span>
+                                    <span class="text"></span>
+                                    <span class="btn">
+                                        <button class="fh-button fh-small">编辑</button>
+                                        <button class="fh-button fh-small fh-danger">删除</button>
+                                    </span>
+                                </div>
+                            </div>
+                            <button id="editor-text-list-add" class="fh-button fh-ghost fh-block">新增字段</button>
+                        </div>
+                    </div>
+
+                    <div class="collapse">
+                        <div class="collapse-title">
+                            <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
+                                <span class="icon"></span>
+                                <span class="text">启动参数</span>
+                                <input type="hidden" name="rtext-chk-more" id="rtext-chk-more" value="0">
+                            </button>
+                        </div>
+                        <div class="collapse-content hide">
+                            <div class="echo-editor-from-row">
+                                <label for="print-speed">打印速度</label>
+                                <input type="number" name="print-speed" id="rtext-ipt-print-speed" class="reset" value="30" data-default="30">
+                            </div>
+                            <div class="echo-editor-from-checkbox-list">
+                                <span class="echo-editor-from-input-tip">每个打印循环的延迟时间（毫秒），默认为 30。数字越大，耗时越长。中日韩字符延迟 × 2。</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="editor-controller-bottom fh-flex-row">
+                        <button id="rtext-btn-clear" class="fh-button fh-big fh-danger">重置</button>
+                        <button id="rtext-btn-submit" class="fh-button fh-big">输出</button>
+                    </div>
+                </div>
             </section>
 
+            <!-- 配置标签页 -->
             <section class="tabpage-panel hide" role="tabpanel" data-pageid="config">
                 <h2 class="tabpage-panel-title">配置</h2>
                 <div class="echo-editor-from">
@@ -122,6 +274,7 @@
                 </div>
             </section>
 
+            <!-- 输出标签页 -->
             <section class="tabpage-panel hide" role="tabpanel" data-pageid="output">
                 <h2 class="tabpage-panel-title">输出</h2>
                 <div class="echo-editor-from">

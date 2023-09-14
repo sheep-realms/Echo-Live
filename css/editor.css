@@ -8,6 +8,10 @@
     --text-secondary: #909399;
 }
 
+body {
+    overflow-y: scroll;
+}
+
 main {
     width: min(1000px, calc(100vw - 32px));
     margin: 0 auto;
@@ -209,4 +213,55 @@ input[type=text] {
 input[type=number]:focus,
 input[type=text]:focus {
     border-bottom: var(--color-general) 1px solid;
+}
+
+
+
+.editor-text {
+    display: flex;
+}
+
+.editor-text-item {
+    flex: 2;
+    margin-right: 16px;
+}
+
+.editor-text-list {
+    flex: 1;
+}
+
+.editor-text-controller {
+    display: flex;
+    align-items: center;
+}
+
+.editor-text-controller .checkbox {
+    display: inline-flex;
+}
+
+.editor-text-list-item {
+    display: flex;
+    align-items: center;
+    border-bottom: #AAAAAA 1px solid;
+    padding: 0.25em 0;
+    justify-content: space-between;
+}
+
+.editor-text-list-item .index {
+    margin-right: 0.25em;
+    color: var(--text-secondary);
+}
+
+.editor-text-list-item .text {
+    width: 180px;
+    height: 1.5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+}
+
+.editor-text-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }

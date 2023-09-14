@@ -53,6 +53,7 @@ $('#rtext-btn-clear').click(function() {
     ];
     editorTextListUpdate();
     $('#editor-text-index-now').val(0);
+    $('.editor-text-index-now').text(1);
     $('#rtext-text').focus();
 });
 

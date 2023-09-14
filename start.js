@@ -1,11 +1,8 @@
 const data = {
-    "username": "【绵羊】",
+    "username": "【说话人】",
     "messages": [
         {
-            "message": "测试测试测试测试测试测试测试测试测试测试",
-            "data": {
-                "printSpeed": "120"
-            }
+            "message": "这里是说话内容。"
         }
     ]
 }

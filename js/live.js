@@ -10,6 +10,12 @@ let gruopIndex = 0;
 
 let first = false;
 
+echo.on('next', function() {
+    if (config.echo.next_audio_enable) {
+        mixer.play(config.echo.next_audio_name, config.echo.next_audio_volume, config.echo.next_audio_rate);
+    }
+});
+
 echo.on('print', function(chr) {
     if (gruopIndex == 0) {
         $('.echo-output').append(chr);

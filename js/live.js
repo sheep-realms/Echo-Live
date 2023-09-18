@@ -1,5 +1,8 @@
 let echo = new Echo();
 
+let printSeCd = 33;
+let printSe = true;
+
 if (config.echo.print_speed != undefined) {
     echo.printSpeed = config.echo.print_speed;
     echo.printSpeedStart = config.echo.print_speed;
@@ -23,8 +26,14 @@ echo.on('print', function(chr) {
         $(`.echo-output span[data-group="${gruopIndex}"]`).append(chr);
     }
 
-    if (config.echo.print_audio_enable && (chr != '' || chr != '')) {
+    if (config.echo.print_audio_enable && (chr != '' || chr != '') && printSe) {
         mixer.play(config.echo.print_audio_name, config.echo.print_audio_volume, config.echo.print_audio_rate);
+
+        // 打印音效稳定器
+        printSe = false;
+        setTimeout(function() {
+            printSe = true;
+        }, printSeCd);
     }
     
     if (first && chr != undefined) {
@@ -42,6 +51,7 @@ echo.on('skip', function() {
 });
 
 echo.on('printStart', function() {
+    printSeCd = echo.printSpeedChange + 3;
     first = true;
 });
 

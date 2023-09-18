@@ -1,5 +1,11 @@
 let echo = new Echo();
 
+if (config.echo.print_speed != undefined) {
+    echo.printSpeed = config.echo.print_speed;
+    echo.printSpeedStart = config.echo.print_speed;
+    echo.printSpeedChange = config.echo.print_speed;
+}
+
 let gruopIndex = 0;
 
 let first = false;

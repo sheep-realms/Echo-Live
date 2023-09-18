@@ -51,7 +51,8 @@ textarea.code {
 }
 
 .tabpage-panel.hide,
-.collapse-content.hide {
+.collapse-content.hide,
+.print-speed-change.hide {
     display: none;
 }
 

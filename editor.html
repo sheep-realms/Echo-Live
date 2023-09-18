@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/fh-ui.css">
     <link rel="stylesheet" href="css/editor.css">
     <script src="js/jquery-1.7.2.min.js"></script>
+    <script src="config.js"></script>
     <script src="js/editor-constructor.js"></script>
 </head>
 <body>
@@ -73,7 +74,7 @@
                                 <input type="number" name="print-speed" id="ptext-ipt-print-speed" class="reset" value="30" data-default="30">
                             </div>
                             <div class="echo-editor-from-checkbox-list">
-                                <span class="echo-editor-from-input-tip">每个打印循环的延迟时间（毫秒），默认为 30。数字越大，耗时越长。中日韩字符延迟 × 2。</span>
+                                <span class="echo-editor-from-input-tip">每个打印循环的延迟时间（毫秒），默认为 30<span class="print-speed-change hide">，您的默认配置为 <span class="print-speed-config"></span></span>。数字越大，耗时越长。中日韩字符延迟 × 2。</span>
                             </div>
                         </div>
                     </div>
@@ -248,7 +249,7 @@
                                 <input type="number" name="print-speed" id="rtext-ipt-print-speed" class="reset" value="30" data-default="30">
                             </div>
                             <div class="echo-editor-from-checkbox-list">
-                                <span class="echo-editor-from-input-tip">每个打印循环的延迟时间（毫秒），默认为 30。数字越大，耗时越长。中日韩字符延迟 × 2。</span>
+                                <span class="echo-editor-from-input-tip">每个打印循环的延迟时间（毫秒），默认为 30<span class="print-speed-change hide">，您的默认配置为 <span class="print-speed-config"></span></span>。数字越大，耗时越长。中日韩字符延迟 × 2。</span>
                             </div>
                         </div>
                     </div>
@@ -272,6 +273,7 @@
                         <input type="hidden" name="config-output-use-before" id="config-output-use-before" value="1">
                     </button>
                 </div>
+                <p style="color: var(--text-regular);">详细配置请见配置文件 <code>config.js</code>。</p>
             </section>
 
             <!-- 输出标签页 -->

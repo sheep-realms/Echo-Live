@@ -2,6 +2,15 @@ let textList = [
     {text: ''}
 ];
 
+setDefaultValue('#config-output-before', config.editor.output_before);
+$('#ptext-character, #rtext-character').val(config.editor.username_init);
+setCheckboxDefaultValue('#config-output-use-before', config.editor.ontput_before_enable);
+
+if (config.echo.print_speed != 30) {
+    $('#ptext-ipt-print-speed, #rtext-ipt-print-speed').val(config.echo.print_speed);
+    $('.print-speed-config').text(config.echo.print_speed);
+    $('.print-speed-change').removeClass('hide');
+}
 
 
 $('.tabpage-nav .tabpage-nav-item').click(function() {
@@ -196,3 +205,19 @@ function formatJson(json, options) {
     );
     return formatted.replace(/^\s+|\s+$/g,'');
 };
+
+function setDefaultValue($sel, value) {
+    $($sel).data('default', value);
+    $($sel).val(value);
+}
+
+function setCheckboxDefaultValue($sel, value) {
+    $($sel).val(value);
+    if (value == 1) {
+        $($sel).parents('.checkbox').attr('aria-selected', 'true');
+        $($sel).parents('.checkbox').addClass('selected');
+    } else {
+        $($sel).parents('.checkbox').attr('aria-selected', 'false');
+        $($sel).parents('.checkbox').removeClass('selected');
+    }
+}

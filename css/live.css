@@ -1,40 +1,74 @@
+/**
+ * 这里是 Echo Live 的样式文件
+ */
+
 * {
     margin: 0;
     padding: 0;
 
+    /* 默认字体 */
     font-family: '思源黑体';
 }
 
 :root {
+    /* 对话框左侧部分的相对宽度 */
+    --echo-live-box-left-flex: 2;
+    /* 对话框中间部分的相对宽度 */
+    --echo-live-box-center-flex: 7;
+    /* 对话框右侧部分的相对宽度 */
+    --echo-live-box-right-flex: 3;
+
+    /* 对话框背景颜色，如果要设为透明请使用 transparent */
+    --echo-live-bg-color: #FFFFFF;
+    /* 对话框顶部边框颜色、尺寸、线形，要禁用请设为 unset */
+    --echo-live-border-top: #CCC 2px solid;
+
+    /* 对话框正文内容字体大小 */
+    --echo-live-content-font-size: 40px;
+    /* 对话框说话人名字字体大小 */
+    --echo-live-username-font-size: 40px;
+    /* 对话框底部工具栏内容字体大小 */
+    --echo-live-bottom-font-size: 28px;
+
+    /* 对话框装饰角标颜色 */
     --corner-marker-color: rgba(255,255,255,0.5);
+    /* 对话框装饰角标填充图案，要禁用请设为 unset */
     --corner-marker: linear-gradient(-135deg, var(--corner-marker-color) 5px, transparent 5px);
+    /* 对话框装饰角标填充图案（深色版），要禁用请设为 unset */
     --corner-marker-black: linear-gradient(-135deg, #CCC 15px, transparent 15px);
 
+    /* 使对话框文本不可选中 */
     user-select: none;
 }
 
+/* 当首个字符为以下符号时需要反向缩进1个字符 */
 .echo-output[data-before='「'],
 .echo-output[data-before='『'],
 .echo-output[data-before='“'],
 .echo-output[data-before='‘']
 {text-indent: -1em;}
 
+/* 当首个字符为以下符号时需要反向缩进0.5个字符 */
 .echo-output[data-before='"'] {text-indent: -0.5em;}
 
+/* 当首个字符为以下符号时需要反向缩进0.3个字符 */
 .echo-output[data-before="'"] {text-indent: -0.3em;}
+
+
+
 
 #echo-live {
     min-height: 150px;
     max-height: 500px;
     height: 100vh;
-    background-color: #FFF;
+    background-color: var(--echo-live-bg-color);
     background-image: var(--corner-marker-black);
     display: flex;
     flex-direction: column;
 }
 
 #echo-live .top {
-    border-top: #CCC 2px solid;
+    border-top: var(--echo-live-border-top);
 }
 
 #echo-live .center {
@@ -50,27 +84,27 @@
 #echo-live .top-left,
 #echo-live .center-left,
 #echo-live .bottom-left {
-    flex: 2;
+    flex: var(--echo-live-box-left-flex);
 }
 
 #echo-live .top-right,
 #echo-live .center-right,
 #echo-live .bottom-right {
-    flex: 3;
+    flex: var(--echo-live-box-right-flex);
 }
 
 #echo-live .top-center,
 #echo-live .center-center,
 #echo-live .bottom-center {
-    flex: 7;
+    flex: var(--echo-live-box-center-flex);
 }
 
 #echo-live .bottom-center {
-    font-size: 28px;
+    font-size: var(--echo-live-bottom-font-size);
 }
 
 #echo-live .center-center {
-    font-size: 40px;
+    font-size: var(--echo-live-content-font-size);
     padding: 0.5em;
     box-sizing: border-box;
     color: #000;
@@ -80,6 +114,7 @@
     margin-bottom: 0.5em;
     position: relative;
     left: -1em;
+    font-size: var(--echo-live-username-font-size, --echo-live-content-font-size);
 }
 
 .bottom-center {

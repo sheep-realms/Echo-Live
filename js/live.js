@@ -16,6 +16,11 @@ echo.on('print', function(chr) {
     } else {
         $(`.echo-output span[data-group="${gruopIndex}"]`).append(chr);
     }
+
+    if (config.echo.print_audio_enable && (chr != '' || chr != '')) {
+        mixer.play(config.echo.print_audio_name, config.echo.print_audio_volume, config.echo.print_audio_rate);
+    }
+    
     if (first && chr != undefined) {
         first = false;
         $('.echo-output').attr('data-before', chr);

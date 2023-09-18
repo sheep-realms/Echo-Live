@@ -3,7 +3,15 @@ const config = {
     // Echo 相关配置
     echo: {
         // 滚动速度，每个字符打印循环的延迟时间（毫秒），最小值为 4
-        print_speed: 30
+        print_speed: 30,
+        // 启用打字音效，false 为禁用，true 为启用
+        print_audio_enable: false,
+        // 打字音效名称（详见 js/sounds.js）
+        print_audio_name: 'typewriter',
+        // 打字音效音量，1 为最大
+        print_audio_volume: 0.5,
+        // 打字音效播放速度，1 为原速
+        print_audio_rate: 1
     },
 
     // 编辑器相关配置

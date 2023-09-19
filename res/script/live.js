@@ -1,5 +1,9 @@
 let echo = new Echo();
 
+let extensionManager = new ExtensionManager();
+extensionManager.mixer = mixer;
+extensionManager.launch(extensions);
+
 let printSeCd = 33;
 let printSe = true;
 

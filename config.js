@@ -7,7 +7,7 @@ const config = {
 
         // 启用打字音效，false 为禁用，true 为启用
         print_audio_enable: false,
-        // 音效名称（详见 js/sounds.js）
+        // 音效名称（详见 res/script/sounds.js）
         print_audio_name: 'typewriter',
         // 音效音量，1 为最大
         print_audio_volume: 0.5,
@@ -16,7 +16,7 @@ const config = {
 
         // 启用新对话入场音效，false 为禁用，true 为启用
         next_audio_enable: false,
-        // 音效名称（详见 js/sounds.js）
+        // 音效名称（详见 res/script/sounds.js）
         next_audio_name: 'enter',
         // 音效音量，1 为最大
         next_audio_volume: 0.5,

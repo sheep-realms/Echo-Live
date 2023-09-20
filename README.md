@@ -74,3 +74,8 @@ extensionManager.load({
 ## 另见
 - [授权协议与声明](copyright.md)
 - [GPL（GNU General Public License，GNU通用公共许可协议）第3版](LICENSE)
+
+## 相关资源
+建议您安装可免费商用字体以规避版权纠纷，Echo-Live 默认使用思源黑体。
+
+- [思源黑体](https://github.com/adobe-fonts/source-han-sans)

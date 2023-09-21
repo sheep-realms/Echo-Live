@@ -6,7 +6,7 @@ const config = {
         print_speed: 30,
 
         // 启用打字音效，false 为禁用，true 为启用
-        print_audio_enable: true,
+        print_audio_enable: false,
         // 音效名称（详见 res/script/sounds.js）
         print_audio_name: 'typewriter',
         // 音效音量，1 为最大

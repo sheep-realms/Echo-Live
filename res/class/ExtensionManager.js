@@ -21,7 +21,7 @@ class ExtensionManager {
         extList.forEach(e => {
             let s = document.createElement("script");
             s.src = `extensions/${e}/pack.js`;
-            document.body.appendChild(s);
+            document.head.appendChild(s);
         });
     }
 }

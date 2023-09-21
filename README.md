@@ -26,6 +26,7 @@
 - `res/style/editor.css` 是编辑器所使用的样式，请不要动它，除非您知道您在做什么。
 - `config.js` 是配置文件，可修改默认滚动速度等信息。
 - `res/script/live.js` 是部署 `res/class/Echo.js` 的脚本，主要工作为导入配置、绑定事件、配合 `res/style/echo.css` 解析消息格式。
+- `res/script/live-pre.js` 是在 `live.html` 头部加载的脚本，负责导入扩展资源。
 - `res/script/sounds.js` 定义了打字音效。
 
 ## 扩展

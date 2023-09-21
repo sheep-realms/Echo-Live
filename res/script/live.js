@@ -98,7 +98,10 @@ echo.on('typewriteEnd', function() {
 
 $(document).on('click', function() {
     if (echo.messageList.length > 0) {
-        echo.skip();
+        if (echo.state != 'stop') {
+            echo.stop();
+        }
+        gruopIndex = 0;
         echo.next();
     }
 });

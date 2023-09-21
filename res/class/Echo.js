@@ -30,6 +30,7 @@ class Echo {
             send: function() {},
             sendList: function() {},
             skip: function() {},
+            stop: function() {},
             typewriteEnd: function() {}
         };
 
@@ -271,6 +272,14 @@ class Echo {
         clearInterval(this.timer);
         this.timer = setInterval(this.print, this.printSpeedChange, this);
         return this.printSpeedChange;
+    }
+
+    stop() {
+        clearInterval(this.timer);
+        this.state = 'stop';
+        this.messageBuffer = [];
+        this.groupCount = 0;
+        this.groupStack = [];
     }
 
     typewriteEnd() {

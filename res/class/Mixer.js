@@ -12,7 +12,14 @@ class Mixer {
     play(name, volume = undefined, rate = undefined) {
         let obj = this.find(name);
         if (obj == undefined) return undefined;
-        let a = new Audio(obj.path);
+
+        let a;
+        if (Array.isArray(obj.path)) {
+            let r = Math.round(Math.random() * obj.path.length - 1);
+            a = new Audio(obj.path[r]);
+        } else {
+            a = new Audio(obj.path);
+        }
 
         if (volume != undefined) {
             a.volume = volume

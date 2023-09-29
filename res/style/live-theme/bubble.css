@@ -12,16 +12,41 @@
 
 :root {
     /* 对话框左侧部分的相对宽度 */
-    --echo-live-box-left-flex: 2;
+    --echo-live-box-left-flex: 0;
     /* 对话框中间部分的相对宽度 */
-    --echo-live-box-center-flex: 7;
+    --echo-live-box-center-flex: 1;
     /* 对话框右侧部分的相对宽度 */
-    --echo-live-box-right-flex: 3;
+    --echo-live-box-right-flex: 0;
 
     /* 对话框背景颜色，如果要设为透明请使用 transparent */
     --echo-live-bg-color: #FFFFFF;
-    /* 对话框顶部边框颜色、尺寸、线形，要禁用请设为 unset */
-    --echo-live-border-top: #CCC 2px solid;
+    /* 对话框边框颜色、尺寸、线形，要禁用请设为 unset */
+    --echo-live-border: #888888 8px solid;
+    /* 对话框圆角尺寸 */
+    --echo-live-border-radius: 32px;
+    /* 对话框的上、右、下、左内边距 */
+    --echo-live-padding: 1em 3em 1em 5em;
+
+    /* 对话框投影颜色 */
+    --echo-live-box-shadow-color: #888888;
+    /* 对话框投影距离，不要直接在此处填负数，如有需要请通过下方参数自定义 */
+    --echo-live-box-shadow-distance: 16px;
+
+    /* 如果你想要自定义投影样式，请填写下面的值，将会覆盖上面的值 */
+    /* 投影横向距离 */
+    --echo-live-box-shadow-x: unset;
+    /* 投影纵向距离 */
+    --echo-live-box-shadow-y: unset;
+    /* 投影扩撒距离 */
+    --echo-live-box-shadow-blur: unset;
+    /* 对话框上方预留空间 */
+    --echo-live-top: unset;
+    /* 对话框左侧预留空间 */
+    --echo-live-left: unset;
+    /* 对话框下方预留空间 */
+    --echo-live-bottom: unset;
+    /* 对话框右侧预留空间 */
+    --echo-live-right: unset;
 
     /* 对话框正文内容字体大小 */
     --echo-live-content-font-size: 40px;
@@ -35,13 +60,6 @@
     --echo-live-bottom-font-size: 28px;
     /* 对话框底部工具栏内容颜色 */
     --echo-live-bottom-color: #888;
-
-    /* 对话框装饰角标颜色 */
-    --corner-marker-color: rgba(255,255,255,0.5);
-    /* 对话框装饰角标填充图案，要禁用请设为 unset */
-    --corner-marker: linear-gradient(-135deg, var(--corner-marker-color) 5px, transparent 5px);
-    /* 对话框装饰角标填充图案（深色版），要禁用请设为 unset */
-    --corner-marker-black: linear-gradient(-135deg, #CCC 15px, transparent 15px);
 
     /* 如果不想要底部工具栏装饰，请设为 none */
     --echo-live-bottombar-display: flex;
@@ -67,17 +85,41 @@
 
 
 #echo-live {
-    min-height: 150px;
-    max-height: 500px;
-    height: 100vh;
+    /* min-height: 150px;
+    max-height: 500px; */
+    position: relative;
+    top: var(--echo-live-top, 0px);
+    left: var(--echo-live-left, 0px);
+    height: 
+        calc(
+            100vh
+            - var(--echo-live-bottom, var(--echo-live-box-shadow-distance, 0px))
+            - var(--echo-live-top, 0px)
+        );
+    width:
+        calc(
+            100vw
+            - var(--echo-live-right, var(--echo-live-box-shadow-distance, 0px))
+            - var(--echo-live-left, 0px)
+        );
+    box-shadow:
+        var(--echo-live-box-shadow-color)
+        var(--echo-live-box-shadow-x, var(--echo-live-box-shadow-distance, 0px))
+        var(--echo-live-box-shadow-y, var(--echo-live-box-shadow-distance, 0px))
+        var(--echo-live-box-shadow-blur, 0px);
     background-color: var(--echo-live-bg-color);
-    background-image: var(--corner-marker-black);
+    background-image: unset;
     display: flex;
     flex-direction: column;
+    padding: 1em 3em 1em 5em;
+    box-sizing: border-box;
+    border-radius: var(--echo-live-border-radius);
+    border: var(--echo-live-border);
+    overflow: hidden;
 }
 
 #echo-live .top {
-    border-top: var(--echo-live-border-top);
+    border-top: unset;
 }
 
 #echo-live .center {
@@ -114,6 +156,7 @@
 
 #echo-live .bottom-center {
     font-size: var(--echo-live-bottom-font-size);
+    text-align: right;
 }
 
 #echo-live .center-center {

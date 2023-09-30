@@ -14,6 +14,7 @@ let gruopIndex = 0;
 let first = false;
 
 echo.on('next', function() {
+    $('#echo-live').attr('class', '');
     if (config.echo.next_audio_enable) {
         mixer.play(config.echo.next_audio_name, config.echo.next_audio_volume, config.echo.next_audio_rate);
     }
@@ -94,6 +95,10 @@ function msgStyleGenerator(data) {
 
 echo.on('typewriteEnd', function() {
     $('.echo-output .echo-text-typewrite').remove();
+});
+
+echo.on('customEvent', function(e) {
+    $('#echo-live').addClass('event-' + e);
 });
 
 $(document).on('click', function() {

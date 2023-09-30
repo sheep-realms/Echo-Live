@@ -39,6 +39,7 @@
     --echo-live-box-shadow-y: unset;
     /* 投影扩撒距离 */
     --echo-live-box-shadow-blur: unset;
+    /* 如果您有事件动效演出的需要，请注意为对话框留出充足的空间 */
     /* 对话框上方预留空间 */
     --echo-live-top: unset;
     /* 对话框左侧预留空间 */
@@ -182,4 +183,25 @@
     display: inline-block;
     margin-right: 1em;
     color: var(--echo-live-bottom-color, #888);
+}
+
+
+
+/* 对话框事件动效 */
+#echo-live.event-shout {
+    animation: echo-live-event-shout .5s 1;
+}
+
+@keyframes echo-live-event-shout {
+    0% {position: relative; top: calc(12px + var(--echo-live-top, 0px)); left: calc(12px + var(--echo-live-left, 0px))}
+    10% {top: calc(-8px + var(--echo-live-top, 0px)); left: calc(-8px + var(--echo-live-left, 0px))}
+    20% {top: calc(8px + var(--echo-live-top, 0px)); left: calc(6px + var(--echo-live-left, 0px))}
+    30% {top: calc(-6px + var(--echo-live-top, 0px)); left: calc(-4px + var(--echo-live-left, 0px))}
+    40% {top: calc(3px + var(--echo-live-top, 0px)); left: calc(4px + var(--echo-live-left, 0px))}
+    50% {top: calc(-4px + var(--echo-live-top, 0px)); left: calc(1px + var(--echo-live-left, 0px))}
+    60% {top: calc(3px + var(--echo-live-top, 0px)); left: calc(2px + var(--echo-live-left, 0px))}
+    70% {top: calc(0px + var(--echo-live-top, 0px)); left: calc(-3px + var(--echo-live-left, 0px))}
+    80% {top: calc(-2px + var(--echo-live-top, 0px)); left: calc(1px + var(--echo-live-left, 0px))}
+    90% {top: calc(-1px + var(--echo-live-top, 0px)); left: calc(-1px + var(--echo-live-left, 0px))}
+    100% {position: relative; top: calc(0px + var(--echo-live-top, 0px)); left: calc(0px + var(--echo-live-left, 0px))}
 }

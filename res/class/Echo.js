@@ -21,6 +21,7 @@ class Echo {
         this.event = {
             backspace: function() {},
             clear: function() {},
+            customEvent: function() {},
             groupEnd: function() {},
             groupStart: function() {},
             next: function() {},
@@ -99,6 +100,9 @@ class Echo {
         if (obj?.printSpeed) {
             this.speed(obj.printSpeed);
         }
+        if (obj?.event) {
+            this.event.customEvent(obj.event);
+        }
         this.event.groupStart(e);
         return e;
     }
@@ -112,7 +116,8 @@ class Echo {
                 class: msg?.class,
                 style: msg?.style,
                 typewrite: msg?.typewrite,
-                printSpeed: msg?.speed
+                printSpeed: msg?.speed,
+                event: msg?.event
             };
 
             let dataAfter = {

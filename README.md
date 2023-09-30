@@ -3,6 +3,8 @@
 
 这是一款基于 [Echo](https://github.com/sheep-realms/Echo) 的用于无声系虚拟主播直播的仿视觉小说对话框 OBS 插件。该插件无需部署本地服务器，下载后开箱即用。
 
+下文为帮助文档摘要，如需阅读完整帮助文档请见 [Echo-Live 在线帮助文档](https://sheep-realms.github.io/Echo-Live-Doc/)（另有 [CloudFlare 镜像](https://echo-live-doc.pages.dev/)）。
+
 ## 使用方法
 1. 打开 OBS，将 `live.html` 作为浏览器源（勾选 “本地文件”）添加到您的场景中。
 2. 使用文本编辑器打开 `start.js` 备用。建议您使用 [VSCode](https://code.visualstudio.com/) 等专业文本编辑器作为您的文本编辑器，不建议使用 Windows 内置的记事本。

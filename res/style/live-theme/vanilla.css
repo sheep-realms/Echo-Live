@@ -67,6 +67,7 @@
 
 
 #echo-live {
+    /* 为了防止您拉出离谱的尺寸，这里限制了最小和最大高度。如果您知道您在做什么，请设为 unset */
     min-height: 150px;
     max-height: 500px;
     height: 100vh;

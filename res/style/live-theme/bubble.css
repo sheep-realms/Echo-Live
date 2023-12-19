@@ -37,7 +37,7 @@
     --echo-live-box-shadow-x: unset;
     /* 投影纵向距离 */
     --echo-live-box-shadow-y: unset;
-    /* 投影扩撒距离 */
+    /* 投影扩散距离 */
     --echo-live-box-shadow-blur: unset;
     /* 如果您有事件动效演出的需要，请注意为对话框留出充足的空间 */
     /* 对话框上方预留空间 */

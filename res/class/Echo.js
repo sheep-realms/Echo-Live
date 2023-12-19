@@ -18,6 +18,9 @@ class Echo {
         this.printSpeedChange = 30;
         this.state = 'stop';
         this.typewrite = 'none';
+        this.filter = {
+            HTMLFormat: true
+        };
         this.event = {
             backspace: function() {},
             clear: function() {},
@@ -192,6 +195,11 @@ class Echo {
         }
 
         // 触发打印事件
+        if (that.filter.HTMLFormat) {
+            a = a.replace(' ', '&nbsp;');
+            a = a.replace('<', '&lt;');
+            a = a.replace('>', '&gt;');
+        }
         that.event.print(a);
 
         if (typeof that.messageBuffer[0] == 'object') {

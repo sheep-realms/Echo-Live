@@ -107,6 +107,7 @@ extensionManager.load({
 - [如何为 Echo-Live 项目作出贡献？](CONTRIBUTING.md)
 - [授权协议与声明](copyright.md)
 - [GPL（GNU General Public License，GNU通用公共许可协议）第3版](LICENSE)
+- [Echo-Live-Typetool](https://github.com/RaySky-Rt/Echo-Live-Typetool)
 
 ## 相关资源
 建议您安装可免费商用字体以规避版权纠纷，Echo-Live 默认使用思源黑体。

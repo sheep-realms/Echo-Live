@@ -24,6 +24,7 @@ class Echo {
         this.event = {
             backspace: function() {},
             clear: function() {},
+            customData: function() {},
             customEvent: function() {},
             groupEnd: function() {},
             groupStart: function() {},
@@ -106,6 +107,9 @@ class Echo {
         if (obj?.event) {
             this.event.customEvent(obj.event);
         }
+        if (obj?.data) {
+            this.event.customData(obj?.data);
+        }
         this.event.groupStart(e);
         return e;
     }
@@ -120,7 +124,8 @@ class Echo {
                 style: msg?.style,
                 typewrite: msg?.typewrite,
                 printSpeed: msg?.speed,
-                event: msg?.event
+                event: msg?.event,
+                data: msg?.data
             };
 
             let dataAfter = {
@@ -195,7 +200,7 @@ class Echo {
         }
 
         // 触发打印事件
-        if (that.filter.HTMLFormat) {
+        if (typeof a == 'string' && that.filter.HTMLFormat) {
             a = a.replace(' ', '&nbsp;');
             a = a.replace('<', '&lt;');
             a = a.replace('>', '&gt;');
@@ -249,6 +254,7 @@ class Echo {
             this.printSpeedStart = this.printSpeed;
             this.printSpeedChange = this.printSpeed;
         }
+        if (data?.customData) this.event.customData(data.customData);
         this.timer = setInterval(this.print, this.printSpeedStart, this);
         this.state = 'ready';
         return this.message;

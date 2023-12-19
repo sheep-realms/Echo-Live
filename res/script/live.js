@@ -101,6 +101,10 @@ echo.on('customEvent', function(e) {
     $('#echo-live').addClass('event-' + e);
 });
 
+echo.on('customData', function(e) {
+    // console.log(e);
+});
+
 $(document).on('click', function() {
     if (echo.messageList.length > 0) {
         if (echo.state != 'stop') {

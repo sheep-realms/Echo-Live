@@ -12,14 +12,14 @@
 
 :root {
     /* 对话框左侧部分的相对宽度 */
-    --echo-live-box-left-flex: 2;
+    --echo-live-box-left-flex: 1;
     /* 对话框中间部分的相对宽度 */
-    --echo-live-box-center-flex: 7;
+    --echo-live-box-center-flex: 6;
     /* 对话框右侧部分的相对宽度 */
-    --echo-live-box-right-flex: 3;
+    --echo-live-box-right-flex: 1;
 
     /* 对话框背景颜色，如果要设为透明请使用 transparent */
-    --echo-live-bg-color: #FFFFFF;
+    --echo-live-bg-color: transparent;
     /* 对话框顶部边框颜色、尺寸、线形，要禁用请设为 unset */
     --echo-live-border-top: #CCC 2px solid;
 
@@ -35,13 +35,6 @@
     --echo-live-bottom-font-size: 28px;
     /* 对话框底部工具栏内容颜色 */
     --echo-live-bottom-color: #888;
-
-    /* 对话框装饰角标颜色 */
-    --corner-marker-color: rgba(255,255,255,0.5);
-    /* 对话框装饰角标填充图案，要禁用请设为 unset */
-    --corner-marker: linear-gradient(-135deg, var(--corner-marker-color) 5px, transparent 5px);
-    /* 对话框装饰角标填充图案（深色版），要禁用请设为 unset */
-    --corner-marker-black: linear-gradient(-135deg, #CCC 15px, transparent 15px);
 
     /* 如果不想要显示说话人，请设为 none */
     --echo-live-username-display: block;
@@ -69,18 +62,12 @@
 
 
 #echo-live {
-    /* 为了防止您拉出离谱的尺寸，这里限制了最小和最大高度。如果您知道您在做什么，请设为 unset */
-    min-height: 150px;
-    max-height: 500px;
+    /* min-height: 150px;
+    max-height: 500px; */
     height: 100vh;
     background-color: var(--echo-live-bg-color);
-    background-image: var(--corner-marker-black);
     display: flex;
     flex-direction: column;
-}
-
-#echo-live .top {
-    border-top: var(--echo-live-border-top);
 }
 
 #echo-live .center {

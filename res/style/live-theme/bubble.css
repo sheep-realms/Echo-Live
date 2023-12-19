@@ -62,6 +62,8 @@
     /* 对话框底部工具栏内容颜色 */
     --echo-live-bottom-color: #888;
 
+    /* 如果不想要显示说话人，请设为 none */
+    --echo-live-username-display: block;
     /* 如果不想要底部工具栏装饰，请设为 none */
     --echo-live-bottombar-display: flex;
 
@@ -168,6 +170,7 @@
 }
 
 #echo-live .name {
+    font-size: var(--echo-live-content-font-size);
     margin-bottom: 0.5em;
     position: relative;
     left: -1em;

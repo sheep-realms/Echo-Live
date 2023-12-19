@@ -102,7 +102,7 @@ echo.on('customEvent', function(e) {
 });
 
 echo.on('customData', function(e) {
-    // console.log(e);
+    if (e?.username) $('#echo-live .name').text(e.username);
 });
 
 $(document).on('click', function() {

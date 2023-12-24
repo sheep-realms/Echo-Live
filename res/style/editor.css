@@ -50,6 +50,7 @@ textarea.code {
     color: var(--text-primary);
 }
 
+.fh-button.hide,
 .tabpage-panel.hide,
 .collapse-content.hide,
 .print-speed-change.hide {

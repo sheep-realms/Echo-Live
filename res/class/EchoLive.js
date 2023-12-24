@@ -3,6 +3,7 @@ class EchoLive {
         this.echo = echo;
         this.config = config;
         this.data = undefined;
+        this.broadcast = undefined;
         this.timer = {
             messagesPolling: 0
         };
@@ -13,7 +14,9 @@ class EchoLive {
             this.echo.printSpeedChange = this.config.echo.print_speed;
         }
 
-        if (this.config.echolive.messages_polling_enable) {
+        if (this.config.echolive.broadcast_enable) {
+            this.broadcast = new EchoLiveBroadcast(this);
+        } else if (this.config.echolive.messages_polling_enable) {
             this.start();
         }
     }

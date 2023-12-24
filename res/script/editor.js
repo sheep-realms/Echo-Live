@@ -8,10 +8,19 @@ $('#ptext-character, #rtext-character').val(config.editor.username_init);
 setCheckboxDefaultValue('#config-output-use-before', config.editor.ontput_before_enable);
 setCheckboxDefaultValue('#config-output-use-after', config.editor.ontput_after_enable);
 
+let elb;
+
 if (config.echo.print_speed != 30) {
     $('#ptext-ipt-print-speed, #rtext-ipt-print-speed').val(config.echo.print_speed);
     $('.print-speed-config').text(config.echo.print_speed);
     $('.print-speed-change').removeClass('hide');
+}
+
+if (config.echolive.broadcast_enable) {
+    $('#ptext-btn-submit').addClass('fh-ghost');
+    $('#ptext-btn-send').removeClass('hide');
+
+    elb = new EchoLiveBroadcast();
 }
 
 
@@ -73,7 +82,7 @@ $('#output-btn-clear').click(function() {
     $('#output-content').focus();
 });
 
-$('#ptext-btn-submit').click(function() {
+function ptextSubmit() {
     let txt = $('#ptext-content').val();
     let username = $('#ptext-character').val();
 
@@ -97,12 +106,22 @@ $('#ptext-btn-submit').click(function() {
         };
     }
 
-    
+    return d;
+}
+
+$('#ptext-btn-submit').click(function() {
+    let d = ptextSubmit();
 
     $('#output-content').val(getOutputBefore() + formatJson(d) + getOutputAfter());
     $('#tabpage-nav-output').click();
     $('#output-content').focus();
     $('#output-content').select();
+});
+
+$('#ptext-btn-send').click(function() {
+    let d = ptextSubmit();
+
+    elb.sendData(d);
 });
 
 $('.checkbox').click(function() {

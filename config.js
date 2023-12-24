@@ -9,6 +9,8 @@ const config = {
 
     // Echo Live 相关配置
     echolive: {
+        // 启用广播，可通过编辑器直接发送消息，启用此项将禁用消息轮询
+        broadcast_enable: true,
         // 启用消息轮询，无需手动刷新，关闭则使用旧版手动操作
         messages_polling_enable: true,
         // 消息轮询间隔（毫秒），值越小响应越快，性能消耗越高

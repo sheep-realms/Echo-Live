@@ -102,7 +102,7 @@ function ptextSubmit() {
     if ($('#ptext-chk-more').val() == 1) {
         d.messages[0].data = {
             ...d.messages[0].data,
-            ...{printSpeed: $('#ptext-ipt-print-speed').val()}
+            ...{printSpeed: Number($('#ptext-ipt-print-speed').val())}
         };
     }
 

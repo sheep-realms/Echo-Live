@@ -24,8 +24,7 @@ echo.on('print', function(chr) {
         $(`.echo-output span[data-group="${gruopIndex}"]`).append(chr);
     }
 
-    // 这里有一组奇怪的判断？别动，动了就出BUG，我也不知道当初怎么想的
-    if (config.echolive.print_audio_enable && (chr != '' || chr != '') && printSe) {
+    if (config.echolive.print_audio_enable && chr != '' && printSe) {
         mixer.play(config.echolive.print_audio_name, config.echolive.print_audio_volume, config.echolive.print_audio_rate);
         // 打印音效稳定器
         printSe = false;

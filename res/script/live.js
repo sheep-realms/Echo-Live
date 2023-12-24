@@ -1,13 +1,10 @@
 let echo = new Echo();
+let echolive = new EchoLive(echo, config);
+
+let data;
 
 let printSeCd = 33;
 let printSe = true;
-
-if (config.echo.print_speed != undefined) {
-    echo.printSpeed = config.echo.print_speed;
-    echo.printSpeedStart = config.echo.print_speed;
-    echo.printSpeedChange = config.echo.print_speed;
-}
 
 let gruopIndex = 0;
 
@@ -15,8 +12,8 @@ let first = false;
 
 echo.on('next', function() {
     $('#echo-live').attr('class', '');
-    if (config.echo.next_audio_enable) {
-        mixer.play(config.echo.next_audio_name, config.echo.next_audio_volume, config.echo.next_audio_rate);
+    if (config.echolive.next_audio_enable) {
+        mixer.play(config.echolive.next_audio_name, config.echolive.next_audio_volume, config.echolive.next_audio_rate);
     }
 });
 
@@ -27,8 +24,8 @@ echo.on('print', function(chr) {
         $(`.echo-output span[data-group="${gruopIndex}"]`).append(chr);
     }
 
-    if (config.echo.print_audio_enable && (chr != '' || chr != '') && printSe) {
-        mixer.play(config.echo.print_audio_name, config.echo.print_audio_volume, config.echo.print_audio_rate);
+    if (config.echolive.print_audio_enable && (chr != '' || chr != '') && printSe) {
+        mixer.play(config.echolive.print_audio_name, config.echolive.print_audio_volume, config.echolive.print_audio_rate);
 
         // 打印音效稳定器
         printSe = false;
@@ -115,5 +112,5 @@ $(document).on('click', function() {
     }
 });
 
-$('#echo-live .name').text(data.username);
-echo.sendList(data.messages);
+// $('#echo-live .name').text(data.username);
+// echo.sendList(data.messages);

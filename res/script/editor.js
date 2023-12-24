@@ -3,8 +3,10 @@ let textList = [
 ];
 
 setDefaultValue('#config-output-before', config.editor.output_before);
+setDefaultValue('#config-output-after', config.editor.output_after);
 $('#ptext-character, #rtext-character').val(config.editor.username_init);
 setCheckboxDefaultValue('#config-output-use-before', config.editor.ontput_before_enable);
+setCheckboxDefaultValue('#config-output-use-after', config.editor.ontput_after_enable);
 
 if (config.echo.print_speed != 30) {
     $('#ptext-ipt-print-speed, #rtext-ipt-print-speed').val(config.echo.print_speed);
@@ -97,7 +99,7 @@ $('#ptext-btn-submit').click(function() {
 
     
 
-    $('#output-content').val(getOutputBefore() + formatJson(d));
+    $('#output-content').val(getOutputBefore() + formatJson(d) + getOutputAfter());
     $('#tabpage-nav-output').click();
     $('#output-content').focus();
     $('#output-content').select();
@@ -141,6 +143,15 @@ function getOutputBefore() {
     let v = $('#config-output-use-before').val();
     if (v == 1) {
         return $('#config-output-before').val();
+    } else {
+        return '';
+    }
+}
+
+function getOutputAfter() {
+    let v = $('#config-output-use-after').val();
+    if (v == 1) {
+        return $('#config-output-after').val();
     } else {
         return '';
     }

@@ -30,6 +30,7 @@
                 aria-selected="false"
                 accesskey="2"
                 title="包含特殊样式的文本 [alt+2]"
+                style="display: none;"
             >富文本</button>
             <button
                 class="tabpage-nav-item"
@@ -267,11 +268,19 @@
                 <h2 class="tabpage-panel-title">配置</h2>
                 <div class="echo-editor-from">
                     <label for="output-before">头部内容</label>
-                    <textarea name="output-before" id="config-output-before" class="code">const data = </textarea>
+                    <textarea name="output-before" id="config-output-before" class="code"></textarea>
                     <button role="checkbox" aria-selected="true" class="checkbox selected">
                         <span class="icon"></span>
                         <span class="text">在输出内容之前插入头部内容</span>
                         <input type="hidden" name="config-output-use-before" id="config-output-use-before" value="1">
+                    </button>
+
+                    <label for="output-after">尾部内容</label>
+                    <textarea name="output-after" id="config-output-after" class="code"></textarea>
+                    <button role="checkbox" aria-selected="true" class="checkbox selected">
+                        <span class="icon"></span>
+                        <span class="text">在输出内容之后插入尾部内容</span>
+                        <input type="hidden" name="config-output-use-after" id="config-output-use-after" value="1">
                     </button>
                 </div>
                 <p style="color: var(--text-regular);">详细配置请见配置文件 <code>config.js</code>。</p>

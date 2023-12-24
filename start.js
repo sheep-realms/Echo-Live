@@ -1,13 +1,8 @@
 echolive.send({
-    username: "【？？？】",
-    messages: [
+    "username": "【说话人】",
+    "messages": [
         {
-            message: [
-                {
-                    text: '"Every ordinary      day we experience may be a continuous miracle."',
-                    style: { style: 'text-indent: -0.5em; display: block;' }
-                }
-            ]
+            "message": "这里是说话内容。"
         }
     ]
 });

@@ -1,4 +1,5 @@
 // 这里是配置文件，请不要删除任何项目
+// 配置文件保存修改后，请刷新网页
 const config = {
     // Echo 相关配置
     echo: {
@@ -14,9 +15,9 @@ const config = {
         messages_polling_tick: 250,
 
         // 启用打字音效，false 为禁用，true 为启用
-        print_audio_enable: false,
+        print_audio_enable: true,
         // 音效名称（详见 res/script/sounds.js）
-        print_audio_name: 'typewriter',
+        print_audio_name: 'typewriter_loop',
         // 音效音量，1 为最大
         print_audio_volume: 0.5,
         // 音效播放速度，1 为原速

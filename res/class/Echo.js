@@ -201,9 +201,9 @@ class Echo {
 
         // 触发打印事件
         if (typeof a == 'string' && that.filter.HTMLFormat) {
-            a = a.replace(' ', '&nbsp;');
-            a = a.replace('<', '&lt;');
-            a = a.replace('>', '&gt;');
+            a = a.replace(/  /g, ' &nbsp;');
+            a = a.replace(/</g, '&lt;');
+            a = a.replace(/>/g, '&gt;');
         }
         that.event.print(a);
 

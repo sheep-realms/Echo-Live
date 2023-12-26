@@ -116,7 +116,7 @@ class Echo {
 
     messageSerialize(msg) {
         if (typeof msg == 'string') {
-            return msg.split('');
+            return [...msg];
         } else if (typeof msg == 'object' && msg != null) {
             let dataBefore = {
                 action: 'group_start',
@@ -135,9 +135,9 @@ class Echo {
 
             let dataContent, data;
             if (msg?.typewrite == undefined) {
-                dataContent = msg.text.split('');
+                dataContent = [...msg.text];
             } else {
-                dataContent = msg.typewrite.split('');
+                dataContent = [...msg.typewrite];
             }
 
             data = [dataBefore, ...dataContent, dataAfter];
@@ -184,8 +184,8 @@ class Echo {
         } else {
             if (typeof that.messageBuffer[0] == 'string') {
                 a = that.messageBuffer.shift();
-                // 中日韩字符跳过一回合
-                if (a.search(/[\u4e00-\u9fa5\u0800-\u4e00\uac00-\ud7ff]/) != -1 && that.typewrite == 'none') {
+                // 中日韩字符和辅助平面字符跳过一回合
+                if ((a.search(/[\u4e00-\u9fa5\u0800-\u4e00\uac00-\ud7ff]/) != -1 || a.codePointAt(0) >= 0x10000) && that.typewrite == 'none') {
                     that.dbChrBuffer = a;
                     return;
                 }
@@ -236,7 +236,7 @@ class Echo {
         this.event.send();
         this.message = text;
         if (typeof this.message == 'string') {
-            this.messageBuffer = text.split('');
+            this.messageBuffer = [...text];
         } else if (typeof this.message == 'object' && this.message != null) {
             if (Array.isArray(this.message)) {
                 this.message.forEach(e => {

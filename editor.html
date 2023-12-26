@@ -34,6 +34,7 @@
                 style="display: none;"
             >富文本</button>
             <button
+                id="tabpage-nav-config"
                 class="tabpage-nav-item"
                 data-pageid="config"
                 role="tab"
@@ -50,6 +51,27 @@
                 accesskey="4"
                 title="输出代码 [alt+4]"
             >输出</button>
+            <button
+                class="tabpage-nav-item"
+                data-pageid="broadcast"
+                role="tab"
+                aria-selected="false"
+                accesskey="5"
+                title="广播控制 [alt+5]"
+                style="display: none;"
+            >广播</button>
+            <button
+                id="tabpage-nav-log"
+                class="tabpage-nav-item"
+                data-pageid="log"
+                role="tab"
+                aria-selected="false"
+                accesskey="6"
+                title="运行日志 [alt+6]"
+            >
+                <span>日志</span>
+                <span id="log-message-mark" class="hide">1</span>
+            </button>
         </nav>
         <!-- 标签页面板 -->
         <div class="tabpage-centent">
@@ -297,6 +319,22 @@
                     <div class="editor-controller-bottom fh-flex-row">
                         <button id="output-btn-clear" class="fh-button fh-big fh-danger">清空</button>
                     </div>
+                </div>
+            </section>
+
+            <!-- 广播标签页 -->
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="broadcast">
+                <h2 class="tabpage-panel-title">日志</h2>
+                <p style="color: red;">该页面正在施工中，暂不可用。</p>
+                <p>恭喜你发现了隐藏页面：广播！</p>
+                <p>这里计划添加一些功能按键用于控制对话框。</p>
+            </section>
+
+            <!-- 日志标签页 -->
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="log">
+                <h2 class="tabpage-panel-title">日志</h2>
+                <div id="editor-log">
+                    
                 </div>
             </section>
         </div>

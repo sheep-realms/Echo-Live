@@ -1,12 +1,21 @@
+// 警告：这是一坨屎山
+
 let textList = [
     {text: ''}
 ];
+
+let timer = {
+    clickEffect: -1
+}
 
 setDefaultValue('#config-output-before', config.editor.output_before);
 setDefaultValue('#config-output-after', config.editor.output_after);
 $('#ptext-character, #rtext-character').val(config.editor.username_init);
 setCheckboxDefaultValue('#config-output-use-before', config.editor.ontput_before_enable);
 setCheckboxDefaultValue('#config-output-use-after', config.editor.ontput_after_enable);
+
+if (!config.editor.tabpage_config_enable) $('#tabpage-nav-config').addClass('hide');
+if (!config.editor.tabpage_output_enable) $('#tabpage-nav-output').addClass('hide');
 
 let elb;
 
@@ -19,11 +28,116 @@ if (config.echo.print_speed != 30) {
 if (config.echolive.broadcast_enable) {
     $('#ptext-btn-submit').addClass('fh-ghost');
     $('#ptext-btn-send').removeClass('hide');
+    $('#ptext-content').attr('title', '当焦点在此文本框中时，可用按下 Ctrl + Enter 快速发送');
+    // 纯文本 - 内容 - 快捷键
+    $('#ptext-content').keydown(function(e) {
+        if (e.keyCode == 13 && e.ctrlKey) {
+            $('.fh-effect-click').removeClass('fh-effect-click');
+            clearTimeout(timer.clickEffect)
 
-    elb = new EchoLiveBroadcast();
+            $('#ptext-btn-send').click();
+
+            $('#ptext-btn-send').addClass('fh-effect-click');
+            timer.clickEffect = setTimeout(function () {
+                $('#ptext-btn-send').removeClass('fh-effect-click');
+            }, 1000);
+        }
+    })
+
+    elb = new EchoLiveBroadcast(undefined, config.echolive.broadcast_channel);
+    elb.on('message', getMessage);
+    elb.on('noClient', noClient);
+
+    checkNowDate();
+    editorLog('广播模式已开启：' + config.echolive.broadcast_channel);
+    editorLog('User Agent: ' + navigator.userAgent, 'dbug');
+    if (navigator.userAgent.toLowerCase().search(/ obs\//) != -1) {
+        editorLog('编辑器已正确安装在 OBS 中！', 'done');
+    } else {
+        editorLog('您似乎并未正确在 OBS 中安装此编辑器，详见：https://sheep-realms.github.io/Echo-Live-Doc/main/how-to-use/', 'tips');
+    }
+} else {
+    checkNowDate();
+    editorLog('未开启广播模式，无日志显示。');
+}
+
+function getTime() {
+    let d = new Date();
+    return `${d.getFullYear()}-${afterZero(d.getMonth() + 1)}-${afterZero(d.getDate())} ${afterZero(d.getHours())}:${afterZero(d.getMinutes())}:${afterZero(d.getSeconds())}`;
+}
+
+function afterZero(value) {
+    if (value >= 10) {
+        return `${value}`;
+    } else {
+        return `0${value}`;
+    }
 }
 
 
+let logMsgMark = 0;
+
+function editorLog(message = '', type = 'info') {
+    $('#editor-log').append(`<div class="log-item log-type-${type}"><span class="time">${getTime()}</span> <span class="type">[${type.toUpperCase()}]</span> <span class="message">${message}</span></div>`);
+    $('#editor-log').scrollTop($('#editor-log').height());
+
+    if ((type == 'warn' || type == 'error') && $('#tabpage-nav-log').attr('aria-selected') == 'false') {
+        logMsgMark++;
+        $('#log-message-mark').text(logMsgMark);
+        $('#log-message-mark').removeClass('hide');
+    }
+}
+
+$('#tabpage-nav-log').click(function() {
+    logMsgMark = 0;
+    $('#log-message-mark').addClass('hide');
+});
+
+function getMessage(data) {
+    switch (data.action) {
+        case 'message_data':
+            editorLog('收到来自其他服务端的消息数据。');
+            break;
+            
+        case 'hello':
+            if (data.target == undefined || data.target == elb.uuid) {
+                let helloMsg1 = data.data.hidden ? '已休眠，' : '';
+                editorLog(`Echo-Live 进入广播频道，${helloMsg1}UUID：${data.data.uuid}`);
+            }
+            break;
+
+        case 'ping':
+            editorLog('有其他服务端加入频道，UUID：' + data.data?.uuid);
+            break;
+
+        case 'close':
+            editorLog('Echo-Live 离开广播频道，UUID：' + data.data.uuid);
+            break;
+
+        case 'echo_next':
+            editorLog('收到来自其他服务端的指令：打印下一条消息。');
+            break;
+
+        case 'page_hidden':
+            editorLog('Echo-Live 因不可见已休眠，UUID：' + data.data.uuid);
+            break;
+
+        case 'page_visible':
+            editorLog('Echo-Live 已唤醒，UUID：' + data.data.uuid);
+            break;
+    
+        default:
+            break;
+    }
+}
+
+function noClient() {
+    editorLog('没有 Echo-Live 客户端响应，请检查您是否正确打开或安装了 live.html。如果您的操作正确，则可能是因为所有 Echo-Live 源均处于不可见状态。', 'warn');
+}
+
+
+
+// 标签页切换
 $('.tabpage-nav .tabpage-nav-item').click(function() {
     $(this).parent().children().attr('aria-selected', 'false');
     $(this).attr('aria-selected', 'true');
@@ -32,6 +146,7 @@ $('.tabpage-nav .tabpage-nav-item').click(function() {
     $(`.tabpage-panel[data-pageid="${pageid}"]`).removeClass('hide');
 });
 
+// 纯文本重置
 $('#ptext-btn-clear').click(function() {
     $('#ptext-content').val('');
     // $('#ptext-ipt-print-speed').val('30');
@@ -42,8 +157,10 @@ $('#ptext-btn-clear').click(function() {
     $('#ptext-content').focus();
 });
 
+// 富文本重置
 $('#rtext-btn-text-clear').click(rtextTextClear);
 
+// 富文本保存段落
 $('#rtext-btn-text-save').click(function() {
     let index = $('#editor-text-index-now').val();
     let message = {
@@ -77,11 +194,13 @@ $('#rtext-btn-clear').click(function() {
     $('#rtext-text').focus();
 });
 
+// 输出清空
 $('#output-btn-clear').click(function() {
     $('#output-content').val('');
     $('#output-content').focus();
 });
 
+// 纯文本数据整理
 function ptextSubmit() {
     let txt = $('#ptext-content').val();
     let username = $('#ptext-character').val();
@@ -109,6 +228,7 @@ function ptextSubmit() {
     return d;
 }
 
+// 纯文本提交
 $('#ptext-btn-submit').click(function() {
     let d = ptextSubmit();
 
@@ -118,10 +238,13 @@ $('#ptext-btn-submit').click(function() {
     $('#output-content').select();
 });
 
+// 纯文本发送
 $('#ptext-btn-send').click(function() {
     let d = ptextSubmit();
 
     elb.sendData(d);
+
+    editorLog('已发送消息。');
 });
 
 $('.checkbox').click(function() {
@@ -249,5 +372,29 @@ function setCheckboxDefaultValue($sel, value) {
     } else {
         $($sel).parents('.checkbox').attr('aria-selected', 'false');
         $($sel).parents('.checkbox').removeClass('selected');
+    }
+}
+
+
+
+
+// 彩蛋
+function getDateNumber() {
+    let d = new Date();
+    return `${afterZero(d.getMonth() + 1)}${afterZero(d.getDate())}`;
+}
+
+function checkNowDate() {
+    let d = new Date();
+    let dn = getDateNumber();
+    let msg = {
+        '0101': `${d.getFullYear()} 年来了！感谢您一直以来对 Echo-Live 的支持！`,
+        '0721': 'Ciallo～(∠·ω< )⌒★',
+        '0914': '2023 年的今天，Echo Live 诞生了！',
+        '1231': '哇哦，今年只剩下最后一天了，您要和我一起跨年吗？'
+    }
+
+    if (msg[dn] != undefined) {
+        editorLog(msg[dn], 'tips');
     }
 }

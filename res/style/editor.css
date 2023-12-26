@@ -6,6 +6,7 @@
     --text-primary: #303133;
     --text-regular: #606266;
     --text-secondary: #909399;
+    --text-placeholder: #a8abb2;
 }
 
 body {
@@ -52,8 +53,10 @@ textarea.code {
 
 .fh-button.hide,
 .tabpage-panel.hide,
+.tabpage-nav-item.hide,
 .collapse-content.hide,
-.print-speed-change.hide {
+.print-speed-change.hide,
+#log-message-mark.hide {
     display: none;
 }
 
@@ -182,6 +185,19 @@ textarea.code {
     width: 200px;
 }
 
+@media screen and (max-width: 760px) {
+    .echo-editor-from-row>label {
+        width: 150px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .echo-editor-from-row {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
 .echo-editor-from-row>input {
     flex: 1;
 }
@@ -189,6 +205,20 @@ textarea.code {
 .echo-editor-from-checkbox-list {
     width: calc(100% - 200px);
     margin-left: 200px;
+}
+
+@media screen and (max-width: 760px) {
+    .echo-editor-from-checkbox-list {
+        width: calc(100% - 150px);
+        margin-left: 150px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .echo-editor-from-checkbox-list {
+        width: 100%;
+        margin-left: 0;
+    }
 }
 
 .echo-editor-from-input-tip {
@@ -266,4 +296,78 @@ input[type=text]:focus {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+
+#editor-log {
+    background-color: #FFF;
+    box-sizing: border-box;
+    width: 100%;
+    height: calc(100vh - 80px);
+    overflow-y: scroll;
+    font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', serif;
+    padding: 8px;
+}
+
+#editor-log>div>span {
+    font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', serif;
+}
+
+#editor-log .log-item {
+    padding-left: 14.2em;
+    text-indent: -14.2em;
+}
+
+#editor-log .log-type-dbug {
+    color: var(--text-placeholder);
+}
+
+#editor-log .log-type-tips {
+    color: var(--color-general-dark);
+}
+
+#editor-log .log-type-done {
+    color: var(--color-safe-dark);
+}
+
+#editor-log .log-type-warn {
+    color: var(--color-warn-dark);
+}
+
+#editor-log .log-type-error {
+    color: var(--color-danger-dark);
+}
+
+#log-message-mark {
+    background-color: var(--color-danger-dark);
+    color: #FFF;
+    font-size: 12px;
+    padding: 0 4px;
+    display: inline-block;
+    min-width: 12px;
+    border-radius: 8px;
+    position: relative;
+    top: -4px;
+}
+
+@media screen and (max-width: 760px) {
+    #editor-log {
+        font-size: 14px;
+    }
+
+    #editor-log .log-item {
+        padding-left: 0;
+        text-indent: 0;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    #editor-log {
+        font-size: 12px;
+    }
+
+    #editor-log .log-item {
+        padding-left: 0;
+        text-indent: 0;
+    }
 }

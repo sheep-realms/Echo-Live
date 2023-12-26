@@ -598,6 +598,32 @@ p .fh-loading {
     margin: 10px 5px;
 }
 
+.fh-button.fh-effect-click {
+    --effect-color: var(--color-general-glass);
+    animation: fh-effect-click .6s 1;
+}
+
+.fh-button.fh-safe.fh-effect-click {
+    --effect-color: var(--color-safe-glass);
+}
+
+.fh-button.fh-warn.fh-effect-click {
+    --effect-color: var(--color-warn-glass);
+}
+
+.fh-button.fh-danger.fh-effect-click {
+    --effect-color: var(--color-danger-glass);
+}
+
+.fh-button.fh-special.fh-effect-click {
+    --effect-color: var(--color-special-glass);
+}
+
+@keyframes fh-effect-click {
+    0% { box-shadow: 0 0 0 0 var(--effect-color); filter: brightness(1.3); }
+    100% { box-shadow: 0 0 0 16px transparent; filter: brightness(1); }
+}
+
 /* FH MsgBox-Button */
 
 .fh-msgbox-controller .fh-button {

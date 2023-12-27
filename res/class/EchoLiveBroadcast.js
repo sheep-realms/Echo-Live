@@ -9,6 +9,7 @@ class EchoLiveBroadcast {
             noClient: -1
         }
         this.event = {
+            clientsChange: function() {},
             message: function() {},
             noClient: function() {}
         };
@@ -94,18 +95,42 @@ class EchoLiveBroadcast {
         return this.broadcast.close();
     }
 
-    addClient(uuid) {
+    addClient(uuid, hidden = false) {
         if (!this.isServer) return;
-        if (this.clients.indexOf(uuid) != -1) return;
+        let i = this.clients.findIndex(function(e) {
+            return e.uuid == uuid;
+        });
+        if (i != -1) return;
         clearTimeout(this.timer.noClient);
-        return this.clients.push(uuid);
+
+        let r = this.clients.push({
+            uuid: uuid,
+            hidden: hidden
+        });
+        this.event.clientsChange(this.clients);
+        return r; 
     }
 
     removeClient(uuid) {
         if (!this.isServer) return;
-        let i = this.clients.indexOf(uuid);
+        let i = this.clients.findIndex(function(e) {
+            return e.uuid == uuid;
+        });
         if (i == -1) return;
-        return this.clients.splice(i, 1);
+        let r = this.clients.splice(i, 1);
+        this.event.clientsChange(this.clients);
+        return r;
+    }
+
+    setClientHidden(uuid, value) {
+        if (!this.isServer) return;
+        let i = this.clients.findIndex(function(e) {
+            return e.uuid == uuid;
+        });
+        if (i == -1) return;
+        let r = this.clients[i].hidden = value;
+        this.event.clientsChange(this.clients);
+        return r;
     }
 
     getData(data) {
@@ -119,7 +144,7 @@ class EchoLiveBroadcast {
                 break;
 
             case 'hello':
-                this.addClient(data.data.uuid);
+                this.addClient(data.data.uuid, data.data?.hidden);
                 break;
 
             case 'ping':
@@ -132,6 +157,14 @@ class EchoLiveBroadcast {
 
             case 'echo_next':
                 if (!this.isServer) this.echolive.next();
+                break;
+
+            case 'page_hidden':
+                this.setClientHidden(data.data.uuid, true);
+                break;
+
+            case 'page_visible':
+                this.setClientHidden(data.data.uuid, false);
                 break;
         
             default:

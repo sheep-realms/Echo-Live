@@ -43,13 +43,13 @@ Echo-Live 内置了多套主题，您可以通过修改 `live.html` 中定义主
 在 `live.html` 文件中您可用看到以下被注释强调的内容：
 
 ``` html
-<link rel="stylesheet" href="res/style/live-theme/vanilla.css">
+<link id="echo-live-theme" rel="stylesheet" href="res/style/live-theme/vanilla.css">
 ```
 
 假如您想将主题文件更换为 `bubble.css`，您应当如此修改：
 
 ``` html
-<link rel="stylesheet" href="res/style/live-theme/bubble.css">
+<link id="echo-live-theme" rel="stylesheet" href="res/style/live-theme/bubble.css">
 ```
 
 最后，别忘了保存文件。
@@ -120,6 +120,13 @@ extensionManager.load({
 - [如何为 Echo-Live 项目作出贡献？](CONTRIBUTING.md)
 - [授权协议与声明](copyright.md)
 - [GPL（GNU General Public License，GNU通用公共许可协议）第3版](LICENSE)
+
+### 姊妹项目
+- [Echo](https://github.com/sheep-realms/Echo)
+- [Echo-Live-Doc](https://github.com/sheep-realms/Echo-Live-Doc)
+
+### 第三方项目
+- [Echo-Live-Tauri](https://github.com/LuiScreaMed/Echo-Live-Tauri)
 - [Echo-Live-Typetool](https://github.com/RaySky-Rt/Echo-Live-Typetool)
 
 ## 相关资源

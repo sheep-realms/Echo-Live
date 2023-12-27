@@ -56,7 +56,8 @@ textarea.code {
 .tabpage-nav-item.hide,
 .collapse-content.hide,
 .print-speed-change.hide,
-#log-message-mark.hide {
+#log-message-mark.hide,
+.echo-live-client-state.hide {
     display: none;
 }
 
@@ -370,4 +371,37 @@ input[type=text]:focus {
         padding-left: 0;
         text-indent: 0;
     }
+}
+
+.echo-live-client-state {
+    margin-bottom: 8px;
+}
+
+.echo-live-client-state-panel {
+    display: flex;
+    gap: 4px;
+}
+
+.echo-live-client-state-block {
+    background-color: #EEEEEE;
+    height: 8px;
+    flex: 1;
+    box-sizing: border-box;
+}
+
+.echo-live-client-state-block.state-active {
+    background-color: var(--color-safe-dark);
+}
+
+.echo-live-client-state-block.state-sleep {
+    background-color: var(--color-danger-dark);
+}
+
+.accessible-color-blindness-red-green .echo-live-client-state-block.state-active {
+    background-color: var(--color-general-dark);
+}
+
+.accessible-color-blindness-red-green .echo-live-client-state-block.state-sleep {
+    background-color: transparent;
+    border: 1px solid var(--color-general-dark);
 }

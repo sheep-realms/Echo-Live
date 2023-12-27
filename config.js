@@ -81,6 +81,13 @@ const config = {
         tabpage_output_enable: true,
 
 
+        // 显示对话框状态仪表板
+        // * 仪表板可以显示所有对话框的状态，绿色为激活，红色为休眠，灰色则表示没有对话框加入频道。
+        // * 如果您添加了多个对话框，建议您启用此项。
+        // * 如果您是红绿色盲，请在下方无障碍相关配置中启用红绿色盲。
+        client_state_panel_enable: false,
+
+
         // == 表单预填充 ==
         // * 这些值会在页面初始化时被自动填充进表单中。
 
@@ -94,6 +101,13 @@ const config = {
         output_after: ');',
         // 启用上述功能，0 为禁用，1 为启用
         ontput_after_enable: 1,
+    },
+
+    // 无障碍相关配置
+    // * 编辑器支持键盘访问。
+    accessible: {
+        // 红绿色盲
+        color_blindness_red_green: false,
     }
 };
 

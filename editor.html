@@ -79,6 +79,13 @@
             <section class="tabpage-panel" role="tabpanel" data-pageid="ptext">
                 <h2 class="tabpage-panel-title">纯文本</h2>
                 <div class="echo-editor-from">
+                    <div class="echo-live-client-state hide">
+                        <label>对话框状态</label>
+                        <div class="echo-live-client-state-content">
+                            <div class="echo-live-client-state-block"></div>
+                        </div>
+                    </div>
+
                     <label for="character">说话人</label>
                     <input type="text" name="character" id="ptext-character">
 
@@ -333,7 +340,7 @@
             <!-- 日志标签页 -->
             <section class="tabpage-panel hide" role="tabpanel" data-pageid="log">
                 <h2 class="tabpage-panel-title">日志</h2>
-                <div id="editor-log">
+                <div id="editor-log" aria-label="这里是日志列表，如果您听到了这句话，请注意，这里的阅读体验可能会很差。">
                     
                 </div>
             </section>

@@ -85,6 +85,7 @@ const config = {
         // * 仪表板可以显示所有对话框的状态，绿色为激活，红色为休眠，灰色则表示没有对话框加入频道。
         // * 如果您添加了多个对话框，建议您启用此项。
         // * 如果您是红绿色盲，请在下方无障碍相关配置中启用红绿色盲。
+        // ** 启用后，蓝色填充为激活，蓝色边框为休眠。
         client_state_panel_enable: false,
 
 
@@ -107,7 +108,7 @@ const config = {
     // * 编辑器支持键盘访问。
     accessible: {
         // 红绿色盲
-        color_blindness_red_green: false,
+        drotanopia_and_deuteranopia: false,
     }
 };
 

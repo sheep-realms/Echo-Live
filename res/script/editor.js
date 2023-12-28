@@ -17,7 +17,7 @@ setCheckboxDefaultValue('#config-output-use-after', config.editor.ontput_after_e
 if (!config.editor.tabpage_config_enable) $('#tabpage-nav-config').addClass('hide');
 if (!config.editor.tabpage_output_enable) $('#tabpage-nav-output').addClass('hide');
 
-if (config.accessible.color_blindness_red_green) $('body').addClass('accessible-color-blindness-red-green');
+if (config.accessible.drotanopia_and_deuteranopia) $('body').addClass('accessible-drotanopia-and-deuteranopia');
 
 let elb;
 

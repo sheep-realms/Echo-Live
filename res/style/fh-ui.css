@@ -2,6 +2,13 @@
     margin: 0;
     padding: 0;
 
+    --corner-marker-color: rgba(255,255,255,0.5);
+    --corner-marker-angle: -135deg;
+    --corner-marker-angle-reverse: 45deg;
+    --corner-marker: linear-gradient(var(--corner-marker-angle), var(--corner-marker-color) 5px, transparent 5px);
+}
+
+:root {
     --color-main: rgb(64, 173, 235);
     --color-main-dark: rgb(40, 144, 204);
 
@@ -22,11 +29,6 @@
     --color-warn-glass: rgba(230, 189, 53, 0.12);
     --color-danger-glass: rgba(230, 82, 89, 0.12);
     --color-special-glass: rgba(147, 61, 178, 0.12);
-
-    --corner-marker-color: rgba(255,255,255,0.5);
-    --corner-marker-angle: -135deg;
-    --corner-marker-angle-reverse: 45deg;
-    --corner-marker: linear-gradient(var(--corner-marker-angle), var(--corner-marker-color) 5px, transparent 5px);
 
     --color-msgbox-background: #EEE;
 

@@ -107,6 +107,8 @@ const config = {
     // 无障碍相关配置
     // * 编辑器支持键盘访问。
     accessible: {
+        // 高对比度
+        high_contrast: false,
         // 红绿色盲
         drotanopia_and_deuteranopia: false,
     }

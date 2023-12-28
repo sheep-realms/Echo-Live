@@ -2,11 +2,15 @@
     margin: 0;
     padding: 0;
     font-family: '思源黑体', 'Microsoft YaHei', sans-serif;
+}
 
+:root {
     --text-primary: #303133;
     --text-regular: #606266;
     --text-secondary: #909399;
     --text-placeholder: #a8abb2;
+
+    --border-coler: #AAAAAA;
 }
 
 body {
@@ -23,7 +27,7 @@ textarea.code {
 }
 
 .tabpage-nav {
-    border-bottom: #AAAAAA 1px solid;
+    border-bottom: var(--border-coler) 1px solid;
     display: flex;
     margin-bottom: 16px;
     --corner-marker-color: rgba(0, 0, 0, 0.25);
@@ -83,7 +87,7 @@ textarea.code {
     box-sizing: border-box;
     padding: 0.5em;
     border: unset;
-    border-bottom: #AAAAAA 1px solid;
+    border-bottom: var(--border-coler) 1px solid;
     outline: none;
     background-color: #FFFFFF;
     transition: border .3s;
@@ -96,7 +100,7 @@ textarea.code {
 .editor-controller-bottom {
     padding: 16px 0;
     margin-top: -1px;
-    border-top: #AAAAAA 1px solid;
+    border-top: var(--border-coler) 1px solid;
     position: sticky;
     bottom: 0;
     background-color: #FAFAFA;
@@ -116,12 +120,12 @@ textarea.code {
 }
 
 .collapse-title {
-    border-bottom: #AAAAAA 1px solid;
+    border-bottom: var(--border-coler) 1px solid;
     display: flex;
 }
 
 .collapse-content {
-    border-bottom: #AAAAAA 1px solid;
+    border-bottom: var(--border-coler) 1px solid;
 }
 
 .collapse-title button {
@@ -237,7 +241,7 @@ input[type=text] {
     box-sizing: border-box;
     padding: 0.25em 0.5em;
     border: unset;
-    border-bottom: #AAAAAA 1px solid;
+    border-bottom: var(--border-coler) 1px solid;
     outline: none;
     background-color: #FFFFFF;
     transition: border .3s;
@@ -275,7 +279,7 @@ input[type=text]:focus {
 .editor-text-list-item {
     display: flex;
     align-items: center;
-    border-bottom: #AAAAAA 1px solid;
+    border-bottom: var(--border-coler) 1px solid;
     padding: 0.25em 0;
     justify-content: space-between;
 }
@@ -395,13 +399,4 @@ input[type=text]:focus {
 
 .echo-live-client-state-block.state-sleep {
     background-color: var(--color-danger-dark);
-}
-
-.accessible-drotanopia_and_deuteranopia .echo-live-client-state-block.state-active {
-    background-color: var(--color-general-dark);
-}
-
-.accessible-drotanopia_and_deuteranopia .echo-live-client-state-block.state-sleep {
-    background-color: transparent;
-    border: 1px solid var(--color-general-dark);
 }

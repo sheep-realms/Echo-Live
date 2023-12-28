@@ -46,6 +46,10 @@ class EchoLive {
         }
     }
 
+    /**
+     * 发送消息
+     * @param {Object} data 消息格式
+     */
     send(data = {}) {
         if (this.hidden) return;
         if (this.antiFlood) {
@@ -60,6 +64,9 @@ class EchoLive {
         this.echo.sendList(JSON.parse(JSON.stringify(data.messages)));
     }
 
+    /**
+     * 下一条对话
+     */
     next() {
         if (this.hidden) return;
         this.echo.next();
@@ -83,6 +90,14 @@ class EchoLive {
 
     stop() {
         clearInterval(this.timer.messagesPolling);
+    }
+
+    /**
+     * 修改主题样式地址
+     * @param {String} url 样式文件地址
+     */
+    setThemeStyleUrl(url) {
+        $('#echo-live-theme').attr('href', url);
     }
 
     getUUID() {

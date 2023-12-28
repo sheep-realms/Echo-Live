@@ -24,7 +24,7 @@ echo.on('print', function(chr) {
         $(`.echo-output span[data-group="${gruopIndex}"]`).append(chr);
     }
 
-    if (config.echolive.print_audio_enable && chr != '' && printSe) {
+    if (config.echolive.print_audio_enable && chr != '' && chr != undefined && printSe) {
         mixer.play(config.echolive.print_audio_name, config.echolive.print_audio_volume, config.echolive.print_audio_rate);
         // 打印音效稳定器
         printSe = false;

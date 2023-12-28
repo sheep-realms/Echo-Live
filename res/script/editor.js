@@ -17,6 +17,9 @@ setCheckboxDefaultValue('#config-output-use-after', config.editor.ontput_after_e
 if (!config.editor.tabpage_config_enable) $('#tabpage-nav-config').addClass('hide');
 if (!config.editor.tabpage_output_enable) $('#tabpage-nav-output').addClass('hide');
 
+if (config.accessible.high_contrast)  $('body').addClass('accessible-high-contrast');
+if (config.accessible.drotanopia_and_deuteranopia) $('body').addClass('accessible-drotanopia-and-deuteranopia');
+
 let elb;
 
 if (config.echo.print_speed != 30) {
@@ -29,6 +32,11 @@ if (config.echolive.broadcast_enable) {
     $('#ptext-btn-submit').addClass('fh-ghost');
     $('#ptext-btn-send').removeClass('hide');
     $('#ptext-content').attr('title', '当焦点在此文本框中时，可用按下 Ctrl + Enter 快速发送');
+
+    if (config.editor.client_state_panel_enable) {
+        $('.echo-live-client-state').removeClass('hide');
+    }
+
     // 纯文本 - 内容 - 快捷键
     $('#ptext-content').keydown(function(e) {
         if (e.keyCode == 13 && e.ctrlKey) {
@@ -44,7 +52,10 @@ if (config.echolive.broadcast_enable) {
         }
     })
 
+    $('.echo-live-client-state-content').html(EditorClientState.statePanel([]));
+
     elb = new EchoLiveBroadcast(undefined, config.echolive.broadcast_channel);
+    elb.on('clientsChange', clientsChange);
     elb.on('message', getMessage);
     elb.on('noClient', noClient);
 
@@ -78,7 +89,15 @@ function afterZero(value) {
 let logMsgMark = 0;
 
 function editorLog(message = '', type = 'info') {
-    $('#editor-log').append(`<div class="log-item log-type-${type}"><span class="time">${getTime()}</span> <span class="type">[${type.toUpperCase()}]</span> <span class="message">${message}</span></div>`);
+    const typename = {
+        'dbug': '调试：',
+        'tips': '提示：',
+        'info': '信息：',
+        'warn': '警告：',
+        'erro': '错误：',
+        'done': '完成：',
+    };
+    $('#editor-log').append(`<div class="log-item log-type-${type}" ${type == 'dbug' ? 'aria-hidden="false"' : ''}><span class="time" aria-hidden="false">${getTime()}</span> <span class="type" aria-label="${typename[type]}">[${type.toUpperCase()}]</span> <span class="message">${message}</span></div>`);
     $('#editor-log').scrollTop($('#editor-log').height());
 
     if ((type == 'warn' || type == 'error') && $('#tabpage-nav-log').attr('aria-selected') == 'false') {
@@ -92,6 +111,10 @@ $('#tabpage-nav-log').click(function() {
     logMsgMark = 0;
     $('#log-message-mark').addClass('hide');
 });
+
+function clientsChange (e) {
+    $('.echo-live-client-state-content').html(EditorClientState.statePanel(e));
+}
 
 function getMessage(data) {
     switch (data.action) {

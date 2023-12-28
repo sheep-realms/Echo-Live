@@ -1,0 +1,53 @@
+/* 高对比度 */
+.accessible-high-contrast {
+    --color-main: rgb(44, 114, 154);
+    --color-main-dark: gb(26, 90, 127);
+
+    --color-general: rgb(44, 114, 154);
+    --color-safe: rgb(50, 141, 42);
+    --color-warn: rgb(148, 122, 35);
+    --color-danger: rgb(148, 56, 60);
+    --color-special: rgb(114, 56, 135);
+
+    --color-general-dark: rgb(26, 90, 127);
+    --color-safe-dark: rgb(34, 94, 27);
+    --color-warn-dark: rgb(112, 94, 33);
+    --color-danger-dark: rgb(128, 41, 46);
+    --color-special-dark: rgb(91, 37, 110);
+
+    --color-general-glass: rgba(45, 147, 206, 0.05);
+    --color-safe-glass: rgba(69, 204, 56, 0.05);
+    --color-warn-glass: rgba(230, 189, 53, 0.05);
+    --color-danger-glass: rgba(230, 82, 89, 0.05);
+    --color-special-glass: rgba(147, 61, 178, 0.05);
+
+    --text-primary: #000;
+    --text-regular: #222;
+    --text-secondary: #444;
+    --text-placeholder: #666;
+
+    --border-coler: #000;
+}
+
+.accessible-high-contrast .echo-live-client-state-block.state-sleep {
+    background-color: transparent;
+    border: 1px solid var(--color-danger-dark);
+}
+
+.accessible-high-contrast textarea,
+.accessible-high-contrast input[type=number],
+.accessible-high-contrast input[type=text],
+.accessible-high-contrast #editor-log {
+    border: 1px solid var(--text-primary);
+}
+
+
+/* 红绿色盲 */
+.accessible-drotanopia-and-deuteranopia .echo-live-client-state-block.state-active {
+    background-color: var(--color-general-dark);
+}
+
+.accessible-drotanopia-and-deuteranopia .echo-live-client-state-block.state-sleep {
+    background-color: transparent;
+    border: 1px solid var(--color-general-dark);
+}

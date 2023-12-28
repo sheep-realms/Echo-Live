@@ -110,3 +110,33 @@ class EditorForm {
         );
     }
 }
+
+// 客户端状态仪表构造器
+class EditorClientState {
+    constructor() {}
+
+    static block(type, title = '') {
+        return `<div class="echo-live-client-state-block state-${type}" title="${title}"></div>`
+    }
+
+    static clientBlock(client) {
+        if (client.hidden) {
+            return EditorClientState.block('sleep', '休眠');
+        } else {
+            return EditorClientState.block('active', '激活');
+        }
+    }
+
+    static clientList(clients) {
+        if (clients.length == 0) return EditorClientState.block('none');
+        let dom = '';
+        clients.forEach(e => {
+            dom += EditorClientState.clientBlock(e);
+        });
+        return dom;
+    }
+
+    static statePanel(clients) {
+        return `<div class="echo-live-client-state-panel">${EditorClientState.clientList(clients)}</div>`;
+    }
+}

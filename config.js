@@ -66,6 +66,20 @@ const config = {
         next_audio_volume: 0.5,
         // 音效播放速度，1 为原速
         next_audio_rate: 1,
+
+        
+        // == 未使用配置 ==
+        // * 以下配置是为未来的新功能开发占坑的，目前没有作用。
+        // * 二次开发请注意：如果这些配置内容不符合您的预期，请不要使用这些配置名，以防止冲突。
+        live_theme: 'vanilla',
+        next_effect_name: 'none',
+        next_effect_duration: 0,
+        print_effect_name: 'none',
+        print_effect_duration: 0,
+        print_start_effect_name: 'none',
+        print_start_effect_duration: 0,
+        print_end_effect_name: 'none',
+        print_end_effect_duration: 0,
     },
 
     // 编辑器相关配置
@@ -111,7 +125,14 @@ const config = {
         high_contrast: false,
         // 红绿色盲
         drotanopia_and_deuteranopia: false,
-    }
+    },
+
+    // == 未使用配置 ==
+    // * 以下配置是为未来的新功能开发占坑的，目前没有作用。
+    // * 二次开发请注意：如果这些配置内容不符合您的预期，请不要使用这些配置名，以防止冲突。
+    history: {},
+    selector: {},
+    character: {},
 };
 
 // ===== 这里是配置文件的末尾 =============================================================

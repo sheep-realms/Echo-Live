@@ -126,6 +126,8 @@ function getMessage(data) {
             if (data.target == undefined || data.target == elb.uuid) {
                 let helloMsg1 = data.data.hidden ? '已休眠，' : '';
                 editorLog(`Echo-Live 进入广播频道，${helloMsg1}UUID：${data.data.uuid}`);
+            } else if (data.target == '@__server') {
+                editorLog(`Echo-Live 已向服务器发送 HELLO 消息。`);
             }
             break;
 

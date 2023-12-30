@@ -26,12 +26,18 @@ const config = {
         // 广播频道，如果您不知道这是什么请不要动它
         broadcast_channel: 'sheep-realms:echolive',
         // 启用 WebSocket
+        // * 如果没人要求您这么做，请不要动它。
         // * 广播模式下启用 WebSocket 可连接至服务器以从第三方软件获取消息。
         // * 可从服务器接收的消息和广播消息一致，发送的消息须使用类似于 JSON.stringify 的方法序列化。
         // * 详见：https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/
         websocket_enable: false,
         // WebSocket 连接地址
         websocket_url: 'ws://127.0.0.1:3000',
+        // 启用实验性 API
+        // * 实验性 API 包含了一些危险操作，实现一些特殊功能可能是必要的，但如果使用不当可能会造成严重后果。
+        // * 请开发者注意，如果您提供的产品需要启用此实验性 API，请务必说明您不得不这么做的原因。
+        // * 请用户注意，如果您使用的第三方软件要求您启用实验性 API 而未说明理由，非常不推荐您照做。
+        experimental_api_enable: false,
 
 
         // == 消息轮询 ==

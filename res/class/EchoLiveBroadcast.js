@@ -201,6 +201,14 @@ class EchoLiveBroadcast {
         }
     }
 
+    experimentalAPICheck(apiName) {
+        if (!this.echolive.config.echolive.experimental_api_enable) {
+            // TODO: 在这里抛出异常
+        }
+
+        return this.echolive.config.echolive.experimental_api_enable;
+    }
+
     // 这是一个重复的方法，需要封装一下
     getUUID() {
         let timestamp = new Date().getTime();

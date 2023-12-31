@@ -339,8 +339,12 @@ input[type=text]:focus {
     color: var(--color-warn-dark);
 }
 
-#editor-log .log-type-error {
+#editor-log .log-type-erro {
     color: var(--color-danger-dark);
+}
+
+#editor-log .log-type-info i {
+    color: var(--text-placeholder);
 }
 
 #log-message-mark {

@@ -30,7 +30,7 @@ if (config.echo.print_speed != 30) {
 
 if (config.echolive.broadcast_enable) {
     $('#ptext-btn-submit').addClass('fh-ghost');
-    $('#ptext-btn-send').removeClass('hide');
+    $('#ptext-btn-send, #output-btn-send').removeClass('hide');
     $('#ptext-content').attr('title', '当焦点在此文本框中时，可用按下 Ctrl + Enter 快速发送');
 
     if (config.editor.client_state_panel_enable) {
@@ -100,7 +100,7 @@ function editorLog(message = '', type = 'info') {
     $('#editor-log').append(`<div class="log-item log-type-${type}" ${type == 'dbug' ? 'aria-hidden="false"' : ''}><span class="time" aria-hidden="false">${getTime()}</span> <span class="type" aria-label="${typename[type]}">[${type.toUpperCase()}]</span> <span class="message">${message}</span></div>`);
     $('#editor-log').scrollTop($('#editor-log').height());
 
-    if ((type == 'warn' || type == 'error') && $('#tabpage-nav-log').attr('aria-selected') == 'false') {
+    if ((type == 'warn' || type == 'erro') && $('#tabpage-nav-log').attr('aria-selected') == 'false') {
         logMsgMark++;
         $('#log-message-mark').text(logMsgMark);
         $('#log-message-mark').removeClass('hide');
@@ -126,6 +126,8 @@ function getMessage(data) {
             if (data.target == undefined || data.target == elb.uuid) {
                 let helloMsg1 = data.data.hidden ? '已休眠，' : '';
                 editorLog(`Echo-Live 进入广播频道，${helloMsg1}UUID：${data.data.uuid}`);
+            } else if (data.target == '@__server') {
+                editorLog(`Echo-Live 已向服务器发送 HELLO 消息。`);
             }
             break;
 
@@ -267,8 +269,34 @@ $('#ptext-btn-send').click(function() {
 
     elb.sendData(d);
 
-    editorLog('已发送消息。');
+    editorLog(`已发送纯文本消息：<${d?.username != '' ? d?.username : '<i>[未指定说话人]</i>'}> ${d.messages[0]?.message != '' ? d.messages[0]?.message : '<i>[空消息]</i>'}`);
 });
+
+// 输出页发送
+$('#output-btn-send').click(function() {
+    let before      = getOutputBefore(),
+        after       = getOutputAfter(),
+        centent     = $('#output-content').val(),
+        beforeCheck = centent.substring(0, before.length) == before,
+        afterCheck  = centent.substring(centent.length - after.length, centent.length) == after
+        newCentent  = '';
+    
+    if (centent.length == 0) return editorLog('未输入内容，未发送任何消息。', 'erro');
+    
+    if (beforeCheck && afterCheck) {
+        newCentent = centent.substring(before.length, centent.length - after.length);
+    } else {
+        newCentent = centent;
+    }
+
+    try {
+        elb.sendData(JSON.parse(newCentent));
+        editorLog('已发送自定义消息。');
+    } catch (error) {
+        editorLog('发送的消息格式存在错误。详见帮助文档：https://sheep-realms.github.io/Echo-Live-Doc/message/', 'erro');
+    }
+});
+    
 
 $('.checkbox').click(function() {
     let v = $(this).children('input').val();
@@ -410,6 +438,7 @@ function getDateNumber() {
 function checkNowDate() {
     let d = new Date();
     let dn = getDateNumber();
+    editorLog('欢迎使用 Echo-Live！如需查阅帮助文档，请见：https://sheep-realms.github.io/Echo-Live-Doc/', 'tips');
     let msg = {
         '0101': `${d.getFullYear()} 年来了！感谢您一直以来对 Echo-Live 的支持！`,
         '0721': 'Ciallo～(∠·ω< )⌒★',

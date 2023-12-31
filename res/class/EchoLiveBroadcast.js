@@ -3,6 +3,7 @@ class EchoLiveBroadcast {
         this.echolive = echolive;
         this.uuid = undefined;
         this.broadcast = new BroadcastChannel(channel);
+        this.websocket = undefined;
         this.isServer = true;
         this.clients = [];
         this.timer = {
@@ -23,6 +24,22 @@ class EchoLiveBroadcast {
                 that.close();
             };
 
+            if (this.echolive.config.echolive.websocket_enable) {
+                this.websocket = new WebSocket(this.echolive.config.echolive.websocket_url);
+
+                this.websocket.addEventListener('open', (e) => {
+                    this.sendHello('@__server');
+                });
+
+                this.websocket.addEventListener('message', (e) => {
+                    this.getData(JSON.parse(e.data));
+                });
+
+                this.websocket.addEventListener('close', (e) => {
+                    this.websocket = undefined;
+                });
+            }
+
             this.sendHello();
         }
 
@@ -42,11 +59,21 @@ class EchoLiveBroadcast {
     }
 
     sendData(data = {}, type = 'message_data', target = undefined) {
-        return this.broadcast.postMessage({
+        let d = {
             action: type,
             target: target,
             data: data
-        });
+        };
+
+        this.broadcast.postMessage(d);
+        if (this.websocket != undefined) {
+            try {
+                this.websocket.send(JSON.stringify(d));
+            } catch (error) {
+                
+            }
+        }
+        return d;
     }
 
     sendHello(target = undefined) {
@@ -133,9 +160,11 @@ class EchoLiveBroadcast {
         return r;
     }
 
-    getData(data) {
+    getData(data, from = undefined) {
+        if (typeof data != 'object') return;
         this.event.message(data);
         // console.log(data);
+
         if (data.target != undefined && data.target != this.uuid) return;
 
         switch (data.action) {
@@ -170,6 +199,14 @@ class EchoLiveBroadcast {
             default:
                 break;
         }
+    }
+
+    experimentalAPICheck(apiName) {
+        if (!this.echolive.config.echolive.experimental_api_enable) {
+            // TODO: 在这里抛出异常
+        }
+
+        return this.echolive.config.echolive.experimental_api_enable;
     }
 
     // 这是一个重复的方法，需要封装一下

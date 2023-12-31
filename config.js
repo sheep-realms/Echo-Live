@@ -25,6 +25,19 @@ const config = {
         broadcast_enable: true,
         // 广播频道，如果您不知道这是什么请不要动它
         broadcast_channel: 'sheep-realms:echolive',
+        // 启用 WebSocket
+        // * 如果没人要求您这么做，请不要动它。
+        // * 广播模式下启用 WebSocket 可连接至服务器以从第三方软件获取消息。
+        // * 可从服务器接收的消息和广播消息一致，发送的消息须使用类似于 JSON.stringify 的方法序列化。
+        // * 详见：https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/
+        websocket_enable: false,
+        // WebSocket 连接地址
+        websocket_url: 'ws://127.0.0.1:3000',
+        // 启用实验性 API
+        // * 实验性 API 包含了一些危险操作，实现一些特殊功能可能是必要的，但如果使用不当可能会造成严重后果。
+        // * 请开发者注意，如果您提供的产品需要启用此实验性 API，请务必说明您不得不这么做的原因。
+        // * 请用户注意，如果您使用的第三方软件要求您启用实验性 API 而未说明理由，非常不推荐您照做。
+        experimental_api_enable: false,
 
 
         // == 消息轮询 ==
@@ -66,6 +79,20 @@ const config = {
         next_audio_volume: 0.5,
         // 音效播放速度，1 为原速
         next_audio_rate: 1,
+
+        
+        // == 未使用配置 ==
+        // * 以下配置是为未来的新功能开发占坑的，目前没有作用。
+        // * 二次开发请注意：如果这些配置内容不符合您的预期，请不要使用这些配置名，以防止冲突。
+        live_theme: 'vanilla',
+        next_effect_name: 'none',
+        next_effect_duration: 0,
+        print_effect_name: 'none',
+        print_effect_duration: 0,
+        print_start_effect_name: 'none',
+        print_start_effect_duration: 0,
+        print_end_effect_name: 'none',
+        print_end_effect_duration: 0,
     },
 
     // 编辑器相关配置
@@ -111,7 +138,14 @@ const config = {
         high_contrast: false,
         // 红绿色盲
         drotanopia_and_deuteranopia: false,
-    }
+    },
+
+    // == 未使用配置 ==
+    // * 以下配置是为未来的新功能开发占坑的，目前没有作用。
+    // * 二次开发请注意：如果这些配置内容不符合您的预期，请不要使用这些配置名，以防止冲突。
+    history: {},
+    selector: {},
+    character: {},
 };
 
 // ===== 这里是配置文件的末尾 =============================================================

@@ -438,6 +438,7 @@ function getDateNumber() {
 function checkNowDate() {
     let d = new Date();
     let dn = getDateNumber();
+    editorLog('欢迎使用 Echo-Live！如需查阅帮助文档，请见：https://sheep-realms.github.io/Echo-Live-Doc/', 'tips');
     let msg = {
         '0101': `${d.getFullYear()} 年来了！感谢您一直以来对 Echo-Live 的支持！`,
         '0721': 'Ciallo～(∠·ω< )⌒★',

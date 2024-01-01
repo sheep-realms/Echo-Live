@@ -5,6 +5,12 @@
 
 下文为帮助文档摘要，如需阅读完整帮助文档请见 [Echo-Live 在线帮助文档](https://sheep-realms.github.io/Echo-Live-Doc/)（另有 [CloudFlare 镜像](https://echo-live-doc.pages.dev/)）。
 
+## 快速参考
+[使用指南](https://sheep-realms.github.io/Echo-Live-Doc/main/how-to-use/) · 
+[消息格式](https://sheep-realms.github.io/Echo-Live-Doc/message/) · 
+[配置文件](https://sheep-realms.github.io/Echo-Live-Doc/custom/config/) · 
+[API 文档](https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/)
+
 ## 使用方法
 ### 方法一：通过 OBS 内置浏览器广播传递消息（推荐）
 1. 打开 OBS，将 `live.html` 作为浏览器源 **（不要勾选 “本地文件”）** 添加到您的场景中。如果您不知道如何正确填写地址，请直接使用浏览器打开 `live.html`，然后复制地址栏里的地址。

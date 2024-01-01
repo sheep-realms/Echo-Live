@@ -52,6 +52,21 @@ if (config.echolive.broadcast_enable) {
         }
     })
 
+    // 纯文本 - 内容 - 快捷键
+    $('#output-content').keydown(function(e) {
+        if (e.keyCode == 13 && e.ctrlKey) {
+            $('.fh-effect-click').removeClass('fh-effect-click');
+            clearTimeout(timer.clickEffect)
+
+            $('#output-btn-send').click();
+
+            $('#output-btn-send').addClass('fh-effect-click');
+            timer.clickEffect = setTimeout(function () {
+                $('#output-btn-send').removeClass('fh-effect-click');
+            }, 1000);
+        }
+    })
+
     $('.echo-live-client-state-content').html(EditorClientState.statePanel([]));
 
     elb = new EchoLiveBroadcast(undefined, config.echolive.broadcast_channel);
@@ -269,7 +284,7 @@ $('#ptext-btn-send').click(function() {
 
     elb.sendData(d);
 
-    editorLog(`已发送纯文本消息：<${d?.username != '' ? d?.username : '<i>[未指定说话人]</i>'}> ${d.messages[0]?.message != '' ? d.messages[0]?.message : '<i>[空消息]</i>'}`);
+    editorLog('已发送纯文本消息：' + EchoLiveTools.getMessageSendLog(d.messages[0].message, d.username));
 });
 
 // 输出页发送
@@ -290,8 +305,14 @@ $('#output-btn-send').click(function() {
     }
 
     try {
-        elb.sendData(JSON.parse(newCentent));
-        editorLog('已发送自定义消息。');
+        const msg = JSON.parse(newCentent);
+        elb.sendData(msg);
+
+        if (msg.messages.length > 1) {
+            editorLog(`已发送 ${msg.messages.length} 条自定义消息，首条消息为：${EchoLiveTools.getMessageSendLog(msg.messages[0].message, msg.username)}`);
+        } else {
+            editorLog('已发送自定义消息：' + EchoLiveTools.getMessageSendLog(msg.messages[0].message, msg.username));
+        }
     } catch (error) {
         editorLog('发送的消息格式存在错误。详见帮助文档：https://sheep-realms.github.io/Echo-Live-Doc/message/', 'erro');
     }

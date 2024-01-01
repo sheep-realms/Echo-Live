@@ -160,7 +160,20 @@ class EchoLiveBroadcast {
         return r;
     }
 
-    getData(data, from = undefined) {
+    sendThemeStyleUrl(url) {
+        if (!this.isServer) return;
+        return this.sendData({
+            url: url
+        }, 'set_theme_style_url');
+    }
+
+    setThemeStyleUrl(url) {
+        if (this.isServer) return;
+        if (!this.experimentalAPICheck('set_theme_style_url')) return;
+        return this.echolive.setThemeStyleUrl(url);
+    }
+
+    getData(data) {
         if (typeof data != 'object') return;
         this.event.message(data);
         // console.log(data);
@@ -194,6 +207,10 @@ class EchoLiveBroadcast {
 
             case 'page_visible':
                 this.setClientHidden(data.data.uuid, false);
+                break;
+
+            case 'set_theme_style_url':
+                this.setThemeStyleUrl(data.data.url);
                 break;
         
             default:

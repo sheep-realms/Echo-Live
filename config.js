@@ -129,6 +129,10 @@ const config = {
         output_after: ');',
         // 启用上述功能，0 为禁用，1 为启用
         ontput_after_enable: 1,
+
+
+        // 历史消息再次发送时使历史记录回到顶部
+        history_resend_bubble: false
     },
 
     // 无障碍相关配置

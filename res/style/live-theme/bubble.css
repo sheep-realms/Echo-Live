@@ -167,6 +167,7 @@
     padding: 0.5em;
     box-sizing: border-box;
     color: var(--echo-live-content-color, #000);
+    word-break: break-word;
 }
 
 #echo-live .name {

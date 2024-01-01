@@ -621,6 +621,50 @@ p .fh-loading {
     --effect-color: var(--color-special-glass);
 }
 
+.fh-icon-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35em;
+}
+
+.fh-icon-button>svg {
+    --icon-fill-color: #FFF;
+    fill: var(--icon-fill-color);
+    width: 20px;
+    height: 20px;
+}
+
+.fh-icon-button.fh-ghost>svg,
+.fh-icon-button.fh-dashed>svg,
+.fh-icon-button.fh-air>svg {
+    --icon-fill-color: var(--color-general-dark);
+}
+
+.fh-icon-button.fh-safe.fh-ghost>svg,
+.fh-icon-button.fh-safe.fh-dashed>svg,
+.fh-icon-button.fh-safe.fh-air>svg {
+    --icon-fill-color: var(--color-safe-dark);
+}
+
+.fh-icon-button.fh-warn.fh-ghost>svg,
+.fh-icon-button.fh-warn.fh-dashed>svg,
+.fh-icon-button.fh-warn.fh-air>svg {
+    --icon-fill-color: var(--color-warn-dark);
+}
+
+.fh-icon-button.fh-danger.fh-ghost>svg,
+.fh-icon-button.fh-danger.fh-dashed>svg,
+.fh-icon-button.fh-danger.fh-air>svg {
+    --icon-fill-color: var(--color-danger-dark);
+}
+
+.fh-icon-button.fh-special.fh-ghost>svg,
+.fh-icon-button.fh-special.fh-dashed>svg,
+.fh-icon-button.fh-special.fh-air>svg {
+    --icon-fill-color: var(--color-special-dark);
+}
+
 @keyframes fh-effect-click {
     0% { box-shadow: 0 0 0 0 var(--effect-color); filter: brightness(1.3); }
     100% { box-shadow: 0 0 0 16px transparent; filter: brightness(1); }

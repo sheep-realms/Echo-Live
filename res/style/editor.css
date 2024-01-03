@@ -13,9 +13,7 @@
     --border-coler: #AAAAAA;
 }
 
-body {
-    overflow-y: scroll;
-}
+/* 去除本身body的overflow-y: scroll */
 
 main {
     width: min(1000px, calc(100vw - 32px));
@@ -76,6 +74,18 @@ textarea.code {
     font-size: 0;
 }
 
+/* 将editor-log的大小应用到tabpage-panel上，并设置overflow-y: scroll */
+.tabpage-panel {
+    overflow-y: scroll;
+    width: 100%;
+    height: calc(100vh - 80px);
+}
+
+/* 单独将log页的背景设为白色 */
+.tabpage-panel[data-pageid=log] {
+    background-color: #FFF;
+}
+
 .echo-editor-from label,
 .echo-editor-from textarea {
     display: block;
@@ -105,7 +115,8 @@ textarea.code {
 }
 
 .editor-controller-bottom {
-    padding: 16px 0;
+    /* 由于应用后文本tab下的按钮在tabpage底下的内边距导致按钮上移，所以去除下方内边距 */
+    padding: 16px 0 0;
     margin-top: -1px;
     border-top: var(--border-coler) 1px solid;
     position: sticky;
@@ -310,13 +321,11 @@ input[type=text]:focus {
     justify-content: space-between;
 }
 
-
+/* 将长宽都设为100%，并取消背景颜色 */
 #editor-log {
-    background-color: #FFF;
     box-sizing: border-box;
     width: 100%;
-    height: calc(100vh - 80px);
-    overflow-y: scroll;
+    height: 100%;
     font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', serif;
     padding: 8px;
 }

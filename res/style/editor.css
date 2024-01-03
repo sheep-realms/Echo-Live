@@ -38,6 +38,11 @@ textarea.code {
     top: 0;
 }
 
+.tabpage-centent .tabpage-nav {
+    position: unset;
+    top: unset;
+}
+
 .tabpage-nav-item {
     flex: 1 0 80px;
     border: unset;

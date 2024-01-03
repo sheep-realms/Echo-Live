@@ -190,6 +190,7 @@ $('.tabpage-nav .tabpage-nav-item').click(function() {
     const navid = $(this).parent().data('navid');
     const pageid = $(this).data('pageid');
     // console.log($(`.tabpage-centent[data-navid="${navid}"] .tabpage-panel`));
+    // document.startViewTransition(() => {});
     $(`.tabpage-centent[data-navid="${navid}"]>.tabpage-panel`).addClass('hide');
     $(`.tabpage-centent[data-navid="${navid}"]>.tabpage-panel[data-pageid="${pageid}"]`).removeClass('hide');
 });

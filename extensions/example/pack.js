@@ -2,7 +2,7 @@ extensionManager.load({
     // 扩展元数据
     meta: {
         // 命名空间，与文件夹名称一致
-        namespace: 'sample'
+        namespace: 'example'
     },
     // 扩展所添加的额外内容
     addon: {

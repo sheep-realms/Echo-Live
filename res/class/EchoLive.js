@@ -7,6 +7,7 @@ class EchoLive {
         this.uuid = EchoLiveTools.getUUID();
         this.hidden = false;
         this.antiFlood = false;
+        this.theme = [];
         this.timer = {
             messagesPolling: -1
         };
@@ -97,6 +98,39 @@ class EchoLive {
      * @param {String} url 样式文件地址
      */
     setThemeStyleUrl(url) {
+        if ($('#echo-live-theme').attr('href') == url) return url;
         $('#echo-live-theme').attr('href', url);
+        return url;
+    }
+
+    /**
+     * 查找主题
+     * @param {String} name 主题ID
+     * @returns {Object} 主题数据
+     */
+    findTheme(name) {
+        return this.theme.find((e) => {
+            return e.name == name;
+        })
+    }
+
+    /**
+     * 设置主题
+     * @param {String} name 主题ID
+     * @returns {String} 主题入口样式文件URL
+     */
+    setTheme(name) {
+        const theme = this.findTheme(name);
+        if (theme == undefined) return;
+        this.setThemeStyleUrl(theme.style);
+
+        if (this.config.echolive.live_theme_script_enable && typeof theme.script == 'object')
+        theme.script.forEach(e => {
+            let s = document.createElement("script");
+            s.src = e;
+            document.head.appendChild(s);
+        });
+
+        return theme.style;
     }
 }

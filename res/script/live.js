@@ -1,5 +1,7 @@
 let echo = new Echo();
 let echolive = new EchoLive(echo, config);
+echolive.theme = extensionManager.theme;
+echolive.setTheme(config.echolive.live_theme);
 
 let data;
 

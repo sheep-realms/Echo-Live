@@ -167,10 +167,22 @@ class EchoLiveBroadcast {
         }, 'set_theme_style_url');
     }
 
+    sendTheme(name) {
+        if (!this.isServer) return;
+        return this.sendData({
+            name: name
+        }, 'set_theme');
+    }
+
     setThemeStyleUrl(url) {
         if (this.isServer) return;
         if (!this.experimentalAPICheck('set_theme_style_url')) return;
         return this.echolive.setThemeStyleUrl(url);
+    }
+
+    setTheme(name) {
+        if (this.isServer) return;
+        return this.echolive.setTheme(name);
     }
 
     getData(data) {
@@ -211,6 +223,10 @@ class EchoLiveBroadcast {
 
             case 'set_theme_style_url':
                 this.setThemeStyleUrl(data.data.url);
+                break;
+
+            case 'set_theme':
+                this.setTheme(data.data.name);
                 break;
         
             default:

@@ -171,6 +171,14 @@ function getMessage(data) {
         case 'page_visible':
             editorLog('Echo-Live 已唤醒，UUID：' + data.data.uuid);
             break;
+
+        case 'set_theme_style_url':
+            editorLog('收到来自其他服务端的指令：设置主题样式文件 URL 为 ' + data.data.url);
+            break;
+
+        case 'set_theme':
+            editorLog('收到来自其他服务端的指令：设置主题为 ' + data.data.name);
+            break;
     
         default:
             break;

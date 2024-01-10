@@ -2,6 +2,15 @@
  * 这里是 Echo Live 的样式文件
  */
 
+/* 导入：基本样式 */
+@import url("../live-common/base.css");
+
+/* 导入：引用符号缩进 */
+@import url("../live-common/char-indent.css");
+
+/* 导入：事件动效 */
+@import url("../live-common/event-effect.css");
+
 * {
     margin: 0;
     padding: 0;
@@ -70,21 +79,6 @@
     /* 使对话框文本不可选中 */
     user-select: none;
 }
-
-/* 当首个字符为以下符号时需要反向缩进1个字符 */
-.echo-output[data-before='「'],
-.echo-output[data-before='『'],
-.echo-output[data-before='“'],
-.echo-output[data-before='‘']
-{text-indent: -1em;}
-
-/* 当首个字符为以下符号时需要反向缩进0.5个字符 */
-.echo-output[data-before='"'] {text-indent: -0.5em;}
-
-/* 当首个字符为以下符号时需要反向缩进0.3个字符 */
-.echo-output[data-before="'"] {text-indent: -0.3em;}
-
-
 
 
 #echo-live {

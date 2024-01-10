@@ -2,6 +2,15 @@
  * 这里是 Echo Live 的样式文件
  */
 
+/* 导入：基本样式 */
+@import url("../live-common/base.css");
+
+/* 导入：引用符号缩进 */
+@import url("../live-common/char-indent.css");
+
+/* 导入：事件动效 */
+@import url("../live-common/event-effect.css");
+
 * {
     margin: 0;
     padding: 0;
@@ -44,21 +53,6 @@
     /* 使对话框文本不可选中 */
     user-select: none;
 }
-
-/* 当首个字符为以下符号时需要反向缩进1个字符 */
-.echo-output[data-before='「'],
-.echo-output[data-before='『'],
-.echo-output[data-before='“'],
-.echo-output[data-before='‘']
-{text-indent: -1em;}
-
-/* 当首个字符为以下符号时需要反向缩进0.5个字符 */
-.echo-output[data-before='"'] {text-indent: -0.5em;}
-
-/* 当首个字符为以下符号时需要反向缩进0.3个字符 */
-.echo-output[data-before="'"] {text-indent: -0.3em;}
-
-
 
 
 #echo-live {
@@ -111,7 +105,6 @@
     padding: 0.5em;
     box-sizing: border-box;
     color: var(--echo-live-content-color, #000);
-    word-break: break-word;
 }
 
 #echo-live .name {
@@ -131,25 +124,4 @@
     display: inline-block;
     margin-right: 1em;
     color: var(--echo-live-bottom-color, #888);
-}
-
-
-
-/* 对话框事件动效 */
-#echo-live.event-shout {
-    animation: echo-live-event-shout .5s 1;
-}
-
-@keyframes echo-live-event-shout {
-    0% {position: relative; top: 12px; left: 12px}
-    10% {top: -8px; left: -8px}
-    20% {top: 8px; left: 6px}
-    30% {top: -6px; left: -4px}
-    40% {top: 3px; left: 4px}
-    50% {top: -4px; left: 1px}
-    60% {top: 3px; left: 2px}
-    70% {top: 0px; left: -3px}
-    80% {top: -2px; left: 1px}
-    90% {top: -1px; left: -1px}
-    100% {position: relative; top: 0px; left: 0px}
 }

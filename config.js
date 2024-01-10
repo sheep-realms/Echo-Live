@@ -18,6 +18,17 @@ const config = {
 
     // Echo-Live 相关配置
     echolive: {
+        // == 主题样式 ==
+
+        // 主题名称
+        // * 可用的主题请见：https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/
+        live_theme: 'vanilla',
+        // 启用主题脚本
+        // * 一些高级效果可能需要启用主题脚本才能正常使用。目前所有预制主题均不包含脚本。
+        // * 脚本中可以执行任意代码，请谨慎安装需要您启用脚本的第三方主题。
+        live_theme_script_enable: false,
+
+
         // == 广播 ==
         // * 推荐方案，基于网页之间的通信技术传递消息。
 
@@ -84,7 +95,6 @@ const config = {
         // == 未使用配置 ==
         // * 以下配置是为未来的新功能开发占坑的，目前没有作用。
         // * 二次开发请注意：如果这些配置内容不符合您的预期，请不要使用这些配置名，以防止冲突。
-        live_theme: 'vanilla',
         next_effect_name: 'none',
         next_effect_duration: 0,
         print_effect_name: 'none',

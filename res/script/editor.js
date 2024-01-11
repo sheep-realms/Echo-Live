@@ -37,7 +37,7 @@ if (config.echo.print_speed != 30) {
 if (config.echolive.broadcast_enable) {
     $('#ptext-btn-submit').addClass('fh-ghost');
     $('#ptext-btn-send, #output-btn-send').removeClass('hide');
-    $('#ptext-content, #output-content').attr('title', '当焦点在此文本框中时，可用按下 Ctrl + Enter 快速发送');
+    $('#ptext-content, #output-content').attr('title', '当焦点在此文本框中时，可以按下 Ctrl + Enter 快速发送');
 
     if (config.editor.client_state_panel_enable) {
         $('.echo-live-client-state').removeClass('hide');

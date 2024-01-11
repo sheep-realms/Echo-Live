@@ -51,6 +51,11 @@ class EchoLive {
         }
     }
 
+    on(eventName, action = function() {}) {
+        if (typeof action != 'function') return;
+        return this.event[eventName] = action;
+    }
+
     /**
      * 发送消息
      * @param {Object} data 消息格式

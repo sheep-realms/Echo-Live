@@ -61,35 +61,7 @@ Echo-Live 支持扩展，可用于增加额外资源。
 2. 在 `extensions.js` 中插入该扩展的文件夹名称。
 
 ### 开发
-首先，您需要为您的扩展创建一个文件夹，推荐使用英文字符命名。在该文件夹中创建文件 `pack.js`，使用 `extensionManager.load()` 方法加载扩展资源。
-
-该方法需要传入 Object 数据，示例如下：
-``` javascript
-extensionManager.load({
-    meta: {
-        namespace: 'sample'
-    },
-    addon: {
-        audio: [
-            {
-                name: 'sonar',
-                path: 'audio/sonar.ogg'
-            }
-        ]
-    }
-});
-```
-
-| 键名 | 类型 | 描述 |
-| - | - | - |
-| `meta` | Object | 扩展元数据。 |
-| `meta.namespace` | String | 命名空间，与文件夹名称一致。 |
-| `addon` | Object | 扩展所添加的额外内容。 |
-| `addon.audio` | Array | 音效列表。 |
-| `addon.audio[].name` | String | 音效名称。 |
-| `addon.audio[].path` | String | 音效路径，以 `pack.js` 所在文件夹为起点。 |
-
-使用扩展添加新音效后，需要以 `命名空间:音效名称` 的格式调用音效。
+见[开发文档](https://sheep-realms.github.io/Echo-Live-Doc/custom/extension/)。
 
 ## 杂谈
 这是我目前能想到的最优解决方案，更便捷的操作流程需要部署服务器，无论是本地服务器还是云服务器都是对用户智商和钱包的考验。如果您有更优秀的解决方案，欢迎提出。

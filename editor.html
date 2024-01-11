@@ -10,21 +10,23 @@
     <link rel="stylesheet" href="res/style/editor-accessible.css">
     <script src="lib/jquery-1.7.2.min.js"></script>
     <script src="config.js"></script>
+    <script src="res/class/Icon.js"></script>
+    <script src="res/class/EchoLiveTools.js"></script>
     <script src="res/class/EchoLiveBroadcast.js"></script>
     <script src="res/class/EditorConstructor.js"></script>
 </head>
 <body>
     <main>
         <!-- 标签页标题 -->
-        <nav id="echo-editor-nav" class="tabpage-nav">
+        <nav id="echo-editor-nav" class="tabpage-nav" data-navid="main">
             <button
                 class="tabpage-nav-item"
                 data-pageid="ptext"
                 role="tab"
                 aria-selected="true"
                 accesskey="1"
-                title="不包含任何样式的文本 [alt+1]"
-            >纯文本</button>
+                title="文本编辑器 [alt+1]"
+            >编辑器</button>
             <button
                 class="tabpage-nav-item"
                 data-pageid="rtext"
@@ -75,7 +77,7 @@
             </button>
         </nav>
         <!-- 标签页面板 -->
-        <div class="tabpage-centent">
+        <div class="tabpage-centent" data-navid="main">
             <!-- 纯文本标签页 -->
             <section class="tabpage-panel" role="tabpanel" data-pageid="ptext">
                 <h2 class="tabpage-panel-title">纯文本</h2>
@@ -92,6 +94,20 @@
 
                     <label for="content">内容</label>
                     <textarea name="content" id="ptext-content" aria-label="纯文本内容编辑框"></textarea>
+
+                    <div class="collapse">
+                        <div class="collapse-title">
+                            <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
+                                <span class="icon"></span>
+                                <span class="text">使用快速格式化代码</span>
+                                <input type="hidden" name="ptext-chk-use-formatting-code" id="ptext-chk-use-formatting-code" value="0">
+                            </button>
+                        </div>
+                        <div class="collapse-content hide" style="padding: 0.5em; font-size: 14px; color: var(--text-secondary);">
+                            <p>@b - 粗体，@i - 斜体，@u - 下划线，@s - 删除线，@r - 清除格式</p>
+                            <p>示例：这里没有格式。@b这里有粗体。@i这里有粗体和斜体。@r这里没有格式。</p>
+                        </div>
+                    </div>
 
                     <div class="collapse">
                         <div class="collapse-title">
@@ -321,14 +337,50 @@
             <!-- 输出标签页 -->
             <section class="tabpage-panel hide" role="tabpanel" data-pageid="output">
                 <h2 class="tabpage-panel-title">输出</h2>
-                <div class="echo-editor-from">
-                    <label for="content">输出内容</label>
-                    <textarea name="content" id="output-content" class="code" aria-label="输出内容编辑框"></textarea>
-                    <div class="editor-controller-bottom fh-flex-row">
-                        <button id="output-btn-clear" class="fh-button fh-big fh-danger">清空</button>
-                        <button id="output-btn-send" class="fh-button fh-big hide">发送</button>
-                    </div>
+                <!-- 嵌套 -->
+                <nav id="echo-editor-nav" class="tabpage-nav" data-navid="output">
+                    <button
+                        id="tabpage-nav-output-content"
+                        class="tabpage-nav-item"
+                        data-pageid="content"
+                        role="tab"
+                        aria-selected="true"
+                        title=""
+                    >输出内容</button>
+                    <button
+                        class="tabpage-nav-item"
+                        data-pageid="history"
+                        role="tab"
+                        aria-selected="false"
+                        title=""
+                    >历史记录</button>
+                </nav>
+                <div class="tabpage-centent" data-navid="output">
+                    <!-- 输出内容标签页 -->
+                    <section class="tabpage-panel" role="tabpanel" data-pageid="content">
+                        <h3 class="tabpage-panel-title">输出内容</h3>
+                        <div class="echo-editor-from">
+                            <label for="content">输出内容</label>
+                            <textarea name="content" id="output-content" class="code" aria-label="输出内容编辑框"></textarea>
+                            <div class="editor-controller-bottom fh-flex-row">
+                                <button id="output-btn-clear" class="fh-button fh-big fh-danger">清空</button>
+                                <button id="output-btn-send" class="fh-button fh-big hide">发送</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 历史记录标签页 -->
+                    <section class="tabpage-panel hide" role="tabpanel" data-pageid="history">
+                        <h3 class="tabpage-panel-title">历史记录</h3>
+                        <div id="history-message-list">
+
+                        </div>
+                        <div id="history-editor-controller" class="editor-controller-bottom fh-flex-row">
+                            <button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">清空历史记录</button>
+                        </div>
+                    </section>
                 </div>
+                
             </section>
 
             <!-- 广播标签页 -->

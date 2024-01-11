@@ -1,5 +1,8 @@
 // 警告：这是一坨屎山
 
+// 为了防止再出现逆天的建立在bug上运行的程序加入了严格模式
+"use strict";
+
 let textList = [
     {text: ''}
 ];
@@ -7,6 +10,9 @@ let textList = [
 let timer = {
     clickEffect: -1
 }
+
+let history = [];
+let historyClearConfirm = false;
 
 setDefaultValue('#config-output-before', config.editor.output_before);
 setDefaultValue('#config-output-after', config.editor.output_after);
@@ -31,7 +37,7 @@ if (config.echo.print_speed != 30) {
 if (config.echolive.broadcast_enable) {
     $('#ptext-btn-submit').addClass('fh-ghost');
     $('#ptext-btn-send, #output-btn-send').removeClass('hide');
-    $('#ptext-content').attr('title', '当焦点在此文本框中时，可用按下 Ctrl + Enter 快速发送');
+    $('#ptext-content, #output-content').attr('title', '当焦点在此文本框中时，可用按下 Ctrl + Enter 快速发送');
 
     if (config.editor.client_state_panel_enable) {
         $('.echo-live-client-state').removeClass('hide');
@@ -48,6 +54,21 @@ if (config.echolive.broadcast_enable) {
             $('#ptext-btn-send').addClass('fh-effect-click');
             timer.clickEffect = setTimeout(function () {
                 $('#ptext-btn-send').removeClass('fh-effect-click');
+            }, 1000);
+        }
+    })
+
+    // 纯文本 - 内容 - 快捷键
+    $('#output-content').keydown(function(e) {
+        if (e.keyCode == 13 && e.ctrlKey) {
+            $('.fh-effect-click').removeClass('fh-effect-click');
+            clearTimeout(timer.clickEffect)
+
+            $('#output-btn-send').click();
+
+            $('#output-btn-send').addClass('fh-effect-click');
+            timer.clickEffect = setTimeout(function () {
+                $('#output-btn-send').removeClass('fh-effect-click');
             }, 1000);
         }
     })
@@ -112,7 +133,7 @@ $('#tabpage-nav-log').click(function() {
     $('#log-message-mark').addClass('hide');
 });
 
-function clientsChange (e) {
+function clientsChange(e) {
     $('.echo-live-client-state-content').html(EditorClientState.statePanel(e));
 }
 
@@ -150,6 +171,14 @@ function getMessage(data) {
         case 'page_visible':
             editorLog('Echo-Live 已唤醒，UUID：' + data.data.uuid);
             break;
+
+        case 'set_theme_style_url':
+            editorLog('收到来自其他服务端的指令：设置主题样式文件 URL 为 ' + data.data.url);
+            break;
+
+        case 'set_theme':
+            editorLog('收到来自其他服务端的指令：设置主题为 ' + data.data.name);
+            break;
     
         default:
             break;
@@ -166,9 +195,12 @@ function noClient() {
 $('.tabpage-nav .tabpage-nav-item').click(function() {
     $(this).parent().children().attr('aria-selected', 'false');
     $(this).attr('aria-selected', 'true');
+    const navid = $(this).parent().data('navid');
     const pageid = $(this).data('pageid');
-    $('.tabpage-panel').addClass('hide');
-    $(`.tabpage-panel[data-pageid="${pageid}"]`).removeClass('hide');
+    // console.log($(`.tabpage-centent[data-navid="${navid}"] .tabpage-panel`));
+    // document.startViewTransition(() => {});
+    $(`.tabpage-centent[data-navid="${navid}"]>.tabpage-panel`).addClass('hide');
+    $(`.tabpage-centent[data-navid="${navid}"]>.tabpage-panel[data-pageid="${pageid}"]`).removeClass('hide');
 });
 
 // 纯文本重置
@@ -234,6 +266,10 @@ function ptextSubmit() {
         txt = $('#ptext-ipt-quote-before').val() + txt + $('#ptext-ipt-quote-after').val();
     }
 
+    if ($('#ptext-chk-use-formatting-code').val() == 1) {
+        txt = EchoLiveTools.formattingCodeToMessage(txt);
+    }
+
     let d = {
         username: username,
         messages: [
@@ -258,7 +294,7 @@ $('#ptext-btn-submit').click(function() {
     let d = ptextSubmit();
 
     $('#output-content').val(getOutputBefore() + formatJson(d) + getOutputAfter());
-    $('#tabpage-nav-output').click();
+    $('#tabpage-nav-output, #tabpage-nav-output-content').click();
     $('#output-content').focus();
     $('#output-content').select();
 });
@@ -268,8 +304,9 @@ $('#ptext-btn-send').click(function() {
     let d = ptextSubmit();
 
     elb.sendData(d);
+    sendHistoryMessage(d);
 
-    editorLog(`已发送纯文本消息：<${d?.username != '' ? d?.username : '<i>[未指定说话人]</i>'}> ${d.messages[0]?.message != '' ? d.messages[0]?.message : '<i>[空消息]</i>'}`);
+    editorLog('已发送纯文本消息：' + EchoLiveTools.getMessageSendLog(d.messages[0].message, d.username));
 });
 
 // 输出页发送
@@ -278,7 +315,7 @@ $('#output-btn-send').click(function() {
         after       = getOutputAfter(),
         centent     = $('#output-content').val(),
         beforeCheck = centent.substring(0, before.length) == before,
-        afterCheck  = centent.substring(centent.length - after.length, centent.length) == after
+        afterCheck  = centent.substring(centent.length - after.length, centent.length) == after,
         newCentent  = '';
     
     if (centent.length == 0) return editorLog('未输入内容，未发送任何消息。', 'erro');
@@ -289,14 +326,24 @@ $('#output-btn-send').click(function() {
         newCentent = centent;
     }
 
+    let msg;
+
     try {
-        elb.sendData(JSON.parse(newCentent));
-        editorLog('已发送自定义消息。');
+        msg = JSON.parse(newCentent);
+        elb.sendData(msg);
     } catch (error) {
         editorLog('发送的消息格式存在错误。详见帮助文档：https://sheep-realms.github.io/Echo-Live-Doc/message/', 'erro');
+        return;
     }
+
+    if (msg.messages.length > 1) {
+        editorLog(`已发送 ${msg.messages.length} 条自定义消息，首条消息为：${EchoLiveTools.getMessageSendLog(msg.messages[0].message, msg.username)}`);
+    } else {
+        editorLog('已发送自定义消息：' + EchoLiveTools.getMessageSendLog(msg.messages[0].message, msg.username));
+    }
+
+    sendHistoryMessage(msg);
 });
-    
 
 $('.checkbox').click(function() {
     let v = $(this).children('input').val();
@@ -428,6 +475,60 @@ function setCheckboxDefaultValue($sel, value) {
 
 
 
+
+function sendHistoryMessage(data) {
+    let username = data.username;
+    let message = EchoLiveTools.getMessagePlainText(data.messages[0].message);
+    let time = getTime();
+    if (message == '') message = '[空消息]';
+    if (username == '') username = '[未指定说话人]';
+
+    let l = history.push({
+        data: data,
+        time: time
+    });
+    $('#history-message-list').prepend(HistoryMessage.item(message, username, time, data.messages.length, l - 1));
+}
+
+$(document).on('click', '.history-message-item-btn-edit', function() {
+    let i = $(this).data('index');
+
+    $('#output-content').val(formatJson(history[i].data));
+    $('#tabpage-nav-output, #tabpage-nav-output-content').click();
+    $('#output-content').focus();
+    $('#output-content').select();
+});
+
+$(document).on('click', '.history-message-item-btn-send', function() {
+    let i = $(this).data('index');
+    let $item = $(this).parents('.history-message-item').eq(0);
+
+    $item.find('.sent').text(HistoryMessage.sentBy(getTime()));
+    $item.find('.sent').removeClass('hide');
+
+    if (config.editor.history_resend_bubble) $('#history-message-list').prepend($item);
+    
+    elb.sendData(history[i].data);
+    editorLog('已再次发送历史消息。');
+});
+
+// 历史页清空
+$(document).on('click', '#history-btn-clear', function() {
+    if (historyClearConfirm) {
+        historyClearConfirm = false;
+        history = [];
+        $('#history-message-list').html('');
+        $('#history-editor-controller').html(`<button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">清空历史记录</button>`);
+    } else {
+        historyClearConfirm = true;
+        $('#history-editor-controller').html(`<button id="history-btn-clear-cancel" class="fh-button fh-big">取消</button><button id="history-btn-clear" class="fh-button fh-big fh-danger">确认清空</button>`)
+    }
+});
+
+$(document).on('click', '#history-btn-clear-cancel', function() {
+    historyClearConfirm = false;
+    $('#history-editor-controller').html(`<button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">清空历史记录</button>`);
+});
 
 // 彩蛋
 function getDateNumber() {

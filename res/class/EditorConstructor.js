@@ -140,3 +140,35 @@ class EditorClientState {
         return `<div class="echo-live-client-state-panel">${EditorClientState.clientList(clients)}</div>`;
     }
 }
+
+class HistoryMessage {
+    constructor() {}
+
+    static sentBy(time) {
+        return `（于 ${time} 再次发送）`;
+    }
+
+    static item(message, username, time, length, index) {
+        return `<div class="history-message-item">
+            <div class="content">
+                <div class="username">${username}</div>
+                <div class="message">${message}</div>
+                ${ length > 1 ? `<div class="length">... 等 ${length} 条消息</div>` : ''}
+                <div class="time">
+                    <span class="created">${time}</span>
+                    <span class="sent hide">${HistoryMessage.sentBy(time)}</span>
+                </div>
+            </div>
+            <div class="action">
+                <button class="history-message-item-btn-edit fh-button fh-ghost fh-icon-button" data-index="${index}">
+                    ${Icon.pencil()}
+                    <span>编辑</span>
+                </button>
+                <button class="history-message-item-btn-send fh-button fh-ghost fh-icon-button" data-index="${index}">
+                    ${Icon.send()}
+                    <span>发送</span>
+                </button>
+            </div>
+        </div>`;
+    }
+}

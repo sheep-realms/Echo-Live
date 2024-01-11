@@ -1,0 +1,8 @@
+:root {
+    /* 使对话框文本不可选中 */
+    user-select: none;
+}
+
+#echo-live .center-center {
+    word-break: break-word;
+}

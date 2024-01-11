@@ -29,6 +29,7 @@ textarea.code {
 .tabpage-nav {
     border-bottom: var(--border-coler) 1px solid;
     display: flex;
+    flex-wrap: wrap;
     margin-bottom: 16px;
     --corner-marker-color: rgba(0, 0, 0, 0.25);
     background-image: var(--corner-marker);
@@ -37,8 +38,13 @@ textarea.code {
     top: 0;
 }
 
+.tabpage-centent .tabpage-nav {
+    position: unset;
+    top: unset;
+}
+
 .tabpage-nav-item {
-    flex: 1;
+    flex: 1 0 80px;
     border: unset;
     border-bottom: transparent 4px solid;
     background-color: unset;
@@ -61,7 +67,8 @@ textarea.code {
 .collapse-content.hide,
 .print-speed-change.hide,
 #log-message-mark.hide,
-.echo-live-client-state.hide {
+.echo-live-client-state.hide,
+.history-message-item .sent.hide {
     display: none;
 }
 
@@ -303,7 +310,6 @@ input[type=text]:focus {
     justify-content: space-between;
 }
 
-
 #editor-log {
     background-color: #FFF;
     box-sizing: border-box;
@@ -403,4 +409,76 @@ input[type=text]:focus {
 
 .echo-live-client-state-block.state-sleep {
     background-color: var(--color-danger-dark);
+}
+
+
+
+#history-message-list {
+    min-height: calc(100vh - 200px);
+}
+
+.history-message-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-bottom: var(--border-coler) 1px solid;
+    background-color: transparent;
+    transition: background-color .3s;
+}
+
+.history-message-item:hover {
+    background-color: #FFF;
+}
+
+.history-message-item .content {
+    flex: 1;
+}
+
+.history-message-item .content .username {
+    color: var(--text-regular);
+    word-break: break-word;
+}
+
+.history-message-item .content .message {
+    color: var(--text-primary);
+    padding-left: 1em;
+    padding-bottom: 4px;
+    word-break: break-word;
+}
+
+.history-message-item .content .length {
+    color: var(--text-secondary);
+    padding-left: 1em;
+}
+
+.history-message-item .content .time {
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.history-message-item .action {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+@media screen and (max-width: 450px) {
+    .history-message-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .history-message-item .content .time {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .history-message-item .action {
+        margin-top: 8px;
+        width: 100%;
+    }
+
+    .history-message-item .action>button {
+        flex: 1;
+    }
 }

@@ -4,11 +4,16 @@ class EchoLive {
         this.config = config;
         this.data = undefined;
         this.broadcast = undefined;
-        this.uuid = this.getUUID();
+        this.uuid = EchoLiveTools.getUUID();
         this.hidden = false;
         this.antiFlood = false;
+        this.theme = [];
         this.timer = {
             messagesPolling: -1
+        };
+        this.event = {
+            themeScriptLoad: function() {},
+            themeScriptUnload: function() {},
         };
 
         this.init();
@@ -44,6 +49,11 @@ class EchoLive {
         } else if (this.config.echolive.messages_polling_enable) {
             this.start();
         }
+    }
+
+    on(eventName, action = function() {}) {
+        if (typeof action != 'function') return;
+        return this.event[eventName] = action;
     }
 
     /**
@@ -97,22 +107,49 @@ class EchoLive {
      * @param {String} url 样式文件地址
      */
     setThemeStyleUrl(url) {
+        if ($('#echo-live-theme').attr('href') == url) return url;
         $('#echo-live-theme').attr('href', url);
+        return url;
     }
 
-    getUUID() {
-        let timestamp = new Date().getTime();
-        let perforNow = (typeof performance !== 'undefined' && performance.now && performance.now() * 1000) || 0;
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-            let random = Math.random() * 16;
-            if (timestamp > 0) {
-                random = (timestamp + random) % 16 | 0;
-                timestamp = Math.floor(timestamp / 16);
-            } else {
-                random = (perforNow + random) % 16 | 0;
-                perforNow = Math.floor(perforNow / 16);
-            }
-            return (c === 'x' ? random : (random & 0x3) | 0x8).toString(16);
-        });
-    };
+    /**
+     * 查找主题
+     * @param {String} name 主题ID
+     * @returns {Object} 主题数据
+     */
+    findTheme(name) {
+        return this.theme.find((e) => {
+            return e.name == name;
+        })
+    }
+
+    /**
+     * 设置主题
+     * @param {String} name 主题ID
+     * @returns {String} 主题入口样式文件URL
+     */
+    setTheme(name) {
+        const theme = this.findTheme(name);
+        if (theme == undefined) return;
+
+        this.event.themeScriptUnload()
+        this.event.themeScriptLoad = function() {};
+        this.event.themeScriptUnload = function() {};
+        $('script.echo-live-theme-script').remove();
+
+        this.setThemeStyleUrl(theme.style);
+
+        if (this.config.echolive.live_theme_script_enable && typeof theme.script == 'object') {
+            theme.script.forEach(e => {
+                let s = document.createElement("script");
+                s.src = e;
+                s.class = 'echo-live-theme-script';
+                document.head.appendChild(s);
+            });
+        }
+
+        this.event.themeScriptLoad();
+
+        return theme.style;
+    }
 }

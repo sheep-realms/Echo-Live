@@ -1,0 +1,12 @@
+/* 当首个字符为以下符号时需要反向缩进1个字符 */
+.echo-output[data-before='「'],
+.echo-output[data-before='『'],
+.echo-output[data-before='“'],
+.echo-output[data-before='‘']
+{text-indent: -1em;}
+
+/* 当首个字符为以下符号时需要反向缩进0.5个字符 */
+.echo-output[data-before='"'] {text-indent: -0.5em;}
+
+/* 当首个字符为以下符号时需要反向缩进0.3个字符 */
+.echo-output[data-before="'"] {text-indent: -0.3em;}

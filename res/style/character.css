@@ -1,0 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --transition-duration: .3s;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: var(--transition-duration);
+}
+
+body {
+    background-color: transparent;
+    user-select: none;
+    pointer-events: none;
+}
+
+#echo-live-character {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+#echo-live-character img {
+    height: 100%;
+    width: auto;
+}

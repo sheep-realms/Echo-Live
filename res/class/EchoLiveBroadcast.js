@@ -15,6 +15,8 @@ class EchoLiveBroadcast {
             noClient: function() {}
         };
 
+        if (this.echolive == '') return this; 
+
         let that = this;
         if (this.echolive != undefined) {
             this.isServer = false;
@@ -185,6 +187,14 @@ class EchoLiveBroadcast {
         return this.echolive.setTheme(name);
     }
 
+    sendCharacterAction(name, data = {}) {
+        if (!this.isServer) return;
+        return this.sendData({
+            name: name,
+            data: data
+        }, 'set_character_action');
+    }
+
     getData(data) {
         if (typeof data != 'object') return;
         this.event.message(data);
@@ -240,5 +250,56 @@ class EchoLiveBroadcast {
         }
 
         return this.echolive.config.echolive.experimental_api_enable;
+    }
+}
+
+
+
+class EchoLiveCharacterBroadcast extends EchoLiveBroadcast {
+    constructor(character, channel) {
+        super('', channel);
+        this.character = character;
+        this.isServer = false;
+        this.clients = undefined;
+        this.timer = {}
+        this.event = {
+            message: function() {}
+        };
+
+        delete this.ping;
+        delete this.sendNext;
+        delete this.addClient;
+        delete this.removeClient;
+        delete this.setClientHidden;
+        delete this.sendTheme;
+        delete this.setThemeStyleUrl;
+        delete this.setTheme;
+
+        this.broadcast.onmessage = (e) => {
+            this.getData(e.data);
+        };
+    }
+
+    sendHello(target = undefined) {
+        return this.sendData({
+            uuid: this.uuid,
+            hidden: this.character.hidden
+        }, 'hello_character', target);
+    }
+
+    getData(data) {
+        if (typeof data != 'object') return;
+        this.event.message(data);
+
+        if (data.target != undefined && data.target != this.uuid) return;
+
+        switch (data.action) {
+            case 'set_character_action':
+                this.character.setAction(data.data.name, data.data.data);
+                break;
+        
+            default:
+                break;
+        }
     }
 }

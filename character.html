@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo Live Character</title>
+    <script src="lib/jquery-1.7.2.min.js"></script>
+    <script src="res/class/EchoLiveTools.js"></script>
+    <script src="res/class/EchoLiveBroadcast.js"></script>
+    <script src="res/class/EchoLiveCharacter.js"></script>
+    <script src="config.js"></script>
+    <link rel="icon" href="res/image/favicon.ico">
+    <link rel="stylesheet" href="res/style/character.css">
+</head>
+<body>
+    <div id="echo-live-character">
+        <img id="character-img" src="res/image/character/echo-live-chan/default.png">
+    </div>
+
+    <script>
+        let elc = new EchoLiveCharacter(config);
+    </script>
+    <script src="res/script/characters.js"></script>
+    <script>
+        elc.selectCharacter('echo_live_chan');
+    </script>
+    <script src="res/class/ExtensionManager.js"></script>
+    <script src="extensions.js"></script>
+</body>
+</html>

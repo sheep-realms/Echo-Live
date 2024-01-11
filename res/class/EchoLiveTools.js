@@ -29,6 +29,7 @@ class EchoLiveTools {
             if (data.style?.bold) cls += 'echo-text-bold '
             if (data.style?.italic) cls += 'echo-text-italic '
             if (data.style?.underline) cls += 'echo-text-underline '
+            if (data.style?.strikethrough) cls += 'echo-text-strikethrough '
             if (data.style?.rock) cls += 'echo-text-rock-' + data.style.rock + ' '
             if (data.style?.style) style += data.style.style;
         }
@@ -103,6 +104,10 @@ class EchoLiveTools {
 
                 case '@u':
                     style.underline = true
+                    break;
+
+                case '@s':
+                    style.strikethrough = true
                     break;
 
                 case '@r':

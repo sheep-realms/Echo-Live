@@ -2,6 +2,7 @@
 .echo-text-italic {font-style: italic;}
 .echo-text-underline {border-bottom: 1px solid var(--echo-span-color, #000);}
 .echo-text-typewrite {background-color: rgba(0, 0, 0, 0.05); border-bottom: 1px dotted var(--echo-span-color, #000);}
+.echo-text-strikethrough {text-decoration: line-through;}
 
 @keyframes echo-text-rock-y {
     0% {position: relative; top: 0px;}

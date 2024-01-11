@@ -11,6 +11,10 @@ class EchoLive {
         this.timer = {
             messagesPolling: -1
         };
+        this.event = {
+            themeScriptLoad: function() {},
+            themeScriptUnload: function() {},
+        };
 
         this.init();
     }
@@ -122,6 +126,12 @@ class EchoLive {
     setTheme(name) {
         const theme = this.findTheme(name);
         if (theme == undefined) return;
+
+        this.event.themeScriptUnload()
+        this.event.themeScriptLoad = function() {};
+        this.event.themeScriptUnload = function() {};
+        $('script.echo-live-theme-script').remove();
+
         this.setThemeStyleUrl(theme.style);
 
         if (this.config.echolive.live_theme_script_enable && typeof theme.script == 'object') {
@@ -132,6 +142,8 @@ class EchoLive {
                 document.head.appendChild(s);
             });
         }
+
+        this.event.themeScriptLoad();
 
         return theme.style;
     }

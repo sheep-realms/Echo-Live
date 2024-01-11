@@ -25,8 +25,8 @@
                 role="tab"
                 aria-selected="true"
                 accesskey="1"
-                title="不包含任何样式的文本 [alt+1]"
-            >纯文本</button>
+                title="文本编辑器 [alt+1]"
+            >编辑器</button>
             <button
                 class="tabpage-nav-item"
                 data-pageid="rtext"
@@ -94,6 +94,20 @@
 
                     <label for="content">内容</label>
                     <textarea name="content" id="ptext-content" aria-label="纯文本内容编辑框"></textarea>
+
+                    <div class="collapse">
+                        <div class="collapse-title">
+                            <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
+                                <span class="icon"></span>
+                                <span class="text">使用快速格式化代码</span>
+                                <input type="hidden" name="ptext-chk-use-formatting-code" id="ptext-chk-use-formatting-code" value="0">
+                            </button>
+                        </div>
+                        <div class="collapse-content hide" style="padding: 0.5em; font-size: 14px; color: var(--text-secondary);">
+                            <p>@b - 粗体，@i - 斜体，@u - 下划线，@r - 清除格式</p>
+                            <p>示例：这里没有格式。@b这里有粗体。@i这里有粗体和斜体。@r这里没有格式。</p>
+                        </div>
+                    </div>
 
                     <div class="collapse">
                         <div class="collapse-title">

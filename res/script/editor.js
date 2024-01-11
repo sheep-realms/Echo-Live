@@ -266,6 +266,10 @@ function ptextSubmit() {
         txt = $('#ptext-ipt-quote-before').val() + txt + $('#ptext-ipt-quote-after').val();
     }
 
+    if ($('#ptext-chk-use-formatting-code').val() == 1) {
+        txt = EchoLiveTools.formattingCodeToMessage(txt);
+    }
+
     let d = {
         username: username,
         messages: [

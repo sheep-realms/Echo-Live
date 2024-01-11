@@ -59,4 +59,69 @@ class EchoLiveTools {
 
         return `<${username}> ${message}`;
     }
+
+    static formattingCodeToMessage(text) {
+        let message = [];
+
+        function msgPush(msg = '', style = undefined) {
+            msg = msg.replace(/{{{sheep-realms:at}}}/g, '@');
+            if (style == undefined) return message.push(msg);
+            return message.push({
+                text: msg,
+                style: style
+            });
+        }
+
+        let replaced = text;
+        replaced = replaced.replace(/\\@/g, '{{{sheep-realms:at}}}');
+        replaced = replaced.replace(/@(.?)/g, '{{{sheep-realms:split}}}@$1{{{sheep-realms:format}}}');
+
+        let arrayMsg = replaced.split('{{{sheep-realms:split}}}');
+
+        for (let i = 0; i < arrayMsg.length; i++) {
+            arrayMsg[i] = arrayMsg[i].split('{{{sheep-realms:format}}}');
+        }
+
+        let styleCache = {};
+
+        for (let i = 0; i < arrayMsg.length; i++) {
+            const e = arrayMsg[i];
+            if (e.length < 2) {
+                msgPush(e[0]);
+                continue;
+            }
+
+            let style = {};
+            switch (e[0]) {
+                case '@b':
+                    style.bold = true
+                    break;
+
+                case '@i':
+                    style.italic = true
+                    break;
+
+                case '@u':
+                    style.underline = true
+                    break;
+
+                case '@r':
+                    styleCache = {};
+                    msgPush(e[1]);
+                    continue;
+            
+                default:
+                    msgPush(e[0] + e[1]);
+                    continue;
+            }
+            styleCache = {...styleCache, ...style};
+
+            if (e[1] != '') {
+                style = {...styleCache, ...style};
+                msgPush(e[1], style);
+            }
+        }
+
+        return message;
+    }
 }

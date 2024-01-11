@@ -7,6 +7,7 @@
 
 ## 快速参考
 [使用指南](https://sheep-realms.github.io/Echo-Live-Doc/main/how-to-use/) · 
+[主题样式](https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/) · 
 [消息格式](https://sheep-realms.github.io/Echo-Live-Doc/message/) · 
 [配置文件](https://sheep-realms.github.io/Echo-Live-Doc/custom/config/) · 
 [API 文档](https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/)
@@ -37,35 +38,6 @@
 - 在浏览器中预览效果时，一些浏览器的自动播放音频政策会导致您在未点击网页的情况下听不到打字音效，这是正常现象，OBS 内置浏览器无此限制。
 - 请注意控制每一段话的字数，否则会溢出。
 - 对话框网页不可见时会进入休眠状态以防止意料之外的演出，此机制可以在 `config.js` 中关闭，但不建议你这么做。
-
-## 主题
-Echo-Live 内置了多套主题，您可以通过修改 `live.html` 中定义主题样式的部分修改主题，文件中已有注释指引。您可以通过 `res/style/live-theme/` 文件夹浏览可用主题。
-
-另外，各种主题文件中都在顶部整理了常用变量，方便您快速修改诸如背景颜色、边框、字体大小等参数。
-
-主题文件使用的是广泛运用的 CSS 样式，如有需要，您可以咨询网页或UI设计师定制主题。
-
-### 修改主题的方法
-在 `live.html` 文件中您可用看到以下被注释强调的内容：
-
-``` html
-<link id="echo-live-theme" rel="stylesheet" href="res/style/live-theme/vanilla.css">
-```
-
-假如您想将主题文件更换为 `bubble.css`，您应当如此修改：
-
-``` html
-<link id="echo-live-theme" rel="stylesheet" href="res/style/live-theme/bubble.css">
-```
-
-最后，别忘了保存文件。
-
-### 主题介绍
-| 文件名 | 名称 | 描述 |
-| - | - | - |
-| vanilla.css | 原版 | Echo-Live 的默认主题，几乎没有任何装饰，适用于在画面中以全屏宽度靠下展现。右侧预留了立绘位置，可将立绘覆盖在对话框之上。 |
-| bubble.css | 气泡 | 常见的气泡对话框，具有粗边框和投影，可调整成任意尺寸，没有预留立绘位置。 |
-| vold.css | 虚空 | 无背景对话框，仅显示文字。 |
 
 ## 客制化
 - `res/style/live-theme/` 是主题文件夹，定义了对话框的样式，默认选中 `vanilla.css`，里面已经整理好了常用变量以供修改。

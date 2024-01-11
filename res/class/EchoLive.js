@@ -124,12 +124,14 @@ class EchoLive {
         if (theme == undefined) return;
         this.setThemeStyleUrl(theme.style);
 
-        if (this.config.echolive.live_theme_script_enable && typeof theme.script == 'object')
-        theme.script.forEach(e => {
-            let s = document.createElement("script");
-            s.src = e;
-            document.head.appendChild(s);
-        });
+        if (this.config.echolive.live_theme_script_enable && typeof theme.script == 'object') {
+            theme.script.forEach(e => {
+                let s = document.createElement("script");
+                s.src = e;
+                s.class = 'echo-live-theme-script';
+                document.head.appendChild(s);
+            });
+        }
 
         return theme.style;
     }

@@ -47,7 +47,11 @@ class EchoLiveTools {
 
         let str = '';
         message.forEach(e => {
-            str += e.text;
+            if (typeof e == 'string') {
+                str += e;
+            } else {
+                str += e.text;
+            }
         });
 
         return str;

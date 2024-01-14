@@ -5,6 +5,8 @@
 
 下文为帮助文档摘要，如需阅读完整帮助文档请见 [Echo-Live 在线帮助文档](https://sheep-realms.github.io/Echo-Live-Doc/)（另有 [CloudFlare 镜像](https://echo-live-doc.pages.dev/)）。
 
+您还可以加入我们的 [Discord 服务器](https://discord.gg/XuPQBw6tHC) 与我们交流。
+
 ## 快速参考
 [使用指南](https://sheep-realms.github.io/Echo-Live-Doc/main/how-to-use/) · 
 [主题样式](https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/) · 

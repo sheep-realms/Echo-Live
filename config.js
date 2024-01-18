@@ -142,7 +142,13 @@ const config = {
 
 
         // 历史消息再次发送时使历史记录回到顶部
-        history_resend_bubble: false
+        history_resend_bubble: false,
+        // 历史消息数量上限
+        history_maximum: 128,
+
+
+        // 日志行数上限
+        log_line_maximum: 512,
     },
 
     // 无障碍相关配置
@@ -152,6 +158,16 @@ const config = {
         high_contrast: false,
         // 红绿色盲
         drotanopia_and_deuteranopia: false,
+    },
+
+    // 高级设置
+    // * 除非您知道您在干什么，否则请不要动这里的设置。
+    advanced: {
+        editor: {
+            // 历史记录底部游标熔断阈值
+            // * 设为 -1 可禁用此机制
+            history_minimum_breaker_threshold: 128,
+        },
     },
 
     // == 未使用配置 ==

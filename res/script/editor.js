@@ -12,6 +12,7 @@ let timer = {
 }
 
 let history = [];
+let historyMinimum = 0;
 let historyClearConfirm = false;
 
 setDefaultValue('#config-output-before', config.editor.output_before);
@@ -121,6 +122,13 @@ function editorLog(message = '', type = 'info') {
     $('#editor-log').append(`<div class="log-item log-type-${type}" ${type == 'dbug' ? 'aria-hidden="false"' : ''}><span class="time" aria-hidden="false">${getTime()}</span> <span class="type" aria-label="${typename[type]}">[${type.toUpperCase()}]</span> <span class="message">${message}</span></div>`);
     $('#editor-log').scrollTop($('#editor-log').height());
 
+    // 防止日志过多
+    let $logitems = $('#editor-log .log-item');
+    if ($logitems.length > config.editor.log_line_maximum) {
+        $(`#editor-log .log-item:lt(${$logitems.length - config.editor.log_line_maximum})`).remove();
+    }
+
+    // 通知重要消息
     if ((type == 'warn' || type == 'erro') && $('#tabpage-nav-log').attr('aria-selected') == 'false') {
         logMsgMark++;
         $('#log-message-mark').text(logMsgMark);
@@ -488,6 +496,26 @@ function sendHistoryMessage(data) {
         time: time
     });
     $('#history-message-list').prepend(HistoryMessage.item(message, username, time, data.messages.length, l - 1));
+
+    // 防止历史记录过多
+    if (history.length > config.editor.history_maximum) {
+        history.fill(undefined, historyMinimum, history.length - config.editor.history_maximum);
+        historyMinimum = history.length - config.editor.history_maximum;
+        $(`#history-message-list .history-message-item:gt(${config.editor.history_maximum - 1})`).remove();
+    }
+
+    // 防止底部游标过高
+    if (historyMinimum >= config.advanced.editor.history_minimum_breaker_threshold && config.advanced.editor.history_minimum_breaker_threshold > 0) {
+        console.log(11111);
+        history = history.splice(historyMinimum);
+        let $list = $('#history-message-list .history-message-item');
+        for (let i = 0; i < $list.length; i++) {
+            const e = $list.eq(i);
+            let di = e.find('button').data('index');
+            e.find('button').data('index', di - historyMinimum);
+        }
+        historyMinimum = 0;
+    }
 }
 
 $(document).on('click', '.history-message-item-btn-edit', function() {

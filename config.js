@@ -141,6 +141,7 @@ const config = {
         ontput_after_enable: 1,
 
 
+        // == 历史消息 ==
         // 历史消息再次发送时使历史记录回到顶部
         history_resend_bubble: false,
         // 历史消息数量上限

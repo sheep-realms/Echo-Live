@@ -124,7 +124,7 @@ function editorLog(message = '', type = 'info') {
 
     // 防止日志过多
     let $logitems = $('#editor-log .log-item');
-    if ($logitems.length > config.editor.log_line_maximum) {
+    if (config.editor.log_line_maximum >= 0 && $logitems.length > config.editor.log_line_maximum) {
         $(`#editor-log .log-item:lt(${$logitems.length - config.editor.log_line_maximum})`).remove();
     }
 
@@ -498,15 +498,14 @@ function sendHistoryMessage(data) {
     $('#history-message-list').prepend(HistoryMessage.item(message, username, time, data.messages.length, l - 1));
 
     // 防止历史记录过多
-    if (history.length > config.editor.history_maximum) {
+    if (config.editor.history_maximum >= 0 && history.length > config.editor.history_maximum) {
         history.fill(undefined, historyMinimum, history.length - config.editor.history_maximum);
         historyMinimum = history.length - config.editor.history_maximum;
         $(`#history-message-list .history-message-item:gt(${config.editor.history_maximum - 1})`).remove();
     }
 
     // 防止底部游标过高
-    if (historyMinimum >= config.advanced.editor.history_minimum_breaker_threshold && config.advanced.editor.history_minimum_breaker_threshold > 0) {
-        console.log(11111);
+    if (config.advanced.editor.history_minimum_breaker_threshold >= 0 && historyMinimum >= config.advanced.editor.history_minimum_breaker_threshold) {
         history = history.splice(historyMinimum);
         let $list = $('#history-message-list .history-message-item');
         for (let i = 0; i < $list.length; i++) {

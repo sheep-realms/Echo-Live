@@ -145,10 +145,12 @@ const config = {
         // 历史消息再次发送时使历史记录回到顶部
         history_resend_bubble: false,
         // 历史消息数量上限
+        // * 设为 -1 则不设上限
         history_maximum: 128,
 
 
         // 日志行数上限
+        // * 设为 -1 则不设上限
         log_line_maximum: 512,
     },
 

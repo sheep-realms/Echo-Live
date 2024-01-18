@@ -149,7 +149,7 @@ class HistoryMessage {
     }
 
     static item(message, username, time, length, index) {
-        return `<div class="history-message-item">
+        return `<div class="history-message-item" role="listitem">
             <div class="content">
                 <div class="username">${username}</div>
                 <div class="message">${message}</div>

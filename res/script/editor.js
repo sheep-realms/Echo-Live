@@ -603,17 +603,21 @@ $(document).on('click', '#history-btn-clear', function() {
     if (historyClearConfirm) {
         historyClearConfirm = false;
         history = [];
+        historyMinimum = 0;
         $('#history-message-list').html('');
         $('#history-editor-controller').html(`<button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">清空历史记录</button>`);
+        $('#history-btn-clear').focus();
     } else {
         historyClearConfirm = true;
         $('#history-editor-controller').html(`<button id="history-btn-clear-cancel" class="fh-button fh-big">取消</button><button id="history-btn-clear" class="fh-button fh-big fh-danger">确认清空</button>`)
+        $('#history-btn-clear-cancel').focus();
     }
 });
 
 $(document).on('click', '#history-btn-clear-cancel', function() {
     historyClearConfirm = false;
     $('#history-editor-controller').html(`<button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">清空历史记录</button>`);
+    $('#history-btn-clear').focus();
 });
 
 

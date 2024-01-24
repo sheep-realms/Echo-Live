@@ -92,8 +92,17 @@
                     <label for="character">说话人</label>
                     <input type="text" name="character" id="ptext-character">
 
-                    <label for="content">内容</label>
-                    <textarea name="content" id="ptext-content" aria-label="纯文本内容编辑框"></textarea>
+                    <div id="ptext-editor" class="editor-container">
+                        <div class="editor-controller disabled"></div>
+                        <label for="content">内容</label>
+                        <textarea name="content" id="ptext-content" aria-label="纯文本内容编辑框"></textarea>
+                        <div class="editor-bottom-bar">
+                            <span>
+                                <span class="length">0</span>
+                                字符
+                            </span>
+                        </div>
+                    </div>
 
                     <div class="collapse">
                         <div class="collapse-title">

@@ -11,6 +11,10 @@ let timer = {
     clickEffect: -1
 }
 
+let checkboxEvent = {
+    "ptext-chk-use-formatting-code": ptextChkUseFormattingCodeChange
+};
+
 let history = [];
 let historyMinimum = 0;
 let historyClearConfirm = false;
@@ -20,6 +24,8 @@ setDefaultValue('#config-output-after', config.editor.output_after);
 $('#ptext-character, #rtext-character').val(config.editor.username_init);
 setCheckboxDefaultValue('#config-output-use-before', config.editor.ontput_before_enable);
 setCheckboxDefaultValue('#config-output-use-after', config.editor.ontput_after_enable);
+
+$('.tabpage-panel[data-pageid="ptext"] .editor-controller').append(EditorForm.editorController('ptext-content'));
 
 if (!config.editor.tabpage_config_enable) $('#tabpage-nav-config').addClass('hide');
 if (!config.editor.tabpage_output_enable) $('#tabpage-nav-output').addClass('hide');
@@ -46,31 +52,35 @@ if (config.echolive.broadcast_enable) {
 
     // 纯文本 - 内容 - 快捷键
     $('#ptext-content').keydown(function(e) {
-        if (e.keyCode == 13 && e.ctrlKey) {
-            $('.fh-effect-click').removeClass('fh-effect-click');
-            clearTimeout(timer.clickEffect)
+        // console.log(e.keyCode);
+        if (e.ctrlKey) {
+            if (e.keyCode == 13) {
+                $('#ptext-btn-send').click();
+                effectClick('#ptext-btn-send');
+            } else if (e.keyCode == 83) {
+                e.preventDefault();
+            } else {
+                let code = {
+                    '66': 'bold',
+                    '73': 'italic',
+                    '85': 'underline',
+                    '68': 'strikethrough',
+                    '32': 'clear'
+                };
+                if (code[e.keyCode] == undefined) return;
+                if (e.keyCode == 32 && !e.shiftKey) return;
 
-            $('#ptext-btn-send').click();
-
-            $('#ptext-btn-send').addClass('fh-effect-click');
-            timer.clickEffect = setTimeout(function () {
-                $('#ptext-btn-send').removeClass('fh-effect-click');
-            }, 1000);
+                e.preventDefault();
+                $(`#ptext-editor .editor-controller:not(.disabled) button[data-value="${code[e.keyCode]}"]`).click();
+            }
         }
     })
 
-    // 纯文本 - 内容 - 快捷键
+    // 输出 - 内容 - 快捷键
     $('#output-content').keydown(function(e) {
         if (e.keyCode == 13 && e.ctrlKey) {
-            $('.fh-effect-click').removeClass('fh-effect-click');
-            clearTimeout(timer.clickEffect)
-
             $('#output-btn-send').click();
-
-            $('#output-btn-send').addClass('fh-effect-click');
-            timer.clickEffect = setTimeout(function () {
-                $('#output-btn-send').removeClass('fh-effect-click');
-            }, 1000);
+            effectClick('#output-btn-send');
         }
     })
 
@@ -92,6 +102,15 @@ if (config.echolive.broadcast_enable) {
 } else {
     checkNowDate();
     editorLog('未开启广播模式，无日志显示。');
+}
+
+function effectClick($sel) {
+    clearTimeout(timer.clickEffect);
+    $('.fh-effect-click').removeClass('fh-effect-click');
+    $($sel).addClass('fh-effect-click');
+    timer.clickEffect = setTimeout(() => {
+        $($sel).removeClass('fh-effect-click');
+    }, 1000);
 }
 
 function getTime() {
@@ -355,6 +374,7 @@ $('#output-btn-send').click(function() {
 
 $('.checkbox').click(function() {
     let v = $(this).children('input').val();
+    let name = $(this).children('input').attr('name');
     if (v == 0) {
         $(this).children('input').val(1);
         $(this).addClass('selected');
@@ -362,6 +382,7 @@ $('.checkbox').click(function() {
         if ($(this).hasClass('collapse-checkbox')) {
             $(this).parents('.collapse').children('.collapse-content').removeClass('hide');
         }
+        if (typeof checkboxEvent[name] == 'function') checkboxEvent[name](1);
     } else {
         $(this).children('input').val(0);
         $(this).removeClass('selected');
@@ -369,8 +390,17 @@ $('.checkbox').click(function() {
         if ($(this).hasClass('collapse-checkbox')) {
             $(this).parents('.collapse').children('.collapse-content').addClass('hide');
         }
+        if (typeof checkboxEvent[name] == 'function') checkboxEvent[name](0);
     }
 });
+
+function ptextChkUseFormattingCodeChange(e) {
+    if (e == 1) {
+        $('.tabpage-panel[data-pageid="ptext"] .editor-controller').removeClass('disabled');
+    } else {
+        $('.tabpage-panel[data-pageid="ptext"] .editor-controller').addClass('disabled');
+    }
+}
 
 
 function editorTextListUpdate() {
@@ -517,6 +547,35 @@ function sendHistoryMessage(data) {
     }
 }
 
+
+$(document).on('click', '.editor-format-btn', function() {
+    let editorID = $(this).data('editorid'),
+        value = $(this).data('value');
+    
+    const format = {
+        bold:           '@b',
+        italic:         '@i',
+        underline:      '@u',
+        strikethrough:  '@s',
+        clear:          '@r'
+    };
+    
+    if (value != 'clear') {
+        insertTextAtCursor(editorID, format[value], format.clear);
+    } else {
+        insertTextAtCursor(editorID, format.clear, '', false, false, false, true, function(e) {
+            return e.replace(/(?<!\\)@(\S)/g, '');
+        });
+    }
+});
+
+// 纯文本编辑器字数统计
+$(document).on('input', '#ptext-content', function() {
+    let length  = $(this).val().length;
+
+    $('#ptext-editor .editor-bottom-bar .length').text(length);
+});
+
 $(document).on('click', '.history-message-item-btn-edit', function() {
     let i = $(this).data('index');
 
@@ -556,6 +615,38 @@ $(document).on('click', '#history-btn-clear-cancel', function() {
     historyClearConfirm = false;
     $('#history-editor-controller').html(`<button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">清空历史记录</button>`);
 });
+
+
+
+function insertTextAtCursor(id, text, text2 = '', forceInputText2 = false, forceRepeatBefore = false, forceRepeatAfter = false, firstClear = false, selectedTextFilter = undefined) {
+    let textarea       = document.getElementById(id);
+
+    let selectionStart = textarea.selectionStart,
+        selectionEnd   = textarea.selectionEnd;
+
+    let textBefore     = textarea.value.substring(0,              selectionStart),
+        selectedText   = textarea.value.substring(selectionStart, selectionEnd),
+        textAfter      = textarea.value.substring(selectionEnd);
+
+    
+    if (!forceRepeatBefore && textBefore.substring(textBefore.length - text.length) == text) text = '';
+    if (firstClear && selectionStart == 0) text = '';
+
+    if (selectionStart == selectionEnd) {
+        if (!forceInputText2) text2 = '';
+        textarea.value = textBefore + text   /*  NONE  */ + text2 + textAfter;
+        textarea.setSelectionRange(selectionStart + text.length, selectionStart + text.length);
+    } else {
+        if (typeof selectedTextFilter == 'function') selectedText = selectedTextFilter(selectedText);
+        if (!forceRepeatAfter && textAfter.search(text2) == 0) text2 = '';
+        textarea.value = textBefore + text + selectedText + text2 + textAfter;
+        textarea.setSelectionRange(selectionStart + text.length, selectionStart + text.length + selectedText.length);
+    }
+    
+    textarea.focus();
+}
+
+
 
 // 彩蛋
 function getDateNumber() {

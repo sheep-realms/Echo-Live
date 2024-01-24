@@ -1,3 +1,11 @@
+class DOMConstructor {
+    constructor() {}
+
+    static join(domlist = []) {
+        return domlist.join('');
+    }
+}
+
 // 字段列表构造器
 class EditorTextList {
     constructor() {}
@@ -109,6 +117,80 @@ class EditorForm {
             tip
         );
     }
+
+    static button(content, data) {
+        return `<button
+            ${data?.id ? `id="${data.id}"` : ''}
+            class="
+                fh-button
+                ${data?.type ? 'fh-' + data?.type : ''}
+                ${data?.size ? 'fh-' + data?.size : ''}
+                ${data?.color ? 'fh-' + data?.color : ''}
+                ${data?.icon ? 'fh-icon-button' : ''}
+                ${data?.class ? data.class : ''}
+            "
+            ${data?.disabled ? 'disabled' : ''}
+            ${data?.title ? `title="${data.title}"` : ''}
+            ${data?.attr ? data.attr : ''}
+        >
+            ${data?.icon ? data?.icon : ''}${content}
+        </button>`
+    }
+
+    static buttonGhost(content, data) {
+        data = {
+            ...data,
+            ...{
+                type: 'ghost'
+            }
+        }
+        return EditorForm.button(content, data);
+    }
+
+    static buttonAir(content, data) {
+        data = {
+            ...data,
+            ...{
+                type: 'air'
+            }
+        }
+        return EditorForm.button(content, data);
+    }
+
+    static editorController(editorID) {
+        return DOMConstructor.join([
+            EditorForm.buttonAir('', {
+                icon: Icon.formatBold(),
+                class: 'editor-format-btn',
+                attr: `data-editorid="${editorID}" data-value="bold"`,
+                title: '粗体 [Ctrl+B]'
+            }),
+            EditorForm.buttonAir('', {
+                icon: Icon.formatItalic(),
+                class: 'editor-format-btn',
+                attr: `data-editorid="${editorID}" data-value="italic"`,
+                title: '斜体 [Ctrl+I]'
+            }),
+            EditorForm.buttonAir('', {
+                icon: Icon.formatUnderline(),
+                class: 'editor-format-btn',
+                attr: `data-editorid="${editorID}" data-value="underline"`,
+                title: '下划线 [Ctrl+U]'
+            }),
+            EditorForm.buttonAir('', {
+                icon: Icon.formatStrikethroughVariant(),
+                class: 'editor-format-btn',
+                attr: `data-editorid="${editorID}" data-value="strikethrough"`,
+                title: '删除线 [Ctrl+D]'
+            }),
+            EditorForm.buttonAir('', {
+                icon: Icon.formatClear(),
+                class: 'editor-format-btn',
+                attr: `data-editorid="${editorID}" data-value="clear"`,
+                title: '清除格式 [Ctrl+Shift+Space]'
+            })
+        ]);
+    }
 }
 
 // 客户端状态仪表构造器
@@ -160,14 +242,16 @@ class HistoryMessage {
                 </div>
             </div>
             <div class="action">
-                <button class="history-message-item-btn-edit fh-button fh-ghost fh-icon-button" data-index="${index}">
-                    ${Icon.pencil()}
-                    <span>编辑</span>
-                </button>
-                <button class="history-message-item-btn-send fh-button fh-ghost fh-icon-button" data-index="${index}">
-                    ${Icon.send()}
-                    <span>发送</span>
-                </button>
+                ${EditorForm.buttonGhost('编辑', {
+                    icon: Icon.pencil(),
+                    class: 'history-message-item-btn-edit',
+                    attr: `data-index="${index}"`
+                })}
+                ${EditorForm.buttonGhost('发送', {
+                    icon: Icon.send(),
+                    class: 'history-message-item-btn-send',
+                    attr: `data-index="${index}"`
+                })}
             </div>
         </div>`;
     }

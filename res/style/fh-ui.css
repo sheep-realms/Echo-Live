@@ -416,7 +416,9 @@ p .fh-loading {
 }
 
 .fh-button.fh-air:focus {
-    box-shadow: none;
+    --border-style: solid;
+    border: var(--color-general-dark) 1px var(--border-style);
+    --corner-marker-color: var(--color-general-dark);
 }
 
 .fh-button.fh-safe:focus {
@@ -468,7 +470,7 @@ p .fh-loading {
     padding: 0 10px;
     color: var(--color-general-dark);
     --border-style: dashed;
-    border: none;
+    border: transparent 1px solid;
     background-color: transparent;
     --corner-marker-color: var(--color-general-dark);
     background-image: var(--corner-marker);

@@ -11,10 +11,13 @@
     --text-placeholder: #a8abb2;
 
     --border-coler: #AAAAAA;
+
+    --page-bgcolor: #FAFAFA;
 }
 
 body {
     overflow-y: scroll;
+    background-color: var(--page-bgcolor);
 }
 
 main {
@@ -33,7 +36,7 @@ textarea.code {
     margin-bottom: 16px;
     --corner-marker-color: rgba(0, 0, 0, 0.25);
     background-image: var(--corner-marker);
-    background-color: #FAFAFA;
+    background-color: var(--page-bgcolor);
     position: sticky;
     top: 0;
 }
@@ -104,13 +107,31 @@ textarea.code {
     border-bottom: var(--color-general) 1px solid;
 }
 
+.editor-container {
+    background-color: var(--page-bgcolor);
+}
+
+.editor-container.webscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100000;
+}
+
+.editor-container.webscreen #ptext-content {
+    resize: none;
+    height: calc(100vh - 68px);
+}
+
 .editor-controller-bottom {
     padding: 16px 0;
     margin-top: -1px;
     border-top: var(--border-coler) 1px solid;
     position: sticky;
     bottom: 0;
-    background-color: #FAFAFA;
+    background-color: var(--page-bgcolor);
 }
 
 .editor-controller-bottom>* {
@@ -122,13 +143,55 @@ textarea.code {
     margin-left: 16px;
 }
 
+.editor-controller {
+    display: flex;
+    padding: 8px 0 0 0;
+    opacity: 1;
+}
+
+.editor-controller.disabled {
+    pointer-events: none;
+    opacity: 0;
+}
+
+.editor-controller+label {
+    opacity: 0;
+    pointer-events: none;
+    margin: 0 2px;
+    height: 24px;
+    line-height: 24px;
+    margin-top: -32px;
+}
+
+.editor-controller.disabled+label{
+    opacity: 1;
+    pointer-events: all;
+}
+
+.editor-controller .fh-icon-button>svg {
+    width: 28px;
+    height: 28px;
+}
+
+.editor-bottom-bar {
+    text-align: right;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
 #output-content {
     height: 60vh;
 }
 
 .collapse-title {
+    border-top: var(--border-coler) 1px solid;
     border-bottom: var(--border-coler) 1px solid;
     display: flex;
+}
+
+.collapse+.collapse>.collapse-title {
+    border-top: unset;
 }
 
 .collapse-content {

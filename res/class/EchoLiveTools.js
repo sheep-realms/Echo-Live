@@ -131,6 +131,7 @@ class EchoLiveTools {
             }
         }
 
+        if (message.length == 1) return message[0];
         return message;
     }
 }

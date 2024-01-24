@@ -289,12 +289,19 @@ function ptextSubmit() {
     let txt = $('#ptext-content').val();
     let username = $('#ptext-character').val();
 
-    if ($('#ptext-chk-quote').val() == 1) {
-        txt = $('#ptext-ipt-quote-before').val() + txt + $('#ptext-ipt-quote-after').val();
-    }
-
     if ($('#ptext-chk-use-formatting-code').val() == 1) {
         txt = EchoLiveTools.formattingCodeToMessage(txt);
+    }
+
+    if ($('#ptext-chk-quote').val() == 1) {
+        let before = $('#ptext-ipt-quote-before').val(),
+            after  = $('#ptext-ipt-quote-after').val();
+
+        if (typeof txt == 'string') {
+            txt = before + txt + after;
+        } else {
+            txt = [before, ...txt, after];
+        }
     }
 
     let d = {

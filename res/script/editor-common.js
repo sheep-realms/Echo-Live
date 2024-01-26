@@ -84,6 +84,71 @@ function insertTextAtCursor(id, text, text2 = '', forceInputText2 = false, force
 }
 
 
+// 创建悬浮框
+function popupsCreate(dom, sel) {
+    $('body').append(dom);
+    $(window).on("resize", function () {
+        let pos = $(sel).offset();
+        popupsMove(sel, pos.left, pos.top);
+    });
+}
+
+// 更改悬浮框可见性
+function popupsDisplay(sel, value = true) {
+    if (value) {
+        $(sel).removeClass('hide');
+    } else {
+        $(sel).addClass('hide');
+    }
+}
+
+// 移动悬浮框
+function popupsMove(sel, left = 0, top = 0) {
+    let $sel = $(sel),
+        popupsWidth = $sel.outerWidth(),
+        popupsHeight = $sel.outerHeight();
+    
+    if (document.documentElement.clientWidth - left - 16 < popupsWidth) left = document.documentElement.clientWidth - popupsWidth - 16;
+    if (document.documentElement.scrollHeight - top - 16 < popupsHeight) top = document.documentElement.scrollHeight - popupsHeight - 16;
+    if (document.documentElement.scrollTop + window.innerHeight - top < popupsHeight) top = document.documentElement.scrollTop + window.innerHeight - popupsHeight - 16;
+    if (left < 16) left = 16;
+    if (top < 16) top = 16;
+    $sel.css('--popups-pos-left', left + 'px').css('--popups-pos-top', top + 'px');
+}
+
+// 移动悬浮框到元素
+function popupsMoveToElement(popupsSel, elementSel, align = 'left', vertical = 'bottom', gap = 8) {
+    let $psel   = $(popupsSel),
+        $esel   = $(elementSel),
+        epos    = $esel.offset(),
+        ewidth  = $esel.width(),
+        eheight = $esel.height(),
+        pwidth  = $psel.width(),
+        pheight = $psel.height(),
+        newpos  = { left: 0, top: 0};
+
+    if (vertical === 'bottom') {
+        newpos.top = epos.top + eheight + gap;
+    } else if (vertical === 'top') {
+        newpos.top = epos.top - gap - pheight;
+    }
+
+    if (align === 'left') {
+        newpos.left = epos.left;
+    } else if (align === 'center') {
+        newpos.left = epos.left + ewidth / 2 - pwidth / 2;
+    } else if (align === 'right') {
+        newpos.left = epos.left + ewidth - pwidth;
+    }
+
+    popupsMove(popupsSel, newpos.left, newpos.top);
+}
+
+// 悬浮框隐去逻辑
+$(document).on('mousedown', function(e) {
+    if ($(e.target).closest('.fh-popups:not(.hide)').length == 0) $('.fh-popups').addClass('hide');
+});
+
 // 复选框
 $(document).on('click', '.checkbox', function() {
     let v = $(this).children('input').val();
@@ -117,4 +182,11 @@ $(document).on('click', '.tabpage-nav .tabpage-nav-item', function() {
     // document.startViewTransition(() => {});
     $(`.tabpage-centent[data-navid="${navid}"]>.tabpage-panel`).addClass('hide');
     $(`.tabpage-centent[data-navid="${navid}"]>.tabpage-panel[data-pageid="${pageid}"]`).removeClass('hide');
+});
+
+// 拾色器色板切换
+$(document).on('change', '#popups-palette-select', function() {
+    let name = $(this).val();
+    $('#popups-palette .palette-page').addClass('hide');
+    $(`#popups-palette .palette-page[data-palette-id="${ name }"]`).removeClass('hide');
 });

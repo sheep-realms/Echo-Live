@@ -184,12 +184,111 @@ class EditorForm {
                 title: '删除线 [Ctrl+D]'
             }),
             EditorForm.buttonAir('', {
+                icon: Icon.palette(),
+                class: 'editor-format-btn',
+                attr: `data-editorid="${editorID}" data-value="color"`,
+                title: '文本颜色'
+            }),
+            EditorForm.buttonAir('', {
                 icon: Icon.formatClear(),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="clear"`,
                 title: '清除格式 [Ctrl+Shift+Space]'
             })
         ]);
+    }
+}
+
+class Popups {
+    constructor() {}
+
+    static container(content = '', id = '', data = {}) {
+        data = {
+            class: '',
+            pos: {
+                x: 0,
+                y: 0
+            },
+            width: {
+                min: '200px',
+                max: '100vw'
+            },
+            height: {
+                min: '150px',
+                max: '300px'
+            },
+            ...data
+        };
+        return `<div
+            ${ id != '' ? `id="${id}"` : '' }
+            class="fh-popups hide ${ data.class != '' ? data.class : '' }"
+            style="
+                --popups-pos-left: ${ data.pos.x }px;
+                --popups-pos-top: ${ data.pos.y }px;
+                --popups-width-min: ${ data.width.min };
+                --popups-width-max: ${ data.width.max };
+                --popups-height-min: ${ data.height.min };
+                --popups-height-max: ${ data.height.max };
+            "
+        >
+            ${ content }
+        </div>`;
+    }
+
+    static paletteOptions(palette = []) {
+        let dom = '';
+        palette.forEach(e => {
+            dom += `<option value="${ e.meta.name }">${ e.meta.title }</option>`
+        });
+        return dom;
+    }
+
+    static paletteContent(palette = {}) {
+        let dom = '<div class="palette-list">';
+        palette.colors.forEach(e => {
+            if (e?.type === undefined || e?.type === 'color') {
+                dom += `<button class="color-box" title="${ e.title }" data-value="${ e.value }" style="--color: ${ e.value };"><div class="color"></div></button>`
+            } else if (e?.type === 'group') {
+                dom += `</div><div class="palette-group">${ e.value }</div><div class="palette-list">`
+            }
+        });
+        dom += '</div>'
+        return dom;
+    }
+
+    static palettePage(palette = []) {
+        let dom = '';
+        palette.forEach(e => {
+            dom += `<div class="palette-page hide" data-palette-id="${ e.meta.name }">${ Popups.paletteContent(e) }</div>`
+        });
+        return dom;
+    }
+
+    static palettePopups(palette = [], data = {}, id = 'popups-palette') {
+        data = {
+            width: {
+                min: '400px',
+                max: '400px'
+            },
+            height: {
+                min: '300px',
+                max: '300px'
+            },
+            ...data
+        }
+        return Popups.container(
+            `<div class="popups-palette-header">
+                <label for="popups-palette-select" style="display: none;">色板库</label>
+                <select name="popups-palette-select" id="popups-palette-select">
+                    ${ Popups.paletteOptions(palette) }
+                </select>
+            </div>
+            <div class="popups-palette-content">
+                ${ Popups.palettePage(palette) }
+            </div>`,
+            id,
+            data
+        );
     }
 }
 

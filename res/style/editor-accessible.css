@@ -27,6 +27,7 @@
     --text-placeholder: #666;
 
     --border-coler: #000;
+    --box-shadow: 0 0 0 4px rgba(128, 128, 128, 0.75);
 }
 
 .accessible-high-contrast .echo-live-client-state-block.state-sleep {

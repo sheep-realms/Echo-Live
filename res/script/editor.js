@@ -26,6 +26,9 @@ $('.tabpage-panel[data-pageid="ptext"] .editor-controller').append(EditorForm.ed
 if (!config.editor.tabpage_config_enable) $('#tabpage-nav-config').addClass('hide');
 if (!config.editor.tabpage_output_enable) $('#tabpage-nav-output').addClass('hide');
 
+popupsCreate(Popups.palettePopups(echoLiveEditor.palette), '#popups-palette');
+$('#popups-palette .palette-page').eq(0).removeClass('hide');
+
 let elb;
 
 if (config.echo.print_speed != 30) {
@@ -429,12 +432,16 @@ $(document).on('click', '.editor-format-btn', function() {
         clear:          '@r'
     };
     
-    if (value != 'clear') {
-        insertTextAtCursor(editorID, format[value], format.clear);
-    } else {
+    if (value == 'clear') {
         insertTextAtCursor(editorID, format.clear, '', false, false, false, true, function(e) {
             return e.replace(/(?<!\\)@(\[#[0-9a-fA-F]{3,8}\]|\S)/g, '');
         });
+    } else if (value == 'color') {
+        popupsDisplay('#popups-palette');
+        popupsMoveToElement('#popups-palette', '.editor-controller button[data-value="color"]');
+        $('#popups-palette-select').focus();
+    } else {
+        insertTextAtCursor(editorID, format[value], format.clear);
     }
 });
 

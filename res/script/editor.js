@@ -7,11 +7,7 @@ let textList = [
     {text: ''}
 ];
 
-let timer = {
-    clickEffect: -1
-}
-
-let checkboxEvent = {
+checkboxEvent = {
     "ptext-chk-use-formatting-code": ptextChkUseFormattingCodeChange
 };
 
@@ -29,9 +25,6 @@ $('.tabpage-panel[data-pageid="ptext"] .editor-controller').append(EditorForm.ed
 
 if (!config.editor.tabpage_config_enable) $('#tabpage-nav-config').addClass('hide');
 if (!config.editor.tabpage_output_enable) $('#tabpage-nav-output').addClass('hide');
-
-if (config.accessible.high_contrast)  $('body').addClass('accessible-high-contrast');
-if (config.accessible.drotanopia_and_deuteranopia) $('body').addClass('accessible-drotanopia-and-deuteranopia');
 
 let elb;
 
@@ -102,28 +95,6 @@ if (config.echolive.broadcast_enable) {
 } else {
     checkNowDate();
     editorLog('未开启广播模式，无日志显示。');
-}
-
-function effectClick($sel) {
-    clearTimeout(timer.clickEffect);
-    $('.fh-effect-click').removeClass('fh-effect-click');
-    $($sel).addClass('fh-effect-click');
-    timer.clickEffect = setTimeout(() => {
-        $($sel).removeClass('fh-effect-click');
-    }, 1000);
-}
-
-function getTime() {
-    let d = new Date();
-    return `${d.getFullYear()}-${afterZero(d.getMonth() + 1)}-${afterZero(d.getDate())} ${afterZero(d.getHours())}:${afterZero(d.getMinutes())}:${afterZero(d.getSeconds())}`;
-}
-
-function afterZero(value) {
-    if (value >= 10) {
-        return `${value}`;
-    } else {
-        return `0${value}`;
-    }
 }
 
 
@@ -216,19 +187,6 @@ function noClient() {
     editorLog('没有 Echo-Live 客户端响应，请检查您是否正确打开或安装了 live.html。如果您的操作正确，则可能是因为所有 Echo-Live 源均处于不可见状态。', 'warn');
 }
 
-
-
-// 标签页切换
-$('.tabpage-nav .tabpage-nav-item').click(function() {
-    $(this).parent().children().attr('aria-selected', 'false');
-    $(this).attr('aria-selected', 'true');
-    const navid = $(this).parent().data('navid');
-    const pageid = $(this).data('pageid');
-    // console.log($(`.tabpage-centent[data-navid="${navid}"] .tabpage-panel`));
-    // document.startViewTransition(() => {});
-    $(`.tabpage-centent[data-navid="${navid}"]>.tabpage-panel`).addClass('hide');
-    $(`.tabpage-centent[data-navid="${navid}"]>.tabpage-panel[data-pageid="${pageid}"]`).removeClass('hide');
-});
 
 // 纯文本重置
 $('#ptext-btn-clear').click(function() {
@@ -327,7 +285,7 @@ function ptextSubmit() {
 $('#ptext-btn-submit').click(function() {
     let d = ptextSubmit();
 
-    $('#output-content').val(getOutputBefore() + formatJson(d) + getOutputAfter());
+    $('#output-content').val(getOutputBefore() + JSON.stringify(d, null, 4) + getOutputAfter());
     $('#tabpage-nav-output, #tabpage-nav-output-content').click();
     $('#output-content').focus();
     $('#output-content').select();
@@ -379,27 +337,7 @@ $('#output-btn-send').click(function() {
     sendHistoryMessage(msg);
 });
 
-$('.checkbox').click(function() {
-    let v = $(this).children('input').val();
-    let name = $(this).children('input').attr('name');
-    if (v == 0) {
-        $(this).children('input').val(1);
-        $(this).addClass('selected');
-        $(this).attr('aria-selected', 'true');
-        if ($(this).hasClass('collapse-checkbox')) {
-            $(this).parents('.collapse').children('.collapse-content').removeClass('hide');
-        }
-        if (typeof checkboxEvent[name] == 'function') checkboxEvent[name](1);
-    } else {
-        $(this).children('input').val(0);
-        $(this).removeClass('selected');
-        $(this).attr('aria-selected', 'false');
-        if ($(this).hasClass('collapse-checkbox')) {
-            $(this).parents('.collapse').children('.collapse-content').addClass('hide');
-        }
-        if (typeof checkboxEvent[name] == 'function') checkboxEvent[name](0);
-    }
-});
+
 
 function ptextChkUseFormattingCodeChange(e) {
     if (e == 1) {
@@ -439,82 +377,6 @@ function getOutputAfter() {
         return $('#config-output-after').val();
     } else {
         return '';
-    }
-}
-
-function formatJson(json, options) {
-    var reg = null,
-        formatted = '',
-        pad = 0,
-        PADDING = '    ';
-    options = options || {};
-    options.newlineAfterColonIfBeforeBraceOrBracket = (options.newlineAfterColonIfBeforeBraceOrBracket === true) ? true : false;
-    options.spaceAfterColon = (options.spaceAfterColon === false) ? false : true;
-    if (typeof json !== 'string') {
-        json = JSON.stringify(json);
-    } else {
-        json = JSON.parse(json);
-        json = JSON.stringify(json);
-    }
-    reg = /([\{\}])/g;
-    json = json.replace(reg, '\r\n$1\r\n');
-    reg = /([\[\]])/g;
-    json = json.replace(reg, '\r\n$1\r\n');
-    reg = /(\,)/g;
-    json = json.replace(reg, '$1\r\n');
-    reg = /(\r\n\r\n)/g;
-    json = json.replace(reg, '\r\n');
-    reg = /\r\n\,/g;
-    json = json.replace(reg, ',');
-    if (!options.newlineAfterColonIfBeforeBraceOrBracket) {
-        reg = /\:\r\n\{/g;
-        json = json.replace(reg, ':{');
-        reg = /\:\r\n\[/g;
-        json = json.replace(reg, ':[');
-    }
-    if (options.spaceAfterColon) {
-        reg = /\:/g;
-        json = json.replace(reg, ': ');
-    }
-    (json.split('\r\n')).forEach(function (node, index) {
-        var i = 0,
-                indent = 0,
-                padding = '';
-
-        if (node.match(/\{$/) || node.match(/\[$/)) {
-            indent = 1;
-        } else if (node.match(/\}/) || node.match(/\]/)) {
-            if (pad !== 0) {
-                pad -= 1;
-            }
-        } else {
-            indent = 0;
-        }
-
-        for (i = 0; i < pad; i++) {
-            padding += PADDING;
-        }
-
-        formatted += padding + node + '\r\n';
-        pad += indent;
-    }
-    );
-    return formatted.replace(/^\s+|\s+$/g,'');
-};
-
-function setDefaultValue($sel, value) {
-    $($sel).data('default', value);
-    $($sel).val(value);
-}
-
-function setCheckboxDefaultValue($sel, value) {
-    $($sel).val(value);
-    if (value == 1) {
-        $($sel).parents('.checkbox').attr('aria-selected', 'true');
-        $($sel).parents('.checkbox').addClass('selected');
-    } else {
-        $($sel).parents('.checkbox').attr('aria-selected', 'false');
-        $($sel).parents('.checkbox').removeClass('selected');
     }
 }
 
@@ -571,7 +433,7 @@ $(document).on('click', '.editor-format-btn', function() {
         insertTextAtCursor(editorID, format[value], format.clear);
     } else {
         insertTextAtCursor(editorID, format.clear, '', false, false, false, true, function(e) {
-            return e.replace(/(?<!\\)@(\S)/g, '');
+            return e.replace(/(?<!\\)@(\[#[0-9a-fA-F]{3,8}\]|\S)/g, '');
         });
     }
 });
@@ -586,7 +448,7 @@ $(document).on('input', '#ptext-content', function() {
 $(document).on('click', '.history-message-item-btn-edit', function() {
     let i = $(this).data('index');
 
-    $('#output-content').val(formatJson(history[i].data));
+    $('#output-content').val(JSON.stringify(history[i].data, null, 4));
     $('#tabpage-nav-output, #tabpage-nav-output-content').click();
     $('#output-content').focus();
     $('#output-content').select();
@@ -626,36 +488,6 @@ $(document).on('click', '#history-btn-clear-cancel', function() {
     $('#history-editor-controller').html(`<button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">清空历史记录</button>`);
     $('#history-btn-clear').focus();
 });
-
-
-
-function insertTextAtCursor(id, text, text2 = '', forceInputText2 = false, forceRepeatBefore = false, forceRepeatAfter = false, firstClear = false, selectedTextFilter = undefined) {
-    let textarea       = document.getElementById(id);
-
-    let selectionStart = textarea.selectionStart,
-        selectionEnd   = textarea.selectionEnd;
-
-    let textBefore     = textarea.value.substring(0,              selectionStart),
-        selectedText   = textarea.value.substring(selectionStart, selectionEnd),
-        textAfter      = textarea.value.substring(selectionEnd);
-
-    
-    if (!forceRepeatBefore && textBefore.substring(textBefore.length - text.length) == text) text = '';
-    if (firstClear && selectionStart == 0) text = '';
-
-    if (selectionStart == selectionEnd) {
-        if (!forceInputText2) text2 = '';
-        textarea.value = textBefore + text   /*  NONE  */ + text2 + textAfter;
-        textarea.setSelectionRange(selectionStart + text.length, selectionStart + text.length);
-    } else {
-        if (typeof selectedTextFilter == 'function') selectedText = selectedTextFilter(selectedText);
-        if (!forceRepeatAfter && textAfter.search(text2) == 0) text2 = '';
-        textarea.value = textBefore + text + selectedText + text2 + textAfter;
-        textarea.setSelectionRange(selectionStart + text.length, selectionStart + text.length + selectedText.length);
-    }
-    
-    textarea.focus();
-}
 
 
 

@@ -302,6 +302,17 @@ class Popups {
             </div>
             <div class="popups-palette-content">
                 ${ Popups.palettePage(palette) }
+            </div>
+            <div class="popups-palette-accessible">
+                <span>需要无障碍使用帮助吗？</span>
+                ${
+                    EditorForm.buttonAir(
+                        '了解详情',
+                        {
+                            id: 'popups-palette-accessible-help-btn'
+                        }
+                    )
+                }
             </div>`,
             id,
             data

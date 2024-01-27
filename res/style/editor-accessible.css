@@ -38,7 +38,8 @@
 .accessible-high-contrast textarea,
 .accessible-high-contrast input[type=number],
 .accessible-high-contrast input[type=text],
-.accessible-high-contrast #editor-log {
+.accessible-high-contrast #editor-log,
+.accessible-high-contrast select {
     border: 1px solid var(--text-primary);
 }
 
@@ -51,4 +52,17 @@
 .accessible-drotanopia-and-deuteranopia .echo-live-client-state-block.state-sleep {
     background-color: transparent;
     border: 1px solid var(--color-general-dark);
+}
+
+
+/* 通用 */
+.accessible-high-contrast #popups-palette,
+.accessible-drotanopia-and-deuteranopia #popups-palette {
+    min-height: calc(var(--popups-height-min) + 48px);
+    max-height: calc(var(--popups-height-max) + 48px);
+}
+
+.accessible-high-contrast #popups-palette .popups-palette-accessible,
+.accessible-drotanopia-and-deuteranopia #popups-palette .popups-palette-accessible {
+    display: flex;
 }

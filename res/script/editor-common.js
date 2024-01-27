@@ -1,6 +1,6 @@
 "use strict";
 
-if (config.accessible.high_contrast) $('body').addClass('accessible-high-contrast');
+if (config.accessible.high_contrast || window.matchMedia('(forced-colors: active)').matches) $('body').addClass('accessible-high-contrast');
 if (config.accessible.drotanopia_and_deuteranopia) $('body').addClass('accessible-drotanopia-and-deuteranopia');
 
 let timer = {
@@ -189,4 +189,10 @@ $(document).on('change', '#popups-palette-select', function() {
     let name = $(this).val();
     $('#popups-palette .palette-page').addClass('hide');
     $(`#popups-palette .palette-page[data-palette-id="${ name }"]`).removeClass('hide');
+});
+
+// 拾色器无障碍提示按钮
+$(document).on('click', '#popups-palette-accessible-help-btn', function() {
+    window.open('https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/#visual', '_blank');
+    popupsDisplay('#popups-palette', false);
 });

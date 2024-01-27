@@ -658,3 +658,16 @@ select:focus {
     height: 100%;
     background-color: var(--color);
 }
+
+#popups-palette .popups-palette-accessible {
+    display: none;
+    /* display: flex; */
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 8px 0 16px;
+    box-sizing: border-box;
+    max-height: 48px;
+    min-height: 48px;
+    border-top: var(--border-coler) 1px solid;
+}

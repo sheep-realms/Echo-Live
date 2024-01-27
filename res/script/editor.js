@@ -26,7 +26,7 @@ $('.tabpage-panel[data-pageid="ptext"] .editor-controller').append(EditorForm.ed
 if (!config.editor.tabpage_config_enable) $('#tabpage-nav-config').addClass('hide');
 if (!config.editor.tabpage_output_enable) $('#tabpage-nav-output').addClass('hide');
 
-popupsCreate(Popups.palettePopups(echoLiveEditor.palette), '#popups-palette');
+popupsCreate(Popups.palettePopups(echoLiveEditor.getPalettes()), '#popups-palette');
 $('#popups-palette .palette-page').eq(0).removeClass('hide');
 
 let elb;
@@ -420,6 +420,7 @@ function sendHistoryMessage(data) {
 }
 
 
+// 编辑器控制器点击
 $(document).on('click', '.editor-format-btn', function() {
     let editorID = $(this).data('editorid'),
         value = $(this).data('value');
@@ -443,6 +444,13 @@ $(document).on('click', '.editor-format-btn', function() {
     } else {
         insertTextAtCursor(editorID, format[value], format.clear);
     }
+});
+
+// 拾色器色块点击
+$(document).on('click', '#popups-palette .color-box', function() {
+    let value = $(this).data('value');
+    insertTextAtCursor('ptext-content', `@[${ value }]`, '@r');
+    popupsDisplay('#popups-palette', false);
 });
 
 // 纯文本编辑器字数统计

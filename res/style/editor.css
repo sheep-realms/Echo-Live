@@ -582,7 +582,7 @@ select:focus {
     z-index: 2000;
     left: var(--popups-pos-left);
     top: var(--popups-pos-top);
-    min-width: var(--popups-width-min);
+    min-width: min(var(--popups-width-min), calc(100vw - 32px));
     max-width: min(var(--popups-width-max), calc(100vw - 32px));
     min-height: var(--popups-height-min);
     max-height: var(--popups-height-max);

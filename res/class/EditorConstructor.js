@@ -247,9 +247,9 @@ class Popups {
         let dom = '<div class="palette-list">';
         palette.colors.forEach(e => {
             if (e?.type === undefined || e?.type === 'color') {
-                dom += `<button class="color-box" title="${ e.title }" data-value="${ e.value }" style="--color: ${ e.value };"><div class="color"></div></button>`
+                dom += `<button class="color-box" title="${ e.title.replace(/"/g, '&quot;') }" data-value="${ e.value.replace(/"/g, '') }" style="--color: ${ e.value.replace(/"/g, '') };"><div class="color"></div></button>`
             } else if (e?.type === 'group') {
-                dom += `</div><div class="palette-group">${ e.value }</div><div class="palette-list">`
+                dom += `</div><div class="palette-group">${ e.value.replace(/</g, '&lt;').replace(/>/g, '&gt;') }</div><div class="palette-list">`
             }
         });
         dom += '</div>'

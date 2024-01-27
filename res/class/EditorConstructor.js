@@ -276,6 +276,23 @@ class Popups {
             },
             ...data
         }
+
+        if (!Array.isArray(palette) || palette.length < 1) {
+            palette = [
+                {
+                    meta: {
+                        name: 'missingno',
+                        title: 'missingno'
+                    },
+                    colors: [
+                        { type: 'group', value: '卧槽？！你在干什么？我放在这里那么大一个调色板呢？还好我技高一筹给你兜住了！' },
+                        { value: '#000000', title: 'Black' },
+                        { value: '#ffffff', title: 'White' }
+                    ]
+                }
+            ];
+        }
+
         return Popups.container(
             `<div class="popups-palette-header">
                 <label for="popups-palette-select" style="display: none;">色板库</label>

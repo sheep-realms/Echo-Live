@@ -1,0 +1,319 @@
+"use strict";
+
+if (config.accessible.high_contrast || window.matchMedia('(forced-colors: active)').matches) $('body').addClass('accessible-high-contrast');
+if (config.accessible.drotanopia_and_deuteranopia) $('body').addClass('accessible-drotanopia-and-deuteranopia');
+
+let timer = {
+    clickEffect: -1
+}
+
+let checkboxEvent = {};
+
+// 设置表单元素默认值
+function setDefaultValue($sel, value) {
+    $($sel).data('default', value);
+    $($sel).val(value);
+}
+
+// 设置复选框默认状
+function setCheckboxDefaultValue($sel, value) {
+    $($sel).val(value);
+    if (value == 1) {
+        $($sel).parents('.checkbox').attr('aria-selected', 'true');
+        $($sel).parents('.checkbox').addClass('selected');
+    } else {
+        $($sel).parents('.checkbox').attr('aria-selected', 'false');
+        $($sel).parents('.checkbox').removeClass('selected');
+    }
+}
+
+
+// 模拟点击
+function effectClick($sel) {
+    clearTimeout(timer.clickEffect);
+    $('.fh-effect-click').removeClass('fh-effect-click');
+    $($sel).addClass('fh-effect-click');
+    timer.clickEffect = setTimeout(() => {
+        $($sel).removeClass('fh-effect-click');
+    }, 1000);
+}
+
+// 获取格式化时间
+function getTime() {
+    let d = new Date();
+    return `${d.getFullYear()}-${afterZero(d.getMonth() + 1)}-${afterZero(d.getDate())} ${afterZero(d.getHours())}:${afterZero(d.getMinutes())}:${afterZero(d.getSeconds())}`;
+}
+
+// 时间前补零
+function afterZero(value) {
+    if (value >= 10) {
+        return `${value}`;
+    } else {
+        return `0${value}`;
+    }
+}
+
+
+// 编辑器插入字符
+function insertTextAtCursor(id, text, text2 = '', forceInputText2 = false, forceRepeatBefore = false, forceRepeatAfter = false, firstClear = false, selectedTextFilter = undefined) {
+    let textarea       = document.getElementById(id);
+
+    let selectionStart = textarea.selectionStart,
+        selectionEnd   = textarea.selectionEnd;
+
+    let textBefore     = textarea.value.substring(0,              selectionStart),
+        selectedText   = textarea.value.substring(selectionStart, selectionEnd),
+        textAfter      = textarea.value.substring(selectionEnd);
+
+    
+    if (!forceRepeatBefore && textBefore.substring(textBefore.length - text.length) == text) text = '';
+    if (firstClear && selectionStart == 0) text = '';
+
+    if (selectionStart == selectionEnd) {
+        if (!forceInputText2) text2 = '';
+        textarea.value = textBefore + text   /*  NONE  */ + text2 + textAfter;
+        textarea.setSelectionRange(selectionStart + text.length, selectionStart + text.length);
+    } else {
+        if (typeof selectedTextFilter == 'function') selectedText = selectedTextFilter(selectedText);
+        if (!forceRepeatAfter && textAfter.search(text2) == 0) text2 = '';
+        textarea.value = textBefore + text + selectedText + text2 + textAfter;
+        textarea.setSelectionRange(selectionStart + text.length, selectionStart + text.length + selectedText.length);
+    }
+    
+    textarea.focus();
+}
+
+// 计算对比度是否符合 WCAG 标准
+function calculateContrastRatio(color1 = undefined, color2 = undefined) {
+    if (typeof color2 !== 'string') return;
+    if (typeof color1 !== 'string') return;
+
+    let rgb1 = hexToRgb(color1);
+    let rgb2 = hexToRgb(color2);
+    rgb1.a = 1;
+
+    if (rgb2?.a != undefined && rgb2?.a < 1) rgb2 = blendColors(rgb1, rgb2);
+
+    // 辅助函数：Alpha 混合
+    function blendColors(backgroundColor, foregroundColor) {
+        const blendAlpha = (1 - foregroundColor.a) * backgroundColor.a;
+        const resultAlpha = foregroundColor.a + blendAlpha;
+    
+        const resultColor = {
+            r: Math.round((foregroundColor.r * foregroundColor.a + backgroundColor.r * blendAlpha) / resultAlpha),
+            g: Math.round((foregroundColor.g * foregroundColor.a + backgroundColor.g * blendAlpha) / resultAlpha),
+            b: Math.round((foregroundColor.b * foregroundColor.a + backgroundColor.b * blendAlpha) / resultAlpha),
+        };
+    
+        return resultColor;
+    }
+
+    // 辅助函数：将十六进制颜色转换为 RGB
+    function hexToRgb(hexColor) {
+        // 移除可能包含的 # 符号
+        hexColor = hexColor.replace(/^#/, '');
+    
+        // 长度转换
+        if (hexColor.length === 3 || hexColor.length === 4) {
+            hexColor = hexColor
+                .split('')
+                .map(char => char.repeat(2))
+                .join('');
+        }
+    
+        // 提取颜色通道的值
+        const r = parseInt(hexColor.substring(0, 2), 16);
+        const g = parseInt(hexColor.substring(2, 4), 16);
+        const b = parseInt(hexColor.substring(4, 6), 16);
+    
+        // 检查是否有 alpha 通道
+        if (hexColor.length === 8) {
+            const a = parseInt(hexColor.substring(6, 8), 16) / 255;
+            return { r, g, b, a };
+        } else {
+            return { r, g, b };
+        }
+    }
+
+    // 辅助函数：计算相对亮度
+    function calculateRelativeLuminance(color) {
+        const gammaCorrect = (value) => {
+            value = value / 255;
+            return value <= 0.03928 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4);
+        };
+        return 0.2126 * gammaCorrect(color.r) + 0.7152 * gammaCorrect(color.g) + 0.0722 * gammaCorrect(color.b);
+    }
+
+    // 辅助函数：计算对比度
+    function calculateContrast(color1, color2) {
+        const luminance1 = calculateRelativeLuminance(color1);
+        const luminance2 = calculateRelativeLuminance(color2);
+        const lighter = Math.max(luminance1, luminance2);
+        const darker = Math.min(luminance1, luminance2);
+        return (lighter + 0.05) / (darker + 0.05);
+    }
+
+    // 辅助函数：检查是否符合标准
+    function checkContrastStandard(contrastRatio, standard) {
+        return contrastRatio >= standard;
+    }
+
+    // 计算对比度
+    const contrastRatio = calculateContrast(rgb1, rgb2);
+
+    // 返回结果
+    return {
+        contrastRatio: contrastRatio,
+        meetsAA: checkContrastStandard(contrastRatio, 4.5),
+        meetsAAA: checkContrastStandard(contrastRatio, 7)
+    };
+}
+
+
+// 创建悬浮框
+function popupsCreate(dom, sel) {
+    $('body').append(dom);
+    $(window).on("resize", function () {
+        let pos = $(sel).offset();
+        popupsMove(sel, pos.left, pos.top);
+    });
+}
+
+// 更改悬浮框可见性
+function popupsDisplay(sel, value = true) {
+    if (value) {
+        $(sel).removeClass('hide');
+    } else {
+        $(sel).addClass('hide');
+    }
+}
+
+// 移动悬浮框
+function popupsMove(sel, left = 0, top = 0) {
+    let $sel = $(sel),
+        popupsWidth = $sel.outerWidth(),
+        popupsHeight = $sel.outerHeight();
+    
+    if (document.documentElement.clientWidth - left - 16 < popupsWidth) left = document.documentElement.clientWidth - popupsWidth - 16;
+    if (document.documentElement.scrollHeight - top - 16 < popupsHeight) top = document.documentElement.scrollHeight - popupsHeight - 16;
+    if (document.documentElement.scrollTop + window.innerHeight - top < popupsHeight) top = document.documentElement.scrollTop + window.innerHeight - popupsHeight - 16;
+    if (left < 16) left = 16;
+    if (top < 16) top = 16;
+    $sel.css('--popups-pos-left', left + 'px').css('--popups-pos-top', top + 'px');
+}
+
+// 移动悬浮框到元素
+function popupsMoveToElement(popupsSel, elementSel, align = 'left', vertical = 'bottom', gap = 8) {
+    let $psel   = $(popupsSel),
+        $esel   = $(elementSel),
+        epos    = $esel.offset(),
+        ewidth  = $esel.width(),
+        eheight = $esel.height(),
+        pwidth  = $psel.width(),
+        pheight = $psel.height(),
+        newpos  = { left: 0, top: 0};
+
+    if (vertical === 'bottom') {
+        newpos.top = epos.top + eheight + gap;
+    } else if (vertical === 'top') {
+        newpos.top = epos.top - gap - pheight;
+    }
+
+    if (align === 'left') {
+        newpos.left = epos.left;
+    } else if (align === 'center') {
+        newpos.left = epos.left + ewidth / 2 - pwidth / 2;
+    } else if (align === 'right') {
+        newpos.left = epos.left + ewidth - pwidth;
+    }
+
+    popupsMove(popupsSel, newpos.left, newpos.top);
+}
+
+// 悬浮框隐去逻辑
+$(document).on('mousedown', function(e) {
+    if ($(e.target).closest('.fh-popups:not(.hide)').length == 0) $('.fh-popups').addClass('hide');
+});
+
+// 复选框
+$(document).on('click', '.checkbox', function() {
+    let v = $(this).children('input').val();
+    let name = $(this).children('input').attr('name');
+    if (v == 0) {
+        $(this).children('input').val(1);
+        $(this).addClass('selected');
+        $(this).attr('aria-selected', 'true');
+        if ($(this).hasClass('collapse-checkbox')) {
+            $(this).parents('.collapse').children('.collapse-content').removeClass('hide');
+        }
+        if (typeof checkboxEvent[name] == 'function') checkboxEvent[name](1);
+    } else {
+        $(this).children('input').val(0);
+        $(this).removeClass('selected');
+        $(this).attr('aria-selected', 'false');
+        if ($(this).hasClass('collapse-checkbox')) {
+            $(this).parents('.collapse').children('.collapse-content').addClass('hide');
+        }
+        if (typeof checkboxEvent[name] == 'function') checkboxEvent[name](0);
+    }
+});
+
+// 标签页切换
+$(document).on('click', '.tabpage-nav .tabpage-nav-item', function() {
+    $(this).parent().children().attr('aria-selected', 'false');
+    $(this).attr('aria-selected', 'true');
+    const navid = $(this).parent().data('navid');
+    const pageid = $(this).data('pageid');
+    // console.log($(`.tabpage-centent[data-navid="${navid}"] .tabpage-panel`));
+    // document.startViewTransition(() => {});
+    $(`.tabpage-centent[data-navid="${navid}"]>.tabpage-panel`).addClass('hide');
+    $(`.tabpage-centent[data-navid="${navid}"]>.tabpage-panel[data-pageid="${pageid}"]`).removeClass('hide');
+});
+
+// 拾色器色板切换
+$(document).on('change', '#popups-palette-select', function() {
+    let name = $(this).val();
+    $('#popups-palette .palette-page').addClass('hide');
+    $(`#popups-palette .palette-page[data-palette-id="${ name }"]`).removeClass('hide');
+});
+
+// 拾色器无障碍提示按钮
+$(document).on('click', '#popups-palette-accessible-help-btn', function() {
+    window.open('https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/#visual', '_blank');
+    popupsDisplay('#popups-palette', false);
+});
+
+// 拾色器色块鼠标进入
+$(document).on('mouseenter', '#popups-palette.color-contrast-enable .color-box', function() {
+    paletteColorContrastCheck($(this).data('value'));
+});
+
+function paletteColorContrastCheck(value) {
+    let bg = config.editor.palette_color_contrast_background_color;
+    let threshold = config.editor.palette_color_contrast_threshold;
+
+    $('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--bg-color', bg);
+    $('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--fg-color', value);
+    $('#popups-palette .popups-palette-color-contrast .diff-dashboard .diff-fg-text').text(value.toUpperCase());
+
+    let r = calculateContrastRatio(bg, value);
+
+    $('#popups-palette .popups-palette-color-contrast .diff-result-box').removeClass('state-ok state-fail');
+    if (r.meetsAA) {
+        $('#popups-palette .popups-palette-color-contrast .diff-result-aa').addClass('state-ok');
+    } else {
+        $('#popups-palette .popups-palette-color-contrast .diff-result-aa').addClass('state-fail');
+    }
+    if (r.meetsAAA) {
+        $('#popups-palette .popups-palette-color-contrast .diff-result-aaa').addClass('state-ok');
+    } else {
+        $('#popups-palette .popups-palette-color-contrast .diff-result-aaa').addClass('state-fail');
+    }
+    if (r.contrastRatio >= threshold) {
+        $('#popups-palette .popups-palette-color-contrast .diff-result-contrast').addClass('state-ok');
+    } else {
+        $('#popups-palette .popups-palette-color-contrast .diff-result-contrast').addClass('state-fail');
+    }
+
+    $('#popups-palette .popups-palette-color-contrast .diff-result-contrast .title').text(r.contrastRatio.toFixed(1));
+}

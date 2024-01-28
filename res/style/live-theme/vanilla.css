@@ -5,6 +5,9 @@
 /* 导入：基本样式 */
 @import url("../live-common/base.css");
 
+/* 导入：默认字体 */
+@import url("../live-common/font-family.css");
+
 /* 导入：引用符号缩进 */
 @import url("../live-common/char-indent.css");
 
@@ -16,7 +19,7 @@
     padding: 0;
 
     /* 默认字体 */
-    font-family: '思源黑体';
+    font-family: var(--echo-default-font-family);
 }
 
 :root {

@@ -1,6 +1,11 @@
 # Echo Live
 ![banner](https://sheep-realms.github.io/images/project/echo-live/banner.png)
 
+![](https://img.shields.io/github/license/sheep-realms/Echo-Live?style=for-the-badge)
+![](https://img.shields.io/github/v/release/sheep-realms/Echo-Live?style=for-the-badge)
+![](https://img.shields.io/github/downloads/sheep-realms/Echo-Live/total?style=for-the-badge)
+![](https://img.shields.io/github/stars/sheep-realms/Echo-Live?style=for-the-badge)
+
 这是一款基于 [Echo](https://github.com/sheep-realms/Echo) 的用于无声系虚拟主播直播的仿视觉小说对话框 OBS 插件。该插件无需部署本地服务器，下载后开箱即用。
 
 下文为帮助文档摘要，如需阅读完整帮助文档请见 [Echo-Live 在线帮助文档](https://sheep-realms.github.io/Echo-Live-Doc/)（另有 [CloudFlare 镜像](https://echo-live-doc.pages.dev/)）。
@@ -64,9 +69,6 @@ Echo-Live 支持扩展，可用于增加额外资源。
 
 ### 开发
 见[开发文档](https://sheep-realms.github.io/Echo-Live-Doc/custom/extension/)。
-
-## 杂谈
-这是我目前能想到的最优解决方案，更便捷的操作流程需要部署服务器，无论是本地服务器还是云服务器都是对用户智商和钱包的考验。如果您有更优秀的解决方案，欢迎提出。
 
 ## 另见
 - [如何为 Echo-Live 项目作出贡献？](CONTRIBUTING.md)

@@ -7,11 +7,12 @@ let textList = [
     {text: ''}
 ];
 
-let timer = {
-    clickEffect: -1
-}
+checkboxEvent = {
+    "ptext-chk-use-formatting-code": ptextChkUseFormattingCodeChange
+};
 
 let history = [];
+let historyMinimum = 0;
 let historyClearConfirm = false;
 
 setDefaultValue('#config-output-before', config.editor.output_before);
@@ -20,11 +21,17 @@ $('#ptext-character, #rtext-character').val(config.editor.username_init);
 setCheckboxDefaultValue('#config-output-use-before', config.editor.ontput_before_enable);
 setCheckboxDefaultValue('#config-output-use-after', config.editor.ontput_after_enable);
 
+$('.tabpage-panel[data-pageid="ptext"] .editor-controller').append(EditorForm.editorController('ptext-content'));
+
 if (!config.editor.tabpage_config_enable) $('#tabpage-nav-config').addClass('hide');
 if (!config.editor.tabpage_output_enable) $('#tabpage-nav-output').addClass('hide');
 
-if (config.accessible.high_contrast)  $('body').addClass('accessible-high-contrast');
-if (config.accessible.drotanopia_and_deuteranopia) $('body').addClass('accessible-drotanopia-and-deuteranopia');
+popupsCreate(Popups.palettePopups(echoLiveEditor.getPalettes()), '#popups-palette');
+$('#popups-palette .palette-page').eq(0).removeClass('hide');
+if (config.editor.palette_color_contrast_enable) $('#popups-palette').addClass('color-contrast-enable');
+$('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--bg-color', config.editor.palette_color_contrast_background_color)
+paletteColorContrastCheck('#000000');
+
 
 let elb;
 
@@ -45,31 +52,35 @@ if (config.echolive.broadcast_enable) {
 
     // 纯文本 - 内容 - 快捷键
     $('#ptext-content').keydown(function(e) {
-        if (e.keyCode == 13 && e.ctrlKey) {
-            $('.fh-effect-click').removeClass('fh-effect-click');
-            clearTimeout(timer.clickEffect)
+        // console.log(e.keyCode);
+        if (e.ctrlKey) {
+            if (e.keyCode == 13) {
+                $('#ptext-btn-send').click();
+                effectClick('#ptext-btn-send');
+            } else if (e.keyCode == 83) {
+                e.preventDefault();
+            } else {
+                let code = {
+                    '66': 'bold',
+                    '73': 'italic',
+                    '85': 'underline',
+                    '68': 'strikethrough',
+                    '32': 'clear'
+                };
+                if (code[e.keyCode] == undefined) return;
+                if (e.keyCode == 32 && !e.shiftKey) return;
 
-            $('#ptext-btn-send').click();
-
-            $('#ptext-btn-send').addClass('fh-effect-click');
-            timer.clickEffect = setTimeout(function () {
-                $('#ptext-btn-send').removeClass('fh-effect-click');
-            }, 1000);
+                e.preventDefault();
+                $(`#ptext-editor .editor-controller:not(.disabled) button[data-value="${code[e.keyCode]}"]`).click();
+            }
         }
     })
 
-    // 纯文本 - 内容 - 快捷键
+    // 输出 - 内容 - 快捷键
     $('#output-content').keydown(function(e) {
         if (e.keyCode == 13 && e.ctrlKey) {
-            $('.fh-effect-click').removeClass('fh-effect-click');
-            clearTimeout(timer.clickEffect)
-
             $('#output-btn-send').click();
-
-            $('#output-btn-send').addClass('fh-effect-click');
-            timer.clickEffect = setTimeout(function () {
-                $('#output-btn-send').removeClass('fh-effect-click');
-            }, 1000);
+            effectClick('#output-btn-send');
         }
     })
 
@@ -93,19 +104,6 @@ if (config.echolive.broadcast_enable) {
     editorLog('未开启广播模式，无日志显示。');
 }
 
-function getTime() {
-    let d = new Date();
-    return `${d.getFullYear()}-${afterZero(d.getMonth() + 1)}-${afterZero(d.getDate())} ${afterZero(d.getHours())}:${afterZero(d.getMinutes())}:${afterZero(d.getSeconds())}`;
-}
-
-function afterZero(value) {
-    if (value >= 10) {
-        return `${value}`;
-    } else {
-        return `0${value}`;
-    }
-}
-
 
 let logMsgMark = 0;
 
@@ -118,9 +116,16 @@ function editorLog(message = '', type = 'info') {
         'erro': '错误：',
         'done': '完成：',
     };
-    $('#editor-log').append(`<div class="log-item log-type-${type}" ${type == 'dbug' ? 'aria-hidden="false"' : ''}><span class="time" aria-hidden="false">${getTime()}</span> <span class="type" aria-label="${typename[type]}">[${type.toUpperCase()}]</span> <span class="message">${message}</span></div>`);
+    $('#editor-log').append(`<div role="listitem" class="log-item log-type-${type}" ${type == 'dbug' ? 'aria-hidden="false"' : ''}><span class="time" aria-hidden="false">${getTime()}</span> <span class="type" aria-label="${typename[type]}">[${type.toUpperCase()}]</span> <span class="message" ${type == 'erro' || type == 'warn' ? ' role="alert"' : ''}>${message}</span></div>`);
     $('#editor-log').scrollTop($('#editor-log').height());
 
+    // 防止日志过多
+    let $logitems = $('#editor-log .log-item');
+    if (config.editor.log_line_maximum >= 0 && $logitems.length > config.editor.log_line_maximum) {
+        $(`#editor-log .log-item:lt(${$logitems.length - config.editor.log_line_maximum})`).remove();
+    }
+
+    // 通知重要消息
     if ((type == 'warn' || type == 'erro') && $('#tabpage-nav-log').attr('aria-selected') == 'false') {
         logMsgMark++;
         $('#log-message-mark').text(logMsgMark);
@@ -190,19 +195,6 @@ function noClient() {
 }
 
 
-
-// 标签页切换
-$('.tabpage-nav .tabpage-nav-item').click(function() {
-    $(this).parent().children().attr('aria-selected', 'false');
-    $(this).attr('aria-selected', 'true');
-    const navid = $(this).parent().data('navid');
-    const pageid = $(this).data('pageid');
-    // console.log($(`.tabpage-centent[data-navid="${navid}"] .tabpage-panel`));
-    // document.startViewTransition(() => {});
-    $(`.tabpage-centent[data-navid="${navid}"]>.tabpage-panel`).addClass('hide');
-    $(`.tabpage-centent[data-navid="${navid}"]>.tabpage-panel[data-pageid="${pageid}"]`).removeClass('hide');
-});
-
 // 纯文本重置
 $('#ptext-btn-clear').click(function() {
     $('#ptext-content').val('');
@@ -262,12 +254,19 @@ function ptextSubmit() {
     let txt = $('#ptext-content').val();
     let username = $('#ptext-character').val();
 
-    if ($('#ptext-chk-quote').val() == 1) {
-        txt = $('#ptext-ipt-quote-before').val() + txt + $('#ptext-ipt-quote-after').val();
-    }
-
     if ($('#ptext-chk-use-formatting-code').val() == 1) {
         txt = EchoLiveTools.formattingCodeToMessage(txt);
+    }
+
+    if ($('#ptext-chk-quote').val() == 1) {
+        let before = $('#ptext-ipt-quote-before').val(),
+            after  = $('#ptext-ipt-quote-after').val();
+
+        if (typeof txt == 'string') {
+            txt = before + txt + after;
+        } else {
+            txt = [before, ...txt, after];
+        }
     }
 
     let d = {
@@ -293,7 +292,7 @@ function ptextSubmit() {
 $('#ptext-btn-submit').click(function() {
     let d = ptextSubmit();
 
-    $('#output-content').val(getOutputBefore() + formatJson(d) + getOutputAfter());
+    $('#output-content').val(getOutputBefore() + JSON.stringify(d, null, 4) + getOutputAfter());
     $('#tabpage-nav-output, #tabpage-nav-output-content').click();
     $('#output-content').focus();
     $('#output-content').select();
@@ -345,24 +344,15 @@ $('#output-btn-send').click(function() {
     sendHistoryMessage(msg);
 });
 
-$('.checkbox').click(function() {
-    let v = $(this).children('input').val();
-    if (v == 0) {
-        $(this).children('input').val(1);
-        $(this).addClass('selected');
-        $(this).attr('aria-selected', 'true');
-        if ($(this).hasClass('collapse-checkbox')) {
-            $(this).parents('.collapse').children('.collapse-content').removeClass('hide');
-        }
+
+
+function ptextChkUseFormattingCodeChange(e) {
+    if (e == 1) {
+        $('.tabpage-panel[data-pageid="ptext"] .editor-controller').removeClass('disabled');
     } else {
-        $(this).children('input').val(0);
-        $(this).removeClass('selected');
-        $(this).attr('aria-selected', 'false');
-        if ($(this).hasClass('collapse-checkbox')) {
-            $(this).parents('.collapse').children('.collapse-content').addClass('hide');
-        }
+        $('.tabpage-panel[data-pageid="ptext"] .editor-controller').addClass('disabled');
     }
-});
+}
 
 
 function editorTextListUpdate() {
@@ -397,82 +387,6 @@ function getOutputAfter() {
     }
 }
 
-function formatJson(json, options) {
-    var reg = null,
-        formatted = '',
-        pad = 0,
-        PADDING = '    ';
-    options = options || {};
-    options.newlineAfterColonIfBeforeBraceOrBracket = (options.newlineAfterColonIfBeforeBraceOrBracket === true) ? true : false;
-    options.spaceAfterColon = (options.spaceAfterColon === false) ? false : true;
-    if (typeof json !== 'string') {
-        json = JSON.stringify(json);
-    } else {
-        json = JSON.parse(json);
-        json = JSON.stringify(json);
-    }
-    reg = /([\{\}])/g;
-    json = json.replace(reg, '\r\n$1\r\n');
-    reg = /([\[\]])/g;
-    json = json.replace(reg, '\r\n$1\r\n');
-    reg = /(\,)/g;
-    json = json.replace(reg, '$1\r\n');
-    reg = /(\r\n\r\n)/g;
-    json = json.replace(reg, '\r\n');
-    reg = /\r\n\,/g;
-    json = json.replace(reg, ',');
-    if (!options.newlineAfterColonIfBeforeBraceOrBracket) {
-        reg = /\:\r\n\{/g;
-        json = json.replace(reg, ':{');
-        reg = /\:\r\n\[/g;
-        json = json.replace(reg, ':[');
-    }
-    if (options.spaceAfterColon) {
-        reg = /\:/g;
-        json = json.replace(reg, ': ');
-    }
-    (json.split('\r\n')).forEach(function (node, index) {
-        var i = 0,
-                indent = 0,
-                padding = '';
-
-        if (node.match(/\{$/) || node.match(/\[$/)) {
-            indent = 1;
-        } else if (node.match(/\}/) || node.match(/\]/)) {
-            if (pad !== 0) {
-                pad -= 1;
-            }
-        } else {
-            indent = 0;
-        }
-
-        for (i = 0; i < pad; i++) {
-            padding += PADDING;
-        }
-
-        formatted += padding + node + '\r\n';
-        pad += indent;
-    }
-    );
-    return formatted.replace(/^\s+|\s+$/g,'');
-};
-
-function setDefaultValue($sel, value) {
-    $($sel).data('default', value);
-    $($sel).val(value);
-}
-
-function setCheckboxDefaultValue($sel, value) {
-    $($sel).val(value);
-    if (value == 1) {
-        $($sel).parents('.checkbox').attr('aria-selected', 'true');
-        $($sel).parents('.checkbox').addClass('selected');
-    } else {
-        $($sel).parents('.checkbox').attr('aria-selected', 'false');
-        $($sel).parents('.checkbox').removeClass('selected');
-    }
-}
-
 
 
 
@@ -488,12 +402,72 @@ function sendHistoryMessage(data) {
         time: time
     });
     $('#history-message-list').prepend(HistoryMessage.item(message, username, time, data.messages.length, l - 1));
+
+    // 防止历史记录过多
+    if (config.editor.history_maximum >= 0 && history.length > config.editor.history_maximum) {
+        history.fill(undefined, historyMinimum, history.length - config.editor.history_maximum);
+        historyMinimum = history.length - config.editor.history_maximum;
+        $(`#history-message-list .history-message-item:gt(${config.editor.history_maximum - 1})`).remove();
+    }
+
+    // 防止底部游标过高
+    if (config.advanced.editor.history_minimum_breaker_threshold >= 0 && historyMinimum >= config.advanced.editor.history_minimum_breaker_threshold) {
+        history = history.splice(historyMinimum);
+        let $list = $('#history-message-list .history-message-item');
+        for (let i = 0; i < $list.length; i++) {
+            const e = $list.eq(i);
+            let di = e.find('button').data('index');
+            e.find('button').data('index', di - historyMinimum);
+        }
+        historyMinimum = 0;
+    }
 }
+
+
+// 编辑器控制器点击
+$(document).on('click', '.editor-format-btn', function() {
+    let editorID = $(this).data('editorid'),
+        value = $(this).data('value');
+    
+    const format = {
+        bold:           '@b',
+        italic:         '@i',
+        underline:      '@u',
+        strikethrough:  '@s',
+        clear:          '@r'
+    };
+    
+    if (value == 'clear') {
+        insertTextAtCursor(editorID, format.clear, '', false, false, false, true, function(e) {
+            return e.replace(/(?<!\\)@(\[#[0-9a-fA-F]{3,8}\]|\S)/g, '');
+        });
+    } else if (value == 'color') {
+        popupsDisplay('#popups-palette');
+        popupsMoveToElement('#popups-palette', '.editor-controller button[data-value="color"]');
+        $('#popups-palette-select').focus();
+    } else {
+        insertTextAtCursor(editorID, format[value], format.clear);
+    }
+});
+
+// 拾色器色块点击
+$(document).on('click', '#popups-palette .color-box', function() {
+    let value = $(this).data('value');
+    insertTextAtCursor('ptext-content', `@[${ value }]`, '@r');
+    popupsDisplay('#popups-palette', false);
+});
+
+// 纯文本编辑器字数统计
+$(document).on('input', '#ptext-content', function() {
+    let length  = $(this).val().length;
+
+    $('#ptext-editor .editor-bottom-bar .length').text(length);
+});
 
 $(document).on('click', '.history-message-item-btn-edit', function() {
     let i = $(this).data('index');
 
-    $('#output-content').val(formatJson(history[i].data));
+    $('#output-content').val(JSON.stringify(history[i].data, null, 4));
     $('#tabpage-nav-output, #tabpage-nav-output-content').click();
     $('#output-content').focus();
     $('#output-content').select();
@@ -517,18 +491,24 @@ $(document).on('click', '#history-btn-clear', function() {
     if (historyClearConfirm) {
         historyClearConfirm = false;
         history = [];
+        historyMinimum = 0;
         $('#history-message-list').html('');
         $('#history-editor-controller').html(`<button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">清空历史记录</button>`);
+        $('#history-btn-clear').focus();
     } else {
         historyClearConfirm = true;
         $('#history-editor-controller').html(`<button id="history-btn-clear-cancel" class="fh-button fh-big">取消</button><button id="history-btn-clear" class="fh-button fh-big fh-danger">确认清空</button>`)
+        $('#history-btn-clear-cancel').focus();
     }
 });
 
 $(document).on('click', '#history-btn-clear-cancel', function() {
     historyClearConfirm = false;
     $('#history-editor-controller').html(`<button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">清空历史记录</button>`);
+    $('#history-btn-clear').focus();
 });
+
+
 
 // 彩蛋
 function getDateNumber() {

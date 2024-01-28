@@ -10,6 +10,9 @@
 // ======================================================================================
 
 const config = {
+    // 数据版本，用于后续的自动化配置更新，请勿修改
+    data_version: 1,
+
     // Echo 相关配置
     echo: {
         // 滚动速度，每个字符打印循环的延迟时间（毫秒），最小值为 4
@@ -141,8 +144,46 @@ const config = {
         ontput_after_enable: 1,
 
 
+        // == 历史消息 ==
         // 历史消息再次发送时使历史记录回到顶部
-        history_resend_bubble: false
+        history_resend_bubble: false,
+        // 历史消息数量上限
+        // * 设为 -1 则不设上限。
+        history_maximum: 128,
+
+
+        // 日志行数上限
+        // * 设为 -1 则不设上限。
+        log_line_maximum: 512,
+
+
+        // == 拾色器 ==
+
+        // 拾色器中启用的色板
+        // * 设为 'all' 视为启用所有可用色板。
+        palette: 'all',
+        // * 设为数组则选择性启用。
+        // * 如需选择性启用，请注释掉上面的配置项，并解除注释下面的配置项。
+        // * 可在此调整排序。
+        // palette: [
+        //     'material',
+        //     'tailwindcss',
+        //     'ant_design',
+        //     'minecraft',
+        // ],
+
+        // 拾色器启用 WCAG 颜色对比度测试
+        palette_color_contrast_enable: false,
+
+        // 拾色器 WCAG 颜色对比度测试面板参考背景色
+        // * 仅支持十六进制颜色码。
+        // * 请注意：背景色的 Alpha 通道会被忽略。
+        // ** 如果您的对话框背景颜色是半透明或全透明将无法正确计算对比度，请您自行采集混合后的背景颜色。
+        palette_color_contrast_background_color: '#ffffff',
+
+        // 拾色器 WCAG 颜色对比度测试面板对比度参考阈值
+        // * 对比度低于此值视为测试失败。
+        palette_color_contrast_threshold: 3.8,
     },
 
     // 无障碍相关配置
@@ -152,6 +193,16 @@ const config = {
         high_contrast: false,
         // 红绿色盲
         drotanopia_and_deuteranopia: false,
+    },
+
+    // 高级设置
+    // * 除非您知道您在干什么，否则请不要动这里的设置。
+    advanced: {
+        editor: {
+            // 历史记录底部游标熔断阈值
+            // * 设为 -1 可禁用此机制。
+            history_minimum_breaker_threshold: 128,
+        },
     },
 
     // == 未使用配置 ==

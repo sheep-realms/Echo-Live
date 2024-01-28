@@ -27,6 +27,7 @@
     --text-placeholder: #666;
 
     --border-coler: #000;
+    --box-shadow: 0 0 0 4px rgba(128, 128, 128, 0.75);
 }
 
 .accessible-high-contrast .echo-live-client-state-block.state-sleep {
@@ -37,7 +38,8 @@
 .accessible-high-contrast textarea,
 .accessible-high-contrast input[type=number],
 .accessible-high-contrast input[type=text],
-.accessible-high-contrast #editor-log {
+.accessible-high-contrast #editor-log,
+.accessible-high-contrast select {
     border: 1px solid var(--text-primary);
 }
 
@@ -50,4 +52,34 @@
 .accessible-drotanopia-and-deuteranopia .echo-live-client-state-block.state-sleep {
     background-color: transparent;
     border: 1px solid var(--color-general-dark);
+}
+
+.accessible-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content {
+    color: var(--color-general-dark);
+    fill: var(--color-general-dark);
+    border: var(--color-general-dark) 1px solid;
+}
+
+.accessible-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content.fail {
+    background-color: var(--color-danger-dark);
+    border: var(--color-danger-dark) 1px solid;
+    fill: #FFFFFF;
+    color: #FFFFFF;
+}
+
+
+/* 通用 */
+.accessible-high-contrast #popups-palette,
+.accessible-drotanopia-and-deuteranopia #popups-palette {
+    --ex-height: 48px;
+}
+
+.accessible-high-contrast #popups-palette.color-contrast-enable,
+.accessible-drotanopia-and-deuteranopia #popups-palette.color-contrast-enable {
+    --ex-height: calc(48px + 60px);
+}
+
+.accessible-high-contrast #popups-palette .popups-palette-accessible,
+.accessible-drotanopia-and-deuteranopia #popups-palette .popups-palette-accessible {
+    display: flex;
 }

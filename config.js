@@ -168,6 +168,7 @@ const config = {
         // palette: [
         //     'material',
         //     'tailwindcss',
+        //     'ant_design',
         //     'minecraft',
         // ],
 

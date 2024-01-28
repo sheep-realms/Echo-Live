@@ -28,6 +28,10 @@ if (!config.editor.tabpage_output_enable) $('#tabpage-nav-output').addClass('hid
 
 popupsCreate(Popups.palettePopups(echoLiveEditor.getPalettes()), '#popups-palette');
 $('#popups-palette .palette-page').eq(0).removeClass('hide');
+if (config.editor.palette_color_contrast_enable) $('#popups-palette').addClass('color-contrast-enable');
+$('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--bg-color', config.editor.palette_color_contrast_background_color)
+paletteColorContrastCheck('#000000');
+
 
 let elb;
 

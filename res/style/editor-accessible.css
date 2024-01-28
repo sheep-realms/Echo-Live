@@ -54,12 +54,29 @@
     border: 1px solid var(--color-general-dark);
 }
 
+.accessible-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content {
+    color: var(--color-general-dark);
+    fill: var(--color-general-dark);
+    border: var(--color-general-dark) 1px solid;
+}
+
+.accessible-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content.fail {
+    background-color: var(--color-danger-dark);
+    border: var(--color-danger-dark) 1px solid;
+    fill: #FFFFFF;
+    color: #FFFFFF;
+}
+
 
 /* 通用 */
 .accessible-high-contrast #popups-palette,
 .accessible-drotanopia-and-deuteranopia #popups-palette {
-    min-height: calc(var(--popups-height-min) + 48px);
-    max-height: calc(var(--popups-height-max) + 48px);
+    --ex-height: 48px;
+}
+
+.accessible-high-contrast #popups-palette.color-contrast-enable,
+.accessible-drotanopia-and-deuteranopia #popups-palette.color-contrast-enable {
+    --ex-height: calc(48px + 60px);
 }
 
 .accessible-high-contrast #popups-palette .popups-palette-accessible,

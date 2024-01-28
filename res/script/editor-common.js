@@ -83,6 +83,92 @@ function insertTextAtCursor(id, text, text2 = '', forceInputText2 = false, force
     textarea.focus();
 }
 
+// 计算对比度是否符合 WCAG 标准
+function calculateContrastRatio(color1 = undefined, color2 = undefined) {
+    if (typeof color2 !== 'string') return;
+    if (typeof color1 !== 'string') return;
+
+    let rgb1 = hexToRgb(color1);
+    let rgb2 = hexToRgb(color2);
+    rgb1.a = 1;
+
+    if (rgb2?.a != undefined && rgb2?.a < 1) rgb2 = blendColors(rgb1, rgb2);
+
+    // 辅助函数：Alpha 混合
+    function blendColors(backgroundColor, foregroundColor) {
+        const blendAlpha = (1 - foregroundColor.a) * backgroundColor.a;
+        const resultAlpha = foregroundColor.a + blendAlpha;
+    
+        const resultColor = {
+            r: Math.round((foregroundColor.r * foregroundColor.a + backgroundColor.r * blendAlpha) / resultAlpha),
+            g: Math.round((foregroundColor.g * foregroundColor.a + backgroundColor.g * blendAlpha) / resultAlpha),
+            b: Math.round((foregroundColor.b * foregroundColor.a + backgroundColor.b * blendAlpha) / resultAlpha),
+        };
+    
+        return resultColor;
+    }
+
+    // 辅助函数：将十六进制颜色转换为 RGB
+    function hexToRgb(hexColor) {
+        // 移除可能包含的 # 符号
+        hexColor = hexColor.replace(/^#/, '');
+    
+        // 长度转换
+        if (hexColor.length === 3 || hexColor.length === 4) {
+            hexColor = hexColor
+                .split('')
+                .map(char => char.repeat(2))
+                .join('');
+        }
+    
+        // 提取颜色通道的值
+        const r = parseInt(hexColor.substring(0, 2), 16);
+        const g = parseInt(hexColor.substring(2, 4), 16);
+        const b = parseInt(hexColor.substring(4, 6), 16);
+    
+        // 检查是否有 alpha 通道
+        if (hexColor.length === 8) {
+            const a = parseInt(hexColor.substring(6, 8), 16) / 255;
+            return { r, g, b, a };
+        } else {
+            return { r, g, b };
+        }
+    }
+
+    // 辅助函数：计算相对亮度
+    function calculateRelativeLuminance(color) {
+        const gammaCorrect = (value) => {
+            value = value / 255;
+            return value <= 0.03928 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4);
+        };
+        return 0.2126 * gammaCorrect(color.r) + 0.7152 * gammaCorrect(color.g) + 0.0722 * gammaCorrect(color.b);
+    }
+
+    // 辅助函数：计算对比度
+    function calculateContrast(color1, color2) {
+        const luminance1 = calculateRelativeLuminance(color1);
+        const luminance2 = calculateRelativeLuminance(color2);
+        const lighter = Math.max(luminance1, luminance2);
+        const darker = Math.min(luminance1, luminance2);
+        return (lighter + 0.05) / (darker + 0.05);
+    }
+
+    // 辅助函数：检查是否符合标准
+    function checkContrastStandard(contrastRatio, standard) {
+        return contrastRatio >= standard;
+    }
+
+    // 计算对比度
+    const contrastRatio = calculateContrast(rgb1, rgb2);
+
+    // 返回结果
+    return {
+        contrastRatio: contrastRatio,
+        meetsAA: checkContrastStandard(contrastRatio, 4.5),
+        meetsAAA: checkContrastStandard(contrastRatio, 7)
+    };
+}
+
 
 // 创建悬浮框
 function popupsCreate(dom, sel) {
@@ -196,3 +282,38 @@ $(document).on('click', '#popups-palette-accessible-help-btn', function() {
     window.open('https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/#visual', '_blank');
     popupsDisplay('#popups-palette', false);
 });
+
+// 拾色器色块鼠标进入
+$(document).on('mouseenter', '#popups-palette.color-contrast-enable .color-box', function() {
+    paletteColorContrastCheck($(this).data('value'));
+});
+
+function paletteColorContrastCheck(value) {
+    let bg = config.editor.palette_color_contrast_background_color;
+    let threshold = config.editor.palette_color_contrast_threshold;
+
+    $('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--bg-color', bg);
+    $('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--fg-color', value);
+    $('#popups-palette .popups-palette-color-contrast .diff-dashboard .diff-fg-text').text(value.toUpperCase());
+
+    let r = calculateContrastRatio(bg, value);
+
+    $('#popups-palette .popups-palette-color-contrast .diff-result-box').removeClass('state-ok state-fail');
+    if (r.meetsAA) {
+        $('#popups-palette .popups-palette-color-contrast .diff-result-aa').addClass('state-ok');
+    } else {
+        $('#popups-palette .popups-palette-color-contrast .diff-result-aa').addClass('state-fail');
+    }
+    if (r.meetsAAA) {
+        $('#popups-palette .popups-palette-color-contrast .diff-result-aaa').addClass('state-ok');
+    } else {
+        $('#popups-palette .popups-palette-color-contrast .diff-result-aaa').addClass('state-fail');
+    }
+    if (r.contrastRatio >= threshold) {
+        $('#popups-palette .popups-palette-color-contrast .diff-result-contrast').addClass('state-ok');
+    } else {
+        $('#popups-palette .popups-palette-color-contrast .diff-result-contrast').addClass('state-fail');
+    }
+
+    $('#popups-palette .popups-palette-color-contrast .diff-result-contrast .title').text(r.contrastRatio.toFixed(1));
+}

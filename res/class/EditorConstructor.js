@@ -264,6 +264,37 @@ class Popups {
         return dom;
     }
 
+    static paletteColorContrastBox(title, value, DOMClass, state = 'ok') {
+        return `<div class="diff-result-box ${ DOMClass } state-${ state }">
+            <div class="diff-result-content ok" title="${ title } 测试通过">
+                <div class="title">${ value }</div>
+                <div class="icon">
+                    ${ Icon.check() }
+                </div>
+            </div>
+            <div class="diff-result-content fail" title="${ title } 测试失败">
+                <div class="title">${ value }</div>
+                <div class="icon">
+                    ${ Icon.close() }
+                </div>
+            </div>
+        </div>`;
+    }
+
+    static paletteColorContrast(bgc = '#ffffff', fgc = '#000000', r = {contrastRatio: 21, meetsAA: true, meetsAAA: false}) {
+        return `<div class="diff-dashboard" style="--bg-color: ${ bgc }; --fg-color: ${ fgc };">
+            <div class="diff-bg">
+                <span class="diff-fg-text">${ bgc.toUpperCase() }</span>
+            </div>
+            <div class="diff-fg"></div>
+        </div>
+        <div class="diff-result">
+            ${ Popups.paletteColorContrastBox('WCAG AA', 'AA', 'diff-result-aa') }
+            ${ Popups.paletteColorContrastBox('WCAG AAA', 'AAA', 'diff-result-aaa') }
+            ${ Popups.paletteColorContrastBox('对比度参考阈值', '21', 'diff-result-contrast') }
+        </div>`
+    }
+
     static palettePopups(palette = [], data = {}, id = 'popups-palette') {
         data = {
             width: {
@@ -299,6 +330,9 @@ class Popups {
                 <select name="popups-palette-select" id="popups-palette-select">
                     ${ Popups.paletteOptions(palette) }
                 </select>
+            </div>
+            <div class="popups-palette-color-contrast">
+                ${ Popups.paletteColorContrast() }
             </div>
             <div class="popups-palette-content">
                 ${ Popups.palettePage(palette) }

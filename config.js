@@ -154,6 +154,8 @@ const config = {
         log_line_maximum: 512,
 
 
+        // == 拾色器 ==
+
         // 拾色器中启用的色板
         // * 设为 'all' 视为启用所有可用色板。
         palette: 'all',
@@ -165,6 +167,18 @@ const config = {
         //     'tailwindcss',
         //     'minecraft',
         // ],
+
+        // 拾色器启用 WCAG 颜色对比度测试
+        palette_color_contrast_enable: false,
+
+        // 拾色器 WCAG 颜色对比度测试面板背景色
+        // * 仅支持十六进制颜色码。
+        // * 请注意：背景色的 Alpha 通道会被忽略。
+        // ** 如果您的对话框背景颜色是半透明或全透明将无法正确计算对比度，请您自行采集混合后的背景颜色。
+        palette_color_contrast_background_color: '#ffffff',
+
+        // 拾色器 WCAG 颜色对比度测试面板对比度参考阈值
+        palette_color_contrast_threshold: 3.8,
     },
 
     // 无障碍相关配置

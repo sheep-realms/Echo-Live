@@ -2,7 +2,7 @@ echoLiveEditor.pushPalette([
     {
         meta: {
             name: 'material',
-            title: 'Material'
+            title: 'Material Design'
         },
         colors: [
             { value: '#000000', title: 'Black' },

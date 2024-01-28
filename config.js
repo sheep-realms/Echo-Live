@@ -174,13 +174,14 @@ const config = {
         // 拾色器启用 WCAG 颜色对比度测试
         palette_color_contrast_enable: false,
 
-        // 拾色器 WCAG 颜色对比度测试面板背景色
+        // 拾色器 WCAG 颜色对比度测试面板参考背景色
         // * 仅支持十六进制颜色码。
         // * 请注意：背景色的 Alpha 通道会被忽略。
         // ** 如果您的对话框背景颜色是半透明或全透明将无法正确计算对比度，请您自行采集混合后的背景颜色。
         palette_color_contrast_background_color: '#ffffff',
 
         // 拾色器 WCAG 颜色对比度测试面板对比度参考阈值
+        // * 对比度低于此值视为测试失败。
         palette_color_contrast_threshold: 3.8,
     },
 
@@ -198,7 +199,7 @@ const config = {
     advanced: {
         editor: {
             // 历史记录底部游标熔断阈值
-            // * 设为 -1 可禁用此机制
+            // * 设为 -1 可禁用此机制。
             history_minimum_breaker_threshold: 128,
         },
     },

@@ -268,6 +268,7 @@ $(document).on('click', '.tabpage-nav .tabpage-nav-item', function() {
     // document.startViewTransition(() => {});
     $(`.tabpage-centent[data-navid="${navid}"]>.tabpage-panel`).addClass('hide');
     $(`.tabpage-centent[data-navid="${navid}"]>.tabpage-panel[data-pageid="${pageid}"]`).removeClass('hide');
+    popupsDisplay('#popups-palette', false);
 });
 
 // 拾色器色板切换
@@ -286,6 +287,52 @@ $(document).on('click', '#popups-palette-accessible-help-btn', function() {
 // 拾色器色块鼠标进入
 $(document).on('mouseenter', '#popups-palette.color-contrast-enable .color-box', function() {
     paletteColorContrastCheck($(this).data('value'));
+});
+
+// 拾色器快捷键
+$(document).on('keydown', '#popups-palette', function(e) {
+    // console.log(e.keyCode);
+
+    let psv = [];
+    let now = '';
+    let nowIndex = 0;
+    let nextIndex = 0;
+    function getPaletteSelectValue() {
+        now = $('#popups-palette-select').val();
+        let $pso = $('#popups-palette-select option');
+        for (let i = 0; i < $pso.length; i++) {
+            psv.push($pso.eq(i).val())
+        }
+        nowIndex = psv.indexOf(now);
+        nextIndex = nowIndex;
+    }
+
+    switch (e.keyCode) {
+        case 27:
+            popupsDisplay('#popups-palette', false);
+            $('#ptext-content').focus();
+            break;
+
+        case 81:
+            getPaletteSelectValue();
+            nextIndex--;
+            if (nextIndex < 0) nextIndex = psv.length - 1;
+            $('#popups-palette-select').val(psv[nextIndex]);
+            $('#popups-palette-select').change();
+            $('#popups-palette-select').focus();
+            break;
+
+        case 69:
+            getPaletteSelectValue();
+            nextIndex = ++nextIndex % psv.length;
+            $('#popups-palette-select').val(psv[nextIndex]);
+            $('#popups-palette-select').change();
+            $('#popups-palette-select').focus();
+            break;
+    
+        default:
+            break;
+    }
 });
 
 function paletteColorContrastCheck(value) {

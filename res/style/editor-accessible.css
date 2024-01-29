@@ -43,6 +43,18 @@
     border: 1px solid var(--text-primary);
 }
 
+.accessible-high-contrast #popups-palette:not(:focus-within) .popups-palette-select-content kbd {
+    opacity: 0;
+}
+
+.accessible-high-contrast input[type=number]:focus,
+.accessible-high-contrast input[type=text]:focus,
+.accessible-high-contrast textarea:focus,
+.accessible-high-contrast select:focus,
+.accessible-high-contrast button:focus {
+    outline: #00E9FF 2px solid !important;
+}
+
 
 /* 红绿色盲 */
 .accessible-drotanopia-and-deuteranopia .echo-live-client-state-block.state-active {

@@ -289,9 +289,9 @@ class Popups {
             <div class="diff-fg"></div>
         </div>
         <div class="diff-result">
+            ${ Popups.paletteColorContrastBox('对比度参考阈值', '21', 'diff-result-contrast') }
             ${ Popups.paletteColorContrastBox('WCAG AA', 'AA', 'diff-result-aa') }
             ${ Popups.paletteColorContrastBox('WCAG AAA', 'AAA', 'diff-result-aaa') }
-            ${ Popups.paletteColorContrastBox('对比度参考阈值', '21', 'diff-result-contrast') }
         </div>`
     }
 
@@ -327,9 +327,13 @@ class Popups {
         return Popups.container(
             `<div class="popups-palette-header">
                 <label for="popups-palette-select" style="display: none;">色板库</label>
-                <select name="popups-palette-select" id="popups-palette-select">
-                    ${ Popups.paletteOptions(palette) }
-                </select>
+                <div class="popups-palette-select-content">
+                    <kbd class="accessible-key">Q</kbd>
+                    <select name="popups-palette-select" id="popups-palette-select">
+                        ${ Popups.paletteOptions(palette) }
+                    </select>
+                    <kbd class="accessible-key">E</kbd>
+                </div>
             </div>
             <div class="popups-palette-color-contrast">
                 ${ Popups.paletteColorContrast() }

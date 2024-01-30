@@ -1,6 +1,10 @@
 class EchoLiveTools {
     constructor() {}
 
+    /**
+     * 生成 UUID
+     * @returns {String} UUID
+     */
     static getUUID() {
         let timestamp = new Date().getTime();
         let perforNow = (typeof performance !== 'undefined' && performance.now && performance.now() * 1000) || 0;
@@ -17,6 +21,11 @@ class EchoLiveTools {
         });
     };
 
+    /**
+     * 解析段落格式样式
+     * @param {Object} data 单一段落格式
+     * @returns {Object} 类与样式
+     */
     static messageStyleGenerator(data) {
         let cls = '';
         if (data?.class) {
@@ -40,6 +49,11 @@ class EchoLiveTools {
         }
     }
 
+    /**
+     * 获取段落格式纯文本内容
+     * @param {String|Object|Array<Object>} message 段落格式
+     * @returns {String} 纯文本内容
+     */
     static getMessagePlainText(message) {
         if (typeof message == 'string') return message;
         if (typeof message == 'object' && !Array.isArray(message)) return message?.text;
@@ -57,6 +71,12 @@ class EchoLiveTools {
         return str;
     }
 
+    /**
+     * 获取发送消息时的日志格式
+     * @param {String|Object|Array<Object>} message 段落格式
+     * @param {String} username 说话人
+     * @returns {String} 日志输出格式
+     */
     static getMessageSendLog(message, username = '') {
         if (typeof message != 'string') message = EchoLiveTools.getMessagePlainText(message);
         if (message == '') message = '<i>[空消息]</i>';
@@ -65,6 +85,11 @@ class EchoLiveTools {
         return `<${username}> ${message}`;
     }
 
+    /**
+     * 快速格式化代码转换成段落格式
+     * @param {String} text 文本
+     * @returns {String|Object|Array<Object>} 段落格式
+     */
     static formattingCodeToMessage(text) {
         let message = [];
 

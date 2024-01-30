@@ -1,6 +1,11 @@
 "use strict";
 
-if (config.accessible.high_contrast || window.matchMedia('(forced-colors: active)').matches) $('body').addClass('accessible-high-contrast');
+if (config.accessible.high_contrast || window.matchMedia('(forced-colors: active)').matches) {
+    $('body').addClass('accessible-high-contrast');
+    $('body').css('--accessible-outline-color', config.accessible.high_contrast_outline_color);
+    $('body').css('--accessible-outline-size', config.accessible.high_contrast_outline_size);
+    $('body').css('--accessible-outline-style', config.accessible.high_contrast_outline_style);
+}
 if (config.accessible.drotanopia_and_deuteranopia) $('body').addClass('accessible-drotanopia-and-deuteranopia');
 
 let timer = {

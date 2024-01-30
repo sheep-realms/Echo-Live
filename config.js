@@ -11,7 +11,7 @@
 
 const config = {
     // 数据版本，用于后续的自动化配置更新，请勿修改
-    data_version: 1,
+    data_version: 2,
 
     // Echo 相关配置
     echo: {
@@ -189,9 +189,23 @@ const config = {
     // 无障碍相关配置
     // * 编辑器支持键盘访问。
     accessible: {
-        // 高对比度
+        // == 高对比度 ==
+
+        // 启用高对比度
         high_contrast: false,
-        // 红绿色盲
+
+        // 焦点高亮边框颜色
+        high_contrast_outline_color: '#00E9FF',
+
+        // 焦点高亮边框尺寸
+        high_contrast_outline_size: '2px',
+
+        // 焦点高亮边框样式
+        high_contrast_outline_style: 'solid',
+
+
+        // == 红绿色盲 ==
+        // * 绿色功能色会以蓝色代替。
         drotanopia_and_deuteranopia: false,
     },
 

@@ -1,5 +1,10 @@
 /* 高对比度 */
 .accessible-high-contrast {
+    --accessible-outline-color: #00E9FF;
+    --accessible-outline-size: 2px;
+    --accessible-outline-style: solid;
+    --accessible-outline: var(--accessible-outline-color) var(--accessible-outline-size) var(--accessible-outline-style);
+
     --color-main: rgb(44, 114, 154);
     --color-main-dark: gb(26, 90, 127);
 
@@ -52,7 +57,7 @@
 .accessible-high-contrast textarea:focus,
 .accessible-high-contrast select:focus,
 .accessible-high-contrast button:focus {
-    outline: #00E9FF 2px solid !important;
+    outline: var(--accessible-outline) !important;
 }
 
 

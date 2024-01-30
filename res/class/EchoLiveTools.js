@@ -117,7 +117,7 @@ class EchoLiveTools {
         for (let i = 0; i < arrayMsg.length; i++) {
             const e = arrayMsg[i];
             if (e.length < 2) {
-                msgPush(e[0]);
+                if (e[0] != '') msgPush(e[0]);
                 continue;
             }
 
@@ -141,7 +141,7 @@ class EchoLiveTools {
 
                 case '@r':
                     styleCache = {};
-                    msgPush(e[1]);
+                    if (e[1] != '') msgPush(e[1]);
                     continue;
             
                 default:

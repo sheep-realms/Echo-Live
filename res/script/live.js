@@ -56,7 +56,7 @@ echo.on('printStart', function() {
 
 echo.on('printEnd', function() {
     // 整理字符串
-    $('.echo-output').html($('.echo-output').html());
+    // $('.echo-output').html($('.echo-output').html());
 });
 
 echo.on('groupStart', function(e) {

@@ -490,7 +490,7 @@ $(document).on('click', '.history-message-item-btn-send', function() {
     let i = $(this).data('index');
     let $item = $(this).parents('.history-message-item').eq(0);
 
-    $item.find('.sent').text(HistoryMessage.sentBy(getTime()));
+    $item.find('.sent').text(HistoryMessage.sentAt(getTime()));
     $item.find('.sent').removeClass('hide');
 
     if (config.editor.history_resend_bubble) $('#history-message-list').prepend($item);

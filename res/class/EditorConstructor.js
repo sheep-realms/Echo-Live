@@ -506,7 +506,7 @@ class EditorClientState {
 class HistoryMessage {
     constructor() {}
 
-    static sentBy(time) {
+    static sentAt(time) {
         return `（于 ${time} 再次发送）`;
     }
 
@@ -518,7 +518,7 @@ class HistoryMessage {
                 ${ length > 1 ? `<div class="length">... 等 ${length} 条消息</div>` : ''}
                 <div class="time">
                     <span class="created">${time}</span>
-                    <span class="sent hide">${HistoryMessage.sentBy(time)}</span>
+                    <span class="sent hide">${HistoryMessage.sentAt(time)}</span>
                 </div>
             </div>
             <div class="action">

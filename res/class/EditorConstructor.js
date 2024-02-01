@@ -118,6 +118,21 @@ class EditorForm {
         );
     }
 
+    /**
+     * 按钮
+     * @param {String} content 内容
+     * @param {Object} data 属性值
+     * @param {String} data.id ID
+     * @param {String} data.class 类
+     * @param {String} data.attr 额外的 HTML 属性
+     * @param {String} data.title Title 属性
+     * @param {String} data.icon 图标元素
+     * @param {Boolean} data.disabled 禁用按钮
+     * @param {undefined|'ghost'|'dashed'|'air'} data.type 按钮类型
+     * @param {undefined|'big'|'small'} data.size 按钮尺寸
+     * @param {undefined|'safe'|'warn'|'danger'|'special'} data.color 按钮功能色
+     * @returns {String} DOM
+     */
     static button(content, data) {
         return `<button
             ${data?.id ? `id="${data.id}"` : ''}
@@ -137,6 +152,20 @@ class EditorForm {
         </button>`
     }
 
+    /**
+     * 按钮
+     * @param {String} content 内容
+     * @param {Object} data 属性值
+     * @param {String} data.id ID
+     * @param {String} data.class 类
+     * @param {String} data.attr 额外的 HTML 属性
+     * @param {String} data.title Title 属性
+     * @param {String} data.icon 图标元素
+     * @param {Boolean} data.disabled 禁用按钮
+     * @param {undefined|'big'|'small'} data.size 按钮尺寸
+     * @param {undefined|'safe'|'warn'|'danger'|'special'} data.color 按钮功能色
+     * @returns {String} DOM
+     */
     static buttonGhost(content, data) {
         data = {
             ...data,
@@ -147,6 +176,20 @@ class EditorForm {
         return EditorForm.button(content, data);
     }
 
+    /**
+     * 按钮
+     * @param {String} content 内容
+     * @param {Object} data 属性值
+     * @param {String} data.id ID
+     * @param {String} data.class 类
+     * @param {String} data.attr 额外的 HTML 属性
+     * @param {String} data.title Title 属性
+     * @param {String} data.icon 图标元素
+     * @param {Boolean} data.disabled 禁用按钮
+     * @param {undefined|'big'|'small'} data.size 按钮尺寸
+     * @param {undefined|'safe'|'warn'|'danger'|'special'} data.color 按钮功能色
+     * @returns {String} DOM
+     */
     static buttonAir(content, data) {
         data = {
             ...data,
@@ -157,6 +200,11 @@ class EditorForm {
         return EditorForm.button(content, data);
     }
 
+    /**
+     * 编辑器控制器
+     * @param {String} editorID 编辑器ID
+     * @returns {String} DOM
+     */
     static editorController(editorID) {
         return DOMConstructor.join([
             EditorForm.buttonAir('', {
@@ -202,6 +250,23 @@ class EditorForm {
 class Popups {
     constructor() {}
 
+    /**
+     * 悬浮框
+     * @param {String} content 内容
+     * @param {String} id ID 
+     * @param {Object} data 属性值
+     * @param {String} data.class 类
+     * @param {Object} data.pos 位置
+     * @param {Number} data.pos.x X 坐标
+     * @param {Number} data.pos.y Y 坐标
+     * @param {Object} data.width 宽度
+     * @param {String} data.width.min 最小宽度
+     * @param {String} data.width.max 最大宽度
+     * @param {Object} data.height 高度
+     * @param {String} data.height.min 最小高度
+     * @param {String} data.height.max 最大高度
+     * @returns {String} DOM
+     */
     static container(content = '', id = '', data = {}) {
         data = {
             class: '',
@@ -235,6 +300,11 @@ class Popups {
         </div>`;
     }
 
+    /**
+     * 拾色器色板切换选项
+     * @param {Array<Object>} palette 色板列表
+     * @returns {String} DOM
+     */
     static paletteOptions(palette = []) {
         let dom = '';
         palette.forEach(e => {
@@ -243,6 +313,11 @@ class Popups {
         return dom;
     }
 
+    /**
+     * 拾色器色板内容
+     * @param {Object} palette 色板
+     * @returns {String} DOM
+     */
     static paletteContent(palette = {}) {
         let dom = '<div class="palette-list">';
         palette.colors.forEach(e => {
@@ -256,6 +331,11 @@ class Popups {
         return dom;
     }
 
+    /**
+     * 拾色器色板页面
+     * @param {Array<Object>} palette 色板列表
+     * @returns {String} DOM
+     */
     static palettePage(palette = []) {
         let dom = '';
         palette.forEach(e => {
@@ -264,6 +344,14 @@ class Popups {
         return dom;
     }
 
+    /**
+     * 拾色器对比度测试面板测试项目状态框
+     * @param {String} title 标题
+     * @param {String|Number} value 值
+     * @param {String} DOMClass 类
+     * @param {'ok'|'fail'} state 状态
+     * @returns {String} DOM
+     */
     static paletteColorContrastBox(title, value, DOMClass, state = 'ok') {
         return `<div class="diff-result-box ${ DOMClass } state-${ state }">
             <div class="diff-result-content ok" title="${ title } 测试通过">
@@ -281,7 +369,17 @@ class Popups {
         </div>`;
     }
 
-    static paletteColorContrast(bgc = '#ffffff', fgc = '#000000', r = {contrastRatio: 21, meetsAA: true, meetsAAA: false}) {
+    /**
+     * 拾色器对比度测试面板
+     * @param {String} bgc 背景色
+     * @param {String} fgc 前景色
+     * @param {Object} r 测试结果
+     * @param {Number} r.contrastRatio 对比度
+     * @param {Boolean} r.meetsAA WCAG AA 标准
+     * @param {Boolean} r.meetsAAA WCAG AAA 标准
+     * @returns {String} DOM
+     */
+    static paletteColorContrast(bgc = '#ffffff', fgc = '#000000', r = {contrastRatio: 21, meetsAA: true, meetsAAA: true}) {
         return `<div class="diff-dashboard" style="--bg-color: ${ bgc }; --fg-color: ${ fgc };">
             <div class="diff-bg">
                 <span class="diff-fg-text">${ bgc.toUpperCase() }</span>
@@ -295,6 +393,23 @@ class Popups {
         </div>`
     }
 
+    /**
+     * 拾色器悬浮框
+     * @param {Array<Object>} palette 色板列表
+     * @param {Object} data 属性值
+     * @param {String} data.class 类
+     * @param {Object} data.pos 位置
+     * @param {Number} data.pos.x X 坐标
+     * @param {Number} data.pos.y Y 坐标
+     * @param {Object} data.width 宽度
+     * @param {String} data.width.min 最小宽度
+     * @param {String} data.width.max 最大宽度
+     * @param {Object} data.height 高度
+     * @param {String} data.height.min 最小高度
+     * @param {String} data.height.max 最大高度
+     * @param {String} id ID
+     * @returns {String} DOM
+     */
     static palettePopups(palette = [], data = {}, id = 'popups-palette') {
         data = {
             width: {

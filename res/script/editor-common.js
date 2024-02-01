@@ -14,13 +14,21 @@ let timer = {
 
 let checkboxEvent = {};
 
-// 设置表单元素默认值
+/**
+ * 设置表单元素默认值
+ * @param {String} $sel 选择器
+ * @param {String|Number} value 值
+ */
 function setDefaultValue($sel, value) {
     $($sel).data('default', value);
     $($sel).val(value);
 }
 
-// 设置复选框默认状
+/**
+ * 设置复选框默认状态
+ * @param {String} $sel 选择器
+ * @param {0|1} value 值
+ */
 function setCheckboxDefaultValue($sel, value) {
     $($sel).val(value);
     if (value == 1) {
@@ -33,7 +41,10 @@ function setCheckboxDefaultValue($sel, value) {
 }
 
 
-// 模拟点击
+/**
+ * 模拟点击
+ * @param {String} $sel 选择器
+ */
 function effectClick($sel) {
     clearTimeout(timer.clickEffect);
     $('.fh-effect-click').removeClass('fh-effect-click');
@@ -43,13 +54,20 @@ function effectClick($sel) {
     }, 1000);
 }
 
-// 获取格式化时间
+/**
+ * 获取格式化时间
+ * @returns {String} 格式化时间
+ */
 function getTime() {
     let d = new Date();
     return `${d.getFullYear()}-${afterZero(d.getMonth() + 1)}-${afterZero(d.getDate())} ${afterZero(d.getHours())}:${afterZero(d.getMinutes())}:${afterZero(d.getSeconds())}`;
 }
 
-// 时间前补零
+/**
+ * 时间前补零
+ * @param {Number} value 数字
+ * @returns {String} 补零后的字符串
+ */
 function afterZero(value) {
     if (value >= 10) {
         return `${value}`;
@@ -59,7 +77,17 @@ function afterZero(value) {
 }
 
 
-// 编辑器插入字符
+/**
+ * 编辑器插入字符
+ * @param {String} id 元素ID
+ * @param {String} text 左侧插入字符串
+ * @param {String} text2 右侧插入字符串
+ * @param {Boolean} forceInputText2 未选中文本时强制插入右侧字符串
+ * @param {Boolean} forceRepeatBefore 左侧有相同字符串时强制插入字符串
+ * @param {Boolean} forceRepeatAfter 右侧有相同字符串时强制插入字符串
+ * @param {Boolean} firstClear 当起始光标在左侧时清除左侧插入字符
+ * @param {Function} selectedTextFilter 选中文本过滤器
+ */
 function insertTextAtCursor(id, text, text2 = '', forceInputText2 = false, forceRepeatBefore = false, forceRepeatAfter = false, firstClear = false, selectedTextFilter = undefined) {
     let textarea       = document.getElementById(id);
 
@@ -88,7 +116,13 @@ function insertTextAtCursor(id, text, text2 = '', forceInputText2 = false, force
     textarea.focus();
 }
 
-// 计算对比度是否符合 WCAG 标准
+
+/**
+ * 计算对比度是否符合 WCAG 标准
+ * @param {String} color1 背景色（HEX）
+ * @param {String} color2 前景色（HEX）
+ * @returns {Object} 测试结果
+ */
 function calculateContrastRatio(color1 = undefined, color2 = undefined) {
     if (typeof color2 !== 'string') return;
     if (typeof color1 !== 'string') return;
@@ -207,7 +241,14 @@ function popupsMove(sel, left = 0, top = 0) {
     $sel.css('--popups-pos-left', left + 'px').css('--popups-pos-top', top + 'px');
 }
 
-// 移动悬浮框到元素
+/**
+ * 移动悬浮框到元素
+ * @param {String} popupsSel 悬浮框选择器
+ * @param {String} elementSel 目标元素选择器
+ * @param {'center'|'left'|'right'} align 水平对齐方式
+ * @param {'bottom'|'top'} vertical 垂直方向
+ * @param {Number} gap 间隙
+ */
 function popupsMoveToElement(popupsSel, elementSel, align = 'left', vertical = 'bottom', gap = 8) {
     let $psel   = $(popupsSel),
         $esel   = $(elementSel),
@@ -234,6 +275,7 @@ function popupsMoveToElement(popupsSel, elementSel, align = 'left', vertical = '
 
     popupsMove(popupsSel, newpos.left, newpos.top);
 }
+
 
 // 悬浮框隐去逻辑
 $(document).on('mousedown', function(e) {

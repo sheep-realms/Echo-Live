@@ -19,6 +19,9 @@ class EchoLive {
         this.init();
     }
 
+    /**
+     * 初始化
+     */
     init() {
         // 嵌套有点多了，这不好，要改
         if (this.config.echolive.sleep_enable) {
@@ -51,6 +54,12 @@ class EchoLive {
         }
     }
 
+    /**
+     * 绑定事件
+     * @param {String} eventName 事件名称
+     * @param {Function} action 函数
+     * @returns {Function} 函数
+     */
     on(eventName, action = function() {}) {
         if (typeof action != 'function') return;
         return this.event[eventName] = action;
@@ -59,6 +68,8 @@ class EchoLive {
     /**
      * 发送消息
      * @param {Object} data 消息格式
+     * @param {String} data.username 说话人
+     * @param {Array<Object>} data.messages 消息队列
      */
     send(data = {}) {
         if (this.hidden) return;
@@ -83,6 +94,9 @@ class EchoLive {
         this.echo.next();
     }
 
+    /**
+     * 重新加载
+     */
     reload() {
         if (this.hidden) return;
         $('#start-script').remove();
@@ -92,6 +106,9 @@ class EchoLive {
         document.body.appendChild(s);
     }
 
+    /**
+     * 开始轮询
+     */
     start() {
         let that = this;
         this.timer.messagesPolling = setInterval(function() {
@@ -99,6 +116,9 @@ class EchoLive {
         }, this.config.echolive.messages_polling_tick);
     }
 
+    /**
+     * 停止轮询
+     */
     stop() {
         clearInterval(this.timer.messagesPolling);
     }

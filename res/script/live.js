@@ -28,6 +28,11 @@ echo.on('next', function(msg) {
 });
 
 echo.on('print', function(chr) {
+    if (chr == '\n') {
+        first = false;
+        chr = '<br>'
+    }
+
     if (gruopIndex == 0) {
         $('.echo-output').append(chr);
     } else {

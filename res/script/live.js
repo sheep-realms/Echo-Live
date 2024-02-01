@@ -12,8 +12,16 @@ let gruopIndex = 0;
 
 let first = false;
 
-echo.on('next', function() {
+echo.on('next', function(msg) {
     $('#echo-live').attr('class', '');
+    let str = EchoLiveTools.getMessagePlainText(msg.message);
+
+    // 判断文字书写方向
+    $('.echo-output').removeClass('echo-text-rlo');
+    if (str.trim().search(/[\u0600-\u06FF\u0750-\u077F\u0590-\u05FF\uFE70-\uFEFF]/) == 0) {
+        $('.echo-output').addClass('echo-text-rlo');
+    }
+
     if (config.echolive.next_audio_enable) {
         mixer.play(config.echolive.next_audio_name, config.echolive.next_audio_volume, config.echolive.next_audio_rate);
     }

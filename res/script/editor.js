@@ -329,11 +329,19 @@ $('#output-btn-send').click(function() {
 
     try {
         msg = JSON.parse(newCentent);
+        if (msg?.messages == undefined && msg?.username == undefined) return editorLog('消息内容无有效数据，未发送任何消息。', 'erro');
         elb.sendData(msg);
     } catch (error) {
         editorLog('发送的消息格式存在错误。详见帮助文档：https://sheep-realms.github.io/Echo-Live-Doc/message/', 'erro');
         return;
     }
+
+    if (msg.messages == undefined) {
+        editorLog('发送的消息中没有消息队列，这是一个错误的消息格式。虽然这么操作似乎不会引发严重问题，但不建议这么操作。', 'warn');
+        return;
+    }
+
+    if (!Array.isArray(msg.messages) || msg.messages.length < 1) return;
 
     if (msg.messages.length > 1) {
         editorLog(`已发送 ${msg.messages.length} 条自定义消息，首条消息为：${EchoLiveTools.getMessageSendLog(msg.messages[0].message, msg.username)}`);
@@ -392,10 +400,13 @@ function getOutputAfter() {
 
 function sendHistoryMessage(data) {
     let username = data.username;
-    let message = EchoLiveTools.getMessagePlainText(data.messages[0].message);
+    let message = '[未定义消息]';
+    if (Array.isArray(data.messages) && data.messages.length > 0) {
+        message = EchoLiveTools.getMessagePlainText(data.messages[0].message)
+    }
     let time = getTime();
     if (message == '') message = '[空消息]';
-    if (username == '') username = '[未指定说话人]';
+    if (username == undefined || username == '') username = '[未指定说话人]';
 
     let l = history.push({
         data: data,
@@ -464,6 +475,7 @@ $(document).on('input', '#ptext-content', function() {
     $('#ptext-editor .editor-bottom-bar .length').text(length);
 });
 
+// 历史记录编辑
 $(document).on('click', '.history-message-item-btn-edit', function() {
     let i = $(this).data('index');
 
@@ -473,6 +485,7 @@ $(document).on('click', '.history-message-item-btn-edit', function() {
     $('#output-content').select();
 });
 
+// 历史记录发送
 $(document).on('click', '.history-message-item-btn-send', function() {
     let i = $(this).data('index');
     let $item = $(this).parents('.history-message-item').eq(0);
@@ -502,6 +515,7 @@ $(document).on('click', '#history-btn-clear', function() {
     }
 });
 
+// 历史页取消清空
 $(document).on('click', '#history-btn-clear-cancel', function() {
     historyClearConfirm = false;
     $('#history-editor-controller').html(`<button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">清空历史记录</button>`);

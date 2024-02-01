@@ -62,6 +62,7 @@ class EchoLive {
      */
     send(data = {}) {
         if (this.hidden) return;
+        if (typeof data != 'object') return;
         if (this.antiFlood) {
             this.data = data;
             this.antiFlood = false;
@@ -70,8 +71,8 @@ class EchoLive {
         if (typeof this.data === 'object' && JSON.stringify(data) === JSON.stringify(this.data)) return;
         if (this.echo.state != 'stop') this.echo.stop();
         this.data = data;
-        $('#echo-live .name').text(data.username);
-        this.echo.sendList(JSON.parse(JSON.stringify(data.messages)));
+        if (typeof data?.username === 'string') $('#echo-live .name').text(data.username);
+        if (Array.isArray(data?.messages)) this.echo.sendList(JSON.parse(JSON.stringify(data.messages)));
     }
 
     /**

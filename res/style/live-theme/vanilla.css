@@ -11,6 +11,9 @@
 /* 导入：引用符号缩进 */
 @import url("../live-common/char-indent.css");
 
+/* 导入：多国语言适配 */
+@import url("../live-common/i18n.css");
+
 /* 导入：事件动效 */
 @import url("../live-common/event-effect.css");
 

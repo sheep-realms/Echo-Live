@@ -1,0 +1,13 @@
+/* 匹配从右向左书写的文字 */
+.echo-output[data-before="\202e"],
+.echo-output.echo-text-rlo,
+*[lang^="ar"] .echo-output,
+*[lang^="he"] .echo-output,
+*[lang^="fa"] .echo-output,
+*[lang^="ur"] .echo-output,
+.echo-output[lang^="ar"],
+.echo-output[lang^="he"],
+.echo-output[lang^="fa"],
+.echo-output[lang^="ur"] {
+    text-align: right;
+}

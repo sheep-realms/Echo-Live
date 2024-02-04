@@ -47,6 +47,9 @@ const config = {
         websocket_enable: false,
         // WebSocket 连接地址
         websocket_url: 'ws://127.0.0.1:3000',
+        // WebSocket 最大重连尝试次数
+        // * 连接关闭和连接失败将会尝试重连，一旦超过重连尝试次数限制将不再尝试重连。
+        websocket_reconnect_limit: 5,
         // 启用实验性 API
         // * 实验性 API 包含了一些危险操作，实现一些特殊功能可能是必要的，但如果使用不当可能会造成严重后果。
         // * 请开发者注意，如果您提供的产品需要启用此实验性 API，请务必说明您不得不这么做的原因。

@@ -48,7 +48,7 @@ class EchoLive {
         }
 
         if (this.config.echolive.broadcast_enable) {
-            this.broadcast = new EchoLiveBroadcast(this, this.config.echolive.broadcast_channel);
+            this.broadcast = new EchoLiveBroadcastPortal(this.config.echolive.broadcast_channel, this, this.config);
         } else if (this.config.echolive.messages_polling_enable) {
             this.start();
         }

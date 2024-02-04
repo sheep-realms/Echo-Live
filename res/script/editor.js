@@ -86,9 +86,10 @@ if (config.echolive.broadcast_enable) {
 
     $('.echo-live-client-state-content').html(EditorClientState.statePanel([]));
 
-    elb = new EchoLiveBroadcast(undefined, config.echolive.broadcast_channel);
+    elb = new EchoLiveBroadcastServer(config.echolive.broadcast_channel, config);
     elb.on('clientsChange', clientsChange);
     elb.on('message', getMessage);
+    elb.on('error', getError);
     elb.on('noClient', noClient);
 
     checkNowDate();
@@ -153,7 +154,7 @@ function getMessage(data) {
                 let helloMsg1 = data.data.hidden ? '已休眠，' : '';
                 editorLog(`Echo-Live 进入广播频道，${helloMsg1}UUID：${data.data.uuid}`);
             } else if (data.target == '@__server') {
-                editorLog(`Echo-Live 已向服务器发送 HELLO 消息。`);
+                editorLog(`Echo-Live 已向 Websocket 服务器发送 HELLO 消息。`);
             }
             break;
 
@@ -166,7 +167,7 @@ function getMessage(data) {
             break;
 
         case 'echo_next':
-            editorLog('收到来自其他服务端的指令：打印下一条消息。');
+            editorLog('收到来自其他服务端的命令：打印下一条消息。');
             break;
 
         case 'page_hidden':
@@ -178,11 +179,34 @@ function getMessage(data) {
             break;
 
         case 'set_theme_style_url':
-            editorLog('收到来自其他服务端的指令：设置主题样式文件 URL 为 ' + data.data.url);
+            editorLog('收到来自其他服务端的命令：设置主题样式文件 URL 为 ' + data.data.url);
             break;
 
         case 'set_theme':
-            editorLog('收到来自其他服务端的指令：设置主题为 ' + data.data.name);
+            editorLog('收到来自其他服务端的命令：设置主题为 ' + data.data.name);
+            break;
+
+        case 'websocket_close':
+            editorLog('收到来自其他服务端的命令：关闭 Websocket 连接。此命令将阻止 Echo-Live 尝试重连。');
+            break;
+    
+        default:
+            break;
+    }
+}
+
+function getError(data) {
+    switch (data.data.name) {
+        case 'websocket_error':
+            if (data.data.tryReconnect) {
+                editorLog(`Echo-Live Websocket 连接 ${ data.data.url } 出错，进行第 ${ data.data.reconnectCount } 次重连，UUID：${ data.data.uuid }`, 'erro');
+            } else {
+                editorLog(`Echo-Live Websocket 连接 ${ data.data.url } 出错，重连次数超出限制，UUID：${ data.data.uuid }`, 'erro');
+            }
+            break;
+
+        case 'websocket_message_error':
+            editorLog(`Echo-Live Websocket 接收到的消息解析出错，UUID：${ data.data.uuid }`, 'erro');
             break;
     
         default:

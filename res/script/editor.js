@@ -38,9 +38,7 @@ paletteColorContrastCheck('#000000');
 let elb;
 
 if (config.echo.print_speed != 30) {
-    $('#ptext-ipt-print-speed, #rtext-ipt-print-speed').val(config.echo.print_speed);
-    $('.print-speed-config').text(config.echo.print_speed);
-    $('.print-speed-change').removeClass('hide');
+    $('.echo-editor-from-input-tip').text($t('editor.form.description.print_speed_custom', { value: config.echo.print_speed }));
 }
 
 if (config.echolive.broadcast_enable) {

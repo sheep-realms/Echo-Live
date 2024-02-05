@@ -8,6 +8,10 @@ const lang_zhs = {
         close: "关闭",
         edit: "编辑",
         send: "发送",
+        reset: "重置",
+        clear: "清空",
+        input: "输入",
+        output: "输出",
         more_info: "了解详情"
     },
     broadcast: {
@@ -27,16 +31,31 @@ const lang_zhs = {
         form: {
             text_length: "{n} 字符",
             aria_label: {
-                content_plain_text: "纯文本内容编辑框"
+                content_plain_text: "纯文本内容编辑框",
+                log_box: "这里是日志列表，如果您听到了这句话，请注意，这里的阅读体验可能会很差。",
+                output_content: "输出内容编辑框"
             },
             description: {
                 formatting_code_example_1: "@b - 粗体，@i - 斜体，@u - 下划线，@s - 删除线，@r - 清除格式",
-                formatting_code_example_2: "示例：这里没有格式。@b这里有粗体。@i这里有粗体和斜体。@r这里没有格式。@[#66ccff]这是蓝色。"
+                formatting_code_example_2: "示例：这里没有格式。@b这里有粗体。@i这里有粗体和斜体。@r这里没有格式。@[#66ccff]这是蓝色。",
+                output_after: "在输出内容之后插入尾部内容",
+                output_before: "在输出内容之前插入头部内容",
+                print_speed: "每个打印循环的延迟时间（毫秒），默认为 30。数字越大，耗时越长。中日韩字符延迟 × 2。",
+                print_speed_custom: "每个打印循环的延迟时间（毫秒），默认为 30，您的默认配置为 {value}。数字越大，耗时越长。中日韩字符延迟 × 2。",
+                quote: "自动在每一句话开头和结尾添加引用符号，Echo Live 会为一些引用符号自动缩进。"
             },
             label: {
                 character: "说话人",
                 content: "内容",
                 live_client_state: "对话框状态",
+                output_after: "尾部内容",
+                output_before: "头部内容",
+                output_content: "输出内容",
+                print_speed: "打印速度",
+                quote: "引用符号",
+                quote_after: "结尾",
+                quote_before: "开头",
+                startup_parameter: "启动参数",
                 use_formatting_code: "使用快速格式化代码"
             }
         },
@@ -141,6 +160,10 @@ const lang_zhs = {
                 title: "编辑器",
                 description: "文本编辑器 [alt+1]"
             },
+            history: {
+                title: "历史记录",
+                description: "已发送消息的列表"
+            },
             log: {
                 title: "日志",
                 description: "运行日志 [alt+6]"
@@ -148,6 +171,10 @@ const lang_zhs = {
             output: {
                 title: "输出",
                 description: "输出代码 [alt+4]"
+            },
+            output_content: {
+                title: "输出内容",
+                description: "编辑导出代码和发送消息"
             }
         },
         tip: {

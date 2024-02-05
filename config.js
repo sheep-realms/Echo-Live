@@ -13,6 +13,12 @@ const config = {
     // 数据版本，用于后续的自动化配置更新，请勿修改
     data_version: 2,
 
+    // 全局配置
+    global: {
+        // 显示语言
+        language: 'zho-Hans',
+    },
+
     // Echo 相关配置
     echo: {
         // 滚动速度，每个字符打印循环的延迟时间（毫秒），最小值为 4

@@ -607,6 +607,7 @@ function checkNowDate() {
     let d = new Date();
     let dn = getDateNumber();
     editorLogT('editor.log.welcome', {}, 'tips');
+    editorLog(`Language: ${ $t('lang.title') } (ISO 639-3: ${ $t('lang.code_iso_639_3') }, IETF: ${ $t('lang.code_ietf') })`, 'dbug');
     let msg = {
         '0101': `${d.getFullYear()} 年来了！感谢您一直以来对 Echo-Live 的支持！`,
         '0721': 'Ciallo～(∠·ω< )⌒★',

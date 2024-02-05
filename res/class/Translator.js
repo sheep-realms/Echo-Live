@@ -1,21 +1,32 @@
 class Translator {
-    constructor(lang='zho-Hans') {
+    constructor(lang='zho-Hans', langIndex = {}) {
         this.lang = lang;
+        this.langMain = langIndex.main;
         this.i18n = {};
+        this.langIndex = langIndex;
     }
 
-    output(key, variable={}) {
+    output(key, variable={}, __inPlanB = false) {
+        // 配置排错
+        if (this.i18n[this.lang] == undefined) this.lang = this.langMain;
+
         // 提取翻译文本
         let keys = key.split('.');
-        let objI18n = this.i18n;
+        let objI18n = !__inPlanB ? this.i18n[this.lang] : this.i18n[this.langMain];
         for (const k of keys) {
-            if (objI18n[k] == undefined) return key;
+            if (objI18n[k] == undefined) {
+                if (!__inPlanB) return this.output(key, variable, true);
+                return key;
+            }
             objI18n = objI18n[k];
         }
         let t = objI18n;
 
         // 校验数据
-        if (typeof t != 'string') return key;
+        if (typeof t != 'string') {
+            if (!__inPlanB) return this.output(key, variable, true);
+            return key;
+        }
 
         // 赋值
         for (const v in variable) {
@@ -47,6 +58,6 @@ class Translator {
     }
 
     load(i18nList) {
-        this.i18n = i18nList;
+        this.i18n[i18nList.lang.code_iso_639_3] = i18nList;
     }
 }

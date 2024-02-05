@@ -1,12 +1,13 @@
 const lang_zho_Hans = {
     lang: {
-        code_iso_639_3: "zho",
+        code_iso_639_3: "zho-Hans",
         code_ietf: "zh-Hans",
         title: "简体中文"
     },
     ui: {
-        ok: "确认",
+        confirm: "确认",
         cancel: "取消",
+        ok: "好",
         yes: "是",
         no: "否",
         save: "保存",

@@ -10,6 +10,15 @@
     <link rel="stylesheet" href="res/style/editor-accessible.css">
     <script src="lib/jquery-3.7.1.min.js"></script>
     <script src="config.js"></script>
+    <script src="lang/zhs.js"></script>
+    <script src="res/class/Translator.js"></script>
+    <script>
+        const translator = new Translator('zhs');
+        const $t = function(...e) {
+            return translator.output(...e);
+        };
+        translator.load(lang_zhs);
+    </script>
     <script src="res/class/Icon.js"></script>
     <script src="res/class/EchoLiveTools.js"></script>
     <script src="res/class/EchoLiveEditor.js"></script>
@@ -28,6 +37,8 @@
                 aria-selected="true"
                 accesskey="1"
                 title="文本编辑器 [alt+1]"
+                data-i18n="editor.tabpage.editor.title"
+                data-i18n-title="editor.tabpage.editor.description"
             >编辑器</button>
             <button
                 class="tabpage-nav-item"
@@ -46,6 +57,8 @@
                 aria-selected="false"
                 accesskey="3"
                 title="编辑配置 [alt+3]"
+                data-i18n="editor.tabpage.config.title"
+                data-i18n-title="editor.tabpage.config.description"
             >配置</button>
             <button
                 id="tabpage-nav-output"
@@ -55,6 +68,8 @@
                 aria-selected="false"
                 accesskey="4"
                 title="输出代码 [alt+4]"
+                data-i18n="editor.tabpage.output.title"
+                data-i18n-title="editor.tabpage.output.description"
             >输出</button>
             <button
                 class="tabpage-nav-item"
@@ -64,6 +79,8 @@
                 accesskey="5"
                 title="广播控制 [alt+5]"
                 style="display: none;"
+                data-i18n="editor.tabpage.broadcast.title"
+                data-i18n-title="editor.tabpage.broadcast.description"
             >广播</button>
             <button
                 id="tabpage-nav-log"
@@ -73,6 +90,8 @@
                 aria-selected="false"
                 accesskey="6"
                 title="运行日志 [alt+6]"
+                data-i18n="editor.tabpage.log.title"
+                data-i18n-title="editor.tabpage.log.description"
             >
                 <span>日志</span>
                 <span id="log-message-mark" class="hide" aria-hidden="true">1</span>
@@ -82,27 +101,29 @@
         <div class="tabpage-centent" data-navid="main">
             <!-- 纯文本标签页 -->
             <section class="tabpage-panel" role="tabpanel" data-pageid="ptext">
-                <h2 class="tabpage-panel-title">纯文本</h2>
+                <h2 class="tabpage-panel-title" data-i18n="editor.tabpage.editor.title">编辑器</h2>
                 <div class="echo-editor-from">
                     <div class="echo-live-client-state hide">
-                        <label>对话框状态</label>
+                        <label data-i18n="editor.form.label.live_client_state">对话框状态</label>
                         <div class="echo-live-client-state-content">
                             <div class="echo-live-client-state-block"></div>
                         </div>
                     </div>
 
-                    <label for="ptext-character">说话人</label>
+                    <label for="ptext-character" data-i18n="editor.form.label.character">说话人</label>
                     <input type="text" name="character" id="ptext-character">
 
                     <div id="ptext-editor" class="editor-container">
                         <div class="editor-controller disabled"></div>
-                        <label for="ptext-content">内容</label>
-                        <textarea name="content" id="ptext-content" aria-label="纯文本内容编辑框"></textarea>
+                        <label for="ptext-content" data-i18n="editor.form.label.content">内容</label>
+                        <textarea
+                            name="content"
+                            id="ptext-content"
+                            aria-label="纯文本内容编辑框"
+                            data-i18n-aria-label="editor.form.aria_label.content_plain_text"
+                        ></textarea>
                         <div class="editor-bottom-bar">
-                            <span>
-                                <span class="length">0</span>
-                                字符
-                            </span>
+                            <span class="length">0 字符</span>
                         </div>
                     </div>
 
@@ -110,13 +131,13 @@
                         <div class="collapse-title">
                             <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
                                 <span class="icon"></span>
-                                <span class="text">使用快速格式化代码</span>
+                                <span class="text" data-i18n="editor.form.label.use_formatting_code">使用快速格式化代码</span>
                                 <input type="hidden" name="ptext-chk-use-formatting-code" id="ptext-chk-use-formatting-code" value="0">
                             </button>
                         </div>
                         <div class="collapse-content hide" style="padding: 0.5em; font-size: 14px; color: var(--text-secondary);">
-                            <p>@b - 粗体，@i - 斜体，@u - 下划线，@s - 删除线，@r - 清除格式</p>
-                            <p>示例：这里没有格式。@b这里有粗体。@i这里有粗体和斜体。@r这里没有格式。@[#66ccff]这是蓝色。</p>
+                            <p data-i18n="editor.form.description.formatting_code_example_1"></p>
+                            <p data-i18n="editor.form.description.formatting_code_example_2"></p>
                         </div>
                     </div>
 

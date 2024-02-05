@@ -211,37 +211,37 @@ class EditorForm {
                 icon: Icon.formatBold(),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="bold"`,
-                title: '粗体 [Ctrl+B]'
+                title: $t('editor.format.bold') + ' [Ctrl+B]'
             }),
             EditorForm.buttonAir('', {
                 icon: Icon.formatItalic(),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="italic"`,
-                title: '斜体 [Ctrl+I]'
+                title: $t('editor.format.italic') + ' [Ctrl+I]'
             }),
             EditorForm.buttonAir('', {
                 icon: Icon.formatUnderline(),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="underline"`,
-                title: '下划线 [Ctrl+U]'
+                title: $t('editor.format.underline') + ' [Ctrl+U]'
             }),
             EditorForm.buttonAir('', {
                 icon: Icon.formatStrikethroughVariant(),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="strikethrough"`,
-                title: '删除线 [Ctrl+D]'
+                title: $t('editor.format.strikethrough') + ' [Ctrl+D]'
             }),
             EditorForm.buttonAir('', {
                 icon: Icon.palette(),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="color"`,
-                title: '文本颜色'
+                title: $t('editor.format.color')
             }),
             EditorForm.buttonAir('', {
                 icon: Icon.formatClear(),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="clear"`,
-                title: '清除格式 [Ctrl+Shift+Space]'
+                title: $t('editor.format.clear') + ' [Ctrl+Shift+Space]'
             })
         ]);
     }
@@ -354,13 +354,13 @@ class Popups {
      */
     static paletteColorContrastBox(title, value, DOMClass, state = 'ok') {
         return `<div class="diff-result-box ${ DOMClass } state-${ state }">
-            <div class="diff-result-content ok" title="${ title } 测试通过">
+            <div class="diff-result-content ok" title="${ $t('editor.palette.diff_dashboard.state.ok', { name: title }) }">
                 <div class="title">${ value }</div>
                 <div class="icon">
                     ${ Icon.check() }
                 </div>
             </div>
-            <div class="diff-result-content fail" title="${ title } 测试失败">
+            <div class="diff-result-content fail" title="${ $t('editor.palette.diff_dashboard.state.fail', { name: title }) }">
                 <div class="title">${ value }</div>
                 <div class="icon">
                     ${ Icon.close() }
@@ -381,15 +381,15 @@ class Popups {
      */
     static paletteColorContrast(bgc = '#ffffff', fgc = '#000000', r = {contrastRatio: 21, meetsAA: true, meetsAAA: true}) {
         return `<div class="diff-dashboard" style="--bg-color: ${ bgc }; --fg-color: ${ fgc };">
-            <div class="diff-bg">
+            <div class="diff-bg" title="${ $t('editor.palette.diff_dashboard.background_color') }">
                 <span class="diff-fg-text">${ bgc.toUpperCase() }</span>
             </div>
-            <div class="diff-fg"></div>
+            <div class="diff-fg" title="${ $t('editor.palette.diff_dashboard.foreground_color') }"></div>
         </div>
         <div class="diff-result">
-            ${ Popups.paletteColorContrastBox('对比度参考阈值', '21', 'diff-result-contrast') }
-            ${ Popups.paletteColorContrastBox('WCAG AA', 'AA', 'diff-result-aa') }
-            ${ Popups.paletteColorContrastBox('WCAG AAA', 'AAA', 'diff-result-aaa') }
+            ${ Popups.paletteColorContrastBox($t('editor.palette.diff_dashboard.result.contrast'), '21', 'diff-result-contrast') }
+            ${ Popups.paletteColorContrastBox($t('editor.palette.diff_dashboard.result.wcag_aa'), 'AA', 'diff-result-aa') }
+            ${ Popups.paletteColorContrastBox($t('editor.palette.diff_dashboard.result.wcag_aaa'), 'AAA', 'diff-result-aaa') }
         </div>`
     }
 
@@ -431,7 +431,7 @@ class Popups {
                         title: 'missingno'
                     },
                     colors: [
-                        { type: 'group', value: '卧槽？！你在干什么？我放在这里那么大一个调色板呢？还好我技高一筹给你兜住了！' },
+                        { type: 'group', value: $t('editor.palette.empty') },
                         { value: '#000000', title: 'Black' },
                         { value: '#ffffff', title: 'White' }
                     ]
@@ -441,7 +441,7 @@ class Popups {
 
         return Popups.container(
             `<div class="popups-palette-header">
-                <label for="popups-palette-select" style="display: none;">色板库</label>
+                <label for="popups-palette-select" style="display: none;">${ $t('editor.palette.select') }</label>
                 <div class="popups-palette-select-content">
                     <kbd class="accessible-key">Q</kbd>
                     <select name="popups-palette-select" id="popups-palette-select">
@@ -450,17 +450,17 @@ class Popups {
                     <kbd class="accessible-key">E</kbd>
                 </div>
             </div>
-            <div class="popups-palette-color-contrast">
+            <div class="popups-palette-color-contrast" aria-label="${ $t('editor.palette.diff_dashboard.index') }">
                 ${ Popups.paletteColorContrast() }
             </div>
             <div class="popups-palette-content">
                 ${ Popups.palettePage(palette) }
             </div>
             <div class="popups-palette-accessible">
-                <span>需要无障碍使用帮助吗？</span>
+                <span>${ $t('editor.palette.accessible.tip') }</span>
                 ${
                     EditorForm.buttonAir(
-                        '了解详情',
+                        $t('ui.more_info'),
                         {
                             id: 'popups-palette-accessible-help-btn'
                         }
@@ -477,15 +477,15 @@ class Popups {
 class EditorClientState {
     constructor() {}
 
-    static block(type, title = '') {
-        return `<div class="echo-live-client-state-block state-${type}" title="${title}"></div>`
+    static block(type) {
+        return `<div class="echo-live-client-state-block state-${type}" title="${ $t('editor.client_state.' + type) }"></div>`
     }
 
     static clientBlock(client) {
         if (client.hidden) {
-            return EditorClientState.block('sleep', '休眠');
+            return EditorClientState.block('sleep');
         } else {
-            return EditorClientState.block('active', '激活');
+            return EditorClientState.block('active');
         }
     }
 
@@ -507,7 +507,7 @@ class HistoryMessage {
     constructor() {}
 
     static sentAt(time) {
-        return `（于 ${time} 再次发送）`;
+        return $t('editor.history.resent_at', { time: time });
     }
 
     static item(message, username, time, length, index) {
@@ -515,19 +515,19 @@ class HistoryMessage {
             <div class="content">
                 <div class="username">${username}</div>
                 <div class="message">${message}</div>
-                ${ length > 1 ? `<div class="length">... 等 ${length} 条消息</div>` : ''}
+                ${ length > 1 ? `<div class="length">${ $t('editor.history.messages_more', { n: length }) }</div>` : ''}
                 <div class="time">
                     <span class="created">${time}</span>
                     <span class="sent hide">${HistoryMessage.sentAt(time)}</span>
                 </div>
             </div>
             <div class="action">
-                ${EditorForm.buttonGhost('编辑', {
+                ${EditorForm.buttonGhost($t('ui.edit'), {
                     icon: Icon.pencil(),
                     class: 'history-message-item-btn-edit',
                     attr: `data-index="${index}"`
                 })}
-                ${EditorForm.buttonGhost('发送', {
+                ${EditorForm.buttonGhost($t('ui.send'), {
                     icon: Icon.send(),
                     class: 'history-message-item-btn-send',
                     attr: `data-index="${index}"`

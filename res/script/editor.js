@@ -21,6 +21,8 @@ $('#ptext-character, #rtext-character').val(config.editor.username_init);
 setCheckboxDefaultValue('#config-output-use-before', config.editor.ontput_before_enable);
 setCheckboxDefaultValue('#config-output-use-after', config.editor.ontput_after_enable);
 
+$('#ptext-editor .editor-bottom-bar .length').text($t('editor.form.text_length', { n: 0 }));
+
 $('.tabpage-panel[data-pageid="ptext"] .editor-controller').append(EditorForm.editorController('ptext-content'));
 
 if (!config.editor.tabpage_config_enable) $('#tabpage-nav-config').addClass('hide');
@@ -44,7 +46,7 @@ if (config.echo.print_speed != 30) {
 if (config.echolive.broadcast_enable) {
     $('#ptext-btn-submit').addClass('fh-ghost');
     $('#ptext-btn-send, #output-btn-send').removeClass('hide');
-    $('#ptext-content, #output-content').attr('title', '当焦点在此文本框中时，可以按下 Ctrl + Enter 快速发送');
+    $('#ptext-content, #output-content').attr('title', $t('editor.tip.hot_key_textarea_quick_send'));
 
     if (config.editor.client_state_panel_enable) {
         $('.echo-live-client-state').removeClass('hide');
@@ -93,31 +95,23 @@ if (config.echolive.broadcast_enable) {
     elb.on('noClient', noClient);
 
     checkNowDate();
-    editorLog('广播模式已开启：' + config.echolive.broadcast_channel);
+    editorLogT('editor.log.broadcast_launch.done', { channel: config.echolive.broadcast_channel });
     editorLog('User Agent: ' + navigator.userAgent, 'dbug');
     if (navigator.userAgent.toLowerCase().search(/ obs\//) != -1) {
-        editorLog('编辑器已正确安装在 OBS 中！', 'done');
+        editorLogT('editor.log.broadcast_launch.user_agent_check', {}, 'done');
     } else {
-        editorLog('您似乎并未正确在 OBS 中安装此编辑器，详见：https://sheep-realms.github.io/Echo-Live-Doc/main/how-to-use/', 'tips');
+        editorLogT('editor.log.broadcast_launch.user_agent_error', {}, 'tips');
     }
 } else {
     checkNowDate();
-    editorLog('未开启广播模式，无日志显示。');
+    editorLogT('editor.log.broadcast_launch.disable');
 }
 
 
 let logMsgMark = 0;
 
 function editorLog(message = '', type = 'info') {
-    const typename = {
-        'dbug': '调试：',
-        'tips': '提示：',
-        'info': '信息：',
-        'warn': '警告：',
-        'erro': '错误：',
-        'done': '完成：',
-    };
-    $('#editor-log').append(`<div role="listitem" class="log-item log-type-${type}" ${type == 'dbug' ? 'aria-hidden="false"' : ''}><span class="time" aria-hidden="false">${getTime()}</span> <span class="type" aria-label="${typename[type]}">[${type.toUpperCase()}]</span> <span class="message" ${type == 'erro' || type == 'warn' ? ' role="alert"' : ''}>${message}</span></div>`);
+    $('#editor-log').append(`<div role="listitem" class="log-item log-type-${type}" ${type == 'dbug' ? 'aria-hidden="true"' : ''}><span class="time" aria-hidden="true">${getTime()}</span> <span class="type" aria-label="${ $t('editor.log.accessible.type.' + type) }">[${type.toUpperCase()}]</span> <span class="message" ${type == 'erro' || type == 'warn' ? ' role="alert"' : ''}>${message}</span></div>`);
     $('#editor-log').scrollTop($('#editor-log').height());
 
     // 防止日志过多
@@ -134,6 +128,11 @@ function editorLog(message = '', type = 'info') {
     }
 }
 
+function editorLogT(key, data = {}, type = 'info') {
+    let msg = $t(key, data);
+    editorLog(msg, type);
+}
+
 $('#tabpage-nav-log').click(function() {
     logMsgMark = 0;
     $('#log-message-mark').addClass('hide');
@@ -146,48 +145,76 @@ function clientsChange(e) {
 function getMessage(data) {
     switch (data.action) {
         case 'message_data':
-            editorLog('收到来自其他服务端的消息数据。');
+            editorLogT('editor.log.broadcast.message_data_third');
             break;
             
         case 'hello':
             if (data.target == undefined || data.target == elb.uuid) {
-                let helloMsg1 = data.data.hidden ? '已休眠，' : '';
-                editorLog(`Echo-Live 进入广播频道，${helloMsg1}UUID：${data.data.uuid}`);
+                let helloMsg1 = data.data.hidden ? 'hello_hidden' : 'hello';
+                editorLogT(
+                    'editor.log.broadcast.' + helloMsg1,
+                    {
+                        client: $t('broadcast.client.type.live'),
+                        uuid: data.data.uuid
+                    }
+                );
             } else if (data.target == '@__server') {
-                editorLog(`Echo-Live 已向 Websocket 服务器发送 HELLO 消息。`);
+                editorLogT(
+                    'editor.log.broadcast.hello_to_server',
+                    {
+                        client: $t('broadcast.client.type.live'),
+                        uuid: data.data.uuid
+                    }
+                );
             }
             break;
 
         case 'ping':
-            editorLog('有其他服务端加入频道，UUID：' + data.data?.uuid);
-            break;
-
-        case 'close':
-            editorLog('Echo-Live 离开广播频道，UUID：' + data.data.uuid);
+            editorLogT(
+                'editor.log.broadcast.ping_server',
+                {
+                    uuid: data.data.uuid
+                }
+            );
             break;
 
         case 'echo_next':
-            editorLog('收到来自其他服务端的命令：打印下一条消息。');
+        case 'websocket_close':
+            editorLogT('editor.log.broadcast.' + data.action);
             break;
 
+        case 'close':
         case 'page_hidden':
-            editorLog('Echo-Live 因不可见已休眠，UUID：' + data.data.uuid);
-            break;
-
         case 'page_visible':
-            editorLog('Echo-Live 已唤醒，UUID：' + data.data.uuid);
+            editorLogT(
+                'editor.log.broadcast.' + data.action,
+                {
+                    client: $t('broadcast.client.type.live'),
+                    uuid: data.data.uuid
+                }
+            );
             break;
 
         case 'set_theme_style_url':
-            editorLog('收到来自其他服务端的命令：设置主题样式文件 URL 为 ' + data.data.url);
+            editorLog(
+                $t(
+                    'editor.log.broadcast.set_theme_style_url',
+                    {
+                        url: data.data.url
+                    }
+                )
+            );
             break;
 
         case 'set_theme':
-            editorLog('收到来自其他服务端的命令：设置主题为 ' + data.data.name);
-            break;
-
-        case 'websocket_close':
-            editorLog('收到来自其他服务端的命令：关闭 Websocket 连接。此命令将阻止 Echo-Live 尝试重连。');
+            editorLog(
+                $t(
+                    'editor.log.broadcast.set_theme',
+                    {
+                        name: data.data.name
+                    }
+                )
+            );
             break;
     
         default:
@@ -199,14 +226,38 @@ function getError(data) {
     switch (data.data.name) {
         case 'websocket_error':
             if (data.data.tryReconnect) {
-                editorLog(`Echo-Live Websocket 连接 ${ data.data.url } 出错，进行第 ${ data.data.reconnectCount } 次重连，UUID：${ data.data.uuid }`, 'erro');
+                editorLogT(
+                    'editor.log.error.websocket_error',
+                    {
+                        client: $t('broadcast.client.type.live'),
+                        url: data.data.url,
+                        n: data.data.reconnectCount,
+                        uuid: data.data.uuid
+                    },
+                    'erro'
+                );
             } else {
-                editorLog(`Echo-Live Websocket 连接 ${ data.data.url } 出错，重连次数超出限制，UUID：${ data.data.uuid }`, 'erro');
+                editorLogT(
+                    'editor.log.error.websocket_error_retry_failed',
+                    {
+                        client: $t('broadcast.client.type.live'),
+                        url: data.data.url,
+                        uuid: data.data.uuid
+                    },
+                    'erro'
+                );
             }
             break;
 
         case 'websocket_message_error':
-            editorLog(`Echo-Live Websocket 接收到的消息解析出错，UUID：${ data.data.uuid }`, 'erro');
+            editorLogT(
+                'editor.log.error.websocket_message_error',
+                {
+                    client: $t('broadcast.client.type.live'),
+                    uuid: data.data.uuid
+                },
+                'erro'
+            );
             break;
     
         default:
@@ -215,7 +266,7 @@ function getError(data) {
 }
 
 function noClient() {
-    editorLog('没有 Echo-Live 客户端响应，请检查您是否正确打开或安装了 live.html。如果您的操作正确，则可能是因为所有 Echo-Live 源均处于不可见状态。', 'warn');
+    editorLogT('editor.log.warn.no_client', {}, 'warn');
 }
 
 
@@ -329,7 +380,7 @@ $('#ptext-btn-send').click(function() {
     elb.sendData(d);
     sendHistoryMessage(d);
 
-    editorLog('已发送纯文本消息：' + EchoLiveTools.getMessageSendLog(d.messages[0].message, d.username));
+    editorLogT('editor.log.message.sent', { msg: EchoLiveTools.getMessageSendLog(d.messages[0].message, d.username) });
 });
 
 // 输出页发送
@@ -341,7 +392,7 @@ $('#output-btn-send').click(function() {
         afterCheck  = centent.substring(centent.length - after.length, centent.length) == after,
         newCentent  = '';
     
-    if (centent.length == 0) return editorLog('未输入内容，未发送任何消息。', 'erro');
+    if (centent.length == 0) return editorLogT('editor.log.message.empty', {}, 'erro');
     
     if (beforeCheck && afterCheck) {
         newCentent = centent.substring(before.length, centent.length - after.length);
@@ -353,24 +404,24 @@ $('#output-btn-send').click(function() {
 
     try {
         msg = JSON.parse(newCentent);
-        if (msg?.messages == undefined && msg?.username == undefined) return editorLog('消息内容无有效数据，未发送任何消息。', 'erro');
+        if (msg?.messages == undefined && msg?.username == undefined) return editorLogT('editor.log.message.empty_data', {}, 'erro');
         elb.sendData(msg);
     } catch (error) {
-        editorLog('发送的消息格式存在错误。详见帮助文档：https://sheep-realms.github.io/Echo-Live-Doc/message/', 'erro');
+        editorLogT('editor.log.message.illegal', {}, 'erro');
         return;
     }
 
     if (msg.messages == undefined) {
-        editorLog('发送的消息中没有消息队列，这是一个错误的消息格式。虽然这么操作似乎不会引发严重问题，但不建议这么操作。', 'warn');
+        editorLogT('editor.log.message.empty_messages', {}, 'warn');
         return;
     }
 
     if (!Array.isArray(msg.messages) || msg.messages.length < 1) return;
 
     if (msg.messages.length > 1) {
-        editorLog(`已发送 ${msg.messages.length} 条自定义消息，首条消息为：${EchoLiveTools.getMessageSendLog(msg.messages[0].message, msg.username)}`);
+        editorLogT('editor.log.message.sent_custom_multi', { msg: EchoLiveTools.getMessageSendLog(msg.messages[0].message, msg.username), n: msg.messages.length });
     } else {
-        editorLog('已发送自定义消息：' + EchoLiveTools.getMessageSendLog(msg.messages[0].message, msg.username));
+        editorLogT('editor.log.message.sent_custom', { msg: EchoLiveTools.getMessageSendLog(msg.messages[0].message, msg.username) });
     }
 
     sendHistoryMessage(msg);
@@ -424,13 +475,13 @@ function getOutputAfter() {
 
 function sendHistoryMessage(data) {
     let username = data.username;
-    let message = '[未定义消息]';
+    let message = $t('message_preview.undefined_message');
     if (Array.isArray(data.messages) && data.messages.length > 0) {
         message = EchoLiveTools.getMessagePlainText(data.messages[0].message)
     }
     let time = getTime();
-    if (message == '') message = '[空消息]';
-    if (username == undefined || username == '') username = '[未指定说话人]';
+    if (message == '') message = $t('message_preview.empty_message');
+    if (username == undefined || username == '') username = $t('message_preview.empty_username');
 
     let l = history.push({
         data: data,
@@ -496,7 +547,7 @@ $(document).on('click', '#popups-palette .color-box', function() {
 $(document).on('input', '#ptext-content', function() {
     let length  = $(this).val().length;
 
-    $('#ptext-editor .editor-bottom-bar .length').text(length);
+    $('#ptext-editor .editor-bottom-bar .length').text($t('editor.form.text_length', { n: length }));
 });
 
 // 历史记录编辑
@@ -520,7 +571,7 @@ $(document).on('click', '.history-message-item-btn-send', function() {
     if (config.editor.history_resend_bubble) $('#history-message-list').prepend($item);
     
     elb.sendData(history[i].data);
-    editorLog('已再次发送历史消息。');
+    editorLogT('editor.log.message.resent');
 });
 
 // 历史页清空
@@ -530,11 +581,11 @@ $(document).on('click', '#history-btn-clear', function() {
         history = [];
         historyMinimum = 0;
         $('#history-message-list').html('');
-        $('#history-editor-controller').html(`<button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">清空历史记录</button>`);
+        $('#history-editor-controller').html(`<button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">${ $t('editor.history.clear') }</button>`);
         $('#history-btn-clear').focus();
     } else {
         historyClearConfirm = true;
-        $('#history-editor-controller').html(`<button id="history-btn-clear-cancel" class="fh-button fh-big">取消</button><button id="history-btn-clear" class="fh-button fh-big fh-danger">确认清空</button>`)
+        $('#history-editor-controller').html(`<button id="history-btn-clear-cancel" class="fh-button fh-big">${ $t('ui.cancel') }</button><button id="history-btn-clear" class="fh-button fh-big fh-danger">${ $t('editor.history.clear_confirm') }</button>`)
         $('#history-btn-clear-cancel').focus();
     }
 });
@@ -542,7 +593,7 @@ $(document).on('click', '#history-btn-clear', function() {
 // 历史页取消清空
 $(document).on('click', '#history-btn-clear-cancel', function() {
     historyClearConfirm = false;
-    $('#history-editor-controller').html(`<button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">清空历史记录</button>`);
+    $('#history-editor-controller').html(`<button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">${ $t('editor.history.clear') }</button>`);
     $('#history-btn-clear').focus();
 });
 
@@ -557,7 +608,7 @@ function getDateNumber() {
 function checkNowDate() {
     let d = new Date();
     let dn = getDateNumber();
-    editorLog('欢迎使用 Echo-Live！如需查阅帮助文档，请见：https://sheep-realms.github.io/Echo-Live-Doc/', 'tips');
+    editorLogT('editor.log.welcome', {}, 'tips');
     let msg = {
         '0101': `${d.getFullYear()} 年来了！感谢您一直以来对 Echo-Live 的支持！`,
         '0721': 'Ciallo～(∠·ω< )⌒★',

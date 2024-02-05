@@ -8,6 +8,29 @@ if (config.accessible.high_contrast || window.matchMedia('(forced-colors: active
 }
 if (config.accessible.drotanopia_and_deuteranopia) $('body').addClass('accessible-drotanopia-and-deuteranopia');
 
+
+
+// 本地化
+let $i18n = $('*[data-i18n]');
+for (let i = 0; i < $i18n.length; i++) {
+    const e = $i18n.eq(i);
+    const key = e.data('i18n');
+    e.text($t(key));
+}
+$i18n = $('*[data-i18n-title]');
+for (let i = 0; i < $i18n.length; i++) {
+    const e = $i18n.eq(i);
+    const key = e.data('i18n-title');
+    e.attr('title', $t(key));
+}
+$i18n = $('*[data-i18n-aria-label]');
+for (let i = 0; i < $i18n.length; i++) {
+    const e = $i18n.eq(i);
+    const key = e.data('i18n-aria-label');
+    e.attr('aria-label', $t(key));
+}
+
+
 let timer = {
     clickEffect: -1
 }

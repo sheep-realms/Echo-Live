@@ -10,14 +10,14 @@
     <link rel="stylesheet" href="res/style/editor-accessible.css">
     <script src="lib/jquery-3.7.1.min.js"></script>
     <script src="config.js"></script>
-    <script src="lang/zhs.js"></script>
+    <script src="lang/zho-Hans.js"></script>
     <script src="res/class/Translator.js"></script>
     <script>
-        const translator = new Translator('zhs');
+        const translator = new Translator('zho-Hans');
         const $t = function(...e) {
             return translator.output(...e);
         };
-        translator.load(lang_zhs);
+        translator.load(lang_zho_Hans);
     </script>
     <script src="res/class/Icon.js"></script>
     <script src="res/class/EchoLiveTools.js"></script>

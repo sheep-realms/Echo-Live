@@ -1,5 +1,5 @@
 class Translator {
-    constructor(lang='zhs') {
+    constructor(lang='zho-Hans') {
         this.lang = lang;
         this.i18n = {};
     }

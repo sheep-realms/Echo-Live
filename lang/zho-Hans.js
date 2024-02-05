@@ -1,4 +1,9 @@
-const lang_zhs = {
+const lang_zho_Hans = {
+    lang: {
+        code_iso_639_3: "zho",
+        code_ietf: "zh-Hans",
+        title: "简体中文"
+    },
     ui: {
         ok: "确认",
         cancel: "取消",

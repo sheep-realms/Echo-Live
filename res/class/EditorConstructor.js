@@ -52,7 +52,7 @@ class EditorForm {
      * @returns {String} DOM
      */
     static tip(label) {
-        return `<div class="abuser-from-checkbox-list"><span class="abuser-from-input-tip">${label}</span></div>`
+        return `<div class="echo-editor-form-checkbox-list"><span class="echo-editor-form-input-tip">${label}</span></div>`
     }
 
     /**
@@ -64,7 +64,7 @@ class EditorForm {
      * @returns {String} DOM
      */
     static item(id, label, content, tip = '') {
-        return `<div class="abuser-from-row"><label for="${id}">${label}</label>${content}</div>${tip != '' ? FormConstructor.tip(tip) : ''}`;
+        return `<div class="echo-editor-form-row"><label for="${id}">${label}</label>${content}</div>${tip != '' ? FormConstructor.tip(tip) : ''}`;
     }
 
     /**
@@ -80,7 +80,7 @@ class EditorForm {
         return FormConstructor.item(
             id,
             label,
-            `<input type="${type}" name="${id}" id="${id}" class=" abuser-form-item" value="${def}" data-default="${def}">`,
+            `<input type="${type}" name="${id}" id="${id}" class=" echo-editor-form-item" value="${def}" data-default="${def}">`,
             tip
         );
     }

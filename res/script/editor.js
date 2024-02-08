@@ -38,7 +38,7 @@ paletteColorContrastCheck('#000000');
 let elb;
 
 if (config.echo.print_speed != 30) {
-    $('.echo-editor-from-input-tip').text($t('editor.form.description.print_speed_custom', { value: config.echo.print_speed }));
+    $('.echo-editor-form-input-tip').text($t('editor.form.description.print_speed_custom', { value: config.echo.print_speed }));
 }
 
 if (config.echolive.broadcast_enable) {
@@ -610,12 +610,21 @@ function checkNowDate() {
     editorLog(`Language: ${ $t('lang.title') } (ISO 639-3: ${ $t('lang.code_iso_639_3') }, IETF: ${ $t('lang.code_ietf') })`, 'dbug');
     let msg = {
         '0101': `${d.getFullYear()} 年来了！感谢您一直以来对 Echo-Live 的支持！`,
+        '0229': '你知道吗：今年是闰年。',
+        '0401': [
+            '想给你的消息加点料吗？不如试试这个：https://sheep-realms.github.io/Abuser/',
+            '近日电信诈骗频发，提高反诈意识你我在行动。邀您阅读反诈指南：https://sheep-realms.github.io/Anti-Fraud-Guidelines/'
+        ],
         '0721': 'Ciallo～(∠·ω< )⌒★',
         '0914': '2023 年的今天，Echo Live 诞生了！',
         '1231': '哇哦，今年只剩下最后一天了，您要和我一起跨年吗？'
     }
 
     if (msg[dn] != undefined) {
-        editorLog(msg[dn], 'tips');
+        if (Array.isArray(msg[dn])) {
+            editorLog(msg[dn][Math.floor(Math.random() * msg[dn].length)], 'tips');
+        } else {
+            editorLog(msg[dn], 'tips');
+        }
     }
 }

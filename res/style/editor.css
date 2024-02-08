@@ -101,17 +101,17 @@ textarea.code {
     font-size: 0;
 }
 
-.echo-editor-from label,
-.echo-editor-from textarea {
+.echo-editor-form label,
+.echo-editor-form textarea {
     display: block;
 }
 
-.echo-editor-from label {
+.echo-editor-form label {
     padding: 0.25em 0;
     color: var(--text-regular);
 }
 
-.echo-editor-from textarea {
+.echo-editor-form textarea {
     resize: vertical;
     width: 100%;
     min-height: 100px;
@@ -125,7 +125,7 @@ textarea.code {
     transition: border .3s;
 }
 
-.echo-editor-from textarea:focus {
+.echo-editor-form textarea:focus {
     border-bottom: var(--color-general) 1px solid;
 }
 
@@ -273,53 +273,53 @@ textarea.code {
     filter: brightness(0.85);
 }
 
-.echo-editor-from-row {
+.echo-editor-form-row {
     display: flex;
     padding: 0.5em;
-    align-items: center;
+    align-items: flex-start;
 }
 
-.echo-editor-from-row>label {
+.echo-editor-form-row>label {
     width: 200px;
 }
 
 @media screen and (max-width: 760px) {
-    .echo-editor-from-row>label {
+    .echo-editor-form-row>label {
         width: 150px;
     }
 }
 
 @media screen and (max-width: 450px) {
-    .echo-editor-from-row {
+    .echo-editor-form-row {
         align-items: flex-start;
         flex-direction: column;
     }
 }
 
-.echo-editor-from-row>input {
+.echo-editor-form-row>input {
     flex: 1;
 }
 
-.echo-editor-from-checkbox-list {
+.echo-editor-form-checkbox-list {
     width: calc(100% - 200px);
     margin-left: 200px;
 }
 
 @media screen and (max-width: 760px) {
-    .echo-editor-from-checkbox-list {
+    .echo-editor-form-checkbox-list {
         width: calc(100% - 150px);
         margin-left: 150px;
     }
 }
 
 @media screen and (max-width: 450px) {
-    .echo-editor-from-checkbox-list {
+    .echo-editor-form-checkbox-list {
         width: 100%;
         margin-left: 0;
     }
 }
 
-.echo-editor-from-input-tip {
+.echo-editor-form-input-tip {
     padding-bottom: 0.5em;
     padding-left: 1em;
     color: var(--text-secondary);

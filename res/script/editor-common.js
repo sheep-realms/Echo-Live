@@ -53,6 +53,8 @@ function setDefaultValue($sel, value) {
  * @param {0|1} value 值
  */
 function setCheckboxDefaultValue($sel, value) {
+    if (typeof value === 'boolean') value ? value = 1 : value = 0;
+
     $($sel).val(value);
     if (value == 1) {
         $($sel).parents('.checkbox').attr('aria-selected', 'true');

@@ -1,4 +1,9 @@
 class EchoLiveBroadcast {
+    /**
+     * Echo-Live 广播
+     * @param {String} channel 频道名称
+     * @param {Object} config 配置
+     */
     constructor(channel = 'sheep-realms:echolive', config = undefined) {
         this.uuid = undefined;
         this.type = 'unknow';
@@ -140,254 +145,12 @@ class EchoLiveBroadcast {
 
 
 
-class EchoLiveBroadcastOld {
-    constructor(echolive = undefined, channel = 'sheep-realms:echolive') {
-        this.echolive = echolive;
-        this.uuid = undefined;
-        this.broadcast = new BroadcastChannel(channel);
-        this.websocket = undefined;
-        this.isServer = true;
-        this.clients = [];
-        this.timer = {
-            noClient: -1
-        };
-        this.event = {
-            clientsChange: function() {},
-            message: function() {},
-            noClient: function() {}
-        };
-
-        let that = this;
-        if (this.echolive != undefined) {
-            this.isServer = false;
-            this.uuid = this.echolive.uuid;
-
-            window.onunload = function() {
-                that.close();
-            };
-
-            if (this.echolive.config.echolive.websocket_enable) {
-                this.websocket = new WebSocket(this.echolive.config.echolive.websocket_url);
-
-                this.websocket.addEventListener('open', (e) => {
-                    this.sendHello('@__server');
-                });
-
-                this.websocket.addEventListener('message', (e) => {
-                    this.getData(JSON.parse(e.data));
-                });
-
-                this.websocket.addEventListener('close', (e) => {
-                    this.websocket = undefined;
-                });
-            }
-
-            this.sendHello();
-        }
-
-        this.broadcast.onmessage = function(e) {
-            that.getData(e.data);
-        };
-
-        if (this.isServer) {
-            this.uuid = EchoLiveTools.getUUID();
-            this.ping();
-        }
-    }
-
-    on(eventName, action = function() {}) {
-        if (typeof action != 'function') return;
-        return this.event[eventName] = action;
-    }
-
-    sendData(data = {}, type = 'message_data', target = undefined) {
-        let d = {
-            action: type,
-            target: target,
-            data: data
-        };
-
-        this.broadcast.postMessage(d);
-        if (this.websocket != undefined) {
-            try {
-                this.websocket.send(JSON.stringify(d));
-            } catch (error) {
-                
-            }
-        }
-        return d;
-    }
-
-    sendHello(target = undefined) {
-        if (this.isServer) return;
-        return this.sendData({
-            uuid: this.uuid,
-            hidden: this.echolive.hidden
-        }, 'hello', target);
-    }
-
-    ping() {
-        if (!this.isServer) return;
-        let that = this;
-        this.timer.noClient = setTimeout(function() {
-            that.event.noClient();
-        }, 5000)
-
-        return this.sendData({
-            uuid: this.uuid
-        }, 'ping');
-    }
-
-    sendNext(target = undefined) {
-        return this.sendData({}, 'echo_next', target);
-    }
-
-    pageHidden(target = undefined) {
-        if (this.isServer) return;
-        return this.sendData({
-            uuid: this.uuid
-        }, 'page_hidden', target);
-    }
-
-    pageVisible(target = undefined) {
-        if (this.isServer) return;
-        return this.sendData({
-            uuid: this.uuid
-        }, 'page_visible', target);
-    }
-
-    close() {
-        if (this.isServer) return;
-        this.sendData({
-            uuid: this.uuid
-        }, 'close');
-        return this.broadcast.close();
-    }
-
-    addClient(uuid, hidden = false) {
-        if (!this.isServer) return;
-        let i = this.clients.findIndex(function(e) {
-            return e.uuid == uuid;
-        });
-        if (i != -1) return;
-        clearTimeout(this.timer.noClient);
-
-        let r = this.clients.push({
-            uuid: uuid,
-            hidden: hidden
-        });
-        this.event.clientsChange(this.clients);
-        return r; 
-    }
-
-    removeClient(uuid) {
-        if (!this.isServer) return;
-        let i = this.clients.findIndex(function(e) {
-            return e.uuid == uuid;
-        });
-        if (i == -1) return;
-        let r = this.clients.splice(i, 1);
-        this.event.clientsChange(this.clients);
-        return r;
-    }
-
-    setClientHidden(uuid, value) {
-        if (!this.isServer) return;
-        let i = this.clients.findIndex(function(e) {
-            return e.uuid == uuid;
-        });
-        if (i == -1) return;
-        let r = this.clients[i].hidden = value;
-        this.event.clientsChange(this.clients);
-        return r;
-    }
-
-    sendThemeStyleUrl(url) {
-        if (!this.isServer) return;
-        return this.sendData({
-            url: url
-        }, 'set_theme_style_url');
-    }
-
-    sendTheme(name) {
-        if (!this.isServer) return;
-        return this.sendData({
-            name: name
-        }, 'set_theme');
-    }
-
-    setThemeStyleUrl(url) {
-        if (this.isServer) return;
-        if (!this.experimentalAPICheck('set_theme_style_url')) return;
-        return this.echolive.setThemeStyleUrl(url);
-    }
-
-    setTheme(name) {
-        if (this.isServer) return;
-        return this.echolive.setTheme(name);
-    }
-
-    getData(data) {
-        if (typeof data != 'object') return;
-        this.event.message(data);
-        // console.log(data);
-
-        if (data.target != undefined && data.target != this.uuid) return;
-
-        switch (data.action) {
-            case 'message_data':
-                if (!this.isServer) this.echolive.send(data.data);
-                break;
-
-            case 'hello':
-                this.addClient(data.data.uuid, data.data?.hidden);
-                break;
-
-            case 'ping':
-                this.sendHello(data.data?.uuid);
-                break;
-
-            case 'close':
-                this.removeClient(data.data.uuid);
-                break;
-
-            case 'echo_next':
-                if (!this.isServer) this.echolive.next();
-                break;
-
-            case 'page_hidden':
-                this.setClientHidden(data.data.uuid, true);
-                break;
-
-            case 'page_visible':
-                this.setClientHidden(data.data.uuid, false);
-                break;
-
-            case 'set_theme_style_url':
-                this.setThemeStyleUrl(data.data.url);
-                break;
-
-            case 'set_theme':
-                this.setTheme(data.data.name);
-                break;
-        
-            default:
-                break;
-        }
-    }
-
-    experimentalAPICheck(apiName) {
-        if (!this.echolive.config.echolive.experimental_api_enable) {
-            // TODO: 在这里抛出异常
-        }
-
-        return this.echolive.config.echolive.experimental_api_enable;
-    }
-}
-
-
-
 class EchoLiveBroadcastServer extends EchoLiveBroadcast {
+    /**
+     * Echo-Live 广播服务器
+     * @param {String} channel 频道名称
+     * @param {Object} config 配置
+     */
     constructor(channel = 'sheep-realms:echolive', config = undefined) {
         super(channel, config);
         this.type = 'server';
@@ -566,6 +329,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      * Echo-Live 广播客户端
      * @param {String} channel 频道名称
      * @param {'live'|'history'} clientType 客户端类型
+     * @param {Object} config 配置
      */
     constructor(channel = 'sheep-realms:echolive', clientType = 'client', config = undefined) {
         super(channel, config);
@@ -599,6 +363,9 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
         }
     }
 
+    /**
+     * 连接 WebSocket 服务器
+     */
     websocketConnect() {
         this.websocketClosed = false;
         this.websocket = new WebSocket(this.config.echolive.websocket_url);
@@ -607,7 +374,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
             this.websocket.addEventListener('close', (e) => {
                 this.websocket = undefined;
                 this.event.websocketClose(e);
-                this.websocketReconnect(e);
+                this.websocketReconnect();
             });
 
             this.websocketReconnectCount = 0;
@@ -624,39 +391,41 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
 
         this.websocket.addEventListener('error', (e) => {
             this.websocket = undefined;
-            this.websocketReconnect(e);
+            this.websocketReconnect();
         });
 
         return this.websocket;
     }
 
-    websocketReconnect(event) {
+    /**
+     * 重新连接 WebSocket 服务器
+     */
+    websocketReconnect() {
         if (this.websocketClosed) return;
 
         if (this.websocketReconnectCount >= this.config.echolive.websocket_reconnect_limit) {
-            if (event != undefined) {
-                this.sendError('websocket_error', {
-                    url: this.config.echolive.websocket_url,
-                    tryReconnect: false,
-                    reconnectCount: this.websocketReconnectCount
-                });
-            }
+            this.sendError('websocket_error', {
+                url: this.config.echolive.websocket_url,
+                tryReconnect: false,
+                reconnectCount: this.websocketReconnectCount
+            });
             return;
         }
 
         this.websocketReconnectCount++;
 
-        if (event != undefined) {
-            this.sendError('websocket_error', {
-                url: this.config.echolive.websocket_url,
-                tryReconnect: true,
-                reconnectCount: this.websocketReconnectCount
-            });
-        }
+        this.sendError('websocket_error', {
+            url: this.config.echolive.websocket_url,
+            tryReconnect: true,
+            reconnectCount: this.websocketReconnectCount
+        });
         
         this.websocketConnect();
     }
 
+    /**
+     * 关闭 WebSocket 连接
+     */
     websocketClose() {
         if (this.websocket == undefined) return;
         this.websocketClosed = true;
@@ -664,6 +433,11 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
         this.websocket = undefined;
     }
 
+    /**
+     * 发送 HELLO 消息
+     * @param {String} target 发送目标
+     * @returns {Object} 发送的消息
+     */
     sendHello(target = undefined) {
         return this.sendData({
             uuid: this.uuid,
@@ -671,18 +445,32 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
         }, 'hello', target);
     }
 
+    /**
+     * 发送消息：已休眠
+     * @param {String} target 发送目标
+     * @returns {Object} 发送的消息
+     */
     pageHidden(target = undefined) {
         return this.sendData({
             uuid: this.uuid
         }, 'page_hidden', target);
     }
 
+    /**
+     * 发送消息：已激活
+     * @param {String} target 发送目标
+     * @returns {Object} 发送的消息
+     */
     pageVisible(target = undefined) {
         return this.sendData({
             uuid: this.uuid
         }, 'page_visible', target);
     }
 
+    /**
+     * 发送消息：关闭广播连接
+     * @returns {Object} 发送的消息
+     */
     close() {
         this.sendData({
             uuid: this.uuid
@@ -690,6 +478,11 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
         return this.broadcast.close();
     }
 
+    /**
+     * 处理侦听获取的数据
+     * @param {Object} data 数据内容
+     * @param {EchoLiveBroadcast} listener 监听对象
+     */
     getDataClient(data, listener = this) {
         switch (data.action) {
             case 'ping':
@@ -714,6 +507,7 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
      * Echo-Live 广播客户端：对话框
      * @param {String} channel 频道名称
      * @param {EchoLive} echolive Echo-Live 实例
+     * @param {Object} config 配置
      */
     constructor(channel = 'sheep-realms:echolive', echolive = undefined, config = undefined) {
         super(channel, 'live', config);
@@ -738,17 +532,32 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
         this.sendHello();
     }
 
+    /**
+     * 设置主题样式文件 URL
+     * @param {String} url URL
+     * @returns {String} 设置的 URL
+     */
     setThemeStyleUrl(url) {
         if (this.isServer) return;
         if (!this.experimentalAPICheck('set_theme_style_url')) return;
         return this.echolive.setThemeStyleUrl(url);
     }
 
+    /**
+     * 设置主题
+     * @param {String} name 主题名称
+     * @returns {String} 设置的主题
+     */
     setTheme(name) {
         if (this.isServer) return;
         return this.echolive.setTheme(name);
     }
 
+    /**
+     * 处理侦听获取的数据
+     * @param {Object} data 数据内容
+     * @param {EchoLiveBroadcast} listener 监听对象
+     */
     getDataPortal(data, listener = this) {
         switch (data.action) {
             case 'message_data':
@@ -781,6 +590,7 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
      * Echo-Live 广播客户端：对话框
      * @param {String} channel 频道名称
      * @param {*} echoLiveHistory Echo-Live 历史记录实例
+     * @param {Object} config 配置
      */
     constructor(channel = 'sheep-realms:echolive', echoLiveHistory = undefined, config = {}) {
         super(channel, 'history', config);

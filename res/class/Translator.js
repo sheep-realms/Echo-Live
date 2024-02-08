@@ -15,7 +15,7 @@ class Translator {
         let objI18n = !__inPlanB ? this.i18n[this.lang] : this.i18n[this.langMain];
         for (const k of keys) {
             if (objI18n[k] == undefined) {
-                if (!__inPlanB) return this.output(key, variable, true);
+                if (!__inPlanB && this.lang != this.langMain) return this.output(key, variable, true);
                 return key;
             }
             objI18n = objI18n[k];
@@ -24,7 +24,7 @@ class Translator {
 
         // 校验数据
         if (typeof t != 'string') {
-            if (!__inPlanB) return this.output(key, variable, true);
+            if (!__inPlanB && this.lang != this.langMain) return this.output(key, variable, true);
             return key;
         }
 

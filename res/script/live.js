@@ -12,6 +12,8 @@ let gruopIndex = 0;
 
 let first = false;
 
+let inTypewriteEnd = false;
+
 echo.on('next', function(msg) {
     $('#echo-live').attr('class', '');
     let str = EchoLiveTools.getMessagePlainText(msg.message);
@@ -33,7 +35,11 @@ echo.on('print', function(chr) {
         chr = '<br>'
     }
 
-    if (gruopIndex == 0) {
+    if (inTypewriteEnd) {
+        inTypewriteEnd = false;
+        $('.echo-output .echo-text-typewrite').text(chr);
+        $('.echo-output .echo-text-typewrite').removeClass('echo-text-typewrite');
+    } else if (gruopIndex == 0) {
         $('.echo-output').append(chr);
     } else {
         $(`.echo-output span[data-group="${gruopIndex}"]`).append(chr);
@@ -83,7 +89,8 @@ echo.on('groupEnd', function(e) {
 });
 
 echo.on('typewriteEnd', function() {
-    $('.echo-output .echo-text-typewrite').remove();
+    inTypewriteEnd = true;
+    // $('.echo-output .echo-text-typewrite').remove();
 });
 
 echo.on('customEvent', function(e) {

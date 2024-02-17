@@ -4,6 +4,53 @@
 .echo-text-typewrite {background-color: rgba(0, 0, 0, 0.05); border-bottom: 1px dotted var(--echo-span-color, #000);}
 .echo-text-strikethrough {text-decoration: line-through;}
 
+.echo-text-emphasis {
+    text-emphasis: dot;
+    -webkit-text-emphasis: dot;
+    text-emphasis-position: under;
+    -webkit-text-emphasis-position: under;
+}
+
+.echo-text-size-large {font-size: 1.5em;}
+.echo-text-size-small {font-size: 0.75em;}
+.echo-text-size-middle {font-size: 1em;}
+.echo-text-size-extra-large {font-size: 2em;}
+.echo-text-size-extra-small {font-size: 0.5em;}
+
+.echo-text-weight-thin,
+.echo-text-weight-hairline {font-weight: 100;}
+.echo-text-weight-extra-light,
+.echo-text-weight-ultra-light {font-weight: 200;}
+.echo-text-weight-light {font-weight: 300;}
+.echo-text-weight-semi-light,
+.echo-text-weight-demi-light {font-weight: 350;}
+.echo-text-weight-regular,
+.echo-text-weight-normal,
+.echo-text-weight-book,
+.echo-text-weight-plain {font-weight: 400;}
+.echo-text-weight-medium {font-weight: 500;}
+.echo-text-weight-semi-bold,
+.echo-text-weight-demi-bold {font-weight: 600;}
+.echo-text-weight-bold {font-weight: 700;}
+.echo-text-weight-extra-bold,
+.echo-text-weight-ultra-bold {font-weight: 800;}
+.echo-text-weight-black,
+.echo-text-weight-heavy {font-weight: 900;}
+.echo-text-weight-extra-black,
+.echo-text-weight-ultra-black,
+.echo-text-weight-extra-heavy,
+.echo-text-weight-ultra-heavy {font-weight: 950;}
+
+.echo-text-stretch-ultra-condensed {font-stretch: ultra-condensed;}
+.echo-text-stretch-extra-condensed {font-stretch: extra-condensed;}
+.echo-text-stretch-condensed {font-stretch: condensed;}
+.echo-text-stretch-semi-condensed {font-stretch: semi-condensed;}
+.echo-text-stretch-normal {font-stretch: normal;}
+.echo-text-stretch-semi-expanded {font-stretch: semi-expanded;}
+.echo-text-stretch-expanded {font-stretch: expanded;}
+.echo-text-stretch-extra-expanded {font-stretch: extra-expanded;}
+.echo-text-stretch-ultra-expanded {font-stretch: ultra-expanded;}
+
 @keyframes echo-text-rock-y {
     0% {position: relative; top: 0px;}
     25% {position: relative; top: -2px;}

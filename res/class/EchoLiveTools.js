@@ -35,10 +35,13 @@ class EchoLiveTools {
         if (data?.typewrite) cls += 'echo-text-typewrite '
         if (data?.style) {
             if (data.style?.color) style += `color: ${data.style.color}; --echo-span-color: ${data.style.color}; `;
-            if (data.style?.bold) cls += 'echo-text-bold '
+            if (data.style?.bold && data.style?.weight == undefined) cls += 'echo-text-bold '
             if (data.style?.italic) cls += 'echo-text-italic '
             if (data.style?.underline) cls += 'echo-text-underline '
             if (data.style?.strikethrough) cls += 'echo-text-strikethrough '
+            if (data.style?.size) cls += 'echo-text-size-' + data.style.size + ' '
+            if (data.style?.weight) cls += 'echo-text-weight-' + data.style.weight + ' '
+            if (data.style?.stretch) cls += 'echo-text-stretch-' + data.style.stretch + ' '
             if (data.style?.rock) cls += 'echo-text-rock-' + data.style.rock + ' '
             if (data.style?.style) style += data.style.style;
         }

@@ -68,6 +68,7 @@ Echo-Live 支持扩展，可用于增加额外资源。
 - [Echo-Live-Doc](https://github.com/sheep-realms/Echo-Live-Doc)
 
 ### 第三方项目
+- [Echo-Client](https://github.com/Rickyxrc/echo-client)
 - [Echo-Live-Tauri](https://github.com/LuiScreaMed/Echo-Live-Tauri)
 - [Echo-Live-Typetool](https://github.com/RaySky-Rt/Echo-Live-Typetool)
 

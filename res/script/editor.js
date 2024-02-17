@@ -143,7 +143,6 @@ function clientsChange(e) {
 }
 
 function getMessage(data) {
-    console.log(data);
     switch (data.action) {
         case 'message_data':
             editorLogT('editor.log.broadcast.message_data_third');

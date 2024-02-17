@@ -51,6 +51,12 @@
 .echo-text-stretch-extra-expanded {font-stretch: extra-expanded;}
 .echo-text-stretch-ultra-expanded {font-stretch: ultra-expanded;}
 
+.echo-text-letter-spacing-compact {letter-spacing: -0.05em;}
+.echo-text-letter-spacing-normal {letter-spacing: normal;}
+.echo-text-letter-spacing-four-per-width {letter-spacing: 0.25em;}
+.echo-text-letter-spacing-half-width {letter-spacing: 0.5em;}
+.echo-text-letter-spacing-full-width {letter-spacing: 1em;}
+
 @keyframes echo-text-rock-y {
     0% {position: relative; top: 0px;}
     25% {position: relative; top: -2px;}

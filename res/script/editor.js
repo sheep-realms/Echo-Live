@@ -15,6 +15,8 @@ let history = [];
 let historyMinimum = 0;
 let historyClearConfirm = false;
 
+let hasError = false;
+
 setDefaultValue('#config-output-before', config.editor.output_before);
 setDefaultValue('#config-output-after', config.editor.output_after);
 $('#ptext-character, #rtext-character').val(config.editor.username_init);
@@ -141,6 +143,7 @@ function clientsChange(e) {
 }
 
 function getMessage(data) {
+    console.log(data);
     switch (data.action) {
         case 'message_data':
             editorLogT('editor.log.broadcast.message_data_third');
@@ -152,7 +155,7 @@ function getMessage(data) {
                 editorLogT(
                     'editor.log.broadcast.' + helloMsg1,
                     {
-                        client: $t('broadcast.client.type.live'),
+                        client: $t('broadcast.client.type.' + data.type),
                         uuid: data.data.uuid
                     }
                 );
@@ -160,7 +163,7 @@ function getMessage(data) {
                 editorLogT(
                     'editor.log.broadcast.hello_to_server',
                     {
-                        client: $t('broadcast.client.type.live'),
+                        client: $t('broadcast.client.type.' + data.type),
                         uuid: data.data.uuid
                     }
                 );
@@ -187,34 +190,49 @@ function getMessage(data) {
             editorLogT(
                 'editor.log.broadcast.' + data.action,
                 {
-                    client: $t('broadcast.client.type.live'),
+                    client: $t('broadcast.client.type.' + data.type),
                     uuid: data.data.uuid
                 }
             );
             break;
 
         case 'set_theme_style_url':
-            editorLog(
-                $t(
-                    'editor.log.broadcast.set_theme_style_url',
-                    {
-                        url: data.data.url
-                    }
-                )
+            editorLogT(
+                'editor.log.broadcast.set_theme_style_url',
+                {
+                    url: data.data.url
+                }
             );
             break;
 
         case 'set_theme':
-            editorLog(
-                $t(
+            editorLogT(
                     'editor.log.broadcast.set_theme',
                     {
                         name: data.data.name
                     }
-                )
             );
             break;
-    
+
+        case 'error':
+            editorLogT(
+                'editor.log.error.unknown_error_in_client',
+                {
+                    client: $t('broadcast.client.type.' + data.type),
+                    msg: data.data.message.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>'),
+                    source: data.data.source.replace(/</g, '&lt;').replace(/>/g, '&gt;'),
+                    line: data.data.line,
+                    col: data.data.col,
+                    uuid: data.data.uuid
+                },
+                'erro'
+            );
+            if (!hasError) {
+                hasError = true;
+                editorLogT('editor.log.tip.unknown_error', {}, 'tips');
+            }
+            break;
+
         default:
             break;
     }

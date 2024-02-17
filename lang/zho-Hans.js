@@ -23,9 +23,11 @@ const lang_zho_Hans = {
     broadcast: {
         client: {
             type: {
+                client: "未知客户端",
                 editor: "Echo-Live Editor",
                 history: "Echo-Live History",
                 live: "Echo-Live",
+                unknow: "未知终端"
             }
         }
     },
@@ -115,7 +117,9 @@ const lang_zho_Hans = {
             error: {
                 websocket_error: "{client} Websocket 连接 {url} 出错，进行第 {n} 次重连，UUID：{uuid}",
                 websocket_error_retry_failed: "{client} Websocket 连接 {url} 出错，重连次数超出限制，UUID：{uuid}",
-                websocket_message_error: "{client} Websocket 接收到的消息解析出错，UUID：{uuid}"
+                websocket_message_error: "{client} Websocket 接收到的消息解析出错，UUID：{uuid}",
+                unknown_error_in_client: "{client} 发生未捕获的错误：<br>{msg}<br>来源：{source}<br>行列：{line}:{col}<br>UUID：{uuid}",
+                unknown_error_in_editor: "编辑器发生未捕获的错误：{msg}<br>来源：{source}<br>行列：{line}:{col}"
             },
             message: {
                 empty: "未输入内容，未发送任何消息。",
@@ -126,6 +130,9 @@ const lang_zho_Hans = {
                 sent: "已发送纯文本消息：{msg}",
                 sent_custom: "已发送自定义消息：{msg}",
                 sent_custom_multi: "已发送 {n} 条自定义消息，首条消息为：{msg}"
+            },
+            tip: {
+                unknown_error: "看来您可能遇到了一些问题。如果您确实觉得有什么不对劲，请复制此日志内容反馈给开发者，并详细描述复现过程。"
             },
             warn: {
                 no_client: "没有客户端响应，请检查您是否正确打开或安装了 Echo-Live。如果您的操作正确，则可能是因为 OBS 中所有源均处于不可见状态。"

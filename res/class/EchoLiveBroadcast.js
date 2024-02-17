@@ -479,6 +479,25 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
     }
 
     /**
+     * 发送错误报告
+     * @param {String} message 错误消息
+     * @param {String} source 源文件名
+     * @param {Number} line 行号
+     * @param {Number} col 列号
+     * @param {String} target 发送目标
+     * @returns {Object} 发送的消息
+     */
+    error(message, source, line, col, target = undefined) {
+        return this.sendData({
+            uuid: this.uuid,
+            message: message,
+            source: source,
+            line: line,
+            col: col
+        }, 'error', target);
+    }
+
+    /**
      * 处理侦听获取的数据
      * @param {Object} data 数据内容
      * @param {EchoLiveBroadcast} listener 监听对象
@@ -551,6 +570,21 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
     setTheme(name) {
         if (this.isServer) return;
         return this.echolive.setTheme(name);
+    }
+
+    /**
+     * Echo 状态更新广播
+     * @param {'ready'|'play'|'stop'} state 状态名称
+     * @param {String} target 发送目标
+     * @param {Number} messagesCount 剩余消息数
+     * @returns {Object} 发送的消息
+     */
+    echoStateUpdate(state, messagesCount = 0, target = undefined) {
+        return this.sendData({
+            uuid: this.uuid,
+            state: state,
+            messagesCount: messagesCount
+        }, 'echo_state_update', target);
     }
 
     /**

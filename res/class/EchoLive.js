@@ -23,6 +23,15 @@ class EchoLive {
      * 初始化
      */
     init() {
+        window.addEventListener("error", (e) => {
+            const msg = e.error != null ? e.error.stack : e.message;
+            const filename = e.filename != '' ? e.filename : 'null';
+            this.broadcast.error(msg, filename, e.lineno, e.colno);
+        });
+        // window.onerror = (message, source, line, col, error) => {
+        //     this.broadcast.error(message, source, line, col);
+        // };
+
         // 嵌套有点多了，这不好，要改
         if (this.config.echolive.sleep_enable) {
             document.addEventListener("visibilitychange", () => {

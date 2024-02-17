@@ -1,3 +1,5 @@
+"use strict";
+
 let echo = new Echo();
 let echolive = new EchoLive(echo, config);
 echolive.theme = extensionManager.theme;
@@ -16,6 +18,9 @@ let inTypewriteEnd = false;
 
 echo.on('next', function(msg) {
     $('#echo-live').attr('class', '');
+
+    echolive.broadcast.echoStateUpdate('ready', echo.messageList.length);
+
     let str = EchoLiveTools.getMessagePlainText(msg.message);
 
     // 判断文字书写方向
@@ -71,11 +76,13 @@ echo.on('skip', function() {
 echo.on('printStart', function() {
     printSeCd = echo.printSpeedChange + 3;
     first = true;
+    echolive.broadcast.echoStateUpdate('play', echo.messageList.length);
 });
 
 echo.on('printEnd', function() {
     // 整理字符串
     // $('.echo-output').html($('.echo-output').html());
+    echolive.broadcast.echoStateUpdate('stop', echo.messageList.length);
 });
 
 echo.on('groupStart', function(e) {

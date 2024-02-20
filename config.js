@@ -72,10 +72,14 @@ const config = {
         messages_polling_tick: 250,
 
 
+        // == 休眠机制 ==
+
         // 启用休眠机制：当页面不可见时休眠以防止计时器失效所引发的灾难性演出
         // * 特别强调：如果您不了解这是什么，请不要关闭它。
         // ** 如果您只是想方便在浏览器中预览而临时关闭它，请一定不要忘记打开。
         sleep_enable: true,
+        // 在打印期间休眠立即停止打印
+        sleep_during_printing_stop_print: true,
 
 
         // == 打字音效 ==
@@ -198,18 +202,27 @@ const config = {
     // 历史记录相关配置
     // * 是面向观众展示的历史记录，不是编辑器中的历史记录
     history: {
+        // == 布局 ==
+
         // 历史记录倒序排列
         message_list_reverse: false,
+        // 历史记录布局左右翻转
+        message_item_reverse: false,
 
         // 显示说话人
         display_username: true,
-
         // 显示发送时间
         display_time: true,
+
+
+        // == 行为 ==
 
         // 去除连续的重复消息
         // * 如果场景中有多个对话框同时接收消息，启用此项可避免重复记录历史消息。
         remove_continuous_duplicate: true,
+
+        // 隐藏最新的历史记录
+        latest_message_hide: true,
     },
 
     // 无障碍相关配置

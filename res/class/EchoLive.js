@@ -47,6 +47,7 @@ class EchoLive {
                     this.hidden = true;
                     if (this.broadcast != undefined) this.broadcast.pageHidden();
                     if (this.timer.messagesPolling != -1) this.stop();
+                    if (this.echo.state != 'stop') this.echo.stop();
                 }
             });
         }

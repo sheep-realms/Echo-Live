@@ -68,6 +68,27 @@
 
     /* == 历史记录相关 == */
 
+    /* 历史记录说话人部分的相对宽度 */
+    --echo-live-history-flex-username: 2;
+    /* 历史记录消息内容部分的相对宽度 */
+    --echo-live-history-flex-message: 5;
+    /* 历史记录发送时间部分的相对宽度 */
+    --echo-live-history-flex-time: 1;
+
+    /* 历史记录说话人部分的最小宽度 */
+    --echo-live-history-min-width-username: 6em;
+    /* 历史记录消息内容部分的最小宽度 */
+    --echo-live-history-min-width-message: unset;
+    /* 历史记录发送时间部分的最小宽度 */
+    --echo-live-history-min-width-time: 4.5em;
+
+    /* 历史记录说话人部分的最小宽度 */
+    --echo-live-history-max-width-username: 8em;
+    /* 历史记录消息内容部分的最小宽度 */
+    --echo-live-history-max-width-message: unset;
+    /* 历史记录发送时间部分的最小宽度 */
+    --echo-live-history-max-width-time: 5em;
+
     /* 历史记录字体大小 */
     --echo-live-history-font-size: 36px;
     /* 历史记录说话人字体大小 */
@@ -86,6 +107,8 @@
     /* 历史记录发送时间字体颜色 */
     --echo-live-history-color-time: #888;
 
+    /* 历史记录每条记录之间的间隙 */
+    --echo-live-history-list-gap: 0.5em;
     /* 历史记录每条记录内各个元素的间隙 */
     --echo-live-history-item-gap: 0.5em;
 
@@ -192,6 +215,7 @@
     width: 100%;
     max-height: 100%;
     overflow-y: scroll;
+    gap: var(--echo-live-history-list-gap);
 }
 
 #echo-live-history-message-list::-webkit-scrollbar {
@@ -204,30 +228,58 @@
 
 #echo-live-history .history-message-item {
     display: flex;
+    flex-direction: row;
     gap: var(--echo-live-history-item-gap);
 }
 
+.echo-live-history-latest-message-hide #echo-live-history .history-message-item:last-child {
+    display: none;
+}
+
+.echo-live-history-message-item-reverse #echo-live-history .history-message-item {
+    flex-direction: row-reverse;
+}
+
 #echo-live-history .history-message-item .username {
-    flex: 2;
-    min-width: 6em;
+    flex: var(--echo-live-history-flex-username);
+    min-width: var(--echo-live-history-min-width-username);
+    max-width: var(--echo-live-history-max-width-username);
     color: var(--echo-live-history-color-username, --echo-live-history-color);
     font-size: var(--echo-live-history-font-size-username, --echo-live-history-font-size);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: left;
 }
 
 #echo-live-history .history-message-item .message {
-    flex: 4;
+    flex: var(--echo-live-history-flex-message);
+    min-width: var(--echo-live-history-min-width-message);
+    max-width: var(--echo-live-history-max-width-message);
     color: var(--echo-live-history-color-message, --echo-live-history-color);
     font-size: var(--echo-live-history-font-size-message, --echo-live-history-font-size);
 }
 
 #echo-live-history .history-message-item .time {
-    flex: 1;
-    min-width: 4.5em;
+    flex: var(--echo-live-history-flex-time);
+    min-width: var(--echo-live-history-min-width-time);
+    max-width: var(--echo-live-history-max-width-time);
     color: var(--echo-live-history-color-time, --echo-live-history-color);
     font-size: var(--echo-live-history-font-size-time, --echo-live-history-font-size);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    text-align: right;
+}
+
+.echo-live-history-message-item-reverse #echo-live-history .history-message-item .username {
+    justify-content: flex-end;
+    text-align: right;
+}
+
+.echo-live-history-message-item-reverse #echo-live-history .history-message-item .time {
+    justify-content: flex-start;
+    text-align: left;
 }
 
 .echo-live-history-disable-username #echo-live-history .history-message-item .username,

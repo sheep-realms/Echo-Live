@@ -643,6 +643,7 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
     constructor(channel = 'sheep-realms:echolive', echoLiveHistory = undefined, config = {}) {
         super(channel, 'history', config);
         this.echoLiveHistory = echoLiveHistory;
+        this.uuid = this.echoLiveHistory.uuid;
         this.isServer = false;
         this.timer = {};
         // this.event = {};

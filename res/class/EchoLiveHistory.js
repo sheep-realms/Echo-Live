@@ -1,6 +1,9 @@
 class EchoLiveHistory {
     constructor(config) {
         this.config = config;
+        this.broadcast = undefined;
+        this.uuid = EchoLiveTools.getUUID();
+        this.hidden = false;
         this.prevMessage = {};
         this.event = {
             newHistory: function() {}
@@ -18,6 +21,16 @@ class EchoLiveHistory {
             const filename = e.filename != '' ? e.filename : 'null';
             this.broadcast.error(msg, filename, e.lineno, e.colno);
         });
+
+        if (this.config.echolive.sleep_enable) {
+            document.addEventListener("visibilitychange", () => {
+                if (document.visibilityState === "visible") {
+                    this.hidden = false;
+                } else {
+                    this.hidden = true;
+                }
+            });
+        }
 
         if (this.config.echolive.broadcast_enable) {
             this.broadcast = new EchoLiveBroadcastHistory(this.config.echolive.broadcast_channel, this, this.config);

@@ -297,6 +297,7 @@ class Echo {
         clearInterval(this.timer);
         this.state = 'stop';
         this.messageBuffer = [];
+        this.dbChrBuffer = '';
         this.groupCount = 0;
         this.groupStack = [];
     }

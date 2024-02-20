@@ -17,6 +17,9 @@ let first = false;
 let inTypewriteEnd = false;
 
 echo.on('next', function(msg) {
+    echolive.username = EchoLiveTools.getMessageUsername(echolive.username, msg);
+    echolive.broadcast.echoPrinting(echolive.username, EchoLiveTools.getMessagePlainText(msg));
+
     $('#echo-live').attr('class', '');
 
     echolive.broadcast.echoStateUpdate('ready', echo.messageList.length);

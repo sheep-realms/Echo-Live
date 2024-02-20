@@ -112,7 +112,7 @@ let logMsgMark = 0;
 
 function editorLog(message = '', type = 'info') {
     $('#editor-log').append(`<div role="listitem" class="log-item log-type-${type}" ${type == 'dbug' ? 'aria-hidden="true"' : ''}><span class="time" aria-hidden="true">${getTime()}</span> <span class="type" aria-label="${ $t('editor.log.accessible.type.' + type) }">[${type.toUpperCase()}]</span> <span class="message" ${type == 'erro' || type == 'warn' ? ' role="alert"' : ''}>${message}</span></div>`);
-    $('#editor-log').scrollTop($('#editor-log').height());
+    $('#editor-log').scrollTop(4503599627370496);
 
     // 防止日志过多
     let $logitems = $('#editor-log .log-item');

@@ -122,11 +122,11 @@
     color: var(--echo-live-username-color, #000);
 }
 
-.bottom-center {
+#echo-live .bottom-center {
     padding: 0.25em 1em;
 }
 
-.bottom-center span {
+#echo-live .bottom-center span {
     display: inline-block;
     margin-right: 1em;
     color: var(--echo-live-bottom-color, #888);

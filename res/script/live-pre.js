@@ -1,3 +1,7 @@
 let extensionManager = new ExtensionManager();
-extensionManager.mixer = mixer;
+try {
+    extensionManager.mixer = mixer;
+} catch (error) {
+    
+}
 extensionManager.launch(extensions);

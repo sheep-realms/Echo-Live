@@ -56,10 +56,15 @@ class EchoLiveTools {
     /**
      * 获取段落格式纯文本内容
      * @param {String|Object|Array<Object>} message 段落格式
+     * @param {Boolean} HTMLFilter 是否启用 HTML 过滤器
      * @returns {String} 纯文本内容
      */
-    static getMessagePlainText(message) {
-        if (typeof message == 'string') return message;
+    static getMessagePlainText(message, HTMLFilter = false) {
+        if (typeof message == 'object' && message?.message != undefined) message = message.message;
+        if (typeof message == 'string') {
+            if (HTMLFilter) message.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>');
+            return message;
+        }
         if (typeof message == 'object' && !Array.isArray(message)) return message?.text;
         if (!Array.isArray(message)) return;
 
@@ -72,7 +77,38 @@ class EchoLiveTools {
             }
         });
 
+        if (HTMLFilter) str = str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>');
+
         return str;
+    }
+
+    /**
+     * 获取段落格式最终呈现的用户名
+     * @param {String} username 初始用户名
+     * @param {String|Object|Array<Object>} message 段落格式
+     * @param {Boolean} HTMLFilter 是否启用 HTML 过滤器
+     * @returns {String} 说话人
+     */
+    static getMessageUsername(username, message, HTMLFilter = false) {
+        let u = username;
+        let u2 = message?.data?.customData?.username;
+        if (typeof u2 == 'string') u = u2;
+
+        if (Array.isArray(message.message)) {
+            for (let i = message.message.length - 1; i >= 0; i--) {
+                const e = message.message[i];
+                u2 = e?.data?.username;
+                if (typeof u2 == 'string') break;
+            }
+        } else {
+            u2 = message?.message?.data?.username;
+        }
+
+        if (typeof u2 == 'string') u = u2;
+
+        if (HTMLFilter) u.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ');
+
+        return u;
     }
 
     /**

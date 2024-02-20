@@ -195,6 +195,23 @@ const config = {
         palette_color_contrast_threshold: 3.8,
     },
 
+    // 历史记录相关配置
+    // * 是面向观众展示的历史记录，不是编辑器中的历史记录
+    history: {
+        // 历史记录倒序排列
+        message_list_reverse: false,
+
+        // 显示说话人
+        display_username: true,
+
+        // 显示发送时间
+        display_time: true,
+
+        // 去除连续的重复消息
+        // * 如果场景中有多个对话框同时接收消息，启用此项可避免重复记录历史消息。
+        remove_continuous_duplicate: true,
+    },
+
     // 无障碍相关配置
     // * 编辑器支持键盘访问。
     accessible: {
@@ -231,7 +248,6 @@ const config = {
     // == 未使用配置 ==
     // * 以下配置是为未来的新功能开发占坑的，目前没有作用。
     // * 二次开发请注意：如果这些配置内容不符合您的预期，请不要使用这些配置名，以防止冲突。
-    history: {},
     selector: {},
     character: {},
 };

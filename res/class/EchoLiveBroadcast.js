@@ -588,6 +588,21 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
     }
 
     /**
+     * Echo 打印内容广播
+     * @param {String} username 
+     * @param {String|Object|Array} message 
+     * @param {String} target 发送的消息
+     * @returns 
+     */
+    echoPrinting(username, message, target = undefined) {
+        return this.sendData({
+            uuid: this.uuid,
+            username: username,
+            message: message
+        }, 'echo_printing', target);
+    }
+
+    /**
      * 处理侦听获取的数据
      * @param {Object} data 数据内容
      * @param {EchoLiveBroadcast} listener 监听对象
@@ -611,7 +626,6 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
                 break;
         
             default:
-                listener.runListenCallback(data, listener);
                 break;
         }
     }
@@ -623,7 +637,7 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
     /**
      * Echo-Live 广播客户端：对话框
      * @param {String} channel 频道名称
-     * @param {*} echoLiveHistory Echo-Live 历史记录实例
+     * @param {EchoLiveHistory} echoLiveHistory Echo-Live 历史记录实例
      * @param {Object} config 配置
      */
     constructor(channel = 'sheep-realms:echolive', echoLiveHistory = undefined, config = {}) {
@@ -632,6 +646,54 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
         this.isServer = false;
         this.timer = {};
         // this.event = {};
+        this.event = {
+            ...this.event,
+            newHistory: function() {}
+        };
         this.depth = 2;
+
+        this.initHistory();
+    }
+
+    /**
+     * 历史记录客户端初始化
+     */
+    initHistory() {
+        if (this.config == undefined) this.config = this.echoLiveHistory.config;
+
+        this.setListenCallback(2, this, this.getDataHistory);
+
+        this.sendHello();
+    }
+
+    /**
+     * 发送 HELLO 消息
+     * @param {String} target 发送目标
+     * @returns {Object} 发送的消息
+     */
+    sendHello(target = undefined) {
+        return this.sendData({
+            uuid: this.uuid,
+            hidden: undefined
+        }, 'hello', target);
+    }
+
+    /**
+     * 处理侦听获取的数据
+     * @param {Object} data 数据内容
+     * @param {EchoLiveBroadcast} listener 监听对象
+     */
+    getDataHistory(data, listener = this) {
+        switch (data.action) {
+            case 'echo_printing':
+                listener.echoLiveHistory.send({
+                    username: data.data?.username,
+                    message: data.data?.message
+                });
+                break;
+        
+            default:
+                break;
+        }
     }
 }

@@ -8,6 +8,7 @@ class EchoLive {
         this.hidden = false;
         this.antiFlood = false;
         this.theme = [];
+        this.username = '';
         this.timer = {
             messagesPolling: -1
         };
@@ -91,7 +92,10 @@ class EchoLive {
         if (typeof this.data === 'object' && JSON.stringify(data) === JSON.stringify(this.data)) return;
         if (this.echo.state != 'stop') this.echo.stop();
         this.data = data;
-        if (typeof data?.username === 'string') $('#echo-live .name').text(data.username);
+        if (typeof data?.username === 'string') {
+            this.username = data.username;
+            $('#echo-live .name').text(data.username);
+        }
         if (Array.isArray(data?.messages)) this.echo.sendList(JSON.parse(JSON.stringify(data.messages)));
     }
 

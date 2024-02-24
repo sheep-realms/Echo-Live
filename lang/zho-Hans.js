@@ -16,9 +16,14 @@ const lang_zho_Hans = {
         send: "发送",
         reset: "重置",
         clear: "清空",
+        delete: "删除",
         input: "输入",
         output: "输出",
-        more_info: "了解详情"
+        more_info: "了解详情",
+        move_up: "上移",
+        move_down: "下移",
+        move_left: "左移",
+        move_right: "右移"
     },
     broadcast: {
         client: {
@@ -30,6 +35,242 @@ const lang_zho_Hans = {
                 unknow: "未知终端"
             }
         }
+    },
+    config: {
+        data_version: {
+            _title: "数据版本",
+            _description: "配置文件的数据版本。"
+        },
+        global: {
+            _title: "全局",
+            _description: "一些影响全局的设置",
+            language: {
+                _title: "显示语言",
+                _description: "后台页面的显示语言"
+            }
+        },
+        echo: {
+            _title: "Echo",
+            _description: "Echo 相关配置",
+            print_speed: {
+                _title: "打印速度",
+                _description: "每个字符打印循环的延迟时间（毫秒），最小值为 4。"
+            }
+        },
+        echolive: {
+            _title: "Echo-Live",
+            _description: "Echo-Live 相关配置",
+            live_theme: {
+                _title: "主题名称",
+                _description: "可用的主题请见：https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/"
+            },
+            live_theme_script_enable: {
+                _title: "启用主题脚本",
+                _description: "一些高级效果可能需要启用主题脚本才能正常使用。目前所有预制主题均不包含脚本。<br>脚本中可以执行任意代码，请谨慎安装需要您启用脚本的第三方主题。"
+            },
+            broadcast_enable: {
+                _title: "启用广播",
+                _description: "可通过编辑器直接发送消息，启用此项将禁用消息轮询。"
+            },
+            broadcast_channel: {
+                _title: "广播频道",
+                _description: "如果您不知道这是什么请不要动它。"
+            },
+            websocket_enable: {
+                _title: "启用 WebSocket",
+                _description: "如果没人要求您这么做，请不要动它。<br>广播模式下启用 WebSocket 可连接至服务器以从第三方软件获取消息。<br>可从服务器接收的消息和广播消息一致，发送的消息须使用类似于 JSON.stringify 的方法序列化。<br>详见：https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/"
+            },
+            websocket_url: {
+                _title: "WebSocket 连接地址",
+                _description: "提供 WebSocket 连接的服务器地址，使用 ws:// 协议头。"
+            },
+            websocket_reconnect_limit: {
+                _title: "WebSocket 最大重连尝试次数",
+                _description: "连接关闭和连接失败将会尝试重连，一旦超过重连尝试次数限制将不再尝试重连。"
+            },
+            experimental_api_enable: {
+                _title: "启用实验性 API",
+                _description: "实验性 API 包含了一些危险操作，实现一些特殊功能可能是必要的，但如果使用不当可能会造成严重后果。<br>请开发者注意，如果您提供的产品需要启用此实验性 API，请务必说明您不得不这么做的原因。<br>请用户注意，如果您使用的第三方软件要求您启用实验性 API 而未说明理由，非常不推荐您照做。"
+            },
+            messages_polling_enable: {
+                _title: "启用消息轮询",
+                _description: "定时监听 start.js 的内容更改而无需手动刷新，关闭则使用旧版手动操作。<br>启用广播将禁用此功能。"
+            },
+            messages_polling_tick: {
+                _title: "消息轮询间隔",
+                _description: "单位：毫秒。值越小响应越快，性能消耗越高。"
+            },
+            sleep_enable: {
+                _title: "启用休眠机制",
+                _description: "当页面不可见时休眠以防止计时器失效所引发的灾难性演出。<br>特别强调：如果您不了解这是什么，请不要关闭它。<br>- 如果您只是想方便在浏览器中预览而临时关闭它，请一定不要忘记打开。"
+            },
+            sleep_during_printing_stop_print: {
+                _title: "在打印期间休眠立即停止打印",
+                _description: "防止计时器失效导致打印过程阻塞。"
+            },
+            print_audio_enable: {
+                _title: "启用打字音效",
+                _description: "在每次输出字符时播放音效。"
+            },
+            print_audio_name: {
+                _title: "音效名称",
+                _description: "可用的音效名称请见：https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/"
+            },
+            print_audio_volume: {
+                _title: "音效音量",
+                _description: "1 为最大。"
+            },
+            print_audio_rate: {
+                _title: "音效播放速度",
+                _description: "1 为原速。"
+            },
+            next_audio_enable: {
+                _title: "启用新对话入场音效",
+                _description: "在每条消息开始打印时播放音效。"
+            },
+            next_audio_name: {
+                _title: "音效名称",
+                _description: "可用的音效名称请见：https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/"
+            },
+            next_audio_volume: {
+                _title: "音效音量",
+                _description: "1 为最大。"
+            },
+            next_audio_rate: {
+                _title: "音效播放速度",
+                _description: "1 为原速。"
+            }
+        },
+        editor: {
+            _title: "编辑器",
+            _description: "编辑器相关配置",
+            tabpage_config_enable: {
+                _title: "显示配置标签页",
+                _description: "编辑器中的配置标签页用于控制输出内容格式，仅编写代码时有用。"
+            },
+            tabpage_output_enable: {
+                _title: "显示输出标签页",
+                _description: "编辑器生成的代码会在此标签页导出。输出标签页在广播模式下还可以发送自定义消息。"
+            },
+            client_state_panel_enable: {
+                _title: "显示对话框状态仪表板",
+                _description: "仪表板可以显示所有对话框的状态，绿色为激活，红色为休眠，灰色则表示没有对话框加入频道。<br>如果您添加了多个对话框，建议您启用此项。<br>如果您是红绿色盲，请在无障碍设置中启用红绿色盲。<br>- 启用后，蓝色填充为激活，蓝色边框为休眠。"
+            },
+            username_init: {
+                _title: "初始说话人",
+                _description: "编辑器启动后在说话人输入框中默认填充的内容。"
+            },
+            output_before: {
+                _title: "在输出内容前插入的内容",
+                _description: "用于生成可执行的消息发送命令。"
+            },
+            ontput_before_enable: {
+                _title: "启用在输出内容前插入内容",
+                _description: ""
+            },
+            output_after: {
+                _title: "在输出内容后插入的内容",
+                _description: "用于生成可执行的消息发送命令。"
+            },
+            ontput_after_enable: {
+                _title: "启用在输出内容后插入内容",
+                _description: ""
+            },
+            history_resend_bubble: {
+                _title: "历史消息再发送时上浮",
+                _description: "历史消息再次发送时使历史记录回到顶部"
+            },
+            history_maximum: {
+                _title: "历史消息数量上限",
+                _description: "设为 -1 则不设上限。"
+            },
+            log_line_maximum: {
+                _title: "日志行数上限",
+                _description: "设为 -1 则不设上限。"
+            },
+            palette: {
+                _title: "启用的色板",
+                _description: "拾色器中有多种色板可供挑选。",
+                all_selected: "全部启用"
+            },
+            palette_color_contrast_enable: {
+                _title: "启用 WCAG 颜色对比度测试",
+                _description: "在拾色器中显示颜色对比面板和 WCAG 颜色对比度测试结果。"
+            },
+            palette_color_contrast_background_color: {
+                _title: "WCAG 颜色对比度测试面板参考背景色",
+                _description: "仅支持十六进制颜色码。<br>请注意：背景色的 Alpha 通道会被忽略。<br>- 如果您的对话框背景颜色是半透明或全透明将无法正确计算对比度，请您自行采集混合后的背景颜色。"
+            },
+            palette_color_contrast_threshold: {
+                _title: "WCAG 颜色对比度测试面板对比度参考阈值",
+                _description: "对比度低于此值视为测试失败。"
+            }
+        },
+        history: {
+            _title: "历史记录",
+            _description: "面向观众展示的历史记录",
+            message_list_reverse: {
+                _title: "历史记录倒序排列",
+                _description: "历史记录按照发送时间由新到旧排列。"
+            },
+            message_item_reverse: {
+                _title: "历史记录布局左右翻转",
+                _description: "翻转后的排列从左到右依次是：发送时间、消息内容、说话人。"
+            },
+            display_username: {
+                _title: "显示说话人",
+                _description: "在历史记录中显示说话人。"
+            },
+            display_time: {
+                _title: "显示发送时间",
+                _description: "在历史记录中显示发送时间。"
+            },
+            remove_continuous_duplicate: {
+                _title: "去除连续的重复消息",
+                _description: "如果场景中有多个对话框同时接收消息，启用此项可避免重复记录历史消息。"
+            },
+            latest_message_hide: {
+                _title: "隐藏最新的历史记录",
+                _description: "对话框在开始打印消息时会立即发送消息到历史记录中，启用此项可避免最新消息立即显示在历史记录中。"
+            }
+        },
+        accessible: {
+            _title: "无障碍",
+            _description: "无障碍相关配置",
+            high_contrast: {
+                _title: "启用高对比度",
+                _description: "提高后台页面的对比度，并对焦点元素显示高亮边框。"
+            },
+            high_contrast_outline_color: {
+                _title: "焦点高亮边框颜色",
+                _description: ""
+            },
+            high_contrast_outline_color: {
+                _title: "焦点高亮边框尺寸",
+                _description: ""
+            },
+            high_contrast_outline_color: {
+                _title: "焦点高亮边框样式",
+                _description: ""
+            },
+            drotanopia_and_deuteranopia: {
+                _title: "红绿色盲",
+                _description: "绿色功能色会以蓝色代替。"
+            }
+        },
+        advanced: {
+            _title: "高级设置",
+            _description: "仅供开发者使用",
+            _warn: "警告：除非您知道您在干什么，否则请不要动这里的设置。",
+            editor: {
+                _title: "编辑器",
+                _description: "编辑器的高级设置",
+                history_minimum_breaker_threshold: {
+                    _title: "历史记录底部游标熔断阈值",
+                    _description: "设为 -1 可禁用此机制。"
+                }
+            }
+        },
     },
     editor: {
         client_state: {

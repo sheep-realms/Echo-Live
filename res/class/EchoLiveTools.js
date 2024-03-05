@@ -35,6 +35,7 @@ class EchoLiveTools {
         if (data?.typewrite) cls += 'echo-text-typewrite '
         if (data?.style) {
             if (data.style?.color) style += `color: ${data.style.color}; --echo-span-color: ${data.style.color}; `;
+            if (data.style?.backgroundColor) style += `background-color: ${data.style.backgroundColor}; `;
             if (data.style?.bold && data.style?.weight == undefined) cls += 'echo-text-bold '
             if (data.style?.italic) cls += 'echo-text-italic '
             if (data.style?.underline) cls += 'echo-text-underline '

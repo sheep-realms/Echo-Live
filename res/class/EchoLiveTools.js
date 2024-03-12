@@ -205,4 +205,14 @@ class EchoLiveTools {
         if (message.length == 1) return message[0];
         return message;
     }
+
+    /**
+     * 获取 URL 地址参数
+     * @param {String} name 参数名称
+     * @returns {String|null} 参数值
+     */
+    static getUrlParam(name) {
+        let urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
 }

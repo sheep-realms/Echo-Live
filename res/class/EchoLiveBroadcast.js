@@ -7,6 +7,11 @@ class EchoLiveBroadcast {
     constructor(channel = 'sheep-realms:echolive', config = undefined) {
         this.uuid = undefined;
         this.type = 'unknow';
+        this.custom = {
+            name: undefined,
+            color: undefined,
+            data: {}
+        };
         this.broadcast = new BroadcastChannel(channel);
         this.websocket = undefined;
         this.config = config;
@@ -72,6 +77,27 @@ class EchoLiveBroadcast {
     }
 
     /**
+     * 获取自身识别名
+     * @returns {String} 识别名
+     */
+    getName() {
+        if (this.custom.name == undefined || this.custom.name == '') return this.uuid;
+        return '@' + this.custom.name;
+    }
+
+    /**
+     * 设置自身识别名
+     * @param {String} value 识别名
+     * @returns {String|undefined} 已设置的识别名
+     */
+    setName(value) {
+        if (typeof value != 'string' || value == '') return;
+        if (value.substring(0, 2) == '__') return;
+        this.custom.name = value;
+        return this.custom.name;
+    }
+
+    /**
      * 发送数据
      * @param {Object} data 数据
      * @param {String} action 动作类型
@@ -82,7 +108,12 @@ class EchoLiveBroadcast {
         let d = {
             action: action,
             target: target,
-            type: this.type,
+            from: {
+                name: this.getName(),
+                uuid: this.uuid,
+                type: this.type,
+                timestamp: new Date().getTime()
+            },
             data: data
         };
 
@@ -105,8 +136,9 @@ class EchoLiveBroadcast {
         if (typeof data != 'object') return;
         this.listenCallbackDepth = 0;
         this.event.message(data);
-        // console.log(data);
+        console.log(data);
 
+        if (typeof data.target == 'string' && data.target.substring(0, 1) == '@' && data.target.substring(1) != this.custom.name) return;
         if (data.target != undefined && data.target != this.uuid) return;
 
         if (data.action == 'error') this.event.error(data);
@@ -124,7 +156,6 @@ class EchoLiveBroadcast {
     sendError(name = '', data = {}, target = undefined) {
         return this.sendData({
             name: name,
-            uuid: this.uuid,
             ...data
         }, 'error', target);
     }
@@ -162,6 +193,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         this.event = {
             ...this.event,
             clientsChange: function() {},
+            nameDuplicate: function() {},
             noClient: function() {}
         };
         this.depth = 1;
@@ -189,9 +221,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
             that.event.noClient();
         }, 5000)
 
-        return this.sendData({
-            uuid: this.uuid
-        }, 'ping');
+        return this.sendData({}, 'ping');
     }
 
     /**
@@ -244,6 +274,15 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
     }
 
     /**
+     * 发送命令：关闭广播连接
+     * @param {String} target 发送目标
+     * @returns {Object} 发送的消息
+     */
+    sendBroadcastClose(target = undefined) {
+        return this.sendData({}, 'broadcast_close', target);
+    }
+
+    /**
      * 发送命令：关闭 Websocket 连接
      * @param {String} target 发送目标
      * @returns {Object} 发送的消息
@@ -255,20 +294,30 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
     /**
      * 新增客户端
      * @param {String} uuid UUID
+     * @param {String} name 识别名
      * @param {String} type 客户端类型
      * @param {Boolean} hidden 是否休眠中
      * @returns {Object} 登记的数据
      */
-    addClient(uuid, type = undefined, hidden = false) {
-        if (!this.isServer) return;
+    addClient(uuid, name, type = undefined, hidden = false) {
         let i = this.clients.findIndex(function(e) {
             return e.uuid == uuid;
         });
         if (i != -1) return;
         clearTimeout(this.timer.noClient);
 
+        let f = this.clients.filter(function(e) {
+            return e.name == name;
+        });
+
+        if (!this.config.advanced.broadcast.allow_name_duplicate && f.length > 0) {
+            this.event.nameDuplicate(name, uuid);
+            return this.sendBroadcastClose(uuid);
+        }
+
         let r = this.clients.push({
             uuid: uuid,
+            name: name,
             type: type ? type : 'client',
             hidden: hidden
         });
@@ -300,19 +349,19 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
     getDataServer(data, listener = this) {
         switch (data.action) {
             case 'hello':
-                listener.addClient(data.data.uuid, data.type, data.data?.hidden);
+                listener.addClient(data.from.uuid, data.from.name, data.from.type, data.data?.hidden);
                 break;
 
             case 'close':
-                listener.removeClient(data.data.uuid);
+                listener.removeClient(data.from.uuid);
                 break;
 
             case 'page_hidden':
-                listener.setClientHidden(data.data.uuid, true);
+                listener.setClientHidden(data.from.uuid, true);
                 break;
 
             case 'page_visible':
-                listener.setClientHidden(data.data.uuid, false);
+                listener.setClientHidden(data.from.uuid, false);
                 break;
         
             default:
@@ -440,7 +489,6 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      */
     sendHello(target = undefined) {
         return this.sendData({
-            uuid: this.uuid,
             hidden: this.echolive.hidden
         }, 'hello', target);
     }
@@ -451,9 +499,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      * @returns {Object} 发送的消息
      */
     pageHidden(target = undefined) {
-        return this.sendData({
-            uuid: this.uuid
-        }, 'page_hidden', target);
+        return this.sendData({}, 'page_hidden', target);
     }
 
     /**
@@ -462,9 +508,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      * @returns {Object} 发送的消息
      */
     pageVisible(target = undefined) {
-        return this.sendData({
-            uuid: this.uuid
-        }, 'page_visible', target);
+        return this.sendData({}, 'page_visible', target);
     }
 
     /**
@@ -472,9 +516,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      * @returns {Object} 发送的消息
      */
     close() {
-        this.sendData({
-            uuid: this.uuid
-        }, 'close');
+        this.sendData({}, 'close');
         return this.broadcast.close();
     }
 
@@ -489,12 +531,12 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      */
     error(message, source, line, col, target = undefined) {
         return this.sendData({
-            uuid: this.uuid,
+            name: this.getName(),
             message: message,
             source: source,
             line: line,
             col: col
-        }, 'error', target);
+        }, 'error_unknow', target);
     }
 
     /**
@@ -505,7 +547,11 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
     getDataClient(data, listener = this) {
         switch (data.action) {
             case 'ping':
-                listener.sendHello(data.data?.uuid);
+                listener.sendHello(data.from?.uuid);
+                break;
+
+            case 'broadcast_close':
+                listener.close();
                 break;
 
             case 'websocket_close':
@@ -546,6 +592,8 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
     initPortal() {
         if (this.config == undefined) this.config = this.echolive.config;
 
+        if (this.echolive.custom.name != undefined) this.setName(this.echolive.custom.name);
+
         this.setListenCallback(2, this, this.getDataPortal);
 
         this.sendHello();
@@ -581,7 +629,6 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
      */
     echoStateUpdate(state, messagesCount = 0, target = undefined) {
         return this.sendData({
-            uuid: this.uuid,
             state: state,
             messagesCount: messagesCount
         }, 'echo_state_update', target);
@@ -596,7 +643,6 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
      */
     echoPrinting(username, message, target = undefined) {
         return this.sendData({
-            uuid: this.uuid,
             username: username,
             message: message
         }, 'echo_printing', target);
@@ -674,7 +720,6 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
      */
     sendHello(target = undefined) {
         return this.sendData({
-            uuid: this.uuid,
             hidden: undefined
         }, 'hello', target);
     }

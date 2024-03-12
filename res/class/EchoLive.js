@@ -5,6 +5,11 @@ class EchoLive {
         this.data = undefined;
         this.broadcast = undefined;
         this.uuid = EchoLiveTools.getUUID();
+        this.custom = {
+            name: undefined,
+            color: undefined,
+            data: {}
+        };
         this.hidden = false;
         this.antiFlood = false;
         this.theme = [];
@@ -24,6 +29,11 @@ class EchoLive {
      * 初始化
      */
     init() {
+        let urlName = EchoLiveTools.getUrlParam('name');
+        let urlColor = EchoLiveTools.getUrlParam('color');
+        if (urlName != null) this.custom.name = urlName;
+        if (urlColor != null) this.custom.color = urlColor;
+        
         window.addEventListener("error", (e) => {
             const msg = e.error != null ? e.error.stack : e.message;
             const filename = e.filename != '' ? e.filename : 'null';

@@ -93,6 +93,7 @@ if (config.echolive.broadcast_enable) {
     elb.on('message', getMessage);
     elb.on('error', getError);
     elb.on('noClient', noClient);
+    elb.on('nameDuplicate', nameDuplicate);
 
     checkNowDate();
     editorLogT('editor.log.broadcast_launch.done', { channel: config.echolive.broadcast_channel });
@@ -154,16 +155,16 @@ function getMessage(data) {
                 editorLogT(
                     'editor.log.broadcast.' + helloMsg1,
                     {
-                        client: $t('broadcast.client.type.' + data.type),
-                        uuid: data.data.uuid
+                        client: $t('broadcast.client.type.' + data.from.type),
+                        name: data.from.name
                     }
                 );
             } else if (data.target == '@__server') {
                 editorLogT(
                     'editor.log.broadcast.hello_to_server',
                     {
-                        client: $t('broadcast.client.type.' + data.type),
-                        uuid: data.data.uuid
+                        client: $t('broadcast.client.type.' + data.from.type),
+                        name: data.from.name
                     }
                 );
             }
@@ -173,7 +174,7 @@ function getMessage(data) {
             editorLogT(
                 'editor.log.broadcast.ping_server',
                 {
-                    uuid: data.data.uuid
+                    name: data.from.name
                 }
             );
             break;
@@ -189,8 +190,8 @@ function getMessage(data) {
             editorLogT(
                 'editor.log.broadcast.' + data.action,
                 {
-                    client: $t('broadcast.client.type.' + data.type),
-                    uuid: data.data.uuid
+                    client: $t('broadcast.client.type.' + data.from.type),
+                    name: data.from.name
                 }
             );
             break;
@@ -213,16 +214,16 @@ function getMessage(data) {
             );
             break;
 
-        case 'error':
+        case 'error_unknow':
             editorLogT(
                 'editor.log.error.unknown_error_in_client',
                 {
-                    client: $t('broadcast.client.type.' + data.type),
+                    client: $t('broadcast.client.type.' + data.from.type),
                     msg: data.data.message.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>'),
                     source: data.data.source.replace(/</g, '&lt;').replace(/>/g, '&gt;'),
                     line: data.data.line,
                     col: data.data.col,
-                    uuid: data.data.uuid
+                    name: data.from.name
                 },
                 'erro'
             );
@@ -247,7 +248,7 @@ function getError(data) {
                         client: $t('broadcast.client.type.live'),
                         url: data.data.url,
                         n: data.data.reconnectCount,
-                        uuid: data.data.uuid
+                        name: data.from.name
                     },
                     'erro'
                 );
@@ -257,7 +258,7 @@ function getError(data) {
                     {
                         client: $t('broadcast.client.type.live'),
                         url: data.data.url,
-                        uuid: data.data.uuid
+                        name: data.from.name
                     },
                     'erro'
                 );
@@ -269,7 +270,7 @@ function getError(data) {
                 'editor.log.error.websocket_message_error',
                 {
                     client: $t('broadcast.client.type.live'),
-                    uuid: data.data.uuid
+                    name: data.from.name
                 },
                 'erro'
             );
@@ -282,6 +283,10 @@ function getError(data) {
 
 function noClient() {
     editorLogT('editor.log.warn.no_client', {}, 'warn');
+}
+
+function nameDuplicate(name, uuid) {
+    editorLogT('editor.log.error.name_duplicate', { name: name, uuid: uuid}, 'erro');
 }
 
 

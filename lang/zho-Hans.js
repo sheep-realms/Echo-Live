@@ -262,6 +262,14 @@ const lang_zho_Hans = {
             _title: "高级设置",
             _description: "仅供开发者使用",
             _warn: "警告：除非您知道您在干什么，否则请不要动这里的设置。",
+            broadcast: {
+                _title: "广播",
+                _description: "广播的高级设置",
+                allow_name_duplicate: {
+                    _title: "允许识别名重复",
+                    _description: "允许终端识别名出现重复，这可能会引发意料之外的情况。"
+                }
+            },
             editor: {
                 _title: "编辑器",
                 _description: "编辑器的高级设置",
@@ -336,15 +344,15 @@ const lang_zho_Hans = {
                 }
             },
             broadcast: {
-                close: "{client} 离开广播频道，UUID：{uuid}",
+                close: "{client} 离开广播频道，识别名：{name}",
                 echo_next: "收到来自其他服务端的命令：打印下一条消息。",
-                hello: "{client} 进入广播频道，UUID：{uuid}",
-                hello_hidden: "{client} 进入广播频道，已休眠，UUID：{uuid}",
-                hello_to_server: "{client} 已向 Websocket 服务器发送 HELLO 消息，UUID：{uuid}",
+                hello: "{client} 进入广播频道，识别名：{name}",
+                hello_hidden: "{client} 进入广播频道，已休眠，识别名：{name}",
+                hello_to_server: "{client} 已向 Websocket 服务器发送 HELLO 消息，识别名：{name}",
                 message_data_third: "收到来自其他服务端的消息数据。",
-                page_hidden: "{client} 因不可见已休眠，UUID：{uuid}",
-                page_visible: "{client} 已唤醒，UUID：{uuid}",
-                ping_server: "有其他服务端加入频道，UUID：{uuid}",
+                page_hidden: "{client} 因不可见已休眠，识别名：{name}",
+                page_visible: "{client} 已唤醒，识别名：{name}",
+                ping_server: "有其他服务端加入频道，识别名：{name}",
                 set_theme_style_url: "收到来自其他服务端的命令：设置主题样式文件 URL 为 {url}",
                 set_theme: "收到来自其他服务端的命令：设置主题为 {name}",
                 websocket_close: "收到来自其他服务端的命令：关闭 Websocket 连接。此命令将阻止 {client} 尝试重连。"
@@ -356,10 +364,11 @@ const lang_zho_Hans = {
                 user_agent_error: "您似乎并未正确在 OBS 中安装此编辑器，详见：https://sheep-realms.github.io/Echo-Live-Doc/main/how-to-use/",
             },
             error: {
-                websocket_error: "{client} Websocket 连接 {url} 出错，进行第 {n} 次重连，UUID：{uuid}",
-                websocket_error_retry_failed: "{client} Websocket 连接 {url} 出错，重连次数超出限制，UUID：{uuid}",
-                websocket_message_error: "{client} Websocket 接收到的消息解析出错，UUID：{uuid}",
-                unknown_error_in_client: "{client} 发生未捕获的错误：<br>{msg}<br>来源：{source}<br>行列：{line}:{col}<br>UUID：{uuid}",
+                name_duplicate: "识别名 {name} 发生冲突，{uuid} 已被踢出广播频道。如果您有使用重复识别名的需要，请将配置项 advanced.broadcast.allow_name_duplicate 设为 true。",
+                websocket_error: "{client} Websocket 连接 {url} 出错，进行第 {n} 次重连，识别名：{name}",
+                websocket_error_retry_failed: "{client} Websocket 连接 {url} 出错，重连次数超出限制，识别名：{name}",
+                websocket_message_error: "{client} Websocket 接收到的消息解析出错，识别名：{name}",
+                unknown_error_in_client: "{client} 发生未捕获的错误：<br>{msg}<br>来源：{source}<br>行列：{line}:{col}<br>识别名：{name}",
                 unknown_error_in_editor: "编辑器发生未捕获的错误：{msg}<br>来源：{source}<br>行列：{line}:{col}"
             },
             message: {

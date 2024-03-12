@@ -251,6 +251,10 @@ const config = {
     // 高级设置
     // * 除非您知道您在干什么，否则请不要动这里的设置。
     advanced: {
+        broadcast: {
+            // 允许识别名重复
+            allow_name_duplicate: false,
+        },
         editor: {
             // 历史记录底部游标熔断阈值
             // * 设为 -1 可禁用此机制。

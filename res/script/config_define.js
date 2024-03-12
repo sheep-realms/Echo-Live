@@ -337,6 +337,15 @@ const db_config_define = [
         type: 'object',
         created: 1
     }, {
+        name: 'advanced.broadcast',
+        type: 'object',
+        created: 1
+    }, {
+        name: 'advanced.broadcast.allow_name_duplicate',
+        type: 'boolean',
+        default: false,
+        created: 2
+    }, {
         name: 'advanced.editor',
         type: 'object',
         created: 1

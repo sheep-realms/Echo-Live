@@ -477,15 +477,46 @@ class Popups {
 class EditorClientState {
     constructor() {}
 
-    static block(type) {
-        return `<div class="echo-live-client-state-block state-${type}" title="${ $t('editor.client_state.' + type) }"></div>`
+    static block(state, echoState = 'stop', messagesCount = 0, name = '') {
+        let name2 = name;
+        let title = '';
+        let titleKey = 'editor.client_state_panel.tip';
+        if (messagesCount > 0) titleKey = 'editor.client_state_panel.tip_more_messages'
+        title = $t(
+            titleKey,
+            {
+                client: $t('editor.client_state.' + state),
+                echo: $t('editor.echo_state.' + echoState)
+            }
+        );
+        if (name.search(/^[a-f\d]{4}(?:[a-f\d]{4}-){4}[a-f\d]{12}$/i) != -1) name2 = '(' + name.split('-')[0] + ')';
+        return `<button
+            class="
+                echo-live-client-state-block
+                state-${state}
+                echo-state-${echoState}
+                ${ messagesCount > 0 ? 'echo-messages-next' : '' }
+            "
+            title="${title}"
+            data-name="${name}"
+        >
+            <div class="client-info">
+                <div class="client-icon client-icon-left"></div>
+                <div class="client-name">${name2}</div>
+                <div class="client-icon client-icon-right">
+                    ${ echoState == 'play' || echoState == 'ready' ? Icon.timerSand() : ''}
+                    ${ messagesCount > 0 && echoState == 'stop' ? Icon.messageProcessing() : '' }
+                </div>
+            </div>
+            <div class="state-color-block"></div>
+        </button>`
     }
 
     static clientBlock(client) {
         if (client.hidden) {
-            return EditorClientState.block('sleep');
+            return EditorClientState.block('sleep', client.echoState, client.messagesCount, client.name);
         } else {
-            return EditorClientState.block('active');
+            return EditorClientState.block('active', client.echoState, client.messagesCount, client.name);
         }
     }
 
@@ -498,8 +529,11 @@ class EditorClientState {
         return dom;
     }
 
-    static statePanel(clients) {
-        return `<div class="echo-live-client-state-panel">${EditorClientState.clientList(clients)}</div>`;
+    static statePanel(clients = []) {
+        const c = clients.filter((e) => {
+            return e.type == 'live';
+        });
+        return `<div class="echo-live-client-state-panel">${EditorClientState.clientList(c)}</div>`;
     }
 }
 

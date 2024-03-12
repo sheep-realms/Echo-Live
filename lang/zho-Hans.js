@@ -285,6 +285,15 @@ const lang_zho_Hans = {
             active: "激活",
             sleep: "休眠",
         },
+        client_state_panel: {
+            tip: "客户端状态：{client}，Echo 状态：{echo}。",
+            tip_more_messages: "客户端状态：{client}，Echo 状态：{echo}。点击此处可打印下一条消息。"
+        },
+        echo_state: {
+            play: "打印中",
+            ready: "就绪",
+            stop: "停止"
+        },
         form: {
             text_length: "{n} 字符",
             aria_label: {
@@ -346,6 +355,7 @@ const lang_zho_Hans = {
             broadcast: {
                 close: "{client} 离开广播频道，识别名：{name}",
                 echo_next: "收到来自其他服务端的命令：打印下一条消息。",
+                echo_next_from_self_to_target: "已命令 {name} 打印下一条消息。",
                 hello: "{client} 进入广播频道，识别名：{name}",
                 hello_hidden: "{client} 进入广播频道，已休眠，识别名：{name}",
                 hello_to_server: "{client} 已向 Websocket 服务器发送 HELLO 消息，识别名：{name}",

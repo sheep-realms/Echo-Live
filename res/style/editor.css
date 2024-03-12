@@ -204,7 +204,7 @@ textarea.code {
 }
 
 #output-content {
-    height: 60vh;
+    height: 50vh;
 }
 
 .collapse-title {
@@ -496,21 +496,82 @@ select:focus {
 
 .echo-live-client-state-panel {
     display: flex;
-    gap: 4px;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .echo-live-client-state-block {
-    background-color: #EEEEEE;
-    height: 8px;
     flex: 1;
-    box-sizing: border-box;
+    min-width: calc(10em + 48px);
+    display: flex;
+    flex-direction: column;
+    background-color: #FFFFFF;
+    cursor: pointer;
+    border: none;
+    font-size: 16px;
+    align-items: stretch;
+    color: var(--text-primary);
 }
 
-.echo-live-client-state-block.state-active {
+.echo-live-client-state-block:active {
+    filter: brightness(0.9);
+}
+
+/* .echo-live-client-state-block.state-active {
     background-color: var(--color-safe-dark);
 }
 
 .echo-live-client-state-block.state-sleep {
+    background-color: var(--color-danger-dark);
+} */
+
+.echo-live-client-state-block .client-info {
+    padding: 0.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.echo-live-client-state-block.echo-state-play .client-info {
+    background-image: url(../image/editor/bg-echo-state-play.svg);
+    background-size: 2rem;
+    animation: echo-live-client-state-block-bg-echo-state-play 1s linear 0s infinite;
+}
+
+@keyframes echo-live-client-state-block-bg-echo-state-play {
+    0% { background-position: 0rem 0rem; }
+    100% { background-position: 0rem 2rem; }
+}
+
+.echo-live-client-state-block .client-info .client-icon {
+    height: 24px;
+    width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.echo-live-client-state-block .client-info .client-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.echo-live-client-state-block .client-info .client-name {
+    flex: 1;
+    text-align: center;
+}
+
+.echo-live-client-state-block .state-color-block {
+    height: 8px;
+    box-sizing: border-box;
+    background-color: #EEEEEE;
+}
+
+.echo-live-client-state-block.state-active .state-color-block {
+    background-color: var(--color-safe-dark);
+}
+
+.echo-live-client-state-block.state-sleep .state-color-block {
     background-color: var(--color-danger-dark);
 }
 

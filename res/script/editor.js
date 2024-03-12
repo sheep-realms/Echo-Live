@@ -617,6 +617,18 @@ $(document).on('click', '#history-btn-clear-cancel', function() {
     $('#history-btn-clear').focus();
 });
 
+// 仪表盘点击
+$(document).on('click', '.echo-live-client-state-block', function(e) {
+    const name = $(this).data('name');
+    const r = elb.clients.filter((e) => {
+        return e.name == name;
+    })[0];
+    if (r.messagesCount > 0 && !r.hidden) {
+        elb.sendNext('@' + name);
+        editorLogT('editor.log.broadcast.echo_next_from_self_to_target', { name: name });
+    }
+});
+
 
 
 // 彩蛋

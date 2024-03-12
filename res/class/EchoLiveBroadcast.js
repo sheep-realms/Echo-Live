@@ -82,7 +82,7 @@ class EchoLiveBroadcast {
      */
     getName() {
         if (this.custom.name == undefined || this.custom.name == '') return this.uuid;
-        return '@' + this.custom.name;
+        return this.custom.name;
     }
 
     /**
@@ -136,10 +136,12 @@ class EchoLiveBroadcast {
         if (typeof data != 'object') return;
         this.listenCallbackDepth = 0;
         this.event.message(data);
-        console.log(data);
 
-        if (typeof data.target == 'string' && data.target.substring(0, 1) == '@' && data.target.substring(1) != this.custom.name) return;
-        if (data.target != undefined && data.target != this.uuid) return;
+        if (typeof data.target == 'string' && data.target.substring(0, 1) == '@') {
+            if (data.target.substring(1, 3) == '__') {
+                if (!this.targetTypeCheck(data.target.substring(3))) return;
+            } else if (data.target.substring(1) != this.custom.name) return;
+        } else if (data.target != undefined && data.target != this.uuid) return;
 
         if (data.action == 'error') this.event.error(data);
 
@@ -161,9 +163,18 @@ class EchoLiveBroadcast {
     }
 
     /**
+     * 目标类型检查
+     * @param {String} type 终端类型
+     * @returns {Boolean} 结果
+     */
+    targetTypeCheck(type) {
+        return false;
+    }
+
+    /**
      * 检查是否启用了实验性 API
      * @param {String} apiName API 名称，仅用于抛出异常
-     * @returns 
+     * @returns {Boolean} 结果
      */
     experimentalAPICheck(apiName) {
         if (!this.echolive.config.echolive.experimental_api_enable) {
@@ -213,15 +224,16 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
 
     /**
      * 发送 ping 消息
+     * @param {String} target 发送目标
      * @returns {Object} 发送的消息
      */
-    ping() {
+    ping(target = undefined) {
         let that = this;
         this.timer.noClient = setTimeout(function() {
             that.event.noClient();
         }, 5000)
 
-        return this.sendData({}, 'ping');
+        return this.sendData({}, 'ping', target);
     }
 
     /**
@@ -245,6 +257,27 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         });
         if (i == -1) return;
         let r = this.clients[i].hidden = value;
+        this.event.clientsChange(this.clients);
+        return r;
+    }
+
+    /**
+     * 设置对话框客户端 Echo 状态
+     * @param {String} uuid UUID 
+     * @param {String} echoState Echo 状态 
+     * @param {String} messagesCount 剩余消息数 
+     * @returns {Boolean} 结果
+     */
+    setEchoState(uuid, echoState = 'stop', messagesCount = 0) {
+        let i = this.clients.findIndex(function(e) {
+            return e.uuid == uuid;
+        });
+        if (i == -1) return;
+        let r = this.clients[i] = {
+            ...this.clients[i],
+            echoState: echoState,
+            messagesCount: messagesCount
+        };
         this.event.clientsChange(this.clients);
         return r;
     }
@@ -315,12 +348,19 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
             return this.sendBroadcastClose(uuid);
         }
 
-        let r = this.clients.push({
+        let r = {
             uuid: uuid,
             name: name,
             type: type ? type : 'client',
             hidden: hidden
-        });
+        };
+        if (r.type == 'live') r = {
+            ...r,
+            echoState: 'stop',
+            messagesCount: 0
+        };
+
+        this.clients.push(r);
         this.event.clientsChange(this.clients);
         return r; 
     }
@@ -342,6 +382,16 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
     }
 
     /**
+     * 目标类型检查
+     * @param {String} type 终端类型
+     * @returns {Boolean} 结果
+     */
+    targetTypeCheck(type) {
+        if (type != 'server') return false;
+        return true;
+    }
+
+    /**
      * 处理侦听获取的数据
      * @param {Object} data 数据内容
      * @param {EchoLiveBroadcast} listener 监听对象
@@ -350,6 +400,10 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         switch (data.action) {
             case 'hello':
                 listener.addClient(data.from.uuid, data.from.name, data.from.type, data.data?.hidden);
+                break;
+
+            case 'echo_state_update':
+                listener.setEchoState(data.from.uuid, data.data.state, data.data.messagesCount);
                 break;
 
             case 'close':
@@ -427,7 +481,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
             });
 
             this.websocketReconnectCount = 0;
-            this.sendHello('@__server');
+            this.sendHello('@__ws_server');
         });
 
         this.websocket.addEventListener('message', (e) => {
@@ -540,6 +594,16 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
     }
 
     /**
+     * 目标类型检查
+     * @param {String} type 终端类型
+     * @returns {Boolean} 结果
+     */
+    targetTypeCheck(type) {
+        if (type != 'client' && type != this.type) return false;
+        return true;
+    }
+
+    /**
      * 处理侦听获取的数据
      * @param {Object} data 数据内容
      * @param {EchoLiveBroadcast} listener 监听对象
@@ -547,7 +611,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
     getDataClient(data, listener = this) {
         switch (data.action) {
             case 'ping':
-                listener.sendHello(data.from?.uuid);
+                listener.sendHello(data.from.uuid);
                 break;
 
             case 'broadcast_close':

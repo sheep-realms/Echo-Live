@@ -44,7 +44,8 @@
 .accessible-high-contrast input[type=number],
 .accessible-high-contrast input[type=text],
 .accessible-high-contrast #editor-log,
-.accessible-high-contrast select {
+.accessible-high-contrast select,
+.accessible-high-contrast .echo-live-client-state-block {
     border: 1px solid var(--text-primary);
 }
 
@@ -58,6 +59,11 @@
 .accessible-high-contrast select:focus,
 .accessible-high-contrast button:focus {
     outline: var(--accessible-outline) !important;
+}
+
+.accessible-high-contrast .echo-live-client-state-block.echo-state-play .client-info {
+    background-image: unset;
+    animation: unset;
 }
 
 

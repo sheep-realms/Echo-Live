@@ -554,6 +554,7 @@ select:focus {
 .echo-live-client-state-block .client-info .client-icon svg {
     width: 24px;
     height: 24px;
+    fill: var(--text-primary);
 }
 
 .echo-live-client-state-block .client-info .client-name {

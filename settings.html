@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo Live 配置文件生成器</title>
+    <link rel="icon" href="res/image/favicon.ico">
+    <link rel="stylesheet" href="res/style/fh-ui.css">
+    <link rel="stylesheet" href="res/style/editor.css">
+    <link rel="stylesheet" href="res/style/editor-accessible.css">
+    <script src="lib/jquery-3.7.1.min.js"></script>
+    <script src="config.js"></script>
+    <script src="res/class/Icon.js"></script>
+    <script src="res/class/EchoLiveTools.js"></script>
+    <script src="res/class/EditorConstructor.js"></script>
+</head>
+<body>
+    <main>
+        <!-- 标签页标题 -->
+        <nav id="echo-editor-nav" class="tabpage-nav" data-navid="main">
+            <button
+                id="tabpage-nav-import"
+                class="tabpage-nav-item"
+                data-pageid="import"
+                role="tab"
+                aria-selected="true"
+                accesskey="1"
+                title="导入配置文件 [alt+1]"
+            >导入</button>
+            <button
+                id="tabpage-nav-edit"
+                class="tabpage-nav-item"
+                data-pageid="edit"
+                role="tab"
+                aria-selected="false"
+                accesskey="2"
+                title="编辑配置文件 [alt+2]"
+            >编辑</button>
+            <button
+                id="tabpage-nav-export"
+                class="tabpage-nav-item"
+                data-pageid="export"
+                role="tab"
+                aria-selected="false"
+                accesskey="3"
+                title="导出配置文件 [alt+3]"
+            >导出</button>
+        </nav>
+        <!-- 标签页面板 -->
+        <div class="tabpage-centent" data-navid="main">
+            <!-- 导入标签页 -->
+            <section class="tabpage-panel" role="tabpanel" data-pageid="import">
+                <h2 class="tabpage-panel-title">导入</h2>
+                <p style="color: red;">该页面正在施工中，暂不可用。</p>
+
+                <div class="editor-controller-bottom fh-flex-row">
+                    <button id="list-btn-export" class="fh-button fh-big fh-ghost">新建配置文件</button>
+                    <button id="list-btn-create" class="fh-button fh-big">导入配置文件</button>
+                </div>
+            </section>
+
+            <!-- 编辑标签页 -->
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="edit">
+                <h2 class="tabpage-panel-title">编辑</h2>
+                <p style="color: red;">该页面正在施工中，暂不可用。</p>
+                <div class="echo-editor-form">
+                    <div class="editor-controller-bottom fh-flex-row">
+                        <button id="edit-btn-reset" class="fh-button fh-big fh-danger">撤销更改</button>
+                        <button id="edit-btn-save" class="fh-button fh-big">保存更改</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 导出标签页 -->
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="export">
+                <h2 class="tabpage-panel-title">导出</h2>
+                <p style="color: red;">该页面正在施工中，暂不可用。</p>
+                <div class="echo-editor-form">
+                    <label for="message-data">导出配置内容</label>
+                    <textarea name="message-data" id="edit-message-data" class="code"></textarea>
+
+                    <div class="editor-controller-bottom fh-flex-row">
+                        <button id="edit-btn-clear" class="fh-button fh-big fh-danger">清空</button>
+                        <button id="edit-btn-submit" class="fh-button fh-big">导出文件</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="res/script/editor-common.js"></script>
+    <script src="res/script/template.js"></script>
+</body>
+</html>

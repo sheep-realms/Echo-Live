@@ -7,7 +7,10 @@ const db_config_define = [
         name: 'global.language',
         type: 'string',
         default: 'zho-Hans',
-        created: 2
+        created: 2,
+        attribute: {
+            datalist: []
+        }
     },
     
 
@@ -48,7 +51,14 @@ const db_config_define = [
         name: 'echolive.broadcast_channel',
         type: 'string',
         default: 'sheep-realms:echolive',
-        created: 1
+        created: 1,
+        attribute: {
+            datalist: [
+                {
+                    value: 'sheep-realms:echolive'
+                }
+            ]
+        }
     }, {
         name: 'echolive.websocket_enable',
         type: 'boolean',
@@ -103,12 +113,21 @@ const db_config_define = [
         name: 'echolive.print_audio_volume',
         type: 'number',
         default: 0.5,
-        created: 1
+        created: 1,
+        attribute: {
+            max: 1,
+            min: 0,
+            step: 0.1
+        }
     }, {
         name: 'echolive.print_audio_rate',
         type: 'number',
         default: 1,
-        created: 1
+        created: 1,
+        attribute: {
+            min: 0,
+            step: 0.25
+        }
     }, {
         name: 'echolive.next_audio_enable',
         type: 'boolean',
@@ -123,12 +142,21 @@ const db_config_define = [
         name: 'echolive.next_audio_volume',
         type: 'number',
         default: 0.5,
-        created: 1
+        created: 1,
+        attribute: {
+            max: 1,
+            min: 0,
+            step: 0.1
+        }
     }, {
         name: 'echolive.next_audio_rate',
         type: 'number',
         default: 1,
-        created: 1
+        created: 1,
+        attribute: {
+            min: 0,
+            step: 0.25
+        }
     }, {
         name: 'echolive.next_effect_name',
         type: 'string',
@@ -233,11 +261,6 @@ const db_config_define = [
         default: 512,
         created: 1
     }, {
-        name: 'editor.log_line_maximum',
-        type: 'number',
-        default: 512,
-        created: 1
-    }, {
         name: 'editor.palette',
         type: 'special.all_or_array_string',
         default: 'all',
@@ -322,7 +345,20 @@ const db_config_define = [
         name: 'accessible.high_contrast_outline_style',
         type: 'string',
         default: 'solid',
-        created: 2
+        created: 2,
+        attribute: {
+            datalist: [
+                {
+                    value: 'solid'
+                }, {
+                    value: 'dotted'
+                }, {
+                    value: 'dashed'
+                }, {
+                    value: 'double'
+                }
+            ]
+        }
     }, {
         name: 'accessible.drotanopia_and_deuteranopia',
         type: 'boolean',

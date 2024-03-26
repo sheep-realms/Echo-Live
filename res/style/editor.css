@@ -46,7 +46,8 @@ kbd.accessible-key {
     pointer-events: none;
 }
 
-textarea.code {
+textarea.code,
+input.code {
     font-family: Monaco, Consolas,'Lucida Console', 'Courier New', serif;
 }
 
@@ -338,6 +339,7 @@ input[type=text] {
     outline: none;
     background-color: #FFFFFF;
     transition: border .3s;
+    height: 32px;
 }
 
 input[type=number]:focus,

@@ -8,11 +8,11 @@ const lang_index = {
         }, {
             code: "zho-Hant-HK",
             title: "繁體中文（香港特別行政區）",
-            url: "zho-Hans-HK.js"
+            url: "zho-Hant-HK.js"
         }, {
-            code: "zho-Hans-TW",
+            code: "zho-Hant-TW",
             title: "繁體中文（台灣地區）",
-            url: "zho-Hans-TW.js"
+            url: "zho-Hant-TW.js"
         }
     ]
 };

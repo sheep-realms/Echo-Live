@@ -46,7 +46,7 @@ const lang_zho_Hans = {
             _description: "一些影响全局的设置",
             language: {
                 _title: "显示语言",
-                _description: "后台页面的显示语言"
+                _description: "后台页面的显示语言。"
             }
         },
         echo: {
@@ -243,15 +243,15 @@ const lang_zho_Hans = {
             },
             high_contrast_outline_color: {
                 _title: "焦点高亮边框颜色",
-                _description: ""
+                _description: "焦点元素将会显示一个醒目边框。此配置可更改其颜色。"
             },
-            high_contrast_outline_color: {
+            high_contrast_outline_size: {
                 _title: "焦点高亮边框尺寸",
-                _description: ""
+                _description: "焦点元素边框的宽度。"
             },
-            high_contrast_outline_color: {
+            high_contrast_outline_style: {
                 _title: "焦点高亮边框样式",
-                _description: ""
+                _description: "焦点元素边框的样式，可以是 solid、dotted、dashed 或 double。"
             },
             drotanopia_and_deuteranopia: {
                 _title: "红绿色盲",

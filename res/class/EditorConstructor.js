@@ -570,3 +570,121 @@ class HistoryMessage {
         </div>`;
     }
 }
+
+
+
+
+class SettingsPanel {
+    constructor() {}
+
+    static navItem(item) {
+        return `<button
+            class="settings-nav-item"
+            data-pageid="${ item.id }"
+            role="tab"
+            aria-selected="false"
+            title="${ $t( 'config.' + item.id + '._description' ) }"
+        >
+            <span class="icon left">${ item.icon != undefined ? Icon[item.icon]() : ''}</span>
+            <span class="title">${ $t( 'config.' + item.id + '._title' ) }</span>
+            <span class="icon right"></span>
+        </button>`;
+    }
+
+    static nav(items) {
+        let dom = '';
+        items.forEach(e => {
+            dom += SettingsPanel.navItem(e);
+        });
+
+        return dom;
+    }
+
+    static page(id, content = '') {
+        return `<div class="settings-page hide" data-pageid="${ id }">${ content }</div>`;
+    }
+
+    static setItem(type = 'string', id = '', title = '', description = '', content = '') {
+        return `<div class="settings-item settings-type-${ type }" data-id="${ id }">
+            <div class="meta">
+                <div class="title">${ title }</div>
+                <div class="description">${ description }</div>
+            </div>
+            <div class="value">
+                ${ content }
+            </div>
+        </div>`;
+    }
+
+    static setItemAuto(item) {
+        const fun = {
+            string: 'setItemString',
+            number: 'setItemNumber',
+            boolean: 'setItemBoolean',
+        }
+
+        let run = fun[item.type];
+        if (run == undefined) run = 'setItemUnknow';
+
+        const title = $t( 'config.' + item.name + '._title' );
+        const description = $t( 'config.' + item.name + '._description' );
+
+        return SettingsPanel[run](item.name, title, description, item.default, item?.attribute);
+    }
+
+    static setItems(items) {
+        let dom = '';
+        items.forEach(e => {
+            dom += SettingsPanel.setItemAuto(e);
+        });
+        return dom;
+    }
+
+    static setItemUnknow(id = '', title = '', description = '', value = '') {
+        return SettingsPanel.setItem(
+            'unknow', id, title, description,
+            `<span>暂不支持修改此配置</span>`
+        );
+    }
+
+    static setItemString(id = '', title = '', description = '', value = '', attribute = undefined) {
+        let dl = '';
+        let hasDatalist = false;
+        if (attribute != undefined) {
+            if (attribute?.datalist != undefined) {
+                hasDatalist = true;
+                dl += `<datalist id="${ id }-datalist">`;
+                attribute.datalist.forEach(e => {
+                    dl += `<option value="${ e.value }">${ e?.title ? e.title : '' }</option>`;
+                });
+                dl += `</datalist>`;
+            }
+        }
+        return SettingsPanel.setItem(
+            'string', id, title, description,
+            `<label class="title" style="display: none;" for="${ id }">${ title }</label>
+            <input type="text" id="${ id }" class="code" ${ hasDatalist ? `list="${ id }-datalist"` : '' } value="${ value }">${ dl }`
+        );
+    }
+
+    static setItemNumber(id = '', title = '', description = '', value = '', attribute = undefined) {
+        let attr = '';
+        if (attribute != undefined) {
+            if (attribute?.max != undefined) attr += `max="${ attribute.max }" `;
+            if (attribute?.min != undefined) attr += `min="${ attribute.min }" `;
+            if (attribute?.step != undefined) attr += `step="${ attribute.step }" `;
+        }
+        return SettingsPanel.setItem(
+            'number', id, title, description,
+            `<label class="title" style="display: none;" for="${ id }">${ title }</label>
+            <input type="number" id="${ id }" ${ attr }class="code" value="${ value }">`
+        );
+    }
+
+    static setItemBoolean(id = '', title = '', description = '', value = '') {
+        return SettingsPanel.setItem(
+            'number', id, title, description,
+            `<span>{{{在这里插入开关}}}</span>`
+        );
+    }
+}

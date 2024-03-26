@@ -26,6 +26,8 @@
         translator.load(lang_zho_Hant_TW);
         $('html').attr('lang', $t('lang.code_ietf'));
     </script>
+    <script src="res/class/Mixer.js"></script>
+    <script src="res/script/sounds.js"></script>
     <script src="res/class/Icon.js"></script>
     <script src="res/class/EchoLiveTools.js"></script>
     <script src="res/class/EditorConstructor.js"></script>
@@ -81,7 +83,7 @@
             <!-- 编辑标签页 -->
             <section class="tabpage-panel hide" role="tabpanel" data-pageid="edit">
                 <h2 class="tabpage-panel-title">编辑</h2>
-                <p style="color: red;">该页面正在施工中，暂不可用。</p>
+                <!-- <p style="color: red;">该页面正在施工中，暂不可用。</p> -->
                 <div class="echo-editor-form">
 
                     <div class="settings-panel">
@@ -91,6 +93,11 @@
     
                         <div class="settings-content">
                             <!-- 设置内容 -->
+                            <div class="settings-page" data-pageid="about">
+                                <div class="settings-about-banner">
+                                    <img src="res/image/banner_alpha.png" alt="LOGO">
+                                </div>
+                            </div>
                         </div>
                     </div>
 

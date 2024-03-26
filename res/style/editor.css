@@ -347,6 +347,11 @@ input[type=text]:focus {
     border-bottom: var(--color-general) 1px solid;
 }
 
+input[type=number]:out-of-range,
+input[type=text]:out-of-range {
+    border-bottom: var(--color-danger) 1px solid;
+}
+
 select {
     width: 100%;
     font-size: 16px;

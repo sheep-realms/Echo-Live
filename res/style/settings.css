@@ -2,11 +2,27 @@
     display: flex;
     gap: 16px;
     min-height: calc(100vh - 180px);
+    align-items: flex-start;
+}
+
+.settings-panel a {
+    color: var(--color-general-dark);
+    text-decoration: none;
+}
+
+.settings-panel a:hover {
+    filter: brightness(1.15);
+}
+
+.settings-panel a:active {
+    filter: brightness(0.85);
 }
 
 .settings-nav {
     width: 280px;
     min-width: 280px;
+    position: sticky;
+    top: 60px;
 }
 
 .settings-content {
@@ -19,6 +35,10 @@
 .settings-page.hide {
     display: none;
 }
+
+
+
+
 
 .settings-nav-item {
     cursor: pointer;
@@ -70,6 +90,26 @@
 
 
 
+.settings-group-title {
+    border-bottom: var(--border-coler) 1px solid;
+    padding: 8px 0;
+}
+
+.settings-group-title .title {
+    color: var(--text-primary);
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.settings-group-title .description {
+    color: var(--text-secondary);
+    font-size: 16px;
+}
+
+.settings-item+.settings-group-title {
+    margin-top: 8px;
+}
+
 .settings-item {
     display: flex;
     align-items: center;
@@ -92,7 +132,7 @@
 
 .settings-item .meta .title {
     color: var(--text-primary);
-    font-weight: bold;
+    font-weight: 500;
     font-size: 18px;
     word-break: break-word;
 }
@@ -105,4 +145,40 @@
 .settings-item .value {
     /* width: 280px; */
     flex: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+.settings-item.settings-type-boolean .value {
+    flex: unset;
+    width: 92px;
+}
+
+.settings-switch {
+    display: inline-block;
+}
+
+.settings-switch .btn-switch {
+    min-width: 88px;
+}
+
+.settings-switch.state-on .btn-off {
+    display: none;
+}
+
+.settings-switch.state-off .btn-on {
+    display: none;
+}
+
+
+
+
+
+.settings-about-banner>img {
+    width: 100%;
+    height: auto;
 }

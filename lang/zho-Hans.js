@@ -62,7 +62,7 @@ const lang_zho_Hans = {
             _description: "Echo-Live 相关配置",
             live_theme: {
                 _title: "主题名称",
-                _description: "可用的主题请见：https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/"
+                _description: "关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。"
             },
             live_theme_script_enable: {
                 _title: "启用主题脚本",
@@ -78,7 +78,7 @@ const lang_zho_Hans = {
             },
             websocket_enable: {
                 _title: "启用 WebSocket",
-                _description: "如果没人要求您这么做，请不要动它。<br>广播模式下启用 WebSocket 可连接至服务器以从第三方软件获取消息。<br>可从服务器接收的消息和广播消息一致，发送的消息须使用类似于 JSON.stringify 的方法序列化。<br>详见：https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/"
+                _description: "如果没人要求您这么做，请不要动它。<br>广播模式下启用 WebSocket 可连接至服务器以从第三方软件获取消息。<br>可从服务器接收的消息和广播消息一致，发送的消息须使用类似于 JSON.stringify 的方法序列化。<br>详见<a href='https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/' target='_blank'>帮助文档</a>。"
             },
             websocket_url: {
                 _title: "WebSocket 连接地址",
@@ -114,7 +114,7 @@ const lang_zho_Hans = {
             },
             print_audio_name: {
                 _title: "音效名称",
-                _description: "可用的音效名称请见：https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/"
+                _description: "可用的音效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/' target='_blank'>帮助文档</a>。"
             },
             print_audio_volume: {
                 _title: "音效音量",
@@ -130,7 +130,7 @@ const lang_zho_Hans = {
             },
             next_audio_name: {
                 _title: "音效名称",
-                _description: "可用的音效名称请见：https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/"
+                _description: "可用的音效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/' target='_blank'>帮助文档</a>。"
             },
             next_audio_volume: {
                 _title: "音效音量",
@@ -279,6 +279,10 @@ const lang_zho_Hans = {
                 }
             }
         },
+        about: {
+            _title: "关于",
+            _description: "软件信息"
+        }
     },
     editor: {
         client_state: {

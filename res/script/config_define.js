@@ -23,7 +23,10 @@ const db_config_define = [
         name: 'echo.print_speed',
         type: 'number',
         default: 30,
-        created: 1
+        created: 1,
+        attribute: {
+            min: 4
+        }
     },
     
 
@@ -73,7 +76,10 @@ const db_config_define = [
         name: 'echolive.websocket_reconnect_limit',
         type: 'number',
         default: 5,
-        created: 2
+        created: 2,
+        attribute: {
+            min: 0
+        }
     }, {
         name: 'echolive.experimental_api_enable',
         type: 'boolean',
@@ -88,7 +94,10 @@ const db_config_define = [
         name: 'echolive.messages_polling_tick',
         type: 'number',
         default: 250,
-        created: 1
+        created: 1,
+        attribute: {
+            min: 4
+        }
     }, {
         name: 'echolive.sleep_enable',
         type: 'boolean',
@@ -108,7 +117,10 @@ const db_config_define = [
         name: 'echolive.print_audio_name',
         type: 'string',
         default: 'typewriter_loop',
-        created: 1
+        created: 1,
+        attribute: {
+            datalist: []
+        }
     }, {
         name: 'echolive.print_audio_volume',
         type: 'number',
@@ -137,7 +149,10 @@ const db_config_define = [
         name: 'echolive.next_audio_name',
         type: 'string',
         default: 'enter',
-        created: 1
+        created: 1,
+        attribute: {
+            datalist: []
+        }
     }, {
         name: 'echolive.next_audio_volume',
         type: 'number',
@@ -232,7 +247,7 @@ const db_config_define = [
         created: 1
     }, {
         name: 'editor.ontput_before_enable',
-        type: 'number',
+        type: 'boolean.bit',
         default: 1,
         created: 1
     }, {
@@ -242,7 +257,7 @@ const db_config_define = [
         created: 1
     }, {
         name: 'editor.ontput_after_enable',
-        type: 'number',
+        type: 'boolean.bit',
         default: 1,
         created: 1
     }, {
@@ -254,12 +269,18 @@ const db_config_define = [
         name: 'editor.history_maximum',
         type: 'number',
         default: 128,
-        created: 1
+        created: 1,
+        attribute: {
+            min: -1
+        }
     }, {
         name: 'editor.log_line_maximum',
         type: 'number',
         default: 512,
-        created: 1
+        created: 1,
+        attribute: {
+            min: -1
+        }
     }, {
         name: 'editor.palette',
         type: 'special.all_or_array_string',
@@ -279,7 +300,12 @@ const db_config_define = [
         name: 'editor.palette_color_contrast_threshold',
         type: 'number',
         default: 3.8,
-        created: 1
+        created: 1,
+        attribute: {
+            max: 21,
+            min: 0,
+            step: 0.1
+        }
     },
 
 
@@ -389,7 +415,10 @@ const db_config_define = [
         name: 'advanced.editor.history_minimum_breaker_threshold',
         type: 'number',
         default: 128,
-        created: 1
+        created: 1,
+        attribute: {
+            min: -1
+        }
     },
 
 

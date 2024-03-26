@@ -604,8 +604,15 @@ class SettingsPanel {
         return `<div class="settings-page hide" data-pageid="${ id }">${ content }</div>`;
     }
 
+    static setGroupTitle(title = '', description = '') {
+        return `<div class="settings-group-title">
+            <div class="title">${ title }</div>
+            <div class="description">${ description }</div>
+        </div>`;
+    }
+
     static setItem(type = 'string', id = '', title = '', description = '', content = '') {
-        return `<div class="settings-item settings-type-${ type }" data-id="${ id }">
+        return `<div class="settings-item settings-type-${ type.split('.')[0] }" data-id="${ id }" data-type="${ type }">
             <div class="meta">
                 <div class="title">${ title }</div>
                 <div class="description">${ description }</div>
@@ -623,13 +630,18 @@ class SettingsPanel {
             boolean: 'setItemBoolean',
         }
 
-        let run = fun[item.type];
+        let types = item.type.split('.');
+
+        let run = fun[types[0]];
         if (run == undefined) run = 'setItemUnknow';
 
         const title = $t( 'config.' + item.name + '._title' );
         const description = $t( 'config.' + item.name + '._description' );
 
-        return SettingsPanel[run](item.name, title, description, item.default, item?.attribute);
+        if (item.type == 'object') return SettingsPanel.setGroupTitle(title, description);
+        if (item.type == 'boolean.bit') return SettingsPanel.setItemBoolean(item.type, item.name, title, description, item.default, item?.attribute, true);
+
+        return SettingsPanel[run](item.type, item.name, title, description, item.default, item?.attribute);
     }
 
     static setItems(items) {
@@ -640,20 +652,20 @@ class SettingsPanel {
         return dom;
     }
 
-    static setItemUnknow(id = '', title = '', description = '', value = '') {
+    static setItemUnknow(type = '', id = '', title = '', description = '', value = '') {
         return SettingsPanel.setItem(
-            'unknow', id, title, description,
+            type, id, title, description,
             `<span>暂不支持修改此配置</span>`
         );
     }
 
-    static setItemString(id = '', title = '', description = '', value = '', attribute = undefined) {
+    static setItemString(type = '', id = '', title = '', description = '', value = '', attribute = undefined) {
         let dl = '';
         let hasDatalist = false;
         if (attribute != undefined) {
             if (attribute?.datalist != undefined) {
                 hasDatalist = true;
-                dl += `<datalist id="${ id }-datalist">`;
+                dl += `<datalist id="${ id.replace(/\./g, '-') }-datalist">`;
                 attribute.datalist.forEach(e => {
                     dl += `<option value="${ e.value }">${ e?.title ? e.title : '' }</option>`;
                 });
@@ -662,12 +674,12 @@ class SettingsPanel {
         }
         return SettingsPanel.setItem(
             'string', id, title, description,
-            `<label class="title" style="display: none;" for="${ id }">${ title }</label>
-            <input type="text" id="${ id }" class="code" ${ hasDatalist ? `list="${ id }-datalist"` : '' } value="${ value }">${ dl }`
+            `<label class="title" style="display: none;" for="${ id.replace(/\./g, '-') }">${ title }</label>
+            <input type="text" id="${ id.replace(/\./g, '-') }" class="settings-value code" ${ hasDatalist ? `list="${ id.replace(/\./g, '-') }-datalist"` : '' } value="${ value }">${ dl }`
         );
     }
 
-    static setItemNumber(id = '', title = '', description = '', value = '', attribute = undefined) {
+    static setItemNumber(type = '', id = '', title = '', description = '', value = '', attribute = undefined) {
         let attr = '';
         if (attribute != undefined) {
             if (attribute?.max != undefined) attr += `max="${ attribute.max }" `;
@@ -675,16 +687,31 @@ class SettingsPanel {
             if (attribute?.step != undefined) attr += `step="${ attribute.step }" `;
         }
         return SettingsPanel.setItem(
-            'number', id, title, description,
-            `<label class="title" style="display: none;" for="${ id }">${ title }</label>
-            <input type="number" id="${ id }" ${ attr }class="code" value="${ value }">`
+            type, id, title, description,
+            `<label class="title" style="display: none;" for="${ id.replace(/\./g, '-') }">${ title }</label>
+            <input type="number" id="${ id.replace(/\./g, '-') }" ${ attr }class="settings-value code" value="${ value }">`
         );
     }
 
-    static setItemBoolean(id = '', title = '', description = '', value = '') {
+    static setItemBoolean(type = '', id = '', title = '', description = '', value = '', attribute = undefined, isBit = false) {
         return SettingsPanel.setItem(
-            'number', id, title, description,
-            `<span>{{{在这里插入开关}}}</span>`
+            type, id, title, description,
+            `<div class="settings-switch state-${ value ? 'on' : 'off' }" data-is-bit="${ isBit ? '1' : '0' }">
+                ${
+                    EditorForm.button('关闭', {
+                        icon: Icon.toggleSwitchOffOutline(),
+                        class: 'btn-switch btn-off',
+                        type: 'ghost'
+                    })
+                }
+                ${
+                    EditorForm.button('开启', {
+                        icon: Icon.toggleSwitch(),
+                        class: 'btn-switch btn-on'
+                    })
+                }
+                <input type="hidden" id="${ id.replace(/\./g, '-') }" class="settings-value" value="${ value }">
+            </div>`
         );
     }
 }

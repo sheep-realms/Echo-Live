@@ -40,6 +40,26 @@
 
 
 
+.file-drop-box {
+    border: var(--border-coler) 4px dashed;
+    height: 75vh;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 16px 0;
+    user-select: none;
+}
+
+.file-drop-box-message {
+    font-size: 20px;
+    color: var(--text-secondary);
+}
+
+
+
+
+
 .settings-nav-item {
     cursor: pointer;
     display: flex;
@@ -181,4 +201,51 @@
 .settings-about-banner>img {
     width: 100%;
     height: auto;
+}
+
+a.settings-link-bar {
+    display: flex;
+    align-items: center;
+    color: var(--text-regular);
+    border-bottom: var(--border-coler) 1px solid;
+    min-height: 44px;
+    padding: 0 8px;
+    gap: 8px;
+}
+
+a.settings-link-bar:hover,
+a.settings-link-bar:active {
+    filter: unset;
+}
+
+.settings-link-bar .title {
+    flex: 1;
+}
+
+.settings-link-bar .icon,
+.settings-link-bar .icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.settings-link-bar .icon.left svg {
+    fill: var(--text-regular);
+}
+
+.settings-link-bar .icon.right svg {
+    fill: var(--text-secondary);
+}
+
+.settings-link-bar-group-title {
+    color: var(--text-primary);
+    font-weight: 500;
+    margin-top: 16px;
+    padding: 8px;
+    border-bottom: var(--border-coler) 1px solid;
+}
+
+.settings-about-footer {
+    color: var(--text-secondary);
+    padding: 16px 8px;
+    font-size: 14px;
 }

@@ -458,9 +458,31 @@ const lang_zho_Hans = {
             hot_key_textarea_quick_send: "当焦点在此文本框中时，可以按下 Ctrl + Enter 快速发送"
         }
     },
+    file: {
+        name: "文件名",
+        size: "文件大小",
+        droper: {
+            drop_file_cancel: "不放算了，哼！",
+            drop_file_long_time: "你怎么还不放手？",
+            drop_file_now: "松开鼠标拖放文件",
+            please_drop_file: "在这里拖放文件"
+        }
+    },
     message_preview: {
         empty_message: "[空消息]",
         empty_username: "[未指定说话人]",
         undefined_message: "[未定义消息]"
+    },
+    settings: {
+        config_input: {
+            json_parse_fail: {
+                title: "无法安全读取配置文件",
+                description: "这可能是因为配置文件为早期版本，或是配置文件内容损坏。<br>如果您确定配置文件没有问题，并且没有被植入恶意代码的可能，可以尝试 “不安全读取”。"
+            },
+            unsafe_load_fail: {
+                title: "无法读取配置文件",
+                description: "看来您的配置文件确实有问题。"
+            }
+        }
     }
 };

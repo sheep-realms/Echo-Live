@@ -714,4 +714,16 @@ class SettingsPanel {
             </div>`
         );
     }
+
+    static linkBar(title = '', href = '', icon = undefined) {
+        return `<a class="settings-link-bar" href="${ href }" target="_blank">
+            <div class="icon left">${ icon != undefined ? Icon[icon]() : '' }</div>
+            <div class="title">${ title }</div>
+            <div class="icon right">${ Icon.openInNew() }</div>
+        </a>`;
+    }
+
+    static linkBarGroupTitle(title = '') {
+        return `<div class="settings-link-bar-group-title">${ title }</div>`;
+    }
 }

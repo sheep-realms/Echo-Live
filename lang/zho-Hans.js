@@ -501,11 +501,16 @@ const lang_zho_Hans = {
         undefined_message: "[未定义消息]"
     },
     settings: {
+        unknow_config_type: "暂不支持修改此配置",
         config_input: {
             json_parse_fail: {
                 title: "无法安全读取配置文件",
                 description: "这可能是因为配置文件为早期版本，或是配置文件内容损坏。<br>如果您确定配置文件没有问题，并且没有被植入恶意代码的可能，可以尝试 “不安全读取”。",
                 unsafe_load: "不安全读取"
+            },
+            in_obs: {
+                title: "不要在 OBS 中打开此页面",
+                description: "这会产生一些意料之外的问题，并且您完全没有必要将这个页面放入 OBS 中。"
             },
             many_file: {
                 title: "太多了",
@@ -518,6 +523,11 @@ const lang_zho_Hans = {
             unsafe_load_fail: {
                 title: "无法读取配置文件",
                 description: "看来您的配置文件确实有问题，请检查您的配置文件。"
+            },
+            use_chrome: {
+                title: "建议您使用最新版 Chrome 浏览器",
+                description: "此页面使用了一些最新技术，您的浏览器可能无法支持部分功能。<br>当然您也可以试试 Edge 浏览器。",
+                goto: "获取 Chrome"
             }
         },
         tabpage: {

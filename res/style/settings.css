@@ -348,11 +348,15 @@
     font-weight: 500;
     font-size: 18px;
     word-break: break-word;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .settings-item.change .meta .title::after {
     content: "*";
     color: var(--color-danger);
+    display: inline-block;
 }
 
 .settings-item .meta .description {
@@ -366,6 +370,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.settings-unknow-config-type {
+    color: var(--text-secondary);
+    font-size: 14px;
 }
 
 

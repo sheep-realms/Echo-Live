@@ -229,6 +229,20 @@ $(document).ready(function() {
 
     $('#settings-file-check-box').html(SettingsFileChecker.default());
 
+    let ua = navigator.userAgent.toLowerCase()
+    if (ua.search(/ chrome\//) == -1) {
+        $('#settings-file-check-dialog').html(SettingsFileChecker.dialogUseChrome());
+        $('.btn-default').focus();
+        $('#settings-file-input-box').addClass('hide');
+    } else if (ua.search(/ obs\//) != -1) {
+        $('#settings-file-check-dialog').html(SettingsFileChecker.dialogWarn(
+            $t('settings.config_input.in_obs.title'),
+            $t('settings.config_input.in_obs.description')
+        ));
+        $('.btn-default').focus();
+        $('#settings-file-input-box').addClass('hide');
+    }
+
     // 调试信息
 
     let nowTime = new Date();
@@ -305,7 +319,8 @@ function checkConfigFile(fileList) {
     dropFileReader.onload = function(e2) {
         const content = e2.target.result;
 
-        if (dropFile.type != 'text/javascript') {
+        // Firefox 认为 JS 是应用程序而不是文本
+        if (dropFile.type != 'text/javascript' && dropFile.type != 'application/x-javascript') {
             $('#settings-file-check-dialog').html(
                 SettingsFileChecker.dialogError(
                     $t('settings.config_input.type_error.title'),
@@ -375,7 +390,7 @@ $(document).on('dragleave', '#settings-file-input-box', function(e) {
 });
 
 $(document).on('drop', '#settings-file-input-box', function(e) {
-    e.preventDefault();
+    e.preventDefault()
     inFileDorp = false;
     inFileDorpLongTime = false;
     clearTimeout(inFileDorpTimer);
@@ -414,6 +429,10 @@ $(document).on('click', '#btn-flie-check-dialog-cancel', function() {
     $('#settings-file-check-dialog').text('');
     $('#settings-file-check-box').html(SettingsFileChecker.empty());
     dropFile = dropFileReader = dropData = configFileBuffer = configFileFiltered = configBuffer = undefined;
+});
+
+$(document).on('click', '#btn-flie-check-dialog-goto-chrome', function() {
+    window.open('https://www.google.cn/chrome/index.html', '_blank');
 });
 
 

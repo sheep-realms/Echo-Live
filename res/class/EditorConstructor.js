@@ -655,7 +655,7 @@ class SettingsPanel {
     static setItemUnknow(type = '', id = '', title = '', description = '', value = '') {
         return SettingsPanel.setItem(
             type, id, title, description,
-            `<span>暂不支持修改此配置</span>`
+            `<span class="settings-unknow-config-type">${ $t('settings.unknow_config_type') }</span>`
         );
     }
 
@@ -676,7 +676,7 @@ class SettingsPanel {
         return SettingsPanel.setItem(
             'string', id, title, description,
             `<label class="title" style="display: none;" for="${ id.replace(/\./g, '-') }">${ title }</label>
-            <input type="text" id="${ id.replace(/\./g, '-') }" class="settings-value code" ${ hasDatalist ? `list="${ id.replace(/\./g, '-') }-datalist"` : '' } data-default="${ value }" value="${ value }">${ dl }`
+            <input type="text" id="${ id.replace(/\./g, '-') }" class="settings-value code" ${ hasDatalist ? `list="${ id.replace(/\./g, '-') }-datalist"` : '' } aria-label="${ title }" data-default="${ value }" value="${ value }">${ dl }`
         );
     }
 
@@ -691,7 +691,7 @@ class SettingsPanel {
         return SettingsPanel.setItem(
             type, id, title, description,
             `<label class="title" style="display: none;" for="${ id.replace(/\./g, '-') }">${ title }</label>
-            <input type="number" id="${ id.replace(/\./g, '-') }" ${ attr }class="settings-value code" data-default="${ value }" value="${ value }">`
+            <input type="number" id="${ id.replace(/\./g, '-') }" ${ attr }class="settings-value code" aria-label="${ title }" data-default="${ value }" value="${ value }">`
         );
     }
 
@@ -786,6 +786,17 @@ class SettingsFileChecker {
     }
 
     static dialogWarn(title = '', description = '', controller = '') {
+        if (controller == '') {
+            controller = EditorForm.button(
+                $t('ui.close'),
+                {
+                    id: 'btn-flie-check-dialog-cancel',
+                    class: 'btn-default',
+                    icon: Icon.close(),
+                    color: 'danger'
+                }
+            );
+        }
         return SettingsFileChecker.dialog(title, description, controller, 'alert', 'state-warn');
     }
 
@@ -823,6 +834,29 @@ class SettingsFileChecker {
                     class: 'btn-default',
                     icon: Icon.shieldOff(),
                     color: 'warn'
+                }
+            )
+        );
+    }
+
+    static dialogUseChrome() {
+        return SettingsFileChecker.dialogWarn(
+            $t('settings.config_input.use_chrome.title'),
+            $t('settings.config_input.use_chrome.description'),
+            EditorForm.buttonGhost(
+                $t('ui.close'),
+                {
+                    id: 'btn-flie-check-dialog-cancel',
+                    icon: Icon.close(),
+                    color: 'danger'
+                }
+            ) +
+            EditorForm.button(
+                $t('settings.config_input.use_chrome.goto'),
+                {
+                    id: 'btn-flie-check-dialog-goto-chrome',
+                    class: 'btn-default',
+                    icon: Icon.openInNew()
                 }
             )
         );

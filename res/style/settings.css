@@ -40,20 +40,213 @@
 
 
 
+.file-check-box {
+    min-height: 100px;
+    border: var(--border-coler) 1px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    box-sizing: border-box;
+    gap: 8px;
+}
+
+.file-check-box .empty-message {
+    color: var(--text-secondary);
+}
+
+.file-check-box .info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.file-check-box .icon,
+.file-check-box .icon svg {
+    width: 80px;
+    height: 80px;
+}
+
+.file-check-box .icon svg {
+    fill: var(--text-secondary);
+}
+
+.file-check-box .meta {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.file-check-box .meta .name {
+    font-weight: bold;
+    color: var(--text-primary);
+}
+
+.file-check-box .meta .size,
+.file-check-box .meta .last-modified-date {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.file-check-box .state {
+    min-width: 128px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.file-check-box .state .icon,
+.file-check-box .state .icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.file-check-box .state .message {
+    color: var(--text-regular);
+}
+
+.file-check-box .state .icon svg {
+    fill: var(--text-regular);
+}
+
+.file-check-box .state.state-ok .message {
+    color: var(--color-safe-dark);
+}
+
+.file-check-box .state.state-ok .icon svg {
+    fill: var(--color-safe);
+}
+
+.file-check-box .state.state-warn .message {
+    color: var(--color-warn-dark);
+}
+
+.file-check-box .state.state-warn .icon svg {
+    fill: var(--color-warn);
+}
+
+.file-check-box .state.state-error .message {
+    color: var(--color-danger-dark);
+}
+
+.file-check-box .state.state-error .icon svg {
+    fill: var(--color-danger);
+}
+
 .file-drop-box {
     border: var(--border-coler) 4px dashed;
-    height: 75vh;
+    user-select: none;
+    cursor: pointer;
+    background-image: linear-gradient(var(--corner-marker-angle), var(--border-coler) 12px, transparent 12px);
+    background-position: 4px -4px;
+    background-repeat: no-repeat;
+    width: 100%;
+    background-color: transparent;
+    outline: none;
+}
+
+.file-drop-box,
+.file-check-dialog {
+    min-height: calc( 100vh - 200px );
+    margin: 16px 0;
+    padding: 16px;
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 16px 0;
-    user-select: none;
+    flex-direction: column;
+    text-align: center;
 }
 
-.file-drop-box-message {
+.file-drop-box.hide {
+    display: none;
+}
+
+.file-check-dialog {
+    border: var(--border-coler) 1px solid;
+    gap: 16px;
+    justify-content: flex-start;
+}
+
+.file-check-dialog .icon {
+    margin-top: 32px;
+}
+
+.file-check-dialog .icon,
+.file-check-dialog .icon svg {
+    width: 48px;
+    height: 48px;
+}
+
+.file-check-dialog .icon svg {
+    fill: var(--text-regular);
+}
+
+.file-check-dialog.state-warn .icon svg {
+    fill: var(--color-warn);
+}
+
+.file-check-dialog.state-error .icon svg {
+    fill: var(--color-danger);
+}
+
+.file-check-dialog .title {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--text-primary);
+}
+
+.file-check-dialog .description {
+    color: var(--text-regular);
+}
+
+.file-check-dialog .controller {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding-top: 8px;
+}
+
+.file-check-dialog .controller button {
+    min-width: 120px;
+}
+
+.file-drop-box:focus-visible {
+    border: var(--color-general) 4px dashed;
+    background-image: linear-gradient(var(--corner-marker-angle), var(--color-general) 12px, transparent 12px);
+}
+
+.file-drop-box.dragover {
+    border: var(--color-general) 4px dashed;
+    z-index: 2000;
+    position: relative;
+    box-shadow: 0 0 0 max(1000vw, 1000vh) rgba(255, 255, 255, 0.75);
+    background-image: linear-gradient(var(--corner-marker-angle), var(--color-general) 12px, transparent 12px);
+}
+
+.file-drop-box-message,
+.file-drop-box-message-keyboard {
     font-size: 20px;
     color: var(--text-secondary);
+    pointer-events: none;
+}
+
+.file-drop-box-message-keyboard {
+    display: none;
+}
+
+.file-drop-box:focus-visible .file-drop-box-message {
+    display: none;
+}
+
+.file-drop-box:focus-visible .file-drop-box-message-keyboard {
+    display: inline;
 }
 
 
@@ -175,7 +368,7 @@
 
 .settings-item.settings-type-boolean .value {
     flex: unset;
-    width: 92px;
+    width: 96px;
 }
 
 .settings-switch {

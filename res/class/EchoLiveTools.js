@@ -215,4 +215,36 @@ class EchoLiveTools {
         let urlParams = new URLSearchParams(window.location.search);
         return urlParams.get(name);
     }
+
+    /**
+     * 获取易读的文件大小信息
+     * @param {Number} bytes Byte
+     * @returns {String} 易读的文件大小信息
+     */
+    static formatFileSize(bytes) {
+        if (bytes === 0) return '0 B';
+    
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+    
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    /**
+     * 格式化时间戳
+     * @param {Number} timestamp 时间戳
+     * @returns {String} 格式化后的日期时间
+     */
+    static formatDate(timestamp) {
+        const date = new Date(timestamp);
+        const year = date.getFullYear();
+        const month = ('0' + (date.getMonth() + 1)).slice(-2);
+        const day = ('0' + date.getDate()).slice(-2);
+        const hours = ('0' + date.getHours()).slice(-2);
+        const minutes = ('0' + date.getMinutes()).slice(-2);
+        const seconds = ('0' + date.getSeconds()).slice(-2);
+        
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    }
 }

@@ -68,6 +68,12 @@
 
 
 /* 红绿色盲 */
+.accessible-drotanopia-and-deuteranopia {
+    --color-safe: var(--color-general);
+    --color-safe-dark: var(--color-general-dark);
+    --color-safe-glass: var(--color-general-glass);
+}
+
 .accessible-drotanopia-and-deuteranopia .echo-live-client-state-block.state-active {
     background-color: var(--color-general-dark);
 }

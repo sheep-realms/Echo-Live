@@ -73,16 +73,23 @@
             <section class="tabpage-panel" role="tabpanel" data-pageid="import">
                 <h2 class="tabpage-panel-title">导入</h2>
                 
-                <div class="setting-file-input-panel">
-                    <div id="setting-file-input-box" class="file-drop-box">
-                        <span class="file-drop-box-message" data-i18n="file.droper.please_drop_file"></span>
+                <div class="settings-file-input-panel">
+                    <div id="settings-file-check-box">
+                        <div class="file-check-box">
+                            <span class="empty-message"></span>
+                        </div>
                     </div>
+                    <div id="settings-file-check-dialog"></div>
+                    <button id="settings-file-input-box" class="file-drop-box">
+                        <span class="file-drop-box-message" data-i18n="file.droper.please_drop_file"></span>
+                        <span class="file-drop-box-message-keyboard" data-i18n="file.droper.please_drop_file_keyboard"></span>
+                    </button>
                 </div>
 
-                <div class="editor-controller-bottom fh-flex-row">
+                <!-- <div class="editor-controller-bottom fh-flex-row">
                     <button id="list-btn-export" class="fh-button fh-big fh-ghost">新建配置文件</button>
                     <button id="list-btn-create" class="fh-button fh-big">导入配置文件</button>
-                </div>
+                </div> -->
             </section>
 
             <!-- 编辑标签页 -->

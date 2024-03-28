@@ -461,11 +461,20 @@ const lang_zho_Hans = {
     file: {
         name: "文件名",
         size: "文件大小",
+        checker: {
+            default_file_loaded: "默认路径中的配置文件已载入",
+            empry: "未载入文件"
+        },
         droper: {
             drop_file_cancel: "不放算了，哼！",
+            drop_file_cancel_many: "一位用户反复拖拽文件，这是他的程序发生的变化",
             drop_file_long_time: "你怎么还不放手？",
             drop_file_now: "松开鼠标拖放文件",
-            please_drop_file: "在这里拖放文件"
+            please_drop_file: "在这里拖放文件或点击此处选择文件",
+            please_drop_file_keyboard: "按下 Enter 或空格键选择文件"
+        },
+        picker: {
+            config: "配置文件"
         }
     },
     message_preview: {
@@ -477,11 +486,20 @@ const lang_zho_Hans = {
         config_input: {
             json_parse_fail: {
                 title: "无法安全读取配置文件",
-                description: "这可能是因为配置文件为早期版本，或是配置文件内容损坏。<br>如果您确定配置文件没有问题，并且没有被植入恶意代码的可能，可以尝试 “不安全读取”。"
+                description: "这可能是因为配置文件为早期版本，或是配置文件内容损坏。<br>如果您确定配置文件没有问题，并且没有被植入恶意代码的可能，可以尝试 “不安全读取”。",
+                unsafe_load: "不安全读取"
+            },
+            many_file: {
+                title: "太多了",
+                description: "处理不了那么多文件，请一个一个来。"
+            },
+            type_error: {
+                title: "文件类型错误",
+                description: "这似乎并不是配置文件。"
             },
             unsafe_load_fail: {
                 title: "无法读取配置文件",
-                description: "看来您的配置文件确实有问题。"
+                description: "看来您的配置文件确实有问题，请检查您的配置文件。"
             }
         }
     }

@@ -727,3 +727,101 @@ class SettingsPanel {
         return `<div class="settings-link-bar-group-title">${ title }</div>`;
     }
 }
+
+class SettingsFileChecker {
+    constructor() {}
+
+    static default() {
+        return `<div class="file-check-box">
+            <span class="empty-message">${ $t('file.checker.default_file_loaded') }</span>
+        </div>`;
+    }
+
+    static empty() {
+        return `<div class="file-check-box">
+            <span class="empty-message">${ $t('file.checker.empry') }</span>
+        </div>`;
+    }
+
+    /**
+     * 文件信息和状态
+     * @param {File} file 文件
+     * @param {'ok'|'warn'|'error'|'unknow'} state 状态
+     * @param {String} stateMessage 状态消息
+     * @returns {String} DOM
+     */
+    static fill(file, state = 'unknow', stateMessage = '') {
+        const icons = {
+            ok: 'check',
+            warn: 'alert',
+            error: 'close',
+            unknow: 'help',
+        };
+        return `<div class="file-check-box">
+            <div class="info">
+                <div class="icon">${ Icon.fileCodeOutline() }</div>
+                <div class="meta">
+                    <div class="name">${ file.name }</div>
+                    <div class="size">${ EchoLiveTools.formatFileSize(file.size) }</div>
+                    <div class="last-modified-date">${ EchoLiveTools.formatDate(file.lastModifiedDate) }</div>
+                </div>
+            </div>
+            <div class="state state-${ state }">
+                <div class="icon">${ Icon[icons[state]]() }</div>
+                <div class="message">${ stateMessage }</div>
+            </div>
+        </div>`;
+    }
+
+    static dialog(title = '', description = '', controller = '', icon = undefined, domClass = '') {
+        return `<div class="file-check-dialog ${ domClass }">
+            <div class="icon">${ icon != undefined ? Icon[icon]() : ''}</div>
+            <div class="title">${ title }</div>
+            <div class="description">${ description }</div>
+            <div class="controller">${ controller }</div>
+        </div>`;
+    }
+
+    static dialogWarn(title = '', description = '', controller = '') {
+        return SettingsFileChecker.dialog(title, description, controller, 'alert', 'state-warn');
+    }
+
+    static dialogError(title = '', description = '', controller = '') {
+        if (controller == '') {
+            controller = EditorForm.button(
+                $t('ui.cancel'),
+                {
+                    id: 'btn-flie-check-dialog-cancel',
+                    class: 'btn-default',
+                    icon: Icon.close(),
+                    color: 'danger'
+                }
+            );
+        }
+        return SettingsFileChecker.dialog(title, description, controller, 'close', 'state-error');
+    }
+
+    static dialogJSONParseFail() {
+        return SettingsFileChecker.dialogWarn(
+            $t('settings.config_input.json_parse_fail.title'),
+            $t('settings.config_input.json_parse_fail.description'),
+            EditorForm.buttonGhost(
+                $t('ui.cancel'),
+                {
+                    id: 'btn-flie-check-dialog-cancel',
+                    icon: Icon.close(),
+                    color: 'danger'
+                }
+            ) +
+            EditorForm.button(
+                $t('settings.config_input.json_parse_fail.unsafe_load'),
+                {
+                    id: 'btn-flie-check-dialog-unsafe-load',
+                    class: 'btn-default',
+                    icon: Icon.shieldOff(),
+                    color: 'warn'
+                }
+            )
+        );
+    }
+}

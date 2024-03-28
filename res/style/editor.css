@@ -61,6 +61,7 @@ input.code {
     background-color: var(--page-bgcolor);
     position: sticky;
     top: 0;
+    z-index: 100;
 }
 
 .tabpage-centent .tabpage-nav {

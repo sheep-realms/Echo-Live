@@ -1,3 +1,5 @@
+"use strict";
+
 let configFileBuffer = '';
 let configFileFiltered = '';
 let configBuffer = {};
@@ -221,6 +223,8 @@ $(document).ready(function() {
 
     $('.settings-nav-item').eq(0).click();
 
+    $('#settings-file-check-box').html(SettingsFileChecker.default());
+
     // 调试信息
 
     let nowTime = new Date();
@@ -237,80 +241,160 @@ $(document).ready(function() {
 
 
 let inFileDorp = false;
-let inFileDorpTick = 0;
+let inFileDorpTimer = 0;
 let inFileDorpLongTime = false;
+let dragleaveCount = 0;
 
-$(document).on('dragover', '#setting-file-input-box', function(e) {
-    e.preventDefault();
-    inFileDorpTick++;
-    if (!inFileDorp) {
-        inFileDorp = true;
-        $('#setting-file-input-box .file-drop-box-message').text($t('file.droper.drop_file_now'));
-    }
-    if (inFileDorpTick >= 50) {
-        $('#setting-file-input-box .file-drop-box-message').text($t('file.droper.drop_file_long_time'));
-        inFileDorpTick = -100000000;
-        inFileDorpLongTime = true;
-    }
+let dropFile, dropFileReader, dropData;
+
+const configFilePickerOpts = {
+    types: [
+        {
+            description: $t('file.picker.config'),
+            accept: {
+                "text/javascript": ['.js', '.mjs'],
+            },
+        },
+    ],
+    excludeAcceptAllOption: true,
+    multiple: false,
+};
+
+$(document).on('click', '#settings-file-input-box', function(e) {
+    filePicker();
 });
 
-$(document).on('dragleave', '#setting-file-input-box', function(e) {
-    e.preventDefault();
-    inFileDorp = false;
-    inFileDorpTick = 0;
-    if (inFileDorpLongTime) {
-        $('#setting-file-input-box .file-drop-box-message').text($t('file.droper.drop_file_cancel'));
-    } else {
-        $('#setting-file-input-box .file-drop-box-message').text($t('file.droper.please_drop_file'));
+async function filePicker() {
+    try {
+        let [handle] = await window.showOpenFilePicker(configFilePickerOpts);
+        let fileData = await handle.getFile();
+        checkConfigFile([fileData]);
+    } catch (error) {
+        // console.log(error);
     }
-    inFileDorpLongTime = false;
-});
+}
 
-$(document).on('drop', '#setting-file-input-box', function(e) {
-    e.preventDefault();
-    inFileDorp = false;
-    inFileDorpTick = 0;
-    inFileDorpLongTime = false;
-    $('#setting-file-input-box .file-drop-box-message').text($t('file.droper.please_drop_file'));
-
-    const fileList = e.originalEvent.dataTransfer.files;
-
+function checkConfigFile(fileList) {
     if (fileList.length !== 1 || fileList[0].type === '') {
-        alert('只能拖入一个文件且不能是文件夹！');
+        $('#settings-file-check-dialog').html(
+            SettingsFileChecker.dialogError(
+                $t('settings.config_input.many_file.title'),
+                $t('settings.config_input.many_file.description')
+            )
+        );
+        $('.btn-default').focus();
         return;
     }
 
-    const file = fileList[0];
-    const reader = new FileReader();
+    dropFile = fileList[0];
+    dropFileReader = new FileReader();
 
-    reader.onload = function(e2) {
+    dropFileReader.onload = function(e2) {
         const content = e2.target.result;
-        console.log(file);
-        if (file.type != 'text/javascript') {
-            alert('文件类型错误！');
+
+        if (dropFile.type != 'text/javascript') {
+            $('#settings-file-check-dialog').html(
+                SettingsFileChecker.dialogError(
+                    $t('settings.config_input.type_error.title'),
+                    $t('settings.config_input.type_error.description')
+                )
+            );
+            $('.btn-default').focus();
             return;
         }
         configFileBuffer = content;
-        configFileFiltered = /\{.*\}/gms.exec(configFileBuffer)[0];
-
-        let data;
-
         try {
-            data = JSON.parse(configFileFiltered);
+            configFileFiltered = /\{.*\}/gms.exec(configFileBuffer)[0];
+            $('#settings-file-check-box').html(SettingsFileChecker.fill(dropFile, 'ok', '已载入'));
+            $('#settings-file-input-box').focus();
         } catch (error) {
-            if (confirm('无法安全读取，是否尝试以不安全的方式读取？')) {
-                try {
-                    eval('data = ' + configFileFiltered);
-                } catch (error) {
-                    // TODO ...
-                }
-            }
+            $('#settings-file-check-box').html(SettingsFileChecker.fill(dropFile, 'error', '错误'));
+            return;
         }
 
-        console.log(data);
+        try {
+            dropData = JSON.parse(configFileFiltered);
+        } catch (error) {
+            $('#settings-file-check-box').html(SettingsFileChecker.fill(dropFile, 'warn', '异常'));
+            $('#settings-file-check-dialog').html(SettingsFileChecker.dialogJSONParseFail());
+            $('.btn-default').focus();
+            $('#settings-file-input-box').addClass('hide');
+        }
     };
 
-    reader.readAsText(file);
+    dropFileReader.readAsText(dropFile);
+}
+
+$(document).on('dragover', '#settings-file-input-box', function(e) {
+    e.preventDefault();
+    if (!inFileDorp) {
+        inFileDorp = true;
+        $('#settings-file-input-box .file-drop-box-message').text($t('file.droper.drop_file_now'));
+        $('#settings-file-input-box').addClass('dragover');
+        inFileDorpTimer = setTimeout(function() {
+            inFileDorpLongTime = true;
+            $('#settings-file-input-box .file-drop-box-message').text($t('file.droper.drop_file_long_time'));
+        }, 3000);
+    }
+});
+
+$(document).on('dragleave', '#settings-file-input-box', function(e) {
+    e.preventDefault();
+    inFileDorp = false;
+    clearTimeout(inFileDorpTimer);
+    inFileDorpTimer = 0;
+    $('#settings-file-input-box').removeClass('dragover');
+    if (inFileDorpLongTime) {
+        dragleaveCount++;
+        if (dragleaveCount >= 5) {
+            $('#settings-file-input-box .file-drop-box-message').text($t('file.droper.drop_file_cancel_many'));
+        } else {
+            $('#settings-file-input-box .file-drop-box-message').text($t('file.droper.drop_file_cancel'));
+        }
+    } else {
+        $('#settings-file-input-box .file-drop-box-message').text($t('file.droper.please_drop_file'));
+    }
+    inFileDorpLongTime = false;
+});
+
+$(document).on('drop', '#settings-file-input-box', function(e) {
+    e.preventDefault();
+    inFileDorp = false;
+    inFileDorpLongTime = false;
+    clearTimeout(inFileDorpTimer);
+    $('#settings-file-input-box .file-drop-box-message').text($t('file.droper.please_drop_file'));
+    $('#settings-file-input-box').removeClass('dragover');
+
+    const fileList = e.originalEvent.dataTransfer.files;
+
+    checkConfigFile(fileList);
+});
+
+$(document).on('click', '#btn-flie-check-dialog-unsafe-load', function() {
+    try {
+        eval('dropData = ' + configFileFiltered);
+        $('#settings-file-check-box').html(SettingsFileChecker.fill(dropFile, 'ok', '已载入'));
+        $('#settings-file-input-box').removeClass('hide');
+        $('#settings-file-input-box').focus();
+        $('#settings-file-check-dialog').text('');
+    } catch (error) {
+        $('#settings-file-check-box').html(SettingsFileChecker.fill(dropFile, 'error', '错误'));
+        $('#settings-file-check-dialog').html(
+            SettingsFileChecker.dialogError(
+                $t('settings.config_input.unsafe_load_fail.title'),
+                $t('settings.config_input.unsafe_load_fail.description')
+            )
+        );
+        $('.btn-default').focus();
+    }
+});
+
+$(document).on('click', '#btn-flie-check-dialog-cancel', function() {
+    $('#settings-file-input-box').removeClass('hide');
+    $('#settings-file-input-box').focus();
+    $('#settings-file-check-dialog').text('');
+    $('#settings-file-check-box').html(SettingsFileChecker.empty());
+    dropFile = dropFileReader = dropData = configFileBuffer = configFileFiltered = configBuffer = undefined;
 });
 
 

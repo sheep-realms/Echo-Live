@@ -19,6 +19,8 @@ const lang_zho_Hans = {
         delete: "删除",
         input: "输入",
         output: "输出",
+        import: "导入",
+        export: "导出",
         more_info: "了解详情",
         move_up: "上移",
         move_down: "下移",
@@ -281,7 +283,21 @@ const lang_zho_Hans = {
         },
         about: {
             _title: "关于",
-            _description: "软件信息"
+            _description: "软件信息",
+            about_echolive: "关于 Echo-Live",
+            accessibility: "无障碍使用指南",
+            bug_tracker: "漏洞追踪",
+            community: "社区服务",
+            copyright: "授权协议与声明",
+            document: "帮助文档",
+            feedback: "建议反馈",
+            github: "GitHub 项目仓库",
+            license: "开源许可证",
+            releases: "版本列表",
+            security: "安全政策",
+            security_advisory_new: "报告安全漏洞",
+            social_media: "社交媒体",
+            user_guide: "用户指南"
         }
     },
     editor: {
@@ -460,18 +476,20 @@ const lang_zho_Hans = {
     },
     file: {
         name: "文件名",
+        last_modified_date: "最后修改时间",
         size: "文件大小",
         checker: {
             default_file_loaded: "默认路径中的配置文件已载入",
             empry: "未载入文件"
         },
         droper: {
+            title: "文件选择器",
             drop_file_cancel: "不放算了，哼！",
             drop_file_cancel_many: "一位用户反复拖拽文件，这是他的程序发生的变化",
             drop_file_long_time: "你怎么还不放手？",
             drop_file_now: "松开鼠标拖放文件",
             please_drop_file: "在这里拖放文件或点击此处选择文件",
-            please_drop_file_keyboard: "按下 Enter 或空格键选择文件"
+            please_drop_file_keyboard: "当焦点在此处时，您也可以按下 Enter 或空格键选择文件"
         },
         picker: {
             config: "配置文件"
@@ -500,6 +518,20 @@ const lang_zho_Hans = {
             unsafe_load_fail: {
                 title: "无法读取配置文件",
                 description: "看来您的配置文件确实有问题，请检查您的配置文件。"
+            }
+        },
+        tabpage: {
+            edit: {
+                title: "编辑",
+                description: "编辑配置文件 [alt+2]"
+            },
+            export: {
+                title: "导出",
+                description: "导出配置文件 [alt+3]"
+            },
+            import: {
+                title: "导入",
+                description: "导入配置文件 [alt+1]"
             }
         }
     }

@@ -243,7 +243,7 @@ const db_config_define = [
     }, {
         name: 'editor.output_before',
         type: 'string',
-        default: 'editor.send(',
+        default: 'echolive.send(',
         created: 1
     }, {
         name: 'editor.ontput_before_enable',

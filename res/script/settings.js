@@ -35,63 +35,63 @@ const settingsNav = [
 
 const aboutLinks = [
     {
-        title: '关于 Echo-Live',
+        name: 'about_echolive',
         isGroupTitle: true
     }, {
-        title: 'GitHub 项目仓库',
+        name: 'github',
         href: 'https://github.com/sheep-realms/Echo-Live',
         icon: 'github'
     }, {
-        title: '授权协议与声明',
+        name: 'copyright',
         href: 'https://github.com/sheep-realms/Echo-Live/blob/master/copyright.md',
         icon: 'copyright'
     }, {
-        title: '开源许可证',
+        name: 'license',
         href: 'https://www.gnu.org/licenses/gpl-3.0.html',
         icon: 'license'
     }, {
-        title: '安全政策',
+        name: 'security',
         href: 'https://github.com/sheep-realms/Echo-Live/security/policy',
         icon: 'security'
     }, {
-        title: '用户指南',
+        name: 'user_guide',
         isGroupTitle: true
     }, {
-        title: '帮助文档',
+        name: 'document',
         href: 'https://sheep-realms.github.io/Echo-Live-Doc/',
         icon: 'helpBox'
     }, {
-        title: '无障碍使用指南',
+        name: 'accessibility',
         href: 'https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/',
         icon: 'wheelchairAccessibility'
     }, {
-        title: '版本列表',
+        name: 'releases',
         href: 'https://github.com/sheep-realms/Echo-Live/releases',
         icon: 'sourceCommit'
     }, {
-        title: '建议反馈',
+        name: 'feedback',
         href: 'https://github.com/sheep-realms/Echo-Live/issues',
         icon: 'chatAlert'
     }, {
-        title: '漏洞追踪',
+        name: 'bug_tracker',
         href: 'https://github.com/users/sheep-realms/projects/3/views/1',
         icon: 'bug'
     }, {
-        title: '报告安全漏洞',
+        name: 'security_advisory_new',
         href: 'https://github.com/sheep-realms/Echo-Live/security/advisories/new',
         icon: 'alarmLight'
     }, {
-        title: '社区服务',
+        name: 'community',
         isGroupTitle: true
     }, {
-        title: '社交媒体',
+        name: 'social_media',
         href: 'https://github.com/sheep-realms/Echo-Live/blob/master/social-media.md',
         icon: 'forum'
     }
 ];
 
 let settingsManager = new SettingsManager(db_config_define);
-settingsManager.config = config;
+settingsManager.importConfig(config);
 
 let domContentLoadedTime = 0;
 
@@ -107,14 +107,18 @@ observer.observe({ type: "navigation", buffered: true });
 
 
 
-function getSettingsItemValue(name) {
+function getSettingsItemValue(name, isDefault = false) {
     let $sel = $(`.settings-item[data-id="${ name }"]`),
         type = $sel.data('type'),
         types = type.split('.'),
         value;
 
     if (types[0] != 'special') {
-        value = $sel.find('.settings-value').eq(0).val();
+        if (!isDefault) {
+            value = $sel.find('.settings-value').eq(0).val();
+        } else {
+            value = $sel.find('.settings-value').eq(0).data('default');
+        }
 
         switch (types[0]) {
             case 'number':
@@ -137,7 +141,7 @@ function getSettingsItemValue(name) {
     return value;
 }
 
-function setSettingsItemValue(name, value) {
+function setSettingsItemValue(name, value, isDefault = false) {
     const bt = [
         'state-off',
         'state-on'
@@ -148,6 +152,7 @@ function setSettingsItemValue(name, value) {
     
     if (type.split('.')[0] != 'special') {
         $sel.find('.settings-value').eq(0).val(value);
+        if (isDefault) $sel.find('.settings-value').eq(0).data('default', value);
 
         switch (type) {
             case 'boolean':
@@ -206,18 +211,17 @@ $(document).ready(function() {
         }
     });
 
-    settingsManager.getConfigDefine().forEach((e) => {
-        let value = settingsManager.getConfig(e.name);
-        if (value != undefined && typeof value != 'object') {
-            setSettingsItemValue(e.name, settingsManager.getConfig(e.name));
-        }
-    });
+    configLoad();
 
     aboutLinks.forEach(e => {
         if (e?.isGroupTitle) {
-            $('.settings-about-content').append(SettingsPanel.linkBarGroupTitle(e.title));
+            $('.settings-about-content').append(SettingsPanel.linkBarGroupTitle($t('config.about.' + e.name)));
         } else {
-            $('.settings-about-content').append(SettingsPanel.linkBar(e.title, e.href, e?.icon));
+            $('.settings-about-content').append(SettingsPanel.linkBar(
+                $t('config.about.' + e.name),
+                e.href,
+                e?.icon
+            ));
         }
     });
 
@@ -264,6 +268,15 @@ $(document).on('click', '#settings-file-input-box', function(e) {
     filePicker();
 });
 
+function configLoad() {
+    settingsManager.getConfigDefine().forEach((e) => {
+        let value = settingsManager.getConfig(e.name);
+        if (value != undefined && typeof value != 'object') {
+            setSettingsItemValue(e.name, settingsManager.getConfig(e.name), true);
+        }
+    });
+}
+
 async function filePicker() {
     try {
         let [handle] = await window.showOpenFilePicker(configFilePickerOpts);
@@ -302,11 +315,10 @@ function checkConfigFile(fileList) {
             $('.btn-default').focus();
             return;
         }
+
         configFileBuffer = content;
         try {
             configFileFiltered = /\{.*\}/gms.exec(configFileBuffer)[0];
-            $('#settings-file-check-box').html(SettingsFileChecker.fill(dropFile, 'ok', '已载入'));
-            $('#settings-file-input-box').focus();
         } catch (error) {
             $('#settings-file-check-box').html(SettingsFileChecker.fill(dropFile, 'error', '错误'));
             return;
@@ -314,11 +326,16 @@ function checkConfigFile(fileList) {
 
         try {
             dropData = JSON.parse(configFileFiltered);
+            $('#settings-file-check-box').html(SettingsFileChecker.fill(dropFile, 'ok', '已载入'));
+            $('#settings-file-input-box').focus();
+            settingsManager.importConfig(dropData);
+            configLoad();
         } catch (error) {
             $('#settings-file-check-box').html(SettingsFileChecker.fill(dropFile, 'warn', '异常'));
             $('#settings-file-check-dialog').html(SettingsFileChecker.dialogJSONParseFail());
             $('.btn-default').focus();
             $('#settings-file-input-box').addClass('hide');
+            return;
         }
     };
 
@@ -377,6 +394,8 @@ $(document).on('click', '#btn-flie-check-dialog-unsafe-load', function() {
         $('#settings-file-input-box').removeClass('hide');
         $('#settings-file-input-box').focus();
         $('#settings-file-check-dialog').text('');
+        settingsManager.importConfig(dropData);
+        configLoad();
     } catch (error) {
         $('#settings-file-check-box').html(SettingsFileChecker.fill(dropFile, 'error', '错误'));
         $('#settings-file-check-dialog').html(
@@ -410,6 +429,8 @@ $(document).on('click', '.settings-nav-item', function() {
 });
 
 $(document).on('click', '.settings-switch', function() {
+    const $parent = $(this).parents('.settings-item').eq(0);
+    const defaultValue = $(this).children('.settings-value').data('default');
     const t = [
         ['off', false, 0],
         ['on',  true,  1]
@@ -417,10 +438,18 @@ $(document).on('click', '.settings-switch', function() {
     let next = 0;
     let isBit = $(this).data('is-bit');
     if ($(this).hasClass('state-off')) next = 1;
-    $(this).children('.settings-value').val(t[next][1 + isBit]);
+    let value = t[next][1 + isBit];
+
+    $(this).children('.settings-value').val(value);
     $(this).removeClass('state-off state-on');
     $(this).addClass('state-' + t[next][0]);
     $(this).children('.btn-' + t[next][0]).focus();
+
+    if (value != defaultValue) {
+        $parent.addClass('change');
+    } else {
+        $parent.removeClass('change');
+    }
 });
 
 
@@ -433,4 +462,16 @@ $(document).on('change', '.settings-item.settings-type-number .settings-value', 
 
     if (max != undefined && value > max) $(this).val(max);
     if (min != undefined && value < min) $(this).val(min);
+});
+
+$(document).on('input', '.settings-item .settings-value', function() {
+    const $parent = $(this).parents('.settings-item').eq(0);
+    const name = $parent.data('id');
+    const value = getSettingsItemValue(name);
+    const defaultValue = getSettingsItemValue(name, true);
+    if (value != defaultValue) {
+        $parent.addClass('change');
+    } else {
+        $parent.removeClass('change');
+    }
 });

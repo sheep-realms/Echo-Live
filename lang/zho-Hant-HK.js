@@ -19,6 +19,8 @@ const lang_zho_Hant_HK = {
         delete: "刪除",
         input: "輸入",
         output: "輸出",
+        import: "導入",
+        export: "導出",
         more_info: "了解詳情",
         move_up: "上移",
         move_down: "下移",
@@ -46,7 +48,7 @@ const lang_zho_Hant_HK = {
             _description: "一些影響全局的設置",
             language: {
                 _title: "顯示語言",
-                _description: "後台頁面的顯示語言"
+                _description: "後台頁面的顯示語言。"
             }
         },
         echo: {
@@ -62,7 +64,7 @@ const lang_zho_Hant_HK = {
             _description: "Echo-Live 相關配置",
             live_theme: {
                 _title: "主題名稱",
-                _description: "可用的主題請見：https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/"
+                _description: "關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>幫助文檔</a>。"
             },
             live_theme_script_enable: {
                 _title: "啟用主題腳本",
@@ -78,7 +80,7 @@ const lang_zho_Hant_HK = {
             },
             websocket_enable: {
                 _title: "啟用 WebSocket",
-                _description: "如果沒人要求您這麼做，請不要動它。<br>廣播模式下啟用 WebSocket 可連接至伺服器以從第三方軟件獲取消息。<br>可從伺服器接收的消息和廣播消息一致，發送的消息須使用類似於 JSON.stringify 的方法序列化。<br>詳見：https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/"
+                _description: "如果沒人要求您這麼做，請不要動它。<br>廣播模式下啟用 WebSocket 可連接至伺服器以從第三方軟件獲取消息。<br>可從伺服器接收的消息和廣播消息一致，發送的消息須使用類似於 JSON.stringify 的方法序列化。<br>詳見<a href='https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/' target='_blank'>幫助文檔</a>。"
             },
             websocket_url: {
                 _title: "WebSocket 連接地址",
@@ -114,7 +116,7 @@ const lang_zho_Hant_HK = {
             },
             print_audio_name: {
                 _title: "音效名稱",
-                _description: "可用的音效名稱請見：https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/"
+                _description: "可用的音效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/' target='_blank'>幫助文檔</a>。"
             },
             print_audio_volume: {
                 _title: "音效音量",
@@ -130,7 +132,7 @@ const lang_zho_Hant_HK = {
             },
             next_audio_name: {
                 _title: "音效名稱",
-                _description: "可用的音效名稱請見：https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/"
+                _description: "可用的音效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/' target='_blank'>幫助文檔</a>。"
             },
             next_audio_volume: {
                 _title: "音效音量",
@@ -243,15 +245,15 @@ const lang_zho_Hant_HK = {
             },
             high_contrast_outline_color: {
                 _title: "焦點高亮邊框顏色",
-                _description: ""
+                _description: "焦點元素將會顯示一個醒目邊框。此配置可更改其顏色。"
             },
-            high_contrast_outline_color: {
+            high_contrast_outline_size: {
                 _title: "焦點高亮邊框尺寸",
-                _description: ""
+                _description: "焦點元素邊框的寬度。"
             },
-            high_contrast_outline_color: {
+            high_contrast_outline_style: {
                 _title: "焦點高亮邊框樣式",
-                _description: ""
+                _description: "焦點元素邊框的樣式，可以是 solid、dotted、dashed 或 double。"
             },
             drotanopia_and_deuteranopia: {
                 _title: "紅綠色盲",
@@ -279,11 +281,38 @@ const lang_zho_Hant_HK = {
                 }
             }
         },
+        about: {
+            _title: "關於",
+            _description: "軟件資訊",
+            about_echolive: "關於 Echo-Live",
+            accessibility: "無障礙使用指南",
+            bug_tracker: "漏洞追蹤",
+            community: "社區服務",
+            copyright: "授權協議與聲明",
+            document: "幫助文檔",
+            feedback: "建議反饋",
+            github: "GitHub 項目倉庫",
+            license: "開源許可證",
+            releases: "版本列表",
+            security: "安全政策",
+            security_advisory_new: "報告安全漏洞",
+            social_media: "社交媒體",
+            user_guide: "用戶指南"
+        }
     },
     editor: {
         client_state: {
             active: "啟動",
             sleep: "休眠",
+        },
+        client_state_panel: {
+            tip: "客戶端狀態：{client}，Echo 狀態：{echo}。",
+            tip_more_messages: "客戶端狀態：{client}，Echo 狀態：{echo}。點擊此處可打印下一條消息。"
+        },
+        echo_state: {
+            play: "打印中",
+            ready: "就緒",
+            stop: "停止"
         },
         form: {
             text_length: "{n} 字符",
@@ -346,6 +375,7 @@ const lang_zho_Hant_HK = {
             broadcast: {
                 close: "{client} 離開廣播頻道，識別名：{name}",
                 echo_next: "收到來自其他服務端的命令：打印下一條消息。",
+                echo_next_from_self_to_target: "已命令 {name} 打印下一條消息。",
                 hello: "{client} 進入廣播頻道，識別名：{name}",
                 hello_hidden: "{client} 進入廣播頻道，已休眠，識別名：{name}",
                 hello_to_server: "{client} 已向 Websocket 伺服器發送 HELLO 消息，識別名：{name}",
@@ -444,9 +474,65 @@ const lang_zho_Hant_HK = {
             hot_key_textarea_quick_send: "當焦點在此文本框中時，可以按下 Ctrl + Enter 快速發送"
         }
     },
+    file: {
+        name: "文件名",
+        last_modified_date: "最後修改時間",
+        size: "文件大小",
+        checker: {
+            default_file_loaded: "默認路徑中的配置文件已載入",
+            empry: "未載入文件"
+        },
+        droper: {
+            title: "文件選擇器",
+            drop_file_cancel: "不放算了，哼！",
+            drop_file_cancel_many: "一位用戶反覆拖拽文件，這是他的程序發生的變化",
+            drop_file_long_time: "你怎麼還不放手？",
+            drop_file_now: "鬆開鼠標拖放文件",
+            please_drop_file: "在這裏拖放文件或點擊此處選擇文件",
+            please_drop_file_keyboard: "當焦點在此處時，您也可以按下 Enter 或空格鍵選擇文件"
+        },
+        picker: {
+            config: "配置文件"
+        }
+    },
     message_preview: {
         empty_message: "[空消息]",
         empty_username: "[未指定說話人]",
         undefined_message: "[未定義消息]"
+    },
+    settings: {
+        config_input: {
+            json_parse_fail: {
+                title: "無法安全讀取配置文件",
+                description: "這可能是因為配置文件為早期版本，或是配置文件內容損壞。<br>如果您確定配置文件沒有問題，並且沒有被植入惡意代碼的可能，可以嘗試 “不安全讀取”。",
+                unsafe_load: "不安全讀取"
+            },
+            many_file: {
+                title: "太多了",
+                description: "處理不了那麼多文件，請一個一個來。"
+            },
+            type_error: {
+                title: "文件類型錯誤",
+                description: "這似乎並不是配置文件。"
+            },
+            unsafe_load_fail: {
+                title: "無法讀取配置文件",
+                description: "看來您的配置文件確實有問題，請檢查您的配置文件。"
+            }
+        },
+        tabpage: {
+            edit: {
+                title: "編輯",
+                description: "編輯配置文件 [alt+2]"
+            },
+            export: {
+                title: "導出",
+                description: "導出配置文件 [alt+3]"
+            },
+            import: {
+                title: "導入",
+                description: "導入配置文件 [alt+1]"
+            }
+        }
     }
 };

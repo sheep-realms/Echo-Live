@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="res/style/settings.css">
     <link rel="stylesheet" href="res/style/editor-accessible.css">
     <script src="lib/jquery-3.7.1.min.js"></script>
-    <script src="config.js"></script>
+    <script src="res/script/config-load-fail.js"></script>
+    <script src="config.js" onerror="configLoadFail()"></script>
     <script src="lang/index.js"></script>
     <script src="lang/zho-Hans.js"></script>
     <script src="lang/zho-Hant-HK.js"></script>
@@ -32,7 +33,7 @@
     <script src="res/class/EchoLiveTools.js"></script>
     <script src="res/class/EditorConstructor.js"></script>
     <script src="res/class/SettingsManager.js"></script>
-    <script src="res/script/config_define.js"></script>
+    <script src="res/script/config-define.js"></script>
     <script src="res/script/settings.js"></script>
 </head>
 <body>
@@ -47,6 +48,8 @@
                 aria-selected="true"
                 accesskey="1"
                 title="导入配置文件 [alt+1]"
+                data-i18n="settings.tabpage.import.title"
+                data-i18n-title="settings.tabpage.import.description"
             >导入</button>
             <button
                 id="tabpage-nav-edit"
@@ -56,6 +59,8 @@
                 aria-selected="false"
                 accesskey="2"
                 title="编辑配置文件 [alt+2]"
+                data-i18n="settings.tabpage.edit.title"
+                data-i18n-title="settings.tabpage.edit.description"
             >编辑</button>
             <button
                 id="tabpage-nav-export"
@@ -65,13 +70,15 @@
                 aria-selected="false"
                 accesskey="3"
                 title="导出配置文件 [alt+3]"
+                data-i18n="settings.tabpage.export.title"
+                data-i18n-title="settings.tabpage.export.description"
             >导出</button>
         </nav>
         <!-- 标签页面板 -->
         <div class="tabpage-centent" data-navid="main">
             <!-- 导入标签页 -->
             <section class="tabpage-panel" role="tabpanel" data-pageid="import">
-                <h2 class="tabpage-panel-title">导入</h2>
+                <h2 class="tabpage-panel-title" data-i18n="settings.tabpage.import.title">导入</h2>
                 
                 <div class="settings-file-input-panel">
                     <div id="settings-file-check-box">
@@ -80,7 +87,7 @@
                         </div>
                     </div>
                     <div id="settings-file-check-dialog"></div>
-                    <button id="settings-file-input-box" class="file-drop-box">
+                    <button id="settings-file-input-box" class="file-drop-box" data-i18n-aria-label="file.droper.title">
                         <span class="file-drop-box-message" data-i18n="file.droper.please_drop_file"></span>
                         <span class="file-drop-box-message-keyboard" data-i18n="file.droper.please_drop_file_keyboard"></span>
                     </button>
@@ -94,8 +101,7 @@
 
             <!-- 编辑标签页 -->
             <section class="tabpage-panel hide" role="tabpanel" data-pageid="edit">
-                <h2 class="tabpage-panel-title">编辑</h2>
-                <!-- <p style="color: red;">该页面正在施工中，暂不可用。</p> -->
+                <h2 class="tabpage-panel-title" data-i18n="settings.tabpage.edit.title">编辑</h2>
                 <div class="echo-editor-form">
 
                     <div class="settings-panel">
@@ -133,7 +139,7 @@
 
             <!-- 导出标签页 -->
             <section class="tabpage-panel hide" role="tabpanel" data-pageid="export">
-                <h2 class="tabpage-panel-title">导出</h2>
+                <h2 class="tabpage-panel-title" data-i18n="settings.tabpage.export.title">导出</h2>
                 <p style="color: red;">该页面正在施工中，暂不可用。</p>
                 <div class="echo-editor-form">
                     <label for="message-data">导出配置内容</label>
@@ -149,6 +155,5 @@
     </main>
 
     <script src="res/script/editor-common.js"></script>
-    <script src="res/script/template.js"></script>
 </body>
 </html>

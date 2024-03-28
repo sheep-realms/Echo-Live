@@ -660,6 +660,7 @@ class SettingsPanel {
     }
 
     static setItemString(type = '', id = '', title = '', description = '', value = '', attribute = undefined) {
+        value = String(value).replace(/"/g, '&quot;');
         let dl = '';
         let hasDatalist = false;
         if (attribute != undefined) {
@@ -675,11 +676,12 @@ class SettingsPanel {
         return SettingsPanel.setItem(
             'string', id, title, description,
             `<label class="title" style="display: none;" for="${ id.replace(/\./g, '-') }">${ title }</label>
-            <input type="text" id="${ id.replace(/\./g, '-') }" class="settings-value code" ${ hasDatalist ? `list="${ id.replace(/\./g, '-') }-datalist"` : '' } value="${ value }">${ dl }`
+            <input type="text" id="${ id.replace(/\./g, '-') }" class="settings-value code" ${ hasDatalist ? `list="${ id.replace(/\./g, '-') }-datalist"` : '' } data-default="${ value }" value="${ value }">${ dl }`
         );
     }
 
     static setItemNumber(type = '', id = '', title = '', description = '', value = '', attribute = undefined) {
+        value = String(value).replace(/"/g, '&quot;');
         let attr = '';
         if (attribute != undefined) {
             if (attribute?.max != undefined) attr += `max="${ attribute.max }" `;
@@ -689,11 +691,12 @@ class SettingsPanel {
         return SettingsPanel.setItem(
             type, id, title, description,
             `<label class="title" style="display: none;" for="${ id.replace(/\./g, '-') }">${ title }</label>
-            <input type="number" id="${ id.replace(/\./g, '-') }" ${ attr }class="settings-value code" value="${ value }">`
+            <input type="number" id="${ id.replace(/\./g, '-') }" ${ attr }class="settings-value code" data-default="${ value }" value="${ value }">`
         );
     }
 
     static setItemBoolean(type = '', id = '', title = '', description = '', value = '', attribute = undefined, isBit = false) {
+        value = String(value).replace(/"/g, '&quot;');
         return SettingsPanel.setItem(
             type, id, title, description,
             `<div class="settings-switch state-${ value ? 'on' : 'off' }" data-is-bit="${ isBit ? '1' : '0' }">
@@ -710,7 +713,7 @@ class SettingsPanel {
                         class: 'btn-switch btn-on'
                     })
                 }
-                <input type="hidden" id="${ id.replace(/\./g, '-') }" class="settings-value" value="${ value }">
+                <input type="hidden" id="${ id.replace(/\./g, '-') }" class="settings-value" data-default="${ value }" value="${ value }">
             </div>`
         );
     }
@@ -761,9 +764,9 @@ class SettingsFileChecker {
             <div class="info">
                 <div class="icon">${ Icon.fileCodeOutline() }</div>
                 <div class="meta">
-                    <div class="name">${ file.name }</div>
-                    <div class="size">${ EchoLiveTools.formatFileSize(file.size) }</div>
-                    <div class="last-modified-date">${ EchoLiveTools.formatDate(file.lastModifiedDate) }</div>
+                    <div class="name" title="${ $t('file.name') }">${ file.name }</div>
+                    <div class="size" title="${ $t('file.size') }">${ EchoLiveTools.formatFileSize(file.size) }</div>
+                    <div class="last-modified-date" title="${ $t('file.last_modified_date') }">${ EchoLiveTools.formatDate(file.lastModifiedDate) }</div>
                 </div>
             </div>
             <div class="state state-${ state }">

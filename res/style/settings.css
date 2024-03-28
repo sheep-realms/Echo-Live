@@ -350,6 +350,11 @@
     word-break: break-word;
 }
 
+.settings-item.change .meta .title::after {
+    content: "*";
+    color: var(--color-danger);
+}
+
 .settings-item .meta .description {
     color: var(--text-secondary);
     font-size: 14px;

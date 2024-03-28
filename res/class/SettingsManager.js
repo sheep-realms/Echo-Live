@@ -49,4 +49,9 @@ class SettingsManager {
 
         nestedObj[keys[keys.length - 1]] = value;
     }
+
+    importConfig(value) {
+        if (typeof value != 'object') return;
+        return this.config = value;
+    }
 }

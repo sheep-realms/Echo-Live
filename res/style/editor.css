@@ -82,10 +82,34 @@ input.code {
     transition: color .3s, border .3s;
 }
 
+.tabpage-nav-item.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .tabpage-nav-item[aria-selected="true"] {
     border-bottom: var(--color-general-dark) 4px solid;
     color: var(--text-primary);
 }
+
+.tabpage-nav-item.fh-effect-flicker {
+    animation: fh-effect-flicker .3s ease-out 1;
+}
+
+@keyframes fh-effect-flicker {
+    0% {
+        background-color: var(--color-general-glass);
+        box-shadow: 0 0 0 0 var(--color-general-glass);
+        filter: brightness(1.3);
+    }
+    100% {
+        background-color: transparent;
+        box-shadow: 0 0 0 16px transparent;
+        filter: brightness(1);
+    }
+}
+
+
 
 .fh-button.hide,
 .tabpage-panel.hide,

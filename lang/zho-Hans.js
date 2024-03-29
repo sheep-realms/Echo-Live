@@ -528,6 +528,10 @@ const lang_zho_Hans = {
                 title: "太多了",
                 description: "处理不了那么多文件，请一个一个来。"
             },
+            no_json: {
+                title: "找不到配置数据",
+                description: "无法在此文件中找到配置数据。"
+            },
             type_error: {
                 title: "文件类型错误",
                 description: "这似乎并不是配置文件。"

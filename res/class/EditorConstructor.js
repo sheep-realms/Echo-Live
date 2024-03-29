@@ -766,7 +766,7 @@ class SettingsFileChecker {
                 <div class="meta">
                     <div class="name" title="${ $t('file.name') }">${ file.name }</div>
                     <div class="size" title="${ $t('file.size') }">${ EchoLiveTools.formatFileSize(file.size) }</div>
-                    <div class="last-modified-date" title="${ $t('file.last_modified_date') }">${ EchoLiveTools.formatDate(file.lastModifiedDate) }</div>
+                    <div class="last-modified-date" title="${ $t('file.last_modified_date') }">${ EchoLiveTools.formatDate(file.lastModifiedDate || file.lastModified) }</div>
                 </div>
             </div>
             <div class="state state-${ state }">
@@ -803,7 +803,7 @@ class SettingsFileChecker {
     static dialogError(title = '', description = '', controller = '') {
         if (controller == '') {
             controller = EditorForm.button(
-                $t('ui.cancel'),
+                $t('ui.close'),
                 {
                     id: 'btn-flie-check-dialog-cancel',
                     class: 'btn-default',
@@ -869,7 +869,7 @@ class SettingsFileChecker {
             EditorForm.buttonGhost(
                 $t('ui.cancel'),
                 {
-                    id: 'btn-flie-check-dialog-cancel',
+                    id: 'btn-flie-check-dialog-cancel-rollback',
                     icon: Icon.close(),
                     color: 'danger'
                 }
@@ -892,7 +892,7 @@ class SettingsFileChecker {
             EditorForm.buttonGhost(
                 $t('ui.cancel'),
                 {
-                    id: 'btn-flie-check-dialog-cancel',
+                    id: 'btn-flie-check-dialog-cancel-rollback',
                     icon: Icon.close(),
                     color: 'danger'
                 }
@@ -916,7 +916,7 @@ class SettingsFileChecker {
             EditorForm.buttonGhost(
                 $t('ui.cancel'),
                 {
-                    id: 'btn-flie-check-dialog-cancel',
+                    id: 'btn-flie-check-dialog-cancel-rollback',
                     icon: Icon.close(),
                     color: 'danger'
                 }

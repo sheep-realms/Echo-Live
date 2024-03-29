@@ -80,6 +80,19 @@ function effectClick($sel) {
 }
 
 /**
+ * 标签页短暂高亮
+ * @param {String} $sel 选择器
+ */
+function effectFlicker($sel) {
+    clearTimeout(timer.clickEffect);
+    $('.fh-effect-flicker').removeClass('fh-effect-flicker');
+    $($sel).addClass('fh-effect-flicker');
+    timer.clickEffect = setTimeout(() => {
+        $($sel).removeClass('fh-effect-flicker');
+    }, 1000);
+}
+
+/**
  * 获取格式化时间
  * @returns {String} 格式化时间
  */
@@ -331,7 +344,7 @@ $(document).on('click', '.checkbox', function() {
 });
 
 // 标签页切换
-$(document).on('click', '.tabpage-nav .tabpage-nav-item', function() {
+$(document).on('click', '.tabpage-nav .tabpage-nav-item:not(.disabled)', function() {
     $(this).parent().children().attr('aria-selected', 'false');
     $(this).attr('aria-selected', 'true');
     const navid = $(this).parent().data('navid');

@@ -277,16 +277,9 @@ $(document).ready(function() {
 
     let ua = navigator.userAgent.toLowerCase()
     if (ua.search(/ chrome\//) == -1) {
-        $('#settings-file-check-dialog').html(SettingsFileChecker.dialogUseChrome());
-        $('.btn-default').focus();
-        $('#settings-file-input-box').addClass('hide');
+        showFileCheckDialog(SettingsFileChecker.dialogUseChrome());
     } else if (ua.search(/ obs\//) != -1) {
-        $('#settings-file-check-dialog').html(SettingsFileChecker.dialogWarn(
-            $t('settings.config_input.in_obs.title'),
-            $t('settings.config_input.in_obs.description')
-        ));
-        $('.btn-default').focus();
-        $('#settings-file-input-box').addClass('hide');
+        showFileCheckDialogWarn('in_obs');
     }
 
     // 调试信息
@@ -316,7 +309,8 @@ const configFilePickerOpts = {
         {
             description: $t('file.picker.config'),
             accept: {
-                "text/javascript": ['.js', '.mjs'],
+                'text/javascript': ['.js', '.mjs'],
+                'application/json': ['.json']
             },
         },
     ],
@@ -348,8 +342,13 @@ async function filePicker() {
 }
 
 function checkConfigFile(fileList) {
-    if (fileList.length !== 1 || fileList[0].type === '') {
+    if (fileList.length !== 1) {
         showFileCheckDialogError('many_file');
+        return;
+    }
+
+    if (fileList[0].type === '') {
+        showFileCheckDialogError('type_error');
         return;
     }
 
@@ -360,7 +359,11 @@ function checkConfigFile(fileList) {
         const content = e2.target.result;
 
         // Firefox 认为 JS 是应用程序而不是文本
-        if (dropFile.type != 'text/javascript' && dropFile.type != 'application/x-javascript') {
+        if (
+            dropFile.type != 'text/javascript' &&
+            dropFile.type != 'application/x-javascript' &&
+            dropFile.type != 'application/json'
+        ) {
             showFileCheckDialogError('type_error');
             return;
         }
@@ -370,6 +373,7 @@ function checkConfigFile(fileList) {
             configFileFiltered = /\{.*\}/gms.exec(configFileBuffer)[0];
         } catch (error) {
             showFileChecker(dropFile, 'error');
+            showFileCheckDialogError('no_json');
             return;
         }
 
@@ -390,6 +394,8 @@ function importConfigCheck() {
     closeFileCheckDialog();
     showFileChecker(dropFile, 'loaded');
     settingsManager.importConfig(dropData);
+    $('#tabpage-nav-edit, #tabpage-nav-export').addClass('disabled');
+    $('#tabpage-nav-import').click();
 
     let dataVer = settingsManager.getConfig('data_version');
     if (dataVer == undefined) {
@@ -403,6 +409,8 @@ function importConfigCheck() {
         showFileCheckDialog(SettingsFileChecker.dialogConfigFromFuture());
     } else {
         configLoad();
+        $('#tabpage-nav-edit, #tabpage-nav-export').removeClass('disabled');
+        effectFlicker('#tabpage-nav-edit');
     }
 }
 
@@ -465,6 +473,12 @@ $(document).on('click', '#btn-flie-check-dialog-cancel', function() {
     closeFileCheckDialog(true);
 });
 
+$(document).on('click', '#btn-flie-check-dialog-cancel-rollback', function() {
+    settingsManager.rollbackConfig();
+    closeFileCheckDialog(true);
+    $('#tabpage-nav-edit, #tabpage-nav-export').removeClass('disabled');
+});
+
 $(document).on('click', '#btn-flie-check-dialog-goto-chrome', function() {
     window.open('https://www.google.cn/chrome/index.html', '_blank');
 });
@@ -474,6 +488,8 @@ $(document).on('click', '#btn-flie-check-dialog-update-config', function() {
     configLoad();
     showFileChecker(dropFile, 'loaded');
     closeFileCheckDialog();
+    $('#tabpage-nav-edit, #tabpage-nav-export').removeClass('disabled');
+    effectFlicker('#tabpage-nav-edit');
 });
 
 $(document).on('click', '#btn-flie-check-dialog-update-config-from-unknow-version', function() {
@@ -481,12 +497,16 @@ $(document).on('click', '#btn-flie-check-dialog-update-config-from-unknow-versio
     configLoad();
     showFileChecker(dropFile, 'loaded');
     closeFileCheckDialog();
+    $('#tabpage-nav-edit, #tabpage-nav-export').removeClass('disabled');
+    effectFlicker('#tabpage-nav-edit');
 });
 
 $(document).on('click', '#btn-flie-check-dialog-config-from-future', function() {
     configLoad();
     showFileChecker(dropFile, 'loaded');
     closeFileCheckDialog();
+    $('#tabpage-nav-edit, #tabpage-nav-export').removeClass('disabled');
+    effectFlicker('#tabpage-nav-edit');
 });
 
 

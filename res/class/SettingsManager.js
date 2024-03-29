@@ -2,6 +2,7 @@ class SettingsManager {
     constructor(configDefine = []) {
         this.configDefine = configDefine;
         this.config = {};
+        this.configBackup = {};
     }
 
     getConfigDefine(prefix = '', verMin = 0, verMax = 100000) {
@@ -53,7 +54,12 @@ class SettingsManager {
 
     importConfig(value) {
         if (typeof value != 'object') return;
+        this.configBackup = this.config;
         return this.config = value;
+    }
+
+    rollbackConfig() {
+        return this.config = this.configBackup;
     }
 
     /**
@@ -83,7 +89,7 @@ class SettingsManager {
      */
     updateConfigFromUnknowVersion(ver) {
         this.config.data_version = ver;
-        
+
         let cd = this.getConfigDefine('', 0, ver);
 
         cd.forEach(e => {

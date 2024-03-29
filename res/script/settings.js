@@ -275,6 +275,16 @@ $(document).ready(function() {
 
     $('#settings-file-check-box').html(SettingsFileChecker.default());
 
+    $('.settings-page[data-pageid="accessible"]').prepend(SettingsPanel.msgBoxBlack(
+        $t('config.about.accessibility'),
+        $t('settings.msgbox.accessibility'),
+        'wheelchairAccessibility'
+    ));
+    $('.settings-page[data-pageid="advanced"]').prepend(SettingsPanel.msgBoxWarn(
+        '',
+        $t('settings.msgbox.advanced_settings')
+    ));
+
     let ua = navigator.userAgent.toLowerCase()
     if (ua.search(/ chrome\//) == -1) {
         showFileCheckDialog(SettingsFileChecker.dialogUseChrome());

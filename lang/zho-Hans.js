@@ -556,6 +556,10 @@ const lang_zho_Hans = {
                 goto: "获取 Chrome"
             }
         },
+        msgbox: {
+            accessibility: "Echo-Live 所有后台页面均支持键盘访问。<br>更多有关无障碍使用的帮助请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>帮助文档</a>。",
+            advanced_settings: "不要随意更改这里的配置，除非您知道您在做什么。"
+        },
         tabpage: {
             edit: {
                 title: "编辑",

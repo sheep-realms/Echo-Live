@@ -729,6 +729,46 @@ class SettingsPanel {
     static linkBarGroupTitle(title = '') {
         return `<div class="settings-link-bar-group-title">${ title }</div>`;
     }
+
+    /**
+     * 消息框
+     * @param {String} title 标题
+     * @param {String} content 内容
+     * @param {String} icon 图标名称
+     * @param {'info'|'warn'|'error'|'black'} type 类型
+     * @returns {String} DOM
+     */
+    static msgBox(title = '', content = '', icon = 'information', type = 'info') {
+        return `<div class="msgbox state-${ type }">
+            <div class="icon">${ Icon[icon]() }</div>
+            <div class="text">
+                <div class="title">${ title }</div>
+                <div class="content">${ content }</div>
+            </div>
+        </div>`;
+    }
+
+    /**
+     * 警告消息框
+     * @param {String} title 标题
+     * @param {String} content 内容
+     * @param {String} icon 图标名称
+     * @returns {String} DOM
+     */
+    static msgBoxWarn(title = '', content = '', icon = 'alert') {
+        return SettingsPanel.msgBox(title, content, icon, 'warn');
+    }
+
+    /**
+     * 高对比度消息框
+     * @param {String} title 标题
+     * @param {String} content 内容
+     * @param {String} icon 图标名称
+     * @returns {String} DOM
+     */
+    static msgBoxBlack(title = '', content = '', icon = 'information') {
+        return SettingsPanel.msgBox(title, content, icon, 'black');
+    }
 }
 
 class SettingsFileChecker {

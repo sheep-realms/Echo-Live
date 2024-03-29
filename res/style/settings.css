@@ -404,6 +404,53 @@
 
 
 
+.msgbox {
+    --msgbox-color: var(--color-general);
+    --msgbox-bgcolor: var(--color-general-glass);
+    display: flex;
+    padding: 8px;
+    align-items: center;
+    gap: 8px;
+    border-left: var(--msgbox-color) 4px solid;
+    background-color: var(--msgbox-bgcolor);
+}
+
+.msgbox .icon,
+.msgbox .icon svg {
+    width: 32px;
+    height: 32px;
+}
+
+.msgbox .icon svg {
+    fill: var(--msgbox-color);
+}
+
+.msgbox .title {
+    color: var(--text-primary);
+    font-weight: bold;
+}
+
+.msgbox .content {
+    color: var(--text-primary);
+}
+
+.msgbox.state-warn {
+    --msgbox-color: var(--color-warn);
+    --msgbox-bgcolor: var(--color-warn-glass);
+}
+
+.msgbox.state-error {
+    --msgbox-color: var(--color-danger);
+    --msgbox-bgcolor: var(--color-danger-glass);
+}
+
+.msgbox.state-black {
+    --msgbox-color: var(--text-primary);
+    --msgbox-bgcolor: transparent;
+}
+
+
+
 
 .settings-about-banner>img {
     width: 100%;

@@ -66,6 +66,10 @@
     animation: unset;
 }
 
+.accessible-high-contrast .settings-panel a {
+    border-bottom: var(--color-general-dark) 1px solid;
+}
+
 
 /* 红绿色盲 */
 .accessible-drotanopia-and-deuteranopia {

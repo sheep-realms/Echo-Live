@@ -166,6 +166,52 @@ function setSettingsItemValue(name, value, isDefault = false) {
     }
 }
 
+function showFileCheckDialog(content) {
+    $('#settings-file-check-dialog').html(content);
+    $('.btn-default').focus();
+    $('#settings-file-input-box').addClass('hide');
+}
+
+function showFileCheckDialogWarn(key) {
+    showFileCheckDialog(SettingsFileChecker.dialogWarn(
+        $t('settings.config_input.' + key + '.title'),
+        $t('settings.config_input.' + key + '.description')
+    ));
+}
+
+function showFileCheckDialogError(key) {
+    showFileCheckDialog(SettingsFileChecker.dialogError(
+        $t('settings.config_input.' + key + '.title'),
+        $t('settings.config_input.' + key + '.description')
+    ));
+}
+
+function closeFileCheckDialog(clearFill = false) {
+    $('#settings-file-input-box').removeClass('hide');
+    $('#settings-file-input-box').focus();
+    $('#settings-file-check-dialog').text('');
+
+    if (clearFill) {
+        closeFileChecker();
+        dropFile = dropFileReader = dropData = configFileBuffer = configFileFiltered = configBuffer = undefined;
+    }
+}
+
+function showFileChecker(file, type) {
+    const types = {
+        error: 'error',
+        exception: 'warn',
+        future: 'warn',
+        loaded: 'ok',
+        update: 'warn'
+    };
+    $('#settings-file-check-box').html(SettingsFileChecker.fill(file, types[type], $t('file.checker.state.' + type)));
+}
+
+function closeFileChecker() {
+    $('#settings-file-check-box').html(SettingsFileChecker.empty());
+}
+
 
 
 
@@ -303,13 +349,7 @@ async function filePicker() {
 
 function checkConfigFile(fileList) {
     if (fileList.length !== 1 || fileList[0].type === '') {
-        $('#settings-file-check-dialog').html(
-            SettingsFileChecker.dialogError(
-                $t('settings.config_input.many_file.title'),
-                $t('settings.config_input.many_file.description')
-            )
-        );
-        $('.btn-default').focus();
+        showFileCheckDialogError('many_file');
         return;
     }
 
@@ -321,13 +361,7 @@ function checkConfigFile(fileList) {
 
         // Firefox 认为 JS 是应用程序而不是文本
         if (dropFile.type != 'text/javascript' && dropFile.type != 'application/x-javascript') {
-            $('#settings-file-check-dialog').html(
-                SettingsFileChecker.dialogError(
-                    $t('settings.config_input.type_error.title'),
-                    $t('settings.config_input.type_error.description')
-                )
-            );
-            $('.btn-default').focus();
+            showFileCheckDialogError('type_error');
             return;
         }
 
@@ -335,26 +369,41 @@ function checkConfigFile(fileList) {
         try {
             configFileFiltered = /\{.*\}/gms.exec(configFileBuffer)[0];
         } catch (error) {
-            $('#settings-file-check-box').html(SettingsFileChecker.fill(dropFile, 'error', '错误'));
+            showFileChecker(dropFile, 'error');
             return;
         }
 
         try {
             dropData = JSON.parse(configFileFiltered);
-            $('#settings-file-check-box').html(SettingsFileChecker.fill(dropFile, 'ok', '已载入'));
-            $('#settings-file-input-box').focus();
-            settingsManager.importConfig(dropData);
-            configLoad();
+            importConfigCheck();
         } catch (error) {
-            $('#settings-file-check-box').html(SettingsFileChecker.fill(dropFile, 'warn', '异常'));
-            $('#settings-file-check-dialog').html(SettingsFileChecker.dialogJSONParseFail());
-            $('.btn-default').focus();
-            $('#settings-file-input-box').addClass('hide');
+            showFileChecker(dropFile, 'exception');
+            showFileCheckDialog(SettingsFileChecker.dialogJSONParseFail());
             return;
         }
     };
 
     dropFileReader.readAsText(dropFile);
+}
+
+function importConfigCheck() {
+    closeFileCheckDialog();
+    showFileChecker(dropFile, 'loaded');
+    settingsManager.importConfig(dropData);
+
+    let dataVer = settingsManager.getConfig('data_version');
+    if (dataVer == undefined) {
+        showFileChecker(dropFile, 'update');
+        showFileCheckDialog(SettingsFileChecker.dialogUpdateConfigFromUnknowVersion());
+    } else if (dataVer < db_config_version) {
+        showFileChecker(dropFile, 'update');
+        showFileCheckDialog(SettingsFileChecker.dialogUpdateConfig());
+    } else if (dataVer > db_config_version) {
+        showFileChecker(dropFile, 'future');
+        showFileCheckDialog(SettingsFileChecker.dialogConfigFromFuture());
+    } else {
+        configLoad();
+    }
 }
 
 $(document).on('dragover', '#settings-file-input-box', function(e) {
@@ -405,35 +454,41 @@ $(document).on('drop', '#settings-file-input-box', function(e) {
 $(document).on('click', '#btn-flie-check-dialog-unsafe-load', function() {
     try {
         eval('dropData = ' + configFileFiltered);
-        $('#settings-file-check-box').html(SettingsFileChecker.fill(dropFile, 'ok', '已载入'));
-        $('#settings-file-input-box').removeClass('hide');
-        $('#settings-file-input-box').focus();
-        $('#settings-file-check-dialog').text('');
-        settingsManager.importConfig(dropData);
-        configLoad();
+        importConfigCheck();
     } catch (error) {
-        $('#settings-file-check-box').html(SettingsFileChecker.fill(dropFile, 'error', '错误'));
-        $('#settings-file-check-dialog').html(
-            SettingsFileChecker.dialogError(
-                $t('settings.config_input.unsafe_load_fail.title'),
-                $t('settings.config_input.unsafe_load_fail.description')
-            )
-        );
-        $('.btn-default').focus();
+        showFileChecker(dropFile, 'error');
+        showFileCheckDialogError('unsafe_load_fail');
     }
 });
 
 $(document).on('click', '#btn-flie-check-dialog-cancel', function() {
-    $('#settings-file-input-box').removeClass('hide');
-    $('#settings-file-input-box').focus();
-    $('#settings-file-check-dialog').text('');
-    $('#settings-file-check-box').html(SettingsFileChecker.empty());
-    dropFile = dropFileReader = dropData = configFileBuffer = configFileFiltered = configBuffer = undefined;
+    closeFileCheckDialog(true);
 });
 
 $(document).on('click', '#btn-flie-check-dialog-goto-chrome', function() {
     window.open('https://www.google.cn/chrome/index.html', '_blank');
 });
+
+$(document).on('click', '#btn-flie-check-dialog-update-config', function() {
+    settingsManager.updateConfig(db_config_version);
+    configLoad();
+    showFileChecker(dropFile, 'loaded');
+    closeFileCheckDialog();
+});
+
+$(document).on('click', '#btn-flie-check-dialog-update-config-from-unknow-version', function() {
+    settingsManager.updateConfigFromUnknowVersion(db_config_version);
+    configLoad();
+    showFileChecker(dropFile, 'loaded');
+    closeFileCheckDialog();
+});
+
+$(document).on('click', '#btn-flie-check-dialog-config-from-future', function() {
+    configLoad();
+    showFileChecker(dropFile, 'loaded');
+    closeFileCheckDialog();
+});
+
 
 
 

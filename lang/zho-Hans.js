@@ -480,7 +480,14 @@ const lang_zho_Hans = {
         size: "文件大小",
         checker: {
             default_file_loaded: "默认路径中的配置文件已载入",
-            empry: "未载入文件"
+            empry: "未载入文件",
+            state: {
+                error: "错误",
+                exception: "异常",
+                future: "新版",
+                loaded: "已载入",
+                update: "旧版"
+            }
         },
         droper: {
             title: "文件选择器",
@@ -503,6 +510,11 @@ const lang_zho_Hans = {
     settings: {
         unknow_config_type: "暂不支持修改此配置",
         config_input: {
+            config_from_future: {
+                title: "配置文件来自未来版本",
+                description: "此配置文件来自于未来的 Echo-Live，您也许有哪里搞错了。<br>继续加载可能会产生意料之外的问题。",
+                load: "继续加载"
+            },
             json_parse_fail: {
                 title: "无法安全读取配置文件",
                 description: "这可能是因为配置文件为早期版本，或是配置文件内容损坏。<br>如果您确定配置文件没有问题，并且没有被植入恶意代码的可能，可以尝试 “不安全读取”。",
@@ -523,6 +535,16 @@ const lang_zho_Hans = {
             unsafe_load_fail: {
                 title: "无法读取配置文件",
                 description: "看来您的配置文件确实有问题，请检查您的配置文件。"
+            },
+            update_config: {
+                title: "配置文件需要更新",
+                description: "此配置文件来自于旧版的 Echo-Live，需要更新才能使用。",
+                update: "更新"
+            },
+            update_config_from_unknow_version: {
+                title: "未知的配置文件版本",
+                description: "此配置文件没有版本号，可能来自于 1.2.7 之前的版本。<br>您可以强制升级此配置文件，但并不能保证其正常运作，不建议您继续使用此配置文件。",
+                update: "强制更新"
             },
             use_chrome: {
                 title: "建议您使用最新版 Chrome 浏览器",

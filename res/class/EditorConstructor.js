@@ -861,4 +861,75 @@ class SettingsFileChecker {
             )
         );
     }
+
+    static dialogUpdateConfig() {
+        return SettingsFileChecker.dialogWarn(
+            $t('settings.config_input.update_config.title'),
+            $t('settings.config_input.update_config.description'),
+            EditorForm.buttonGhost(
+                $t('ui.cancel'),
+                {
+                    id: 'btn-flie-check-dialog-cancel',
+                    icon: Icon.close(),
+                    color: 'danger'
+                }
+            ) +
+            EditorForm.button(
+                $t('settings.config_input.update_config.update'),
+                {
+                    id: 'btn-flie-check-dialog-update-config',
+                    class: 'btn-default',
+                    icon: Icon.update()
+                }
+            )
+        );
+    }
+
+    static dialogUpdateConfigFromUnknowVersion() {
+        return SettingsFileChecker.dialogWarn(
+            $t('settings.config_input.update_config_from_unknow_version.title'),
+            $t('settings.config_input.update_config_from_unknow_version.description'),
+            EditorForm.buttonGhost(
+                $t('ui.cancel'),
+                {
+                    id: 'btn-flie-check-dialog-cancel',
+                    icon: Icon.close(),
+                    color: 'danger'
+                }
+            ) +
+            EditorForm.button(
+                $t('settings.config_input.update_config_from_unknow_version.update'),
+                {
+                    id: 'btn-flie-check-dialog-update-config-from-unknow-version',
+                    class: 'btn-default',
+                    icon: Icon.update(),
+                    color: 'warn'
+                }
+            )
+        );
+    }
+
+    static dialogConfigFromFuture() {
+        return SettingsFileChecker.dialogWarn(
+            $t('settings.config_input.config_from_future.title'),
+            $t('settings.config_input.config_from_future.description'),
+            EditorForm.buttonGhost(
+                $t('ui.cancel'),
+                {
+                    id: 'btn-flie-check-dialog-cancel',
+                    icon: Icon.close(),
+                    color: 'danger'
+                }
+            ) +
+            EditorForm.button(
+                $t('settings.config_input.config_from_future.load'),
+                {
+                    id: 'btn-flie-check-dialog-config-from-future',
+                    class: 'btn-default',
+                    icon: Icon.arrowRight(),
+                    color: 'warn'
+                }
+            )
+        );
+    }
 }

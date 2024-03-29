@@ -1,3 +1,5 @@
+const db_config_version = 2;
+
 const db_config_define = [
     {
         name: 'global',

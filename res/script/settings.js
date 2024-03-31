@@ -2,6 +2,7 @@
 
 let configFileBuffer = '';
 let configFileFiltered = '';
+let configFileWritableFileHandle = undefined;
 let configBuffer = {};
 
 const settingsNav = [
@@ -117,7 +118,7 @@ function getSettingsItemValue(name, isDefault = false) {
         if (!isDefault) {
             value = $sel.find('.settings-value').eq(0).val();
         } else {
-            value = $sel.find('.settings-value').eq(0).data('default');
+            value = String($sel.find('.settings-value').eq(0).data('default'));
         }
 
         switch (types[0]) {
@@ -212,6 +213,110 @@ function closeFileChecker() {
     $('#settings-file-check-box').html(SettingsFileChecker.empty());
 }
 
+function configChangeShowController() {
+    $('.settings-controller-bottom').removeClass('disabled');
+    $('.settings-controller-bottom button').removeAttr('disabled');
+}
+
+function configSaveCloseController() {
+    $('.settings-controller-bottom').addClass('disabled');
+    $('.settings-controller-bottom button').attr('disabled', 'disabled');
+}
+
+function configChangeCheck() {
+    let $sel = $('.settings-item.change');
+    if ($sel.length > 0) {
+        configChangeShowController();
+    } else {
+        configSaveCloseController();
+    }
+}
+
+function configUndoAll() {
+    let $sel = $('.settings-item.change');
+    for (let i = 0; i < $sel.length; i++) {
+        let id = $sel.eq(i).data('id');
+        let dv = getSettingsItemValue(id, true);
+        setSettingsItemValue(id, dv);
+    }
+    $('.settings-item.change').removeClass('change');
+    configSaveCloseController();
+}
+
+function configSaveAll(effect = false) {
+    let $sel = $('.settings-item.change');
+    for (let i = 0; i < $sel.length; i++) {
+        let id = $sel.eq(i).data('id');
+        let value = getSettingsItemValue(id);
+        settingsManager.setConfig(id, value);
+        setSettingsItemValue(id, value, true);
+    }
+    $('.settings-item.change').removeClass('change');
+    configSaveCloseController();
+    configOutput(true);
+    if (effect) effectFlicker('#tabpage-nav-export');
+}
+
+function configOutput(setUnsave = false) {
+    $('#edit-config-output').val('const config = ' + JSON.stringify(settingsManager.config, null, 4));
+    outputTabUnsavePoint(setUnsave);
+}
+
+async function saveConfigFile(content, fileName = 'config.js', saveAs = false) {
+    const opts = {
+        suggestedName: fileName,
+        types: [
+            {
+                description: $t('file.picker.config'),
+                accept: {
+                    'text/javascript': ['.js', '.mjs']
+                }
+            }
+        ],
+        excludeAcceptAllOption: true,
+    };
+
+    try {
+        if (saveAs || configFileWritableFileHandle == undefined) configFileWritableFileHandle = await window.showSaveFilePicker(opts);
+        const writable = await configFileWritableFileHandle.createWritable();
+        await writable.write(content);
+        await writable.close();
+        outputTabUnsavePoint(false);
+    } catch (error) {
+        // TODO ...
+    }
+}
+
+function configExport(fileName = 'config.js', saveAs = false) {
+    let content = $('#edit-config-output').val();
+
+    // 如果支持 showSaveFilePicker 则使用，否则使用传统下载方式
+    if (window.showSaveFilePicker != undefined) return saveConfigFile(content, fileName, saveAs);
+
+    let blob = new Blob([content], { type: 'text/javascript;charset=utf-8' });
+
+    let downloadLink = document.createElement('a');
+    downloadLink.download = fileName;
+    downloadLink.innerHTML = '';
+
+    if ('download' in downloadLink) {
+        downloadLink.href = URL.createObjectURL(blob);
+        downloadLink.setAttribute('download', fileName);
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    } else {
+        window.open('data:text/javascript;charset=utf-8,' + encodeURIComponent(content));
+    }
+
+    outputTabUnsavePoint(false);
+}
+
+function outputTabUnsavePoint(state = true) {
+    if (state) return $('#export-unsave').removeClass('hide');
+    $('#export-unsave').addClass('hide');
+}
+
 
 
 
@@ -253,7 +358,7 @@ $(document).ready(function() {
             let def = settingsManager.getConfigDefine(e.id);
             let dom = '';
             dom = SettingsPanel.setItems(def);
-            $('.settings-content').append(SettingsPanel.page(e.id, dom));
+            $('.settings-pages').append(SettingsPanel.page(e.id, dom));
         }
     });
 
@@ -285,7 +390,7 @@ $(document).ready(function() {
         $t('settings.msgbox.advanced_settings')
     ));
 
-    let ua = navigator.userAgent.toLowerCase()
+    let ua = navigator.userAgent.toLowerCase();
     if (ua.search(/ chrome\//) == -1) {
         showFileCheckDialog(SettingsFileChecker.dialogUseChrome());
     } else if (ua.search(/ obs\//) != -1) {
@@ -339,6 +444,7 @@ function configLoad() {
             setSettingsItemValue(e.name, settingsManager.getConfig(e.name), true);
         }
     });
+    configOutput();
 }
 
 async function filePicker() {
@@ -554,6 +660,7 @@ $(document).on('click', '.settings-switch', function() {
     } else {
         $parent.removeClass('change');
     }
+    configChangeCheck();
 });
 
 
@@ -578,4 +685,31 @@ $(document).on('input', '.settings-item .settings-value', function() {
     } else {
         $parent.removeClass('change');
     }
+    configChangeCheck();
+});
+
+
+
+
+$(document).on('click', '#edit-btn-undo', configUndoAll);
+
+$(document).on('click', '#edit-btn-save', function() {
+    configSaveAll(true);
+});
+
+$(document).on('click', '#edit-btn-save-output', function() {
+    configSaveAll();
+    configExport('config.js');
+});
+
+$(document).on('click', '#edit-btn-output', function() {
+    configOutput();
+});
+
+$(document).on('click', '#edit-btn-file-save-as', function() {
+    configExport('config.js', true);
+});
+
+$(document).on('click', '#edit-btn-file-save', function() {
+    configExport('config.js');
 });

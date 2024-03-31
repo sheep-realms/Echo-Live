@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Echo Live 配置文件生成器</title>
+    <title>Echo Live 配置文件编辑器</title>
     <link rel="icon" href="res/image/favicon.ico">
     <link rel="stylesheet" href="res/style/fh-ui.css">
     <link rel="stylesheet" href="res/style/editor.css">
@@ -70,9 +70,11 @@
                 aria-selected="false"
                 accesskey="3"
                 title="导出配置文件 [alt+3]"
-                data-i18n="settings.tabpage.export.title"
                 data-i18n-title="settings.tabpage.export.description"
-            >导出</button>
+            >
+                <span data-i18n="settings.tabpage.export.title">导出</span>
+                <span id="export-unsave" class="hide"></span>
+            </button>
         </nav>
         <!-- 标签页面板 -->
         <div class="tabpage-centent" data-navid="main">
@@ -110,29 +112,33 @@
                         </nav>
     
                         <div class="settings-content">
-                            <!-- 设置内容 -->
-                            <div class="settings-page" data-pageid="about">
-                                <div class="settings-about-banner">
-                                    <img src="res/image/banner_alpha.png" alt="LOGO">
-                                </div>
-                                <div class="settings-about-content">
-                                    <!-- 关于页面链接 -->
-                                </div>
-                                <div class="settings-about-footer" aria-hidden="true">
-                                    <p>① <span class="settings-about-footer-var-1"></span></p>
-                                    <p>② <span class="settings-about-footer-var-2"></span></p>
-                                    <p>③ <span class="settings-about-footer-var-3"></span></p>
-                                    <p>④ <span class="settings-about-footer-var-4"></span></p>
-                                    <p>⑤ <span class="settings-about-footer-var-5"></span></p>
-                                    <p>⑥ <span class="settings-about-footer-var-6"></span></p>
+                            <div class="settings-pages">
+                                <!-- 设置内容 -->
+                                <div class="settings-page" data-pageid="about">
+                                    <div class="settings-about-banner">
+                                        <img src="res/image/banner_alpha.png" alt="LOGO">
+                                    </div>
+                                    <div class="settings-about-content">
+                                        <!-- 关于页面链接 -->
+                                    </div>
+                                    <div class="settings-about-footer" aria-hidden="true">
+                                        <p>① <span class="settings-about-footer-var-1"></span></p>
+                                        <p>② <span class="settings-about-footer-var-2"></span></p>
+                                        <p>③ <span class="settings-about-footer-var-3"></span></p>
+                                        <p>④ <span class="settings-about-footer-var-4"></span></p>
+                                        <p>⑤ <span class="settings-about-footer-var-5"></span></p>
+                                        <p>⑥ <span class="settings-about-footer-var-6"></span></p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="editor-controller-bottom fh-flex-row">
-                        <button id="edit-btn-reset" class="fh-button fh-big fh-danger">撤销更改</button>
-                        <button id="edit-btn-save" class="fh-button fh-big">暂存更改</button>
+                            <div class="settings-controller-bottom fh-flex-row disabled">
+                                <span class="settings-controller-message" data-i18n="settings.label.config_changed">配置已更改</span>
+                                <button id="edit-btn-undo" class="fh-button fh-big fh-danger" disabled data-i18n="ui.undo">撤销</button>
+                                <button id="edit-btn-save" class="fh-button fh-big fh-ghost" disabled data-i18n="ui.staging">暂存</button>
+                                <button id="edit-btn-save-output" class="fh-button fh-big" disabled data-i18n="ui.save">保存</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -140,14 +146,14 @@
             <!-- 导出标签页 -->
             <section class="tabpage-panel hide" role="tabpanel" data-pageid="export">
                 <h2 class="tabpage-panel-title" data-i18n="settings.tabpage.export.title">导出</h2>
-                <p style="color: red;">该页面正在施工中，暂不可用。</p>
                 <div class="echo-editor-form">
-                    <label for="edit-message-data">导出配置内容</label>
-                    <textarea name="message-data" id="edit-message-data" class="code"></textarea>
+                    <label for="edit-config-output" data-i18n="settings.label.config_output">导出配置内容</label>
+                    <textarea name="message-data" id="edit-config-output" class="code"></textarea>
 
                     <div class="editor-controller-bottom fh-flex-row">
-                        <button id="edit-btn-clear" class="fh-button fh-big fh-danger">清空</button>
-                        <button id="edit-btn-submit" class="fh-button fh-big">导出文件</button>
+                        <button id="edit-btn-output" class="fh-button fh-big fh-ghost fh-danger" data-i18n="ui.re_export">导出</button>
+                        <button id="edit-btn-file-save-as" class="fh-button fh-big fh-ghost" data-i18n="ui.save_as">另存为</button>
+                        <button id="edit-btn-file-save" class="fh-button fh-big" data-i18n="ui.save">保存</button>
                     </div>
                 </div>
             </section>

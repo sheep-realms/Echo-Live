@@ -29,6 +29,11 @@
     flex: 1;
     height: 100%;
     box-sizing: border-box;
+}
+
+.settings-page {
+    min-height: calc(100vh - 138px);
+    box-sizing: border-box;
     padding-bottom: 25vh;
 }
 
@@ -452,6 +457,46 @@
 
 
 
+.settings-controller-bottom {
+    display: flex;
+    align-items: center;
+    padding: 16px 8px;
+    border-top: var(--border-coler) 1px solid;
+    position: sticky;
+    bottom: 0;
+    background-color: var(--page-bgcolor);
+    gap: 16px;
+    transition: bottom .3s ease-out, opacity .3s ease-out;
+    opacity: 1;
+}
+
+.settings-controller-bottom.disabled {
+    pointer-events: none;
+    bottom: -80px;
+    transition: bottom .3s ease-in, opacity .3s ease-in;
+    opacity: 0;
+}
+
+.settings-controller-bottom button {
+    min-width: 100px;
+    margin: unset;
+}
+
+.settings-controller-message {
+    flex: 1;
+    color: var(--text-regular);
+}
+
+
+
+
+#edit-config-output {
+    height: 50vh;
+}
+
+
+
+
 .settings-about-banner>img {
     width: 100%;
     height: auto;
@@ -502,4 +547,17 @@ a.settings-link-bar:active {
     color: var(--text-secondary);
     padding: 16px 8px;
     font-size: 14px;
+}
+
+#export-unsave {
+    background-color: var(--color-danger-dark);
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-left: 4px;
+}
+
+#export-unsave.hide {
+    display: none;
 }

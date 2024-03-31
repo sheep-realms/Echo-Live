@@ -11,16 +11,20 @@ const lang_zho_Hans = {
         yes: "是",
         no: "否",
         save: "保存",
+        save_as: "另存为",
+        staging: "暂存",
         close: "关闭",
         edit: "编辑",
         send: "发送",
         reset: "重置",
         clear: "清空",
         delete: "删除",
+        undo: "撤销",
         input: "输入",
         output: "输出",
         import: "导入",
         export: "导出",
+        re_export: "重新导出",
         more_info: "了解详情",
         move_up: "上移",
         move_down: "下移",
@@ -507,6 +511,12 @@ const lang_zho_Hans = {
         empty_username: "[未指定说话人]",
         undefined_message: "[未定义消息]"
     },
+    page_title: {
+        editor: "Echo Live 编辑器",
+        history: "Echo Live 历史记录",
+        live: "Echo Live",
+        settings: "Echo Live 配置文件编辑器"
+    },
     settings: {
         unknow_config_type: "暂不支持修改此配置",
         config_input: {
@@ -555,6 +565,10 @@ const lang_zho_Hans = {
                 description: "此页面使用了一些最新技术，您的浏览器可能无法支持部分功能。<br>当然您也可以试试 Edge 浏览器。",
                 goto: "获取 Chrome"
             }
+        },
+        label: {
+            config_changed: "配置已更改",
+            config_output: "导出配置内容"
         },
         msgbox: {
             accessibility: "Echo-Live 所有后台页面均支持键盘访问。<br>更多有关无障碍使用的帮助请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>帮助文档</a>。",

@@ -762,7 +762,7 @@ class SettingsPanel {
             </div>`,
             `<div class="content ${ isAll ? 'hide' : '' }">
                 <div class="settings-value-list-box">
-                    <textarea id="${ id.replace(/\./g, '-') }-list" class="settings-value-list code" data-default="${ isAll ? '' : btoa(listStr) }">${ listStr }</textarea>
+                    <textarea id="${ id.replace(/\./g, '-') }-list" class="settings-value-list code" data-default="${ isAll ? '' : encodeURIComponent(listStr) }">${ listStr }</textarea>
                 </div>
             </div>`
         );

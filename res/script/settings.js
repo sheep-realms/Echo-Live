@@ -145,7 +145,7 @@ function getSettingsItemValue(name, isDefault = false) {
                 if (value != 'true') {
                     if (isDefault) {
                         try {
-                            value = atob($sel.find('.settings-value-list').eq(0).data('default')).split('\n');
+                            value = decodeURIComponent($sel.find('.settings-value-list').eq(0).data('default')).split('\n');
                         } catch (error) {
                             console.log(value);
                             debugger
@@ -212,7 +212,7 @@ function setSettingsItemValue(name, value, isDefault = false) {
                         $sel.find('.settings-switch-value').eq(0).data('default', false);
                         $sel.find('.settings-value-list').eq(0).data(
                             'default',
-                            btoa(value.filter(str => str.trim() !== '').map(str => str.trim()).join('\n'))
+                            encodeURIComponent(value.filter(str => str.trim() !== '').map(str => str.trim()).join('\n'))
                         );
                     }
                     $sel.find('.content').removeClass('hide');
@@ -782,7 +782,7 @@ $(document).on('input', '.settings-item[data-type="special.all_or_array_string"]
     const $parent = $(this).parents('.settings-item').eq(0);
     const name = $parent.data('id');
     const value = $(this).val();
-    const defaultValue = atob($(this).data('default'));
+    const defaultValue = decodeURIComponent($(this).data('default'));
     const defaultValueTrue = getSettingsItemValue(name, true);
     if (value != defaultValue || !Array.isArray(defaultValueTrue)) {
         $parent.addClass('change');

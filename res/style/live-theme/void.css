@@ -131,3 +131,43 @@
     margin-right: 1em;
     color: var(--echo-live-bottom-color, #888);
 }
+
+
+/* Echo-Live 历史记录 */
+#echo-live-history {
+    background-color: var(--echo-live-history-bg-color);
+    font-size: var(--echo-live-history-font-size);
+    color: var(--echo-live-history-color);
+}
+
+#echo-live-history-message-list {
+    gap: var(--echo-live-history-list-gap);
+}
+
+#echo-live-history .history-message-item {
+    gap: var(--echo-live-history-item-gap);
+}
+
+#echo-live-history .history-message-item .username {
+    flex: var(--echo-live-history-flex-username);
+    min-width: var(--echo-live-history-min-width-username);
+    max-width: var(--echo-live-history-max-width-username);
+    color: var(--echo-live-history-color-username, --echo-live-history-color);
+    font-size: var(--echo-live-history-font-size-username, --echo-live-history-font-size);
+}
+
+#echo-live-history .history-message-item .message {
+    flex: var(--echo-live-history-flex-message);
+    min-width: var(--echo-live-history-min-width-message);
+    max-width: var(--echo-live-history-max-width-message);
+    color: var(--echo-live-history-color-message, --echo-live-history-color);
+    font-size: var(--echo-live-history-font-size-message, --echo-live-history-font-size);
+}
+
+#echo-live-history .history-message-item .time {
+    flex: var(--echo-live-history-flex-time);
+    min-width: var(--echo-live-history-min-width-time);
+    max-width: var(--echo-live-history-max-width-time);
+    color: var(--echo-live-history-color-time, --echo-live-history-color);
+    font-size: var(--echo-live-history-font-size-time, --echo-live-history-font-size);
+}

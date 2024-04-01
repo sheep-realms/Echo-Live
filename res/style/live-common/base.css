@@ -3,7 +3,6 @@
     user-select: none;
 }
 
-#echo-live .center-center,
-#echo-live-history .history-message-item .message .content {
+#echo-live .center-center {
     word-break: break-word;
 }

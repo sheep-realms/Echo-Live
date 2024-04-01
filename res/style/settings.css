@@ -29,6 +29,7 @@
     flex: 1;
     height: 100%;
     box-sizing: border-box;
+    min-width: 250px;
 }
 
 .settings-page {
@@ -305,6 +306,18 @@
     word-break: break-word;
 }
 
+@media screen and (max-width: 760px) {
+    .settings-nav {
+        width: auto;
+        min-width: unset;
+    }
+
+    .settings-nav-item .title,
+    .settings-nav-item .icon.right {
+        display: none;
+    }
+}
+
 
 
 
@@ -381,6 +394,13 @@
 .settings-unknow-config-type {
     color: var(--text-secondary);
     font-size: 14px;
+}
+
+@media screen and (max-width: 760px) {
+    .settings-item {
+        align-items: stretch;
+        flex-direction: column;
+    }
 }
 
 
@@ -513,6 +533,8 @@
     gap: 16px;
     transition: bottom .3s ease-out, opacity .3s ease-out;
     opacity: 1;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .settings-controller-bottom.disabled {
@@ -530,6 +552,13 @@
 .settings-controller-message {
     flex: 1;
     color: var(--text-regular);
+    min-width: 300px;
+}
+
+@media screen and (max-width: 760px) {
+    .settings-controller-bottom button {
+        min-width: unset;
+    }
 }
 
 

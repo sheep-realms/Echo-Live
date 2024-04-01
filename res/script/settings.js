@@ -420,6 +420,10 @@ $(document).ready(function() {
         }
     });
 
+    if (config.data_version < db_config_version) {
+        settingsManager.updateConfig(db_config_version);
+    }
+
     configLoad();
 
     aboutLinks.forEach(e => {
@@ -496,6 +500,7 @@ $(document).on('click', '#settings-file-input-box', function(e) {
 });
 
 function configLoad() {
+    if ($('.settings-item.change').length > 0) configUndoAll();
     settingsManager.getConfigDefine().forEach((e) => {
         let value = settingsManager.getConfig(e.name);
         if (value != undefined && (typeof value != 'object' || Array.isArray(value))) {
@@ -761,6 +766,13 @@ $(document).on('change', '.settings-item.settings-type-number .settings-value', 
         max = Number($(this).attr('max')),
         min = Number($(this).attr('min'));
 
+    if ($(this).val() === '') {
+        if (min != undefined) {
+            $(this).val(min);
+        } else {
+            $(this).val(0);
+        }
+    }
     if (max != undefined && value > max) $(this).val(max);
     if (min != undefined && value < min) $(this).val(min);
 });

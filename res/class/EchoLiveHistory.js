@@ -5,8 +5,11 @@ class EchoLiveHistory {
         this.uuid = EchoLiveTools.getUUID();
         this.hidden = false;
         this.prevMessage = {};
+        this.theme = [];
         this.event = {
-            newHistory: function() {}
+            newHistory: function() {},
+            themeScriptLoad: function() {},
+            themeScriptUnload: function() {},
         };
 
         this.init();
@@ -60,5 +63,56 @@ class EchoLiveHistory {
         ) return;
         this.prevMessage = data;
         this.event.newHistory(data);
+    }
+
+    /**
+     * 修改主题样式地址
+     * @param {String} url 样式文件地址
+     */
+    setThemeStyleUrl(url) {
+        if ($('#echo-live-theme').attr('href') == url) return url;
+        $('#echo-live-theme').attr('href', url);
+        return url;
+    }
+
+    /**
+     * 查找主题
+     * @param {String} name 主题ID
+     * @returns {Object} 主题数据
+     */
+    findTheme(name) {
+        return this.theme.find((e) => {
+            return e.name == name;
+        })
+    }
+
+    /**
+     * 设置主题
+     * @param {String} name 主题ID
+     * @returns {String} 主题入口样式文件URL
+     */
+    setTheme(name) {
+        const theme = this.findTheme(name);
+        if (theme == undefined) return;
+
+        this.event.themeScriptUnload()
+        this.event.themeScriptLoad = function() {};
+        this.event.themeScriptUnload = function() {};
+        $('script.echo-live-theme-script').remove();
+
+        this.setThemeStyleUrl(theme.style);
+
+        if (this.config.echolive.live_theme_script_enable && typeof theme.script == 'object') {
+            theme.script.forEach(e => {
+                let s = document.createElement("script");
+                s.src = e;
+                s.class = 'echo-live-theme-script';
+                document.head.appendChild(s);
+            });
+        }
+
+        this.event.themeScriptLoad();
+
+        return theme.style;
     }
 }

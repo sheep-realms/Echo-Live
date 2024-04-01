@@ -1,4 +1,4 @@
-const db_config_version = 2;
+const db_config_version = 3;
 
 const db_config_define = [
     {
@@ -10,6 +10,14 @@ const db_config_define = [
         type: 'string',
         default: 'zho-Hans',
         created: 2,
+        attribute: {
+            datalist: []
+        }
+    }, {
+        name: 'global.theme',
+        type: 'string',
+        default: 'vanilla',
+        created: 3,
         attribute: {
             datalist: []
         }
@@ -40,7 +48,7 @@ const db_config_define = [
     }, {
         name: 'echolive.live_theme',
         type: 'string',
-        default: 'vanilla',
+        default: '',
         created: 1
     }, {
         name: 'echolive.live_theme_script_enable',
@@ -316,6 +324,11 @@ const db_config_define = [
         name: 'history',
         type: 'object',
         created: 2
+    }, {
+        name: 'history.history_theme',
+        type: 'string',
+        default: '',
+        created: 3
     }, {
         name: 'history.message_list_reverse',
         type: 'boolean',

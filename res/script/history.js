@@ -7,6 +7,8 @@ if (!config.history.display_time) $('body').addClass('echo-live-history-disable-
 if (config.history.latest_message_hide) $('body').addClass('echo-live-history-latest-message-hide');
 
 let echoLiveHistory = new EchoLiveHistory(config);
+echoLiveHistory.theme = extensionManager.theme;
+echoLiveHistory.setTheme(config.history.history_theme || config.global.theme);
 
 echoLiveHistory.on('newHistory', function(e) {
     sendHistory(e.username, e.message);

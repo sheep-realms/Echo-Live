@@ -60,6 +60,10 @@ const lang_zho_Hans = {
             language: {
                 _title: "显示语言",
                 _description: "后台页面的显示语言。"
+            },
+            theme: {
+                _title: "全局主题",
+                _description: "控制对话框、历史记录等面向观众展示的界面主题。关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。"
             }
         },
         echo: {
@@ -74,8 +78,8 @@ const lang_zho_Hans = {
             _title: "Echo-Live",
             _description: "Echo-Live 相关配置",
             live_theme: {
-                _title: "主题名称",
-                _description: "关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。"
+                _title: "对话框主题",
+                _description: "留空则使用全局主题。关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。"
             },
             live_theme_script_enable: {
                 _title: "启用主题脚本",
@@ -222,6 +226,10 @@ const lang_zho_Hans = {
         history: {
             _title: "历史记录",
             _description: "面向观众展示的历史记录",
+            history_theme: {
+                _title: "历史记录主题",
+                _description: "留空则使用全局主题。关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。"
+            },
             message_list_reverse: {
                 _title: "历史记录倒序排列",
                 _description: "历史记录按照发送时间由新到旧排列。"

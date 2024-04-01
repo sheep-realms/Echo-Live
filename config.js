@@ -11,12 +11,15 @@
 
 const config = {
     // 数据版本，用于后续的自动化配置更新，请勿修改
-    data_version: 2,
+    data_version: 3,
 
     // 全局配置
     global: {
         // 显示语言
         language: 'zho-Hans',
+
+        // 主题名称
+        theme: 'vanilla',
     },
 
     // Echo 相关配置
@@ -31,7 +34,7 @@ const config = {
 
         // 主题名称
         // * 可用的主题请见：https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/
-        live_theme: 'vanilla',
+        live_theme: '',
         // 启用主题脚本
         // * 一些高级效果可能需要启用主题脚本才能正常使用。目前所有预制主题均不包含脚本。
         // * 脚本中可以执行任意代码，请谨慎安装需要您启用脚本的第三方主题。
@@ -202,6 +205,7 @@ const config = {
     // 历史记录相关配置
     // * 是面向观众展示的历史记录，不是编辑器中的历史记录
     history: {
+        history_theme: '',
         // == 布局 ==
 
         // 历史记录倒序排列

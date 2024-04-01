@@ -358,7 +358,8 @@
     gap: 8px;
 }
 
-.settings-item.change .meta .title::after {
+.settings-item.change .meta .title::after,
+.settings-item.change-textarea .meta .title::after {
     content: "*";
     color: var(--color-danger);
     display: inline-block;
@@ -374,7 +375,7 @@
     flex: 2;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
 }
 
 .settings-unknow-config-type {
@@ -387,7 +388,7 @@
 
 .settings-item.settings-type-boolean .value {
     flex: unset;
-    width: 96px;
+    min-width: 96px;
 }
 
 .settings-switch {
@@ -403,6 +404,50 @@
 }
 
 .settings-switch.state-off .btn-on {
+    display: none;
+}
+
+.settings-item[data-type="special.all_or_array_string"] {
+    flex-wrap: wrap;
+}
+
+.settings-item[data-type="special.all_or_array_string"] .value {
+    min-width: 96px;
+    flex: unset;
+}
+
+.settings-item[data-type="special.all_or_array_string"] .content {
+    width: 100%;
+}
+
+/* .settings-value-list-box {
+    display: flex;
+    gap: 8px;
+}
+
+.settings-value-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #FFFFFF;
+    border-bottom: var(--border-coler) 1px solid;
+}
+
+.settings-value-list-controller {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+}
+
+.settings-value-list-controller button {
+    min-width: 88px;
+} */
+
+.settings-item .content.hide {
     display: none;
 }
 

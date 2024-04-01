@@ -137,6 +137,33 @@ function getSettingsItemValue(name, isDefault = false) {
             default:
                 break;
         }
+    } else {
+        switch (type.split('.')[1]) {
+            case 'all_or_array_string':
+                value = $sel.find('.settings-switch-value').eq(0).val();
+                if (isDefault) value = String($sel.find('.settings-switch-value').eq(0).data('default'));
+                if (value != 'true') {
+                    if (isDefault) {
+                        try {
+                            value = atob($sel.find('.settings-value-list').eq(0).data('default')).split('\n');
+                        } catch (error) {
+                            console.log(value);
+                            debugger
+                        }
+                        
+                    } else {
+                        value = $sel.find('.settings-value-list').eq(0).val().split('\n')
+                                    .filter(str => str.trim() !== '')
+                                    .map(str => str.trim());
+                    }
+                } else {
+                    value = 'all';
+                }
+                break;
+        
+            default:
+                break;
+        }
     }
 
     return value;
@@ -159,6 +186,37 @@ function setSettingsItemValue(name, value, isDefault = false) {
             case 'boolean':
                 $sel.find('.settings-switch').removeClass('state-off state-on');
                 $sel.find('.settings-switch').addClass(bt[Number(value)]);
+                break;
+        
+            default:
+                break;
+        }
+    } else {
+        switch (type.split('.')[1]) {
+            case 'all_or_array_string':
+                if (value === 'all') {
+                    $sel.find('.settings-switch-value').eq(0).val('true');
+                    $sel.find('.settings-switch').removeClass('state-off state-on');
+                    $sel.find('.settings-switch').addClass('state-on');
+                    $sel.find('.settings-switch-value').eq(0).val('true');
+                    if (isDefault) $sel.find('.settings-switch-value').eq(0).data('default', true);
+                    $sel.find('.content').addClass('hide');
+                } else if (Array.isArray(value)) {
+                    $sel.find('.settings-switch').removeClass('state-off state-on');
+                    $sel.find('.settings-switch').addClass('state-off');
+                    $sel.find('.settings-switch-value').eq(0).val('false');
+                    $sel.find('.settings-value-list').eq(0).val(
+                        value.filter(str => str.trim() !== '').map(str => str.trim()).join('\n')
+                    );
+                    if (isDefault) {
+                        $sel.find('.settings-switch-value').eq(0).data('default', false);
+                        $sel.find('.settings-value-list').eq(0).data(
+                            'default',
+                            btoa(value.filter(str => str.trim() !== '').map(str => str.trim()).join('\n'))
+                        );
+                    }
+                    $sel.find('.content').removeClass('hide');
+                }
                 break;
         
             default:
@@ -239,7 +297,7 @@ function configUndoAll() {
         let dv = getSettingsItemValue(id, true);
         setSettingsItemValue(id, dv);
     }
-    $('.settings-item.change').removeClass('change');
+    $sel.removeClass('change');
     configSaveCloseController();
 }
 
@@ -251,7 +309,7 @@ function configSaveAll(effect = false) {
         settingsManager.setConfig(id, value);
         setSettingsItemValue(id, value, true);
     }
-    $('.settings-item.change').removeClass('change');
+    $sel.removeClass('change');
     configSaveCloseController();
     configOutput(true);
     if (effect) effectFlicker('#tabpage-nav-export');
@@ -440,10 +498,20 @@ $(document).on('click', '#settings-file-input-box', function(e) {
 function configLoad() {
     settingsManager.getConfigDefine().forEach((e) => {
         let value = settingsManager.getConfig(e.name);
-        if (value != undefined && typeof value != 'object') {
+        if (value != undefined && (typeof value != 'object' || Array.isArray(value))) {
             setSettingsItemValue(e.name, settingsManager.getConfig(e.name), true);
         }
     });
+
+    if (settingsManager.getConfig('editor.palette') === 'all') {
+        $('#editor-palette-list').val([
+            'material',
+            'tailwindcss',
+            'ant_design',
+            'minecraft',
+        ].join('\n'));
+    }
+
     configOutput();
 }
 
@@ -640,22 +708,44 @@ $(document).on('click', '.settings-nav-item', function() {
 
 $(document).on('click', '.settings-switch', function() {
     const $parent = $(this).parents('.settings-item').eq(0);
-    const defaultValue = $(this).children('.settings-value').data('default');
+    const name = $parent.data('id');
+    const defaultValue = $(this).children('.settings-switch-value').data('default');
+    const defaultValueTrue = getSettingsItemValue(name, true);
     const t = [
         ['off', false, 0],
         ['on',  true,  1]
     ];
     let next = 0;
     let isBit = $(this).data('is-bit');
+    if (isBit == undefined) isBit = 0;
     if ($(this).hasClass('state-off')) next = 1;
     let value = t[next][1 + isBit];
 
-    $(this).children('.settings-value').val(value);
+    $(this).children('.settings-switch-value').val(value);
     $(this).removeClass('state-off state-on');
     $(this).addClass('state-' + t[next][0]);
     $(this).children('.btn-' + t[next][0]).focus();
 
-    if (value != defaultValue) {
+    if ($parent.data('type') == 'special.all_or_array_string') {
+        // debugger
+        if (next == 1) {
+            $parent.find('.content').addClass('hide');
+        } else {
+            $parent.find('.content').removeClass('hide');
+        }
+    }
+
+    if (Array.isArray(defaultValueTrue)) {
+        let v1 = getSettingsItemValue(name);
+        let v2 = defaultValueTrue;
+        if (Array.isArray(v1)) v1 = v1.join('\n');
+        if (Array.isArray(v2)) v2 = v2.join('\n');
+        if (v1 != v2) {
+            $parent.addClass('change');
+        } else {
+            $parent.removeClass('change');
+        }
+    } else if (value != defaultValue) {
         $parent.addClass('change');
     } else {
         $parent.removeClass('change');
@@ -681,6 +771,20 @@ $(document).on('input', '.settings-item .settings-value', function() {
     const value = getSettingsItemValue(name);
     const defaultValue = getSettingsItemValue(name, true);
     if (value != defaultValue) {
+        $parent.addClass('change');
+    } else {
+        $parent.removeClass('change');
+    }
+    configChangeCheck();
+});
+
+$(document).on('input', '.settings-item[data-type="special.all_or_array_string"] textarea', function() {
+    const $parent = $(this).parents('.settings-item').eq(0);
+    const name = $parent.data('id');
+    const value = $(this).val();
+    const defaultValue = atob($(this).data('default'));
+    const defaultValueTrue = getSettingsItemValue(name, true);
+    if (value != defaultValue || !Array.isArray(defaultValueTrue)) {
         $parent.addClass('change');
     } else {
         $parent.removeClass('change');

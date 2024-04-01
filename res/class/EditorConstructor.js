@@ -611,7 +611,7 @@ class SettingsPanel {
         </div>`;
     }
 
-    static setItem(type = 'string', id = '', title = '', description = '', content = '') {
+    static setItem(type = 'string', id = '', title = '', description = '', content = '', moreContent = '') {
         return `<div class="settings-item settings-type-${ type.split('.')[0] }" data-id="${ id }" data-type="${ type }">
             <div class="meta">
                 <div class="title">${ title }</div>
@@ -620,6 +620,7 @@ class SettingsPanel {
             <div class="value">
                 ${ content }
             </div>
+            ${ moreContent != '' ? moreContent : '' }
         </div>`;
     }
 
@@ -630,9 +631,18 @@ class SettingsPanel {
             boolean: 'setItemBoolean',
         }
 
+        const funSpecial = {
+            all_or_array_string: 'setItemAllOrArrayString'
+        };
+
         let types = item.type.split('.');
 
         let run = fun[types[0]];
+
+        if (types[0] == 'special') {
+            run = funSpecial[types[1]];
+        }
+
         if (run == undefined) run = 'setItemUnknow';
 
         const title = $t( 'config.' + item.name + '._title' );
@@ -701,19 +711,59 @@ class SettingsPanel {
             type, id, title, description,
             `<div class="settings-switch state-${ value ? 'on' : 'off' }" data-is-bit="${ isBit ? '1' : '0' }">
                 ${
-                    EditorForm.button('关闭', {
+                    EditorForm.button($t('ui.off'), {
                         icon: Icon.toggleSwitchOffOutline(),
                         class: 'btn-switch btn-off',
                         type: 'ghost'
                     })
                 }
                 ${
-                    EditorForm.button('开启', {
+                    EditorForm.button($t('ui.on'), {
                         icon: Icon.toggleSwitch(),
                         class: 'btn-switch btn-on'
                     })
                 }
-                <input type="hidden" id="${ id.replace(/\./g, '-') }" class="settings-value" data-default="${ value }" value="${ value }">
+                <input type="hidden" id="${ id.replace(/\./g, '-') }" class="settings-value settings-switch-value" data-default="${ value }" value="${ value }">
+            </div>`
+        );
+    }
+
+    static setItemAllOrArrayString(type = '', id = '', title = '', description = '', value = '') {
+        let list = [];
+        let isAll = false;
+        let listStr = '';
+        if (value === 'all') {
+            list = [];
+            isAll = true;
+        } else if (!Array.isArray(value)) {
+            list = [];
+        } else {
+            list = value;
+            listStr = list.filter(str => str.trim() !== '').map(str => str.trim()).join('\n');
+        }
+
+        return SettingsPanel.setItem(
+            type, id, title, description,
+            `<div class="settings-switch settings-switch-all-or-array-string state-${ isAll ? 'on' : 'off' }">
+                ${
+                    EditorForm.button($t('ui.enable_all'), {
+                        icon: Icon.toggleSwitchOffOutline(),
+                        class: 'btn-switch btn-off',
+                        type: 'ghost'
+                    })
+                }
+                ${
+                    EditorForm.button($t('ui.enable_all'), {
+                        icon: Icon.toggleSwitch(),
+                        class: 'btn-switch btn-on'
+                    })
+                }
+                <input type="hidden" id="${ id.replace(/\./g, '-') }-is-all" class="settings-value-enable-all settings-switch-value" data-default="${ isAll }" value="${ isAll }">
+            </div>`,
+            `<div class="content ${ isAll ? 'hide' : '' }">
+                <div class="settings-value-list-box">
+                    <textarea id="${ id.replace(/\./g, '-') }-list" class="settings-value-list code" data-default="${ isAll ? '' : btoa(listStr) }">${ listStr }</textarea>
+                </div>
             </div>`
         );
     }

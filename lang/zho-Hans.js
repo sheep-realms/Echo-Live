@@ -14,6 +14,11 @@ const lang_zho_Hans = {
         save_as: "另存为",
         staging: "暂存",
         close: "关闭",
+        off: "关闭",
+        on: "开启",
+        disable: "禁用",
+        enable: "启用",
+        enable_all: "全部启用",
         edit: "编辑",
         send: "发送",
         reset: "重置",
@@ -26,6 +31,8 @@ const lang_zho_Hans = {
         export: "导出",
         re_export: "重新导出",
         more_info: "了解详情",
+        add: "添加",
+        remove: "移除",
         move_up: "上移",
         move_down: "下移",
         move_left: "左移",
@@ -196,7 +203,7 @@ const lang_zho_Hans = {
             },
             palette: {
                 _title: "启用的色板",
-                _description: "拾色器中有多种色板可供挑选。",
+                _description: "拾色器中有多种色板可供挑选。<br>预制的色板有 material、tailwindcss、ant_design 和 minecraft。<br>若要挑选启用的色板或调整排序，请反选 “全部启用”，并在下方文本框中输入色板名称，一行一个。",
                 all_selected: "全部启用"
             },
             palette_color_contrast_enable: {

@@ -198,8 +198,16 @@
 .accessible-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content.fail {
     background-color: var(--color-danger-dark);
     border: var(--color-danger-dark) 1px solid;
-    fill: #FFFFFF;
-    color: #FFFFFF;
+    fill: #FFF;
+    color: #FFF;
+}
+
+.prefers-color-scheme-dark .accessible-high-contrast.accessible-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content.fail {
+    color: var(--page-bgcolor);
+}
+
+.prefers-color-scheme-dark .accessible-high-contrast.accessible-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content.fail svg {
+    color: var(--page-bgcolor);
 }
 
 

@@ -451,11 +451,19 @@ $(document).ready(function() {
 
     $('#settings-file-check-box').html(SettingsFileChecker.default());
 
-    $('.settings-page[data-pageid="accessible"]').prepend(SettingsPanel.msgBoxBlack(
-        $t('config.about.accessibility'),
-        $t('settings.msgbox.accessibility'),
-        'wheelchairAccessibility'
-    ));
+    $('.settings-page[data-pageid="accessible"]').prepend(
+        SettingsPanel.msgBoxBlack(
+            $t('config.about.accessibility'),
+            $t('settings.msgbox.accessibility'),
+            'wheelchairAccessibility'
+        ) +
+        `<div class="review-color-card">
+            <div class="general"><div class="fg">${ $t('settings.functional_color.general') }</div><div class="bg"></div></div>
+            <div class="safe"><div class="fg">${ $t('settings.functional_color.safe') }</div><div class="bg"></div></div>
+            <div class="warn"><div class="fg">${ $t('settings.functional_color.warn') }</div><div class="bg"></div></div>
+            <div class="danger"><div class="fg">${ $t('settings.functional_color.danger') }</div><div class="bg"></div></div>
+        </div>`
+    );
     $('.settings-page[data-pageid="advanced"]').prepend(SettingsPanel.msgBoxWarn(
         '',
         $t('settings.msgbox.advanced_settings')

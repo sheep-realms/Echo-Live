@@ -289,7 +289,7 @@ const lang_zho_Hans = {
             },
             drotanopia_and_deuteranopia: {
                 _title: "红绿色盲",
-                _description: "绿色功能色会以蓝色代替。"
+                _description: "绿色（安全）功能色会以蓝色（通用）代替，以便和功能差异较大的黄色（警告）和红色（危险）作出区分。"
             }
         },
         advanced: {
@@ -335,7 +335,8 @@ const lang_zho_Hans = {
     editor: {
         client_state: {
             active: "激活",
-            sleep: "休眠",
+            none: "未加入",
+            sleep: "休眠"
         },
         client_state_panel: {
             tip: "客户端状态：{client}，Echo 状态：{echo}。",
@@ -593,6 +594,13 @@ const lang_zho_Hans = {
                 description: "此页面使用了一些最新技术，您的浏览器可能无法支持部分功能。<br>当然您也可以试试 Edge 浏览器。",
                 goto: "获取 Chrome"
             }
+        },
+        functional_color: {
+            danger: "危险",
+            general: "通用",
+            safe: "安全",
+            special: "特殊",
+            warn: "警告"
         },
         label: {
             config_changed: "配置已更改",

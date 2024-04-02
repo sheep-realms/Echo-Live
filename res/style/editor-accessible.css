@@ -137,8 +137,11 @@
 
 
 
+.accessible-high-contrast .echo-live-client-state-block.state-active {
+    border: 1px solid var(--color-safe-dark);
+}
+
 .accessible-high-contrast .echo-live-client-state-block.state-sleep {
-    background-color: transparent;
     border: 1px solid var(--color-danger-dark);
 }
 
@@ -180,11 +183,11 @@
     --color-safe-glass: var(--color-general-glass);
 }
 
-.accessible-drotanopia-and-deuteranopia .echo-live-client-state-block.state-active {
+.accessible-drotanopia-and-deuteranopia .echo-live-client-state-block.state-active .state-color-block {
     background-color: var(--color-general-dark);
 }
 
-.accessible-drotanopia-and-deuteranopia .echo-live-client-state-block.state-sleep {
+.accessible-drotanopia-and-deuteranopia .echo-live-client-state-block.state-sleep .state-color-block {
     background-color: transparent;
     border: 1px solid var(--color-general-dark);
 }

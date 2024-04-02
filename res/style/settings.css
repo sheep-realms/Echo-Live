@@ -263,8 +263,8 @@
     cursor: pointer;
     display: flex;
     align-items: center;
-    height: 40px;
-    padding: 0 0.5em;
+    min-height: 40px;
+    padding: 4px 0.5em;
     color: var(--text-regular);
     border: unset;
     background-color: transparent;
@@ -634,4 +634,55 @@ a.settings-link-bar:active {
 
 #export-unsave.hide {
     display: none;
+}
+
+
+
+
+.review-color-card {
+    display: flex;
+    margin: 16px 0;
+}
+
+.review-color-card>div {
+    flex: 1;
+}
+
+.review-color-card>div>div {
+    display: flex;
+    min-height: 32px;
+    align-items: center;
+    justify-content: center;
+}
+
+.review-color-card .general .fg {
+    color: var(--color-general-dark);
+}
+
+.review-color-card .safe .fg {
+    color: var(--color-safe-dark);
+}
+
+.review-color-card .warn .fg {
+    color: var(--color-warn-dark);
+}
+
+.review-color-card .danger .fg {
+    color: var(--color-danger-dark);
+}
+
+.review-color-card .general .bg {
+    background-color: var(--color-general-dark);
+}
+
+.review-color-card .safe .bg {
+    background-color: var(--color-safe-dark);
+}
+
+.review-color-card .warn .bg {
+    background-color: var(--color-warn-dark);
+}
+
+.review-color-card .danger .bg {
+    background-color: var(--color-danger-dark);
 }

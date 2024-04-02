@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
 
-    --corner-marker-color: rgba(255,255,255,0.5);
+    --corner-marker-color: rgba(255, 255, 255, 0.5);
     --corner-marker-angle: -135deg;
     --corner-marker-angle-reverse: 45deg;
     --corner-marker: linear-gradient(var(--corner-marker-angle), var(--corner-marker-color) 5px, transparent 5px);
@@ -32,9 +32,25 @@
 
     --color-msgbox-background: #EEE;
 
+    --fh-border-coler: #AAAAAA;
+
     --animation-speed: 1.0s;
     --animation-speed-button-switch: 0.1s;
 }
+
+@media (prefers-color-scheme: dark) {
+    :root:not(.prefers-color-scheme-light) * {
+        --corner-marker-color: rgba(30, 33, 41, 0.5);
+        --fh-border-coler: #666666;
+    }
+}
+
+.prefers-color-scheme-dark * {
+    --corner-marker-color: rgba(30, 33, 41, 0.5);
+    --fh-border-coler: #666666;
+}
+
+
 
 body {
     background-color: #FAFAFA;
@@ -173,7 +189,7 @@ ruby>.fh-ruby-hidden {
     margin: 50px auto;
     width: 940px;
     padding: 30px;
-    background-color: #FFF;
+    background-color: var(--input-bgcolor);
     box-shadow: #CCC 0 5px 25px;
 }
 
@@ -256,7 +272,7 @@ p .fh-loading {
     position: fixed;
     top: calc(50vh - (var(--height) + var(--title-height)) / 2);
     right: calc(50vw - var(--width) / 2);;
-    background-color: #FFF;
+    background-color: var(--input-bgcolor);
     box-shadow: #CCC 0 3px 15px;
     overflow: hidden;
     animation: fh-window-show calc(var(--animation-speed) * 0.5);
@@ -686,13 +702,13 @@ p .fh-loading {
     padding: 0 10px;
     margin: 0 3px;
     font-size: 14px;
-    color: #000;
-    border: #D9D9D9 1px solid;
-    --corner-marker-color: #D9D9D9;
+    color: var(--input-bgcolor);
+    border: var(--fh-border-coler) 1px solid;
+    --corner-marker-color: var(--fh-border-coler);
     --corner-marker-angle: var(--corner-marker-angle-reverse);
     vertical-align: baseline;
     outline: none;
-    background-color: #FFF;
+    background-color: var(--input-bgcolor);
     background-image: var(--corner-marker);
     background-repeat: no-repeat;
     transition: filter var(--animation-speed-button-switch), background-color var(--animation-speed-button-switch), box-shadow var(--animation-speed-button-switch), border var(--animation-speed-button-switch), background-image var(--animation-speed-button-switch);

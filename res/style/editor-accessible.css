@@ -35,6 +35,106 @@
     --box-shadow: 0 0 0 4px rgba(128, 128, 128, 0.75);
 }
 
+@media (prefers-color-scheme: dark) {
+    :root:not(.prefers-color-scheme-light) .accessible-high-contrast {
+        --color-main: rgb(64, 173, 235);
+        --color-main-dark: rgb(40, 144, 204);
+    
+        --color-general: #3BA7E6;
+        --color-safe: #5AE64D;
+        --color-warn: #E6BD35;
+        --color-danger: #FF7379;
+        --color-special: #D481F2;
+    
+        --color-general-dark: var(--color-general);
+        --color-safe-dark: var(--color-safe);
+        --color-warn-dark: var(--color-warn);
+        --color-danger-dark: var(--color-danger);
+        --color-special-dark: var(--color-special);
+    
+        --color-general-glass: rgba(45, 147, 206, 0.05);
+        --color-safe-glass: rgba(69, 204, 56, 0.05);
+        --color-warn-glass: rgba(230, 189, 53, 0.05);
+        --color-danger-glass: rgba(230, 82, 89, 0.05);
+        --color-special-glass: rgba(147, 61, 178, 0.05);
+    
+        --fh-border-coler: #AAAAAA;
+        --text-primary: #FFF;
+        --text-regular: #DDD;
+        --text-secondary: #BBB;
+        --text-placeholder: #999;
+    
+        --border-coler: #FFF;
+        --box-shadow: 0 2px 16px rgba(128, 128, 128, 0.75);
+    
+        --page-bgcolor: #000;
+        --input-bgcolor: #0D111A;
+        --input-color: var(--text-primary);
+
+        --checkbox-corner-marker-color: rgba(30, 33, 41, 0.5);
+    }
+
+    :root:not(.prefers-color-scheme-light) * {
+        --corner-marker-color: rgba(30, 33, 41, 0.5);
+        --fh-border-coler: #FFF;
+    }
+}
+
+.prefers-color-scheme-dark .accessible-high-contrast {
+    --color-main: rgb(64, 173, 235);
+    --color-main-dark: rgb(40, 144, 204);
+    
+    --color-general: #3BA7E6;
+    --color-safe: #5AE64D;
+    --color-warn: #E6BD35;
+    --color-danger: #FF7379;
+    --color-special: #D481F2;
+
+    --color-general-dark: var(--color-general);
+    --color-safe-dark: var(--color-safe);
+    --color-warn-dark: var(--color-warn);
+    --color-danger-dark: var(--color-danger);
+    --color-special-dark: var(--color-special);
+
+    --color-general-glass: rgba(45, 147, 206, 0.12);
+    --color-safe-glass: rgba(69, 204, 56, 0.12);
+    --color-warn-glass: rgba(230, 189, 53, 0.12);
+    --color-danger-glass: rgba(230, 82, 89, 0.12);
+    --color-special-glass: rgba(147, 61, 178, 0.12);
+
+    --text-primary: #FFF;
+    --text-regular: #DDD;
+    --text-secondary: #BBB;
+    --text-placeholder: #999;
+
+    --border-coler: #FFF;
+    --box-shadow: 0 2px 16px rgba(128, 128, 128, 0.75);
+
+    --page-bgcolor: #000;
+    --input-bgcolor: #0D111A;
+    --input-color: var(--text-primary);
+
+    --checkbox-corner-marker-color: rgba(30, 33, 41, 0.5);
+}
+
+.prefers-color-scheme-dark * {
+    --corner-marker-color: rgba(30, 33, 41, 0.5);
+    --fh-border-coler: #FFF;
+}
+
+.prefers-color-scheme-dark .accessible-high-contrast .fh-button:not(.fh-ghost, .fh-dashed, .fh-air),
+.prefers-color-scheme-dark .accessible-high-contrast .settings-nav-item[aria-selected="true"],
+.prefers-color-scheme-dark .accessible-high-contrast #log-message-mark {
+    color: var(--page-bgcolor);
+}
+
+.prefers-color-scheme-dark .accessible-high-contrast .fh-button:not(.fh-ghost, .fh-dashed, .fh-air) svg,
+.prefers-color-scheme-dark .accessible-high-contrast .settings-nav-item[aria-selected="true"] svg {
+    fill: var(--page-bgcolor);
+}
+
+
+
 .accessible-high-contrast .echo-live-client-state-block.state-sleep {
     background-color: transparent;
     border: 1px solid var(--color-danger-dark);
@@ -66,7 +166,7 @@
     animation: unset;
 }
 
-.accessible-high-contrast .settings-panel a {
+.accessible-high-contrast .settings-panel a:not(.settings-link-bar) {
     border-bottom: var(--color-general-dark) 1px solid;
 }
 

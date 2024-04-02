@@ -64,6 +64,15 @@ const lang_zho_Hans = {
             theme: {
                 _title: "全局主题",
                 _description: "控制对话框、历史记录等面向观众展示的界面主题。关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。"
+            },
+            color_scheme: {
+                _title: "后台配色方案",
+                _description: "控制后台界面的配色。可用的方案有 auto（跟随系统）、light（浅色）和 dark（深色）。",
+                _value: {
+                    auto: "跟随系统",
+                    dark: "深色",
+                    light: "浅色"
+                }
             }
         },
         echo: {
@@ -75,7 +84,7 @@ const lang_zho_Hans = {
             },
             html_format_enable: {
                 _title: "启用 HTML 过滤器",
-                _description: "启用此过滤器后，HTML 语义元素会被转义。关闭此过滤器有脚本注入风险以及无法呈现多个空白字符。"
+                _description: "启用此过滤器后，HTML 语义元素会被转义，可以显示多个连续空格。关闭此过滤器有脚本注入风险。"
             }
         },
         echolive: {
@@ -285,7 +294,7 @@ const lang_zho_Hans = {
         },
         advanced: {
             _title: "高级设置",
-            _description: "仅供开发者使用",
+            _description: "一些复杂的设置",
             _warn: "警告：除非您知道您在干什么，否则请不要动这里的设置。",
             broadcast: {
                 _title: "广播",

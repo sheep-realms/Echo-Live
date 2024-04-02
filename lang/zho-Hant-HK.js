@@ -11,17 +11,28 @@ const lang_zho_Hant_HK = {
         yes: "是",
         no: "否",
         save: "保存",
+        save_as: "另存為",
+        staging: "暫存",
         close: "關閉",
+        off: "關閉",
+        on: "開啟",
+        disable: "禁用",
+        enable: "啟用",
+        enable_all: "全部啟用",
         edit: "編輯",
         send: "發送",
         reset: "重置",
         clear: "清空",
         delete: "刪除",
+        undo: "撤銷",
         input: "輸入",
         output: "輸出",
         import: "導入",
         export: "導出",
+        re_export: "重新導出",
         more_info: "了解詳情",
+        add: "添加",
+        remove: "移除",
         move_up: "上移",
         move_down: "下移",
         move_left: "左移",
@@ -49,6 +60,19 @@ const lang_zho_Hant_HK = {
             language: {
                 _title: "顯示語言",
                 _description: "後台頁面的顯示語言。"
+            },
+            theme: {
+                _title: "全局主題",
+                _description: "控制對話框、歷史記錄等面向觀眾展示的界面主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>幫助文檔</a>。"
+            },
+            color_scheme: {
+                _title: "後台配色方案",
+                _description: "控制後台界面的配色。可用的方案有 auto（跟隨系統）、light（淺色）和 dark（深色）。",
+                _value: {
+                    auto: "跟隨系統",
+                    dark: "深色",
+                    light: "淺色"
+                }
             }
         },
         echo: {
@@ -57,14 +81,18 @@ const lang_zho_Hant_HK = {
             print_speed: {
                 _title: "打印速度",
                 _description: "每個字符打印循環的延遲時間（毫秒），最小值為 4。"
+            },
+            html_format_enable: {
+                _title: "啟用 HTML 過濾器",
+                _description: "啟用此過濾器後，HTML 語義元素會被轉義，可以顯示多個連續空格。關閉此過濾器有腳本注入風險。"
             }
         },
         echolive: {
             _title: "Echo-Live",
             _description: "Echo-Live 相關配置",
             live_theme: {
-                _title: "主題名稱",
-                _description: "關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>幫助文檔</a>。"
+                _title: "對話框主題",
+                _description: "留空則使用全局主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>幫助文檔</a>。"
             },
             live_theme_script_enable: {
                 _title: "啟用主題腳本",
@@ -192,7 +220,7 @@ const lang_zho_Hant_HK = {
             },
             palette: {
                 _title: "啟用的色板",
-                _description: "拾色器中有多種色板可供挑選。",
+                _description: "拾色器中有多種色板可供挑選。<br>預製的色板有 material、tailwindcss、ant_design 和 minecraft。<br>若要挑選啟用的色板或調整排序，請反選 “全部啟用”，並在下方文本框中輸入色板名稱，一行一個。",
                 all_selected: "全部啟用"
             },
             palette_color_contrast_enable: {
@@ -211,6 +239,10 @@ const lang_zho_Hant_HK = {
         history: {
             _title: "歷史記錄",
             _description: "面向觀眾展示的歷史記錄",
+            history_theme: {
+                _title: "歷史記錄主題",
+                _description: "留空則使用全局主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>幫助文檔</a>。"
+            },
             message_list_reverse: {
                 _title: "歷史記錄倒序排列",
                 _description: "歷史記錄按照發送時間由新到舊排列。"
@@ -262,7 +294,7 @@ const lang_zho_Hant_HK = {
         },
         advanced: {
             _title: "高級設定",
-            _description: "僅供開發者使用",
+            _description: "一些複雜的設置",
             _warn: "警告：除非您知道您在幹甚麼，否則請不要動這裏的設置。",
             broadcast: {
                 _title: "廣播",
@@ -480,7 +512,14 @@ const lang_zho_Hant_HK = {
         size: "文件大小",
         checker: {
             default_file_loaded: "默認路徑中的配置文件已載入",
-            empry: "未載入文件"
+            empry: "未載入文件",
+            state: {
+                error: "錯誤",
+                exception: "異常",
+                future: "新版",
+                loaded: "已載入",
+                update: "舊版"
+            }
         },
         droper: {
             title: "文件選擇器",
@@ -500,16 +539,36 @@ const lang_zho_Hant_HK = {
         empty_username: "[未指定說話人]",
         undefined_message: "[未定義消息]"
     },
+    page_title: {
+        editor: "Echo Live 編輯器",
+        history: "Echo Live 歷史記錄",
+        live: "Echo Live",
+        settings: "Echo Live 配置文件編輯器"
+    },
     settings: {
+        unknow_config_type: "暫不支持修改此配置",
         config_input: {
+            config_from_future: {
+                title: "配置文件來自未來版本",
+                description: "此配置文件來自於未來的 Echo-Live，您也許有哪裏搞錯了。<br>繼續加載可能會產生意料之外的問題。",
+                load: "繼續加載"
+            },
             json_parse_fail: {
                 title: "無法安全讀取配置文件",
                 description: "這可能是因為配置文件為早期版本，或是配置文件內容損壞。<br>如果您確定配置文件沒有問題，並且沒有被植入惡意代碼的可能，可以嘗試 “不安全讀取”。",
                 unsafe_load: "不安全讀取"
             },
+            in_obs: {
+                title: "不要在 OBS 中打開此頁面",
+                description: "這會產生一些意料之外的問題，並且您完全沒有必要將這個頁面放入 OBS 中。"
+            },
             many_file: {
                 title: "太多了",
                 description: "處理不了那麼多文件，請一個一個來。"
+            },
+            no_json: {
+                title: "找不到配置數據",
+                description: "無法在此文件中找到配置數據。"
             },
             type_error: {
                 title: "文件類型錯誤",
@@ -518,7 +577,30 @@ const lang_zho_Hant_HK = {
             unsafe_load_fail: {
                 title: "無法讀取配置文件",
                 description: "看來您的配置文件確實有問題，請檢查您的配置文件。"
+            },
+            update_config: {
+                title: "配置文件需要更新",
+                description: "此配置文件來自於舊版的 Echo-Live，需要更新才能使用。",
+                update: "更新"
+            },
+            update_config_from_unknow_version: {
+                title: "未知的配置文件版本",
+                description: "此配置文件沒有版本號，可能來自於 1.2.7 之前的版本。<br>您可以強制升級此配置文件，但並不能保證其正常運作，不建議您繼續使用此配置文件。",
+                update: "強制更新"
+            },
+            use_chrome: {
+                title: "建議您使用最新版 Chrome 瀏覽器",
+                description: "此頁面使用了一些最新技術，您的瀏覽器可能無法支持部分功能。<br>當然您也可以試試 Edge 瀏覽器。",
+                goto: "獲取 Chrome"
             }
+        },
+        label: {
+            config_changed: "配置已更改",
+            config_output: "導出配置內容"
+        },
+        msgbox: {
+            accessibility: "Echo-Live 所有後台頁面均支持鍵盤訪問。<br>更多有關無障礙使用的幫助請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>幫助文檔</a>。",
+            advanced_settings: "不要隨意更改這裏的配置，除非您知道您在做甚麼。"
         },
         tabpage: {
             edit: {

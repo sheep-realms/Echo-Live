@@ -20,6 +20,8 @@ const config = {
 
         // 主题名称
         theme: 'vanilla',
+
+        color_scheme: 'auto',
     },
 
     // Echo 相关配置

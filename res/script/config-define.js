@@ -21,6 +21,14 @@ const db_config_define = [
         attribute: {
             datalist: []
         }
+    }, {
+        name: 'global.color_scheme',
+        type: 'string',
+        default: 'vanilla',
+        created: 3,
+        attribute: {
+            datalist: []
+        }
     },
     
 

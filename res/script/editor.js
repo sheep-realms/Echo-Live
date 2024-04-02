@@ -569,6 +569,11 @@ $(document).on('input', '#ptext-content', function() {
 
     $('#ptext-editor .editor-bottom-bar .length').text($t('editor.form.text_length', { n: length }));
 });
+$(document).on('change', '#ptext-content', function() {
+    let length  = $(this).val().length;
+
+    $('#ptext-editor .editor-bottom-bar .length').text($t('editor.form.text_length', { n: length }));
+});
 
 // 历史记录编辑
 $(document).on('click', '.history-message-item-btn-edit', function() {

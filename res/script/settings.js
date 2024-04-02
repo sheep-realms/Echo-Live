@@ -409,6 +409,15 @@ $(document).ready(function() {
     i = settingsManager.findIndexConfigDefine('echolive.next_audio_name');
     settingsManager.configDefine[i].attribute.datalist = datalistLang;
 
+    datalistLang = [
+        { value: 'auto', title: $t('config.global.color_scheme._value.auto') },
+        { value: 'light', title: $t('config.global.color_scheme._value.light') },
+        { value: 'dark', title: $t('config.global.color_scheme._value.dark') }
+    ];
+
+    i = settingsManager.findIndexConfigDefine('global.color_scheme');
+    settingsManager.configDefine[i].attribute.datalist = datalistLang;
+
     // 生成页面
 
     settingsNav.forEach((e) => {

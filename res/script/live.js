@@ -1,6 +1,7 @@
 "use strict";
 
 let echo = new Echo();
+if (config.echo.html_format_enable != true) echo.filter.HTMLFormat = false;
 let echolive = new EchoLive(echo, config);
 echolive.theme = extensionManager.theme;
 echolive.setTheme(config.echolive.live_theme || config.global.theme);

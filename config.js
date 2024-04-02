@@ -26,6 +26,8 @@ const config = {
     echo: {
         // 滚动速度，每个字符打印循环的延迟时间（毫秒），最小值为 4
         print_speed: 30,
+
+        html_format_enable: true,
     },
 
     // Echo-Live 相关配置

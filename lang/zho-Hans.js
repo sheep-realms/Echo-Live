@@ -72,6 +72,10 @@ const lang_zho_Hans = {
             print_speed: {
                 _title: "打印速度",
                 _description: "每个字符打印循环的延迟时间（毫秒），最小值为 4。"
+            },
+            html_format_enable: {
+                _title: "启用 HTML 过滤器",
+                _description: "启用此过滤器后，HTML 语义元素会被转义。关闭此过滤器有脚本注入风险以及无法呈现多个空白字符。"
             }
         },
         echolive: {

@@ -201,7 +201,7 @@ class Echo {
 
         // 触发打印事件
         if (typeof a == 'string' && that.filter.HTMLFormat) {
-            a = a.replace(/  /g, ' &nbsp;');
+            a = a.replace(/ /g, '&ensp;');
             a = a.replace(/</g, '&lt;');
             a = a.replace(/>/g, '&gt;');
         }

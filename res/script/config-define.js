@@ -37,6 +37,11 @@ const db_config_define = [
         attribute: {
             min: 4
         }
+    }, {
+        name: 'echo.html_format_enable',
+        type: 'boolean',
+        default: true,
+        created: 1
     },
     
 

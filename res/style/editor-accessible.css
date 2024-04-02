@@ -124,12 +124,14 @@
 
 .prefers-color-scheme-dark .accessible-high-contrast .fh-button:not(.fh-ghost, .fh-dashed, .fh-air),
 .prefers-color-scheme-dark .accessible-high-contrast .settings-nav-item[aria-selected="true"],
-.prefers-color-scheme-dark .accessible-high-contrast #log-message-mark {
+.prefers-color-scheme-dark .accessible-high-contrast #log-message-mark,
+.prefers-color-scheme-dark .accessible-high-contrast #popups-palette .popups-palette-color-contrast .diff-result-content.fail {
     color: var(--page-bgcolor);
 }
 
 .prefers-color-scheme-dark .accessible-high-contrast .fh-button:not(.fh-ghost, .fh-dashed, .fh-air) svg,
-.prefers-color-scheme-dark .accessible-high-contrast .settings-nav-item[aria-selected="true"] svg {
+.prefers-color-scheme-dark .accessible-high-contrast .settings-nav-item[aria-selected="true"] svg,
+.prefers-color-scheme-dark .accessible-high-contrast #popups-palette .popups-palette-color-contrast .diff-result-content.fail svg {
     fill: var(--page-bgcolor);
 }
 

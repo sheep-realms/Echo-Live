@@ -95,7 +95,7 @@
 .file-check-box .meta .size,
 .file-check-box .meta .last-modified-date {
     color: var(--text-secondary);
-    font-size: 14px;
+    font-size: var(--font-size-small);
 }
 
 .file-check-box .state {
@@ -202,7 +202,7 @@
 }
 
 .file-check-dialog .title {
-    font-size: 24px;
+    font-size: var(--font-size-title-3);
     font-weight: bold;
     color: var(--text-primary);
 }
@@ -238,7 +238,7 @@
 
 .file-drop-box-message,
 .file-drop-box-message-keyboard {
-    font-size: 20px;
+    font-size: var(--font-size-extra-large);
     color: var(--text-secondary);
     pointer-events: none;
 }
@@ -269,7 +269,7 @@
     border: unset;
     background-color: transparent;
     width: 100%;
-    font-size: 16px;
+    font-size: var(--font-size-middle);
     justify-content: space-between;
     gap: 8px;
     box-sizing: border-box;
@@ -329,12 +329,12 @@
 .settings-group-title .title {
     color: var(--text-primary);
     font-weight: bold;
-    font-size: 24px;
+    font-size: var(--font-size-title-3);
 }
 
 .settings-group-title .description {
     color: var(--text-secondary);
-    font-size: 16px;
+    font-size: var(--font-size-middle);
 }
 
 .settings-item+.settings-group-title {
@@ -364,7 +364,7 @@
 .settings-item .meta .title {
     color: var(--text-primary);
     font-weight: 500;
-    font-size: 18px;
+    font-size: var(--font-size-large);
     word-break: break-word;
     display: flex;
     align-items: center;
@@ -380,7 +380,7 @@
 
 .settings-item .meta .description {
     color: var(--text-secondary);
-    font-size: 14px;
+    font-size: var(--font-size-small);
 }
 
 .settings-item .value {
@@ -393,7 +393,7 @@
 
 .settings-unknow-config-type {
     color: var(--text-secondary);
-    font-size: 14px;
+    font-size: var(--font-size-small);
 }
 
 @media screen and (max-width: 760px) {
@@ -620,13 +620,13 @@ a.settings-link-bar:active {
 .settings-about-footer {
     color: var(--text-secondary);
     padding: 16px 8px;
-    font-size: 14px;
+    font-size: var(--font-size-small);
 }
 
 #export-unsave {
     background-color: var(--color-danger-dark);
-    width: 12px;
-    height: 12px;
+    width: var(--font-size-extra-small);
+    height: var(--font-size-extra-small);
     border-radius: 6px;
     display: inline-block;
     margin-left: 4px;

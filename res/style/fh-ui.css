@@ -36,6 +36,14 @@
 
     --animation-speed: 1.0s;
     --animation-speed-button-switch: 0.1s;
+
+    --font-size-base: 16px;
+    --font-size-title-3: 1.5rem;
+    --font-size-extra-large: 1.25rem;
+    --font-size-large: 1.125rem;
+    --font-size-middle: 1rem;
+    --font-size-small: 0.875rem;
+    --font-size-extra-small: 0.75rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -167,7 +175,7 @@ ruby>.fh-ruby-hidden {
 }
 
 .fh-article h2 {
-    font-size: 24px;
+    font-size: var(--font-size-title-3);
     border-bottom: #AAA 1px solid;
     margin-top: 20px;
     margin-bottom: 10px;
@@ -305,7 +313,7 @@ p .fh-loading {
     width: calc(100% - 60px);
     padding-left: 10px;
     font-weight: bold;
-    font-size: 18px;
+    font-size: var(--font-size-large);
     white-space: nowrap;
 }
 
@@ -387,7 +395,7 @@ p .fh-loading {
     line-height: 35px;
     padding: 0 10px;
     margin: 0 3px;
-    font-size: 14px;
+    font-size: var(--font-size-small);
     color: #FFF;
     border: none;
     cursor: pointer;
@@ -701,7 +709,7 @@ p .fh-loading {
     line-height: 35px;
     padding: 0 10px;
     margin: 0 3px;
-    font-size: 14px;
+    font-size: var(--font-size-small);
     color: var(--input-bgcolor);
     border: var(--fh-border-coler) 1px solid;
     --corner-marker-color: var(--fh-border-coler);

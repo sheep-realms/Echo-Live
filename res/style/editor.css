@@ -18,6 +18,8 @@
     --input-color: var(--text-primary);
 
     --checkbox-corner-marker-color: rgba(255, 255, 255, 0.5);
+
+    font-size: var(--font-size-base);
 }
 
 .scheme-dark-only {
@@ -113,7 +115,7 @@ input.code {
     border-bottom: var(--border-coler) 1px solid;
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 16px;
+    margin-bottom: var(--font-size-middle);
     --corner-marker-color: rgba(0, 0, 0, 0.25);
     background-image: var(--corner-marker);
     background-color: var(--page-bgcolor);
@@ -132,7 +134,7 @@ input.code {
     border: unset;
     border-bottom: transparent 4px solid;
     background-color: unset;
-    font-size: 16px;
+    font-size: var(--font-size-middle);
     padding: 0.5em 1em;
     cursor: pointer;
     display: inline-block;
@@ -199,7 +201,7 @@ input.code {
     resize: vertical;
     width: 100%;
     min-height: 100px;
-    font-size: 16px;
+    font-size: var(--font-size-middle);
     box-sizing: border-box;
     padding: 0.5em;
     border: unset;
@@ -285,7 +287,7 @@ input.code {
     text-align: right;
     color: var(--text-secondary);
     margin-bottom: 4px;
-    font-size: 14px;
+    font-size: var(--font-size-small);
 }
 
 #output-content {
@@ -317,7 +319,7 @@ input.code {
     padding: 0.5em;
     box-sizing: border-box;
     cursor: pointer;
-    font-size: 16px;
+    font-size: var(--font-size-middle);
     text-align: left;
     align-items: center;
     color: var(--text-regular);
@@ -409,13 +411,13 @@ input.code {
     padding-left: 1em;
     color: var(--text-secondary);
     display: block;
-    font-size: 14px;
+    font-size: var(--font-size-small);
 }
 
 input[type=number],
 input[type=text] {
     width: 100%;
-    font-size: 16px;
+    font-size: var(--font-size-middle);
     box-sizing: border-box;
     padding: 0.25em 0.5em;
     border: unset;
@@ -439,7 +441,7 @@ input[type=text]:out-of-range {
 
 select {
     width: 100%;
-    font-size: 16px;
+    font-size: var(--font-size-middle);
     box-sizing: border-box;
     padding: 0.25em 0.5em;
     border: unset;
@@ -553,10 +555,10 @@ select:focus {
 #log-message-mark {
     background-color: var(--color-danger-dark);
     color: #FFF;
-    font-size: 12px;
+    font-size: var(--font-size-extra-small);
     padding: 0 4px;
     display: inline-block;
-    min-width: 12px;
+    min-width: var(--font-size-extra-small);
     border-radius: 8px;
     position: relative;
     top: -4px;
@@ -564,7 +566,7 @@ select:focus {
 
 @media screen and (max-width: 760px) {
     #editor-log {
-        font-size: 14px;
+        font-size: var(--font-size-small);
     }
 
     #editor-log .log-item {
@@ -575,7 +577,7 @@ select:focus {
 
 @media screen and (max-width: 450px) {
     #editor-log {
-        font-size: 12px;
+        font-size: var(--font-size-extra-small);
     }
 
     #editor-log .log-item {
@@ -602,7 +604,7 @@ select:focus {
     background-color: var(--input-bgcolor);
     cursor: pointer;
     border: none;
-    font-size: 16px;
+    font-size: var(--font-size-middle);
     align-items: stretch;
     color: var(--text-primary);
 }
@@ -712,7 +714,7 @@ select:focus {
 
 .history-message-item .content .time {
     color: var(--text-secondary);
-    font-size: 12px;
+    font-size: var(--font-size-extra-small);
 }
 
 .history-message-item .action {
@@ -819,7 +821,7 @@ select:focus {
     margin-top: 8px;
     margin-bottom: 4px;
     color: var(--text-regular);
-    font-size: 14px;
+    font-size: var(--font-size-small);
     border-bottom: var(--border-coler) 1px solid;
 }
 
@@ -926,7 +928,7 @@ select:focus {
     width: var(--size);
     color: var(--color-safe-dark);
     fill: var(--color-safe-dark);
-    font-size: 14px;
+    font-size: var(--font-size-small);
     font-weight: bold;
     display: flex;
     flex-direction: column;

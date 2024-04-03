@@ -15,11 +15,17 @@ let history = [];
 let historyMinimum = 0;
 let historyClearConfirm = false;
 
+let hasError = false;
+
+let logScrollButInvisible = false;
+
 setDefaultValue('#config-output-before', config.editor.output_before);
 setDefaultValue('#config-output-after', config.editor.output_after);
 $('#ptext-character, #rtext-character').val(config.editor.username_init);
 setCheckboxDefaultValue('#config-output-use-before', config.editor.ontput_before_enable);
 setCheckboxDefaultValue('#config-output-use-after', config.editor.ontput_after_enable);
+
+$('#ptext-editor .editor-bottom-bar .length').text($t('editor.form.text_length', { n: 0 }));
 
 $('.tabpage-panel[data-pageid="ptext"] .editor-controller').append(EditorForm.editorController('ptext-content'));
 
@@ -36,15 +42,13 @@ paletteColorContrastCheck('#000000');
 let elb;
 
 if (config.echo.print_speed != 30) {
-    $('#ptext-ipt-print-speed, #rtext-ipt-print-speed').val(config.echo.print_speed);
-    $('.print-speed-config').text(config.echo.print_speed);
-    $('.print-speed-change').removeClass('hide');
+    $('.echo-editor-form-input-tip').text($t('editor.form.description.print_speed_custom', { value: config.echo.print_speed }));
 }
 
 if (config.echolive.broadcast_enable) {
     $('#ptext-btn-submit').addClass('fh-ghost');
     $('#ptext-btn-send, #output-btn-send').removeClass('hide');
-    $('#ptext-content, #output-content').attr('title', '当焦点在此文本框中时，可以按下 Ctrl + Enter 快速发送');
+    $('#ptext-content, #output-content').attr('title', $t('editor.tip.hot_key_textarea_quick_send'));
 
     if (config.editor.client_state_panel_enable) {
         $('.echo-live-client-state').removeClass('hide');
@@ -86,38 +90,36 @@ if (config.echolive.broadcast_enable) {
 
     $('.echo-live-client-state-content').html(EditorClientState.statePanel([]));
 
-    elb = new EchoLiveBroadcast(undefined, config.echolive.broadcast_channel);
+    elb = new EchoLiveBroadcastServer(config.echolive.broadcast_channel, config);
     elb.on('clientsChange', clientsChange);
     elb.on('message', getMessage);
+    elb.on('error', getError);
     elb.on('noClient', noClient);
+    elb.on('nameDuplicate', nameDuplicate);
 
     checkNowDate();
-    editorLog('广播模式已开启：' + config.echolive.broadcast_channel);
+    editorLogT('editor.log.broadcast_launch.done', { channel: config.echolive.broadcast_channel });
     editorLog('User Agent: ' + navigator.userAgent, 'dbug');
     if (navigator.userAgent.toLowerCase().search(/ obs\//) != -1) {
-        editorLog('编辑器已正确安装在 OBS 中！', 'done');
+        editorLogT('editor.log.broadcast_launch.user_agent_check', {}, 'done');
     } else {
-        editorLog('您似乎并未正确在 OBS 中安装此编辑器，详见：https://sheep-realms.github.io/Echo-Live-Doc/main/how-to-use/', 'tips');
+        editorLogT('editor.log.broadcast_launch.user_agent_error', {}, 'tips');
     }
 } else {
     checkNowDate();
-    editorLog('未开启广播模式，无日志显示。');
+    editorLogT('editor.log.broadcast_launch.disable');
 }
 
 
 let logMsgMark = 0;
 
 function editorLog(message = '', type = 'info') {
-    const typename = {
-        'dbug': '调试：',
-        'tips': '提示：',
-        'info': '信息：',
-        'warn': '警告：',
-        'erro': '错误：',
-        'done': '完成：',
-    };
-    $('#editor-log').append(`<div role="listitem" class="log-item log-type-${type}" ${type == 'dbug' ? 'aria-hidden="false"' : ''}><span class="time" aria-hidden="false">${getTime()}</span> <span class="type" aria-label="${typename[type]}">[${type.toUpperCase()}]</span> <span class="message" ${type == 'erro' || type == 'warn' ? ' role="alert"' : ''}>${message}</span></div>`);
-    $('#editor-log').scrollTop($('#editor-log').height());
+    $('#editor-log').append(`<div role="listitem" class="log-item log-type-${type}" ${type == 'dbug' ? 'aria-hidden="true"' : ''}><span class="time" aria-hidden="true">${getTime()}</span> <span class="type" aria-label="${ $t('editor.log.accessible.type.' + type) }">[${type.toUpperCase()}]</span> <span class="message" ${type == 'erro' || type == 'warn' ? ' role="alert"' : ''}>${message}</span></div>`);
+    $('#editor-log').scrollTop(4503599627370496);
+
+    if ($('#tabpage-nav-log[aria-selected="true"]').length <= 0) {
+        logScrollButInvisible = true;
+    }
 
     // 防止日志过多
     let $logitems = $('#editor-log .log-item');
@@ -133,6 +135,20 @@ function editorLog(message = '', type = 'info') {
     }
 }
 
+function editorLogT(key, data = {}, type = 'info') {
+    let msg = $t(key, data);
+    editorLog(msg, type);
+}
+
+$('#tabpage-nav-log').click(function() {
+    if (logScrollButInvisible) {
+        logScrollButInvisible = false;
+        setTimeout(function() {
+            $('#editor-log').scrollTop(4503599627370496);
+        }, 20);
+    }
+});
+
 $('#tabpage-nav-log').click(function() {
     logMsgMark = 0;
     $('#log-message-mark').addClass('hide');
@@ -145,44 +161,134 @@ function clientsChange(e) {
 function getMessage(data) {
     switch (data.action) {
         case 'message_data':
-            editorLog('收到来自其他服务端的消息数据。');
+            editorLogT('editor.log.broadcast.message_data_third');
             break;
             
         case 'hello':
             if (data.target == undefined || data.target == elb.uuid) {
-                let helloMsg1 = data.data.hidden ? '已休眠，' : '';
-                editorLog(`Echo-Live 进入广播频道，${helloMsg1}UUID：${data.data.uuid}`);
+                let helloMsg1 = data.data.hidden ? 'hello_hidden' : 'hello';
+                editorLogT(
+                    'editor.log.broadcast.' + helloMsg1,
+                    {
+                        client: $t('broadcast.client.type.' + data.from.type),
+                        name: data.from.name
+                    }
+                );
             } else if (data.target == '@__server') {
-                editorLog(`Echo-Live 已向服务器发送 HELLO 消息。`);
+                editorLogT(
+                    'editor.log.broadcast.hello_to_server',
+                    {
+                        client: $t('broadcast.client.type.' + data.from.type),
+                        name: data.from.name
+                    }
+                );
             }
             break;
 
         case 'ping':
-            editorLog('有其他服务端加入频道，UUID：' + data.data?.uuid);
-            break;
-
-        case 'close':
-            editorLog('Echo-Live 离开广播频道，UUID：' + data.data.uuid);
+            editorLogT(
+                'editor.log.broadcast.ping_server',
+                {
+                    name: data.from.name
+                }
+            );
             break;
 
         case 'echo_next':
-            editorLog('收到来自其他服务端的指令：打印下一条消息。');
+        case 'websocket_close':
+            editorLogT('editor.log.broadcast.' + data.action);
             break;
 
+        case 'close':
         case 'page_hidden':
-            editorLog('Echo-Live 因不可见已休眠，UUID：' + data.data.uuid);
-            break;
-
         case 'page_visible':
-            editorLog('Echo-Live 已唤醒，UUID：' + data.data.uuid);
+            editorLogT(
+                'editor.log.broadcast.' + data.action,
+                {
+                    client: $t('broadcast.client.type.' + data.from.type),
+                    name: data.from.name
+                }
+            );
             break;
 
         case 'set_theme_style_url':
-            editorLog('收到来自其他服务端的指令：设置主题样式文件 URL 为 ' + data.data.url);
+            editorLogT(
+                'editor.log.broadcast.set_theme_style_url',
+                {
+                    url: data.data.url
+                }
+            );
             break;
 
         case 'set_theme':
-            editorLog('收到来自其他服务端的指令：设置主题为 ' + data.data.name);
+            editorLogT(
+                    'editor.log.broadcast.set_theme',
+                    {
+                        name: data.data.name
+                    }
+            );
+            break;
+
+        case 'error_unknow':
+            editorLogT(
+                'editor.log.error.unknown_error_in_client',
+                {
+                    client: $t('broadcast.client.type.' + data.from.type),
+                    msg: data.data.message.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>'),
+                    source: data.data.source.replace(/</g, '&lt;').replace(/>/g, '&gt;'),
+                    line: data.data.line,
+                    col: data.data.col,
+                    name: data.from.name
+                },
+                'erro'
+            );
+            if (!hasError) {
+                hasError = true;
+                editorLogT('editor.log.tip.unknown_error', {}, 'tips');
+            }
+            break;
+
+        default:
+            break;
+    }
+}
+
+function getError(data) {
+    switch (data.data.name) {
+        case 'websocket_error':
+            if (data.data.tryReconnect) {
+                editorLogT(
+                    'editor.log.error.websocket_error',
+                    {
+                        client: $t('broadcast.client.type.live'),
+                        url: data.data.url,
+                        n: data.data.reconnectCount,
+                        name: data.from.name
+                    },
+                    'erro'
+                );
+            } else {
+                editorLogT(
+                    'editor.log.error.websocket_error_retry_failed',
+                    {
+                        client: $t('broadcast.client.type.live'),
+                        url: data.data.url,
+                        name: data.from.name
+                    },
+                    'erro'
+                );
+            }
+            break;
+
+        case 'websocket_message_error':
+            editorLogT(
+                'editor.log.error.websocket_message_error',
+                {
+                    client: $t('broadcast.client.type.live'),
+                    name: data.from.name
+                },
+                'erro'
+            );
             break;
     
         default:
@@ -191,7 +297,11 @@ function getMessage(data) {
 }
 
 function noClient() {
-    editorLog('没有 Echo-Live 客户端响应，请检查您是否正确打开或安装了 live.html。如果您的操作正确，则可能是因为所有 Echo-Live 源均处于不可见状态。', 'warn');
+    editorLogT('editor.log.warn.no_client', {}, 'warn');
+}
+
+function nameDuplicate(name, uuid) {
+    editorLogT('editor.log.error.name_duplicate', { name: name, uuid: uuid}, 'erro');
 }
 
 
@@ -305,7 +415,7 @@ $('#ptext-btn-send').click(function() {
     elb.sendData(d);
     sendHistoryMessage(d);
 
-    editorLog('已发送纯文本消息：' + EchoLiveTools.getMessageSendLog(d.messages[0].message, d.username));
+    editorLogT('editor.log.message.sent', { msg: EchoLiveTools.getMessageSendLog(d.messages[0].message, d.username) });
 });
 
 // 输出页发送
@@ -317,7 +427,7 @@ $('#output-btn-send').click(function() {
         afterCheck  = centent.substring(centent.length - after.length, centent.length) == after,
         newCentent  = '';
     
-    if (centent.length == 0) return editorLog('未输入内容，未发送任何消息。', 'erro');
+    if (centent.length == 0) return editorLogT('editor.log.message.empty', {}, 'erro');
     
     if (beforeCheck && afterCheck) {
         newCentent = centent.substring(before.length, centent.length - after.length);
@@ -329,16 +439,24 @@ $('#output-btn-send').click(function() {
 
     try {
         msg = JSON.parse(newCentent);
+        if (msg?.messages == undefined && msg?.username == undefined) return editorLogT('editor.log.message.empty_data', {}, 'erro');
         elb.sendData(msg);
     } catch (error) {
-        editorLog('发送的消息格式存在错误。详见帮助文档：https://sheep-realms.github.io/Echo-Live-Doc/message/', 'erro');
+        editorLogT('editor.log.message.illegal', {}, 'erro');
         return;
     }
 
+    if (msg.messages == undefined) {
+        editorLogT('editor.log.message.empty_messages', {}, 'warn');
+        return;
+    }
+
+    if (!Array.isArray(msg.messages) || msg.messages.length < 1) return;
+
     if (msg.messages.length > 1) {
-        editorLog(`已发送 ${msg.messages.length} 条自定义消息，首条消息为：${EchoLiveTools.getMessageSendLog(msg.messages[0].message, msg.username)}`);
+        editorLogT('editor.log.message.sent_custom_multi', { msg: EchoLiveTools.getMessageSendLog(msg.messages[0].message, msg.username), n: msg.messages.length });
     } else {
-        editorLog('已发送自定义消息：' + EchoLiveTools.getMessageSendLog(msg.messages[0].message, msg.username));
+        editorLogT('editor.log.message.sent_custom', { msg: EchoLiveTools.getMessageSendLog(msg.messages[0].message, msg.username) });
     }
 
     sendHistoryMessage(msg);
@@ -392,10 +510,13 @@ function getOutputAfter() {
 
 function sendHistoryMessage(data) {
     let username = data.username;
-    let message = EchoLiveTools.getMessagePlainText(data.messages[0].message);
+    let message = $t('message_preview.undefined_message');
+    if (Array.isArray(data.messages) && data.messages.length > 0) {
+        message = EchoLiveTools.getMessagePlainText(data.messages[0].message)
+    }
     let time = getTime();
-    if (message == '') message = '[空消息]';
-    if (username == '') username = '[未指定说话人]';
+    if (message == '') message = $t('message_preview.empty_message');
+    if (username == undefined || username == '') username = $t('message_preview.empty_username');
 
     let l = history.push({
         data: data,
@@ -461,9 +582,15 @@ $(document).on('click', '#popups-palette .color-box', function() {
 $(document).on('input', '#ptext-content', function() {
     let length  = $(this).val().length;
 
-    $('#ptext-editor .editor-bottom-bar .length').text(length);
+    $('#ptext-editor .editor-bottom-bar .length').text($t('editor.form.text_length', { n: length }));
+});
+$(document).on('change', '#ptext-content', function() {
+    let length  = $(this).val().length;
+
+    $('#ptext-editor .editor-bottom-bar .length').text($t('editor.form.text_length', { n: length }));
 });
 
+// 历史记录编辑
 $(document).on('click', '.history-message-item-btn-edit', function() {
     let i = $(this).data('index');
 
@@ -473,17 +600,18 @@ $(document).on('click', '.history-message-item-btn-edit', function() {
     $('#output-content').select();
 });
 
+// 历史记录发送
 $(document).on('click', '.history-message-item-btn-send', function() {
     let i = $(this).data('index');
     let $item = $(this).parents('.history-message-item').eq(0);
 
-    $item.find('.sent').text(HistoryMessage.sentBy(getTime()));
+    $item.find('.sent').text(HistoryMessage.sentAt(getTime()));
     $item.find('.sent').removeClass('hide');
 
     if (config.editor.history_resend_bubble) $('#history-message-list').prepend($item);
     
     elb.sendData(history[i].data);
-    editorLog('已再次发送历史消息。');
+    editorLogT('editor.log.message.resent');
 });
 
 // 历史页清空
@@ -493,19 +621,32 @@ $(document).on('click', '#history-btn-clear', function() {
         history = [];
         historyMinimum = 0;
         $('#history-message-list').html('');
-        $('#history-editor-controller').html(`<button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">清空历史记录</button>`);
+        $('#history-editor-controller').html(`<button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">${ $t('editor.history.clear') }</button>`);
         $('#history-btn-clear').focus();
     } else {
         historyClearConfirm = true;
-        $('#history-editor-controller').html(`<button id="history-btn-clear-cancel" class="fh-button fh-big">取消</button><button id="history-btn-clear" class="fh-button fh-big fh-danger">确认清空</button>`)
+        $('#history-editor-controller').html(`<button id="history-btn-clear-cancel" class="fh-button fh-big">${ $t('ui.cancel') }</button><button id="history-btn-clear" class="fh-button fh-big fh-danger">${ $t('editor.history.clear_confirm') }</button>`)
         $('#history-btn-clear-cancel').focus();
     }
 });
 
+// 历史页取消清空
 $(document).on('click', '#history-btn-clear-cancel', function() {
     historyClearConfirm = false;
-    $('#history-editor-controller').html(`<button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">清空历史记录</button>`);
+    $('#history-editor-controller').html(`<button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">${ $t('editor.history.clear') }</button>`);
     $('#history-btn-clear').focus();
+});
+
+// 仪表盘点击
+$(document).on('click', '.echo-live-client-state-block', function(e) {
+    const name = $(this).data('name');
+    const r = elb.clients.filter((e) => {
+        return e.name == name;
+    })[0];
+    if (r.messagesCount > 0 && !r.hidden) {
+        elb.sendNext('@' + name);
+        editorLogT('editor.log.broadcast.echo_next_from_self_to_target', { name: name });
+    }
 });
 
 
@@ -519,15 +660,25 @@ function getDateNumber() {
 function checkNowDate() {
     let d = new Date();
     let dn = getDateNumber();
-    editorLog('欢迎使用 Echo-Live！如需查阅帮助文档，请见：https://sheep-realms.github.io/Echo-Live-Doc/', 'tips');
+    editorLogT('editor.log.welcome', {}, 'tips');
+    editorLog(`Language: ${ $t('lang.title') } (ISO 639-3: ${ $t('lang.code_iso_639_3') }, IETF: ${ $t('lang.code_ietf') })`, 'dbug');
     let msg = {
         '0101': `${d.getFullYear()} 年来了！感谢您一直以来对 Echo-Live 的支持！`,
+        '0229': '你知道吗：今年是闰年。',
+        '0401': [
+            '想给你的消息加点料吗？不如试试这个：https://sheep-realms.github.io/Abuser/',
+            '近日电信诈骗频发，提高反诈意识你我在行动。邀您阅读反诈指南：https://sheep-realms.github.io/Anti-Fraud-Guidelines/'
+        ],
         '0721': 'Ciallo～(∠·ω< )⌒★',
         '0914': '2023 年的今天，Echo Live 诞生了！',
         '1231': '哇哦，今年只剩下最后一天了，您要和我一起跨年吗？'
     }
 
     if (msg[dn] != undefined) {
-        editorLog(msg[dn], 'tips');
+        if (Array.isArray(msg[dn])) {
+            editorLog(msg[dn][Math.floor(Math.random() * msg[dn].length)], 'tips');
+        } else {
+            editorLog(msg[dn], 'tips');
+        }
     }
 }

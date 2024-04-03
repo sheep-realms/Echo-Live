@@ -14,6 +14,66 @@
     --box-shadow: 0 2px 16px rgba(128, 128, 128, 0.35);
 
     --page-bgcolor: #FAFAFA;
+    --input-bgcolor: #FFFFFF;
+    --input-color: var(--text-primary);
+
+    --checkbox-corner-marker-color: rgba(255, 255, 255, 0.5);
+
+    font-size: var(--font-size-base);
+}
+
+.scheme-dark-only {
+    display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not(.prefers-color-scheme-light) {
+        --text-primary: #BEC1C6;
+        --text-regular: #9C9EA6;
+        --text-secondary: #747780;
+        --text-placeholder: #5B5E66;
+    
+        --border-coler: #666666;
+        --box-shadow: 0 2px 16px rgba(128, 128, 128, 0.35);
+    
+        --page-bgcolor: #1E2129;
+        --input-bgcolor: #333740;
+        --input-color: var(--text-primary);
+
+        --checkbox-corner-marker-color: rgba(30, 33, 41, 0.5);
+    }
+
+    .scheme-dark-only {
+        display: block;
+    }
+
+    .scheme-light-only {
+        display: none;
+    }
+}
+
+.prefers-color-scheme-dark {
+    --text-primary: #BEC1C6;
+    --text-regular: #9C9EA6;
+    --text-secondary: #747780;
+    --text-placeholder: #5B5E66;
+
+    --border-coler: #666666;
+    --box-shadow: 0 2px 16px rgba(128, 128, 128, 0.35);
+
+    --page-bgcolor: #1E2129;
+    --input-bgcolor: #333740;
+    --input-color: var(--text-primary);
+
+    --checkbox-corner-marker-color: rgba(30, 33, 41, 0.5);
+}
+
+.prefers-color-scheme-dark .scheme-light-only {
+    display: none;
+}
+
+.prefers-color-scheme-dark .scheme-dark-only {
+    display: block;
 }
 
 body {
@@ -26,7 +86,28 @@ main {
     margin: 0 auto;
 }
 
-textarea.code {
+kbd {
+    display: inline-flex;
+    background-color: #000000;
+    border-radius: 4px;
+    color: #FFFFFF;
+    min-width: 1em;
+    height: 1.5em;
+    padding: 0 0.25em;
+    align-items: center;
+    justify-content: center;
+    border: #888888 1px solid;
+    border-bottom: #888888 4px solid;
+    opacity: 1;
+    transition: opacity .15s;
+}
+
+kbd.accessible-key {
+    pointer-events: none;
+}
+
+textarea.code,
+input.code {
     font-family: Monaco, Consolas,'Lucida Console', 'Courier New', serif;
 }
 
@@ -34,12 +115,13 @@ textarea.code {
     border-bottom: var(--border-coler) 1px solid;
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 16px;
+    margin-bottom: var(--font-size-middle);
     --corner-marker-color: rgba(0, 0, 0, 0.25);
     background-image: var(--corner-marker);
     background-color: var(--page-bgcolor);
     position: sticky;
     top: 0;
+    z-index: 100;
 }
 
 .tabpage-centent .tabpage-nav {
@@ -52,7 +134,7 @@ textarea.code {
     border: unset;
     border-bottom: transparent 4px solid;
     background-color: unset;
-    font-size: 16px;
+    font-size: var(--font-size-middle);
     padding: 0.5em 1em;
     cursor: pointer;
     display: inline-block;
@@ -60,10 +142,34 @@ textarea.code {
     transition: color .3s, border .3s;
 }
 
+.tabpage-nav-item.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .tabpage-nav-item[aria-selected="true"] {
     border-bottom: var(--color-general-dark) 4px solid;
     color: var(--text-primary);
 }
+
+.tabpage-nav-item.fh-effect-flicker {
+    animation: fh-effect-flicker .3s ease-out 1;
+}
+
+@keyframes fh-effect-flicker {
+    0% {
+        background-color: var(--color-general-glass);
+        box-shadow: 0 0 0 0 var(--color-general-glass);
+        filter: brightness(1.3);
+    }
+    100% {
+        background-color: transparent;
+        box-shadow: 0 0 0 16px transparent;
+        filter: brightness(1);
+    }
+}
+
+
 
 .fh-button.hide,
 .tabpage-panel.hide,
@@ -81,31 +187,32 @@ textarea.code {
     font-size: 0;
 }
 
-.echo-editor-from label,
-.echo-editor-from textarea {
+.echo-editor-form label,
+.echo-editor-form textarea {
     display: block;
 }
 
-.echo-editor-from label {
+.echo-editor-form label {
     padding: 0.25em 0;
     color: var(--text-regular);
 }
 
-.echo-editor-from textarea {
+.echo-editor-form textarea {
     resize: vertical;
     width: 100%;
     min-height: 100px;
-    font-size: 16px;
+    font-size: var(--font-size-middle);
     box-sizing: border-box;
     padding: 0.5em;
     border: unset;
     border-bottom: var(--border-coler) 1px solid;
     outline: none;
-    background-color: #FFFFFF;
+    background-color: var(--input-bgcolor);
     transition: border .3s;
+    color: var(--input-color);
 }
 
-.echo-editor-from textarea:focus {
+.echo-editor-form textarea:focus {
     border-bottom: var(--color-general) 1px solid;
 }
 
@@ -180,11 +287,11 @@ textarea.code {
     text-align: right;
     color: var(--text-secondary);
     margin-bottom: 4px;
-    font-size: 14px;
+    font-size: var(--font-size-small);
 }
 
 #output-content {
-    height: 60vh;
+    height: 50vh;
 }
 
 .collapse-title {
@@ -212,7 +319,7 @@ textarea.code {
     padding: 0.5em;
     box-sizing: border-box;
     cursor: pointer;
-    font-size: 16px;
+    font-size: var(--font-size-middle);
     text-align: left;
     align-items: center;
     color: var(--text-regular);
@@ -239,7 +346,7 @@ textarea.code {
 }
 
 .checkbox.selected .icon {
-    --corner-marker-color: rgba(255,255,255,0.5);
+    --corner-marker-color: var(--checkbox-corner-marker-color);
     background-color: var(--color-general-dark);
     border: unset;
 }
@@ -253,71 +360,73 @@ textarea.code {
     filter: brightness(0.85);
 }
 
-.echo-editor-from-row {
+.echo-editor-form-row {
     display: flex;
     padding: 0.5em;
-    align-items: center;
+    align-items: flex-start;
 }
 
-.echo-editor-from-row>label {
+.echo-editor-form-row>label {
     width: 200px;
 }
 
 @media screen and (max-width: 760px) {
-    .echo-editor-from-row>label {
+    .echo-editor-form-row>label {
         width: 150px;
     }
 }
 
 @media screen and (max-width: 450px) {
-    .echo-editor-from-row {
+    .echo-editor-form-row {
         align-items: flex-start;
         flex-direction: column;
     }
 }
 
-.echo-editor-from-row>input {
+.echo-editor-form-row>input {
     flex: 1;
 }
 
-.echo-editor-from-checkbox-list {
+.echo-editor-form-checkbox-list {
     width: calc(100% - 200px);
     margin-left: 200px;
 }
 
 @media screen and (max-width: 760px) {
-    .echo-editor-from-checkbox-list {
+    .echo-editor-form-checkbox-list {
         width: calc(100% - 150px);
         margin-left: 150px;
     }
 }
 
 @media screen and (max-width: 450px) {
-    .echo-editor-from-checkbox-list {
+    .echo-editor-form-checkbox-list {
         width: 100%;
         margin-left: 0;
     }
 }
 
-.echo-editor-from-input-tip {
+.echo-editor-form-input-tip {
     padding-bottom: 0.5em;
     padding-left: 1em;
     color: var(--text-secondary);
     display: block;
-    font-size: 14px;
+    font-size: var(--font-size-small);
 }
 
 input[type=number],
 input[type=text] {
     width: 100%;
-    font-size: 16px;
+    font-size: var(--font-size-middle);
     box-sizing: border-box;
     padding: 0.25em 0.5em;
     border: unset;
     border-bottom: var(--border-coler) 1px solid;
     outline: none;
-    background-color: #FFFFFF;
+    background-color: var(--input-bgcolor);
     transition: border .3s;
+    height: 32px;
+    color: var(--input-color);
 }
 
 input[type=number]:focus,
@@ -325,17 +434,23 @@ input[type=text]:focus {
     border-bottom: var(--color-general) 1px solid;
 }
 
+input[type=number]:out-of-range,
+input[type=text]:out-of-range {
+    border-bottom: var(--color-danger) 1px solid;
+}
+
 select {
     width: 100%;
-    font-size: 16px;
+    font-size: var(--font-size-middle);
     box-sizing: border-box;
     padding: 0.25em 0.5em;
     border: unset;
     border-bottom: var(--border-coler) 1px solid;
     outline: none;
-    background-color: #FFFFFF;
+    background-color: var(--input-bgcolor);
     transition: border .3s;
     cursor: pointer;
+    color: var(--input-color);
 }
 
 select:focus {
@@ -394,13 +509,14 @@ select:focus {
 }
 
 #editor-log {
-    background-color: #FFF;
+    background-color: var(--input-bgcolor);
     box-sizing: border-box;
     width: 100%;
     height: calc(100vh - 80px);
     overflow-y: scroll;
     font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', serif;
     padding: 8px;
+    color: var(--text-primary);
 }
 
 #editor-log>div>span {
@@ -439,10 +555,10 @@ select:focus {
 #log-message-mark {
     background-color: var(--color-danger-dark);
     color: #FFF;
-    font-size: 12px;
+    font-size: var(--font-size-extra-small);
     padding: 0 4px;
     display: inline-block;
-    min-width: 12px;
+    min-width: var(--font-size-extra-small);
     border-radius: 8px;
     position: relative;
     top: -4px;
@@ -450,7 +566,7 @@ select:focus {
 
 @media screen and (max-width: 760px) {
     #editor-log {
-        font-size: 14px;
+        font-size: var(--font-size-small);
     }
 
     #editor-log .log-item {
@@ -461,7 +577,7 @@ select:focus {
 
 @media screen and (max-width: 450px) {
     #editor-log {
-        font-size: 12px;
+        font-size: var(--font-size-extra-small);
     }
 
     #editor-log .log-item {
@@ -476,21 +592,83 @@ select:focus {
 
 .echo-live-client-state-panel {
     display: flex;
-    gap: 4px;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .echo-live-client-state-block {
-    background-color: #EEEEEE;
-    height: 8px;
     flex: 1;
-    box-sizing: border-box;
+    min-width: calc(10em + 48px);
+    display: flex;
+    flex-direction: column;
+    background-color: var(--input-bgcolor);
+    cursor: pointer;
+    border: none;
+    font-size: var(--font-size-middle);
+    align-items: stretch;
+    color: var(--text-primary);
 }
 
-.echo-live-client-state-block.state-active {
+.echo-live-client-state-block:active {
+    filter: brightness(0.9);
+}
+
+/* .echo-live-client-state-block.state-active {
     background-color: var(--color-safe-dark);
 }
 
 .echo-live-client-state-block.state-sleep {
+    background-color: var(--color-danger-dark);
+} */
+
+.echo-live-client-state-block .client-info {
+    padding: 0.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.echo-live-client-state-block.echo-state-play .client-info {
+    background-image: url(../image/editor/bg-echo-state-play.svg);
+    background-size: 2rem;
+    animation: echo-live-client-state-block-bg-echo-state-play 1s linear 0s infinite;
+}
+
+@keyframes echo-live-client-state-block-bg-echo-state-play {
+    0% { background-position: 0rem 0rem; }
+    100% { background-position: 0rem 2rem; }
+}
+
+.echo-live-client-state-block .client-info .client-icon {
+    height: 24px;
+    width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.echo-live-client-state-block .client-info .client-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--text-primary);
+}
+
+.echo-live-client-state-block .client-info .client-name {
+    flex: 1;
+    text-align: center;
+}
+
+.echo-live-client-state-block .state-color-block {
+    height: 8px;
+    box-sizing: border-box;
+    background-color: #EEEEEE;
+}
+
+.echo-live-client-state-block.state-active .state-color-block {
+    background-color: var(--color-safe-dark);
+}
+
+.echo-live-client-state-block.state-sleep .state-color-block {
     background-color: var(--color-danger-dark);
 }
 
@@ -510,7 +688,7 @@ select:focus {
 }
 
 .history-message-item:hover {
-    background-color: #FFF;
+    background-color: var(--input-bgcolor);
 }
 
 .history-message-item .content {
@@ -536,7 +714,7 @@ select:focus {
 
 .history-message-item .content .time {
     color: var(--text-secondary);
-    font-size: 12px;
+    font-size: var(--font-size-extra-small);
 }
 
 .history-message-item .action {
@@ -579,7 +757,7 @@ select:focus {
     position: absolute;
     display: block;
     box-sizing: border-box;
-    background-color: #FFFFFF;
+    background-color: var(--input-bgcolor);
     z-index: 2000;
     left: var(--popups-pos-left);
     top: var(--popups-pos-top);
@@ -617,6 +795,16 @@ select:focus {
     border-bottom: var(--border-coler) 1px solid;
 }
 
+#popups-palette .popups-palette-select-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#popups-palette:not(:focus-within) .popups-palette-select-content kbd {
+    opacity: 0.15;
+}
+
 #popups-palette .popups-palette-content {
     padding: 8px;
     flex: 1;
@@ -633,7 +821,7 @@ select:focus {
     margin-top: 8px;
     margin-bottom: 4px;
     color: var(--text-regular);
-    font-size: 14px;
+    font-size: var(--font-size-small);
     border-bottom: var(--border-coler) 1px solid;
 }
 
@@ -740,7 +928,7 @@ select:focus {
     width: var(--size);
     color: var(--color-safe-dark);
     fill: var(--color-safe-dark);
-    font-size: 14px;
+    font-size: var(--font-size-small);
     font-weight: bold;
     display: flex;
     flex-direction: column;
@@ -769,3 +957,6 @@ select:focus {
     width: var(--size);
 }
 
+.popups-palette-accessible {
+    color: var(--text-regular);
+}

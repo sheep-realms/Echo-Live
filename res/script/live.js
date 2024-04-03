@@ -1,7 +1,10 @@
+"use strict";
+
 let echo = new Echo();
+if (config.echo.html_format_enable != true) echo.filter.HTMLFormat = false;
 let echolive = new EchoLive(echo, config);
 echolive.theme = extensionManager.theme;
-echolive.setTheme(config.echolive.live_theme);
+echolive.setTheme(config.echolive.live_theme || config.global.theme);
 
 let data;
 
@@ -12,15 +15,40 @@ let gruopIndex = 0;
 
 let first = false;
 
-echo.on('next', function() {
+let inTypewriteEnd = false;
+
+echo.on('next', function(msg) {
+    echolive.username = EchoLiveTools.getMessageUsername(echolive.username, msg);
+    echolive.broadcast.echoPrinting(echolive.username, EchoLiveTools.getMessagePlainText(msg));
+
     $('#echo-live').attr('class', '');
+
+    echolive.broadcast.echoStateUpdate('ready', echo.messageList.length);
+
+    let str = EchoLiveTools.getMessagePlainText(msg.message);
+
+    // 判断文字书写方向
+    $('.echo-output').removeClass('echo-text-rlo');
+    if (str.trim().search(/[\u0600-\u06FF\u0750-\u077F\u0590-\u05FF\uFE70-\uFEFF]/) == 0) {
+        $('.echo-output').addClass('echo-text-rlo');
+    }
+
     if (config.echolive.next_audio_enable) {
         mixer.play(config.echolive.next_audio_name, config.echolive.next_audio_volume, config.echolive.next_audio_rate);
     }
 });
 
 echo.on('print', function(chr) {
-    if (gruopIndex == 0) {
+    if (chr == '\n') {
+        first = false;
+        chr = '<br>'
+    }
+
+    if (inTypewriteEnd) {
+        inTypewriteEnd = false;
+        $('.echo-output .echo-text-typewrite').text(chr);
+        $('.echo-output .echo-text-typewrite').removeClass('echo-text-typewrite');
+    } else if (gruopIndex == 0) {
         $('.echo-output').append(chr);
     } else {
         $(`.echo-output span[data-group="${gruopIndex}"]`).append(chr);
@@ -52,11 +80,13 @@ echo.on('skip', function() {
 echo.on('printStart', function() {
     printSeCd = echo.printSpeedChange + 3;
     first = true;
+    echolive.broadcast.echoStateUpdate('play', echo.messageList.length);
 });
 
 echo.on('printEnd', function() {
     // 整理字符串
-    $('.echo-output').html($('.echo-output').html());
+    // $('.echo-output').html($('.echo-output').html());
+    echolive.broadcast.echoStateUpdate('stop', echo.messageList.length);
 });
 
 echo.on('groupStart', function(e) {
@@ -70,7 +100,8 @@ echo.on('groupEnd', function(e) {
 });
 
 echo.on('typewriteEnd', function() {
-    $('.echo-output .echo-text-typewrite').remove();
+    inTypewriteEnd = true;
+    // $('.echo-output .echo-text-typewrite').remove();
 });
 
 echo.on('customEvent', function(e) {

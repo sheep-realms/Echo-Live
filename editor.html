@@ -3,13 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Echo Live 编辑器</title>
+    <title data-i18n="page_title.editor">Echo Live 编辑器</title>
     <link rel="icon" href="res/image/favicon.ico">
     <link rel="stylesheet" href="res/style/fh-ui.css">
     <link rel="stylesheet" href="res/style/editor.css">
     <link rel="stylesheet" href="res/style/editor-accessible.css">
     <script src="lib/jquery-3.7.1.min.js"></script>
-    <script src="config.js"></script>
+    <script src="res/script/config-load-fail.js"></script>
+    <script src="config.js" onerror="configLoadFail()"></script>
+    <script src="lang/index.js"></script>
+    <script src="lang/zho-Hans.js"></script>
+    <script src="lang/zho-Hant-HK.js"></script>
+    <script src="lang/zho-Hant-TW.js"></script>
+    <script src="res/class/Translator.js"></script>
+    <script>
+        const translator = new Translator(config.global.language, lang_index);
+        const $t = function(...e) {
+            return translator.output(...e);
+        };
+        translator.load(lang_zho_Hans);
+        translator.load(lang_zho_Hant_HK);
+        translator.load(lang_zho_Hant_TW);
+        $('html').attr('lang', $t('lang.code_ietf'));
+    </script>
     <script src="res/class/Icon.js"></script>
     <script src="res/class/EchoLiveTools.js"></script>
     <script src="res/class/EchoLiveEditor.js"></script>
@@ -28,6 +44,8 @@
                 aria-selected="true"
                 accesskey="1"
                 title="文本编辑器 [alt+1]"
+                data-i18n="editor.tabpage.editor.title"
+                data-i18n-title="editor.tabpage.editor.description"
             >编辑器</button>
             <button
                 class="tabpage-nav-item"
@@ -46,6 +64,8 @@
                 aria-selected="false"
                 accesskey="3"
                 title="编辑配置 [alt+3]"
+                data-i18n="editor.tabpage.config.title"
+                data-i18n-title="editor.tabpage.config.description"
             >配置</button>
             <button
                 id="tabpage-nav-output"
@@ -55,6 +75,8 @@
                 aria-selected="false"
                 accesskey="4"
                 title="输出代码 [alt+4]"
+                data-i18n="editor.tabpage.output.title"
+                data-i18n-title="editor.tabpage.output.description"
             >输出</button>
             <button
                 class="tabpage-nav-item"
@@ -64,6 +86,8 @@
                 accesskey="5"
                 title="广播控制 [alt+5]"
                 style="display: none;"
+                data-i18n="editor.tabpage.broadcast.title"
+                data-i18n-title="editor.tabpage.broadcast.description"
             >广播</button>
             <button
                 id="tabpage-nav-log"
@@ -73,8 +97,9 @@
                 aria-selected="false"
                 accesskey="6"
                 title="运行日志 [alt+6]"
+                data-i18n-title="editor.tabpage.log.description"
             >
-                <span>日志</span>
+                <span data-i18n="editor.tabpage.log.title">日志</span>
                 <span id="log-message-mark" class="hide" aria-hidden="true">1</span>
             </button>
         </nav>
@@ -82,27 +107,29 @@
         <div class="tabpage-centent" data-navid="main">
             <!-- 纯文本标签页 -->
             <section class="tabpage-panel" role="tabpanel" data-pageid="ptext">
-                <h2 class="tabpage-panel-title">纯文本</h2>
-                <div class="echo-editor-from">
+                <h2 class="tabpage-panel-title" data-i18n="editor.tabpage.editor.title">编辑器</h2>
+                <div class="echo-editor-form">
                     <div class="echo-live-client-state hide">
-                        <label>对话框状态</label>
+                        <label data-i18n="editor.form.label.live_client_state">对话框状态</label>
                         <div class="echo-live-client-state-content">
                             <div class="echo-live-client-state-block"></div>
                         </div>
                     </div>
 
-                    <label for="character">说话人</label>
+                    <label for="ptext-character" data-i18n="editor.form.label.character">说话人</label>
                     <input type="text" name="character" id="ptext-character">
 
                     <div id="ptext-editor" class="editor-container">
                         <div class="editor-controller disabled"></div>
-                        <label for="content">内容</label>
-                        <textarea name="content" id="ptext-content" aria-label="纯文本内容编辑框"></textarea>
+                        <label for="ptext-content" data-i18n="editor.form.label.content">内容</label>
+                        <textarea
+                            name="content"
+                            id="ptext-content"
+                            aria-label="纯文本内容编辑框"
+                            data-i18n-aria-label="editor.form.aria_label.content_plain_text"
+                        ></textarea>
                         <div class="editor-bottom-bar">
-                            <span>
-                                <span class="length">0</span>
-                                字符
-                            </span>
+                            <span class="length">0 字符</span>
                         </div>
                     </div>
 
@@ -110,13 +137,13 @@
                         <div class="collapse-title">
                             <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
                                 <span class="icon"></span>
-                                <span class="text">使用快速格式化代码</span>
+                                <span class="text" data-i18n="editor.form.label.use_formatting_code">使用快速格式化代码</span>
                                 <input type="hidden" name="ptext-chk-use-formatting-code" id="ptext-chk-use-formatting-code" value="0">
                             </button>
                         </div>
                         <div class="collapse-content hide" style="padding: 0.5em; font-size: 14px; color: var(--text-secondary);">
-                            <p>@b - 粗体，@i - 斜体，@u - 下划线，@s - 删除线，@r - 清除格式</p>
-                            <p>示例：这里没有格式。@b这里有粗体。@i这里有粗体和斜体。@r这里没有格式。@[#66ccff]这是蓝色。</p>
+                            <p data-i18n="editor.form.description.formatting_code_example_1"></p>
+                            <p data-i18n="editor.form.description.formatting_code_example_2"></p>
                         </div>
                     </div>
 
@@ -124,17 +151,17 @@
                         <div class="collapse-title">
                             <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
                                 <span class="icon"></span>
-                                <span class="text">启动参数</span>
+                                <span class="text" data-i18n="editor.form.label.startup_parameter">启动参数</span>
                                 <input type="hidden" name="ptext-chk-more" id="ptext-chk-more" value="0">
                             </button>
                         </div>
                         <div class="collapse-content hide">
-                            <div class="echo-editor-from-row">
-                                <label for="print-speed">打印速度</label>
+                            <div class="echo-editor-form-row">
+                                <label for="ptext-ipt-print-speed" data-i18n="editor.form.label.print_speed">打印速度</label>
                                 <input type="number" name="print-speed" id="ptext-ipt-print-speed" class="reset" value="30" data-default="30">
                             </div>
-                            <div class="echo-editor-from-checkbox-list">
-                                <span class="echo-editor-from-input-tip">每个打印循环的延迟时间（毫秒），默认为 30<span class="print-speed-change hide">，您的默认配置为 <span class="print-speed-config"></span></span>。数字越大，耗时越长。中日韩字符延迟 × 2。</span>
+                            <div class="echo-editor-form-checkbox-list">
+                                <span class="echo-editor-form-input-tip" data-i18n="editor.form.description.print_speed"></span>
                             </div>
                         </div>
                     </div>
@@ -143,29 +170,29 @@
                         <div class="collapse-title">
                             <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
                                 <span class="icon"></span>
-                                <span class="text">引用符号</span>
+                                <span class="text" data-i18n="editor.form.label.quote">引用符号</span>
                                 <input type="hidden" name="ptext-chk-quote" id="ptext-chk-quote" value="0">
                             </button>
                         </div>
                         <div class="collapse-content hide">
-                            <div class="echo-editor-from-row">
-                                <label for="quote-before">开头</label>
+                            <div class="echo-editor-form-row">
+                                <label for="ptext-ipt-quote-before" data-i18n="editor.form.label.quote_before">开头</label>
                                 <input type="text" name="quote-before" id="ptext-ipt-quote-before" class="reset" value="「" data-default="「">
                             </div>
-                            <div class="echo-editor-from-row">
-                                <label for="quote-after">结尾</label>
+                            <div class="echo-editor-form-row">
+                                <label for="ptext-ipt-quote-after" data-i18n="editor.form.label.quote_after">结尾</label>
                                 <input type="text" name="quote-after" id="ptext-ipt-quote-after" class="reset" value="」" data-default="」">
                             </div>
-                            <div class="echo-editor-from-checkbox-list">
-                                <span class="echo-editor-from-input-tip">自动在每一句话开头和结尾添加引用符号，Echo Live 会为一些引用符号自动缩进。</span>
+                            <div class="echo-editor-form-checkbox-list">
+                                <span class="echo-editor-form-input-tip" data-i18n="editor.form.description.quote"></span>
                             </div>
                         </div>
                     </div>
 
                     <div class="editor-controller-bottom fh-flex-row">
-                        <button id="ptext-btn-clear" class="fh-button fh-big fh-danger">重置</button>
-                        <button id="ptext-btn-submit" class="fh-button fh-big">输出</button>
-                        <button id="ptext-btn-send" class="fh-button fh-big hide">发送</button>
+                        <button id="ptext-btn-clear" class="fh-button fh-big fh-danger" data-i18n="ui.reset">重置</button>
+                        <button id="ptext-btn-submit" class="fh-button fh-big" data-i18n="ui.output">输出</button>
+                        <button id="ptext-btn-send" class="fh-button fh-big hide" data-i18n="ui.send">发送</button>
                     </div>
                 </div>
             </section>
@@ -174,8 +201,8 @@
             <section class="tabpage-panel hide" role="tabpanel" data-pageid="rtext">
                 <h2 class="tabpage-panel-title">富文本</h2>
                 <p style="color: red;">该页面正在施工中，暂不可用。</p>
-                <div class="echo-editor-from">
-                    <label for="character">说话人</label>
+                <div class="echo-editor-form">
+                    <label for="ptext-character">说话人</label>
                     <input type="text" name="character" id="ptext-character">
 
                     <div class="editor-text">
@@ -229,12 +256,12 @@
                                     </button>
                                 </div>
                                 <div class="collapse-content hide">
-                                    <div class="echo-editor-from-row">
+                                    <div class="echo-editor-form-row">
                                         <label for="typewrite">被替换的内容</label>
                                         <input type="text" name="typewrite" class="reset" value="" data-default="">
                                     </div>
-                                    <div class="echo-editor-from-checkbox-list">
-                                        <span class="echo-editor-from-input-tip">例如：shu'ru'fa</span>
+                                    <div class="echo-editor-form-checkbox-list">
+                                        <span class="echo-editor-form-input-tip">例如：shu'ru'fa</span>
                                     </div>
                                 </div>
                             </div>
@@ -249,13 +276,13 @@
                                 </div>
                                 <div class="collapse-content hide">
                                     <textarea name="style" id="rtext-style" class="rtext-style code" aria-label="CSS样式编辑框"></textarea>
-                                    <span class="echo-editor-from-input-tip">自定义内联 CSS 样式。</span>
-                                    <div class="echo-editor-from-row">
+                                    <span class="echo-editor-form-input-tip">自定义内联 CSS 样式。</span>
+                                    <div class="echo-editor-form-row">
                                         <label for="class">类</label>
                                         <input type="text" name="class" class="reset" value="" data-default="">
                                     </div>
-                                    <div class="echo-editor-from-checkbox-list">
-                                        <span class="echo-editor-from-input-tip">该字段的类属性，使用空格分隔。</span>
+                                    <div class="echo-editor-form-checkbox-list">
+                                        <span class="echo-editor-form-input-tip">该字段的类属性，使用空格分隔。</span>
                                     </div>
                                 </div>
                             </div>
@@ -269,12 +296,12 @@
                                     </button>
                                 </div>
                                 <div class="collapse-content hide">
-                                    <div class="echo-editor-from-row">
+                                    <div class="echo-editor-form-row">
                                         <label for="pause">完成后停顿</label>
                                         <input type="number" name="pause" id="rtext-ipt-pause" class="reset" value="10" data-default="10">
                                     </div>
-                                    <div class="echo-editor-from-checkbox-list">
-                                        <span class="echo-editor-from-input-tip">当前字段打印完毕后的停顿循环次数。</span>
+                                    <div class="echo-editor-form-checkbox-list">
+                                        <span class="echo-editor-form-input-tip">当前字段打印完毕后的停顿循环次数。</span>
                                     </div>
                                 </div>
                             </div>
@@ -305,12 +332,12 @@
                             </button>
                         </div>
                         <div class="collapse-content hide">
-                            <div class="echo-editor-from-row">
+                            <div class="echo-editor-form-row">
                                 <label for="print-speed">打印速度</label>
                                 <input type="number" name="print-speed" id="rtext-ipt-print-speed" class="reset" value="30" data-default="30">
                             </div>
-                            <div class="echo-editor-from-checkbox-list">
-                                <span class="echo-editor-from-input-tip">每个打印循环的延迟时间（毫秒），默认为 30<span class="print-speed-change hide">，您的默认配置为 <span class="print-speed-config"></span></span>。数字越大，耗时越长。中日韩字符延迟 × 2。</span>
+                            <div class="echo-editor-form-checkbox-list">
+                                <span class="echo-editor-form-input-tip">每个打印循环的延迟时间（毫秒），默认为 30<span class="print-speed-change hide">，您的默认配置为 <span class="print-speed-config"></span></span>。数字越大，耗时越长。中日韩字符延迟 × 2。</span>
                             </div>
                         </div>
                     </div>
@@ -324,30 +351,29 @@
 
             <!-- 配置标签页 -->
             <section class="tabpage-panel hide" role="tabpanel" data-pageid="config">
-                <h2 class="tabpage-panel-title">配置</h2>
-                <div class="echo-editor-from">
-                    <label for="output-before">头部内容</label>
+                <h2 class="tabpage-panel-title" data-i18n="editor.tabpage.config.title">配置</h2>
+                <div class="echo-editor-form">
+                    <label for="config-output-before" data-i18n="editor.form.label.output_before">头部内容</label>
                     <textarea name="output-before" id="config-output-before" class="code"></textarea>
                     <button role="checkbox" aria-selected="true" class="checkbox selected">
                         <span class="icon"></span>
-                        <span class="text">在输出内容之前插入头部内容</span>
+                        <span class="text" data-i18n="editor.form.description.output_before">在输出内容之前插入头部内容</span>
                         <input type="hidden" name="config-output-use-before" id="config-output-use-before" value="1">
                     </button>
 
-                    <label for="output-after">尾部内容</label>
+                    <label for="config-output-after" data-i18n="editor.form.label.output_after">尾部内容</label>
                     <textarea name="output-after" id="config-output-after" class="code"></textarea>
                     <button role="checkbox" aria-selected="true" class="checkbox selected">
                         <span class="icon"></span>
-                        <span class="text">在输出内容之后插入尾部内容</span>
+                        <span class="text" data-i18n="editor.form.description.output_before">在输出内容之后插入尾部内容</span>
                         <input type="hidden" name="config-output-use-after" id="config-output-use-after" value="1">
                     </button>
                 </div>
-                <p style="color: var(--text-regular);">详细配置请见配置文件 <code>config.js</code>。</p>
             </section>
 
             <!-- 输出标签页 -->
             <section class="tabpage-panel hide" role="tabpanel" data-pageid="output">
-                <h2 class="tabpage-panel-title">输出</h2>
+                <h2 class="tabpage-panel-title" data-i18n="editor.tabpage.output.title">输出</h2>
                 <!-- 嵌套 -->
                 <nav id="echo-editor-nav" class="tabpage-nav" data-navid="output">
                     <button
@@ -356,38 +382,54 @@
                         data-pageid="content"
                         role="tab"
                         aria-selected="true"
-                        title=""
+                        title="编辑导出代码和发送消息"
+                        data-i18n="editor.tabpage.output_content.title"
+                        data-i18n-title="editor.tabpage.output_content.description"
                     >输出内容</button>
                     <button
                         class="tabpage-nav-item"
                         data-pageid="history"
                         role="tab"
                         aria-selected="false"
-                        title=""
+                        title="已发送消息的列"
+                        data-i18n="editor.tabpage.history.title"
+                        data-i18n-title="editor.tabpage.history.description"
                     >历史记录</button>
                 </nav>
                 <div class="tabpage-centent" data-navid="output">
                     <!-- 输出内容标签页 -->
                     <section class="tabpage-panel" role="tabpanel" data-pageid="content">
-                        <h3 class="tabpage-panel-title">输出内容</h3>
-                        <div class="echo-editor-from">
-                            <label for="content">输出内容</label>
-                            <textarea name="content" id="output-content" class="code" aria-label="输出内容编辑框"></textarea>
+                        <h3 class="tabpage-panel-title" data-i18n="editor.tabpage.output_content.title">输出内容</h3>
+                        <div class="echo-editor-form">
+                            <div class="echo-live-client-state hide">
+                                <label data-i18n="editor.form.label.live_client_state">对话框状态</label>
+                                <div class="echo-live-client-state-content">
+                                    <div class="echo-live-client-state-block"></div>
+                                </div>
+                            </div>
+                            <label for="output-content" data-i18n="editor.form.label.output_content">输出内容</label>
+                            <textarea
+                                name="content"
+                                id="output-content"
+                                class="code"
+                                aria-label="输出内容编辑框"
+                                data-i18n-aria-label="editor.form.aria_label.output_content"
+                            ></textarea>
                             <div class="editor-controller-bottom fh-flex-row">
-                                <button id="output-btn-clear" class="fh-button fh-big fh-danger">清空</button>
-                                <button id="output-btn-send" class="fh-button fh-big hide">发送</button>
+                                <button id="output-btn-clear" class="fh-button fh-big fh-danger" data-i18n="ui.clear">清空</button>
+                                <button id="output-btn-send" class="fh-button fh-big hide" data-i18n="ui.send">发送</button>
                             </div>
                         </div>
                     </section>
 
                     <!-- 历史记录标签页 -->
                     <section class="tabpage-panel hide" role="tabpanel" data-pageid="history">
-                        <h3 class="tabpage-panel-title">历史记录</h3>
+                        <h3 class="tabpage-panel-title" data-i18n="editor.tabpage.history.title">历史记录</h3>
                         <div id="history-message-list">
 
                         </div>
                         <div id="history-editor-controller" class="editor-controller-bottom fh-flex-row">
-                            <button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">清空历史记录</button>
+                            <button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger" data-i18n="editor.history.clear">清空历史记录</button>
                         </div>
                     </section>
                 </div>
@@ -396,7 +438,7 @@
 
             <!-- 广播标签页 -->
             <section class="tabpage-panel hide" role="tabpanel" data-pageid="broadcast">
-                <h2 class="tabpage-panel-title">日志</h2>
+                <h2 class="tabpage-panel-title" data-i18n="editor.tabpage.broadcast.title">广播</h2>
                 <p style="color: red;">该页面正在施工中，暂不可用。</p>
                 <p>恭喜你发现了隐藏页面：广播！</p>
                 <p>这里计划添加一些功能按键用于控制对话框。</p>
@@ -404,10 +446,13 @@
 
             <!-- 日志标签页 -->
             <section class="tabpage-panel hide" role="tabpanel" data-pageid="log">
-                <h2 class="tabpage-panel-title">日志</h2>
-                <div id="editor-log" aria-label="这里是日志列表，如果您听到了这句话，请注意，这里的阅读体验可能会很差。" role="log">
-                    
-                </div>
+                <h2 class="tabpage-panel-title" data-i18n="editor.tabpage.log.title">日志</h2>
+                <div
+                    id="editor-log"
+                    aria-label="这里是日志列表，如果您听到了这句话，请注意，这里的阅读体验可能会很差。"
+                    data-i18n-aria-label="editor.form.aria_label.log_box"
+                    role="log"
+                ></div>
             </section>
         </div>
     </main>

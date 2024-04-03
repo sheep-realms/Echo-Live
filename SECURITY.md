@@ -3,8 +3,8 @@
 ## 支持的版本 / Supported Versions
 | 版本号 / Version | 支持中 / Supported |
 | ------- | ------------------ |
-| 1.1.5 | :white_check_mark: |
-| < 1.1.5 | :x: |
+| >= 1.1.5 | :white_check_mark: 是 |
+| < 1.1.5 | :x: 否 |
 
 ## 通过 GitHub 报告安全漏洞 / Reporting Vulnerability from GitHub
 通过以下链接报告安全漏洞：

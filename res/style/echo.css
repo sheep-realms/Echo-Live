@@ -4,6 +4,59 @@
 .echo-text-typewrite {background-color: rgba(0, 0, 0, 0.05); border-bottom: 1px dotted var(--echo-span-color, #000);}
 .echo-text-strikethrough {text-decoration: line-through;}
 
+.echo-text-emphasis {
+    text-emphasis: dot;
+    -webkit-text-emphasis: dot;
+    text-emphasis-position: under;
+    -webkit-text-emphasis-position: under;
+}
+
+.echo-text-size-large {font-size: 1.5em;}
+.echo-text-size-small {font-size: 0.75em;}
+.echo-text-size-middle {font-size: 1em;}
+.echo-text-size-extra-large {font-size: 2em;}
+.echo-text-size-extra-small {font-size: 0.5em;}
+
+.echo-text-weight-thin,
+.echo-text-weight-hairline {font-weight: 100;}
+.echo-text-weight-extra-light,
+.echo-text-weight-ultra-light {font-weight: 200;}
+.echo-text-weight-light {font-weight: 300;}
+.echo-text-weight-semi-light,
+.echo-text-weight-demi-light {font-weight: 350;}
+.echo-text-weight-regular,
+.echo-text-weight-normal,
+.echo-text-weight-book,
+.echo-text-weight-plain {font-weight: 400;}
+.echo-text-weight-medium {font-weight: 500;}
+.echo-text-weight-semi-bold,
+.echo-text-weight-demi-bold {font-weight: 600;}
+.echo-text-weight-bold {font-weight: 700;}
+.echo-text-weight-extra-bold,
+.echo-text-weight-ultra-bold {font-weight: 800;}
+.echo-text-weight-black,
+.echo-text-weight-heavy {font-weight: 900;}
+.echo-text-weight-extra-black,
+.echo-text-weight-ultra-black,
+.echo-text-weight-extra-heavy,
+.echo-text-weight-ultra-heavy {font-weight: 950;}
+
+.echo-text-stretch-ultra-condensed {font-stretch: ultra-condensed;}
+.echo-text-stretch-extra-condensed {font-stretch: extra-condensed;}
+.echo-text-stretch-condensed {font-stretch: condensed;}
+.echo-text-stretch-semi-condensed {font-stretch: semi-condensed;}
+.echo-text-stretch-normal {font-stretch: normal;}
+.echo-text-stretch-semi-expanded {font-stretch: semi-expanded;}
+.echo-text-stretch-expanded {font-stretch: expanded;}
+.echo-text-stretch-extra-expanded {font-stretch: extra-expanded;}
+.echo-text-stretch-ultra-expanded {font-stretch: ultra-expanded;}
+
+.echo-text-letter-spacing-compact {letter-spacing: -0.05em;}
+.echo-text-letter-spacing-normal {letter-spacing: normal;}
+.echo-text-letter-spacing-four-per-width {letter-spacing: 0.25em;}
+.echo-text-letter-spacing-half-width {letter-spacing: 0.5em;}
+.echo-text-letter-spacing-full-width {letter-spacing: 1em;}
+
 @keyframes echo-text-rock-y {
     0% {position: relative; top: 0px;}
     25% {position: relative; top: -2px;}
@@ -12,4 +65,23 @@
 }
 .echo-text-rock-y {
     animation: echo-text-rock-y .5s infinite;
+}
+
+.echo-text-rainbow {
+    color: #000;
+    background-image: linear-gradient(
+        to right, 
+        #ef4444, #f97316, #f59e0b, #eab308, #84cc16, #22c55e, #10b981, #14b8a6, #06b6d4,
+        #0ea5e9, #3b82f6, #6366f1, #8b5cf6, #a855f7, #d945ef, #ec4899, #f43f5e, #ef4444
+    );
+    background-size: 16em;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation:  echo-text-rainbow 2s infinite linear;
+}
+
+@keyframes echo-text-rainbow {
+    0% { background-position: 0 0; }
+    100% { background-position: -16em 0; }
 }

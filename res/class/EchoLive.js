@@ -5,9 +5,15 @@ class EchoLive {
         this.data = undefined;
         this.broadcast = undefined;
         this.uuid = EchoLiveTools.getUUID();
+        this.custom = {
+            name: undefined,
+            color: undefined,
+            data: {}
+        };
         this.hidden = false;
         this.antiFlood = false;
         this.theme = [];
+        this.username = '';
         this.timer = {
             messagesPolling: -1
         };
@@ -19,7 +25,24 @@ class EchoLive {
         this.init();
     }
 
+    /**
+     * 初始化
+     */
     init() {
+        let urlName = EchoLiveTools.getUrlParam('name');
+        let urlColor = EchoLiveTools.getUrlParam('color');
+        if (urlName != null) this.custom.name = urlName;
+        if (urlColor != null) this.custom.color = urlColor;
+        
+        window.addEventListener("error", (e) => {
+            const msg = e.error != null ? e.error.stack : e.message;
+            const filename = e.filename != '' ? e.filename : 'null';
+            this.broadcast.error(msg, filename, e.lineno, e.colno);
+        });
+        // window.onerror = (message, source, line, col, error) => {
+        //     this.broadcast.error(message, source, line, col);
+        // };
+
         // 嵌套有点多了，这不好，要改
         if (this.config.echolive.sleep_enable) {
             document.addEventListener("visibilitychange", () => {
@@ -34,6 +57,10 @@ class EchoLive {
                     this.hidden = true;
                     if (this.broadcast != undefined) this.broadcast.pageHidden();
                     if (this.timer.messagesPolling != -1) this.stop();
+                    if (this.echo.state != 'stop') {
+                        this.echo.stop();
+                        this.broadcast.echoStateUpdate('stop', this.echo.messageList.length);
+                    }
                 }
             });
         }
@@ -45,12 +72,18 @@ class EchoLive {
         }
 
         if (this.config.echolive.broadcast_enable) {
-            this.broadcast = new EchoLiveBroadcast(this, this.config.echolive.broadcast_channel);
+            this.broadcast = new EchoLiveBroadcastPortal(this.config.echolive.broadcast_channel, this, this.config);
         } else if (this.config.echolive.messages_polling_enable) {
             this.start();
         }
     }
 
+    /**
+     * 绑定事件
+     * @param {String} eventName 事件名称
+     * @param {Function} action 函数
+     * @returns {Function} 函数
+     */
     on(eventName, action = function() {}) {
         if (typeof action != 'function') return;
         return this.event[eventName] = action;
@@ -59,9 +92,12 @@ class EchoLive {
     /**
      * 发送消息
      * @param {Object} data 消息格式
+     * @param {String} data.username 说话人
+     * @param {Array<Object>} data.messages 消息队列
      */
     send(data = {}) {
         if (this.hidden) return;
+        if (typeof data != 'object') return;
         if (this.antiFlood) {
             this.data = data;
             this.antiFlood = false;
@@ -70,8 +106,11 @@ class EchoLive {
         if (typeof this.data === 'object' && JSON.stringify(data) === JSON.stringify(this.data)) return;
         if (this.echo.state != 'stop') this.echo.stop();
         this.data = data;
-        $('#echo-live .name').text(data.username);
-        this.echo.sendList(JSON.parse(JSON.stringify(data.messages)));
+        if (typeof data?.username === 'string') {
+            this.username = data.username;
+            $('#echo-live .name').text(data.username);
+        }
+        if (Array.isArray(data?.messages)) this.echo.sendList(JSON.parse(JSON.stringify(data.messages)));
     }
 
     /**
@@ -82,6 +121,9 @@ class EchoLive {
         this.echo.next();
     }
 
+    /**
+     * 重新加载
+     */
     reload() {
         if (this.hidden) return;
         $('#start-script').remove();
@@ -91,6 +133,9 @@ class EchoLive {
         document.body.appendChild(s);
     }
 
+    /**
+     * 开始轮询
+     */
     start() {
         let that = this;
         this.timer.messagesPolling = setInterval(function() {
@@ -98,6 +143,9 @@ class EchoLive {
         }, this.config.echolive.messages_polling_tick);
     }
 
+    /**
+     * 停止轮询
+     */
     stop() {
         clearInterval(this.timer.messagesPolling);
     }
@@ -139,7 +187,7 @@ class EchoLive {
 
         this.setThemeStyleUrl(theme.style);
 
-        if (this.config.echolive.live_theme_script_enable && typeof theme.script == 'object') {
+        if ((this.config.echolive.live_theme_script_enable && this.config.global.theme_script_enable) && typeof theme.script == 'object') {
             theme.script.forEach(e => {
                 let s = document.createElement("script");
                 s.src = e;

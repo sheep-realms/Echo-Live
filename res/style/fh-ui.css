@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
 
-    --corner-marker-color: rgba(255,255,255,0.5);
+    --corner-marker-color: rgba(255, 255, 255, 0.5);
     --corner-marker-angle: -135deg;
     --corner-marker-angle-reverse: 45deg;
     --corner-marker: linear-gradient(var(--corner-marker-angle), var(--corner-marker-color) 5px, transparent 5px);
@@ -20,7 +20,7 @@
 
     --color-general-dark: rgb(40, 144, 204);
     --color-safe-dark: rgb(57, 163, 46);
-    --color-warn-dark: rgb(194, 161, 52);
+    --color-warn-dark: rgb(178, 146, 39);
     --color-danger-dark: rgb(204, 61, 68);
     --color-special-dark: rgb(147, 61, 178);
 
@@ -32,9 +32,33 @@
 
     --color-msgbox-background: #EEE;
 
+    --fh-border-coler: #AAAAAA;
+
     --animation-speed: 1.0s;
     --animation-speed-button-switch: 0.1s;
+
+    --font-size-base: 16px;
+    --font-size-title-3: 1.5rem;
+    --font-size-extra-large: 1.25rem;
+    --font-size-large: 1.125rem;
+    --font-size-middle: 1rem;
+    --font-size-small: 0.875rem;
+    --font-size-extra-small: 0.75rem;
 }
+
+@media (prefers-color-scheme: dark) {
+    :root:not(.prefers-color-scheme-light) * {
+        --corner-marker-color: rgba(30, 33, 41, 0.5);
+        --fh-border-coler: #666666;
+    }
+}
+
+.prefers-color-scheme-dark * {
+    --corner-marker-color: rgba(30, 33, 41, 0.5);
+    --fh-border-coler: #666666;
+}
+
+
 
 body {
     background-color: #FAFAFA;
@@ -151,7 +175,7 @@ ruby>.fh-ruby-hidden {
 }
 
 .fh-article h2 {
-    font-size: 24px;
+    font-size: var(--font-size-title-3);
     border-bottom: #AAA 1px solid;
     margin-top: 20px;
     margin-bottom: 10px;
@@ -173,7 +197,7 @@ ruby>.fh-ruby-hidden {
     margin: 50px auto;
     width: 940px;
     padding: 30px;
-    background-color: #FFF;
+    background-color: var(--input-bgcolor);
     box-shadow: #CCC 0 5px 25px;
 }
 
@@ -256,7 +280,7 @@ p .fh-loading {
     position: fixed;
     top: calc(50vh - (var(--height) + var(--title-height)) / 2);
     right: calc(50vw - var(--width) / 2);;
-    background-color: #FFF;
+    background-color: var(--input-bgcolor);
     box-shadow: #CCC 0 3px 15px;
     overflow: hidden;
     animation: fh-window-show calc(var(--animation-speed) * 0.5);
@@ -289,7 +313,7 @@ p .fh-loading {
     width: calc(100% - 60px);
     padding-left: 10px;
     font-weight: bold;
-    font-size: 18px;
+    font-size: var(--font-size-large);
     white-space: nowrap;
 }
 
@@ -371,7 +395,7 @@ p .fh-loading {
     line-height: 35px;
     padding: 0 10px;
     margin: 0 3px;
-    font-size: 14px;
+    font-size: var(--font-size-small);
     color: #FFF;
     border: none;
     cursor: pointer;
@@ -685,14 +709,14 @@ p .fh-loading {
     line-height: 35px;
     padding: 0 10px;
     margin: 0 3px;
-    font-size: 14px;
-    color: #000;
-    border: #D9D9D9 1px solid;
-    --corner-marker-color: #D9D9D9;
+    font-size: var(--font-size-small);
+    color: var(--input-bgcolor);
+    border: var(--fh-border-coler) 1px solid;
+    --corner-marker-color: var(--fh-border-coler);
     --corner-marker-angle: var(--corner-marker-angle-reverse);
     vertical-align: baseline;
     outline: none;
-    background-color: #FFF;
+    background-color: var(--input-bgcolor);
     background-image: var(--corner-marker);
     background-repeat: no-repeat;
     transition: filter var(--animation-speed-button-switch), background-color var(--animation-speed-button-switch), box-shadow var(--animation-speed-button-switch), border var(--animation-speed-button-switch), background-image var(--animation-speed-button-switch);

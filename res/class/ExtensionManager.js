@@ -8,7 +8,7 @@ class ExtensionManager {
         if (data?.meta == undefined) return;
 
         if (data?.addon != undefined) {
-            if (typeof data.addon?.audio == 'object') {
+            if (typeof data.addon?.audio == 'object' && this.mixer != undefined) {
                 data.addon.audio.forEach(e => {
                     e.name = data.meta.namespace + ':' + e.name;
                     e.path = `extensions/${data.meta.namespace}/${e.path}`;

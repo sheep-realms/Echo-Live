@@ -1,5 +1,10 @@
 /* 高对比度 */
 .accessible-high-contrast {
+    --accessible-outline-color: #00E9FF;
+    --accessible-outline-size: 2px;
+    --accessible-outline-style: solid;
+    --accessible-outline: var(--accessible-outline-color) var(--accessible-outline-size) var(--accessible-outline-style);
+
     --color-main: rgb(44, 114, 154);
     --color-main-dark: gb(26, 90, 127);
 
@@ -30,8 +35,113 @@
     --box-shadow: 0 0 0 4px rgba(128, 128, 128, 0.75);
 }
 
+@media (prefers-color-scheme: dark) {
+    :root:not(.prefers-color-scheme-light) .accessible-high-contrast {
+        --color-main: rgb(64, 173, 235);
+        --color-main-dark: rgb(40, 144, 204);
+    
+        --color-general: #3BA7E6;
+        --color-safe: #5AE64D;
+        --color-warn: #E6BD35;
+        --color-danger: #FF7379;
+        --color-special: #D481F2;
+    
+        --color-general-dark: var(--color-general);
+        --color-safe-dark: var(--color-safe);
+        --color-warn-dark: var(--color-warn);
+        --color-danger-dark: var(--color-danger);
+        --color-special-dark: var(--color-special);
+    
+        --color-general-glass: rgba(45, 147, 206, 0.05);
+        --color-safe-glass: rgba(69, 204, 56, 0.05);
+        --color-warn-glass: rgba(230, 189, 53, 0.05);
+        --color-danger-glass: rgba(230, 82, 89, 0.05);
+        --color-special-glass: rgba(147, 61, 178, 0.05);
+    
+        --fh-border-coler: #AAAAAA;
+        --text-primary: #FFF;
+        --text-regular: #DDD;
+        --text-secondary: #BBB;
+        --text-placeholder: #999;
+    
+        --border-coler: #FFF;
+        --box-shadow: 0 2px 16px rgba(128, 128, 128, 0.75);
+    
+        --page-bgcolor: #000;
+        --input-bgcolor: #0D111A;
+        --input-color: var(--text-primary);
+
+        --checkbox-corner-marker-color: rgba(30, 33, 41, 0.5);
+    }
+
+    :root:not(.prefers-color-scheme-light) * {
+        --corner-marker-color: rgba(30, 33, 41, 0.5);
+        --fh-border-coler: #FFF;
+    }
+}
+
+.prefers-color-scheme-dark .accessible-high-contrast {
+    --color-main: rgb(64, 173, 235);
+    --color-main-dark: rgb(40, 144, 204);
+    
+    --color-general: #3BA7E6;
+    --color-safe: #5AE64D;
+    --color-warn: #E6BD35;
+    --color-danger: #FF7379;
+    --color-special: #D481F2;
+
+    --color-general-dark: var(--color-general);
+    --color-safe-dark: var(--color-safe);
+    --color-warn-dark: var(--color-warn);
+    --color-danger-dark: var(--color-danger);
+    --color-special-dark: var(--color-special);
+
+    --color-general-glass: rgba(45, 147, 206, 0.12);
+    --color-safe-glass: rgba(69, 204, 56, 0.12);
+    --color-warn-glass: rgba(230, 189, 53, 0.12);
+    --color-danger-glass: rgba(230, 82, 89, 0.12);
+    --color-special-glass: rgba(147, 61, 178, 0.12);
+
+    --text-primary: #FFF;
+    --text-regular: #DDD;
+    --text-secondary: #BBB;
+    --text-placeholder: #999;
+
+    --border-coler: #FFF;
+    --box-shadow: 0 2px 16px rgba(128, 128, 128, 0.75);
+
+    --page-bgcolor: #000;
+    --input-bgcolor: #0D111A;
+    --input-color: var(--text-primary);
+
+    --checkbox-corner-marker-color: rgba(30, 33, 41, 0.5);
+}
+
+.prefers-color-scheme-dark * {
+    --corner-marker-color: rgba(30, 33, 41, 0.5);
+    --fh-border-coler: #FFF;
+}
+
+.prefers-color-scheme-dark .accessible-high-contrast .fh-button:not(.fh-ghost, .fh-dashed, .fh-air),
+.prefers-color-scheme-dark .accessible-high-contrast .settings-nav-item[aria-selected="true"],
+.prefers-color-scheme-dark .accessible-high-contrast #log-message-mark,
+.prefers-color-scheme-dark .accessible-high-contrast #popups-palette .popups-palette-color-contrast .diff-result-content.fail {
+    color: var(--page-bgcolor);
+}
+
+.prefers-color-scheme-dark .accessible-high-contrast .fh-button:not(.fh-ghost, .fh-dashed, .fh-air) svg,
+.prefers-color-scheme-dark .accessible-high-contrast .settings-nav-item[aria-selected="true"] svg,
+.prefers-color-scheme-dark .accessible-high-contrast #popups-palette .popups-palette-color-contrast .diff-result-content.fail svg {
+    fill: var(--page-bgcolor);
+}
+
+
+
+.accessible-high-contrast .echo-live-client-state-block.state-active {
+    border: 1px solid var(--color-safe-dark);
+}
+
 .accessible-high-contrast .echo-live-client-state-block.state-sleep {
-    background-color: transparent;
     border: 1px solid var(--color-danger-dark);
 }
 
@@ -39,17 +149,45 @@
 .accessible-high-contrast input[type=number],
 .accessible-high-contrast input[type=text],
 .accessible-high-contrast #editor-log,
-.accessible-high-contrast select {
+.accessible-high-contrast select,
+.accessible-high-contrast .echo-live-client-state-block {
     border: 1px solid var(--text-primary);
+}
+
+.accessible-high-contrast #popups-palette:not(:focus-within) .popups-palette-select-content kbd {
+    opacity: 0;
+}
+
+.accessible-high-contrast input[type=number]:focus,
+.accessible-high-contrast input[type=text]:focus,
+.accessible-high-contrast textarea:focus,
+.accessible-high-contrast select:focus,
+.accessible-high-contrast button:focus {
+    outline: var(--accessible-outline) !important;
+}
+
+.accessible-high-contrast .echo-live-client-state-block.echo-state-play .client-info {
+    background-image: unset;
+    animation: unset;
+}
+
+.accessible-high-contrast .settings-panel a:not(.settings-link-bar) {
+    border-bottom: var(--color-general-dark) 1px solid;
 }
 
 
 /* 红绿色盲 */
-.accessible-drotanopia-and-deuteranopia .echo-live-client-state-block.state-active {
+.accessible-drotanopia-and-deuteranopia {
+    --color-safe: var(--color-general);
+    --color-safe-dark: var(--color-general-dark);
+    --color-safe-glass: var(--color-general-glass);
+}
+
+.accessible-drotanopia-and-deuteranopia .echo-live-client-state-block.state-active .state-color-block {
     background-color: var(--color-general-dark);
 }
 
-.accessible-drotanopia-and-deuteranopia .echo-live-client-state-block.state-sleep {
+.accessible-drotanopia-and-deuteranopia .echo-live-client-state-block.state-sleep .state-color-block {
     background-color: transparent;
     border: 1px solid var(--color-general-dark);
 }
@@ -63,8 +201,16 @@
 .accessible-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content.fail {
     background-color: var(--color-danger-dark);
     border: var(--color-danger-dark) 1px solid;
-    fill: #FFFFFF;
-    color: #FFFFFF;
+    fill: #FFF;
+    color: #FFF;
+}
+
+.prefers-color-scheme-dark .accessible-high-contrast.accessible-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content.fail {
+    color: var(--page-bgcolor);
+}
+
+.prefers-color-scheme-dark .accessible-high-contrast.accessible-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content.fail svg {
+    color: var(--page-bgcolor);
 }
 
 

@@ -201,7 +201,7 @@ class Echo {
 
         // 触发打印事件
         if (typeof a == 'string' && that.filter.HTMLFormat) {
-            a = a.replace(/  /g, ' &nbsp;');
+            a = a.replace(/ /g, '&ensp;');
             a = a.replace(/</g, '&lt;');
             a = a.replace(/>/g, '&gt;');
         }
@@ -297,6 +297,7 @@ class Echo {
         clearInterval(this.timer);
         this.state = 'stop';
         this.messageBuffer = [];
+        this.dbChrBuffer = '';
         this.groupCount = 0;
         this.groupStack = [];
     }

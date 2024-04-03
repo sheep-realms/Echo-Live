@@ -11,12 +11,26 @@
 
 const config = {
     // 数据版本，用于后续的自动化配置更新，请勿修改
-    data_version: 1,
+    data_version: 3,
+
+    // 全局配置
+    global: {
+        // 显示语言
+        language: 'zho-Hans',
+
+        // 主题名称
+        theme: 'vanilla',
+        theme_script_enable: false,
+
+        color_scheme: 'auto',
+    },
 
     // Echo 相关配置
     echo: {
         // 滚动速度，每个字符打印循环的延迟时间（毫秒），最小值为 4
         print_speed: 30,
+
+        html_format_enable: true,
     },
 
     // Echo-Live 相关配置
@@ -25,7 +39,7 @@ const config = {
 
         // 主题名称
         // * 可用的主题请见：https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/
-        live_theme: 'vanilla',
+        live_theme: '',
         // 启用主题脚本
         // * 一些高级效果可能需要启用主题脚本才能正常使用。目前所有预制主题均不包含脚本。
         // * 脚本中可以执行任意代码，请谨慎安装需要您启用脚本的第三方主题。
@@ -47,6 +61,9 @@ const config = {
         websocket_enable: false,
         // WebSocket 连接地址
         websocket_url: 'ws://127.0.0.1:3000',
+        // WebSocket 最大重连尝试次数
+        // * 连接关闭和连接失败将会尝试重连，一旦超过重连尝试次数限制将不再尝试重连。
+        websocket_reconnect_limit: 5,
         // 启用实验性 API
         // * 实验性 API 包含了一些危险操作，实现一些特殊功能可能是必要的，但如果使用不当可能会造成严重后果。
         // * 请开发者注意，如果您提供的产品需要启用此实验性 API，请务必说明您不得不这么做的原因。
@@ -63,10 +80,14 @@ const config = {
         messages_polling_tick: 250,
 
 
+        // == 休眠机制 ==
+
         // 启用休眠机制：当页面不可见时休眠以防止计时器失效所引发的灾难性演出
         // * 特别强调：如果您不了解这是什么，请不要关闭它。
         // ** 如果您只是想方便在浏览器中预览而临时关闭它，请一定不要忘记打开。
         sleep_enable: true,
+        // 在打印期间休眠立即停止打印
+        sleep_during_printing_stop_print: true,
 
 
         // == 打字音效 ==
@@ -186,18 +207,64 @@ const config = {
         palette_color_contrast_threshold: 3.8,
     },
 
+    // 历史记录相关配置
+    // * 是面向观众展示的历史记录，不是编辑器中的历史记录
+    history: {
+        history_theme: '',
+        history_theme_script_enable: false,
+        // == 布局 ==
+
+        // 历史记录倒序排列
+        message_list_reverse: false,
+        // 历史记录布局左右翻转
+        message_item_reverse: false,
+
+        // 显示说话人
+        display_username: true,
+        // 显示发送时间
+        display_time: true,
+
+
+        // == 行为 ==
+
+        // 去除连续的重复消息
+        // * 如果场景中有多个对话框同时接收消息，启用此项可避免重复记录历史消息。
+        remove_continuous_duplicate: true,
+
+        // 隐藏最新的历史记录
+        latest_message_hide: true,
+    },
+
     // 无障碍相关配置
     // * 编辑器支持键盘访问。
     accessible: {
-        // 高对比度
+        // == 高对比度 ==
+
+        // 启用高对比度
         high_contrast: false,
-        // 红绿色盲
+
+        // 焦点高亮边框颜色
+        high_contrast_outline_color: '#00E9FF',
+
+        // 焦点高亮边框尺寸
+        high_contrast_outline_size: '2px',
+
+        // 焦点高亮边框样式
+        high_contrast_outline_style: 'solid',
+
+
+        // == 红绿色盲 ==
+        // * 绿色功能色会以蓝色代替。
         drotanopia_and_deuteranopia: false,
     },
 
     // 高级设置
     // * 除非您知道您在干什么，否则请不要动这里的设置。
     advanced: {
+        broadcast: {
+            // 允许识别名重复
+            allow_name_duplicate: false,
+        },
         editor: {
             // 历史记录底部游标熔断阈值
             // * 设为 -1 可禁用此机制。
@@ -208,7 +275,6 @@ const config = {
     // == 未使用配置 ==
     // * 以下配置是为未来的新功能开发占坑的，目前没有作用。
     // * 二次开发请注意：如果这些配置内容不符合您的预期，请不要使用这些配置名，以防止冲突。
-    history: {},
     selector: {},
     character: {},
 };

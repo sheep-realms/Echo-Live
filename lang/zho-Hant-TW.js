@@ -65,6 +65,10 @@ const lang_zho_Hant_TW = {
                 _title: "全域主題",
                 _description: "控制對話框、歷史記錄等面向觀眾展示的介面主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>說明文件</a>。"
             },
+            theme_script_enable: {
+                _title: "啟用全域主題腳本",
+                _description: "一些進階效果可能需要啟用主題腳本才能正常使用。目前所有預製主題均不包含腳本。<br>腳本中可以執行任意程式碼，請謹慎安裝需要您啟用腳本的第三方主題。"
+            },
             color_scheme: {
                 _title: "後台配色方案",
                 _description: "控制後台介面的配色。可用的方案有 auto（跟隨系統）、light（淺色）和 dark（深色）。",
@@ -95,8 +99,8 @@ const lang_zho_Hant_TW = {
                 _description: "留空則使用全域主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>說明文件</a>。"
             },
             live_theme_script_enable: {
-                _title: "啟用主題腳本",
-                _description: "一些進階效果可能需要啟用主題腳本才能正常使用。目前所有預製主題均不包含腳本。<br>腳本中可以執行任意程式碼，請謹慎安裝需要您啟用腳本的第三方主題。"
+                _title: "啟用對話框主題腳本",
+                _description: "此配置項需要啟用全域主題腳本才能生效。"
             },
             broadcast_enable: {
                 _title: "啟用廣播",
@@ -144,7 +148,7 @@ const lang_zho_Hant_TW = {
             },
             print_audio_name: {
                 _title: "音效名稱",
-                _description: "可用的音效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/' target='_blank'>說明文件</a>。"
+                _description: "可用的音效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/#list' target='_blank'>說明文件</a>。"
             },
             print_audio_volume: {
                 _title: "音效音量",
@@ -160,7 +164,7 @@ const lang_zho_Hant_TW = {
             },
             next_audio_name: {
                 _title: "音效名稱",
-                _description: "可用的音效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/' target='_blank'>說明文件</a>。"
+                _description: "可用的音效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/#list' target='_blank'>說明文件</a>。"
             },
             next_audio_volume: {
                 _title: "音效音量",
@@ -243,6 +247,10 @@ const lang_zho_Hant_TW = {
                 _title: "歷史記錄主題",
                 _description: "留空則使用全域主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>說明文件</a>。"
             },
+            history_theme_script_enable: {
+                _title: "啟用歷史記錄主題腳本",
+                _description: "此配置項需要啟用全域主題腳本才能生效。"
+            },
             message_list_reverse: {
                 _title: "歷史記錄倒序排列",
                 _description: "歷史記錄按照發送時間由新到舊排列。"
@@ -289,7 +297,7 @@ const lang_zho_Hant_TW = {
             },
             drotanopia_and_deuteranopia: {
                 _title: "紅綠色盲",
-                _description: "綠色功能色會以藍色代替。"
+                _description: "綠色（安全）功能色會以藍色（通用）代替，以便和功能差異較大的黃色（警告）和紅色（危險）作出區分。"
             }
         },
         advanced: {
@@ -335,7 +343,8 @@ const lang_zho_Hant_TW = {
     editor: {
         client_state: {
             active: "啟用",
-            sleep: "休眠",
+            none: "未加入",
+            sleep: "休眠"
         },
         client_state_panel: {
             tip: "用戶端狀態：{client}，Echo 狀態：{echo}。",
@@ -594,7 +603,15 @@ const lang_zho_Hant_TW = {
                 goto: "獲取 Chrome"
             }
         },
+        functional_color: {
+            danger: "危險",
+            general: "通用",
+            safe: "安全",
+            special: "特殊",
+            warn: "警告"
+        },
         label: {
+            accessibility_color_card: "參考色卡",
             config_changed: "配置已更改",
             config_output: "匯出配置內容"
         },

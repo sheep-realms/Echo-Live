@@ -65,6 +65,10 @@ const lang_zho_Hans = {
                 _title: "全局主题",
                 _description: "控制对话框、历史记录等面向观众展示的界面主题。关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。"
             },
+            theme_script_enable: {
+                _title: "启用全局主题脚本",
+                _description: "一些高级效果可能需要启用主题脚本才能正常使用。目前所有预制主题均不包含脚本。<br>脚本中可以执行任意代码，请谨慎安装需要您启用脚本的第三方主题。"
+            },
             color_scheme: {
                 _title: "后台配色方案",
                 _description: "控制后台界面的配色。可用的方案有 auto（跟随系统）、light（浅色）和 dark（深色）。",
@@ -95,8 +99,8 @@ const lang_zho_Hans = {
                 _description: "留空则使用全局主题。关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。"
             },
             live_theme_script_enable: {
-                _title: "启用主题脚本",
-                _description: "一些高级效果可能需要启用主题脚本才能正常使用。目前所有预制主题均不包含脚本。<br>脚本中可以执行任意代码，请谨慎安装需要您启用脚本的第三方主题。"
+                _title: "启用对话框主题脚本",
+                _description: "此配置项需要启用全局主题脚本才能生效。"
             },
             broadcast_enable: {
                 _title: "启用广播",
@@ -144,7 +148,7 @@ const lang_zho_Hans = {
             },
             print_audio_name: {
                 _title: "音效名称",
-                _description: "可用的音效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/' target='_blank'>帮助文档</a>。"
+                _description: "可用的音效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/#list' target='_blank'>帮助文档</a>。"
             },
             print_audio_volume: {
                 _title: "音效音量",
@@ -160,7 +164,7 @@ const lang_zho_Hans = {
             },
             next_audio_name: {
                 _title: "音效名称",
-                _description: "可用的音效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/' target='_blank'>帮助文档</a>。"
+                _description: "可用的音效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/#list' target='_blank'>帮助文档</a>。"
             },
             next_audio_volume: {
                 _title: "音效音量",
@@ -242,6 +246,10 @@ const lang_zho_Hans = {
             history_theme: {
                 _title: "历史记录主题",
                 _description: "留空则使用全局主题。关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。"
+            },
+            history_theme_script_enable: {
+                _title: "启用历史记录主题脚本",
+                _description: "此配置项需要启用全局主题脚本才能生效。"
             },
             message_list_reverse: {
                 _title: "历史记录倒序排列",
@@ -603,6 +611,7 @@ const lang_zho_Hans = {
             warn: "警告"
         },
         label: {
+            accessibility_color_card: "参考色卡",
             config_changed: "配置已更改",
             config_output: "导出配置内容"
         },

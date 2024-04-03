@@ -57,7 +57,10 @@ class EchoLive {
                     this.hidden = true;
                     if (this.broadcast != undefined) this.broadcast.pageHidden();
                     if (this.timer.messagesPolling != -1) this.stop();
-                    if (this.echo.state != 'stop') this.echo.stop();
+                    if (this.echo.state != 'stop') {
+                        this.echo.stop();
+                        this.broadcast.echoStateUpdate('stop', this.echo.messageList.length);
+                    }
                 }
             });
         }
@@ -184,7 +187,7 @@ class EchoLive {
 
         this.setThemeStyleUrl(theme.style);
 
-        if (this.config.echolive.live_theme_script_enable && typeof theme.script == 'object') {
+        if ((this.config.echolive.live_theme_script_enable && this.config.global.theme_script_enable) && typeof theme.script == 'object') {
             theme.script.forEach(e => {
                 let s = document.createElement("script");
                 s.src = e;

@@ -457,7 +457,7 @@ $(document).ready(function() {
             $t('settings.msgbox.accessibility'),
             'wheelchairAccessibility'
         ) +
-        `<div class="review-color-card">
+        `<div class="review-color-card" aria-label="${ $t('settings.label.accessibility_color_card') }">
             <div class="general"><div class="fg">${ $t('settings.functional_color.general') }</div><div class="bg"></div></div>
             <div class="safe"><div class="fg">${ $t('settings.functional_color.safe') }</div><div class="bg"></div></div>
             <div class="warn"><div class="fg">${ $t('settings.functional_color.warn') }</div><div class="bg"></div></div>
@@ -845,4 +845,21 @@ $(document).on('click', '#edit-btn-file-save-as', function() {
 
 $(document).on('click', '#edit-btn-file-save', function() {
     configExport('config.js');
+});
+
+
+
+$(document).keydown(function(e) {
+    if (e.keyCode == 83 && e.ctrlKey) {
+        e.preventDefault();
+    }
+
+    if (
+        $('#tabpage-nav-edit[aria-selected="true"]').length > 0 &&
+        $('.settings-controller-bottom:not(.disabled)').length > 0 &&
+        e.keyCode == 83 && e.ctrlKey
+    ) {
+        configSaveAll(true);
+        configExport('config.js');
+    }
 });

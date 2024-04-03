@@ -20,6 +20,7 @@ const config = {
 
         // 主题名称
         theme: 'vanilla',
+        theme_script_enable: false,
 
         color_scheme: 'auto',
     },
@@ -210,6 +211,7 @@ const config = {
     // * 是面向观众展示的历史记录，不是编辑器中的历史记录
     history: {
         history_theme: '',
+        history_theme_script_enable: false,
         // == 布局 ==
 
         // 历史记录倒序排列

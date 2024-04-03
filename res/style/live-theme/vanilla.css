@@ -91,6 +91,8 @@
 
     /* 历史记录字体大小 */
     --echo-live-history-font-size: 36px;
+    /* 历史记录标题字体大小 */
+    --echo-live-history-font-size-title: 42px;
     /* 历史记录说话人字体大小 */
     --echo-live-history-font-size-username: unset;
     /* 历史记录消息内容字体大小 */
@@ -100,17 +102,43 @@
 
     /* 历史记录字体颜色 */
     --echo-live-history-color: #000;
+    /* 历史记录标题字体颜色 */
+    --echo-live-history-color-title: #606266;
     /* 历史记录说话人字体颜色 */
     --echo-live-history-color-username: unset;
     /* 历史记录消息内容字体颜色 */
     --echo-live-history-color-message: unset;
     /* 历史记录发送时间字体颜色 */
     --echo-live-history-color-time: #888;
+    /* 历史记录背景颜色，如果要设为透明请使用 transparent */
+    --echo-live-history-bg-color: #EEEEEE;
+    /* 历史记录标题背景颜色 */
+    --echo-live-history-bg-color-title: #FFFFFF;
+    /* 历史记录标题的上、右、下、左内边距 */
+    --echo-live-history-padding-title: 0em 1em 0em 1em;
+    /* 历史记录标题的最小高度 */
+    --echo-live-history-min-height: 84px;
+    /* 历史记录内容的上、右、下、左内边距 */
+    --echo-live-history-padding-content: 1em 1em 1em 1em;
+    
+    /* 历史记录标题字重 */
+    --echo-live-history-font-weight-title: 600;
+    /* 历史记录说话人字重 */
+    --echo-live-history-font-weight-username: 500;
+    /* 历史记录消息内容字重 */
+    --echo-live-history-font-weight-message: 400;
+    /* 历史记录发送时间字重 */
+    --echo-live-history-font-weight-time: 300;
 
     /* 历史记录每条记录之间的间隙 */
     --echo-live-history-list-gap: 0.5em;
     /* 历史记录每条记录内各个元素的间隙 */
     --echo-live-history-item-gap: 0.5em;
+
+    /* 历史记录标题垂直偏移量 */
+    --echo-live-history-title-top: -4px;
+    /* 对话框装饰角标填充图案，要禁用请设为 unset */
+    --echo-live-history-corner-marker: linear-gradient(-135deg, rgba(0,0,0,0.15) 15px, transparent 15px);
 
 
     /* == 其他 == */
@@ -204,10 +232,35 @@
     background-color: var(--echo-live-history-bg-color);
     font-size: var(--echo-live-history-font-size);
     color: var(--echo-live-history-color);
+    box-sizing: border-box;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.echo-live-history-title {
+    padding: var(--echo-live-history-padding-title);
+    background-color: var(--echo-live-history-bg-color-title);
+    background-image: var(--echo-live-history-corner-marker);
+    min-height: var(--echo-live-history-min-height);
+    display: flex;
+    align-items: center;
+}
+
+#echo-live-history h1 {
+    font-size: var(--echo-live-history-font-size-title);
+    color: var(--echo-live-history-color-title);
+    font-weight: var(--echo-live-history-font-weight-title);
+    position: relative;
+    top: var(--echo-live-history-title-top);
 }
 
 #echo-live-history-message-list {
     gap: var(--echo-live-history-list-gap);
+    padding: var(--echo-live-history-padding-content);
+    height: 100%;
+    box-sizing: border-box;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0, transparent 30px);
+    /* background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0, transparent 30px), linear-gradient(to top, rgba(0, 0, 0, 0.1) 0, transparent 30px); */
 }
 
 #echo-live-history .history-message-item {
@@ -220,6 +273,7 @@
     max-width: var(--echo-live-history-max-width-username);
     color: var(--echo-live-history-color-username, --echo-live-history-color);
     font-size: var(--echo-live-history-font-size-username, --echo-live-history-font-size);
+    font-weight: var(--echo-live-history-font-weight-username);
 }
 
 #echo-live-history .history-message-item .message {
@@ -228,6 +282,7 @@
     max-width: var(--echo-live-history-max-width-message);
     color: var(--echo-live-history-color-message, --echo-live-history-color);
     font-size: var(--echo-live-history-font-size-message, --echo-live-history-font-size);
+    font-weight: var(--echo-live-history-font-weight-message);
 }
 
 #echo-live-history .history-message-item .time {
@@ -236,4 +291,5 @@
     max-width: var(--echo-live-history-max-width-time);
     color: var(--echo-live-history-color-time, --echo-live-history-color);
     font-size: var(--echo-live-history-font-size-time, --echo-live-history-font-size);
+    font-weight: var(--echo-live-history-font-weight-time);
 }

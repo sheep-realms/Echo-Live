@@ -82,7 +82,88 @@
     /* 如果不想要底部工具栏装饰，请设为 none */
     --echo-live-bottombar-display: flex;
 
-    /* 使对话框文本不可选中 */
+
+    /* == 历史记录相关 == */
+
+    /* 历史记录说话人部分的相对宽度 */
+    --echo-live-history-flex-username: 2;
+    /* 历史记录消息内容部分的相对宽度 */
+    --echo-live-history-flex-message: 5;
+    /* 历史记录发送时间部分的相对宽度 */
+    --echo-live-history-flex-time: 1;
+
+    /* 历史记录说话人部分的最小宽度 */
+    --echo-live-history-min-width-username: 6em;
+    /* 历史记录消息内容部分的最小宽度 */
+    --echo-live-history-min-width-message: unset;
+    /* 历史记录发送时间部分的最小宽度 */
+    --echo-live-history-min-width-time: 4.5em;
+
+    /* 历史记录说话人部分的最小宽度 */
+    --echo-live-history-max-width-username: 8em;
+    /* 历史记录消息内容部分的最小宽度 */
+    --echo-live-history-max-width-message: unset;
+    /* 历史记录发送时间部分的最小宽度 */
+    --echo-live-history-max-width-time: 5em;
+
+    /* 历史记录字体大小 */
+    --echo-live-history-font-size: 36px;
+    /* 历史记录说话人字体大小 */
+    --echo-live-history-font-size-username: unset;
+    /* 历史记录消息内容字体大小 */
+    --echo-live-history-font-size-message: unset;
+    /* 历史记录发送时间字体大小 */
+    --echo-live-history-font-size-time: 0.875em;
+
+    /* 历史记录字体颜色 */
+    --echo-live-history-color: #000;
+    /* 历史记录说话人字体颜色 */
+    --echo-live-history-color-username: unset;
+    /* 历史记录消息内容字体颜色 */
+    --echo-live-history-color-message: unset;
+    /* 历史记录发送时间字体颜色 */
+    --echo-live-history-color-time: #888;
+
+    /* 历史记录每条记录之间的间隙 */
+    --echo-live-history-list-gap: 0.5em;
+    /* 历史记录每条记录内各个元素的间隙 */
+    --echo-live-history-item-gap: 0.5em;
+    
+    /* 历史记录上方预留空间 */
+    --echo-live-history-top: unset;
+    /* 历史记录左侧预留空间 */
+    --echo-live-history-left: unset;
+    /* 历史记录下方预留空间 */
+    --echo-live-history-bottom: unset;
+    /* 历史记录右侧预留空间 */
+    --echo-live-history-right: unset;
+
+    /* 历史记录背景颜色，如果要设为透明请使用 transparent */
+    --echo-live-history-bg-color: #FFFFFF;
+    /* 历史记录边框颜色、尺寸、线形，要禁用请设为 unset */
+    --echo-live-history-border: #888888 8px solid;
+    /* 历史记录圆角尺寸 */
+    --echo-live-history-border-radius: 32px;
+    /* 历史记录的上、右、下、左内边距 */
+    --echo-live-history-padding: 1em 1em 1em 1em;
+
+    /* 历史记录投影颜色 */
+    --echo-live-history-box-shadow-color: #888888;
+    /* 历史记录投影距离，不要直接在此处填负数，如有需要请通过下方参数自定义 */
+    --echo-live-history-box-shadow-distance: 16px;
+
+    /* 如果你想要自定义投影样式，请填写下面的值，将会覆盖上面的值 */
+    /* 投影横向距离 */
+    --echo-live-history-box-shadow-x: unset;
+    /* 投影纵向距离 */
+    --echo-live-history-box-shadow-y: unset;
+    /* 投影扩散距离 */
+    --echo-live-history-box-shadow-blur: unset;
+
+
+    /* == 其他 == */
+
+    /* 文本不可选中 */
     user-select: none;
 }
 
@@ -114,7 +195,7 @@
     background-image: unset;
     display: flex;
     flex-direction: column;
-    padding: 1em 3em 1em 5em;
+    padding: var(--echo-live-padding);
     box-sizing: border-box;
     border-radius: var(--echo-live-border-radius);
     border: var(--echo-live-border);
@@ -213,9 +294,38 @@
 
 /* Echo-Live 历史记录 */
 #echo-live-history {
+    position: relative;
+    top: var(--echo-live-history-top, 0px);
+    left: var(--echo-live-history-left, 0px);
+    height: 
+        calc(
+            100vh
+            - var(--echo-live-history-bottom, var(--echo-live-history-box-shadow-distance, 0px))
+            - var(--echo-live-history-top, 0px)
+        );
+    width:
+        calc(
+            100vw
+            - var(--echo-live-history-right, var(--echo-live-history-box-shadow-distance, 0px))
+            - var(--echo-live-history-left, 0px)
+        );
+    box-shadow:
+        var(--echo-live-history-box-shadow-color)
+        var(--echo-live-history-box-shadow-x, var(--echo-live-history-box-shadow-distance, 0px))
+        var(--echo-live-history-box-shadow-y, var(--echo-live-history-box-shadow-distance, 0px))
+        var(--echo-live-history-box-shadow-blur, 0px);
     background-color: var(--echo-live-history-bg-color);
     font-size: var(--echo-live-history-font-size);
     color: var(--echo-live-history-color);
+    padding: var(--echo-live-history-padding);
+    box-sizing: border-box;
+    border-radius: var(--echo-live-history-border-radius);
+    border: var(--echo-live-history-border);
+}
+
+.echo-live-history-title,
+.echo-live-history-controller {
+    display: none;
 }
 
 #echo-live-history-message-list {

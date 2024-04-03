@@ -22,6 +22,11 @@ const db_config_define = [
             datalist: []
         }
     }, {
+        name: 'global.theme_script_enable',
+        type: 'boolean',
+        default: false,
+        created: 1
+    }, {
         name: 'global.color_scheme',
         type: 'string',
         default: 'vanilla',
@@ -342,6 +347,11 @@ const db_config_define = [
         type: 'string',
         default: '',
         created: 3
+    }, {
+        name: 'history.history_theme_script_enable',
+        type: 'boolean',
+        default: false,
+        created: 1
     }, {
         name: 'history.message_list_reverse',
         type: 'boolean',

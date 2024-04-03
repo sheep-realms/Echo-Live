@@ -102,7 +102,7 @@ class EchoLiveHistory {
 
         this.setThemeStyleUrl(theme.style);
 
-        if (this.config.echolive.live_theme_script_enable && typeof theme.script == 'object') {
+        if ((this.config.history.history_theme_script_enable && this.config.global.theme_script_enable) && typeof theme.script == 'object') {
             theme.script.forEach(e => {
                 let s = document.createElement("script");
                 s.src = e;

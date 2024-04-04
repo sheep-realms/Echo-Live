@@ -644,7 +644,12 @@ $(document).on('click', '.echo-live-client-state-block', function(e) {
         return e.name == name;
     })[0];
     if (r.messagesCount > 0 && !r.hidden) {
-        elb.sendNext('@' + name);
+        console.log(name);
+        if (name.search(/^[a-f\d]{4}(?:[a-f\d]{4}-){4}[a-f\d]{12}$/i) == 0) {
+            elb.sendNext(name);
+        } else {
+            elb.sendNext('@' + name);
+        }
         editorLogT('editor.log.broadcast.echo_next_from_self_to_target', { name: name });
     }
 });

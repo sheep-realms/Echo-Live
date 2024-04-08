@@ -18,6 +18,7 @@
 [消息格式](https://sheep-realms.github.io/Echo-Live-Doc/message/) · 
 [配置文件](https://sheep-realms.github.io/Echo-Live-Doc/custom/config/) · 
 [API 文档](https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/)
+
 [常见问题](https://sheep-realms.github.io/Echo-Live-Doc/main/faq/) · 
 [更新升级](https://sheep-realms.github.io/Echo-Live-Doc/main/update/)
 

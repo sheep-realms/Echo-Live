@@ -54,7 +54,7 @@ const db_config_define = [
         name: 'echo.html_format_enable',
         type: 'boolean',
         default: true,
-        created: 1
+        created: 3
     },
     
 

@@ -31,7 +31,7 @@ class EchoLive {
     init() {
         let urlName = EchoLiveTools.getUrlParam('name');
         let urlColor = EchoLiveTools.getUrlParam('color');
-        if (urlName != null) this.custom.name = urlName;
+        if (urlName != null) this.custom.name = urlName.replace(/</g, '').replace(/>/g, '');
         if (urlColor != null) this.custom.color = urlColor;
         
         window.addEventListener("error", (e) => {

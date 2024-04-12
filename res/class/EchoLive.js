@@ -118,6 +118,7 @@ class EchoLive {
      */
     next() {
         if (this.hidden) return;
+        if (this.echo.state != 'stop') this.echo.stop();
         this.echo.next();
     }
 

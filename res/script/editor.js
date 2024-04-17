@@ -235,7 +235,7 @@ function getMessage(data) {
                 {
                     client: $t('broadcast.client.type.' + data.from.type),
                     msg: data.data.message.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>'),
-                    source: data.data.source.replace(/</g, '&lt;').replace(/>/g, '&gt;'),
+                    source: EchoLiveTools.safeHTML(data.data.source),
                     line: data.data.line,
                     col: data.data.col,
                     name: data.from.name

@@ -119,11 +119,12 @@ class EchoLiveTools {
      * @returns {String} 日志输出格式
      */
     static getMessageSendLog(message, username = '') {
+        username = EchoLiveTools.safeHTML(username);
         if (typeof message != 'string') message = EchoLiveTools.getMessagePlainText(message);
         if (message == '') message = '<i>[空消息]</i>';
         if (username == '') username = '<i>[未指定说话人]</i>';
 
-        return `<${username}> ${message}`;
+        return `<${ username }> ${ EchoLiveTools.safeHTML(message) }`;
     }
 
     /**
@@ -246,5 +247,15 @@ class EchoLiveTools {
         const seconds = ('0' + date.getSeconds()).slice(-2);
         
         return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    }
+
+    /**
+     * 安全输出 HTML
+     * @param {String} text 文本
+     * @returns {String} 过滤后的文本
+     */
+    static safeHTML(text) {
+        if (typeof text != 'string') return text;
+        return text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
 }

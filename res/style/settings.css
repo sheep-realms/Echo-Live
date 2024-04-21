@@ -236,6 +236,16 @@
     background-image: linear-gradient(var(--corner-marker-angle), var(--color-general) 12px, transparent 12px);
 }
 
+@media (prefers-color-scheme: dark) {
+    .file-drop-box.dragover {
+        box-shadow: 0 0 0 max(1000vw, 1000vh) rgba(0, 0, 0, 0.75);
+    }
+}
+
+.prefers-color-scheme-dark .file-drop-box.dragover {
+    box-shadow: 0 0 0 max(1000vw, 1000vh) rgba(0, 0, 0, 0.75);
+}
+
 .file-drop-box-message,
 .file-drop-box-message-keyboard {
     font-size: var(--font-size-extra-large);

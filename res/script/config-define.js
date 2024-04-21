@@ -29,7 +29,7 @@ const db_config_define = [
     }, {
         name: 'global.color_scheme',
         type: 'string',
-        default: 'vanilla',
+        default: 'auto',
         created: 3,
         attribute: {
             datalist: []

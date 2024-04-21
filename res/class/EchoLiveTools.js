@@ -285,4 +285,16 @@ class EchoLiveTools {
         if (typeof text != 'string') return text;
         return text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
+
+    /**
+     * 使用 ViewTransition API 更新视图
+     * @param {Function} action 过程
+     */
+    static updateView(action = function() {}) {
+        if (!document.startViewTransition) {
+            action();
+            return;
+        }
+        document.startViewTransition(() => action());
+    }
 }

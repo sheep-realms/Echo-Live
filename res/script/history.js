@@ -36,8 +36,8 @@ function sendHistory(username = '', message = '') {
 
     $('#echo-live-history-message-list').append(
         `<div class="history-message-item">
-            <div class="username"><div class="content">${username}</div></div>
-            <div class="message"><div class="content echo-output" data-before="${message.substring(0, 1).replace(/"/g, '&quot;')}">${message}</div></div>
+            <div class="username"><div class="content">${EchoLiveTools.safeHTML(username)}</div></div>
+            <div class="message"><div class="content echo-output" data-before="${message.substring(0, 1).replace(/"/g, '&quot;')}">${EchoLiveTools.safeHTML(message)}</div></div>
             <div class="time"><div class="content">${__getTime()}</div></div>
         </div>`
     );

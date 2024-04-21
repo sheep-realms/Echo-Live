@@ -5,6 +5,8 @@ let configFileFiltered = '';
 let configFileWritableFileHandle = undefined;
 let configBuffer = {};
 
+let lastColorScheme = config.global.color_scheme;
+
 const settingsNav = [
     {
         id: 'global',
@@ -313,6 +315,17 @@ function configSaveAll(effect = false) {
     configSaveCloseController();
     configOutput(true);
     if (effect) effectFlicker('#tabpage-nav-export');
+
+    setTimeout(function() {
+        let colorScheme = settingsManager.getConfig('global.color_scheme');
+        if (colorScheme != lastColorScheme) {
+            lastColorScheme = colorScheme;
+            EchoLiveTools.updateView(function() {
+                $('html').removeClass('prefers-color-scheme-auto prefers-color-scheme-light prefers-color-scheme-dark');
+                $('html').addClass('prefers-color-scheme-' + colorScheme);
+            });
+        }
+    }, 800)
 }
 
 function configOutput(setUnsave = false) {
@@ -862,4 +875,55 @@ $(document).keydown(function(e) {
         configSaveAll(true);
         configExport('config.js');
     }
+});
+
+
+
+
+$(document).on('click', '.settings-item[data-id="accessible.high_contrast"] .settings-switch button', function() {
+    setTimeout(function() {
+        let value = getSettingsItemValue('accessible.high_contrast');
+        if (value) {
+            $('body').addClass('accessible-high-contrast');
+        } else {
+            $('body').removeClass('accessible-high-contrast');
+        }
+    }, 100);
+
+    // setTimeout(function() {
+    //     let value = getSettingsItemValue('accessible.high_contrast');
+    //     if (value) {
+    //         EchoLiveTools.updateView(function() {
+    //             $('body').addClass('accessible-high-contrast');
+    //         });
+    //     } else {
+    //         EchoLiveTools.updateView(function() {
+    //             $('body').removeClass('accessible-high-contrast');
+    //         });
+    //     }
+    // }, 300);
+});
+
+$(document).on('click', '.settings-item[data-id="accessible.drotanopia_and_deuteranopia"] .settings-switch button', function() {
+    setTimeout(function() {
+        let value = getSettingsItemValue('accessible.drotanopia_and_deuteranopia');
+        if (value) {
+            $('body').addClass('accessible-drotanopia-and-deuteranopia');
+        } else {
+            $('body').removeClass('accessible-drotanopia-and-deuteranopia');
+        }
+    }, 100);
+
+    // setTimeout(function() {
+    //     let value = getSettingsItemValue('accessible.drotanopia_and_deuteranopia');
+    //     if (value) {
+    //         EchoLiveTools.updateView(function() {
+    //             $('body').addClass('accessible-drotanopia-and-deuteranopia');
+    //         });
+    //     } else {
+    //         EchoLiveTools.updateView(function() {
+    //             $('body').removeClass('accessible-drotanopia-and-deuteranopia');
+    //         });
+    //     }
+    // }, 300);
 });

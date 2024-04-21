@@ -551,12 +551,18 @@ $(document).on('click', '.editor-format-btn', function() {
         value = $(this).data('value');
     
     const format = {
-        bold:           '@b',
-        italic:         '@i',
-        underline:      '@u',
-        strikethrough:  '@s',
-        clear:          '@r'
+        bold:               '@b',
+        italic:             '@i',
+        underline:          '@u',
+        strikethrough:      '@s',
+        font_size_increase: '@+',
+        font_size_decrease: '@-',
+        clear:              '@r'
     };
+
+    let forceRepeatBefore = false;
+
+    if (value == 'font_size_increase' || value == 'font_size_decrease') forceRepeatBefore = true;
     
     if (value == 'clear') {
         insertTextAtCursor(editorID, format.clear, '', false, false, false, true, function(e) {
@@ -567,7 +573,7 @@ $(document).on('click', '.editor-format-btn', function() {
         popupsMoveToElement('#popups-palette', '.editor-controller button[data-value="color"]');
         $('#popups-palette-select').focus();
     } else {
-        insertTextAtCursor(editorID, format[value], format.clear);
+        insertTextAtCursor(editorID, format[value], format.clear, false, forceRepeatBefore);
     }
 });
 

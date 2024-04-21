@@ -365,11 +365,13 @@ const lang_zho_Hant_TW = {
             description: {
                 formatting_code_example_1: "@b - 粗體，@i - 斜體，@u - 下劃線，@s - 刪除線，@r - 清除格式",
                 formatting_code_example_2: "範例：這裡沒有格式。@b這裡有粗體。@i這裡有粗體和斜體。@r這裡沒有格式。@[#66ccff]這是藍色。",
+                formatting_code_example_3: "點此閱讀關於快速格式化程式碼的指南",
                 output_after: "在輸出內容之後插入尾部內容",
                 output_before: "在輸出內容之前插入頭部內容",
                 print_speed: "每個列印循環的延遲時間（毫秒），預設為 30。數字越大，耗時越長。中日韓字元延遲 × 2。",
                 print_speed_custom: "每個列印循環的延遲時間（毫秒），預設為 30，您的預設配置為 {value}。數字越大，耗時越長。中日韓字元延遲 × 2。",
-                quote: "自動在每一句話開頭和結尾添加引用符號，Echo Live 會為一些引用符號自動縮排。"
+                quote: "自動在每一句話開頭和結尾添加引用符號，Echo Live 會為一些引用符號自動縮排。",
+                open_settings: "打開配置檔案編輯器"
             },
             label: {
                 character: "說話人",
@@ -387,9 +389,11 @@ const lang_zho_Hant_TW = {
             }
         },
         format: {
+            bold: "粗體",
             clear: "清除格式",
             color: "文字顏色",
-            bold: "粗體",
+            font_size_decrease: "減小字號",
+            font_size_increase: "增大字號",
             italic: "斜體",
             underline: "下劃線",
             strikethrough: "刪除線"

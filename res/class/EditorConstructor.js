@@ -238,6 +238,18 @@ class EditorForm {
                 title: $t('editor.format.color')
             }),
             EditorForm.buttonAir('', {
+                icon: Icon.formatFontSizeIncrease(),
+                class: 'editor-format-btn',
+                attr: `data-editorid="${editorID}" data-value="font_size_increase"`,
+                title: $t('editor.format.font_size_increase')
+            }),
+            EditorForm.buttonAir('', {
+                icon: Icon.formatFontSizeDecrease(),
+                class: 'editor-format-btn',
+                attr: `data-editorid="${editorID}" data-value="font_size_decrease"`,
+                title: $t('editor.format.font_size_decrease')
+            }),
+            EditorForm.buttonAir('', {
                 icon: Icon.formatClear(),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="clear"`,

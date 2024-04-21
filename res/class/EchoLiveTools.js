@@ -135,6 +135,15 @@ class EchoLiveTools {
     static formattingCodeToMessage(text) {
         let message = [];
 
+        const fontSizeValue = [
+            'extra-small',
+            'small',
+            'middle',
+            'large',
+            'extra-large'
+        ];
+        let fontSizeFindIndex;
+
         function msgPush(msg = '', style = undefined) {
             msg = msg.replace(/{{{sheep-realms:at}}}/g, '@');
             if (style == undefined) return message.push(msg);
@@ -166,19 +175,37 @@ class EchoLiveTools {
             let style = {};
             switch (e[0]) {
                 case '@b':
-                    style.bold = true
+                    style.bold = true;
                     break;
 
                 case '@i':
-                    style.italic = true
+                    style.italic = true;
                     break;
 
                 case '@u':
-                    style.underline = true
+                    style.underline = true;
                     break;
 
                 case '@s':
-                    style.strikethrough = true
+                    style.strikethrough = true;
+                    break;
+
+                case '@+':
+                    style.size = 'large';
+                    if (styleCache?.size != undefined) {
+                        fontSizeFindIndex = fontSizeValue.indexOf(styleCache?.size);
+                        fontSizeFindIndex = Math.min(fontSizeFindIndex + 1, fontSizeValue.length - 1);
+                        style.size = fontSizeValue[fontSizeFindIndex];
+                    }
+                    break;
+
+                case '@-':
+                    style.size = 'small';
+                    if (styleCache?.size != undefined) {
+                        fontSizeFindIndex = fontSizeValue.indexOf(styleCache?.size);
+                        fontSizeFindIndex = Math.max(fontSizeFindIndex - 1, 0);
+                        style.size = fontSizeValue[fontSizeFindIndex];
+                    }
                     break;
 
                 case '@r':

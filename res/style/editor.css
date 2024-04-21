@@ -86,6 +86,19 @@ main {
     margin: 0 auto;
 }
 
+.fh-link {
+    color: var(--color-general-dark);
+    text-decoration: none;
+}
+
+.fh-link:hover {
+    filter: brightness(1.15);
+}
+
+.fh-link:active {
+    filter: brightness(0.85);
+}
+
 kbd {
     display: inline-flex;
     background-color: #000000;

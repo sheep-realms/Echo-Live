@@ -238,6 +238,18 @@ class EditorForm {
                 title: $t('editor.format.color')
             }),
             EditorForm.buttonAir('', {
+                icon: Icon.formatFontSizeIncrease(),
+                class: 'editor-format-btn',
+                attr: `data-editorid="${editorID}" data-value="font_size_increase"`,
+                title: $t('editor.format.font_size_increase')
+            }),
+            EditorForm.buttonAir('', {
+                icon: Icon.formatFontSizeDecrease(),
+                class: 'editor-format-btn',
+                attr: `data-editorid="${editorID}" data-value="font_size_decrease"`,
+                title: $t('editor.format.font_size_decrease')
+            }),
+            EditorForm.buttonAir('', {
                 icon: Icon.formatClear(),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="clear"`,
@@ -324,7 +336,7 @@ class Popups {
             if (e?.type === undefined || e?.type === 'color') {
                 dom += `<button class="color-box" title="${ e.title.replace(/"/g, '&quot;') }" data-value="${ e.value.replace(/"/g, '') }" style="--color: ${ e.value.replace(/"/g, '') };"><div class="color"></div></button>`
             } else if (e?.type === 'group') {
-                dom += `</div><div class="palette-group">${ e.value.replace(/</g, '&lt;').replace(/>/g, '&gt;') }</div><div class="palette-list">`
+                dom += `</div><div class="palette-group">${ EchoLiveTools.safeHTML(e.value) }</div><div class="palette-list">`
             }
         });
         dom += '</div>'
@@ -547,8 +559,8 @@ class HistoryMessage {
     static item(message, username, time, length, index) {
         return `<div class="history-message-item" role="listitem">
             <div class="content">
-                <div class="username">${username}</div>
-                <div class="message">${message}</div>
+                <div class="username">${ EchoLiveTools.safeHTML(username) }</div>
+                <div class="message">${ EchoLiveTools.safeHTML(message) }</div>
                 ${ length > 1 ? `<div class="length">${ $t('editor.history.messages_more', { n: length }) }</div>` : ''}
                 <div class="time">
                     <span class="created">${time}</span>

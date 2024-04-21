@@ -365,11 +365,13 @@ const lang_zho_Hans = {
             description: {
                 formatting_code_example_1: "@b - 粗体，@i - 斜体，@u - 下划线，@s - 删除线，@r - 清除格式",
                 formatting_code_example_2: "示例：这里没有格式。@b这里有粗体。@i这里有粗体和斜体。@r这里没有格式。@[#66ccff]这是蓝色。",
+                formatting_code_example_3: "点此阅读关于快速格式化代码的指南",
                 output_after: "在输出内容之后插入尾部内容",
                 output_before: "在输出内容之前插入头部内容",
                 print_speed: "每个打印循环的延迟时间（毫秒），默认为 30。数字越大，耗时越长。中日韩字符延迟 × 2。",
                 print_speed_custom: "每个打印循环的延迟时间（毫秒），默认为 30，您的默认配置为 {value}。数字越大，耗时越长。中日韩字符延迟 × 2。",
-                quote: "自动在每一句话开头和结尾添加引用符号，Echo Live 会为一些引用符号自动缩进。"
+                quote: "自动在每一句话开头和结尾添加引用符号，Echo Live 会为一些引用符号自动缩进。",
+                open_settings: "打开配置文件编辑器"
             },
             label: {
                 character: "说话人",
@@ -387,9 +389,11 @@ const lang_zho_Hans = {
             }
         },
         format: {
+            bold: "粗体",
             clear: "清除格式",
             color: "文本颜色",
-            bold: "粗体",
+            font_size_decrease: "减小字号",
+            font_size_increase: "增大字号",
             italic: "斜体",
             underline: "下划线",
             strikethrough: "删除线"

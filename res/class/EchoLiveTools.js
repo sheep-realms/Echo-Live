@@ -119,11 +119,12 @@ class EchoLiveTools {
      * @returns {String} 日志输出格式
      */
     static getMessageSendLog(message, username = '') {
+        username = EchoLiveTools.safeHTML(username);
         if (typeof message != 'string') message = EchoLiveTools.getMessagePlainText(message);
         if (message == '') message = '<i>[空消息]</i>';
         if (username == '') username = '<i>[未指定说话人]</i>';
 
-        return `<${username}> ${message}`;
+        return `<${ username }> ${ EchoLiveTools.safeHTML(message) }`;
     }
 
     /**
@@ -133,6 +134,15 @@ class EchoLiveTools {
      */
     static formattingCodeToMessage(text) {
         let message = [];
+
+        const fontSizeValue = [
+            'extra-small',
+            'small',
+            'middle',
+            'large',
+            'extra-large'
+        ];
+        let fontSizeFindIndex;
 
         function msgPush(msg = '', style = undefined) {
             msg = msg.replace(/{{{sheep-realms:at}}}/g, '@');
@@ -165,19 +175,37 @@ class EchoLiveTools {
             let style = {};
             switch (e[0]) {
                 case '@b':
-                    style.bold = true
+                    style.bold = true;
                     break;
 
                 case '@i':
-                    style.italic = true
+                    style.italic = true;
                     break;
 
                 case '@u':
-                    style.underline = true
+                    style.underline = true;
                     break;
 
                 case '@s':
-                    style.strikethrough = true
+                    style.strikethrough = true;
+                    break;
+
+                case '@+':
+                    style.size = 'large';
+                    if (styleCache?.size != undefined) {
+                        fontSizeFindIndex = fontSizeValue.indexOf(styleCache?.size);
+                        fontSizeFindIndex = Math.min(fontSizeFindIndex + 1, fontSizeValue.length - 1);
+                        style.size = fontSizeValue[fontSizeFindIndex];
+                    }
+                    break;
+
+                case '@-':
+                    style.size = 'small';
+                    if (styleCache?.size != undefined) {
+                        fontSizeFindIndex = fontSizeValue.indexOf(styleCache?.size);
+                        fontSizeFindIndex = Math.max(fontSizeFindIndex - 1, 0);
+                        style.size = fontSizeValue[fontSizeFindIndex];
+                    }
                     break;
 
                 case '@r':
@@ -246,5 +274,15 @@ class EchoLiveTools {
         const seconds = ('0' + date.getSeconds()).slice(-2);
         
         return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    }
+
+    /**
+     * 安全输出 HTML
+     * @param {String} text 文本
+     * @returns {String} 过滤后的文本
+     */
+    static safeHTML(text) {
+        if (typeof text != 'string') return text;
+        return text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
 }

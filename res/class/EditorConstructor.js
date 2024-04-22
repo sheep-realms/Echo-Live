@@ -320,7 +320,11 @@ class Popups {
     static paletteOptions(palette = []) {
         let dom = '';
         palette.forEach(e => {
-            dom += `<option value="${ e.meta.name }">${ e.meta.title }</option>`
+            let title = e.meta.title;
+            if (typeof e?.meta?.i18n == 'string') {
+                title = $t('editor.palette.label.' + e.meta.i18n);
+            }
+            dom += `<option value="${ e.meta.name }">${ title }</option>`
         });
         return dom;
     }
@@ -333,10 +337,35 @@ class Popups {
     static paletteContent(palette = {}) {
         let dom = '<div class="palette-list">';
         palette.colors.forEach(e => {
+            let title;
+            let tv;
             if (e?.type === undefined || e?.type === 'color') {
-                dom += `<button class="color-box" title="${ e.title.replace(/"/g, '&quot;') }" data-value="${ e.value.replace(/"/g, '') }" style="--color: ${ e.value.replace(/"/g, '') };"><div class="color"></div></button>`
+                title = e.title;
+
+                if (typeof e?.i18n == 'string') {
+                    tv = { n: 0 };
+                    if (typeof e?.i18n_var == 'object') tv = {...tv, ...e.i18n_var, ...{ n: 2 }};
+                    title = $t('editor.palette.label.' + e.i18n, tv);
+                }
+
+                if (typeof e?.after == 'string') {
+                    title = $t('editor.palette.label.title_after', {
+                        title: title,
+                        after: $t('editor.palette.label.common.after.' + e.after)
+                    });
+                }
+
+                dom += `<button class="color-box" title="${ title.replace(/"/g, '&quot;') }" data-value="${ e.value.replace(/"/g, '') }" style="--color: ${ e.value.replace(/"/g, '') };"><div class="color"></div></button>`
             } else if (e?.type === 'group') {
-                dom += `</div><div class="palette-group">${ EchoLiveTools.safeHTML(e.value) }</div><div class="palette-list">`
+                title = e.value;
+
+                if (typeof e?.i18n == 'string') {
+                    tv = { n: 0 };
+                    if (typeof e?.i18n_var == 'object') tv = {...tv, ...e.i18n_var, ...{ n: 2 }};
+                    title = $t('editor.palette.label.' + e.i18n, tv);
+                }
+
+                dom += `</div><div class="palette-group">${ EchoLiveTools.safeHTML(title) }</div><div class="palette-list">`
             }
         });
         dom += '</div>'

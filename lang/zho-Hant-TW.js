@@ -483,6 +483,124 @@ const lang_zho_Hant_TW = {
                     ok: "{name} 測試通過",
                     fail: "{name} 測試失敗"
                 }
+            },
+            label: {
+                title_after: "{title} - {after}",
+                common: {
+                    after: {
+                        deep: "深色",
+                        default: "預設",
+                        light: "淺色",
+                        lighter: "更淺",
+                        lightest: "最淺",
+                        middle: "適中"
+                    },
+                    color: {
+                        amber: "琥珀色 | 琥珀色 {value}",
+                        aqua: "水藍色",
+                        cyan: "青色 | 青色 {value}",
+                        black: "黑色 | 黑色 {value}",
+                        blue: "藍色 | 藍色 {value}",
+                        blue_gray: "藍灰色 | 藍灰色 {value}",
+                        brown: "棕色 | 棕色 {value}",
+                        deep_aqua: "暗水藍色 | 暗水藍色 {value}",
+                        deep_blue: "深藍色 | 深藍色 {value}",
+                        deep_gray: "深灰色 | 深灰色 {value}",
+                        deep_green: "深綠色 | 深綠色 {value}",
+                        deep_orange: "暗橙色 | 暗橙色 {value}",
+                        deep_purple: "深紫色 | 深紫色 {value}",
+                        deep_red: "深紅色 | 深紅色 {value}",
+                        deep_yellow: "深黃色 | 深黃色 {value}",
+                        gold: "金色 | 金色 {value}",
+                        gray: "灰色 | 灰色 {value}",
+                        green: "綠色 | 綠色 {value}",
+                        light_aqua: "亮水藍色 | 亮水藍色 {value}",
+                        light_blue: "淡藍色 | 淡藍色 {value}",
+                        light_gray: "淡灰色 | 淡灰色 {value}",
+                        light_green: "淡綠色 | 淡綠色 {value}",
+                        light_purple: "淡紫色 | 淡紫色 {value}",
+                        light_orange: "亮橙色 | 亮橙色 {value}",
+                        light_red: "淡紅色 | 淡紅色 {value}",
+                        light_yellow: "淡黃色 | 淡黃色 {value}",
+                        lime: "黃綠色 | 黃綠色 {value}",
+                        indigo: "靛藍色 | 靛藍色 {value}",
+                        magenta: "紫紅色 | 紫紅色 {value}",
+                        orange: "橙色 | 橙色 {value}",
+                        pink: "粉紅色 | 粉紅色 {value}",
+                        purple: "紫色 | 紫色 {value}",
+                        red: "紅色 | 紅色 {value}",
+                        silver: "銀色 | 銀色 {value}",
+                        sky: "天藍色 | 天藍色 {value}",
+                        teal: "藍綠色 | 藍綠色 {value}",
+                        white: "白色 | 白色 {value}",
+                        violet: "藍紫色 | 藍紫色 {value}",
+                        yellow: "黃色 | 黃色 {value}"
+                    },
+                    functional_color: {
+                        danger: "危險 | 危險 {value}",
+                        error: "錯誤 | 錯誤 {value}",
+                        general: "通用 | 通用 {value}",
+                        link: "連結 | 連結 {value}",
+                        safe: "安全 | 安全 {value}",
+                        success: "成功 | 成功 {value}",
+                        warning: "警告 | 警告 {value}",
+                    },
+                    group: {
+                        functional_color: "功能色",
+                        neutral_color: "中性色"
+                    }
+                },
+                ant_design: {
+                    title: "Ant Design",
+                    color: {
+                        blue: "拂曉藍 {value}",
+                        cyan: "明青 {value}",
+                        geek_blue: "極客藍 {value}",
+                        gold: "金盞花 {value}",
+                        green: "極光綠 {value}",
+                        lime: "青檸 {value}",
+                        magenta: "洋紅 {value}",
+                        orange: "日暮 {value}",
+                        purple: "醬紫 {value}",
+                        red: "薄暮 {value}",
+                        volcano: "火山 {value}",
+                        yellow: "日出 {value}"
+                    },
+                    group: {
+                        blue: "Daybreak Blue / 拂曉藍",
+                        cyan: "Cyan / 明青",
+                        geek_blue: "Geek Blue / 極客藍",
+                        gold: "Calendula Gold / 金盞花",
+                        green: "Polar Green / 極光綠",
+                        lime: "Lime / 青檸",
+                        magenta: "Magenta / 法式洋紅",
+                        orange: "Sunset Orange / 日暮",
+                        purple: "Golden Purple / 醬紫",
+                        red: "Dust Red / 薄暮",
+                        volcano: "Volcano / 火山",
+                        yellow: "Sunrise Yellow / 日出"
+                    }
+                },
+                material: {
+                    title: "Material Design"
+                },
+                minecraft: {
+                    title: "Minecraft"
+                },
+                tailwindcss: {
+                    title: "Tailwind CSS",
+                    color: {
+                        emerald: "綠寶石色 {value}",
+                        neutral: "中性色",
+                        rose: "玫瑰色 {value}",
+                        slate: "暗藍灰色",
+                        stone: "石頭",
+                        zinc: "金屬"
+                    },
+                    group: {
+                        weight: "深度 {value}"
+                    }
+                }
             }
         },
         tabpage: {

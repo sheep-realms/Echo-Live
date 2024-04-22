@@ -497,7 +497,7 @@ const lang_zho_Hant_TW = {
                     },
                     color: {
                         amber: "琥珀色 | 琥珀色 {value}",
-                        aqua: "水藍色",
+                        aqua: "水藍色 | 水藍色 {value}",
                         cyan: "青色 | 青色 {value}",
                         black: "黑色 | 黑色 {value}",
                         blue: "藍色 | 藍色 {value}",

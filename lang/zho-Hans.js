@@ -497,7 +497,7 @@ const lang_zho_Hans = {
                     },
                     color: {
                         amber: "琥珀色 | 琥珀色 {value}",
-                        aqua: "水蓝色",
+                        aqua: "水蓝色 | 水蓝色 {value}",
                         cyan: "青色 | 青色 {value}",
                         black: "黑色 | 黑色 {value}",
                         blue: "蓝色 | 蓝色 {value}",

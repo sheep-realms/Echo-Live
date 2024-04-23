@@ -650,7 +650,6 @@ $(document).on('click', '.echo-live-client-state-block', function(e) {
         return e.name == name;
     })[0];
     if (r.messagesCount > 0 && !r.hidden) {
-        console.log(name);
         if (name.search(/^[a-f\d]{4}(?:[a-f\d]{4}-){4}[a-f\d]{12}$/i) == 0) {
             elb.sendNext(name);
         } else {

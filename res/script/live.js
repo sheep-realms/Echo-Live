@@ -110,6 +110,49 @@ echo.on('customEvent', function(e) {
 
 echo.on('customData', function(e) {
     if (e?.username) $('#echo-live .name').text(e.username);
+    if (e?.emoji) {
+        echo.insertSequence({
+            type: 'emoji',
+            value: e.emoji
+        }, 1);
+    }
+});
+
+echo.on('customSequence', function(e) {
+    if (e.type == 'emoji') {
+        let emojiData = emojiHako.getEmoji(e.value);
+        if (emojiData != undefined) {
+            let emojiDOM = `<img
+                src="${ emojiData.path }"
+                style="
+                    display: inline-block;
+                    width: ${ emojiData.image.size.width.value };
+                    height: ${ emojiData.image.size.height.value };
+                    max-width: ${ emojiData.image.size.width.max };
+                    max-height: ${ emojiData.image.size.height.max };
+                    min-width: ${ emojiData.image.size.width.min };
+                    min-height: ${ emojiData.image.size.height.min };
+                    margin-left: ${ emojiData.image.margin.left };
+                    margin-right: ${ emojiData.image.margin.right };
+                    image-rendering: ${ emojiData.image.rendering };
+                "
+            >`;
+            if (gruopIndex == 0) {
+                $('.echo-output').append(emojiDOM);
+            } else {
+                $(`.echo-output span[data-group="${gruopIndex}"]`).append(emojiDOM);
+            }
+        }
+
+        if (config.echolive.print_audio_enable && printSe) {
+            mixer.play(config.echolive.print_audio_name, config.echolive.print_audio_volume, config.echolive.print_audio_rate);
+            // 打印音效稳定器
+            printSe = false;
+            setTimeout(function() {
+                printSe = true;
+            }, printSeCd);
+        }
+    }
 });
 
 $(document).on('click', function() {

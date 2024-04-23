@@ -1,0 +1,146 @@
+class EmojiHako {
+    constructor() {
+        this.emoji = [];
+    }
+
+    load(data) {
+        if (typeof data != 'object') return;
+        if (!Array.isArray(data)) data = [data];
+
+        data.forEach(e => {
+            let emojiPack = {
+                meta: {
+                    name: 'missingno',
+                    namespace: 'missingno',
+                    title: $t('ui.missingno.no_name'),
+                    author: $t('ui.missingno.no_author'),
+                    ...e?.meta
+                },
+                path: {
+                    i18n: '',
+                    images: `res/emoji/${ e?.name ? e.name : 'missingno' }/`,
+                    ...e?.path
+                },
+                image: {
+                    rendering: e?.image?.rendering ? e.image.rendering : 'auto',
+                    margin: {
+                        left: '0.5em',
+                        right: '0.5em',
+                        ...e?.image?.margin
+                    },
+                    size: {
+                        width: {
+                            value: '1em',
+                            max: 'unset',
+                            min: 'unset'
+                        },
+                        height: {
+                            value: '1em',
+                            max: 'unset',
+                            min: 'unset'
+                        },
+                        ...e?.image?.size
+                    }
+                },
+                content: []
+            }
+
+            if (this.getEmojiPack(emojiPack.namespace, emojiPack.name) != undefined) return;
+
+            e.content.forEach(e2 => {
+                if (e2?.type == 'group') {
+                    emojiPack.content.push({
+                        type: 'group',
+                        title: $t('ui.missingno.no_name'),
+                        ...e2
+                    });
+                } else {
+                    emojiPack.content.push({
+                        type: 'emoji',
+                        name: 'missingno',
+                        title: $t('ui.missingno.no_name'),
+                        path: 'missingno.png',
+                        ...e2
+                    });
+                }
+            });
+
+            this.emoji.push(emojiPack);
+        });
+
+        return this.emoji;
+    }
+
+    getEmojiPack(namespace = '', name = undefined) {
+        if (typeof namespace != 'string' || namespace === '') return;
+
+        let mp = this.emoji.find((e) => {
+            return e.meta.namespace == namespace;
+        });
+
+        if (mp == undefined) {
+            mp = getEmojiPackByName(namespace);
+        }
+
+        if (mp == undefined && name != undefined) {
+            mp = this.getEmojiPackByName(name);
+        }
+
+        if (mp == undefined) return;
+
+        return JSON.parse(JSON.stringify(mp));
+    }
+
+    getEmojiPackByName(name = '') {
+        if (typeof name != 'string' || name === '') return;
+        let r = this.emoji.find((e) => {
+            return e.meta.name == name;
+        });
+        return JSON.parse(JSON.stringify(r));
+    }
+
+    getEmoji(key = '', isOriginal = false) {
+        if (typeof key != 'string') return;
+        let keys = key.split(':');
+        const emojiName = keys.pop();
+        const ns = keys.join(':');
+        if (ns === '') return;
+
+        const mp = this.getEmojiPack(ns);
+
+        let emoji = mp.content.find((e) => {
+            return e.name == emojiName && (e?.type == 'emoji' || e?.type == undefined);
+        });
+
+        emoji = JSON.parse(JSON.stringify(emoji));
+
+        if (isOriginal) return emoji;
+
+        emoji.image = {
+            rendering: 'auto',
+            ...mp?.image,
+            ...emoji?.image,
+            margin: {
+                ...mp?.image?.margin,
+                ...emoji?.image?.margin
+            },
+            size: {
+                width: {
+                    ...mp?.image?.size?.width,
+                    ...emoji?.image?.size?.width
+                },
+                height: {
+                    ...mp?.image?.size?.height,
+                    ...emoji?.image?.size?.height
+                }
+            }
+        };
+
+        emoji.path = mp.path.images + emoji.path;
+        emoji.title_i18n = mp.path.i18n + emoji.title_i18n;
+
+        return emoji;
+    }
+}
+
+let emojiHako = new EmojiHako();

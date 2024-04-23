@@ -36,7 +36,11 @@ const lang_zho_Hans = {
         move_up: "上移",
         move_down: "下移",
         move_left: "左移",
-        move_right: "右移"
+        move_right: "右移",
+        missingno: {
+            no_author: "未署名",
+            no_name: "未命名"
+        }
     },
     broadcast: {
         client: {

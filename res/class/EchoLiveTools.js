@@ -144,18 +144,20 @@ class EchoLiveTools {
         ];
         let fontSizeFindIndex;
 
-        function msgPush(msg = '', style = undefined) {
+        function msgPush(msg = '', style = undefined, data = undefined) {
             msg = msg.replace(/{{{sheep-realms:at}}}/g, '@');
             if (style == undefined) return message.push(msg);
-            return message.push({
-                text: msg,
-                style: style
-            });
+            let output = {
+                text: msg
+            };
+            if (style != undefined && Object.keys(style).length != 0) output.style = style;
+            if (data != undefined) output.data = data;
+            return message.push(output);
         }
 
         let replaced = text;
         replaced = replaced.replace(/\\@/g, '{{{sheep-realms:at}}}');
-        replaced = replaced.replace(/@(\[#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})\]|.?)/g, '{{{sheep-realms:split}}}@$1{{{sheep-realms:format}}}');
+        replaced = replaced.replace(/@(\[#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})\]|\{.*?\}|.?)/g, '{{{sheep-realms:split}}}@$1{{{sheep-realms:format}}}');
 
         let arrayMsg = replaced.split('{{{sheep-realms:split}}}');
 
@@ -217,6 +219,15 @@ class EchoLiveTools {
                     if (e[0].search(/^@\[.*\]$/g) != -1) {
                         style.color = e[0].substring(2, e[0].length - 1);
                         break;
+                    } else if (e[0].search(/^@\{.*\}$/g) != -1) {
+                        msgPush(
+                            e[1],
+                            styleCache,
+                            {
+                                emoji: e[0].substring(2, e[0].length - 1)
+                            }
+                        );
+                        continue;
                     } else {
                         msgPush(e[0] + e[1]);
                         continue;

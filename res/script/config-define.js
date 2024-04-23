@@ -276,7 +276,7 @@ const db_config_define = [
     }, {
         name: 'editor.ontput_before_enable',
         type: 'boolean.bit',
-        default: 1,
+        default: 0,
         created: 1
     }, {
         name: 'editor.output_after',
@@ -286,7 +286,7 @@ const db_config_define = [
     }, {
         name: 'editor.ontput_after_enable',
         type: 'boolean.bit',
-        default: 1,
+        default: 0,
         created: 1
     }, {
         name: 'editor.history_resend_bubble',

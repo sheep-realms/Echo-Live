@@ -336,6 +336,11 @@ class Popups {
      */
     static paletteContent(palette = {}) {
         let dom = '<div class="palette-list">';
+        let firstGruop = false;
+        if (palette.colors[0] != undefined && palette.colors[0]?.type == 'group') {
+            dom = '';
+            firstGruop = true;
+        }
         palette.colors.forEach(e => {
             let title;
             let tv;
@@ -355,7 +360,7 @@ class Popups {
                     });
                 }
 
-                dom += `<button class="color-box" title="${ title.replace(/"/g, '&quot;') }" data-value="${ e.value.replace(/"/g, '') }" style="--color: ${ e.value.replace(/"/g, '') };"><div class="color"></div></button>`
+                dom += `<button class="color-box" title="${ title.replace(/"/g, '&quot;') }" data-value="${ e.value.replace(/"/g, '') }" style="--color: ${ e.value.replace(/"/g, '') };"><div class="color"></div></button>`;
             } else if (e?.type === 'group') {
                 title = e.value;
 
@@ -365,7 +370,8 @@ class Popups {
                     title = $t('editor.palette.label.' + e.i18n, tv);
                 }
 
-                dom += `</div><div class="palette-group">${ EchoLiveTools.safeHTML(title) }</div><div class="palette-list">`
+                dom += `${ firstGruop ? '' : '</div>' }<div class="palette-group">${ EchoLiveTools.safeHTML(title) }</div><div class="palette-list">`;
+                firstGruop = false;
             }
         });
         dom += '</div>'
@@ -511,6 +517,121 @@ class Popups {
             id,
             data
         );
+    }
+
+    
+
+    /**
+     * 表情选择器悬浮框
+     * @param {Array<Object>} emojiPacks 表情包列表
+     * @param {Object} data 属性值
+     * @param {String} data.class 类
+     * @param {Object} data.pos 位置
+     * @param {Number} data.pos.x X 坐标
+     * @param {Number} data.pos.y Y 坐标
+     * @param {Object} data.width 宽度
+     * @param {String} data.width.min 最小宽度
+     * @param {String} data.width.max 最大宽度
+     * @param {Object} data.height 高度
+     * @param {String} data.height.min 最小高度
+     * @param {String} data.height.max 最大高度
+     * @param {String} id ID
+     * @returns {String} DOM
+     */
+    static emojiPopups(emojiPacks = [], data = {}, id = 'popups-palette') {
+        data = {
+            width: {
+                min: '400px',
+                max: '400px'
+            },
+            height: {
+                min: '300px',
+                max: '300px'
+            },
+            ...data
+        }
+
+        if (!Array.isArray(emojiPacks) || palette.length < 1) {
+            // emojiPacks = [
+            //     {
+            //         meta: {
+            //             name: 'missingno',
+            //             title: 'missingno'
+            //         },
+            //         colors: [
+            //             { type: 'group', value: $t('editor.palette.empty') },
+            //             { value: '#000000', title: 'Black' },
+            //             { value: '#ffffff', title: 'White' }
+            //         ]
+            //     }
+            // ];
+        }
+
+        return Popups.container(
+            `<div class="popups-emoji-header">
+                <label for="popups-emoji-select" style="display: none;">${ $t('editor.emoji.select') }</label>
+                <div class="popups-emoji-select-content">
+                    <kbd class="accessible-key">Q</kbd>
+                    <select name="popups-emoji-select" id="popups-emoji-select">
+                        ${ Popups.emojiOptions(emojiPacks) }
+                    </select>
+                    <kbd class="accessible-key">E</kbd>
+                </div>
+            </div>
+            <div class="popups-emoji-content">
+                ${ Popups.emojiPage(emojiPacks) }
+            </div>`,
+            id,
+            data
+        );
+    }
+
+    /**
+     * 表情选择器切换选项
+     * @param {Array<Object>} emojiPacks 表情包列表
+     * @returns {String} DOM
+     */
+    static emojiOptions(emojiPacks = []) {
+        let dom = '';
+        emojiPacks.forEach(e => {
+            let title = e.meta.title;
+            if (typeof e?.meta?.i18n == 'string') {
+                title = $t('emoji.' + e.meta.title_i18n);
+            }
+            dom += `<option value="${ e.meta.name }">${ title }</option>`
+        });
+        return dom;
+    }
+
+    /**
+     * 表情选择器页面
+     * @param {Array<Object>} emojiPacks 表情包列表
+     * @returns {String} DOM
+     */
+    static emojiPage(emojiPacks = []) {
+        let dom = '';
+        emojiPacks.forEach(e => {
+            dom += `<div class="palette-page hide" data-palette-id="${ e.meta.name }">${ Popups.paletteContent(e) }</div>`
+        });
+        return dom;
+    }
+
+    /**
+     * 表情选择器内容
+     * @param {Object} emojiPack 表情包
+     * @returns {String} DOM
+     */
+    static emojiContent(emojiPack = {}) {
+        let dom = '<div class="emoji-list">';
+        emojiPack.content.forEach(e => {
+            if (e?.type === 'emoji' || e?.type === undefined) {
+                
+            } else if (e?.type === 'group') {
+                
+            }
+        });
+        dom += '</div>'
+        return dom;
     }
 }
 

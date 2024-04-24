@@ -838,6 +838,10 @@ select:focus {
     border-bottom: var(--border-coler) 1px solid;
 }
 
+#popups-palette .palette-group:first-child {
+    margin-top: 0;
+}
+
 #popups-palette .color-box {
     --color: transparent;
     width: 32px;

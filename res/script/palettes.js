@@ -164,6 +164,17 @@ echoLiveEditor.pushPalette([
             i18n: 'ant_design.title'
         },
         colors: [
+            { type: 'group', value: '功能色', i18n: 'common.group.functional_color' },
+            { value: '#1890ff', title: 'Link', i18n: 'common.functional_color.link' },
+            { value: '#25c41a', title: 'Success', i18n: 'common.functional_color.success' },
+            { value: '#ffad14', title: 'Warning', i18n: 'common.functional_color.warning' },
+            { value: '#ff4d4f', title: 'Error', i18n: 'common.functional_color.error' },
+            { value: '#177ddc', title: 'Link - Dark', i18n: 'common.functional_color.link', after: 'deep' },
+            { value: '#49aa19', title: 'Success - Dark', i18n: 'common.functional_color.success', after: 'deep' },
+            { value: '#d89614', title: 'Warning - Dark', i18n: 'common.functional_color.warning', after: 'deep' },
+            { value: '#a61d24', title: 'Error - Dark', i18n: 'common.functional_color.error', after: 'deep' },
+
+            { type: 'group', value: '中性色', i18n: 'common.group.neutral_color' },
             { value: '#ffffff', title: 'Gray 1', i18n: 'common.color.white', i18n_var: { value: 1 } },
             { value: '#fafafa', title: 'Gray 2', i18n: 'common.color.white', i18n_var: { value: 2 } },
             { value: '#f5f5f5', title: 'Gray 3', i18n: 'common.color.light_gray', i18n_var: { value: 3 } },
@@ -177,16 +188,6 @@ echoLiveEditor.pushPalette([
             { value: '#1f1f1f', title: 'Gray 11', i18n: 'common.color.black', i18n_var: { value: 11 } },
             { value: '#141414', title: 'Gray 12', i18n: 'common.color.black', i18n_var: { value: 12 } },
             { value: '#000000', title: 'Gray 13', i18n: 'common.color.black', i18n_var: { value: 13 } },
-
-            { type: 'group', value: '功能色', i18n: 'common.group.functional_color' },
-            { value: '#1890ff', title: 'Link', i18n: 'common.functional_color.link' },
-            { value: '#25c41a', title: 'Success', i18n: 'common.functional_color.success' },
-            { value: '#ffad14', title: 'Warning', i18n: 'common.functional_color.warning' },
-            { value: '#ff4d4f', title: 'Error', i18n: 'common.functional_color.error' },
-            { value: '#177ddc', title: 'Link - Dark', i18n: 'common.functional_color.link', after: 'deep' },
-            { value: '#49aa19', title: 'Success - Dark', i18n: 'common.functional_color.success', after: 'deep' },
-            { value: '#d89614', title: 'Warning - Dark', i18n: 'common.functional_color.warning', after: 'deep' },
-            { value: '#a61d24', title: 'Error - Dark', i18n: 'common.functional_color.error', after: 'deep' },
 
             { type: 'group', value: 'Dust Red / 薄暮', i18n: 'ant_design.group.red' },
             { value: '#fff1f0', title: 'Red 1', i18n: 'ant_design.color.red', i18n_var: { value: 1 } },

@@ -66,7 +66,7 @@ class EchoLiveTools {
             if (HTMLFilter) message.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>');
             return message;
         }
-        if (typeof message == 'object' && !Array.isArray(message)) return message?.text;
+        if (typeof message == 'object' && !Array.isArray(message)) message = [message];
         if (!Array.isArray(message)) return;
 
         let str = '';
@@ -74,6 +74,15 @@ class EchoLiveTools {
             if (typeof e == 'string') {
                 str += e;
             } else {
+                if (e?.data?.emoji != undefined) {
+                    try {
+                        typeof emojiHako;
+                        let emoji = emojiHako.getEmoji(e.data.emoji);
+                        str += ` [${ $t( 'emoji.' + emoji?.title_i18n ) }] `;
+                    } catch (error) {
+                        str += ` [${ e.data.emoji }] `;
+                    }
+                }
                 str += e.text;
             }
         });
@@ -120,11 +129,11 @@ class EchoLiveTools {
      */
     static getMessageSendLog(message, username = '') {
         username = EchoLiveTools.safeHTML(username);
-        if (typeof message != 'string') message = EchoLiveTools.getMessagePlainText(message);
+        if (typeof message != 'string') message = EchoLiveTools.safeHTML(EchoLiveTools.getMessagePlainText(message));
         if (message == '') message = '<i>[空消息]</i>';
         if (username == '') username = '<i>[未指定说话人]</i>';
 
-        return `<${ username }> ${ EchoLiveTools.safeHTML(message) }`;
+        return `<${ username }> ${ message }`;
     }
 
     /**

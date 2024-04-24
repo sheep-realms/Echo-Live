@@ -396,6 +396,7 @@ const lang_zho_Hans = {
             bold: "粗体",
             clear: "清除格式",
             color: "文本颜色",
+            emoji: "表情",
             font_size_decrease: "减小字号",
             font_size_increase: "增大字号",
             italic: "斜体",
@@ -639,6 +640,81 @@ const lang_zho_Hans = {
         },
         tip: {
             hot_key_textarea_quick_send: "当焦点在此文本框中时，可以按下 Ctrl + Enter 快速发送"
+        }
+    },
+    emoji: {
+        emoji: {
+            title: 'Emoji',
+            group: {
+                animal: "动物",
+                emotion: "情感",
+                food: "食物",
+                gesture: "手势",
+                nature: "森罗万象"
+            }
+        },
+        sheep_realms: {
+            other: {
+                title: "绵羊的大表情",
+                emoji: {
+                    ahwu: "啊呜",
+                    dame: "禁止",
+                    danger: "危",
+                    eating_potato_chips: "吃薯片",
+                    nani: "问号",
+                    orz: "累趴",
+                    sofa: "大佬躺姿",
+                    ze: "不爽"
+                }
+            },
+            pixel_head: {
+                title: "绵羊的像素头像",
+                emoji: {
+                    angry: "生气",
+                    bathe: "洗澡",
+                    black_stripe: "不愿透露姓名的绵羊女士",
+                    box_gear: "盒精装备",
+                    chaos: "混乱",
+                    ciallo: "Ciallo~",
+                    click: "戳一下",
+                    close_eyes: "闭眼",
+                    cry: "哭了",
+                    default: "注视",
+                    doubt: "疑问",
+                    elec: "触电",
+                    elec2: "发电",
+                    exciting: "兴奋",
+                    fear: "害怕",
+                    glowing_glasses: "眼镜发光",
+                    hammer: "锤一下",
+                    happy: "开心",
+                    heart: "爱心",
+                    hehe: "流汗",
+                    loading: "加载",
+                    magnifier: "放大镜",
+                    missingno: "查无此羊",
+                    no: "不行",
+                    pants: "蓝白胖次",
+                    phone: "打电话",
+                    pot_me: "铁锅炖自己",
+                    respirator: "口罩",
+                    sex: "发情",
+                    shock: "警觉",
+                    shy: "害羞",
+                    sleep: "睡觉",
+                    stone: "石化",
+                    sunglasses: "墨镜",
+                    unwelcome: "头套",
+                    vomit: "呕吐",
+                    wall: "偷看",
+                    water: "浇水",
+                    waterfall: "瀑布",
+                    waterfall_end: "接水",
+                    waterfall_start: "口若悬河",
+                    watermelon: "吃瓜",
+                    yes: "可以"
+                }
+            }
         }
     },
     file: {

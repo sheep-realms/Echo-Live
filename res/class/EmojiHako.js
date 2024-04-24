@@ -22,7 +22,10 @@ class EmojiHako {
                     ...e?.path
                 },
                 image: {
+                    isEmoji: e?.image?.isEmoji != undefined ? e.image.isEmoji : false,
                     rendering: e?.image?.rendering ? e.image.rendering : 'auto',
+                    review_size: e?.image?.review_size ? e.image.review_size : 'middle',
+                    show_title: e?.image?.show_title != undefined ? e.image.show_title : true,
                     margin: {
                         left: '0.5em',
                         right: '0.5em',
@@ -45,7 +48,7 @@ class EmojiHako {
                 content: []
             }
 
-            if (this.getEmojiPack(emojiPack.namespace, emojiPack.name) != undefined) return;
+            if (this.getEmojiPack(emojiPack.meta.namespace, emojiPack.meta.name) != undefined) return;
 
             e.content.forEach(e2 => {
                 if (e2?.type == 'group') {
@@ -55,13 +58,17 @@ class EmojiHako {
                         ...e2
                     });
                 } else {
-                    emojiPack.content.push({
-                        type: 'emoji',
-                        name: 'missingno',
-                        title: $t('ui.missingno.no_name'),
-                        path: 'missingno.png',
-                        ...e2
-                    });
+                    if (typeof e2 == 'object') {
+                        emojiPack.content.push({
+                            type: 'emoji',
+                            name: 'missingno',
+                            title: $t('ui.missingno.no_name'),
+                            path: 'missingno.png',
+                            ...e2
+                        });
+                    } else if (typeof e2 == 'string' && emojiPack.image.isEmoji) {
+                        emojiPack.content.push(e2);
+                    }
                 }
             });
 
@@ -72,14 +79,17 @@ class EmojiHako {
     }
 
     getEmojiPack(namespace = '', name = undefined) {
-        if (typeof namespace != 'string' || namespace === '') return;
+        if (typeof namespace != 'string') return;
+        if (namespace === '' && name == undefined) {
+            return this.emoji;
+        }
 
         let mp = this.emoji.find((e) => {
             return e.meta.namespace == namespace;
         });
 
         if (mp == undefined) {
-            mp = getEmojiPackByName(namespace);
+            mp = this.getEmojiPackByName(namespace);
         }
 
         if (mp == undefined && name != undefined) {
@@ -96,6 +106,7 @@ class EmojiHako {
         let r = this.emoji.find((e) => {
             return e.meta.name == name;
         });
+        if (r == undefined) return;
         return JSON.parse(JSON.stringify(r));
     }
 
@@ -137,7 +148,7 @@ class EmojiHako {
         };
 
         emoji.path = mp.path.images + emoji.path;
-        emoji.title_i18n = mp.path.i18n + emoji.title_i18n;
+        emoji.title_i18n = mp.path.i18n + 'emoji.' + emoji.title_i18n;
 
         return emoji;
     }

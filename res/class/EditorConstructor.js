@@ -238,6 +238,12 @@ class EditorForm {
                 title: $t('editor.format.color')
             }),
             EditorForm.buttonAir('', {
+                icon: Icon.emoticonHappy(),
+                class: 'editor-format-btn',
+                attr: `data-editorid="${editorID}" data-value="emoji"`,
+                title: $t('editor.format.emoji')
+            }),
+            EditorForm.buttonAir('', {
                 icon: Icon.formatFontSizeIncrease(),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="font_size_increase"`,
@@ -335,9 +341,10 @@ class Popups {
      * @returns {String} DOM
      */
     static paletteContent(palette = {}) {
+        if (palette.colors.length <= 0) return '';
         let dom = '<div class="palette-list">';
         let firstGruop = false;
-        if (palette.colors[0] != undefined && palette.colors[0]?.type == 'group') {
+        if (palette.colors[0]?.type == 'group') {
             dom = '';
             firstGruop = true;
         }
@@ -371,10 +378,10 @@ class Popups {
                 }
 
                 dom += `${ firstGruop ? '' : '</div>' }<div class="palette-group">${ EchoLiveTools.safeHTML(title) }</div><div class="palette-list">`;
-                firstGruop = false;
             }
+            firstGruop = false;
         });
-        dom += '</div>'
+        if (!firstGruop) dom += '</div>'
         return dom;
     }
 
@@ -538,7 +545,7 @@ class Popups {
      * @param {String} id ID
      * @returns {String} DOM
      */
-    static emojiPopups(emojiPacks = [], data = {}, id = 'popups-palette') {
+    static emojiPopups(emojiPacks = [], data = {}, id = 'popups-emoji') {
         data = {
             width: {
                 min: '400px',
@@ -551,20 +558,23 @@ class Popups {
             ...data
         }
 
-        if (!Array.isArray(emojiPacks) || palette.length < 1) {
-            // emojiPacks = [
-            //     {
-            //         meta: {
-            //             name: 'missingno',
-            //             title: 'missingno'
-            //         },
-            //         colors: [
-            //             { type: 'group', value: $t('editor.palette.empty') },
-            //             { value: '#000000', title: 'Black' },
-            //             { value: '#ffffff', title: 'White' }
-            //         ]
-            //     }
-            // ];
+        if (!Array.isArray(emojiPacks) || emojiPacks.length < 1) {
+            emojiPacks = [
+                {
+                    meta: {
+                        name: 'missingno',
+                        namespace: 'missingno',
+                        title: 'missingno'
+                    },
+                    image: {
+                        isEmoji: true,
+                        show_title: false
+                    },
+                    content: [
+                        ':('
+                    ]
+                }
+            ];
         }
 
         return Popups.container(
@@ -595,7 +605,7 @@ class Popups {
         let dom = '';
         emojiPacks.forEach(e => {
             let title = e.meta.title;
-            if (typeof e?.meta?.i18n == 'string') {
+            if (typeof e?.meta?.title_i18n == 'string') {
                 title = $t('emoji.' + e.meta.title_i18n);
             }
             dom += `<option value="${ e.meta.name }">${ title }</option>`
@@ -611,7 +621,7 @@ class Popups {
     static emojiPage(emojiPacks = []) {
         let dom = '';
         emojiPacks.forEach(e => {
-            dom += `<div class="palette-page hide" data-palette-id="${ e.meta.name }">${ Popups.paletteContent(e) }</div>`
+            dom += `<div class="emoji-page hide review-size-${ e.image.review_size } image-rendering-${ e.image.rendering }" data-emoji-pack-id="${ e.meta.name }">${ Popups.emojiContent(e) }</div>`
         });
         return dom;
     }
@@ -622,15 +632,40 @@ class Popups {
      * @returns {String} DOM
      */
     static emojiContent(emojiPack = {}) {
+        if (emojiPack.content.length <= 0) return '';
         let dom = '<div class="emoji-list">';
+        let firstGruop = false;
+        if (emojiPack.content[0]?.type == 'group') {
+            dom = '';
+            firstGruop = true;
+        }
+
         emojiPack.content.forEach(e => {
+            let title;
             if (e?.type === 'emoji' || e?.type === undefined) {
-                
+                if (emojiPack.image.show_title) {
+                    title = e.title;
+                    if (e.title_i18n != undefined) title = $t( 'emoji.' + emojiPack.path.i18n + 'emoji.' + e.title_i18n );
+                }
+
+                if (emojiPack.image.isEmoji) {
+                    if (typeof e == 'string') {
+                        dom += `<button class="emoji-box is-true-emoji" data-value="${ e }">${ e }</button>`;
+                    } else if (typeof e == 'object') {
+                        dom += `<button class="emoji-box is-true-emoji" ${ title != undefined ? `title="${ title }"` : '' } data-value="${ e.name }">${ e.name }</button>`;
+                    }
+                } else {
+                    dom += `<button class="emoji-box" ${ title != undefined ? `title="${ title }"` : '' } data-value="${ emojiPack.meta.namespace + ':' + e.name }"><img src="${ emojiPack.path.images + e.path }" alt="${ title }"></button>`;
+                }
             } else if (e?.type === 'group') {
-                
+                title = e.title;
+                if (e.title_i18n != undefined) title = $t( 'emoji.' + emojiPack.path.i18n + 'group.' + e.title_i18n );
+
+                dom += `${ firstGruop ? '' : '</div>' }<div class="emoji-group">${ title }</div><div class="emoji-list">`;
             }
+            firstGruop = false;
         });
-        dom += '</div>'
+        if (!firstGruop) dom += '</div>'
         return dom;
     }
 }

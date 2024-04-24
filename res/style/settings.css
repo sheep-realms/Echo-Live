@@ -48,7 +48,7 @@
 
 .file-check-box {
     min-height: 100px;
-    border: var(--border-coler) 1px solid;
+    border: var(--border-color) 1px solid;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -145,10 +145,10 @@
 }
 
 .file-drop-box {
-    border: var(--border-coler) 4px dashed;
+    border: var(--border-color) 4px dashed;
     user-select: none;
     cursor: pointer;
-    background-image: linear-gradient(var(--corner-marker-angle), var(--border-coler) 12px, transparent 12px);
+    background-image: linear-gradient(var(--corner-marker-angle), var(--border-color) 12px, transparent 12px);
     background-position: 4px -4px;
     background-repeat: no-repeat;
     width: 100%;
@@ -174,7 +174,7 @@
 }
 
 .file-check-dialog {
-    border: var(--border-coler) 1px solid;
+    border: var(--border-color) 1px solid;
     gap: 16px;
     justify-content: flex-start;
 }
@@ -332,7 +332,7 @@
 
 
 .settings-group-title {
-    border-bottom: var(--border-coler) 1px solid;
+    border-bottom: var(--border-color) 1px solid;
     padding: 8px 0;
 }
 
@@ -364,7 +364,7 @@
 }
 
 .settings-item+.settings-item {
-    border-top: var(--border-coler) 1px solid;
+    border-top: var(--border-color) 1px solid;
 }
 
 .settings-item .meta {
@@ -462,7 +462,7 @@
     align-items: center;
     justify-content: flex-start;
     background-color: var(--input-bgcolor);
-    border-bottom: var(--border-coler) 1px solid;
+    border-bottom: var(--border-color) 1px solid;
 }
 
 .settings-value-list-controller {
@@ -536,7 +536,7 @@
     display: flex;
     align-items: center;
     padding: 16px 8px;
-    border-top: var(--border-coler) 1px solid;
+    border-top: var(--border-color) 1px solid;
     position: sticky;
     bottom: 0;
     background-color: var(--page-bgcolor);
@@ -590,7 +590,7 @@ a.settings-link-bar {
     display: flex;
     align-items: center;
     color: var(--text-regular);
-    border-bottom: var(--border-coler) 1px solid;
+    border-bottom: var(--border-color) 1px solid;
     min-height: 44px;
     padding: 0 8px;
     gap: 8px;
@@ -624,7 +624,7 @@ a.settings-link-bar:active {
     font-weight: 500;
     margin-top: 16px;
     padding: 8px;
-    border-bottom: var(--border-coler) 1px solid;
+    border-bottom: var(--border-color) 1px solid;
 }
 
 .settings-about-footer {

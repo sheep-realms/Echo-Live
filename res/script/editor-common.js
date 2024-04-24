@@ -367,6 +367,13 @@ $(document).on('change', '#popups-palette-select', function() {
     $(`#popups-palette .palette-page[data-palette-id="${ name }"]`).removeClass('hide');
 });
 
+// 表情包切换
+$(document).on('change', '#popups-emoji-select', function() {
+    let name = $(this).val();
+    $('#popups-emoji .emoji-page').addClass('hide');
+    $(`#popups-emoji .emoji-page[data-emoji-pack-id="${ name }"]`).removeClass('hide');
+});
+
 // 拾色器无障碍提示按钮
 $(document).on('click', '#popups-palette-accessible-help-btn', function() {
     window.open('https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/#visual', '_blank');
@@ -417,6 +424,59 @@ $(document).on('keydown', '#popups-palette', function(e) {
             $('#popups-palette-select').val(psv[nextIndex]);
             $('#popups-palette-select').change();
             $('#popups-palette-select').focus();
+            break;
+    
+        default:
+            break;
+    }
+});
+
+// 表情包捷键
+$(document).on('keydown', '#popups-emoji', function(e) {
+    // console.log(e.keyCode);
+
+    let psv = [];
+    let now = '';
+    let nowIndex = 0;
+    let nextIndex = 0;
+    function getPaletteSelectValue() {
+        now = $('#popups-emoji-select').val();
+        let $pso = $('#popups-emoji-select option');
+        for (let i = 0; i < $pso.length; i++) {
+            psv.push($pso.eq(i).val())
+        }
+        nowIndex = psv.indexOf(now);
+        nextIndex = nowIndex;
+    }
+
+    switch (e.keyCode) {
+        case 27:
+            popupsDisplay('#popups-emoji', false);
+            $('#ptext-content').focus();
+            break;
+
+        case 81:
+            getPaletteSelectValue();
+            nextIndex--;
+            if (nextIndex < 0) nextIndex = psv.length - 1;
+            $('#popups-emoji-select').val(psv[nextIndex]);
+            $('#popups-emoji-select').change();
+            $('#popups-emoji-select').focus();
+            break;
+
+        case 69:
+            getPaletteSelectValue();
+            nextIndex = ++nextIndex % psv.length;
+            $('#popups-emoji-select').val(psv[nextIndex]);
+            // 遇到了一个邪道问题，程序基于断点运行，不修，直接暴力解决
+            // 重复代码是刻意为之，但凡少一行程序都跑不起来
+            setTimeout(function() {
+                $('#popups-emoji-select').val(psv[nextIndex]);
+                $('#popups-emoji-select').change();
+                $('#popups-emoji-select').focus();
+            }, 4);
+            $('#popups-emoji-select').change();
+            $('#popups-emoji-select').focus();
             break;
     
         default:

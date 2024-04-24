@@ -38,6 +38,9 @@ if (config.editor.palette_color_contrast_enable) $('#popups-palette').addClass('
 $('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--bg-color', config.editor.palette_color_contrast_background_color)
 paletteColorContrastCheck('#000000');
 
+popupsCreate(Popups.emojiPopups(emojiHako.getEmojiPack()), '#popups-emoji');
+$('#popups-emoji .emoji-page').eq(0).removeClass('hide');
+
 
 let elb;
 
@@ -572,6 +575,10 @@ $(document).on('click', '.editor-format-btn', function() {
         popupsDisplay('#popups-palette');
         popupsMoveToElement('#popups-palette', '.editor-controller button[data-value="color"]');
         $('#popups-palette-select').focus();
+    } else if (value == 'emoji') {
+        popupsDisplay('#popups-emoji');
+        popupsMoveToElement('#popups-emoji', '.editor-controller button[data-value="emoji"]');
+        $('#popups-emoji-select').focus();
     } else {
         insertTextAtCursor(editorID, format[value], format.clear, false, forceRepeatBefore);
     }
@@ -582,6 +589,15 @@ $(document).on('click', '#popups-palette .color-box', function() {
     let value = $(this).data('value');
     insertTextAtCursor('ptext-content', `@[${ value }]`, '@r');
     popupsDisplay('#popups-palette', false);
+});
+
+// 表情包点击
+$(document).on('click', '#popups-emoji .emoji-box', function() {
+    let value = $(this).data('value');
+    let str = `@{${ value }}`;
+    if ($(this).hasClass('is-true-emoji')) str = value;
+    insertTextAtCursor('ptext-content', str);
+    popupsDisplay('#popups-emoji', false);
 });
 
 // 纯文本编辑器字数统计

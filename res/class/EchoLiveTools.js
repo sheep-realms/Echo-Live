@@ -131,7 +131,7 @@ class EchoLiveTools {
         username = EchoLiveTools.safeHTML(username);
         if (typeof message != 'string') message = EchoLiveTools.safeHTML(EchoLiveTools.getMessagePlainText(message));
         if (message == '') message = `<i>${ $t( 'message_preview.empty_message' ) }</i>`;
-        if (username == '') username = `<i>[${ $t( 'message_preview.empty_username' ) }]</i>`;
+        if (username == '') username = `<i>${ $t( 'message_preview.empty_username' ) }</i>`;
 
         return `<${ username }> ${ message }`;
     }

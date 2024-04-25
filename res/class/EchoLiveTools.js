@@ -130,8 +130,8 @@ class EchoLiveTools {
     static getMessageSendLog(message, username = '') {
         username = EchoLiveTools.safeHTML(username);
         if (typeof message != 'string') message = EchoLiveTools.safeHTML(EchoLiveTools.getMessagePlainText(message));
-        if (message == '') message = '<i>[空消息]</i>';
-        if (username == '') username = '<i>[未指定说话人]</i>';
+        if (message == '') message = `<i>${ $t( 'message_preview.empty_message' ) }</i>`;
+        if (username == '') username = `<i>[${ $t( 'message_preview.empty_username' ) }]</i>`;
 
         return `<${ username }> ${ message }`;
     }

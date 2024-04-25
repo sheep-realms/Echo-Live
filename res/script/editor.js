@@ -569,7 +569,7 @@ $(document).on('click', '.editor-format-btn', function() {
     
     if (value == 'clear') {
         insertTextAtCursor(editorID, format.clear, '', false, false, false, true, function(e) {
-            return e.replace(/(?<!\\)@(\[#[0-9a-fA-F]{3,8}\]|\S)/g, '');
+            return e.replace(/(?<!\\)@(\[#[0-9a-fA-F]{3,8}\]|\{.*?\}|\S)/g, '');
         });
     } else if (value == 'color') {
         popupsDisplay('#popups-palette');

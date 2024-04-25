@@ -42,5 +42,9 @@ function sendHistory(username = '', message = '') {
         </div>`
     );
 
-    $('#echo-live-history-message-list').scrollTop(4503599627370496);
+    if (config.history.message_list_reverse) {
+        $('#echo-live-history-message-list').scrollTop(-4503599627370496);
+    } else {
+        $('#echo-live-history-message-list').scrollTop(4503599627370496);
+    }
 }

@@ -235,25 +235,25 @@ class EditorForm {
                 icon: Icon.palette(),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="color"`,
-                title: $t('editor.format.color')
+                title: $t('editor.format.color') + ' [Ctrl+Shift+C]'
             }),
             EditorForm.buttonAir('', {
                 icon: Icon.emoticonHappy(),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="emoji"`,
-                title: $t('editor.format.emoji')
+                title: $t('editor.format.emoji') + ' [Ctrl+E]'
             }),
             EditorForm.buttonAir('', {
                 icon: Icon.formatFontSizeIncrease(),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="font_size_increase"`,
-                title: $t('editor.format.font_size_increase')
+                title: $t('editor.format.font_size_increase') + ' [Ctrl+↑]'
             }),
             EditorForm.buttonAir('', {
                 icon: Icon.formatFontSizeDecrease(),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="font_size_decrease"`,
-                title: $t('editor.format.font_size_decrease')
+                title: $t('editor.format.font_size_decrease') + ' [Ctrl+↓]'
             }),
             EditorForm.buttonAir('', {
                 icon: Icon.formatClear(),

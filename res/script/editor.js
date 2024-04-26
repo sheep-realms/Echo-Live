@@ -57,32 +57,6 @@ if (config.echolive.broadcast_enable) {
         $('.echo-live-client-state').removeClass('hide');
     }
 
-    // 纯文本 - 内容 - 快捷键
-    $('#ptext-content').keydown(function(e) {
-        // console.log(e.keyCode);
-        if (e.ctrlKey) {
-            if (e.keyCode == 13) {
-                $('#ptext-btn-send').click();
-                effectClick('#ptext-btn-send');
-            } else if (e.keyCode == 83) {
-                e.preventDefault();
-            } else {
-                let code = {
-                    '66': 'bold',
-                    '73': 'italic',
-                    '85': 'underline',
-                    '68': 'strikethrough',
-                    '32': 'clear'
-                };
-                if (code[e.keyCode] == undefined) return;
-                if (e.keyCode == 32 && !e.shiftKey) return;
-
-                e.preventDefault();
-                $(`#ptext-editor .editor-controller:not(.disabled) button[data-value="${code[e.keyCode]}"]`).click();
-            }
-        }
-    })
-
     // 输出 - 内容 - 快捷键
     $('#output-content').keydown(function(e) {
         if (e.keyCode == 13 && e.ctrlKey) {
@@ -674,6 +648,38 @@ $(document).on('click', '.echo-live-client-state-block', function(e) {
         editorLogT('editor.log.broadcast.echo_next_from_self_to_target', { name: name });
     }
 });
+
+// 纯文本 - 内容 - 快捷键
+$('#ptext-content').keydown(function(e) {
+    console.log(e.keyCode);
+    if (e.ctrlKey) {
+        if (e.keyCode == 13) {
+            if (!config.echolive.broadcast_enable) return;
+            $('#ptext-btn-send').click();
+            effectClick('#ptext-btn-send');
+        } else if (e.keyCode == 83) {
+            e.preventDefault();
+        } else {
+            let code = {
+                '66':   'bold',
+                '73':   'italic',
+                '85':   'underline',
+                '68':   'strikethrough',
+                '67':   'color',
+                '69':   'emoji',
+                '38':   'font_size_increase',
+                '40':   'font_size_decrease',
+                '32':   'clear'
+            };
+            if (code[e.keyCode] == undefined) return;
+            if (e.keyCode == 32 && !e.shiftKey) return;
+            if (e.keyCode == 67 && !e.shiftKey) return;
+
+            e.preventDefault();
+            $(`#ptext-editor .editor-controller:not(.disabled) button[data-value="${code[e.keyCode]}"]`).click();
+        }
+    }
+})
 
 
 

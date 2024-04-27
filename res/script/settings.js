@@ -744,11 +744,21 @@ $(document).on('click', '#btn-flie-check-dialog-goto-chrome', function() {
 });
 
 $(document).on('click', '#btn-flie-check-dialog-update-config', function() {
+    const oldConfigVersion = settingsManager.getConfig('data_version');
     settingsManager.updateConfig(db_config_version);
     configLoad();
     showFileChecker(dropFile, 'loaded');
     closeFileCheckDialog();
     $('#tabpage-nav-edit, #tabpage-nav-export').removeClass('disabled');
+
+    $(`.settings-item`).removeClass('settings-item-update');
+    const cd = settingsManager.getConfigDefine('', oldConfigVersion + 1, db_config_version);
+    cd.forEach(e => {
+        if (e.type != 'object') {
+            $(`.settings-item[data-id="${ e.name }"]`).addClass('settings-item-update');
+        }
+    });
+
     effectFlicker('#tabpage-nav-edit');
 });
 

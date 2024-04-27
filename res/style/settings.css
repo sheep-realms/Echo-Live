@@ -413,6 +413,10 @@
     gap: 8px;
 }
 
+.settings-item.settings-item-update .meta .title {
+    color: var(--color-safe-dark);
+}
+
 .settings-item.change .meta .title::after,
 .settings-item.change-textarea .meta .title::after {
     content: "*";

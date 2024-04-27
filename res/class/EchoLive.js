@@ -57,7 +57,7 @@ class EchoLive {
                     this.hidden = true;
                     if (this.broadcast != undefined) this.broadcast.pageHidden();
                     if (this.timer.messagesPolling != -1) this.stop();
-                    if (this.echo.state != 'stop' && this.config.echolive.sleep_during_printing_stop_print) {
+                    if (this.echo.state != 'stop' && this.config.echolive.sleep.enable && this.config.echolive.sleep.during_printing_stop_print) {
                         this.echo.stop();
                         this.broadcast.echoStateUpdate('stop', this.echo.messageList.length);
                     }

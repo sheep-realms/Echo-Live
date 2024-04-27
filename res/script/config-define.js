@@ -506,7 +506,7 @@ const db_config_define = [
         name: 'history.history_theme_script_enable',
         type: 'boolean',
         default: false,
-        created: 1,
+        created: 3,
         conditions: [
             {
                 name: 'global.theme_script_enable',

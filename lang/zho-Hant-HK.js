@@ -252,7 +252,7 @@ const lang_zho_Hant_HK = {
             },
             palette: {
                 _title: "啟用的色板",
-                _description: "拾色器中有多種色板可供挑選。<br>預製的色板有 material、tailwindcss、ant_design 和 minecraft。<br>若要挑選啟用的色板或調整排序，請反選 “全部啟用”，並在下方文本框中輸入色板名稱，一行一個。",
+                _description: "拾色器中有多種色板可供挑選。<br>預製的色板有 material、tailwindcss、ant_design 和 minecraft。<br>若要挑選啟用的色板或調整排序，請反選 “全部啟用”，並在下方文本框中輸入色板名稱，一&#65279;行一&#65279;個。",
                 all_selected: "全部啟用"
             },
             palette_color_contrast_enable: {

@@ -363,6 +363,14 @@
     padding-top: 0;
 }
 
+.settings-group-content {
+    padding-left: 16px;
+}
+
+.settings-group-content .settings-item:first-child {
+    padding-top: 16px;
+}
+
 .settings-item+.settings-item {
     border-top: var(--border-color) 1px solid;
 }

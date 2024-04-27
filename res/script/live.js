@@ -4,7 +4,7 @@ let echo = new Echo();
 if (config.echo.html_format_enable != true) echo.filter.HTMLFormat = false;
 let echolive = new EchoLive(echo, config);
 echolive.theme = extensionManager.theme;
-echolive.setTheme(config.echolive.live_theme || config.global.theme);
+echolive.setTheme(config.echolive.style.live_theme || config.global.theme);
 
 let data;
 
@@ -33,8 +33,8 @@ echo.on('next', function(msg) {
         $('.echo-output').addClass('echo-text-rlo');
     }
 
-    if (config.echolive.next_audio_enable) {
-        mixer.play(config.echolive.next_audio_name, config.echolive.next_audio_volume, config.echolive.next_audio_rate);
+    if (config.echolive.next_audio.enable) {
+        mixer.play(config.echolive.next_audio.name, config.echolive.next_audio.volume, config.echolive.next_audio.rate);
     }
 });
 
@@ -54,8 +54,8 @@ echo.on('print', function(chr) {
         $(`.echo-output span[data-group="${gruopIndex}"]`).append(chr);
     }
 
-    if (config.echolive.print_audio_enable && chr != '' && chr != undefined && printSe) {
-        mixer.play(config.echolive.print_audio_name, config.echolive.print_audio_volume, config.echolive.print_audio_rate);
+    if (config.echolive.print_audio.enable && chr != '' && chr != undefined && printSe) {
+        mixer.play(config.echolive.print_audio.name, config.echolive.print_audio.volume, config.echolive.print_audio.rate);
         // 打印音效稳定器
         printSe = false;
         setTimeout(function() {
@@ -144,8 +144,8 @@ echo.on('customSequence', function(e) {
             }
         }
 
-        if (config.echolive.print_audio_enable && printSe) {
-            mixer.play(config.echolive.print_audio_name, config.echolive.print_audio_volume, config.echolive.print_audio_rate);
+        if (config.echolive.print_audio.enable && printSe) {
+            mixer.play(config.echolive.print_audio.name, config.echolive.print_audio.volume, config.echolive.print_audio.rate);
             // 打印音效稳定器
             printSe = false;
             setTimeout(function() {

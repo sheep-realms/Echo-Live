@@ -44,7 +44,7 @@ class EchoLive {
         // };
 
         // 嵌套有点多了，这不好，要改
-        if (this.config.echolive.sleep_enable) {
+        if (this.config.echolive.sleep.enable) {
             document.addEventListener("visibilitychange", () => {
                 if (document.visibilityState === "visible") {
                     this.hidden = false;
@@ -57,7 +57,7 @@ class EchoLive {
                     this.hidden = true;
                     if (this.broadcast != undefined) this.broadcast.pageHidden();
                     if (this.timer.messagesPolling != -1) this.stop();
-                    if (this.echo.state != 'stop') {
+                    if (this.echo.state != 'stop' && this.config.echolive.sleep_during_printing_stop_print) {
                         this.echo.stop();
                         this.broadcast.echoStateUpdate('stop', this.echo.messageList.length);
                     }
@@ -71,9 +71,9 @@ class EchoLive {
             this.echo.printSpeedChange = this.config.echo.print_speed;
         }
 
-        if (this.config.echolive.broadcast_enable) {
-            this.broadcast = new EchoLiveBroadcastPortal(this.config.echolive.broadcast_channel, this, this.config);
-        } else if (this.config.echolive.messages_polling_enable) {
+        if (this.config.echolive.broadcast.enable) {
+            this.broadcast = new EchoLiveBroadcastPortal(this.config.echolive.broadcast.channel, this, this.config);
+        } else if (this.config.echolive.messages_polling.enable) {
             this.start();
         }
     }
@@ -141,7 +141,7 @@ class EchoLive {
         let that = this;
         this.timer.messagesPolling = setInterval(function() {
             that.reload();
-        }, this.config.echolive.messages_polling_tick);
+        }, this.config.echolive.messages_polling.tick);
     }
 
     /**
@@ -188,7 +188,7 @@ class EchoLive {
 
         this.setThemeStyleUrl(theme.style);
 
-        if ((this.config.echolive.live_theme_script_enable && this.config.global.theme_script_enable) && typeof theme.script == 'object') {
+        if ((this.config.echolive.style.live_theme_script_enable && this.config.global.theme_script_enable) && typeof theme.script == 'object') {
             theme.script.forEach(e => {
                 let s = document.createElement("script");
                 s.src = e;

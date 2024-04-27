@@ -10,6 +10,7 @@ if (config.accessible.high_contrast || window.matchMedia('(forced-colors: active
     $('body').css('--accessible-outline-style', config.accessible.high_contrast_outline_style);
 }
 if (config.accessible.drotanopia_and_deuteranopia) $('body').addClass('accessible-drotanopia-and-deuteranopia');
+if (config.accessible.link_underline) $('body').addClass('accessible-link-underline');
 
 
 

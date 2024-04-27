@@ -7,6 +7,8 @@ let configBuffer = {};
 
 let lastColorScheme = config.global.color_scheme;
 
+let bodyClassCache = '';
+
 const settingsNav = [
     {
         id: 'global',
@@ -300,6 +302,7 @@ function configUndoAll() {
         setSettingsItemValue(id, dv);
     }
     $sel.removeClass('change');
+    $('body').attr('class', bodyClassCache);
     configSaveCloseController();
 }
 
@@ -325,6 +328,7 @@ function configSaveAll(effect = false) {
                 $('html').addClass('prefers-color-scheme-' + colorScheme);
             });
         }
+        bodyClassCache = $('body').attr('class') ?? '';
     }, 800)
 }
 
@@ -417,9 +421,9 @@ $(document).ready(function() {
         });
     });
 
-    i = settingsManager.findIndexConfigDefine('echolive.print_audio_name');
+    i = settingsManager.findIndexConfigDefine('echolive.print_audio.name');
     settingsManager.configDefine[i].attribute.datalist = datalistLang;
-    i = settingsManager.findIndexConfigDefine('echolive.next_audio_name');
+    i = settingsManager.findIndexConfigDefine('echolive.next_audio.name');
     settingsManager.configDefine[i].attribute.datalist = datalistLang;
 
     datalistLang = [
@@ -488,6 +492,8 @@ $(document).ready(function() {
     } else if (ua.search(/ obs\//) != -1) {
         showFileCheckDialogWarn('in_obs');
     }
+
+    bodyClassCache = $('body').attr('class') ?? '';
 
     // 调试信息
 
@@ -889,19 +895,6 @@ $(document).on('click', '.settings-item[data-id="accessible.high_contrast"] .set
             $('body').removeClass('accessible-high-contrast');
         }
     }, 100);
-
-    // setTimeout(function() {
-    //     let value = getSettingsItemValue('accessible.high_contrast');
-    //     if (value) {
-    //         EchoLiveTools.updateView(function() {
-    //             $('body').addClass('accessible-high-contrast');
-    //         });
-    //     } else {
-    //         EchoLiveTools.updateView(function() {
-    //             $('body').removeClass('accessible-high-contrast');
-    //         });
-    //     }
-    // }, 300);
 });
 
 $(document).on('click', '.settings-item[data-id="accessible.drotanopia_and_deuteranopia"] .settings-switch button', function() {
@@ -913,17 +906,15 @@ $(document).on('click', '.settings-item[data-id="accessible.drotanopia_and_deute
             $('body').removeClass('accessible-drotanopia-and-deuteranopia');
         }
     }, 100);
+});
 
-    // setTimeout(function() {
-    //     let value = getSettingsItemValue('accessible.drotanopia_and_deuteranopia');
-    //     if (value) {
-    //         EchoLiveTools.updateView(function() {
-    //             $('body').addClass('accessible-drotanopia-and-deuteranopia');
-    //         });
-    //     } else {
-    //         EchoLiveTools.updateView(function() {
-    //             $('body').removeClass('accessible-drotanopia-and-deuteranopia');
-    //         });
-    //     }
-    // }, 300);
+$(document).on('click', '.settings-item[data-id="accessible.link_underline"] .settings-switch button', function() {
+    setTimeout(function() {
+        let value = getSettingsItemValue('accessible.link_underline');
+        if (value) {
+            $('body').addClass('accessible-link-underline');
+        } else {
+            $('body').removeClass('accessible-link-underline');
+        }
+    }, 100);
 });

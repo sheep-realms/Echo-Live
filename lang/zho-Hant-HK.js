@@ -98,85 +98,109 @@ const lang_zho_Hant_HK = {
         echolive: {
             _title: "Echo-Live",
             _description: "Echo-Live 相關配置",
-            live_theme: {
-                _title: "對話框主題",
-                _description: "留空則使用全局主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>幫助文檔</a>。"
+            style: {
+                _title: "主題樣式",
+                _description: "設置對話框的樣式",
+                live_theme: {
+                    _title: "對話框主題",
+                    _description: "留空則使用全局主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>幫助文檔</a>。"
+                },
+                live_theme_script_enable: {
+                    _title: "啟用對話框主題腳本",
+                    _description: "此配置項需要啟用全局主題腳本才能生效。"
+                },
             },
-            live_theme_script_enable: {
-                _title: "啟用對話框主題腳本",
-                _description: "此配置項需要啟用全局主題腳本才能生效。"
+            broadcast: {
+                _title: "廣播",
+                _description: "Echo-Live 的基本工作模式",
+                enable: {
+                    _title: "啟用廣播",
+                    _description: "可通過編輯器直接發送消息，啟用此項將禁用消息輪詢。"
+                },
+                channel: {
+                    _title: "廣播頻道",
+                    _description: "如果您不知道這是甚麼請不要動它。"
+                },
+                websocket_enable: {
+                    _title: "啟用 WebSocket",
+                    _description: "如果沒人要求您這麼做，請不要動它。<br>廣播模式下啟用 WebSocket 可連接至伺服器以從第三方軟件獲取消息。<br>可從伺服器接收的消息和廣播消息一致，發送的消息須使用類似於 JSON.stringify 的方法序列化。<br>詳見<a href='https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/' target='_blank'>幫助文檔</a>。"
+                },
+                websocket_url: {
+                    _title: "WebSocket 連接地址",
+                    _description: "提供 WebSocket 連接的伺服器地址，使用 ws:// 協議頭。"
+                },
+                websocket_reconnect_limit: {
+                    _title: "WebSocket 最大重連嘗試次數",
+                    _description: "連接關閉和連接失敗將會嘗試重連，一旦超過重連嘗試次數限制將不再嘗試重連。"
+                },
+                experimental_api_enable: {
+                    _title: "啟用實驗性 API",
+                    _description: "實驗性 API 包含了一些危險操作，實現一些特殊功能可能是必要的，但如果使用不當可能會造成嚴重後果。<br>請開發者注意，如果您提供的產品需要啟用此實驗性 API，請務必說明您不得不這麼做的原因。<br>請用戶注意，如果您使用的第三方軟件要求您啟用實驗性 API 而未說明理由，非常不推薦您照做。"
+                }
             },
-            broadcast_enable: {
-                _title: "啟用廣播",
-                _description: "可通過編輯器直接發送消息，啟用此項將禁用消息輪詢。"
+            messages_polling: {
+                _title: "消息輪詢",
+                _description: "早期版本中廣播系統的替代",
+                enable: {
+                    _title: "啟用消息輪詢",
+                    _description: "定時監聽 start.js 的內容更改而無需手動刷新，關閉則使用舊版手動操作。<br>啟用廣播將禁用此功能。"
+                },
+                tick: {
+                    _title: "消息輪詢間隔",
+                    _description: "單位：毫秒。值越小響應越快，性能消耗越高。"
+                },
             },
-            broadcast_channel: {
-                _title: "廣播頻道",
-                _description: "如果您不知道這是甚麼請不要動它。"
+            sleep: {
+                _title: "休眠機制",
+                _description: "頁面不可見時使對話框休眠",
+                enable: {
+                    _title: "啟用休眠機制",
+                    _description: "當頁面不可見時休眠以防止計時器失效所引發的災難性演出。<br>特別強調：如果您不了解這是甚麼，請不要關閉它。<br>- 如果您只是想方便在瀏覽器中預覽而臨時關閉它，請一定不要忘記打開。"
+                },
+                during_printing_stop_print: {
+                    _title: "在打印期間休眠立即停止打印",
+                    _description: "防止計時器失效導致打印過程阻塞。"
+                },
             },
-            websocket_enable: {
-                _title: "啟用 WebSocket",
-                _description: "如果沒人要求您這麼做，請不要動它。<br>廣播模式下啟用 WebSocket 可連接至伺服器以從第三方軟件獲取消息。<br>可從伺服器接收的消息和廣播消息一致，發送的消息須使用類似於 JSON.stringify 的方法序列化。<br>詳見<a href='https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/' target='_blank'>幫助文檔</a>。"
+            print_audio: {
+                _title: "打字音效",
+                _description: "在每次輸出字符時播放音效",
+                enable: {
+                    _title: "啟用打字音效",
+                    _description: ""
+                },
+                name: {
+                    _title: "音效名稱",
+                    _description: "可用的音效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/#list' target='_blank'>幫助文檔</a>。"
+                },
+                volume: {
+                    _title: "音效音量",
+                    _description: "1 為最大。"
+                },
+                rate: {
+                    _title: "音效播放速度",
+                    _description: "1 為原速。"
+                }
             },
-            websocket_url: {
-                _title: "WebSocket 連接地址",
-                _description: "提供 WebSocket 連接的伺服器地址，使用 ws:// 協議頭。"
-            },
-            websocket_reconnect_limit: {
-                _title: "WebSocket 最大重連嘗試次數",
-                _description: "連接關閉和連接失敗將會嘗試重連，一旦超過重連嘗試次數限制將不再嘗試重連。"
-            },
-            experimental_api_enable: {
-                _title: "啟用實驗性 API",
-                _description: "實驗性 API 包含了一些危險操作，實現一些特殊功能可能是必要的，但如果使用不當可能會造成嚴重後果。<br>請開發者注意，如果您提供的產品需要啟用此實驗性 API，請務必說明您不得不這麼做的原因。<br>請用戶注意，如果您使用的第三方軟件要求您啟用實驗性 API 而未說明理由，非常不推薦您照做。"
-            },
-            messages_polling_enable: {
-                _title: "啟用消息輪詢",
-                _description: "定時監聽 start.js 的內容更改而無需手動刷新，關閉則使用舊版手動操作。<br>啟用廣播將禁用此功能。"
-            },
-            messages_polling_tick: {
-                _title: "消息輪詢間隔",
-                _description: "單位：毫秒。值越小響應越快，性能消耗越高。"
-            },
-            sleep_enable: {
-                _title: "啟用休眠機制",
-                _description: "當頁面不可見時休眠以防止計時器失效所引發的災難性演出。<br>特別強調：如果您不了解這是甚麼，請不要關閉它。<br>- 如果您只是想方便在瀏覽器中預覽而臨時關閉它，請一定不要忘記打開。"
-            },
-            sleep_during_printing_stop_print: {
-                _title: "在打印期間休眠立即停止打印",
-                _description: "防止計時器失效導致打印過程阻塞。"
-            },
-            print_audio_enable: {
-                _title: "啟用打字音效",
-                _description: "在每次輸出字符時播放音效。"
-            },
-            print_audio_name: {
-                _title: "音效名稱",
-                _description: "可用的音效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/#list' target='_blank'>幫助文檔</a>。"
-            },
-            print_audio_volume: {
-                _title: "音效音量",
-                _description: "1 為最大。"
-            },
-            print_audio_rate: {
-                _title: "音效播放速度",
-                _description: "1 為原速。"
-            },
-            next_audio_enable: {
-                _title: "啟用新對話入場音效",
-                _description: "在每條消息開始打印時播放音效。"
-            },
-            next_audio_name: {
-                _title: "音效名稱",
-                _description: "可用的音效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/#list' target='_blank'>幫助文檔</a>。"
-            },
-            next_audio_volume: {
-                _title: "音效音量",
-                _description: "1 為最大。"
-            },
-            next_audio_rate: {
-                _title: "音效播放速度",
-                _description: "1 為原速。"
+            next_audio: {
+                _title: "新對話入場音效",
+                    _description: "在每條消息開始打印時播放音效",
+                enable: {
+                    _title: "啟用新對話入場音效",
+                    _description: ""
+                },
+                name: {
+                    _title: "音效名稱",
+                    _description: "可用的音效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/#list' target='_blank'>幫助文檔</a>。"
+                },
+                volume: {
+                    _title: "音效音量",
+                    _description: "1 為最大。"
+                },
+                rate: {
+                    _title: "音效播放速度",
+                    _description: "1 為原速。"
+                }
             }
         },
         editor: {
@@ -302,6 +326,10 @@ const lang_zho_Hant_HK = {
             drotanopia_and_deuteranopia: {
                 _title: "紅綠色盲",
                 _description: "綠色（安全）功能色會以藍色（通用）代替，以便和功能差異較大的黃色（警告）和紅色（危險）作出區分。"
+            },
+            link_underline: {
+                _title: "總是顯示鏈接下劃線",
+                _description: "為鏈接添加下劃線使其更醒目。"
             }
         },
         advanced: {

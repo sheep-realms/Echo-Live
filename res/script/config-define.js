@@ -1,4 +1,4 @@
-const db_config_version = 3;
+const db_config_version = 4;
 
 const db_config_define = [
     {
@@ -64,25 +64,37 @@ const db_config_define = [
         type: 'object',
         created: 1
     }, {
-        name: 'echolive.live_theme',
+        name: 'echolive.style',
+        type: 'object',
+        created: 4
+    }, {
+        name: 'echolive.style.live_theme',
         type: 'string',
         default: '',
-        created: 1
+        from: 'echolive.live_theme',
+        created: 4
     }, {
-        name: 'echolive.live_theme_script_enable',
+        name: 'echolive.style.live_theme_script_enable',
         type: 'boolean',
         default: false,
-        created: 1
+        from: 'echolive.live_theme_script_enable',
+        created: 4
     }, {
-        name: 'echolive.broadcast_enable',
+        name: 'echolive.broadcast',
+        type: 'object',
+        created: 4
+    }, {
+        name: 'echolive.broadcast.enable',
         type: 'boolean',
         default: true,
-        created: 1
+        from: 'echolive.broadcast_enable',
+        created: 4
     }, {
-        name: 'echolive.broadcast_channel',
+        name: 'echolive.broadcast.channel',
         type: 'string',
         default: 'sheep-realms:echolive',
-        created: 1,
+        from: 'echolive.broadcast_channel',
+        created: 4,
         attribute: {
             datalist: [
                 {
@@ -91,111 +103,143 @@ const db_config_define = [
             ]
         }
     }, {
-        name: 'echolive.websocket_enable',
+        name: 'echolive.broadcast.websocket_enable',
         type: 'boolean',
         default: false,
-        created: 1
+        from: 'echolive.websocket_enable',
+        created: 4
     }, {
-        name: 'echolive.websocket_url',
+        name: 'echolive.broadcast.websocket_url',
         type: 'string',
         default: 'ws://127.0.0.1:3000',
-        created: 1
+        from: 'echolive.websocket_url',
+        created: 4
     }, {
-        name: 'echolive.websocket_reconnect_limit',
+        name: 'echolive.broadcast.websocket_reconnect_limit',
         type: 'number',
         default: 5,
-        created: 2,
+        from: 'echolive.websocket_reconnect_limit',
+        created: 4,
         attribute: {
             min: 0
         }
     }, {
-        name: 'echolive.experimental_api_enable',
+        name: 'echolive.broadcast.experimental_api_enable',
         type: 'boolean',
         default: false,
-        created: 1
+        from: 'echolive.experimental_api_enable',
+        created: 4
     }, {
-        name: 'echolive.messages_polling_enable',
+        name: 'echolive.messages_polling',
+        type: 'object',
+        created: 4
+    }, {
+        name: 'echolive.messages_polling.enable',
         type: 'boolean',
         default: true,
-        created: 1
+        from: 'echolive.messages_polling_enable',
+        created: 4
     }, {
-        name: 'echolive.messages_polling_tick',
+        name: 'echolive.messages_polling.tick',
         type: 'number',
         default: 250,
-        created: 1,
+        from: 'echolive.messages_polling_tick',
+        created: 4,
         attribute: {
             min: 4
         }
     }, {
-        name: 'echolive.sleep_enable',
+        name: 'echolive.sleep',
+        type: 'object',
+        created: 4
+    }, {
+        name: 'echolive.sleep.enable',
         type: 'boolean',
         default: true,
-        created: 1
+        from: 'echolive.sleep_enable',
+        created: 4
     }, {
-        name: 'echolive.sleep_during_printing_stop_print',
+        name: 'echolive.sleep.during_printing_stop_print',
         type: 'boolean',
         default: true,
-        created: 2
+        from: 'echolive.sleep_during_printing_stop_print',
+        created: 4
     }, {
-        name: 'echolive.print_audio_enable',
+        name: 'echolive.print_audio',
+        type: 'object',
+        created: 4
+    }, {
+        name: 'echolive.print_audio.enable',
         type: 'boolean',
         default: false,
-        created: 1
+        from: 'echolive.print_audio_enable',
+        created: 4
     }, {
-        name: 'echolive.print_audio_name',
+        name: 'echolive.print_audio.name',
         type: 'string',
         default: 'typewriter_loop',
-        created: 1,
+        from: 'echolive.print_audio_name',
+        created: 4,
         attribute: {
             datalist: []
         }
     }, {
-        name: 'echolive.print_audio_volume',
+        name: 'echolive.print_audio.volume',
         type: 'number',
         default: 0.5,
-        created: 1,
+        from: 'echolive.print_audio_volume',
+        created: 4,
         attribute: {
             max: 1,
             min: 0,
             step: 0.1
         }
     }, {
-        name: 'echolive.print_audio_rate',
+        name: 'echolive.print_audio.rate',
         type: 'number',
         default: 1,
-        created: 1,
+        from: 'echolive.print_audio_rate',
+        created: 4,
         attribute: {
             min: 0,
             step: 0.25
         }
     }, {
-        name: 'echolive.next_audio_enable',
+        name: 'echolive.next_audio',
+        type: 'object',
+        created: 4
+    }, {
+        name: 'echolive.next_audio.enable',
         type: 'boolean',
         default: false,
-        created: 1
+        from: 'echolive.next_audio_enable',
+        created: 4
     }, {
-        name: 'echolive.next_audio_name',
+        name: 'echolive.next_audio.name',
         type: 'string',
         default: 'enter',
-        created: 1,
+        from: 'echolive.next_audio_name',
+        created: 4,
         attribute: {
             datalist: []
         }
     }, {
-        name: 'echolive.next_audio_volume',
+        name: 'echolive.next_audio.volume',
         type: 'number',
         default: 0.5,
-        created: 1,
+        from: 'echolive.next_audio_volume',
+        created: 4,
         attribute: {
             max: 1,
             min: 0,
             step: 0.1
         }
     }, {
-        name: 'echolive.next_audio_rate',
+        name: 'echolive.next_audio.rate',
         type: 'number',
         default: 1,
-        created: 1,
+        from: 'echolive.next_audio_rate',
+        created: 4,
         attribute: {
             min: 0,
             step: 0.25
@@ -428,6 +472,11 @@ const db_config_define = [
         type: 'boolean',
         default: false,
         created: 1
+    }, {
+        name: 'accessible.link_underline',
+        type: 'boolean',
+        default: false,
+        created: 4
     },
 
 

@@ -177,11 +177,11 @@ class EchoLiveBroadcast {
      * @returns {Boolean} 结果
      */
     experimentalAPICheck(apiName) {
-        if (!this.echolive.config.echolive.experimental_api_enable) {
+        if (!this.echolive.config.echolive.broadcast.experimental_api_enable) {
             // TODO: 在这里抛出异常
         }
 
-        return this.echolive.config.echolive.experimental_api_enable;
+        return this.echolive.config.echolive.broadcast.experimental_api_enable;
     }
 }
 
@@ -461,7 +461,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
             this.close();
         };
 
-        if (this.config.echolive.websocket_enable) {
+        if (this.config.echolive.broadcast.websocket_enable) {
             this.websocketConnect();
         }
     }
@@ -471,7 +471,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      */
     websocketConnect() {
         this.websocketClosed = false;
-        this.websocket = new WebSocket(this.config.echolive.websocket_url);
+        this.websocket = new WebSocket(this.config.echolive.broadcast.websocket_url);
 
         this.websocket.addEventListener('open', (e) => {
             this.websocket.addEventListener('close', (e) => {
@@ -506,9 +506,9 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
     websocketReconnect() {
         if (this.websocketClosed) return;
 
-        if (this.websocketReconnectCount >= this.config.echolive.websocket_reconnect_limit) {
+        if (this.websocketReconnectCount >= this.config.echolive.broadcast.websocket_reconnect_limit) {
             this.sendError('websocket_error', {
-                url: this.config.echolive.websocket_url,
+                url: this.config.echolive.broadcast.websocket_url,
                 tryReconnect: false,
                 reconnectCount: this.websocketReconnectCount
             });
@@ -518,7 +518,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
         this.websocketReconnectCount++;
 
         this.sendError('websocket_error', {
-            url: this.config.echolive.websocket_url,
+            url: this.config.echolive.broadcast.websocket_url,
             tryReconnect: true,
             reconnectCount: this.websocketReconnectCount
         });

@@ -853,9 +853,19 @@ class SettingsPanel {
 
     static setItems(items) {
         let dom = '';
+        let inGroup = false;
         items.forEach(e => {
+            if (e.type == 'object' && inGroup) {
+                dom += '</div>';
+                inGroup = false;
+            }
             dom += SettingsPanel.setItemAuto(e);
+            if (e.type == 'object') {
+                dom += (inGroup ? '</div>' : '') + `<div class="settings-group-content">`;
+                inGroup = true;
+            }
         });
+        if (inGroup) dom += '</div>';
         return dom;
     }
 

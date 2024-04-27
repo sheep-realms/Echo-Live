@@ -25,7 +25,7 @@ class EchoLiveHistory {
             this.broadcast.error(msg, filename, e.lineno, e.colno);
         });
 
-        if (this.config.echolive.sleep_enable) {
+        if (this.config.echolive.sleep.enable) {
             document.addEventListener("visibilitychange", () => {
                 if (document.visibilityState === "visible") {
                     this.hidden = false;
@@ -35,8 +35,8 @@ class EchoLiveHistory {
             });
         }
 
-        if (this.config.echolive.broadcast_enable) {
-            this.broadcast = new EchoLiveBroadcastHistory(this.config.echolive.broadcast_channel, this, this.config);
+        if (this.config.echolive.broadcast.enable) {
+            this.broadcast = new EchoLiveBroadcastHistory(this.config.echolive.broadcast.channel, this, this.config);
         }
     }
 

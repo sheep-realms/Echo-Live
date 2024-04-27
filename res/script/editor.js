@@ -48,7 +48,7 @@ if (config.echo.print_speed != 30) {
     $('.echo-editor-form-input-tip').text($t('editor.form.description.print_speed_custom', { value: config.echo.print_speed }));
 }
 
-if (config.echolive.broadcast_enable) {
+if (config.echolive.broadcast.enable) {
     $('#ptext-btn-submit').addClass('fh-ghost');
     $('#ptext-btn-send, #output-btn-send').removeClass('hide');
     $('#ptext-content, #output-content').attr('title', $t('editor.tip.hot_key_textarea_quick_send'));
@@ -67,7 +67,7 @@ if (config.echolive.broadcast_enable) {
 
     $('.echo-live-client-state-content').html(EditorClientState.statePanel([]));
 
-    elb = new EchoLiveBroadcastServer(config.echolive.broadcast_channel, config);
+    elb = new EchoLiveBroadcastServer(config.echolive.broadcast.channel, config);
     elb.on('clientsChange', clientsChange);
     elb.on('message', getMessage);
     elb.on('error', getError);
@@ -75,7 +75,7 @@ if (config.echolive.broadcast_enable) {
     elb.on('nameDuplicate', nameDuplicate);
 
     checkNowDate();
-    editorLogT('editor.log.broadcast_launch.done', { channel: config.echolive.broadcast_channel });
+    editorLogT('editor.log.broadcast_launch.done', { channel: config.echolive.broadcast.channel });
     editorLog('User Agent: ' + navigator.userAgent, 'dbug');
     if (navigator.userAgent.toLowerCase().search(/ obs\//) != -1) {
         editorLogT('editor.log.broadcast_launch.user_agent_check', {}, 'done');
@@ -654,7 +654,7 @@ $('#ptext-content').keydown(function(e) {
     console.log(e.keyCode);
     if (e.ctrlKey) {
         if (e.keyCode == 13) {
-            if (!config.echolive.broadcast_enable) return;
+            if (!config.echolive.broadcast.enable) return;
             $('#ptext-btn-send').click();
             effectClick('#ptext-btn-send');
         } else if (e.keyCode == 83) {

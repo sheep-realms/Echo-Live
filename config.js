@@ -1,5 +1,5 @@
 const config = {
-    "data_version": 3,
+    "data_version": 4,
     "global": {
         "language": "zho-Hans",
         "theme": "vanilla",
@@ -11,26 +11,38 @@ const config = {
         "html_format_enable": true
     },
     "echolive": {
-        "live_theme": "",
-        "live_theme_script_enable": false,
-        "broadcast_enable": true,
-        "broadcast_channel": "sheep-realms:echolive",
-        "websocket_enable": false,
-        "websocket_url": "ws://127.0.0.1:3000",
-        "websocket_reconnect_limit": 5,
-        "experimental_api_enable": false,
-        "messages_polling_enable": true,
-        "messages_polling_tick": 250,
-        "sleep_enable": true,
-        "sleep_during_printing_stop_print": true,
-        "print_audio_enable": false,
-        "print_audio_name": "typewriter_loop",
-        "print_audio_volume": 0.5,
-        "print_audio_rate": 1,
-        "next_audio_enable": false,
-        "next_audio_name": "enter",
-        "next_audio_volume": 0.5,
-        "next_audio_rate": 1,
+        "style": {
+            "live_theme": "",
+            "live_theme_script_enable": false,
+        },
+        "broadcast": {
+            "enable": true,
+            "channel": "sheep-realms:echolive",
+            "websocket_enable": false,
+            "websocket_url": "ws://127.0.0.1:3000",
+            "websocket_reconnect_limit": 5,
+            "experimental_api_enable": false,
+        },
+        "messages_polling": {
+            "enable": true,
+            "tick": 250,
+        },
+        "sleep": {
+            "enable": true,
+            "during_printing_stop_print": true,
+        },
+        "print_audio": {
+            "enable": false,
+            "name": "typewriter_loop",
+            "volume": 0.5,
+            "rate": 1,
+        },
+        "next_audio": {
+            "enable": false,
+            "name": "enter",
+            "volume": 0.5,
+            "rate": 1,
+        },
         "next_effect_name": "none",
         "next_effect_duration": 0,
         "print_effect_name": "none",
@@ -72,7 +84,8 @@ const config = {
         "high_contrast_outline_color": "#00E9FF",
         "high_contrast_outline_size": "2px",
         "high_contrast_outline_style": "solid",
-        "drotanopia_and_deuteranopia": false
+        "drotanopia_and_deuteranopia": false,
+        "link_underline": false
     },
     "advanced": {
         "broadcast": {

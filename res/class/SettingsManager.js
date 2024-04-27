@@ -52,6 +52,21 @@ class SettingsManager {
         nestedObj[keys[keys.length - 1]] = value;
     }
 
+    deleteConfig(key) {
+        const keys = key.split('.');
+        let current = this.config;
+    
+        for (let i = 0; i < keys.length - 1; i++) {
+            const key = keys[i];
+            if (!(key in current)) {
+                return;
+            }
+            current = current[key];
+        }
+    
+        delete current[keys[keys.length - 1]];
+    }
+
     importConfig(value) {
         if (typeof value != 'object') return;
         this.configBackup = this.config;
@@ -76,6 +91,13 @@ class SettingsManager {
 
             cd.forEach(e => {
                 this.setConfig(e.name, e.default);
+                if (typeof e?.from == 'string') {
+                    let v = this.getConfig(e.from);
+                    if (v != undefined) {
+                        this.setConfig(e.name, v);
+                        this.deleteConfig(e.from);
+                    }
+                }
             });
         }
         

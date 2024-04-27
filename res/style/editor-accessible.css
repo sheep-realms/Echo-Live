@@ -180,6 +180,19 @@
     border-bottom: var(--color-general-dark) 1px solid;
 }
 
+.accessible-high-contrast .settings-item.settings-item-condition-test-fail>* {
+    opacity: 1;
+}
+
+.accessible-high-contrast .settings-item.settings-item-condition-test-fail .title {
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+.accessible-high-contrast .settings-item.settings-item-condition-test-fail:hover>* {
+    opacity: 1;
+}
+
 
 /* 红绿色盲 */
 .accessible-drotanopia-and-deuteranopia {

@@ -1,3 +1,7 @@
+:root {
+    --settings-group-title-stickt-top: 44px;
+}
+
 .settings-panel {
     display: flex;
     gap: 16px;
@@ -334,6 +338,10 @@
 .settings-group-title {
     border-bottom: var(--border-color) 1px solid;
     padding: 8px 0;
+    background-color: var(--page-bgcolor);
+    position: sticky;
+    top: var(--settings-group-title-stickt-top);
+    z-index: 10;
 }
 
 .settings-group-title .title {
@@ -359,6 +367,10 @@
     box-sizing: border-box;
 }
 
+.settings-item>* {
+    transition: opacity .3s;
+}
+
 .settings-item:first-child {
     padding-top: 0;
 }
@@ -373,6 +385,18 @@
 
 .settings-item+.settings-item {
     border-top: var(--border-color) 1px solid;
+}
+
+.settings-item.settings-item-condition-test-fail>* {
+    opacity: 0.4;
+}
+
+.settings-item.settings-item-condition-test-fail:hover>* {
+    opacity: 0.6;
+}
+
+.settings-item.settings-item-condition-test-fail>.value:focus-within {
+    opacity: 1;
 }
 
 .settings-item .meta {
@@ -553,6 +577,7 @@
     opacity: 1;
     justify-content: center;
     flex-wrap: wrap;
+    z-index: 90;
 }
 
 .settings-controller-bottom.disabled {

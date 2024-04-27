@@ -229,6 +229,39 @@ function setSettingsItemValue(name, value, isDefault = false) {
     }
 }
 
+function configConditionTest(name) {
+    let cd = settingsManager.findConfigDefine(name);
+    if (!Array.isArray(cd?.conditions)) return true;
+
+    for (let i = 0; i < cd.conditions.length; i++) {
+        const e = cd.conditions[i];
+        const ev = getSettingsItemValue(e.name);
+        if (ev == undefined) continue;
+        if (ev !== e.value) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function checkConfigCondition(name = '') {
+    let ccd = settingsManager.filterConfigDefineByCondition(name);
+    if (ccd.length <= 0) return;
+
+    ccd.forEach(element => {
+        if (configConditionTest(element.name)) {
+            $(`.settings-item[data-id="${ element.name }"]`).removeClass('settings-item-condition-test-fail');
+        } else {
+            $(`.settings-item[data-id="${ element.name }"]`).addClass('settings-item-condition-test-fail');
+        }
+    });
+}
+
+
+
+
+
+
 function showFileCheckDialog(content) {
     $('#settings-file-check-dialog').html(content);
     $('.btn-default').focus();
@@ -304,6 +337,7 @@ function configUndoAll() {
     $sel.removeClass('change');
     $('body').attr('class', bodyClassCache);
     configSaveCloseController();
+    checkConfigCondition();
 }
 
 function configSaveAll(effect = false) {
@@ -554,6 +588,7 @@ function configLoad() {
     }
 
     configOutput();
+    checkConfigCondition();
 }
 
 async function filePicker() {
@@ -791,7 +826,12 @@ $(document).on('click', '.settings-switch', function() {
     } else {
         $parent.removeClass('change');
     }
+
     configChangeCheck();
+
+    setTimeout(function() {
+        checkConfigCondition(name);
+    }, 10);
 });
 
 
@@ -886,6 +926,12 @@ $(document).keydown(function(e) {
 
 
 
+$(window).resize(function() {
+    const tabHeight = $('#echo-editor-nav').height();
+    $('.settings-nav').css('top', `${tabHeight + 17}px`);
+    $('body').css('--settings-group-title-stickt-top', `${tabHeight + 1}px`);
+});
+
 $(document).on('click', '.settings-item[data-id="accessible.high_contrast"] .settings-switch button', function() {
     setTimeout(function() {
         let value = getSettingsItemValue('accessible.high_contrast');
@@ -894,7 +940,7 @@ $(document).on('click', '.settings-item[data-id="accessible.high_contrast"] .set
         } else {
             $('body').removeClass('accessible-high-contrast');
         }
-    }, 100);
+    }, 12);
 });
 
 $(document).on('click', '.settings-item[data-id="accessible.drotanopia_and_deuteranopia"] .settings-switch button', function() {
@@ -905,7 +951,7 @@ $(document).on('click', '.settings-item[data-id="accessible.drotanopia_and_deute
         } else {
             $('body').removeClass('accessible-drotanopia-and-deuteranopia');
         }
-    }, 100);
+    }, 12);
 });
 
 $(document).on('click', '.settings-item[data-id="accessible.link_underline"] .settings-switch button', function() {
@@ -916,5 +962,5 @@ $(document).on('click', '.settings-item[data-id="accessible.link_underline"] .se
         } else {
             $('body').removeClass('accessible-link-underline');
         }
-    }, 100);
+    }, 12);
 });

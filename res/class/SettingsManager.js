@@ -14,9 +14,26 @@ class SettingsManager {
         });
     }
 
+    findConfigDefine(name) {
+        return this.configDefine.find((e) => {
+            return e.name == name;
+        });
+    }
+
     findIndexConfigDefine(name) {
         return this.configDefine.findIndex((e) => {
             return e.name == name;
+        });
+    }
+
+    filterConfigDefineByCondition(conditionKey = '') {
+        const cd = this.configDefine.filter(e => Array.isArray(e?.conditions));
+
+        if (cd.length <= 0) return [];
+        if (conditionKey === '') return cd;
+
+        return cd.filter((e) => {
+            return e.conditions.filter(e2 => e2.name == conditionKey).length > 0;
         });
     }
 

@@ -78,7 +78,13 @@ const db_config_define = [
         type: 'boolean',
         default: false,
         from: 'echolive.live_theme_script_enable',
-        created: 4
+        created: 4,
+        conditions: [
+            {
+                name: 'global.theme_script_enable',
+                value: true
+            }
+        ]
     }, {
         name: 'echolive.broadcast',
         type: 'object',
@@ -101,19 +107,40 @@ const db_config_define = [
                     value: 'sheep-realms:echolive'
                 }
             ]
-        }
+        },
+        conditions: [
+            {
+                name: 'echolive.broadcast.enable',
+                value: true
+            }
+        ]
     }, {
         name: 'echolive.broadcast.websocket_enable',
         type: 'boolean',
         default: false,
         from: 'echolive.websocket_enable',
-        created: 4
+        created: 4,
+        conditions: [
+            {
+                name: 'echolive.broadcast.enable',
+                value: true
+            }
+        ]
     }, {
         name: 'echolive.broadcast.websocket_url',
         type: 'string',
         default: 'ws://127.0.0.1:3000',
         from: 'echolive.websocket_url',
-        created: 4
+        created: 4,
+        conditions: [
+            {
+                name: 'echolive.broadcast.enable',
+                value: true
+            }, {
+                name: 'echolive.broadcast.websocket_enable',
+                value: true
+            }
+        ]
     }, {
         name: 'echolive.broadcast.websocket_reconnect_limit',
         type: 'number',
@@ -122,13 +149,28 @@ const db_config_define = [
         created: 4,
         attribute: {
             min: 0
-        }
+        },
+        conditions: [
+            {
+                name: 'echolive.broadcast.enable',
+                value: true
+            }, {
+                name: 'echolive.broadcast.websocket_enable',
+                value: true
+            }
+        ]
     }, {
         name: 'echolive.broadcast.experimental_api_enable',
         type: 'boolean',
         default: false,
         from: 'echolive.experimental_api_enable',
-        created: 4
+        created: 4,
+        conditions: [
+            {
+                name: 'echolive.broadcast.enable',
+                value: true
+            }
+        ]
     }, {
         name: 'echolive.messages_polling',
         type: 'object',
@@ -138,7 +180,13 @@ const db_config_define = [
         type: 'boolean',
         default: true,
         from: 'echolive.messages_polling_enable',
-        created: 4
+        created: 4,
+        conditions: [
+            {
+                name: 'echolive.broadcast.enable',
+                value: false
+            }
+        ]
     }, {
         name: 'echolive.messages_polling.tick',
         type: 'number',
@@ -147,7 +195,16 @@ const db_config_define = [
         created: 4,
         attribute: {
             min: 4
-        }
+        },
+        conditions: [
+            {
+                name: 'echolive.broadcast.enable',
+                value: false
+            }, {
+                name: 'echolive.messages_polling.enable',
+                value: true
+            }
+        ]
     }, {
         name: 'echolive.sleep',
         type: 'object',
@@ -163,7 +220,13 @@ const db_config_define = [
         type: 'boolean',
         default: true,
         from: 'echolive.sleep_during_printing_stop_print',
-        created: 4
+        created: 4,
+        conditions: [
+            {
+                name: 'echolive.sleep.enable',
+                value: true
+            }
+        ]
     }, {
         name: 'echolive.print_audio',
         type: 'object',
@@ -182,7 +245,13 @@ const db_config_define = [
         created: 4,
         attribute: {
             datalist: []
-        }
+        },
+        conditions: [
+            {
+                name: 'echolive.print_audio.enable',
+                value: true
+            }
+        ]
     }, {
         name: 'echolive.print_audio.volume',
         type: 'number',
@@ -193,7 +262,13 @@ const db_config_define = [
             max: 1,
             min: 0,
             step: 0.1
-        }
+        },
+        conditions: [
+            {
+                name: 'echolive.print_audio.enable',
+                value: true
+            }
+        ]
     }, {
         name: 'echolive.print_audio.rate',
         type: 'number',
@@ -203,7 +278,13 @@ const db_config_define = [
         attribute: {
             min: 0,
             step: 0.25
-        }
+        },
+        conditions: [
+            {
+                name: 'echolive.print_audio.enable',
+                value: true
+            }
+        ]
     }, {
         name: 'echolive.next_audio',
         type: 'object',
@@ -222,7 +303,13 @@ const db_config_define = [
         created: 4,
         attribute: {
             datalist: []
-        }
+        },
+        conditions: [
+            {
+                name: 'echolive.next_audio.enable',
+                value: true
+            }
+        ]
     }, {
         name: 'echolive.next_audio.volume',
         type: 'number',
@@ -233,7 +320,13 @@ const db_config_define = [
             max: 1,
             min: 0,
             step: 0.1
-        }
+        },
+        conditions: [
+            {
+                name: 'echolive.next_audio.enable',
+                value: true
+            }
+        ]
     }, {
         name: 'echolive.next_audio.rate',
         type: 'number',
@@ -243,7 +336,13 @@ const db_config_define = [
         attribute: {
             min: 0,
             step: 0.25
-        }
+        },
+        conditions: [
+            {
+                name: 'echolive.next_audio.enable',
+                value: true
+            }
+        ]
     }, {
         name: 'echolive.next_effect_name',
         type: 'string',
@@ -367,7 +466,13 @@ const db_config_define = [
         name: 'editor.palette_color_contrast_background_color',
         type: 'string',
         default: '#ffffff',
-        created: 1
+        created: 1,
+        conditions: [
+            {
+                name: 'editor.palette_color_contrast_enable',
+                value: true
+            }
+        ]
     }, {
         name: 'editor.palette_color_contrast_threshold',
         type: 'number',
@@ -377,7 +482,13 @@ const db_config_define = [
             max: 21,
             min: 0,
             step: 0.1
-        }
+        },
+        conditions: [
+            {
+                name: 'editor.palette_color_contrast_enable',
+                value: true
+            }
+        ]
     },
 
 
@@ -395,7 +506,13 @@ const db_config_define = [
         name: 'history.history_theme_script_enable',
         type: 'boolean',
         default: false,
-        created: 1
+        created: 1,
+        conditions: [
+            {
+                name: 'global.theme_script_enable',
+                value: true
+            }
+        ]
     }, {
         name: 'history.message_list_reverse',
         type: 'boolean',
@@ -443,12 +560,24 @@ const db_config_define = [
         name: 'accessible.high_contrast_outline_color',
         type: 'string',
         default: '#00E9FF',
-        created: 2
+        created: 2,
+        conditions: [
+            {
+                name: 'accessible.high_contrast',
+                value: true
+            }
+        ]
     }, {
         name: 'accessible.high_contrast_outline_size',
         type: 'string',
         default: '2px',
-        created: 2
+        created: 2,
+        conditions: [
+            {
+                name: 'accessible.high_contrast',
+                value: true
+            }
+        ]
     }, {
         name: 'accessible.high_contrast_outline_style',
         type: 'string',
@@ -466,7 +595,13 @@ const db_config_define = [
                     value: 'double'
                 }
             ]
-        }
+        },
+        conditions: [
+            {
+                name: 'accessible.high_contrast',
+                value: true
+            }
+        ]
     }, {
         name: 'accessible.drotanopia_and_deuteranopia',
         type: 'boolean',

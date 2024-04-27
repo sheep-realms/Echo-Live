@@ -856,8 +856,11 @@ class SettingsPanel {
         let inGroup = false;
         items.forEach(e => {
             if (e.type == 'object' && inGroup) {
-                dom += '</div>';
+                dom += '</div></div>';
                 inGroup = false;
+            }
+            if (e.type == 'object') {
+                dom += `<div class="settings-group" data-id="${ e.name }">`;
             }
             dom += SettingsPanel.setItemAuto(e);
             if (e.type == 'object') {
@@ -865,7 +868,7 @@ class SettingsPanel {
                 inGroup = true;
             }
         });
-        if (inGroup) dom += '</div>';
+        if (inGroup) dom += '</div></div>';
         return dom;
     }
 

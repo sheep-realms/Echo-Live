@@ -359,12 +359,22 @@
     margin-top: 8px;
 }
 
+/* .settings-group+.settings-group {
+    margin-top: 8px;
+} */
+
+
+
 .settings-item {
     display: flex;
     align-items: center;
     gap: 16px;
     padding: 16px 0;
     box-sizing: border-box;
+}
+
+.settings-group:not(:last-child) .settings-item:last-child {
+    padding-bottom: 24px;
 }
 
 .settings-item>* {

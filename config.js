@@ -63,6 +63,8 @@ const config = {
         },
         "form": {
             "username": "",
+            "quote_before": "「",
+            "quote_after": "」",
             "ontput_before_enable": 0,
             "output_before": "echolive.send(",
             "ontput_after_enable": 0,

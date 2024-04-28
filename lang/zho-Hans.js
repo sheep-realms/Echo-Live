@@ -241,21 +241,29 @@ const lang_zho_Hans = {
                     _title: "初始说话人",
                     _description: "编辑器启动后在说话人输入框中默认填充的内容。"
                 },
-                output_before: {
-                    _title: "在输出内容前插入的内容",
-                    _description: "用于生成可执行的消息发送命令。"
+                quote_before: {
+                    _title: "引用符号（开头）",
+                    _description: ""
+                },
+                quote_after: {
+                    _title: "引用符号（结尾）",
+                    _description: ""
                 },
                 ontput_before_enable: {
                     _title: "启用在输出内容前插入内容",
                     _description: ""
                 },
-                output_after: {
-                    _title: "在输出内容后插入的内容",
+                output_before: {
+                    _title: "在输出内容前插入的内容",
                     _description: "用于生成可执行的消息发送命令。"
                 },
                 ontput_after_enable: {
                     _title: "启用在输出内容后插入内容",
                     _description: ""
+                },
+                output_after: {
+                    _title: "在输出内容后插入的内容",
+                    _description: "用于生成可执行的消息发送命令。"
                 }
             },
             color_picker: {

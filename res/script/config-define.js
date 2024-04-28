@@ -448,6 +448,16 @@ const db_config_define = [
         from: 'editor.username_init',
         created: 4
     }, {
+        name: 'editor.form.quote_before',
+        type: 'string',
+        default: '「',
+        created: 4
+    }, {
+        name: 'editor.form.quote_after',
+        type: 'string',
+        default: '」',
+        created: 4
+    }, {
         name: 'editor.form.ontput_before_enable',
         type: 'boolean.bit',
         default: 0,

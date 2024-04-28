@@ -23,6 +23,8 @@ echoLiveEditor.emojiHako = emojiHako;
 
 setDefaultValue('#config-output-before', config.editor.form.output_before);
 setDefaultValue('#config-output-after', config.editor.form.output_after);
+setDefaultValue('#ptext-ipt-quote-before', config.editor.form.quote_before);
+setDefaultValue('#ptext-ipt-quote-after', config.editor.form.quote_after);
 $('#ptext-character, #rtext-character').val(config.editor.form.username);
 setCheckboxDefaultValue('#config-output-use-before', config.editor.form.ontput_before_enable);
 setCheckboxDefaultValue('#config-output-use-after', config.editor.form.ontput_after_enable);

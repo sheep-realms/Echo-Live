@@ -241,21 +241,29 @@ const lang_zho_Hant_HK = {
                     _title: "初始說話人",
                     _description: "編輯器啟動後在說話人輸入框中默認填充的內容。"
                 },
-                output_before: {
-                    _title: "在輸出內容前插入的內容",
-                    _description: "用於生成可執行的消息發送命令。"
+                quote_before: {
+                    _title: "引用符號（開頭）",
+                    _description: ""
+                },
+                quote_after: {
+                    _title: "引用符號（結尾）",
+                    _description: ""
                 },
                 ontput_before_enable: {
                     _title: "啟用在輸出內容前插入內容",
                     _description: ""
                 },
-                output_after: {
-                    _title: "在輸出內容後插入的內容",
+                output_before: {
+                    _title: "在輸出內容前插入的內容",
                     _description: "用於生成可執行的消息發送命令。"
                 },
                 ontput_after_enable: {
                     _title: "啟用在輸出內容後插入內容",
                     _description: ""
+                },
+                output_after: {
+                    _title: "在輸出內容後插入的內容",
+                    _description: "用於生成可執行的消息發送命令。"
                 }
             },
             color_picker: {

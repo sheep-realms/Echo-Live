@@ -655,7 +655,7 @@ $(document).on('click', '.echo-live-client-state-block', function(e) {
 
 // 纯文本 - 内容 - 快捷键
 $('#ptext-content').keydown(function(e) {
-    console.log(e.keyCode);
+    // console.log(e.keyCode);
     if (e.ctrlKey) {
         if (e.keyCode == 13) {
             if (!config.echolive.broadcast.enable) return;

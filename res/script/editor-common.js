@@ -487,8 +487,8 @@ $(document).on('keydown', '#popups-emoji', function(e) {
 });
 
 function paletteColorContrastCheck(value) {
-    let bg = config.editor.palette_color_contrast_background_color;
-    let threshold = config.editor.palette_color_contrast_threshold;
+    let bg = config.editor.color_picker.contrast_background_color;
+    let threshold = config.editor.color_picker.contrast_threshold;
 
     $('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--bg-color', bg);
     $('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--fg-color', value);

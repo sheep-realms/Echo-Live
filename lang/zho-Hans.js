@@ -206,66 +206,87 @@ const lang_zho_Hans = {
         editor: {
             _title: "编辑器",
             _description: "编辑器相关配置",
-            tabpage_config_enable: {
-                _title: "显示配置标签页",
-                _description: "编辑器中的配置标签页用于控制输出内容格式，仅编写代码时有用。"
+            function: {
+                _title: "功能",
+                _description: "编辑器中的功能",
+                tabpage_config_enable: {
+                    _title: "显示配置标签页",
+                    _description: "编辑器中的配置标签页用于控制输出内容格式，仅编写代码时有用。"
+                },
+                tabpage_output_enable: {
+                    _title: "显示输出标签页",
+                    _description: "编辑器生成的代码会在此标签页导出。输出标签页在广播模式下还可以发送自定义消息。"
+                },
+                client_state_panel_enable: {
+                    _title: "显示对话框状态仪表板",
+                    _description: "仪表板可以显示所有对话框的状态，绿色为激活，红色为休眠，灰色则表示没有对话框加入频道。<br>如果您添加了多个对话框，建议您启用此项。<br>如果您是红绿色盲，请在无障碍设置中启用红绿色盲。<br>- 启用后，蓝色填充为激活，蓝色边框为休眠。"
+                },
+                history_resend_bubble: {
+                    _title: "历史消息再发送时上浮",
+                    _description: "历史消息再次发送时使历史记录回到顶部"
+                },
+                history_maximum: {
+                    _title: "历史消息数量上限",
+                    _description: "设为 -1 则不设上限。"
+                },
+                log_line_maximum: {
+                    _title: "日志行数上限",
+                    _description: "设为 -1 则不设上限。"
+                }
             },
-            tabpage_output_enable: {
-                _title: "显示输出标签页",
-                _description: "编辑器生成的代码会在此标签页导出。输出标签页在广播模式下还可以发送自定义消息。"
+            form: {
+                _title: "表单预填充",
+                _description: "编辑器初始化时表单的默认填充内容",
+                username: {
+                    _title: "初始说话人",
+                    _description: "编辑器启动后在说话人输入框中默认填充的内容。"
+                },
+                output_before: {
+                    _title: "在输出内容前插入的内容",
+                    _description: "用于生成可执行的消息发送命令。"
+                },
+                ontput_before_enable: {
+                    _title: "启用在输出内容前插入内容",
+                    _description: ""
+                },
+                output_after: {
+                    _title: "在输出内容后插入的内容",
+                    _description: "用于生成可执行的消息发送命令。"
+                },
+                ontput_after_enable: {
+                    _title: "启用在输出内容后插入内容",
+                    _description: ""
+                }
             },
-            client_state_panel_enable: {
-                _title: "显示对话框状态仪表板",
-                _description: "仪表板可以显示所有对话框的状态，绿色为激活，红色为休眠，灰色则表示没有对话框加入频道。<br>如果您添加了多个对话框，建议您启用此项。<br>如果您是红绿色盲，请在无障碍设置中启用红绿色盲。<br>- 启用后，蓝色填充为激活，蓝色边框为休眠。"
+            color_picker: {
+                _title: "拾色器",
+                _description: "拾色器相关配置",
+                palette: {
+                    _title: "启用的色板",
+                    _description: "拾色器中有多种色板可供挑选。<br>预制的色板有 material、tailwindcss、ant_design 和 minecraft。<br>若要挑选启用的色板或调整排序，请反选 “全部启用”，并在下方文本框中输入色板名称，一&#65279;行一&#65279;个。",
+                    all_selected: "全部启用"
+                },
+                contrast_enable: {
+                    _title: "启用 WCAG 颜色对比度测试",
+                    _description: "在拾色器中显示颜色对比面板和 WCAG 颜色对比度测试结果。"
+                },
+                contrast_background_color: {
+                    _title: "WCAG 颜色对比度测试面板参考背景色",
+                    _description: "仅支持十六进制颜色码。<br>请注意：背景色的 Alpha 通道会被忽略。<br>- 如果您的对话框背景颜色是半透明或全透明将无法正确计算对比度，请您自行采集混合后的背景颜色。"
+                },
+                contrast_threshold: {
+                    _title: "WCAG 颜色对比度测试面板对比度参考阈值",
+                    _description: "对比度低于此值视为测试失败。"
+                }
             },
-            username_init: {
-                _title: "初始说话人",
-                _description: "编辑器启动后在说话人输入框中默认填充的内容。"
-            },
-            output_before: {
-                _title: "在输出内容前插入的内容",
-                _description: "用于生成可执行的消息发送命令。"
-            },
-            ontput_before_enable: {
-                _title: "启用在输出内容前插入内容",
-                _description: ""
-            },
-            output_after: {
-                _title: "在输出内容后插入的内容",
-                _description: "用于生成可执行的消息发送命令。"
-            },
-            ontput_after_enable: {
-                _title: "启用在输出内容后插入内容",
-                _description: ""
-            },
-            history_resend_bubble: {
-                _title: "历史消息再发送时上浮",
-                _description: "历史消息再次发送时使历史记录回到顶部"
-            },
-            history_maximum: {
-                _title: "历史消息数量上限",
-                _description: "设为 -1 则不设上限。"
-            },
-            log_line_maximum: {
-                _title: "日志行数上限",
-                _description: "设为 -1 则不设上限。"
-            },
-            palette: {
-                _title: "启用的色板",
-                _description: "拾色器中有多种色板可供挑选。<br>预制的色板有 material、tailwindcss、ant_design 和 minecraft。<br>若要挑选启用的色板或调整排序，请反选 “全部启用”，并在下方文本框中输入色板名称，一&#65279;行一&#65279;个。",
-                all_selected: "全部启用"
-            },
-            palette_color_contrast_enable: {
-                _title: "启用 WCAG 颜色对比度测试",
-                _description: "在拾色器中显示颜色对比面板和 WCAG 颜色对比度测试结果。"
-            },
-            palette_color_contrast_background_color: {
-                _title: "WCAG 颜色对比度测试面板参考背景色",
-                _description: "仅支持十六进制颜色码。<br>请注意：背景色的 Alpha 通道会被忽略。<br>- 如果您的对话框背景颜色是半透明或全透明将无法正确计算对比度，请您自行采集混合后的背景颜色。"
-            },
-            palette_color_contrast_threshold: {
-                _title: "WCAG 颜色对比度测试面板对比度参考阈值",
-                _description: "对比度低于此值视为测试失败。"
+            emoji_picker: {
+                _title: "表情选择器",
+                _description: "表情选择器相关配置",
+                emoji: {
+                    _title: "启用的表情包",
+                    _description: "表情选择器中预制了一些表情包。<br>预制的表情包有 emoji、sheep-realms:pixel-head 和 sheep-realms:other。<br>若要挑选启用的表情包或调整排序，请反选 “全部启用”，并在下方文本框中输入表情包名称，一&#65279;行一&#65279;个。",
+                    all_selected: "全部启用"
+                }
             }
         },
         history: {

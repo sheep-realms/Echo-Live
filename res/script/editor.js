@@ -19,26 +19,28 @@ let hasError = false;
 
 let logScrollButInvisible = false;
 
-setDefaultValue('#config-output-before', config.editor.output_before);
-setDefaultValue('#config-output-after', config.editor.output_after);
-$('#ptext-character, #rtext-character').val(config.editor.username_init);
-setCheckboxDefaultValue('#config-output-use-before', config.editor.ontput_before_enable);
-setCheckboxDefaultValue('#config-output-use-after', config.editor.ontput_after_enable);
+echoLiveEditor.emojiHako = emojiHako;
+
+setDefaultValue('#config-output-before', config.editor.form.output_before);
+setDefaultValue('#config-output-after', config.editor.form.output_after);
+$('#ptext-character, #rtext-character').val(config.editor.form.username);
+setCheckboxDefaultValue('#config-output-use-before', config.editor.form.ontput_before_enable);
+setCheckboxDefaultValue('#config-output-use-after', config.editor.form.ontput_after_enable);
 
 $('#ptext-editor .editor-bottom-bar .length').text($t('editor.form.text_length', { n: 0 }));
 
 $('.tabpage-panel[data-pageid="ptext"] .editor-controller').append(EditorForm.editorController('ptext-content'));
 
-if (!config.editor.tabpage_config_enable) $('#tabpage-nav-config').addClass('hide');
-if (!config.editor.tabpage_output_enable) $('#tabpage-nav-output').addClass('hide');
+if (!config.editor.function.tabpage_config_enable) $('#tabpage-nav-config').addClass('hide');
+if (!config.editor.function.tabpage_output_enable) $('#tabpage-nav-output').addClass('hide');
 
 popupsCreate(Popups.palettePopups(echoLiveEditor.getPalettes()), '#popups-palette');
 $('#popups-palette .palette-page').eq(0).removeClass('hide');
-if (config.editor.palette_color_contrast_enable) $('#popups-palette').addClass('color-contrast-enable');
-$('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--bg-color', config.editor.palette_color_contrast_background_color)
+if (config.editor.color_picker.contrast_enable) $('#popups-palette').addClass('color-contrast-enable');
+$('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--bg-color', config.editor.color_picker.contrast_background_color)
 paletteColorContrastCheck('#000000');
 
-popupsCreate(Popups.emojiPopups(emojiHako.getEmojiPack()), '#popups-emoji');
+popupsCreate(Popups.emojiPopups(echoLiveEditor.getEmoji()), '#popups-emoji');
 $('#popups-emoji .emoji-page').eq(0).removeClass('hide');
 
 
@@ -53,7 +55,7 @@ if (config.echolive.broadcast.enable) {
     $('#ptext-btn-send, #output-btn-send').removeClass('hide');
     $('#ptext-content, #output-content').attr('title', $t('editor.tip.hot_key_textarea_quick_send'));
 
-    if (config.editor.client_state_panel_enable) {
+    if (config.editor.function.client_state_panel_enable) {
         $('.echo-live-client-state').removeClass('hide');
     }
 
@@ -100,8 +102,8 @@ function editorLog(message = '', type = 'info') {
 
     // 防止日志过多
     let $logitems = $('#editor-log .log-item');
-    if (config.editor.log_line_maximum >= 0 && $logitems.length > config.editor.log_line_maximum) {
-        $(`#editor-log .log-item:lt(${$logitems.length - config.editor.log_line_maximum})`).remove();
+    if (config.editor.function.log_line_maximum >= 0 && $logitems.length > config.editor.function.log_line_maximum) {
+        $(`#editor-log .log-item:lt(${$logitems.length - config.editor.function.log_line_maximum})`).remove();
     }
 
     // 通知重要消息
@@ -502,10 +504,10 @@ function sendHistoryMessage(data) {
     $('#history-message-list').prepend(HistoryMessage.item(message, username, time, data.messages.length, l - 1));
 
     // 防止历史记录过多
-    if (config.editor.history_maximum >= 0 && history.length > config.editor.history_maximum) {
-        history.fill(undefined, historyMinimum, history.length - config.editor.history_maximum);
-        historyMinimum = history.length - config.editor.history_maximum;
-        $(`#history-message-list .history-message-item:gt(${config.editor.history_maximum - 1})`).remove();
+    if (config.editor.function.history_maximum >= 0 && history.length > config.editor.function.history_maximum) {
+        history.fill(undefined, historyMinimum, history.length - config.editor.function.history_maximum);
+        historyMinimum = history.length - config.editor.function.history_maximum;
+        $(`#history-message-list .history-message-item:gt(${config.editor.function.history_maximum - 1})`).remove();
     }
 
     // 防止底部游标过高
@@ -604,7 +606,7 @@ $(document).on('click', '.history-message-item-btn-send', function() {
     $item.find('.sent').text(HistoryMessage.sentAt(getTime()));
     $item.find('.sent').removeClass('hide');
 
-    if (config.editor.history_resend_bubble) $('#history-message-list').prepend($item);
+    if (config.editor.function.history_resend_bubble) $('#history-message-list').prepend($item);
     
     elb.sendData(history[i].data);
     editorLogT('editor.log.message.resent');

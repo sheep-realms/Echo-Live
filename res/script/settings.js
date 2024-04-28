@@ -186,7 +186,7 @@ function setSettingsItemValue(name, value, isDefault = false) {
         $sel.find('.settings-value').eq(0).val(value);
         if (isDefault) $sel.find('.settings-value').eq(0).data('default', value);
 
-        switch (type) {
+        switch (type.split('.')[0]) {
             case 'boolean':
                 $sel.find('.settings-switch').removeClass('state-off state-on');
                 $sel.find('.settings-switch').addClass(bt[Number(value)]);
@@ -578,12 +578,20 @@ function configLoad() {
         }
     });
 
-    if (settingsManager.getConfig('editor.palette') === 'all') {
-        $('#editor-palette-list').val([
+    if (settingsManager.getConfig('editor.color_picker.palette') === 'all') {
+        $('#editor-color_picker-palette-list').val([
             'material',
             'tailwindcss',
             'ant_design',
-            'minecraft',
+            'minecraft'
+        ].join('\n'));
+    }
+
+    if (settingsManager.getConfig('editor.emoji_picker.emoji') === 'all') {
+        $('#editor-emoji_picker-emoji-list').val([
+            'emoji',
+            'sheep-realms:pixel-head',
+            'sheep-realms:other'
         ].join('\n'));
     }
 

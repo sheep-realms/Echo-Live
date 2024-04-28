@@ -392,92 +392,131 @@ const db_config_define = [
         type: 'object',
         created: 1
     }, {
-        name: 'editor.tabpage_config_enable',
+        name: 'editor.function',
+        type: 'object',
+        created: 4
+    }, {
+        name: 'editor.function.tabpage_config_enable',
         type: 'boolean',
         default: true,
-        created: 1
+        from: 'editor.tabpage_config_enable',
+        created: 4
     }, {
-        name: 'editor.tabpage_output_enable',
+        name: 'editor.function.tabpage_output_enable',
         type: 'boolean',
         default: true,
-        created: 1
+        from: 'editor.tabpage_output_enable',
+        created: 4
     }, {
-        name: 'editor.client_state_panel_enable',
+        name: 'editor.function.client_state_panel_enable',
         type: 'boolean',
         default: false,
-        created: 1
+        from: 'editor.client_state_panel_enable',
+        created: 4
     }, {
-        name: 'editor.username_init',
-        type: 'string',
-        default: '',
-        created: 1
-    }, {
-        name: 'editor.output_before',
-        type: 'string',
-        default: 'echolive.send(',
-        created: 1
-    }, {
-        name: 'editor.ontput_before_enable',
-        type: 'boolean.bit',
-        default: 0,
-        created: 1
-    }, {
-        name: 'editor.output_after',
-        type: 'string',
-        default: ');',
-        created: 1
-    }, {
-        name: 'editor.ontput_after_enable',
-        type: 'boolean.bit',
-        default: 0,
-        created: 1
-    }, {
-        name: 'editor.history_resend_bubble',
+        name: 'editor.function.history_resend_bubble',
         type: 'boolean',
         default: false,
-        created: 1
+        from: 'editor.history_resend_bubble',
+        created: 4
     }, {
-        name: 'editor.history_maximum',
+        name: 'editor.function.history_maximum',
         type: 'number',
         default: 128,
-        created: 1,
+        from: 'editor.history_maximum',
+        created: 4,
         attribute: {
             min: -1
         }
     }, {
-        name: 'editor.log_line_maximum',
+        name: 'editor.function.log_line_maximum',
         type: 'number',
         default: 512,
-        created: 1,
+        from: 'editor.log_line_maximum',
+        created: 4,
         attribute: {
             min: -1
         }
     }, {
-        name: 'editor.palette',
-        type: 'special.all_or_array_string',
-        default: 'all',
-        created: 1
+        name: 'editor.form',
+        type: 'object',
+        created: 4
     }, {
-        name: 'editor.palette_color_contrast_enable',
-        type: 'boolean',
-        default: false,
-        created: 1
-    }, {
-        name: 'editor.palette_color_contrast_background_color',
+        name: 'editor.form.username',
         type: 'string',
-        default: '#ffffff',
-        created: 1,
+        default: '',
+        from: 'editor.username_init',
+        created: 4
+    }, {
+        name: 'editor.form.ontput_before_enable',
+        type: 'boolean.bit',
+        default: 0,
+        from: 'editor.ontput_before_enable',
+        created: 4
+    }, {
+        name: 'editor.form.output_before',
+        type: 'string',
+        default: 'echolive.send(',
+        from: 'editor.output_before',
+        created: 4,
         conditions: [
             {
-                name: 'editor.palette_color_contrast_enable',
+                name: 'editor.form.ontput_before_enable',
+                value: 1
+            }
+        ]
+    }, {
+        name: 'editor.form.ontput_after_enable',
+        type: 'boolean.bit',
+        default: 0,
+        from: 'editor.ontput_after_enable',
+        created: 4
+    }, {
+        name: 'editor.form.output_after',
+        type: 'string',
+        default: ');',
+        from: 'editor.output_after',
+        created: 4,
+        conditions: [
+            {
+                name: 'editor.form.ontput_after_enable',
+                value: 1
+            }
+        ]
+    }, {
+        name: 'editor.color_picker',
+        type: 'object',
+        created: 4
+    }, {
+        name: 'editor.color_picker.palette',
+        type: 'special.all_or_array_string',
+        default: 'all',
+        from: 'editor.palette',
+        created: 4
+    }, {
+        name: 'editor.color_picker.contrast_enable',
+        type: 'boolean',
+        default: false,
+        from: 'editor.palette_color_contrast_enable',
+        created: 4
+    }, {
+        name: 'editor.color_picker.contrast_background_color',
+        type: 'string',
+        default: '#ffffff',
+        from: 'editor.palette_color_contrast_background_color',
+        created: 4,
+        conditions: [
+            {
+                name: 'editor.color_picker.contrast_enable',
                 value: true
             }
         ]
     }, {
-        name: 'editor.palette_color_contrast_threshold',
+        name: 'editor.color_picker.contrast_threshold',
         type: 'number',
         default: 3.8,
-        created: 1,
+        from: 'editor.palette_color_contrast_threshold',
+        created: 4,
         attribute: {
             max: 21,
             min: 0,
@@ -485,10 +524,19 @@ const db_config_define = [
         },
         conditions: [
             {
-                name: 'editor.palette_color_contrast_enable',
+                name: 'editor.color_picker.contrast_enable',
                 value: true
             }
         ]
+    }, {
+        name: 'editor.emoji_picker',
+        type: 'object',
+        created: 4
+    }, {
+        name: 'editor.emoji_picker.emoji',
+        type: 'special.all_or_array_string',
+        default: 'all',
+        created: 4
     },
 
 

@@ -53,21 +53,30 @@ const config = {
         "print_end_effect_duration": 0
     },
     "editor": {
-        "tabpage_config_enable": true,
-        "tabpage_output_enable": true,
-        "client_state_panel_enable": false,
-        "username_init": "",
-        "output_before": "echolive.send(",
-        "ontput_before_enable": 0,
-        "output_after": ");",
-        "ontput_after_enable": 0,
-        "history_resend_bubble": false,
-        "history_maximum": 128,
-        "log_line_maximum": 512,
-        "palette": "all",
-        "palette_color_contrast_enable": false,
-        "palette_color_contrast_background_color": "#ffffff",
-        "palette_color_contrast_threshold": 3.8
+        "function": {
+            "tabpage_config_enable": true,
+            "tabpage_output_enable": true,
+            "client_state_panel_enable": false,
+            "history_resend_bubble": false,
+            "history_maximum": 128,
+            "log_line_maximum": 512
+        },
+        "form": {
+            "username": "",
+            "ontput_before_enable": 0,
+            "output_before": "echolive.send(",
+            "ontput_after_enable": 0,
+            "output_after": ");"
+        },
+        "color_picker": {
+            "palette": "all",
+            "contrast_enable": false,
+            "contrast_background_color": "#ffffff",
+            "contrast_threshold": 3.8
+        },
+        "emoji_picker": {
+            "emoji": "all"
+        }
     },
     "history": {
         "history_theme": "",

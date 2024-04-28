@@ -8,7 +8,8 @@ if (config.history.latest_message_hide) $('body').addClass('echo-live-history-la
 
 let echoLiveHistory = new EchoLiveHistory(config);
 echoLiveHistory.theme = extensionManager.theme;
-echoLiveHistory.setTheme(config.history.history_theme || config.global.theme);
+let urlTheme = EchoLiveTools.getUrlParam('theme');
+echoLiveHistory.setTheme(urlTheme || config.history.history_theme || config.global.theme);
 
 echoLiveHistory.on('newHistory', function(e) {
     sendHistory(e.username, e.message);

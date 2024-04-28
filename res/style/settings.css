@@ -648,6 +648,15 @@ a.settings-link-bar:active {
     filter: unset;
 }
 
+a.settings-link-bar:hover {
+    background-color: var(--color-general-glass);
+    background-image: var(--corner-marker);
+}
+
+a.settings-link-bar:active {
+    filter: brightness(0.85);
+}
+
 .settings-link-bar .title {
     flex: 1;
 }

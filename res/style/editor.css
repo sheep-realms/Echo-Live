@@ -155,6 +155,11 @@ input.code {
     transition: color .3s, border .3s;
 }
 
+.tabpage-nav-item[aria-selected="false"]:not(.disabled):hover {
+    /* border-bottom: var(--color-general-glass) 4px solid; */
+    color: var(--text-primary);
+}
+
 .tabpage-nav-item.disabled {
     opacity: 0.5;
     cursor: not-allowed;

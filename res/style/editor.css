@@ -438,7 +438,7 @@ input[type=text] {
     border-bottom: var(--border-color) 1px solid;
     outline: none;
     background-color: var(--input-bgcolor);
-    transition: border .3s;
+    transition: border-color .3s;
     height: 32px;
     color: var(--input-color);
 }

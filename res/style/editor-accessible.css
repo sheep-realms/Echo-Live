@@ -232,6 +232,14 @@
 }
 
 
+/* 禁用动画 */
+.accessible-animation-disable,
+.accessible-animation-disable * {
+    animation: unset !important;
+    transition: unset !important;
+}
+
+
 /* 通用 */
 .accessible-high-contrast #popups-palette,
 .accessible-drotanopia-and-deuteranopia #popups-palette {

@@ -612,6 +612,11 @@ const db_config_define = [
         type: 'boolean',
         default: false,
         created: 4
+    }, {
+        name: 'accessible.animation_disable',
+        type: 'boolean',
+        default: false,
+        created: 4
     },
 
 

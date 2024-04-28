@@ -330,6 +330,10 @@ const lang_zho_Hant_HK = {
             link_underline: {
                 _title: "總是顯示鏈接下劃線",
                 _description: "為鏈接添加下劃線使其更醒目。"
+            },
+            animation_disable: {
+                _title: "禁用動畫",
+                _description: "禁用所有動畫和過渡效果。"
             }
         },
         advanced: {

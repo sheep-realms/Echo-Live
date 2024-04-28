@@ -974,3 +974,14 @@ $(document).on('click', '.settings-item[data-id="accessible.link_underline"] .se
         }
     }, 12);
 });
+
+$(document).on('click', '.settings-item[data-id="accessible.animation_disable"] .settings-switch button', function() {
+    setTimeout(function() {
+        let value = getSettingsItemValue('accessible.animation_disable');
+        if (value) {
+            $('body').addClass('accessible-animation-disable');
+        } else {
+            $('body').removeClass('accessible-animation-disable');
+        }
+    }, 12);
+});

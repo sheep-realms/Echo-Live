@@ -85,7 +85,8 @@ const config = {
         "high_contrast_outline_size": "2px",
         "high_contrast_outline_style": "solid",
         "drotanopia_and_deuteranopia": false,
-        "link_underline": false
+        "link_underline": false,
+        "animation_disable": false
     },
     "advanced": {
         "broadcast": {

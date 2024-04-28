@@ -330,6 +330,10 @@ const lang_zho_Hans = {
             link_underline: {
                 _title: "总是显示链接下划线",
                 _description: "为链接添加下划线使其更醒目。"
+            },
+            animation_disable: {
+                _title: "禁用动画",
+                _description: "禁用所有动画和过渡效果。"
             }
         },
         advanced: {

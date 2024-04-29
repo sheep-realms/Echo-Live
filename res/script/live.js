@@ -117,6 +117,12 @@ echo.on('customData', function(e) {
             value: e.emoji
         }, 1);
     }
+    // if (e?.image != undefined) {
+    //     echo.insertSequence({
+    //         type: 'image',
+    //         image: e.image
+    //     }, 1);
+    // }
 });
 
 echo.on('customSequence', function(e) {

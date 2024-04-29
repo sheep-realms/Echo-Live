@@ -61,6 +61,10 @@ if (config.echolive.broadcast.enable) {
         $('.echo-live-client-state').removeClass('hide');
     }
 
+    if (config.editor.function.client_state_panel_enable || config.advanced.editor.forced_display_split_message) {
+        $('#collapse-split-message').removeClass('hide');
+    }
+
     // 输出 - 内容 - 快捷键
     $('#output-content').keydown(function(e) {
         if (e.keyCode == 13 && e.ctrlKey) {
@@ -345,35 +349,59 @@ function ptextSubmit() {
     let txt = $('#ptext-content').val();
     let username = $('#ptext-character').val();
 
-    if ($('#ptext-chk-use-formatting-code').val() == 1) {
-        txt = EchoLiveTools.formattingCodeToMessage(txt);
+    function __messagePackge(text) {
+        if ($('#ptext-chk-use-formatting-code').val() == 1) {
+            text = EchoLiveTools.formattingCodeToMessage(text);
+        }
+    
+        if ($('#ptext-chk-quote').val() == 1) {
+            let before = $('#ptext-ipt-quote-before').val(),
+                after  = $('#ptext-ipt-quote-after').val();
+    
+            if (typeof text == 'string') {
+                text = before + text + after;
+            } else {
+                text = [before, ...text, after];
+            }
+        }
+
+        return text;
     }
 
-    if ($('#ptext-chk-quote').val() == 1) {
-        let before = $('#ptext-ipt-quote-before').val(),
-            after  = $('#ptext-ipt-quote-after').val();
+    let d;
 
-        if (typeof txt == 'string') {
-            txt = before + txt + after;
-        } else {
-            txt = [before, ...txt, after];
+    if ($('#ptext-chk-split-message').val() == 1) {
+        let msgs = [];
+        const txt2 = txt.split('\n');
+        txt2.forEach(e => {
+            const txt3 = __messagePackge(e);
+            msgs.push({
+                message: txt3
+            });
+        });
+        d = {
+            username: username,
+            messages: msgs
+        }
+    } else {
+        txt = __messagePackge(txt);
+        d = {
+            username: username,
+            messages: [
+                {
+                    message: txt
+                }
+            ]
         }
     }
 
-    let d = {
-        username: username,
-        messages: [
-            {
-                message: txt
-            }
-        ]
-    }
-
     if ($('#ptext-chk-more').val() == 1) {
-        d.messages[0].data = {
-            ...d.messages[0].data,
-            ...{printSpeed: Number($('#ptext-ipt-print-speed').val())}
-        };
+        d.messages.forEach(e => {
+            e.data = {
+                ...d.messages[0].data,
+                ...{printSpeed: Number($('#ptext-ipt-print-speed').val())}
+            };
+        });
     }
 
     return d;

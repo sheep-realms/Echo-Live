@@ -1,15 +1,15 @@
 "use strict";
 
-if (config.history.message_list_reverse) $('body').addClass('echo-live-history-message-list-reverse');
-if (config.history.message_item_reverse) $('body').addClass('echo-live-history-message-item-reverse');
-if (!config.history.display_username) $('body').addClass('echo-live-history-disable-username');
-if (!config.history.display_time) $('body').addClass('echo-live-history-disable-time');
-if (config.history.latest_message_hide) $('body').addClass('echo-live-history-latest-message-hide');
+if (config.history.layout.message_list_reverse) $('body').addClass('echo-live-history-message-list-reverse');
+if (config.history.layout.message_item_reverse) $('body').addClass('echo-live-history-message-item-reverse');
+if (!config.history.layout.display_username) $('body').addClass('echo-live-history-disable-username');
+if (!config.history.layout.display_time) $('body').addClass('echo-live-history-disable-time');
+if (config.history.message.latest_message_hide) $('body').addClass('echo-live-history-latest-message-hide');
 
 let echoLiveHistory = new EchoLiveHistory(config);
 echoLiveHistory.theme = extensionManager.theme;
 let urlTheme = EchoLiveTools.getUrlParam('theme');
-echoLiveHistory.setTheme(urlTheme || config.history.history_theme || config.global.theme);
+echoLiveHistory.setTheme(urlTheme || config.history.style.history_theme || config.global.theme);
 
 echoLiveHistory.on('newHistory', function(e) {
     sendHistory(e.username, e.message);

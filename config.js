@@ -81,14 +81,20 @@ const config = {
         }
     },
     "history": {
-        "history_theme": "",
-        "history_theme_script_enable": false,
-        "message_list_reverse": false,
-        "message_item_reverse": false,
-        "display_username": true,
-        "display_time": true,
-        "remove_continuous_duplicate": true,
-        "latest_message_hide": true
+        "style": {
+            "history_theme": "",
+            "history_theme_script_enable": false,
+        },
+        "layout": {
+            "message_list_reverse": false,
+            "message_item_reverse": false,
+            "display_username": true,
+            "display_time": true,
+        },
+        "message": {
+            "remove_continuous_duplicate": true,
+            "latest_message_hide": true
+        }
     },
     "accessible": {
         "high_contrast": false,
@@ -104,6 +110,7 @@ const config = {
             "allow_name_duplicate": false
         },
         "editor": {
+            "forced_display_split_message": false,
             "history_minimum_breaker_threshold": 128
         }
     },

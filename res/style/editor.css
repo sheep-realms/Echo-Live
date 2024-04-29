@@ -198,7 +198,8 @@ input.code {
 .echo-live-client-state.hide,
 .history-message-item .sent.hide,
 .palette-page.hide,
-.emoji-page.hide {
+.emoji-page.hide,
+.collapse.hide {
     display: none;
 }
 

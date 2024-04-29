@@ -57,7 +57,7 @@ class EchoLiveHistory {
      */
     send(data) {
         if (
-            this.config.history.remove_continuous_duplicate
+            this.config.history.message.remove_continuous_duplicate
             && typeof data === 'object'
             && JSON.stringify(data) === JSON.stringify(this.prevMessage)
         ) return;
@@ -102,7 +102,7 @@ class EchoLiveHistory {
 
         this.setThemeStyleUrl(theme.style);
 
-        if ((this.config.history.history_theme_script_enable && this.config.global.theme_script_enable) && typeof theme.script == 'object') {
+        if ((this.config.history.style.history_theme_script_enable && this.config.global.theme_script_enable) && typeof theme.script == 'object') {
             theme.script.forEach(e => {
                 let s = document.createElement("script");
                 s.src = e;

@@ -412,7 +412,13 @@ const db_config_define = [
         type: 'boolean',
         default: false,
         from: 'editor.client_state_panel_enable',
-        created: 4
+        created: 4,
+        conditions: [
+            {
+                name: 'echolive.broadcast.enable',
+                value: true
+            }
+        ]
     }, {
         name: 'editor.function.history_resend_bubble',
         type: 'boolean',
@@ -556,15 +562,21 @@ const db_config_define = [
         type: 'object',
         created: 2
     }, {
-        name: 'history.history_theme',
+        name: 'history.style',
+        type: 'object',
+        created: 4
+    }, {
+        name: 'history.style.history_theme',
         type: 'string',
         default: '',
-        created: 3
+        from: 'history.history_theme',
+        created: 4
     }, {
-        name: 'history.history_theme_script_enable',
+        name: 'history.style.history_theme_script_enable',
         type: 'boolean',
         default: false,
-        created: 3,
+        from: 'history.history_theme_script_enable',
+        created: 4,
         conditions: [
             {
                 name: 'global.theme_script_enable',
@@ -572,35 +584,49 @@ const db_config_define = [
             }
         ]
     }, {
-        name: 'history.message_list_reverse',
+        name: 'history.layout',
+        type: 'object',
+        created: 4
+    }, {
+        name: 'history.layout.message_list_reverse',
         type: 'boolean',
         default: false,
-        created: 2
+        from: 'history.message_list_reverse',
+        created: 4
     }, {
-        name: 'history.message_item_reverse',
+        name: 'history.layout.message_item_reverse',
         type: 'boolean',
         default: false,
-        created: 2
+        from: 'history.message_item_reverse',
+        created: 4
     }, {
-        name: 'history.display_username',
+        name: 'history.layout.display_username',
         type: 'boolean',
         default: true,
-        created: 2
+        from: 'history.display_username',
+        created: 4
     }, {
-        name: 'history.display_time',
+        name: 'history.layout.display_time',
         type: 'boolean',
         default: true,
-        created: 2
+        from: 'history.display_time',
+        created: 4
     }, {
-        name: 'history.remove_continuous_duplicate',
+        name: 'history.message',
+        type: 'object',
+        created: 4
+    }, {
+        name: 'history.message.remove_continuous_duplicate',
         type: 'boolean',
         default: true,
-        created: 2
+        from: 'history.remove_continuous_duplicate',
+        created: 4
     }, {
-        name: 'history.latest_message_hide',
+        name: 'history.message.latest_message_hide',
         type: 'boolean',
         default: true,
-        created: 2
+        from: 'history.latest_message_hide',
+        created: 4
     },
 
 
@@ -696,6 +722,11 @@ const db_config_define = [
         name: 'advanced.editor',
         type: 'object',
         created: 1
+    }, {
+        name: 'advanced.editor.forced_display_split_message',
+        type: 'boolean',
+        default: false,
+        created: 4
     }, {
         name: 'advanced.editor.history_minimum_breaker_threshold',
         type: 'number',

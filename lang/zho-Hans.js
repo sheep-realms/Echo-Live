@@ -300,37 +300,49 @@ const lang_zho_Hans = {
         history: {
             _title: "历史记录",
             _description: "面向观众展示的历史记录",
-            history_theme: {
-                _title: "历史记录主题",
-                _description: "留空则使用全局主题。关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。"
+            style: {
+                _title: "主题样式",
+                _description: "设置历史记录的样式",
+                history_theme: {
+                    _title: "历史记录主题",
+                    _description: "留空则使用全局主题。关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。"
+                },
+                history_theme_script_enable: {
+                    _title: "启用历史记录主题脚本",
+                    _description: "此配置项需要启用全局主题脚本才能生效。"
+                }
             },
-            history_theme_script_enable: {
-                _title: "启用历史记录主题脚本",
-                _description: "此配置项需要启用全局主题脚本才能生效。"
+            layout: {
+                _title: "布局",
+                _description: "历史记录的内容布局",
+                message_list_reverse: {
+                    _title: "历史记录倒序排列",
+                    _description: "历史记录按照发送时间由新到旧排列。"
+                },
+                message_item_reverse: {
+                    _title: "历史记录布局左右翻转",
+                    _description: "翻转后的排列从左到右依次是：发送时间、消息内容、说话人。"
+                },
+                display_username: {
+                    _title: "显示说话人",
+                    _description: "在历史记录中显示说话人。"
+                },
+                display_time: {
+                    _title: "显示发送时间",
+                    _description: "在历史记录中显示发送时间。"
+                }
             },
-            message_list_reverse: {
-                _title: "历史记录倒序排列",
-                _description: "历史记录按照发送时间由新到旧排列。"
-            },
-            message_item_reverse: {
-                _title: "历史记录布局左右翻转",
-                _description: "翻转后的排列从左到右依次是：发送时间、消息内容、说话人。"
-            },
-            display_username: {
-                _title: "显示说话人",
-                _description: "在历史记录中显示说话人。"
-            },
-            display_time: {
-                _title: "显示发送时间",
-                _description: "在历史记录中显示发送时间。"
-            },
-            remove_continuous_duplicate: {
-                _title: "去除连续的重复消息",
-                _description: "如果场景中有多个对话框同时接收消息，启用此项可避免重复记录历史消息。"
-            },
-            latest_message_hide: {
-                _title: "隐藏最新的历史记录",
-                _description: "对话框在开始打印消息时会立即发送消息到历史记录中，启用此项可避免最新消息立即显示在历史记录中。"
+            message: {
+                _title: "消息",
+                _description: "历史记录的消息处理逻辑",
+                remove_continuous_duplicate: {
+                    _title: "去除连续的重复消息",
+                    _description: "如果场景中有多个对话框同时接收消息，启用此项可避免重复记录历史消息。"
+                },
+                latest_message_hide: {
+                    _title: "隐藏最新的历史记录",
+                    _description: "对话框在开始打印消息时会立即发送消息到历史记录中，启用此项可避免最新消息立即显示在历史记录中。"
+                }
             }
         },
         accessible: {
@@ -380,6 +392,10 @@ const lang_zho_Hans = {
             editor: {
                 _title: "编辑器",
                 _description: "编辑器的高级设置",
+                forced_display_split_message: {
+                    _title: "强制显示“多行文本分割为消息队列”选项",
+                    _description: "即便没有开启对话框状态仪表板也显示此选项。"
+                },
                 history_minimum_breaker_threshold: {
                     _title: "历史记录底部游标熔断阈值",
                     _description: "设为 -1 可禁用此机制。"
@@ -436,6 +452,8 @@ const lang_zho_Hans = {
                 print_speed: "每个打印循环的延迟时间（毫秒），默认为 30。数字越大，耗时越长。中日韩字符延迟 × 2。",
                 print_speed_custom: "每个打印循环的延迟时间（毫秒），默认为 30，您的默认配置为 {value}。数字越大，耗时越长。中日韩字符延迟 × 2。",
                 quote: "自动在每一句话开头和结尾添加引用符号，Echo Live 会为一些引用符号自动缩进。",
+                split_message_example_1: "每一行视为一条消息，组成消息队列，可以依次打印。",
+                split_message_example_2: "当开启对话框状态仪表板时，可以点击对应的对话框按钮打印下一条消息。",
                 open_settings: "打开配置文件编辑器"
             },
             label: {
@@ -449,6 +467,7 @@ const lang_zho_Hans = {
                 quote: "引用符号",
                 quote_after: "结尾",
                 quote_before: "开头",
+                split_message: "多行文本分割为消息队列",
                 startup_parameter: "启动参数",
                 use_formatting_code: "使用快速格式化代码"
             }

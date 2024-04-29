@@ -380,6 +380,10 @@ const lang_zho_Hant_TW = {
             editor: {
                 _title: "編輯器",
                 _description: "編輯器的進階設定",
+                forced_display_split_message: {
+                    _title: "強制顯示“多行文字分割為消息佇列”選項",
+                    _description: "即便沒有開啟對話框狀態儀錶板也顯示此選項。"
+                },
                 history_minimum_breaker_threshold: {
                     _title: "歷史記錄底部游標熔斷閾值",
                     _description: "設為 -1 可禁用此機制。"
@@ -436,6 +440,8 @@ const lang_zho_Hant_TW = {
                 print_speed: "每個列印循環的延遲時間（毫秒），預設為 30。數字越大，耗時越長。中日韓字元延遲 × 2。",
                 print_speed_custom: "每個列印循環的延遲時間（毫秒），預設為 30，您的預設配置為 {value}。數字越大，耗時越長。中日韓字元延遲 × 2。",
                 quote: "自動在每一句話開頭和結尾添加引用符號，Echo Live 會為一些引用符號自動縮排。",
+                split_message_example_1: "每一行視為一條消息，組成消息佇列，可以依次列印。",
+                split_message_example_2: "當開啟對話框狀態儀錶板時，可以點擊對應的對話框按鈕列印下一條消息。",
                 open_settings: "打開配置檔案編輯器"
             },
             label: {
@@ -449,6 +455,7 @@ const lang_zho_Hant_TW = {
                 quote: "引用符號",
                 quote_after: "結尾",
                 quote_before: "開頭",
+                split_message: "多行文字分割為消息佇列",
                 startup_parameter: "啟動參數",
                 use_formatting_code: "使用快速格式化程式碼"
             }

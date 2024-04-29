@@ -502,6 +502,11 @@ $(document).ready(function() {
 
     $('#settings-file-check-box').html(SettingsFileChecker.default());
 
+    
+    $('.settings-page[data-pageid="echo"]').prepend(SettingsPanel.msgBox(
+        $t('settings.msgbox.echo.title'),
+        $t('settings.msgbox.echo.description')
+    ));
     $('.settings-page[data-pageid="accessible"]').prepend(
         SettingsPanel.msgBoxBlack(
             $t('config.about.accessibility'),

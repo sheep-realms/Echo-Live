@@ -300,37 +300,49 @@ const lang_zho_Hant_TW = {
         history: {
             _title: "歷史記錄",
             _description: "面向觀眾展示的歷史記錄",
-            history_theme: {
-                _title: "歷史記錄主題",
-                _description: "留空則使用全域主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>說明文件</a>。"
+            style: {
+                _title: "主題樣式",
+                _description: "設定歷史記錄的樣式",
+                history_theme: {
+                    _title: "歷史記錄主題",
+                    _description: "留空則使用全域主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>說明文件</a>。"
+                },
+                history_theme_script_enable: {
+                    _title: "啟用歷史記錄主題腳本",
+                    _description: "此配置項需要啟用全域主題腳本才能生效。"
+                }
             },
-            history_theme_script_enable: {
-                _title: "啟用歷史記錄主題腳本",
-                _description: "此配置項需要啟用全域主題腳本才能生效。"
+            layout: {
+                _title: "布局",
+                _description: "歷史記錄的內容布局",
+                message_list_reverse: {
+                    _title: "歷史記錄倒序排列",
+                    _description: "歷史記錄按照發送時間由新到舊排列。"
+                },
+                message_item_reverse: {
+                    _title: "歷史記錄布局左右翻轉",
+                    _description: "翻轉後的排列從左到右依次是：發送時間、消息內容、說話人。"
+                },
+                display_username: {
+                    _title: "顯示說話人",
+                    _description: "在歷史記錄中顯示說話人。"
+                },
+                display_time: {
+                    _title: "顯示發送時間",
+                    _description: "在歷史記錄中顯示發送時間。"
+                }
             },
-            message_list_reverse: {
-                _title: "歷史記錄倒序排列",
-                _description: "歷史記錄按照發送時間由新到舊排列。"
-            },
-            message_item_reverse: {
-                _title: "歷史記錄布局左右翻轉",
-                _description: "翻轉後的排列從左到右依次是：發送時間、消息內容、說話人。"
-            },
-            display_username: {
-                _title: "顯示說話人",
-                _description: "在歷史記錄中顯示說話人。"
-            },
-            display_time: {
-                _title: "顯示發送時間",
-                _description: "在歷史記錄中顯示發送時間。"
-            },
-            remove_continuous_duplicate: {
-                _title: "去除連續的重複消息",
-                _description: "如果場景中有多個對話框同時接收消息，啟用此項可避免重複記錄歷史消息。"
-            },
-            latest_message_hide: {
-                _title: "隱藏最新的歷史記錄",
-                _description: "對話框在開始列印消息時會立即發送消息到歷史記錄中，啟用此項可避免最新消息立即顯示在歷史記錄中。"
+            message: {
+                _title: "消息",
+                _description: "歷史記錄的消息處理邏輯",
+                remove_continuous_duplicate: {
+                    _title: "去除連續的重複消息",
+                    _description: "如果場景中有多個對話框同時接收消息，啟用此項可避免重複記錄歷史消息。"
+                },
+                latest_message_hide: {
+                    _title: "隱藏最新的歷史記錄",
+                    _description: "對話框在開始列印消息時會立即發送消息到歷史記錄中，啟用此項可避免最新消息立即顯示在歷史記錄中。"
+                }
             }
         },
         accessible: {
@@ -887,7 +899,11 @@ const lang_zho_Hant_TW = {
         },
         msgbox: {
             accessibility: "Echo-Live 所有後台頁面均支援鍵盤訪問。<br>更多有關無障礙使用的幫助請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>說明文件</a>。",
-            advanced_settings: "不要隨意更改這裡的配置，除非您知道您在做什麼。"
+            advanced_settings: "不要隨意更改這裡的配置，除非您知道您在做什麼。",
+            echo: {
+                title: "關於 Echo",
+                description: "Echo 是 Echo-Live 的核心，提供了文字滾動輸出功能。<br>它是一個工具庫，任何人都可以使用 Echo 建立自己的文字展示項目。<br>如果您有興趣了解 Echo，請見其 <a href='https://github.com/sheep-realms/Echo' target='_blank'>GitHub 倉庫</a>。"
+            }
         },
         tabpage: {
             edit: {

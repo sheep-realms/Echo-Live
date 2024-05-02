@@ -325,6 +325,18 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
     }
 
     /**
+     * 发送命令：立即关闭
+     * @param {String} reason 理由
+     * @param {String} target 发送目标
+     * @returns {Object} 发送的消息
+     */
+    sendShutdown(reason = undefined, target = undefined) {
+        return this.sendData({
+            reason: reason
+        }, 'shutdown', target);
+    }
+
+    /**
      * 新增客户端
      * @param {String} uuid UUID
      * @param {String} name 识别名
@@ -444,6 +456,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
         this.timer = {};
         this.event = {
             ...this.event,
+            shutdown: function() {},
             websocketClose: function() {}
         };
         this.depth = 1;
@@ -604,6 +617,17 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
     }
 
     /**
+     * 立即关闭
+     */
+    shutdown(reason = undefined) {
+        this.close();
+        this.websocketClose();
+        this.broadcast.close();
+        this.broadcast = undefined;
+        this.event.shutdown(reason);
+    }
+
+    /**
      * 处理侦听获取的数据
      * @param {Object} data 数据内容
      * @param {EchoLiveBroadcast} listener 监听对象
@@ -620,6 +644,10 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
 
             case 'websocket_close':
                 listener.websocketClose();
+                break;
+
+            case 'shutdown':
+                listener.shutdown(data.data.reason);
                 break;
         
             default:

@@ -801,7 +801,20 @@ class SettingsPanel {
         return `<div class="settings-page hide" data-pageid="${ id }">${ content }</div>`;
     }
 
-    static setGroupTitle(title = '', description = '') {
+    static setGroupTitle(title = '', description = '', depth) {
+        if (depth === 1) {
+            return `<button class="settings-group-collapse-title">
+                <div class="title">${ title }</div>
+                <div class="icon">
+                    <span class="open">${ Icon.chevronDown() }</span>
+                    <span class="close">${ Icon.chevronUp() }</span>
+                </div>
+            </button>`;
+        } else if (depth > 1) {
+            return `<div class="settings-group-collapse-subtitle">
+                <div class="title">${ title }</div>
+            </div>`;
+        }
         return `<div class="settings-group-title">
             <div class="title">${ title }</div>
             <div class="description">${ description }</div>
@@ -845,7 +858,7 @@ class SettingsPanel {
         const title = $t( 'config.' + item.name + '._title' );
         const description = $t( 'config.' + item.name + '._description' );
 
-        if (item.type == 'object') return SettingsPanel.setGroupTitle(title, description);
+        if (item.type == 'object') return SettingsPanel.setGroupTitle(title, description, item?.depth);
         if (item.type == 'boolean.bit') return SettingsPanel.setItemBoolean(item.type, item.name, title, description, item.default, item?.attribute, true);
 
         return SettingsPanel[run](item.type, item.name, title, description, item.default, item?.attribute);
@@ -854,18 +867,33 @@ class SettingsPanel {
     static setItems(items) {
         let dom = '';
         let inGroup = false;
+        let inCollapse = false;
         items.forEach(e => {
-            if (e.type == 'object' && inGroup) {
-                dom += '</div></div>';
-                inGroup = false;
-            }
-            if (e.type == 'object') {
-                dom += `<div class="settings-group" data-id="${ e.name }">`;
+            if (e.type == 'object' && (e?.depth == undefined || e?.depth <= 1)) {
+                if (inCollapse) {
+                    dom += '</div></div>';
+                    inCollapse = false;
+                }
+                if (inGroup && (e?.depth == undefined || e?.depth <= 0)) {
+                    dom += '</div></div>';
+                    inGroup = false;
+                }
+                
+                if (e?.depth > 0) {
+                    dom += `<div class="settings-group-collapse state-close" data-id="${ e.name }">`;
+                } else {
+                    dom += `<div class="settings-group" data-id="${ e.name }">`;
+                }
             }
             dom += SettingsPanel.setItemAuto(e);
-            if (e.type == 'object') {
-                dom += (inGroup ? '</div>' : '') + `<div class="settings-group-content">`;
-                inGroup = true;
+            if (e.type == 'object' && (e?.depth == undefined || e?.depth <= 1)) {
+                if (e?.depth > 0) {
+                    dom += (inCollapse ? '</div>' : '') + `<div class="settings-group-collapse-content">`;
+                    inCollapse = true;
+                } else {
+                    dom += (inGroup ? '</div>' : '') + `<div class="settings-group-content">`;
+                    inGroup = true;
+                }
             }
         });
         if (inGroup) dom += '</div></div>';

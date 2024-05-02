@@ -162,6 +162,16 @@ echo.on('customSequence', function(e) {
     }
 });
 
+echolive.on('shutdown', function(reason) {
+    $('#echo-live .name').text($t( 'echolive.system_message' ));
+
+    if (reason != undefined && reason != '') {
+        $('#echo-live .echo-output').text($t( 'echolive.shutdown_reason', { reason: reason } ));
+    } else {
+        $('#echo-live .echo-output').text($t( 'echolive.shutdown' ));
+    }
+});
+
 $(document).on('click', function() {
     if (echo.messageList.length > 0) {
         if (echo.state != 'stop') {

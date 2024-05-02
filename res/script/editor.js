@@ -46,6 +46,15 @@ popupsCreate(Popups.emojiPopups(echoLiveEditor.getEmoji()), '#popups-emoji');
 $('#popups-emoji .emoji-page').eq(0).removeClass('hide');
 
 
+
+let commander = new Commander();
+let logMessager = new Messager();
+logMessager.on('message', function(message, type = 'info', isInput = false) {
+    editorLog('[Commander] ' + ( isInput ? '&lt; ' : '&gt; ' ) + EchoLiveTools.safeHTML(message), type);
+});
+commander.link.messager = logMessager;
+
+
 let elb;
 
 if (config.echo.print_speed != 30) {
@@ -81,6 +90,8 @@ if (config.echolive.broadcast.enable) {
     elb.on('error', getError);
     elb.on('noClient', noClient);
     elb.on('nameDuplicate', nameDuplicate);
+
+    commander.link.broadcast = elb;
 
     checkNowDate();
     editorLogT('editor.log.broadcast_launch.done', { channel: config.echolive.broadcast.channel });
@@ -668,6 +679,7 @@ $(document).on('click', '#history-btn-clear-cancel', function() {
 // 仪表盘点击
 $(document).on('click', '.echo-live-client-state-block', function(e) {
     const name = $(this).data('name');
+    if (name == '') return;
     const r = elb.clients.filter((e) => {
         return e.name == name;
     })[0];
@@ -712,6 +724,35 @@ $('#ptext-content').keydown(function(e) {
         }
     }
 })
+
+
+
+
+$(document).keydown(function(e) {
+    if (e.keyCode == 191 && e.ctrlKey) {
+        if ($('#commander-input-panel').hasClass('hide')) {
+            $('#commander-input-panel').removeClass('hide');
+            $('#commander-input').focus();
+        } else {
+            $('#commander-input-panel').addClass('hide');
+            $('#commander-input').blur();
+        }
+    }
+});
+
+$('#commander-input').keydown(function(e) {
+    if (e.keyCode == 13) {
+        e.preventDefault();
+        const cmd = $('#commander-input').val();
+        commander.consoleRun(cmd);
+        $('#commander-input').val('');
+    } else if (e.keyCode == 27) {
+        e.preventDefault();
+        $('#commander-input-panel').addClass('hide');
+        $('#commander-input').blur();
+        $('#commander-input').val('');
+    }
+});
 
 
 

@@ -53,6 +53,34 @@ const lang_zho_Hant_HK = {
             }
         }
     },
+    command: {
+        common: {
+            fail: {
+                exceed_maximum_value: "邏輯錯誤：'{n}' 太大了，最大只能為 {max}",
+                exceed_minimum_value: "邏輯錯誤：'{n}' 太小了，最小只能為 {min}",
+                invalid_json: "語法錯誤：無效的 JSON",
+                invalid_key_name: "語法錯誤：'{name}' 不是一個有效的鍵名",
+                invalid_number: "語法錯誤：無效的數字",
+                missing_parameter: "語法錯誤：缺少必要參數",
+                unknow_option: "語法錯誤：不存在名為 '{name}' 的選項",
+                not_broadcast: "運行失敗：廣播未啟動"
+            },
+            success: {
+                broadcast_everyone: "已廣播 {action} 消息",
+                broadcast_target: "已發送 {action} 消息至 {name}"
+            }
+        },
+        var: {
+            success: {
+                del: "已刪除 {stack} 堆中變量 {name}",
+                get: "{stack} 堆中變量 {name} 的值為 {value}",
+                set: "已設置 {stack} 堆中變量 {name} 的值為 {value}"
+            },
+            fail: {
+                var_undefined: "{stack} 堆中變量 {name} 未定義"
+            }
+        }
+    },
     config: {
         data_version: {
             _title: "數據版本",
@@ -421,6 +449,11 @@ const lang_zho_Hant_HK = {
             user_guide: "用戶指南"
         }
     },
+    echolive: {
+        system_message: "系統消息",
+        shutdown: "Echo-Live 因收到 shutdown 命令已停止運行，需要重新啟動請刷新此頁面。",
+        shutdown_reason: "Echo-Live 因收到 shutdown 命令已停止運行，原因為“{reason}”，需要重新啟動請刷新此頁面。"
+    },
     editor: {
         client_state: {
             active: "啟動",
@@ -439,6 +472,7 @@ const lang_zho_Hant_HK = {
         form: {
             text_length: "{n} 字符",
             aria_label: {
+                commander: "控制台",
                 content_plain_text: "純文本內容編輯框",
                 log_box: "這裏是日誌列表，如果您聽到了這句話，請注意，這裏的閱讀體驗可能會很差。",
                 output_content: "輸出內容編輯框"

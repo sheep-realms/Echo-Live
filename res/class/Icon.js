@@ -34,6 +34,14 @@ class Icon {
         return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" /></svg>';
     }
 
+    static chevronDown() {
+        return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" /></svg>';
+    }
+
+    static chevronUp() {
+        return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z" /></svg>';
+    }
+
     static clockPlusOutline() {
         return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08L11 13V7H12.5V12.25L15.58 14.08C15.17 14.36 14.79 14.7 14.47 15.08M13.08 19.92C12.72 19.97 12.37 20 12 20C7.58 20 4 16.42 4 12S7.58 4 12 4 20 7.58 20 12C20 12.37 19.97 12.72 19.92 13.08C20.61 13.18 21.25 13.4 21.84 13.72C21.94 13.16 22 12.59 22 12C22 6.5 17.5 2 12 2S2 6.5 2 12C2 17.5 6.47 22 12 22C12.59 22 13.16 21.94 13.72 21.84C13.4 21.25 13.18 20.61 13.08 19.92M18 15V18H15V20H18V23H20V20H23V18H20V15H18Z" /></svg>';
     }

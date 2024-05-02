@@ -53,6 +53,34 @@ const lang_zho_Hans = {
             }
         }
     },
+    command: {
+        common: {
+            fail: {
+                exceed_maximum_value: "逻辑错误：'{n}' 太大了，最大只能为 {max}",
+                exceed_minimum_value: "逻辑错误：'{n}' 太小了，最小只能为 {min}",
+                invalid_json: "语法错误：无效的 JSON",
+                invalid_key_name: "语法错误：'{name}' 不是一个有效的键名",
+                invalid_number: "语法错误：无效的数字",
+                missing_parameter: "语法错误：缺少必要参数",
+                unknow_option: "语法错误：不存在名为 '{name}' 的选项",
+                not_broadcast: "运行失败：广播未启动"
+            },
+            success: {
+                broadcast_everyone: "已广播 {action} 消息",
+                broadcast_target: "已发送 {action} 消息至 {name}"
+            }
+        },
+        var: {
+            success: {
+                del: "已删除 {stack} 堆中变量 {name}",
+                get: "{stack} 堆中变量 {name} 的值为 {value}",
+                set: "已设置 {stack} 堆中变量 {name} 的值为 {value}"
+            },
+            fail: {
+                var_undefined: "{stack} 堆中变量 {name} 未定义"
+            }
+        }
+    },
     config: {
         data_version: {
             _title: "数据版本",
@@ -108,7 +136,7 @@ const lang_zho_Hans = {
                 live_theme_script_enable: {
                     _title: "启用对话框主题脚本",
                     _description: "此配置项需要启用全局主题脚本才能生效。"
-                },
+                }
             },
             broadcast: {
                 _title: "广播",
@@ -421,6 +449,11 @@ const lang_zho_Hans = {
             user_guide: "用户指南"
         }
     },
+    echolive: {
+        system_message: "系统消息",
+        shutdown: "Echo-Live 因收到 shutdown 命令已停止运行，需要重新启动请刷新此页面。",
+        shutdown_reason: "Echo-Live 因收到 shutdown 命令已停止运行，原因为“{reason}”，需要重新启动请刷新此页面。"
+    },
     editor: {
         client_state: {
             active: "激活",
@@ -439,6 +472,7 @@ const lang_zho_Hans = {
         form: {
             text_length: "{n} 字符",
             aria_label: {
+                commander: "控制台",
                 content_plain_text: "纯文本内容编辑框",
                 log_box: "这里是日志列表，如果您听到了这句话，请注意，这里的阅读体验可能会很差。",
                 output_content: "输出内容编辑框"

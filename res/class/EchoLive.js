@@ -18,8 +18,9 @@ class EchoLive {
             messagesPolling: -1
         };
         this.event = {
+            shutdown: function() {},
             themeScriptLoad: function() {},
-            themeScriptUnload: function() {},
+            themeScriptUnload: function() {}
         };
 
         this.init();
@@ -73,6 +74,7 @@ class EchoLive {
 
         if (this.config.echolive.broadcast.enable) {
             this.broadcast = new EchoLiveBroadcastPortal(this.config.echolive.broadcast.channel, this, this.config);
+            this.broadcast.on('shutdown', reason => this.shutdown(reason));
         } else if (this.config.echolive.messages_polling.enable) {
             this.start();
         }
@@ -200,5 +202,12 @@ class EchoLive {
         this.event.themeScriptLoad();
 
         return theme.style;
+    }
+
+    shutdown(reason = undefined) {
+        this.echo.stop();
+        this.broadcast = undefined;
+        this.timer.messagesPolling = -1;
+        this.event.shutdown(reason);
     }
 }

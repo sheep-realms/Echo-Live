@@ -13,7 +13,7 @@ const config = {
     "echolive": {
         "style": {
             "live_theme": "",
-            "live_theme_script_enable": false,
+            "live_theme_script_enable": false
         },
         "broadcast": {
             "enable": true,
@@ -21,27 +21,27 @@ const config = {
             "websocket_enable": false,
             "websocket_url": "ws://127.0.0.1:3000",
             "websocket_reconnect_limit": 5,
-            "experimental_api_enable": false,
+            "experimental_api_enable": false
         },
         "messages_polling": {
             "enable": true,
-            "tick": 250,
+            "tick": 250
         },
         "sleep": {
             "enable": true,
-            "during_printing_stop_print": true,
+            "during_printing_stop_print": true
         },
         "print_audio": {
             "enable": false,
             "name": "typewriter_loop",
             "volume": 0.5,
-            "rate": 1,
+            "rate": 1
         },
         "next_audio": {
             "enable": false,
             "name": "enter",
             "volume": 0.5,
-            "rate": 1,
+            "rate": 1
         },
         "next_effect_name": "none",
         "next_effect_duration": 0,
@@ -83,13 +83,13 @@ const config = {
     "history": {
         "style": {
             "history_theme": "",
-            "history_theme_script_enable": false,
+            "history_theme_script_enable": false
         },
         "layout": {
             "message_list_reverse": false,
             "message_item_reverse": false,
             "display_username": true,
-            "display_time": true,
+            "display_time": true
         },
         "message": {
             "remove_continuous_duplicate": true,

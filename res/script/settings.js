@@ -534,6 +534,8 @@ $(document).ready(function() {
 
     bodyClassCache = $('body').attr('class') ?? '';
 
+    $(window).resize();
+
     // 调试信息
 
     let nowTime = new Date();
@@ -931,6 +933,20 @@ $(document).on('click', '#edit-btn-file-save', function() {
 
 
 
+
+$(document).on('click', '.settings-group-collapse-title', function() {
+    const parent = $(this).parent();
+    if (parent.hasClass('state-close')) {
+        parent.removeClass('state-close');
+        parent.addClass('state-open');
+    } else {
+        parent.removeClass('state-open');
+        parent.addClass('state-close');
+    }
+});
+
+
+
 $(document).keydown(function(e) {
     if (e.keyCode == 83 && e.ctrlKey) {
         e.preventDefault();
@@ -953,6 +969,10 @@ $(window).resize(function() {
     const tabHeight = $('#echo-editor-nav').height();
     $('.settings-nav').css('top', `${tabHeight + 17}px`);
     $('body').css('--settings-group-title-stickt-top', `${tabHeight + 1}px`);
+
+    // $('.settings-group-collapse').each(function() {
+    //     const e = $(this).parents('.settings-group').eq(0).find('.settings-group-title').eq(0);
+    // });
 });
 
 $(document).on('click', '.settings-item[data-id="accessible.high_contrast"] .settings-switch button', function() {

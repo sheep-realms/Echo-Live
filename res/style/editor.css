@@ -16,6 +16,8 @@
     --page-bgcolor: #FAFAFA;
     --input-bgcolor: #FFFFFF;
     --input-color: var(--text-primary);
+    --commander-bgcolor: rgba(0, 0, 0, 0.75);
+    --commander-color: #FFFFFF;
 
     --checkbox-corner-marker-color: rgba(255, 255, 255, 0.5);
 
@@ -39,6 +41,8 @@
         --page-bgcolor: #1E2129;
         --input-bgcolor: #333740;
         --input-color: var(--text-primary);
+        --commander-bgcolor: rgba(255, 255, 255, 0.85);
+        --commander-color: #000000;
 
         --checkbox-corner-marker-color: rgba(30, 33, 41, 0.5);
     }
@@ -64,6 +68,8 @@
     --page-bgcolor: #1E2129;
     --input-bgcolor: #333740;
     --input-color: var(--text-primary);
+    --commander-bgcolor: rgba(255, 255, 255, 0.85);
+    --commander-color: #000000;
 
     --checkbox-corner-marker-color: rgba(30, 33, 41, 0.5);
 }
@@ -199,7 +205,8 @@ input.code {
 .history-message-item .sent.hide,
 .palette-page.hide,
 .emoji-page.hide,
-.collapse.hide {
+.collapse.hide,
+#commander-input-panel.hide {
     display: none;
 }
 
@@ -1063,4 +1070,32 @@ select:focus {
     min-height: 44px;
     padding: 8px;
     font-size: var(--font-size-large);
+}
+
+
+
+
+#commander-input-panel {
+    background-color: var(--commander-bgcolor);
+    color: var(--commander-color);
+    height: 48px;
+    width: 100vw;
+    position: fixed;
+    top: 48px;
+    left: 0;
+    display: flex;
+}
+
+#commander-input {
+    height: 100%;
+    width: 100%;
+    resize: none;
+    background-color: transparent;
+    color: var(--commander-color);
+    box-sizing: border-box;
+    padding: 8px 32px;
+    outline: none;
+    border: unset;
+    font-size: var(--font-size-middle);
+    line-height: 32px;
 }

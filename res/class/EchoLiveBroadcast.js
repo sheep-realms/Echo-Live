@@ -358,7 +358,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         clearTimeout(this.timer.noClient);
 
         let f = this.clients.filter(function(e) {
-            return e.name == name;
+            return e.name == name || e.uuid == name;
         });
 
         if (!this.config.advanced.broadcast.allow_name_duplicate && f.length > 0) {

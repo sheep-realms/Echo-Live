@@ -751,16 +751,31 @@ $(document).keydown(function(e) {
 $('#commander-input').keydown(function(e) {
     if (e.keyCode == 13) {
         e.preventDefault();
-        const cmd = $('#commander-input').val();
-        commander.consoleRun(cmd);
-        $('#commander-input').val('');
+        if (e.ctrlKey) {
+            insertTextAtCursor('commander-input', '\n', '', false, true, false, false, () => '');
+        } else {
+            const cmd = $('#commander-input').val();
+            commander.consoleRun(cmd);
+            $('#commander-input').val('');
+        }
     } else if (e.keyCode == 27) {
         e.preventDefault();
         $('#commander-input-panel').addClass('hide');
         $('#commander-input').blur();
         $('#commander-input').val('');
     }
+    commanderInputHeightCheck();
 });
+
+$(document).on('input', '#commander-input', commanderInputHeightCheck);
+
+function commanderInputHeightCheck() {
+    $('#commander-input-panel').css('height', 'inherit');
+    $('#commander-input').css('height', 'auto');
+    const scrollHeight = $('#commander-input').prop('scrollHeight');
+    $('#commander-input').css('height', scrollHeight + 'px');
+    $('#commander-input-panel').css('height', scrollHeight + 'px');
+}
 
 
 

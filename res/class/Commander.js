@@ -36,6 +36,16 @@ class Commander {
                     }
                 ]
             }, {
+                name: 'theme',
+                parameters: [
+                    {
+                        type: 'any',
+                        required: true
+                    }, {
+                        type: 'any'
+                    }
+                ]
+            }, {
                 name: 'var',
                 parameters: [
                     {
@@ -104,7 +114,7 @@ class Commander {
         let r = this.run(command);
 
         this.link.messager.send(command, 'info', true);
-        
+
         if (r?.message == undefined) return r;
         let msg = $t(
             r.message.key,
@@ -397,6 +407,13 @@ class Commander {
         this.link.broadcast.sendShutdown(reason);
 
         return this.__broadcastMessageConstructor('shutdown');
+    }
+
+    theme(name, target) {
+        if (this.link.broadcast == undefined) return this.__messageConstructor('common', StateMessage.getFail('not_broadcast'));
+        this.link.broadcast.sendTheme(name, target);
+
+        return this.__broadcastMessageConstructor('set_theme', target);
     }
 
     var(name, action = undefined, value = undefined, stack = this.stack) {

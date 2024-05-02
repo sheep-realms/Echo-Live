@@ -1078,18 +1078,21 @@ select:focus {
 #commander-input-panel {
     color: var(--commander-color);
     height: 48px;
+    max-height: 50vh;
     width: 100%;
     position: fixed;
     top: 48px;
     left: 0;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     z-index: 10000;
 }
 
 #commander-input {
-    height: 100%;
+    height: auto;
+    min-height: 48px;
+    max-height: 50vh;
     width: min(100vw, 1000px);
     resize: none;
     background-color: var(--commander-bgcolor);

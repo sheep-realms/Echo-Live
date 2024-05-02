@@ -162,9 +162,10 @@ function getMessage(data) {
             
         case 'hello':
             if (data.target == undefined || data.target == elb.uuid) {
-                let helloMsg1 = data.data.hidden ? 'hello_hidden' : 'hello';
+                let helloMsg1 = data.data.hidden ? '_hidden' : '';
+                let helloMsg2 = data.target == elb.uuid ? '_reply' : '';
                 editorLogT(
-                    'editor.log.broadcast.' + helloMsg1,
+                    'editor.log.broadcast.hello' + helloMsg2 + helloMsg1,
                     {
                         client: $t('broadcast.client.type.' + data.from.type),
                         name: data.from.name
@@ -243,6 +244,13 @@ function getMessage(data) {
                 editorLogT('editor.log.tip.unknown_error', {}, 'tips');
             }
             break;
+
+        case 'shutdown':
+            editorLogT(
+                'editor.log.broadcast.shutdown' + (data.data?.reason != undefined ? '_reason' : ''),
+                data.data?.reason != undefined ? { reason: data.data?.reason } : {}
+            );
+            break
 
         default:
             break;

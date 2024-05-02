@@ -204,6 +204,10 @@ class EchoLive {
         return theme.style;
     }
 
+    /**
+     * 立即关闭
+     * @param {String} reason 理由
+     */
     shutdown(reason = undefined) {
         this.echo.stop();
         this.broadcast = undefined;

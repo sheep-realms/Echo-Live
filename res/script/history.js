@@ -15,6 +15,16 @@ echoLiveHistory.on('newHistory', function(e) {
     sendHistory(e.username, e.message);
 });
 
+echoLiveHistory.on('shutdown', function(reason) {
+    $('body').removeClass('echo-live-history-latest-message-hide');
+
+    if (reason != undefined && reason != '') {
+        sendHistory($t( 'echolive.system_message' ), $t( 'echolive.shutdown_reason', { reason: reason } ));
+    } else {
+        sendHistory($t( 'echolive.system_message' ), $t( 'echolive.shutdown' ));
+    }
+});
+
 function sendHistory(username = '', message = '') {
     if (username == '' || username == undefined) username = $t('message_preview.empty_username');
     if (message == '' || message == undefined) message = $t('message_preview.empty_message');

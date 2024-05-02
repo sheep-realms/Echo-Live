@@ -8,6 +8,7 @@ class EchoLiveHistory {
         this.theme = [];
         this.event = {
             newHistory: function() {},
+            shutdown: function() {},
             themeScriptLoad: function() {},
             themeScriptUnload: function() {},
         };
@@ -37,6 +38,7 @@ class EchoLiveHistory {
 
         if (this.config.echolive.broadcast.enable) {
             this.broadcast = new EchoLiveBroadcastHistory(this.config.echolive.broadcast.channel, this, this.config);
+            this.broadcast.on('shutdown', reason => this.shutdown(reason));
         }
     }
 
@@ -114,5 +116,14 @@ class EchoLiveHistory {
         this.event.themeScriptLoad();
 
         return theme.style;
+    }
+
+    /**
+     * 立即关闭
+     * @param {String} reason 理由
+     */
+    shutdown(reason = undefined) {
+        this.broadcast = undefined;
+        this.event.shutdown(reason);
     }
 }

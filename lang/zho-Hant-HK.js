@@ -542,6 +542,8 @@ const lang_zho_Hant_HK = {
                 echo_next_from_self_to_target: "已命令 {name} 打印下一條消息。",
                 hello: "{client} 進入廣播頻道，識別名：{name}",
                 hello_hidden: "{client} 進入廣播頻道，已休眠，識別名：{name}",
+                hello_reply: "{client} 響應了廣播，識別名：{name}",
+                hello_reply_hidden: "{client} 響應了廣播，已休眠，識別名：{name}",
                 hello_to_server: "{client} 已向 Websocket 伺服器發送 HELLO 消息，識別名：{name}",
                 message_data_third: "收到來自其他服務端的消息數據。",
                 page_hidden: "{client} 因不可見已休眠，識別名：{name}",
@@ -549,6 +551,8 @@ const lang_zho_Hant_HK = {
                 ping_server: "有其他服務端加入頻道，識別名：{name}",
                 set_theme_style_url: "收到來自其他服務端的命令：設置主題樣式文件 URL 為 {url}",
                 set_theme: "收到來自其他服務端的命令：設置主題為 {name}",
+                shutdown: "收到來自其他服務端的命令：立即停止。",
+                shutdown_reason: "收到來自其他服務端的命令：立即停止。原因為：${reason}",
                 websocket_close: "收到來自其他服務端的命令：關閉 Websocket 連接。此命令將阻止 {client} 嘗試重連。"
             },
             broadcast_launch: {

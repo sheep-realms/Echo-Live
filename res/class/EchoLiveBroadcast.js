@@ -201,6 +201,9 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         this.timer = {
             noClient: -1
         }
+        this.stateFlag = {
+            noClientChecked: false
+        };
         this.event = {
             ...this.event,
             clientsChange: function() {},
@@ -229,9 +232,12 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
      */
     ping(target = undefined) {
         let that = this;
-        this.timer.noClient = setTimeout(function() {
-            that.event.noClient();
-        }, 5000)
+        if (!this.stateFlag.noClientChecked) {
+            this.timer.noClient = setTimeout(function() {
+                that.event.noClient();
+            }, 5000);
+            this.stateFlag.noClientChecked = true;
+        }
 
         return this.sendData({}, 'ping', target);
     }
@@ -454,6 +460,9 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
         this.websocketReconnectCount = 0;
         this.websocketClosed = false;
         this.timer = {};
+        this.stateFlag = {
+            onWindowClose: false
+        };
         this.event = {
             ...this.event,
             shutdown: function() {},
@@ -470,7 +479,8 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
     initClient() {
         this.setListenCallback(1, this, this.getDataClient);
 
-        window.onunload = () => {
+        window.onbeforeunload = () => {
+            this.stateFlag.onWindowClose - true;
             this.close();
         };
 
@@ -566,6 +576,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      * @returns {Object} 发送的消息
      */
     pageHidden(target = undefined) {
+        if (this.stateFlag.onWindowClose) return;
         return this.sendData({}, 'page_hidden', target);
     }
 
@@ -575,6 +586,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      * @returns {Object} 发送的消息
      */
     pageVisible(target = undefined) {
+        if (this.stateFlag.onWindowClose) return;
         return this.sendData({}, 'page_visible', target);
     }
 
@@ -618,6 +630,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
 
     /**
      * 立即关闭
+     * @param {String} reason 理由
      */
     shutdown(reason = undefined) {
         this.close();

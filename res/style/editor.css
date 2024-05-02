@@ -1076,26 +1076,43 @@ select:focus {
 
 
 #commander-input-panel {
-    background-color: var(--commander-bgcolor);
     color: var(--commander-color);
     height: 48px;
-    width: 100vw;
+    width: 100%;
     position: fixed;
     top: 48px;
     left: 0;
     display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
 }
 
 #commander-input {
     height: 100%;
-    width: 100%;
+    width: min(100vw, 1000px);
     resize: none;
-    background-color: transparent;
+    background-color: var(--commander-bgcolor);
     color: var(--commander-color);
     box-sizing: border-box;
+    box-shadow: var(--box-shadow);
     padding: 8px 32px;
     outline: none;
     border: unset;
     font-size: var(--font-size-middle);
     line-height: 32px;
 }
+
+.commander-input-left,
+.commander-input-right {
+    flex: 1;
+    height: 100%;
+}
+
+/* .commander-input-left {
+    background-image: linear-gradient(to right, transparent, var(--commander-bgcolor));
+}
+
+.commander-input-right {
+    background-image: linear-gradient(to left, transparent, var(--commander-bgcolor));
+} */

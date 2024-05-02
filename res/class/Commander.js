@@ -102,13 +102,14 @@ class Commander {
 
     consoleRun(command = '') {
         let r = this.run(command);
+
+        this.link.messager.send(command, 'info', true);
+        
         if (r?.message == undefined) return r;
         let msg = $t(
             r.message.key,
             r.message.variable
         );
-
-        this.link.messager.send(command, 'info', true);
         if (r.state == 'success') {
             this.link.messager.send(msg);
         } else {

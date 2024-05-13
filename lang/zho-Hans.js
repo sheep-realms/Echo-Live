@@ -454,7 +454,7 @@ const lang_zho_Hans = {
                 _title: "编辑器",
                 _description: "编辑器的高级设置",
                 forced_display_split_message: {
-                    _title: "强制显示“多行文本分割为消息队列”选项",
+                    _title: "强制显示“{ @editor.form.label.split_message }”选项",
                     _description: "即便没有开启对话框状态仪表板也显示此选项。"
                 },
                 history_minimum_breaker_threshold: {

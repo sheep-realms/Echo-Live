@@ -454,7 +454,7 @@ const lang_zho_Hant_TW = {
                 _title: "編輯器",
                 _description: "編輯器的進階設定",
                 forced_display_split_message: {
-                    _title: "強制顯示“多行文字分割為消息佇列”選項",
+                    _title: "強制顯示“{ @editor.form.label.split_message }”選項",
                     _description: "即便沒有開啟對話框狀態儀錶板也顯示此選項。"
                 },
                 history_minimum_breaker_threshold: {

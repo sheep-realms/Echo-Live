@@ -37,6 +37,7 @@ const lang_zho_Hant_HK = {
         move_down: "下移",
         move_left: "左移",
         move_right: "右移",
+        audition: "試聽",
         missingno: {
             no_author: "未署名",
             no_name: "未命名"
@@ -212,7 +213,7 @@ const lang_zho_Hant_HK = {
             },
             next_audio: {
                 _title: "新對話入場音效",
-                    _description: "在每條消息開始打印時播放音效",
+                _description: "在每條消息開始打印時播放音效",
                 enable: {
                     _title: "啟用新對話入場音效",
                     _description: ""
@@ -228,6 +229,34 @@ const lang_zho_Hant_HK = {
                 rate: {
                     _title: "音效播放速度",
                     _description: "1 為原速。"
+                }
+            },
+            speech_synthesis: {
+                _title: "講述人",
+                _description: "使用系統語音合成接口讀出消息內容",
+                enable: {
+                    _title: "啟用講述人",
+                    _description: ""
+                },
+                voice: {
+                    _title: "語音資源",
+                    _description: "在這裏選擇可用的語音資源，留空則使用系統默認值。<br>在內容為空的情況下，點擊文本框即可列出所有可用的值。部分瀏覽器可能需要多點一次。<br>請注意：不同的瀏覽器會出現不同的值，一些瀏覽器會提供獨有的語音資源，例如 Chrome 的 Google 合成語音，這些語音資源不能在 OBS 中使用。語音資源能否正確使用最終取決於前台頁面所在的瀏覽器環境。<br>當所選擇的值不可用時，將使用系統默認值。"
+                },
+                pitch: {
+                    _title: "音高",
+                    _description: "1 為基準音高。"
+                },
+                rate: {
+                    _title: "語速",
+                    _description: "1 為基準速度。"
+                },
+                delay: {
+                    _title: "延遲",
+                    _description: "在消息發出後延遲讀出，單位為毫秒，1000 毫秒為 1 秒。"
+                },
+                speech_emoji: {
+                    _title: "讀出表情符號",
+                    _description: "啟用後講述人將會讀出消息中的 emoji 符號和表情圖片的描述。<br>其他特殊符號不受影響。"
                 }
             }
         },

@@ -43,6 +43,14 @@ const config = {
             "volume": 0.5,
             "rate": 1
         },
+        "speech_synthesis": {
+            "enable": false,
+            "voice": "",
+            "pitch": 1,
+            "rate": 1,
+            "delay": 0,
+            "speech_emoji": false
+        },
         "next_effect_name": "none",
         "next_effect_duration": 0,
         "print_effect_name": "none",

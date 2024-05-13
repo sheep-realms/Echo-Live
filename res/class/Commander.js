@@ -111,9 +111,11 @@ class Commander {
     }
 
     consoleRun(command = '') {
+        if (typeof command != 'string' || command == '') return;
+
         let r = this.run(command);
 
-        this.link.messager.send(command, 'info', true);
+        if (command.split(' ')[0] != 'say') this.link.messager.send(command, 'info', true);
 
         if (r?.message == undefined) return r;
         let msg = $t(
@@ -398,7 +400,7 @@ class Commander {
     }
 
     say(message) {
-        this.link.messager.send(message);
+        this.link.messager.send('[SAY] ' + message);
         return StateMessage.getSuccess();
     }
 

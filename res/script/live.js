@@ -18,6 +18,24 @@ let first = false;
 
 let inTypewriteEnd = false;
 
+
+
+
+let voices = [];
+let voiceIndex = -1;
+let utterance;
+
+if (config.echolive.speech_synthesis.enable) {
+    try {
+        voices = speechSynthesis.getVoices();
+    } catch (error) {}
+
+    if (config.echolive.speech_synthesis.voice != '') voiceIndex = voices.findIndex(e => e.name == config.echolive.speech_synthesis.voice);
+}
+
+
+
+
 echo.on('next', function(msg) {
     echolive.username = EchoLiveTools.getMessageUsername(echolive.username, msg);
     echolive.broadcast.echoPrinting(echolive.username, EchoLiveTools.getMessagePlainText(msg));
@@ -36,6 +54,25 @@ echo.on('next', function(msg) {
 
     if (config.echolive.next_audio.enable) {
         mixer.play(config.echolive.next_audio.name, config.echolive.next_audio.volume, config.echolive.next_audio.rate);
+    }
+
+    if (config.echolive.speech_synthesis.enable) {
+        speechSynthesis.cancel();
+        
+        let speechText = EchoLiveTools.getMessagePlainText(
+            msg.message,
+            false,
+            !config.echolive.speech_synthesis.speech_emoji
+        );
+        utterance = new SpeechSynthesisUtterance(speechText);
+
+        if (voiceIndex != -1) utterance.voice = voices[voiceIndex];
+        utterance.pitch = config.echolive.speech_synthesis.pitch;
+        utterance.rate = config.echolive.speech_synthesis.rate;
+
+        setTimeout(function() {
+            speechSynthesis.speak(utterance);
+        }, config.echolive.speech_synthesis.delay);
     }
 });
 

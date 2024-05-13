@@ -58,23 +58,27 @@ class EchoLiveTools {
      * 获取段落格式纯文本内容
      * @param {String|Object|Array<Object>} message 段落格式
      * @param {Boolean} HTMLFilter 是否启用 HTML 过滤器
+     * @param {Boolean} noEmoji 是否禁用表情符号
      * @returns {String} 纯文本内容
      */
-    static getMessagePlainText(message, HTMLFilter = false) {
+    static getMessagePlainText(message, HTMLFilter = false, noEmoji = false) {
+        let str = '';
+
         if (typeof message == 'object' && message?.message != undefined) message = message.message;
         if (typeof message == 'string') {
-            if (HTMLFilter) message.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>');
-            return message;
+            str = message;
+            if (HTMLFilter) str = str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>');
+            if (noEmoji) str = str.replace(/\p{Emoji}/gu, '');
+            return str;
         }
         if (typeof message == 'object' && !Array.isArray(message)) message = [message];
         if (!Array.isArray(message)) return;
 
-        let str = '';
         message.forEach(e => {
             if (typeof e == 'string') {
                 str += e;
             } else {
-                if (e?.data?.emoji != undefined) {
+                if (e?.data?.emoji != undefined && !noEmoji) {
                     try {
                         typeof emojiHako;
                         let emoji = emojiHako.getEmoji(e.data.emoji);
@@ -88,6 +92,7 @@ class EchoLiveTools {
         });
 
         if (HTMLFilter) str = str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>');
+        if (noEmoji) str = str.replace(/\p{Emoji}/gu, '');
 
         return str;
     }

@@ -527,6 +527,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    gap: 4px;
 }
 
 .settings-unknow-config-type {
@@ -576,6 +577,10 @@
 
 .settings-item[data-type="special.all_or_array_string"] .content {
     width: 100%;
+}
+
+.settings-item input[type=number], input[type=text] {
+    flex: 1;
 }
 
 /* .settings-value-list-box {

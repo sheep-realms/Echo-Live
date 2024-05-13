@@ -344,6 +344,85 @@ const db_config_define = [
             }
         ]
     }, {
+        name: 'echolive.speech_synthesis',
+        type: 'object',
+        created: 4
+    }, {
+        name: 'echolive.speech_synthesis.enable',
+        type: 'boolean',
+        default: false,
+        created: 4
+    }, {
+        name: 'echolive.speech_synthesis.voice',
+        type: 'string',
+        default: '',
+        created: 4,
+        attribute: {
+            datalist: []
+        },
+        conditions: [
+            {
+                name: 'echolive.speech_synthesis.enable',
+                value: true
+            }
+        ]
+    }, {
+        name: 'echolive.speech_synthesis.pitch',
+        type: 'number',
+        default: 1,
+        created: 4,
+        attribute: {
+            min: 0,
+            step: 0.25
+        },
+        conditions: [
+            {
+                name: 'echolive.speech_synthesis.enable',
+                value: true
+            }
+        ]
+    }, {
+        name: 'echolive.speech_synthesis.rate',
+        type: 'number',
+        default: 1,
+        created: 4,
+        attribute: {
+            min: 0,
+            step: 0.25
+        },
+        conditions: [
+            {
+                name: 'echolive.speech_synthesis.enable',
+                value: true
+            }
+        ]
+    }, {
+        name: 'echolive.speech_synthesis.delay',
+        type: 'number',
+        default: 1,
+        created: 4,
+        attribute: {
+            min: 0,
+            step: 100
+        },
+        conditions: [
+            {
+                name: 'echolive.speech_synthesis.enable',
+                value: true
+            }
+        ]
+    }, {
+        name: 'echolive.speech_synthesis.speech_emoji',
+        type: 'boolean',
+        default: false,
+        created: 4,
+        conditions: [
+            {
+                name: 'echolive.speech_synthesis.enable',
+                value: true
+            }
+        ]
+    }, {
         name: 'echolive.next_effect_name',
         type: 'string',
         default: 'none',

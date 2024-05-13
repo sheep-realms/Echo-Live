@@ -908,6 +908,7 @@ class SettingsPanel {
     }
 
     static setItemString(type = '', id = '', title = '', description = '', value = '', attribute = undefined) {
+        if (type === 'string.multiline') return SettingsPanel.setItemStringMultiLine(type, id, title, description, value);
         value = String(value).replace(/"/g, '&quot;');
         let dl = '';
         let hasDatalist = false;
@@ -925,6 +926,17 @@ class SettingsPanel {
             'string', id, title, description,
             `<label class="title" style="display: none;" for="${ id.replace(/\./g, '-') }">${ title }</label>
             <input type="text" id="${ id.replace(/\./g, '-') }" class="settings-value code" ${ hasDatalist ? `list="${ id.replace(/\./g, '-') }-datalist"` : '' } aria-label="${ title }" data-default="${ value }" value="${ value }">${ dl }`
+        );
+    }
+
+    static setItemStringMultiLine(type = '', id = '', title = '', description = '', value = '') {
+        // value = String(value).replace(/"/g, '&quot;');
+        return SettingsPanel.setItem(
+            type, id, title, description,
+            `<label class="title" style="display: none;" for="${ id.replace(/\./g, '-') }">${ title }</label>`,
+            `<div class="content">
+                <textarea id="${ id.replace(/\./g, '-') }" class="settings-value code" aria-label="${ title }" data-default="${ encodeURIComponent(value) }">${ value }</textarea>
+            </div>`
         );
     }
 

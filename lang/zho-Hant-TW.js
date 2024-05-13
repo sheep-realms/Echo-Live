@@ -257,6 +257,10 @@ const lang_zho_Hant_TW = {
                 speech_emoji: {
                     _title: "讀出表情符號",
                     _description: "啟用後講述人將會讀出消息中的 emoji 符號和表情圖片的描述。<br>其它特殊符號不受影響。"
+                },
+                ignored_characters: {
+                    _title: "忽略的字元",
+                    _description: "指定一些字元不會被講述人讀出。"
                 }
             }
         },

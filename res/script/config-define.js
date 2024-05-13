@@ -423,6 +423,17 @@ const db_config_define = [
             }
         ]
     }, {
+        name: 'echolive.speech_synthesis.ignored_characters',
+        type: 'string.multiline',
+        default: '',
+        created: 4,
+        conditions: [
+            {
+                name: 'echolive.speech_synthesis.enable',
+                value: true
+            }
+        ]
+    }, {
         name: 'echolive.next_effect_name',
         type: 'string',
         default: 'none',

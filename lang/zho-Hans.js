@@ -257,6 +257,10 @@ const lang_zho_Hans = {
                 speech_emoji: {
                     _title: "读出表情符号",
                     _description: "启用后讲述人将会读出消息中的 emoji 符号和表情图片的描述。<br>其它特殊符号不受影响。"
+                },
+                ignored_characters: {
+                    _title: "忽略的字符",
+                    _description: "指定一些字符不会被讲述人读出。"
                 }
             }
         },

@@ -62,7 +62,8 @@ echo.on('next', function(msg) {
         let speechText = EchoLiveTools.getMessagePlainText(
             msg.message,
             false,
-            !config.echolive.speech_synthesis.speech_emoji
+            !config.echolive.speech_synthesis.speech_emoji,
+            EchoLiveTools.generateCharRegex(config.echolive.speech_synthesis.ignored_characters)
         );
         utterance = new SpeechSynthesisUtterance(speechText);
 

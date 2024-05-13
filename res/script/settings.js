@@ -126,7 +126,11 @@ function getSettingsItemValue(name, isDefault = false) {
         if (!isDefault) {
             value = $sel.find('.settings-value').eq(0).val();
         } else {
-            value = String($sel.find('.settings-value').eq(0).data('default'));
+            if (type === 'string.multiline') {
+                value = String(decodeURIComponent($sel.find('.settings-value').eq(0).data('default')));
+            } else {
+                value = String($sel.find('.settings-value').eq(0).data('default'));
+            }
         }
 
         switch (types[0]) {
@@ -188,7 +192,13 @@ function setSettingsItemValue(name, value, isDefault = false) {
     
     if (type.split('.')[0] != 'special') {
         $sel.find('.settings-value').eq(0).val(value);
-        if (isDefault) $sel.find('.settings-value').eq(0).data('default', value);
+        if (isDefault) {
+            if (type === 'string.multiline') {
+                $sel.find('.settings-value').eq(0).data('default', encodeURIComponent(value));
+            } else {
+                $sel.find('.settings-value').eq(0).data('default', value);
+            }
+        }
 
         switch (type.split('.')[0]) {
             case 'boolean':
@@ -830,6 +840,7 @@ $(document).on('click', '.settings-nav-item', function() {
     const pageid = $(this).data('pageid');
     $(`.settings-page`).addClass('hide');
     $(`.settings-page[data-pageid="${pageid}"]`).removeClass('hide');
+    $(window).scrollTop(0);
 });
 
 $(document).on('click', '.settings-switch', function() {

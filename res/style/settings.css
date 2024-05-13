@@ -579,6 +579,19 @@
     width: 100%;
 }
 
+.settings-item[data-type="string.multiline"] {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.settings-item[data-type="string.multiline"] .value {
+    display: none;
+}
+
+.settings-item[data-type="string.multiline"] .content {
+    width: 100%;
+}
+
 .settings-item input[type=number], input[type=text] {
     flex: 1;
 }

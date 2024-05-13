@@ -59,9 +59,10 @@ class EchoLiveTools {
      * @param {String|Object|Array<Object>} message 段落格式
      * @param {Boolean} HTMLFilter 是否启用 HTML 过滤器
      * @param {Boolean} noEmoji 是否禁用表情符号
+     * @param {RegExp} regFilter 过滤正则表达式
      * @returns {String} 纯文本内容
      */
-    static getMessagePlainText(message, HTMLFilter = false, noEmoji = false) {
+    static getMessagePlainText(message, HTMLFilter = false, noEmoji = false, regFilter = undefined) {
         let str = '';
 
         if (typeof message == 'object' && message?.message != undefined) message = message.message;
@@ -69,6 +70,7 @@ class EchoLiveTools {
             str = message;
             if (HTMLFilter) str = str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>');
             if (noEmoji) str = str.replace(/\p{Emoji}/gu, '');
+            if (regFilter instanceof RegExp) str = str.replace(regFilter, '');
             return str;
         }
         if (typeof message == 'object' && !Array.isArray(message)) message = [message];
@@ -93,6 +95,7 @@ class EchoLiveTools {
 
         if (HTMLFilter) str = str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>');
         if (noEmoji) str = str.replace(/\p{Emoji}/gu, '');
+        if (regFilter instanceof RegExp) str = str.replace(regFilter, '');
 
         return str;
     }
@@ -321,5 +324,17 @@ class EchoLiveTools {
             return;
         }
         document.startViewTransition(() => action());
+    }
+
+    /**
+     * 根据字符串生成匹配字符串内任意字符的正则表达式
+     * @param {String} str 字符串
+     * @returns {RegExp} 正则表达式
+     */
+    static generateCharRegex(str) {
+        str = str.replace(/\s/gm, '');
+        const escapedStr = str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regexStr = '[' + escapedStr + ']';
+        return new RegExp(regexStr, 'g');
     }
 }

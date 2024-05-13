@@ -49,7 +49,8 @@ const config = {
             "pitch": 1,
             "rate": 1,
             "delay": 0,
-            "speech_emoji": false
+            "speech_emoji": false,
+            "ignored_characters": ""
         },
         "next_effect_name": "none",
         "next_effect_duration": 0,

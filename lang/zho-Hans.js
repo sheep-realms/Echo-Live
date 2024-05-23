@@ -262,6 +262,18 @@ const lang_zho_Hans = {
                     _title: "忽略的字符",
                     _description: "指定一些字符不会被讲述人读出。"
                 }
+            },
+            image: {
+                _title: "图片",
+                _description: "对话框消息中显示的图片",
+                enable: {
+                    _title: "启用图片",
+                    _description: "启用后可以在消息中插入图片。"
+                },
+                allow_data_url_and_relative_url: {
+                    _title: "允许 Data URL 和相对地址",
+                    _description: "允许使用 Data URL 格式传输图片和使用相对地址。<br>禁用将无法在编辑器中通过导入文件设置图片，且只能使用 http(s):// 和 file:/// 协议头的地址。<br>特别提醒：不要导入大得离谱的图片！"
+                }
             }
         },
         editor: {
@@ -436,6 +448,10 @@ const lang_zho_Hans = {
             animation_disable: {
                 _title: "禁用动画",
                 _description: "禁用所有动画和过渡效果。"
+            },
+            power_saving_mode: {
+                _title: "禁用高开销效果",
+                _description: "禁用后台页面所有高性能消耗的画面效果。"
             }
         },
         advanced: {
@@ -546,6 +562,7 @@ const lang_zho_Hans = {
             emoji: "表情",
             font_size_decrease: "减小字号",
             font_size_increase: "增大字号",
+            image: "插入图片",
             italic: "斜体",
             underline: "下划线",
             strikethrough: "删除线"
@@ -889,11 +906,33 @@ const lang_zho_Hans = {
             drop_file_cancel_many: "一位用户反复拖拽文件，这是他的程序发生的变化",
             drop_file_long_time: "你怎么还不放手？",
             drop_file_now: "松开鼠标拖放文件",
+            please_click: "点击此处选择文件",
             please_drop_file: "在这里拖放文件或点击此处选择文件",
-            please_drop_file_keyboard: "当焦点在此处时，您也可以按下 Enter 或空格键选择文件"
+            please_drop_file_keyboard: "当焦点在此处时，您也可以按下 Enter 或空格键选择文件",
+            dialog: {
+                many_file: {
+                    title: "太多了",
+                    description: "处理不了那么多文件，请一个一个来。"
+                },
+                selected: {
+                    title: "已选择文件",
+                    description: "文件名：{name}",
+                    import_image: "插入图片"
+                },
+                type_error: {
+                    title: "文件类型错误",
+                    description: "这似乎并不是我们想要的文件。"
+                },
+                use_chrome: {
+                    title: "建议您使用最新版 Chrome 浏览器",
+                    description: "此页面使用了一些最新技术，您的浏览器可能无法支持部分功能。<br>当然您也可以试试 Edge 浏览器。",
+                    goto: "获取 Chrome"
+                }
+            }
         },
         picker: {
-            config: "配置文件"
+            config: "配置文件",
+            image: "图片"
         }
     },
     message_preview: {
@@ -949,11 +988,6 @@ const lang_zho_Hans = {
                 title: "未知的配置文件版本",
                 description: "此配置文件没有版本号，可能来自于 1.2.7 之前的版本。<br>您可以强制升级此配置文件，但并不能保证其正常运作，不建议您继续使用此配置文件。",
                 update: "强制更新"
-            },
-            use_chrome: {
-                title: "建议您使用最新版 Chrome 浏览器",
-                description: "此页面使用了一些最新技术，您的浏览器可能无法支持部分功能。<br>当然您也可以试试 Edge 浏览器。",
-                goto: "获取 Chrome"
             }
         },
         functional_color: {

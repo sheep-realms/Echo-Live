@@ -262,6 +262,18 @@ const lang_zho_Hant_HK = {
                     _title: "忽略的字符",
                     _description: "指定一些字符不會被講述人讀出。"
                 }
+            },
+            image: {
+                _title: "圖片",
+                _description: "對話框消息中顯示的圖片",
+                enable: {
+                    _title: "啟用圖片",
+                    _description: "啟用後可以在消息中插入圖片。"
+                },
+                allow_data_url_and_relative_url: {
+                    _title: "允許 Data URL 和相對地址",
+                    _description: "允許使用 Data URL 格式傳輸圖片和使用相對地址。<br>禁用將無法在編輯器中通過導入文件設定圖片，且只能使用 http(s):// 和 file:/// 協議頭的地址。<br>特別提醒：不要導入大得離譜的圖片！"
+                }
             }
         },
         editor: {
@@ -436,6 +448,10 @@ const lang_zho_Hant_HK = {
             animation_disable: {
                 _title: "禁用動畫",
                 _description: "禁用所有動畫和過渡效果。"
+            },
+            power_saving_mode: {
+                _title: "禁用高開銷效果",
+                _description: "禁用後台頁面所有高性能消耗的畫面效果。"
             }
         },
         advanced: {
@@ -546,6 +562,7 @@ const lang_zho_Hant_HK = {
             emoji: "表情",
             font_size_decrease: "減小字號",
             font_size_increase: "增大字號",
+            image: "插入圖片",
             italic: "斜體",
             underline: "下劃線",
             strikethrough: "刪除線"
@@ -889,11 +906,33 @@ const lang_zho_Hant_HK = {
             drop_file_cancel_many: "一位用戶反覆拖拽文件，這是他的程序發生的變化",
             drop_file_long_time: "你怎麼還不放手？",
             drop_file_now: "鬆開鼠標拖放文件",
+            please_click: "點擊此處選擇文件",
             please_drop_file: "在這裏拖放文件或點擊此處選擇文件",
-            please_drop_file_keyboard: "當焦點在此處時，您也可以按下 Enter 或空格鍵選擇文件"
+            please_drop_file_keyboard: "當焦點在此處時，您也可以按下 Enter 或空格鍵選擇文件",
+            dialog: {
+                many_file: {
+                    title: "太多了",
+                    description: "處理不了那麼多文件，請一個一個來。"
+                },
+                selected: {
+                    title: "已選擇文件",
+                    description: "文件名：{name}",
+                    import_image: "插入圖片"
+                },
+                type_error: {
+                    title: "文件類型錯誤",
+                    description: "這似乎並不是我們想要的文件。"
+                },
+                use_chrome: {
+                    title: "建議您使用最新版 Chrome 瀏覽器",
+                    description: "此頁面使用了一些最新技術，您的瀏覽器可能無法支持部分功能。<br>當然您也可以試試 Edge 瀏覽器。",
+                    goto: "獲取 Chrome"
+                }
+            }
         },
         picker: {
-            config: "配置文件"
+            config: "配置文件",
+            image: "圖片"
         }
     },
     message_preview: {
@@ -949,11 +988,6 @@ const lang_zho_Hant_HK = {
                 title: "未知的配置文件版本",
                 description: "此配置文件沒有版本號，可能來自於 1.2.7 之前的版本。<br>您可以強制升級此配置文件，但並不能保證其正常運作，不建議您繼續使用此配置文件。",
                 update: "強制更新"
-            },
-            use_chrome: {
-                title: "建議您使用最新版 Chrome 瀏覽器",
-                description: "此頁面使用了一些最新技術，您的瀏覽器可能無法支持部分功能。<br>當然您也可以試試 Edge 瀏覽器。",
-                goto: "獲取 Chrome"
             }
         },
         functional_color: {

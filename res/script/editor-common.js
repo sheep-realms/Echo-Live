@@ -12,6 +12,7 @@ if (config.accessible.high_contrast || window.matchMedia('(forced-colors: active
 if (config.accessible.drotanopia_and_deuteranopia) $('body').addClass('accessible-drotanopia-and-deuteranopia');
 if (config.accessible.link_underline) $('body').addClass('accessible-link-underline');
 if (config.accessible.animation_disable) $('body').addClass('accessible-animation-disable');
+if (config.accessible.power_saving_mode) $('body').addClass('power-saving-mode');
 
 
 

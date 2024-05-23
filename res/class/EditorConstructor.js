@@ -244,6 +244,12 @@ class EditorForm {
                 title: $t('editor.format.emoji') + ' [Ctrl+E]'
             }),
             EditorForm.buttonAir('', {
+                icon: Icon.image(),
+                class: 'editor-format-btn',
+                attr: `data-editorid="${editorID}" data-value="image"`,
+                title: $t('editor.format.image') + ' [Ctrl+Shift+I]'
+            }),
+            EditorForm.buttonAir('', {
                 icon: Icon.formatFontSizeIncrease(),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="font_size_increase"`,
@@ -667,6 +673,116 @@ class Popups {
         });
         if (!firstGruop) dom += '</div>'
         return dom;
+    }
+
+    static imagePopups(data = {}, id = 'popups-image') {
+        data = {
+            width: {
+                min: '500px',
+                max: '500px'
+            },
+            height: {
+                min: '200px',
+                max: 'calc(100vh - 32px)'
+            },
+            ...data
+        }
+
+        return Popups.container(
+            `<nav id="popups-image-nav" class="tabpage-nav" data-navid="popups-image">
+                <button
+                    class="tabpage-nav-item"
+                    data-pageid="file"
+                    role="tab"
+                    aria-selected="true"
+                    title="直接导入图片文件"
+                >导入文件</button>
+                <button
+                    class="tabpage-nav-item"
+                    data-pageid="url"
+                    role="tab"
+                    aria-selected="false"
+                    title="导入 URL 地址"
+                >导入地址</button>
+                <button
+                    class="tabpage-nav-item"
+                    data-pageid="images"
+                    role="tab"
+                    aria-selected="false"
+                    title="已缓存的图片"
+                >图库</button>
+            </nav>
+            <div class="tabpage-centent" data-navid="popups-image">
+                <section class="tabpage-panel" role="tabpanel" data-pageid="file">
+                    <div class="popups-image-file-panel">
+                        <div class="file-input">
+                            <button id="image-file-input-box" class="file-drop-box" aria-label="${ $t('file.droper.title') }">
+                                <span class="file-drop-box-message">${ $t('file.droper.please_click') }</span>
+                                <span class="file-drop-box-message-keyboard">${ $t('file.droper.please_drop_file_keyboard') }</span>
+                            </button>
+                            <div id="image-file-check-dialog" class="hide"></div>
+                        </div>
+                    </div>
+                </section>
+                <section class="tabpage-panel hide" role="tabpanel" data-pageid="url">
+                    <div class="echo-editor-form">
+                        <label for="image-url">URL</label>
+                        <input type="text" id="image-url">
+                        <div class="image-url-action">
+                            <div class="image-url-message"></div>
+                            ${ EditorForm.button(
+                                $t('file.droper.dialog.selected.import_image'),
+                                {
+                                    id: 'btn-flie-check-dialog-import-image-url',
+                                    icon: Icon.check()
+                                }
+                            ) }
+                        </div>
+                    </div>
+                </section>
+                <section class="tabpage-panel hide" role="tabpanel" data-pageid="images">
+                    
+                </section>
+            </div>
+            <div class="image-parameter echo-editor-form">
+                <div class="collapse">
+                    <div class="collapse-title">
+                        <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
+                            <span class="icon"></span>
+                            <span class="text">设置图片属性</span>
+                            <input type="hidden" id="image-parameter-set" value="0">
+                        </button>
+                    </div>
+                    <div class="collapse-content hide">
+                        <div class="image-parameter-line">
+                            <div class="image-parameter-item">
+                                <label for="image-size-max">最大图片尺寸</label>
+                                <input type="number" id="image-size-max" value="5">
+                            </div>
+                            <div class="image-parameter-item">
+                                <label for="image-size-min">最小图片尺寸</label>
+                                <input type="number" id="image-size-min" value="0">
+                            </div>
+                        </div>
+                        <div class="image-parameter-line">
+                            <div class="image-parameter-item">
+                                <label for="image-margin">外边距</label>
+                                <input type="number" id="image-margin" value="0.5">
+                            </div>
+                            <div class="image-parameter-item">
+                                <label for="image-rendering">重采样</label>
+                                <select name="pets" id="image-rendering">
+                                    <option value="auto">自动</option>
+                                    <option value="pixelated">最邻近</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>`,
+            id,
+            data
+        );
     }
 }
 
@@ -1125,6 +1241,20 @@ class SettingsFileChecker {
         </div>`;
     }
 
+    static dialogSuccess(title = '', description = '', controller = '') {
+        if (controller == '') {
+            controller = EditorForm.button(
+                $t('ui.ok'),
+                {
+                    id: 'btn-flie-check-dialog-cancel',
+                    class: 'btn-default',
+                    icon: Icon.check()
+                }
+            );
+        }
+        return SettingsFileChecker.dialog(title, description, controller, 'check', 'state-success');
+    }
+
     static dialogWarn(title = '', description = '', controller = '') {
         if (controller == '') {
             controller = EditorForm.button(
@@ -1181,8 +1311,8 @@ class SettingsFileChecker {
 
     static dialogUseChrome() {
         return SettingsFileChecker.dialogWarn(
-            $t('settings.config_input.use_chrome.title'),
-            $t('settings.config_input.use_chrome.description'),
+            $t('file.droper.dialog.use_chrome.title'),
+            $t('file.droper.dialog.use_chrome.description'),
             EditorForm.buttonGhost(
                 $t('ui.close'),
                 {
@@ -1192,7 +1322,7 @@ class SettingsFileChecker {
                 }
             ) +
             EditorForm.button(
-                $t('settings.config_input.use_chrome.goto'),
+                $t('file.droper.dialog.use_chrome.goto'),
                 {
                     id: 'btn-flie-check-dialog-goto-chrome',
                     class: 'btn-default',
@@ -1268,6 +1398,29 @@ class SettingsFileChecker {
                     class: 'btn-default',
                     icon: Icon.arrowRight(),
                     color: 'warn'
+                }
+            )
+        );
+    }
+
+    static dialogImageFileSelected(filename = '') {
+        return SettingsFileChecker.dialogSuccess(
+            $t('file.droper.dialog.selected.title'),
+            $t('file.droper.dialog.selected.description', { name: filename }),
+            EditorForm.buttonGhost(
+                $t('ui.cancel'),
+                {
+                    id: 'btn-flie-check-dialog-cancel',
+                    icon: Icon.close(),
+                    color: 'danger'
+                }
+            ) +
+            EditorForm.button(
+                $t('file.droper.dialog.selected.import_image'),
+                {
+                    id: 'btn-flie-check-dialog-import-image',
+                    class: 'btn-default',
+                    icon: Icon.check()
                 }
             )
         );

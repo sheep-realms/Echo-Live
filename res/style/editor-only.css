@@ -1,0 +1,227 @@
+.file-drop-box {
+    border: var(--border-color) 4px dashed;
+    user-select: none;
+    cursor: pointer;
+    background-image: linear-gradient(var(--corner-marker-angle), var(--border-color) 12px, transparent 12px);
+    background-position: 4px -4px;
+    background-repeat: no-repeat;
+    width: 100%;
+    background-color: transparent;
+    outline: none;
+}
+
+.file-drop-box,
+.file-check-dialog {
+    height: 100%;
+    margin: 0;
+    padding: 16px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.file-drop-box.hide,
+#image-file-check-dialog.hide {
+    display: none;
+}
+
+.file-check-dialog {
+    border: var(--border-color) 1px solid;
+    gap: 8px;
+    justify-content: flex-start;
+    backdrop-filter: blur(16px);
+    background-color: var(--page-bgcolor-glass);
+}
+
+.power-saving-mode .file-check-dialog {
+    backdrop-filter: unset;
+    background-color: var(--page-bgcolor);
+}
+
+.file-check-dialog .icon,
+.file-check-dialog .icon svg {
+    width: 42px;
+    height: 42px;
+}
+
+.file-check-dialog .icon svg {
+    fill: var(--text-regular);
+}
+
+
+.file-check-dialog.state-success .icon svg {
+    fill: var(--color-safe);
+}
+
+.file-check-dialog.state-warn .icon svg {
+    fill: var(--color-warn);
+}
+
+.file-check-dialog.state-error .icon svg {
+    fill: var(--color-danger);
+}
+
+.file-check-dialog .title {
+    font-size: var(--font-size-extra-large);
+    font-weight: bold;
+    color: var(--text-primary);
+}
+
+.file-check-dialog .description {
+    color: var(--text-regular);
+    font-size: var(--font-size-small);
+}
+
+.file-check-dialog .controller {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding-top: 8px;
+}
+
+.file-check-dialog .controller button {
+    min-width: 120px;
+}
+
+.file-drop-box:focus-visible {
+    border: var(--color-general) 4px dashed;
+    background-image: linear-gradient(var(--corner-marker-angle), var(--color-general) 12px, transparent 12px);
+}
+
+.file-drop-box.dragover {
+    border: var(--color-general) 4px dashed;
+    z-index: 2000;
+    position: relative;
+    box-shadow: 0 0 0 max(1000vw, 1000vh) rgba(255, 255, 255, 0.75);
+    background-image: linear-gradient(var(--corner-marker-angle), var(--color-general) 12px, transparent 12px);
+}
+
+@media (prefers-color-scheme: dark) {
+    .file-drop-box.dragover {
+        box-shadow: 0 0 0 max(1000vw, 1000vh) rgba(0, 0, 0, 0.75);
+    }
+}
+
+.prefers-color-scheme-dark .file-drop-box.dragover {
+    box-shadow: 0 0 0 max(1000vw, 1000vh) rgba(0, 0, 0, 0.75);
+}
+
+.file-drop-box-message,
+.file-drop-box-message-keyboard {
+    font-size: var(--font-size-middle);
+    color: var(--text-secondary);
+    pointer-events: none;
+}
+
+.file-drop-box-message-keyboard {
+    display: none;
+}
+
+.file-drop-box:focus-visible .file-drop-box-message {
+    display: none;
+}
+
+.file-drop-box:focus-visible .file-drop-box-message-keyboard {
+    display: inline;
+}
+
+
+
+
+#image-file-check-dialog {
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+
+
+
+#popups-image {
+    background-color: var(--page-bgcolor);
+}
+
+#popups-image .tabpage-centent {
+    display: flex;
+    flex-direction: column;
+    min-height: 160px;
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+#popups-image .tabpage-centent section {
+    padding: 16px;
+    flex: 1;
+}
+
+#popups-image .popups-image-file-panel {
+    display: flex;
+    height: 200px;
+}
+
+#popups-image .popups-image-file-panel .file-input {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#popups-image .image-parameter {
+    /* padding: 16px; */
+    border-top: var(--border-color) 1px solid;
+}
+
+#popups-image .image-parameter.hide {
+    display: none;
+}
+
+#popups-image .tabpage-nav {
+    margin-bottom: 0;
+}
+
+#popups-image .image-parameter-line {
+    display: flex;
+    gap: 16px;
+}
+
+#popups-image .image-parameter-item {
+    flex: 1;
+}
+
+#popups-image .collapse .collapse-title {
+    border-top: unset;
+    border-bottom: unset;
+}
+
+#popups-image .collapse .collapse-title button {
+    padding: 12px 16px;
+}
+
+#popups-image .collapse .collapse-content {
+    border-top: var(--border-color) 1px solid;
+    border-bottom: unset;
+    padding: 12px 16px 16px 16px;
+}
+
+#popups-image .image-url-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    gap: 16px;
+}
+
+#popups-image .image-url-action button {
+    margin: unset;
+}
+
+#popups-image .image-url-message {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    color: var(--color-danger-dark);
+}

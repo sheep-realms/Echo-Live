@@ -52,6 +52,10 @@ const config = {
             "speech_emoji": false,
             "ignored_characters": ""
         },
+        "image": {
+            "enable": true,
+            "allow_data_url_and_relative_url": true
+        },
         "next_effect_name": "none",
         "next_effect_duration": 0,
         "print_effect_name": "none",
@@ -112,7 +116,8 @@ const config = {
         "high_contrast_outline_style": "solid",
         "drotanopia_and_deuteranopia": false,
         "link_underline": false,
-        "animation_disable": false
+        "animation_disable": false,
+        "power_saving_mode": false
     },
     "advanced": {
         "broadcast": {

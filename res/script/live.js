@@ -155,12 +155,13 @@ echo.on('customData', function(e) {
             value: e.emoji
         }, 1);
     }
-    // if (e?.image != undefined) {
-    //     echo.insertSequence({
-    //         type: 'image',
-    //         image: e.image
-    //     }, 1);
-    // }
+    if (e?.image != undefined && config.echolive.image.enable) {
+        if (!config.echolive.image.allow_data_url_and_relative_url && e.image?.url.search(/^(http:\/\/|https:\/\/|file:\/\/\/)/) == -1) return;
+        echo.insertSequence({
+            type: 'image',
+            image: e.image
+        }, 1);
+    }
 });
 
 echo.on('customSequence', function(e) {
@@ -188,15 +189,39 @@ echo.on('customSequence', function(e) {
                 $(`.echo-output span[data-group="${gruopIndex}"]`).append(emojiDOM);
             }
         }
-
-        if (config.echolive.print_audio.enable && printSe) {
-            mixer.play(config.echolive.print_audio.name, config.echolive.print_audio.volume, config.echolive.print_audio.rate);
-            // 打印音效稳定器
-            printSe = false;
-            setTimeout(function() {
-                printSe = true;
-            }, printSeCd);
+    } else if (e.type == 'image' && config.echolive.image.enable) {
+        if (!config.echolive.image.allow_data_url_and_relative_url && e.image?.url.search(/^(http:\/\/|https:\/\/|file:\/\/\/)/) == -1) return;
+        let imageDom = `<img
+            src="${ e.image?.url }"
+            style="
+                display: inline-block;
+                width: ${ e.image?.size?.width?.value || 'auto' };
+                height: ${ e.image?.size?.height?.value || 'auto' };
+                max-width: ${ e.image?.size?.width?.max || 'min(5em, 100%)' };
+                max-height: ${ e.image?.size?.height?.max || 'min(5em, 100%)' };
+                min-width: ${ e.image?.size?.width?.min || 'unset' };
+                min-height: ${ e.image?.size?.height?.min || 'unset' };
+                margin-left: ${ e.image?.margin?.left || '0.5em' };
+                margin-right: ${ e.image?.margin?.right || '0.5em' };
+                image-rendering: ${ e.image?.rendering || 'auto' };
+            "
+        >`;
+        if (gruopIndex == 0) {
+            $('.echo-output').append(imageDom);
+        } else {
+            $(`.echo-output span[data-group="${gruopIndex}"]`).append(imageDom);
         }
+    } else {
+        return;
+    }
+
+    if (config.echolive.print_audio.enable && printSe) {
+        mixer.play(config.echolive.print_audio.name, config.echolive.print_audio.volume, config.echolive.print_audio.rate);
+        // 打印音效稳定器
+        printSe = false;
+        setTimeout(function() {
+            printSe = true;
+        }, printSeCd);
     }
 });
 

@@ -15,6 +15,8 @@ let history = [];
 let historyMinimum = 0;
 let historyClearConfirm = false;
 
+let selectedImageData = [];
+
 let hasError = false;
 
 let logScrollButInvisible = false;
@@ -44,6 +46,13 @@ paletteColorContrastCheck('#000000');
 
 popupsCreate(Popups.emojiPopups(echoLiveEditor.getEmoji()), '#popups-emoji');
 $('#popups-emoji .emoji-page').eq(0).removeClass('hide');
+
+popupsCreate(Popups.imagePopups(), '#popups-image');
+
+if (!config.echolive.image.allow_data_url_and_relative_url) {
+    $('#popups-image-nav .tabpage-nav-item[data-pageid="file"]').addClass('hide');
+    $('#popups-image-nav .tabpage-nav-item[data-pageid="url"]').click();
+}
 
 
 
@@ -370,7 +379,9 @@ function ptextSubmit() {
 
     function __messagePackge(text) {
         if ($('#ptext-chk-use-formatting-code').val() == 1) {
-            text = EchoLiveTools.formattingCodeToMessage(text);
+            text = EchoLiveTools.formattingCodeToMessage(text, {
+                images: selectedImageData
+            });
         }
     
         if ($('#ptext-chk-quote').val() == 1) {
@@ -604,6 +615,10 @@ $(document).on('click', '.editor-format-btn', function() {
         popupsDisplay('#popups-emoji');
         popupsMoveToElement('#popups-emoji', '.editor-controller button[data-value="emoji"]');
         $('#popups-emoji-select').focus();
+    } else if (value == 'image') {
+        popupsDisplay('#popups-image');
+        popupsMoveToElement('#popups-image', '.editor-controller button[data-value="image"]');
+        $('#popups-image-nav .tabpage-nav-item[aria-selected="true"]').focus();
     } else {
         insertTextAtCursor(editorID, format[value], format.clear, false, forceRepeatBefore);
     }
@@ -621,7 +636,7 @@ $(document).on('click', '#popups-emoji .emoji-box', function() {
     let value = $(this).data('value');
     let str = `@{${ value }}`;
     if ($(this).hasClass('is-true-emoji')) str = value;
-    insertTextAtCursor('ptext-content', str);
+    insertTextAtCursor('ptext-content', str, '', false, true);
     popupsDisplay('#popups-emoji', false);
 });
 
@@ -726,6 +741,11 @@ $('#ptext-content').keydown(function(e) {
             if (code[e.keyCode] == undefined) return;
             if (e.keyCode == 32 && !e.shiftKey) return;
             if (e.keyCode == 67 && !e.shiftKey) return;
+            if (e.keyCode == 73 && e.shiftKey) {
+                e.preventDefault();
+                $(`#ptext-editor .editor-controller:not(.disabled) button[data-value="image"]`).click();
+                return;
+            }
 
             e.preventDefault();
             $(`#ptext-editor .editor-controller:not(.disabled) button[data-value="${code[e.keyCode]}"]`).click();

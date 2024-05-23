@@ -434,6 +434,26 @@ const db_config_define = [
             }
         ]
     }, {
+        name: 'echolive.image',
+        type: 'object',
+        created: 4
+    }, {
+        name: 'echolive.image.enable',
+        type: 'boolean',
+        default: true,
+        created: 4
+    }, {
+        name: 'echolive.image.allow_data_url_and_relative_url',
+        type: 'boolean',
+        default: true,
+        created: 4,
+        conditions: [
+            {
+                name: 'echolive.image.enable',
+                value: true
+            }
+        ]
+    }, {
         name: 'echolive.next_effect_name',
         type: 'string',
         default: 'none',
@@ -788,6 +808,11 @@ const db_config_define = [
         created: 4
     }, {
         name: 'accessible.animation_disable',
+        type: 'boolean',
+        default: false,
+        created: 4
+    }, {
+        name: 'accessible.power_saving_mode',
         type: 'boolean',
         default: false,
         created: 4

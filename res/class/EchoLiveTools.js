@@ -88,6 +88,8 @@ class EchoLiveTools {
                     } catch (error) {
                         str += ` [${ e.data.emoji }] `;
                     }
+                } else if (e?.data?.image != undefined) {
+                    str += ` [${ $t('file.picker.image') }] `;
                 }
                 str += e.text;
             }
@@ -147,9 +149,11 @@ class EchoLiveTools {
     /**
      * 快速格式化代码转换成段落格式
      * @param {String} text 文本
+     * @param {Object} data 附加数据
+     * @param {Object} data.images 图片列表
      * @returns {String|Object|Array<Object>} 段落格式
      */
-    static formattingCodeToMessage(text) {
+    static formattingCodeToMessage(text, data = {}) {
         let message = [];
 
         const fontSizeValue = [
@@ -192,6 +196,7 @@ class EchoLiveTools {
             }
 
             let style = {};
+            let imageKey = '';
             switch (e[0]) {
                 case '@b':
                     style.bold = true;
@@ -237,13 +242,30 @@ class EchoLiveTools {
                         style.color = e[0].substring(2, e[0].length - 1);
                         break;
                     } else if (e[0].search(/^@\{.*\}$/g) != -1) {
-                        msgPush(
-                            e[1],
-                            styleCache,
-                            {
-                                emoji: e[0].substring(2, e[0].length - 1)
+                        imageKey = e[0].substring(2, e[0].length - 1);
+
+                        
+                        if (imageKey.split(':')[0] === 'sys') {
+                            // 插入图片
+                            if (imageKey.split(':')[1] === 'img' && data?.images != undefined) {
+                                msgPush(
+                                    e[1],
+                                    styleCache,
+                                    {
+                                        image: data.images[imageKey.split(':')[2]]
+                                    }
+                                );
                             }
-                        );
+                        } else {
+                            // 插入表情包
+                            msgPush(
+                                e[1],
+                                styleCache,
+                                {
+                                    emoji: imageKey
+                                }
+                            );
+                        }
                         continue;
                     } else {
                         msgPush(e[0] + e[1]);

@@ -3,6 +3,8 @@
 // 为了防止再出现逆天的建立在bug上运行的程序加入了严格模式
 "use strict";
 
+let localStorageManager = new LocalStorageManager();
+
 let textList = [
     {text: ''}
 ];

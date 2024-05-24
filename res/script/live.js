@@ -18,6 +18,10 @@ let first = false;
 
 let inTypewriteEnd = false;
 
+let messageActions = {
+    printEnd: undefined
+};
+
 
 
 
@@ -37,6 +41,10 @@ if (config.echolive.speech_synthesis.enable) {
 
 
 echo.on('next', function(msg) {
+    messageActions = {
+        printEnd: undefined
+    };
+    
     echolive.username = EchoLiveTools.getMessageUsername(echolive.username, msg);
     echolive.broadcast.echoPrinting(echolive.username, EchoLiveTools.getMessagePlainText(msg));
 
@@ -126,6 +134,11 @@ echo.on('printEnd', function() {
     // 整理字符串
     // $('.echo-output').html($('.echo-output').html());
     echolive.broadcast.echoStateUpdate('stop', echo.messageList.length);
+
+    if (messageActions.printEnd == 'next') {
+        messageActions.printEnd = undefined;
+        echo.next();
+    }
 });
 
 echo.on('groupStart', function(e) {
@@ -161,6 +174,9 @@ echo.on('customData', function(e) {
             type: 'image',
             image: e.image
         }, 1);
+    }
+    if (e?.action != undefined && e?.action?.printEnd != undefined) {
+        messageActions.printEnd = e.action.printEnd;
     }
 });
 

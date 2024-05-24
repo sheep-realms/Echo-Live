@@ -22,6 +22,8 @@ let messageActions = {
     printEnd: undefined
 };
 
+let inRuby = false;
+
 
 
 
@@ -37,6 +39,19 @@ if (config.echolive.speech_synthesis.enable) {
     if (config.echolive.speech_synthesis.voice != '') voiceIndex = voices.findIndex(e => e.name == config.echolive.speech_synthesis.voice);
 }
 
+function messageOutput(text = '') {
+    let exsel = inRuby ? ' ruby' : '';
+    if (inTypewriteEnd) {
+        inTypewriteEnd = false;
+        $('.echo-output .echo-text-typewrite' + exsel).text(text);
+        $('.echo-output .echo-text-typewrite' + exsel).removeClass('echo-text-typewrite');
+    } else if (gruopIndex == 0) {
+        $('.echo-output' + exsel).append(text);
+    } else {
+        $(`.echo-output span[data-group="${gruopIndex}"]` + exsel).append(text);
+    }
+}
+
 
 
 
@@ -44,7 +59,7 @@ echo.on('next', function(msg) {
     messageActions = {
         printEnd: undefined
     };
-    
+
     echolive.username = EchoLiveTools.getMessageUsername(echolive.username, msg);
     echolive.broadcast.echoPrinting(echolive.username, EchoLiveTools.getMessagePlainText(msg));
 
@@ -91,15 +106,7 @@ echo.on('print', function(chr) {
         chr = '<br>'
     }
 
-    if (inTypewriteEnd) {
-        inTypewriteEnd = false;
-        $('.echo-output .echo-text-typewrite').text(chr);
-        $('.echo-output .echo-text-typewrite').removeClass('echo-text-typewrite');
-    } else if (gruopIndex == 0) {
-        $('.echo-output').append(chr);
-    } else {
-        $(`.echo-output span[data-group="${gruopIndex}"]`).append(chr);
-    }
+    messageOutput(chr);
 
     if (config.echolive.print_audio.enable && chr != '' && chr != undefined && printSe) {
         mixer.play(config.echolive.print_audio.name, config.echolive.print_audio.volume, config.echolive.print_audio.rate);
@@ -155,6 +162,16 @@ echo.on('typewriteEnd', function() {
     inTypewriteEnd = true;
     // $('.echo-output .echo-text-typewrite').remove();
 });
+
+echo.on('rubyStart', function() {
+    messageOutput('<ruby></ruby>');
+    inRuby = true;
+})
+
+echo.on('rubyEnd', function(e) {
+    messageOutput(`<rt>${e}</rt>`);
+    inRuby = false;
+})
 
 echo.on('customEvent', function(e) {
     $('#echo-live').addClass('event-' + e);

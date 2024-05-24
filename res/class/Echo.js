@@ -18,6 +18,7 @@ class Echo {
         this.printSpeedChange = 30;
         this.state = 'stop';
         this.typewrite = 'none';
+        this.ruby = false;
         this.filter = {
             HTMLFormat: true
         };
@@ -33,6 +34,8 @@ class Echo {
             print: function() {},
             printEnd: function() {},
             printStart: function() {},
+            rubyEnd: function() {},
+            rubyStart: function() {},
             send: function() {},
             sendList: function() {},
             skip: function() {},
@@ -83,6 +86,10 @@ class Echo {
             groupNow: n
         }
         
+        if (obj?.ruby != undefined) {
+            this.ruby = false;
+            this.event.rubyEnd(obj.ruby);
+        }
         if (obj?.typewrite != undefined) {
             this.typewrite = 'ready';
         }
@@ -112,6 +119,10 @@ class Echo {
             this.event.customData(obj?.data);
         }
         this.event.groupStart(e);
+        if (obj?.ruby != undefined) {
+            this.ruby = true;
+            this.event.rubyStart(obj.ruby);
+        }
         return e;
     }
 
@@ -134,6 +145,7 @@ class Echo {
                 class: msg?.class,
                 style: msg?.style,
                 typewrite: msg?.typewrite,
+                ruby: msg?.ruby,
                 printSpeed: msg?.speed,
                 event: msg?.event,
                 data: msg?.data
@@ -141,7 +153,8 @@ class Echo {
 
             let dataAfter = {
                 action: 'group_end',
-                typewrite: msg?.typewrite
+                typewrite: msg?.typewrite,
+                ruby: msg?.ruby
             };
 
             let dataContent, data;

@@ -709,7 +709,18 @@
 .settings-controller-message {
     flex: 1;
     color: var(--text-regular);
-    min-width: 300px;
+    min-width: 200px;
+}
+
+.settings-controller-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.settings-controller-action>button {
+    flex: 1;
 }
 
 @media screen and (max-width: 760px) {

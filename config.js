@@ -54,7 +54,8 @@ const config = {
         },
         "image": {
             "enable": true,
-            "allow_data_url_and_relative_url": true
+            "allow_data_url_and_relative_url": true,
+            "default_max_size": 3
         },
         "next_effect_name": "none",
         "next_effect_duration": 0,
@@ -72,7 +73,8 @@ const config = {
             "client_state_panel_enable": false,
             "history_resend_bubble": false,
             "history_maximum": 128,
-            "log_line_maximum": 512
+            "log_line_maximum": 512,
+            "images_cache_maximum": 64
         },
         "form": {
             "username": "",

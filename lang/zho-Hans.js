@@ -273,6 +273,10 @@ const lang_zho_Hans = {
                 allow_data_url_and_relative_url: {
                     _title: "允许 Data URL 和相对地址",
                     _description: "允许使用 Data URL 格式传输图片和使用相对地址。<br>禁用将无法在编辑器中通过导入文件设置图片，且只能使用 http(s):// 和 file:/// 协议头的地址。<br>特别提醒：不要导入大得离谱的图片！"
+                },
+                default_max_size: {
+                    _title: "默认最大图片尺寸",
+                    _description: "控制图片在对话框中的默认最大尺寸。单位：em（相对于字符尺寸的长度单位）。"
                 }
             }
         },
@@ -304,6 +308,10 @@ const lang_zho_Hans = {
                 },
                 log_line_maximum: {
                     _title: "日志行数上限",
+                    _description: "设为 -1 则不设上限。"
+                },
+                images_cache_maximum: {
+                    _title: "自定义消息图片缓存数上限",
                     _description: "设为 -1 则不设上限。"
                 }
             },
@@ -574,6 +582,9 @@ const lang_zho_Hans = {
             resent_at: "（于 {time} 再次发送）"
         },
         image_popups: {
+            button: {
+                delete_all_images: "删除所有图片"
+            },
             label: {
                 image_margin: "外边距",
                 image_rendering: "重采样",

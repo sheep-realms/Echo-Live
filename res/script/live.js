@@ -197,8 +197,8 @@ echo.on('customSequence', function(e) {
                 display: inline-block;
                 width: ${ e.image?.size?.width?.value || 'auto' };
                 height: ${ e.image?.size?.height?.value || 'auto' };
-                max-width: ${ e.image?.size?.width?.max || 'min(5em, 100%)' };
-                max-height: ${ e.image?.size?.height?.max || 'min(5em, 100%)' };
+                max-width: ${ e.image?.size?.width?.max || `min(${ config.echolive.image.default_max_size }em, 100%)` };
+                max-height: ${ e.image?.size?.height?.max || `min(${ config.echolive.image.default_max_size }em, 100%)` };
                 min-width: ${ e.image?.size?.width?.min || 'unset' };
                 min-height: ${ e.image?.size?.height?.min || 'unset' };
                 margin-left: ${ e.image?.margin?.left || '0.5em' };

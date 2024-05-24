@@ -46,25 +46,10 @@ class EchoLive {
         //     this.broadcast.error(message, source, line, col);
         // };
 
-        // 嵌套有点多了，这不好，要改
         if (this.config.echolive.sleep.enable) {
+            this.checkVisibility();
             document.addEventListener("visibilitychange", () => {
-                if (document.visibilityState === "visible") {
-                    this.hidden = false;
-                    if (this.broadcast != undefined) this.broadcast.pageVisible();
-                    if (this.timer.messagesPolling != -1) {
-                        this.antiFlood = true;
-                        this.start();
-                    }
-                } else {
-                    this.hidden = true;
-                    if (this.broadcast != undefined) this.broadcast.pageHidden();
-                    if (this.timer.messagesPolling != -1) this.stop();
-                    if (this.echo.state != 'stop' && this.config.echolive.sleep.enable && this.config.echolive.sleep.during_printing_stop_print) {
-                        this.echo.stop();
-                        this.broadcast.echoStateUpdate('stop', this.echo.messageList.length);
-                    }
-                }
+                this.checkVisibility();
             });
         }
 
@@ -91,6 +76,28 @@ class EchoLive {
     on(eventName, action = function() {}) {
         if (typeof action != 'function') return;
         return this.event[eventName] = action;
+    }
+
+    /**
+     * 检查对话框可见性
+     */
+    checkVisibility() {
+        if (document.visibilityState === "visible") {
+            this.hidden = false;
+            if (this.broadcast != undefined) this.broadcast.pageVisible();
+            if (this.timer.messagesPolling != -1) {
+                this.antiFlood = true;
+                this.start();
+            }
+        } else {
+            this.hidden = true;
+            if (this.broadcast != undefined) this.broadcast.pageHidden();
+            if (this.timer.messagesPolling != -1) this.stop();
+            if (this.echo.state != 'stop' && this.config.echolive.sleep.enable && this.config.echolive.sleep.during_printing_stop_print) {
+                this.echo.stop();
+                this.broadcast.echoStateUpdate('stop', this.echo.messageList.length);
+            }
+        }
     }
 
     /**

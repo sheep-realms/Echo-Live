@@ -18,6 +18,7 @@ let historyMinimum = 0;
 let historyClearConfirm = false;
 
 let selectedImageData = [];
+let selectedImageDataBottomIndex = -1;
 
 let hasError = false;
 
@@ -54,6 +55,15 @@ popupsCreate(Popups.imagePopups(), '#popups-image');
 if (!config.echolive.image.allow_data_url_and_relative_url) {
     $('#popups-image-nav .tabpage-nav-item[data-pageid="file"]').addClass('hide');
     $('#popups-image-nav .tabpage-nav-item[data-pageid="url"]').click();
+    $('#popups-image-images-list').addClass('disable-not-absolute');
+}
+
+try {
+    selectedImageData = localStorageManager.getItem('images_cache');
+    if (!Array.isArray(selectedImageData)) selectedImageData = [];
+    $('#popups-image-images-list').html(Popups.imagesContent(selectedImageData));
+} catch (error) {
+    
 }
 
 

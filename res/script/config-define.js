@@ -454,6 +454,20 @@ const db_config_define = [
             }
         ]
     }, {
+        name: 'echolive.image.default_max_size',
+        type: 'number',
+        default: 3,
+        created: 4,
+        attribute: {
+            min: 0
+        },
+        conditions: [
+            {
+                name: 'echolive.image.enable',
+                value: true
+            }
+        ]
+    }, {
         name: 'echolive.next_effect_name',
         type: 'string',
         default: 'none',
@@ -549,6 +563,14 @@ const db_config_define = [
         type: 'number',
         default: 512,
         from: 'editor.log_line_maximum',
+        created: 4,
+        attribute: {
+            min: -1
+        }
+    }, {
+        name: 'editor.function.images_cache_maximum',
+        type: 'number',
+        default: 64,
         created: 4,
         attribute: {
             min: -1

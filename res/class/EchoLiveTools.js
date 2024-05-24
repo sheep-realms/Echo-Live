@@ -80,6 +80,9 @@ class EchoLiveTools {
             if (typeof e == 'string') {
                 str += e;
             } else {
+                if (e?.data?.image != undefined) {
+                    str += ` [${ $t('file.picker.image') }] `;
+                }
                 if (e?.data?.emoji != undefined && !noEmoji) {
                     try {
                         typeof emojiHako;
@@ -88,8 +91,6 @@ class EchoLiveTools {
                     } catch (error) {
                         str += ` [${ e.data.emoji }] `;
                     }
-                } else if (e?.data?.image != undefined) {
-                    str += ` [${ $t('file.picker.image') }] `;
                 }
                 str += e.text;
             }

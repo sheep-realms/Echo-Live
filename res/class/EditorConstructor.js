@@ -675,11 +675,17 @@ class Popups {
         return dom;
     }
 
+    /**
+     * 图片选择器悬浮框
+     * @param {Object} data 属性值
+     * @param {String} id ID
+     * @returns 
+     */
     static imagePopups(data = {}, id = 'popups-image') {
         data = {
             width: {
-                min: '500px',
-                max: '500px'
+                min: '502px',
+                max: '502px'
             },
             height: {
                 min: '200px',
@@ -741,7 +747,10 @@ class Popups {
                     </div>
                 </section>
                 <section class="tabpage-panel hide" role="tabpanel" data-pageid="images">
-                    
+                    <div class="images-list-action">
+                        ${ Popups.imagesListAction(0) }
+                    </div>
+                    <div id="popups-image-images-list" class="images-list"></div>
                 </section>
             </div>
             <div class="image-parameter echo-editor-form">
@@ -757,7 +766,7 @@ class Popups {
                         <div class="image-parameter-line">
                             <div class="image-parameter-item">
                                 <label for="image-size-max">${ $t('editor.image_popups.label.image_size_max') }</label>
-                                <input type="number" id="image-size-max" value="5">
+                                <input type="number" id="image-size-max" value="${ config.echolive.image.default_max_size }">
                             </div>
                             <div class="image-parameter-item">
                                 <label for="image-size-min">${ $t('editor.image_popups.label.image_size_min') }</label>
@@ -783,6 +792,61 @@ class Popups {
             id,
             data
         );
+    }
+
+    static imagesListAction(mode = 0) {
+        const btnDeleteStart = EditorForm.buttonGhost(
+            $t('ui.delete'),
+            {
+                class: 'btn-image-cache-delete',
+                icon: Icon.toggleSwitchOffOutline(),
+                color: 'danger',
+                size: "small"
+            }
+        );
+        const btnDeleteEnd = EditorForm.button(
+            $t('ui.delete'),
+            {
+                class: 'btn-image-cache-delete-stop',
+                icon: Icon.toggleSwitch(),
+                color: 'danger',
+                size: "small"
+            }
+        );
+        const btnDeleteAll = EditorForm.buttonGhost(
+            $t('editor.image_popups.button.delete_all_images'),
+            {
+                class: 'btn-image-cache-delete-all',
+                icon: Icon.delete(),
+                color: 'danger',
+                size: "small"
+            }
+        )
+        if (mode == 0) {
+            return btnDeleteStart;
+        } else {
+            return btnDeleteEnd + btnDeleteAll;
+        }
+    }
+
+    static imagesContent(imagesData = []) {
+        let dom = '';
+        for (let i = 0; i < imagesData.length; i++) {
+            const e = imagesData[i];
+            if (e == undefined || e == null) continue;
+            dom = Popups.imageBox(i, e.url, e.isAbsolute, e.rendering == 'pixelated' ? true : false) + dom;
+        }
+        return dom;
+    }
+
+    static imageBox(index, url, isAbsolute = false, isPixelated = false) {
+        return `<button
+            class="image-box ${ isAbsolute ? 'image-is-absolute' : ''} ${ isPixelated ? 'image-rendering-pixelated' : ''}"
+            data-value="${ index }"
+            data-is-absolute="${ isAbsolute }"
+        >
+            <img src="${ url }" alt="${ $t('file.picker.image') }">
+        </button>`
     }
 }
 

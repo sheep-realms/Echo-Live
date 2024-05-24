@@ -273,6 +273,10 @@ const lang_zho_Hant_HK = {
                 allow_data_url_and_relative_url: {
                     _title: "允許 Data URL 和相對地址",
                     _description: "允許使用 Data URL 格式傳輸圖片和使用相對地址。<br>禁用將無法在編輯器中通過導入文件設定圖片，且只能使用 http(s):// 和 file:/// 協議頭的地址。<br>特別提醒：不要導入大得離譜的圖片！"
+                },
+                default_max_size: {
+                    _title: "默認最大圖片尺寸",
+                    _description: "控制圖片在對話框中的默認最大尺寸。單位：em（相對於字符尺寸的長度單位）。"
                 }
             }
         },
@@ -304,6 +308,10 @@ const lang_zho_Hant_HK = {
                 },
                 log_line_maximum: {
                     _title: "日誌行數上限",
+                    _description: "設為 -1 則不設上限。"
+                },
+                images_cache_maximum: {
+                    _title: "自定義消息圖片緩存數上限",
                     _description: "設為 -1 則不設上限。"
                 }
             },
@@ -574,6 +582,9 @@ const lang_zho_Hant_HK = {
             resent_at: "（於 {time} 再次發送）"
         },
         image_popups: {
+            button: {
+                delete_all_images: "删除所有图片"
+            },
             label: {
                 image_margin: "外邊距",
                 image_rendering: "重採樣",

@@ -198,23 +198,52 @@ $(document).on('click', '#btn-flie-check-dialog-cancel', function() {
     closeFileCheckDialog(true);
 });
 
+function addImageData(data, attr) {
+    let r = selectedImageData.findIndex((e) => e.url == data);
+    let isAbsolute = true;
+    let isPixelated = attr.rendering == 'pixelated' ? true : false;
+
+    if (data.search(/^(http:\/\/|https:\/\/|file:\/\/\/)/) == -1) isAbsolute = false;
+
+    if (r == -1) {
+        r = selectedImageData.push({
+            url: data,
+            isAbsolute: isAbsolute,
+            isPixelated: isPixelated,
+            ...attr
+        }) - 1;
+
+        if (config.editor.function.images_cache_maximum != -1 && selectedImageData.length > config.editor.function.images_cache_maximum) {
+            do {
+                delete selectedImageData[++selectedImageDataBottomIndex];
+                $(`#popups-image-images-list .image-box[data-value="${selectedImageDataBottomIndex}"]`).remove();
+            } while (selectedImageData.length - 1 - selectedImageDataBottomIndex > config.editor.function.images_cache_maximum);
+        }
+
+        $('#popups-image-images-list').prepend(Popups.imageBox(r, data, isAbsolute, isPixelated));
+    } else {
+        selectedImageData[r] = {
+            url: data,
+            isAbsolute: isAbsolute,
+            isPixelated: isPixelated,
+            ...attr
+        };
+    }
+
+    try {
+        localStorageManager.setItem('images_cache', selectedImageData.flat());
+    } catch (error) {
+        
+    }
+
+    return r;
+}
+
 
 $(document).on('click', '#btn-flie-check-dialog-import-image', function() {
     let i = 0;
     let imageAttr = getImageAttr();
-    i = selectedImageData.findIndex((e) => e.url == dropData);
-    if (i == -1) {
-        i = selectedImageData.push({
-            url: dropData,
-            ...imageAttr
-        }) - 1;
-    } else {
-        selectedImageData[i] = {
-            url: dropData,
-            ...imageAttr
-        };
-    }
-
+    i = addImageData(dropData, imageAttr);
     outputImageCode(i);
 });
 
@@ -222,18 +251,7 @@ $(document).on('click', '#btn-flie-check-dialog-import-image-url', function() {
     const imageURL = $('#image-url').val().trim();
     let i = 0;
     let imageAttr = getImageAttr();
-    i = selectedImageData.findIndex((e) => e.url == imageURL);
-    if (i == -1) {
-        i = selectedImageData.push({
-            url: imageURL,
-            ...imageAttr
-        }) - 1;
-    } else {
-        selectedImageData[i] = {
-            url: imageURL,
-            ...imageAttr
-        };
-    }
+    i = addImageData(imageURL, imageAttr);
 
     $('#image-url').val('')
     outputImageCode(i);
@@ -264,4 +282,42 @@ $(document).on('input', '#image-url', function() {
     } else {
         $('.image-url-message').text('');
     }
+});
+
+
+
+$(document).on('click', '#popups-image-images-list:not(.in-delete) .image-box', function() {
+    let value = $(this).data('value')
+    outputImageCode(value);
+});
+
+$(document).on('click', '#popups-image-images-list.in-delete .image-box', function() {
+    let value = $(this).data('value')
+    delete selectedImageData[value];
+    $(`#popups-image-images-list .image-box[data-value="${value}"]`).remove();
+    try {
+        localStorageManager.setItem('images_cache', selectedImageData.flat());
+    } catch (error) {}
+});
+
+$(document).on('click', '#popups-image .btn-image-cache-delete', function() {
+    $('#popups-image-images-list').addClass('in-delete');
+    $('#popups-image .images-list-action').html(Popups.imagesListAction(1));
+    $('#popups-image .btn-image-cache-delete-stop').focus();
+});
+
+$(document).on('click', '#popups-image .btn-image-cache-delete-stop', function() {
+    $('#popups-image-images-list').removeClass('in-delete');
+    $('#popups-image .images-list-action').html(Popups.imagesListAction(0));
+    $('#popups-image .btn-image-cache-delete').focus();
+});
+
+$(document).on('click', '#popups-image .btn-image-cache-delete-all', function() {
+    selectedImageData = [];
+    $('#popups-image-images-list .image-box').remove();
+    $('#popups-image .images-list-action').html(Popups.imagesListAction(0));
+    $('#popups-image .btn-image-cache-delete').focus();
+    try {
+        localStorageManager.setItem('images_cache', selectedImageData.flat());
+    } catch (error) {}
 });

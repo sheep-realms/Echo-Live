@@ -225,3 +225,69 @@
     align-items: center;
     color: var(--color-danger-dark);
 }
+
+
+
+
+#popups-image .image-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+}
+
+#popups-image .image-box {
+    width: 90px;
+    height: 90px;
+    box-sizing: border-box;
+    border: transparent 1px solid;
+    cursor: pointer;
+    transition: border .15s, background-color .15s;
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    background-color: var(--page-bgcolor);
+    position: relative;
+}
+
+#popups-image .image-box img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+#popups-image .image-box:hover {
+    border: var(--border-color) 1px solid;
+}
+
+#popups-image .image-box:focus {
+    border: var(--color-general-dark) 1px solid;
+}
+
+#popups-image .image-box:active {
+    filter: brightness(0.85);
+}
+
+#popups-image .image-box.image-rendering-pixelated img {
+    image-rendering: pixelated;
+}
+
+#popups-image-images-list.in-delete .image-box:hover {
+    border: var(--color-danger-dark) 1px solid;
+    background-color: var(--color-danger-glass);
+}
+
+#popups-image-images-list.in-delete .image-box:focus {
+    border: var(--color-danger-dark) 1px solid;
+}
+
+#popups-image-images-list.disable-not-absolute .image-box:not(.image-is-absolute) {
+    display: none;
+}
+
+#popups-image .images-list-action {
+    display: flex;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: var(--border-color) 1px solid;
+}

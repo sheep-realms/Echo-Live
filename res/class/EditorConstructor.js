@@ -695,22 +695,22 @@ class Popups {
                     data-pageid="file"
                     role="tab"
                     aria-selected="true"
-                    title="直接导入图片文件"
-                >导入文件</button>
+                    title="${ $t('editor.image_popups.tabpage.file.description') }"
+                >${ $t('editor.image_popups.tabpage.file.title') }</button>
                 <button
                     class="tabpage-nav-item"
                     data-pageid="url"
                     role="tab"
                     aria-selected="false"
-                    title="导入 URL 地址"
-                >导入地址</button>
+                    title="${ $t('editor.image_popups.tabpage.url.description') }"
+                >${ $t('editor.image_popups.tabpage.url.title') }</button>
                 <button
                     class="tabpage-nav-item"
                     data-pageid="images"
                     role="tab"
                     aria-selected="false"
-                    title="已缓存的图片"
-                >图库</button>
+                    title="${ $t('editor.image_popups.tabpage.images.description') }"
+                >${ $t('editor.image_popups.tabpage.images.title') }</button>
             </nav>
             <div class="tabpage-centent" data-navid="popups-image">
                 <section class="tabpage-panel" role="tabpanel" data-pageid="file">
@@ -749,31 +749,31 @@ class Popups {
                     <div class="collapse-title">
                         <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
                             <span class="icon"></span>
-                            <span class="text">设置图片属性</span>
+                            <span class="text">${ $t('editor.image_popups.label.set_image_parameter') }</span>
                             <input type="hidden" id="image-parameter-set" value="0">
                         </button>
                     </div>
                     <div class="collapse-content hide">
                         <div class="image-parameter-line">
                             <div class="image-parameter-item">
-                                <label for="image-size-max">最大图片尺寸</label>
+                                <label for="image-size-max">${ $t('editor.image_popups.label.image_size_max') }</label>
                                 <input type="number" id="image-size-max" value="5">
                             </div>
                             <div class="image-parameter-item">
-                                <label for="image-size-min">最小图片尺寸</label>
+                                <label for="image-size-min">${ $t('editor.image_popups.label.image_size_min') }</label>
                                 <input type="number" id="image-size-min" value="0">
                             </div>
                         </div>
                         <div class="image-parameter-line">
                             <div class="image-parameter-item">
-                                <label for="image-margin">外边距</label>
+                                <label for="image-margin">${ $t('editor.image_popups.label.image_margin') }</label>
                                 <input type="number" id="image-margin" value="0.5">
                             </div>
                             <div class="image-parameter-item">
-                                <label for="image-rendering">重采样</label>
+                                <label for="image-rendering">${ $t('editor.image_popups.label.image_rendering') }</label>
                                 <select name="pets" id="image-rendering">
-                                    <option value="auto">自动</option>
-                                    <option value="pixelated">最邻近</option>
+                                    <option value="auto">${ $t('editor.image_popups.option.image_rendering.auto') }</option>
+                                    <option value="pixelated">${ $t('editor.image_popups.option.image_rendering.pixelated') }</option>
                                 </select>
                             </div>
                         </div>

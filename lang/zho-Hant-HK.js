@@ -573,6 +573,35 @@ const lang_zho_Hant_HK = {
             messages_more: "... 等 {n} 條消息",
             resent_at: "（於 {time} 再次發送）"
         },
+        image_popups: {
+            label: {
+                image_margin: "外邊距",
+                image_rendering: "重採樣",
+                image_size_max: "最大圖片尺寸",
+                image_size_min: "最小圖片尺寸",
+                set_image_parameter: "設置圖片屬性"
+            },
+            option: {
+                image_rendering: {
+                    auto: "自動",
+                    pixelated: "最鄰近"
+                }
+            },
+            tabpage: {
+                file: {
+                    title: "導入文件",
+                    description: "直接導入圖片文件"
+                },
+                url: {
+                    title: "導入地址",
+                    description: "導入 URL 地址"
+                },
+                images: {
+                    title: "圖庫",
+                    description: "已緩存的圖片"
+                }
+            }
+        },
         log: {
             index: "日誌",
             welcome: "歡迎使用 Echo-Live！如需查閱幫助文檔，請見：https://sheep-realms.github.io/Echo-Live-Doc/",

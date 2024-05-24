@@ -573,6 +573,35 @@ const lang_zho_Hans = {
             messages_more: "... 等 {n} 条消息",
             resent_at: "（于 {time} 再次发送）"
         },
+        image_popups: {
+            label: {
+                image_margin: "外边距",
+                image_rendering: "重采样",
+                image_size_max: "最大图片尺寸",
+                image_size_min: "最小图片尺寸",
+                set_image_parameter: "设置图片属性"
+            },
+            option: {
+                image_rendering: {
+                    auto: "自动",
+                    pixelated: "最邻近"
+                }
+            },
+            tabpage: {
+                file: {
+                    title: "导入文件",
+                    description: "直接导入图片文件"
+                },
+                url: {
+                    title: "导入地址",
+                    description: "导入 URL 地址"
+                },
+                images: {
+                    title: "图库",
+                    description: "已缓存的图片"
+                }
+            }
+        },
         log: {
             index: "日志",
             welcome: "欢迎使用 Echo-Live！如需查阅帮助文档，请见：https://sheep-realms.github.io/Echo-Live-Doc/",

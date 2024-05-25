@@ -399,7 +399,7 @@ const db_config_define = [
     }, {
         name: 'echolive.speech_synthesis.delay',
         type: 'number',
-        default: 1,
+        default: 0,
         created: 4,
         attribute: {
             min: 0,

@@ -613,6 +613,8 @@ $(document).on('click', '#settings-file-input-box', function(e) {
 
 function configLoad() {
     if ($('.settings-item.change').length > 0) configUndoAll();
+    $(`.settings-item`).removeClass('settings-item-update');
+
     settingsManager.getConfigDefine().forEach((e) => {
         let value = settingsManager.getConfig(e.name);
         if (value != undefined && (typeof value != 'object' || Array.isArray(value))) {

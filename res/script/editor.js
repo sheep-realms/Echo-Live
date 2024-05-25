@@ -3,6 +3,8 @@
 // 为了防止再出现逆天的建立在bug上运行的程序加入了严格模式
 "use strict";
 
+let localStorageManager = new LocalStorageManager();
+
 let textList = [
     {text: ''}
 ];
@@ -15,28 +17,63 @@ let history = [];
 let historyMinimum = 0;
 let historyClearConfirm = false;
 
+let selectedImageData = [];
+let selectedImageDataBottomIndex = -1;
+
 let hasError = false;
 
 let logScrollButInvisible = false;
 
-setDefaultValue('#config-output-before', config.editor.output_before);
-setDefaultValue('#config-output-after', config.editor.output_after);
-$('#ptext-character, #rtext-character').val(config.editor.username_init);
-setCheckboxDefaultValue('#config-output-use-before', config.editor.ontput_before_enable);
-setCheckboxDefaultValue('#config-output-use-after', config.editor.ontput_after_enable);
+echoLiveEditor.emojiHako = emojiHako;
+
+setDefaultValue('#config-output-before', config.editor.form.output_before);
+setDefaultValue('#config-output-after', config.editor.form.output_after);
+setDefaultValue('#ptext-ipt-quote-before', config.editor.form.quote_before);
+setDefaultValue('#ptext-ipt-quote-after', config.editor.form.quote_after);
+$('#ptext-character, #rtext-character').val(config.editor.form.username);
+setCheckboxDefaultValue('#config-output-use-before', config.editor.form.ontput_before_enable);
+setCheckboxDefaultValue('#config-output-use-after', config.editor.form.ontput_after_enable);
 
 $('#ptext-editor .editor-bottom-bar .length').text($t('editor.form.text_length', { n: 0 }));
 
 $('.tabpage-panel[data-pageid="ptext"] .editor-controller').append(EditorForm.editorController('ptext-content'));
 
-if (!config.editor.tabpage_config_enable) $('#tabpage-nav-config').addClass('hide');
-if (!config.editor.tabpage_output_enable) $('#tabpage-nav-output').addClass('hide');
+if (!config.editor.function.tabpage_config_enable) $('#tabpage-nav-config').addClass('hide');
+if (!config.editor.function.tabpage_output_enable) $('#tabpage-nav-output').addClass('hide');
 
 popupsCreate(Popups.palettePopups(echoLiveEditor.getPalettes()), '#popups-palette');
 $('#popups-palette .palette-page').eq(0).removeClass('hide');
-if (config.editor.palette_color_contrast_enable) $('#popups-palette').addClass('color-contrast-enable');
-$('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--bg-color', config.editor.palette_color_contrast_background_color)
+if (config.editor.color_picker.contrast_enable) $('#popups-palette').addClass('color-contrast-enable');
+$('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--bg-color', config.editor.color_picker.contrast_background_color)
 paletteColorContrastCheck('#000000');
+
+popupsCreate(Popups.emojiPopups(echoLiveEditor.getEmoji()), '#popups-emoji');
+$('#popups-emoji .emoji-page').eq(0).removeClass('hide');
+
+popupsCreate(Popups.imagePopups(), '#popups-image');
+
+if (!config.echolive.image.allow_data_url_and_relative_url) {
+    $('#popups-image-nav .tabpage-nav-item[data-pageid="file"]').addClass('hide');
+    $('#popups-image-nav .tabpage-nav-item[data-pageid="url"]').click();
+    $('#popups-image-images-list').addClass('disable-not-absolute');
+}
+
+try {
+    selectedImageData = localStorageManager.getItem('images_cache');
+    if (!Array.isArray(selectedImageData)) selectedImageData = [];
+    $('#popups-image-images-list').html(Popups.imagesContent(selectedImageData));
+} catch (error) {
+    
+}
+
+
+
+let commander = new Commander();
+let logMessager = new Messager();
+logMessager.on('message', function(message, type = 'info', isInput = false) {
+    editorLog('[Commander] ' + ( isInput ? '&lt; ' : '&gt; ' ) + EchoLiveTools.safeHTML(message), type);
+});
+commander.link.messager = logMessager;
 
 
 let elb;
@@ -45,40 +82,18 @@ if (config.echo.print_speed != 30) {
     $('.echo-editor-form-input-tip').text($t('editor.form.description.print_speed_custom', { value: config.echo.print_speed }));
 }
 
-if (config.echolive.broadcast_enable) {
+if (config.echolive.broadcast.enable) {
     $('#ptext-btn-submit').addClass('fh-ghost');
     $('#ptext-btn-send, #output-btn-send').removeClass('hide');
     $('#ptext-content, #output-content').attr('title', $t('editor.tip.hot_key_textarea_quick_send'));
 
-    if (config.editor.client_state_panel_enable) {
+    if (config.editor.function.client_state_panel_enable) {
         $('.echo-live-client-state').removeClass('hide');
     }
 
-    // 纯文本 - 内容 - 快捷键
-    $('#ptext-content').keydown(function(e) {
-        // console.log(e.keyCode);
-        if (e.ctrlKey) {
-            if (e.keyCode == 13) {
-                $('#ptext-btn-send').click();
-                effectClick('#ptext-btn-send');
-            } else if (e.keyCode == 83) {
-                e.preventDefault();
-            } else {
-                let code = {
-                    '66': 'bold',
-                    '73': 'italic',
-                    '85': 'underline',
-                    '68': 'strikethrough',
-                    '32': 'clear'
-                };
-                if (code[e.keyCode] == undefined) return;
-                if (e.keyCode == 32 && !e.shiftKey) return;
-
-                e.preventDefault();
-                $(`#ptext-editor .editor-controller:not(.disabled) button[data-value="${code[e.keyCode]}"]`).click();
-            }
-        }
-    })
+    if (config.editor.function.client_state_panel_enable || config.advanced.editor.forced_display_split_message) {
+        $('#collapse-split-message').removeClass('hide');
+    }
 
     // 输出 - 内容 - 快捷键
     $('#output-content').keydown(function(e) {
@@ -90,15 +105,17 @@ if (config.echolive.broadcast_enable) {
 
     $('.echo-live-client-state-content').html(EditorClientState.statePanel([]));
 
-    elb = new EchoLiveBroadcastServer(config.echolive.broadcast_channel, config);
+    elb = new EchoLiveBroadcastServer(config.echolive.broadcast.channel, config);
     elb.on('clientsChange', clientsChange);
     elb.on('message', getMessage);
     elb.on('error', getError);
     elb.on('noClient', noClient);
     elb.on('nameDuplicate', nameDuplicate);
 
+    commander.link.broadcast = elb;
+
     checkNowDate();
-    editorLogT('editor.log.broadcast_launch.done', { channel: config.echolive.broadcast_channel });
+    editorLogT('editor.log.broadcast_launch.done', { channel: config.echolive.broadcast.channel });
     editorLog('User Agent: ' + navigator.userAgent, 'dbug');
     if (navigator.userAgent.toLowerCase().search(/ obs\//) != -1) {
         editorLogT('editor.log.broadcast_launch.user_agent_check', {}, 'done');
@@ -123,8 +140,8 @@ function editorLog(message = '', type = 'info') {
 
     // 防止日志过多
     let $logitems = $('#editor-log .log-item');
-    if (config.editor.log_line_maximum >= 0 && $logitems.length > config.editor.log_line_maximum) {
-        $(`#editor-log .log-item:lt(${$logitems.length - config.editor.log_line_maximum})`).remove();
+    if (config.editor.function.log_line_maximum >= 0 && $logitems.length > config.editor.function.log_line_maximum) {
+        $(`#editor-log .log-item:lt(${$logitems.length - config.editor.function.log_line_maximum})`).remove();
     }
 
     // 通知重要消息
@@ -166,9 +183,10 @@ function getMessage(data) {
             
         case 'hello':
             if (data.target == undefined || data.target == elb.uuid) {
-                let helloMsg1 = data.data.hidden ? 'hello_hidden' : 'hello';
+                let helloMsg1 = data.data.hidden ? '_hidden' : '';
+                let helloMsg2 = data.target == elb.uuid ? '_reply' : '';
                 editorLogT(
-                    'editor.log.broadcast.' + helloMsg1,
+                    'editor.log.broadcast.hello' + helloMsg2 + helloMsg1,
                     {
                         client: $t('broadcast.client.type.' + data.from.type),
                         name: data.from.name
@@ -247,6 +265,13 @@ function getMessage(data) {
                 editorLogT('editor.log.tip.unknown_error', {}, 'tips');
             }
             break;
+
+        case 'shutdown':
+            editorLogT(
+                'editor.log.broadcast.shutdown' + (data.data?.reason != undefined ? '_reason' : ''),
+                data.data?.reason != undefined ? { reason: data.data?.reason } : {}
+            );
+            break
 
         default:
             break;
@@ -364,35 +389,61 @@ function ptextSubmit() {
     let txt = $('#ptext-content').val();
     let username = $('#ptext-character').val();
 
-    if ($('#ptext-chk-use-formatting-code').val() == 1) {
-        txt = EchoLiveTools.formattingCodeToMessage(txt);
+    function __messagePackge(text) {
+        if ($('#ptext-chk-use-formatting-code').val() == 1) {
+            text = EchoLiveTools.formattingCodeToMessage(text, {
+                images: selectedImageData
+            });
+        }
+    
+        if ($('#ptext-chk-quote').val() == 1) {
+            let before = $('#ptext-ipt-quote-before').val(),
+                after  = $('#ptext-ipt-quote-after').val();
+    
+            if (typeof text == 'string') {
+                text = before + text + after;
+            } else {
+                text = [before, ...text, after];
+            }
+        }
+
+        return text;
     }
 
-    if ($('#ptext-chk-quote').val() == 1) {
-        let before = $('#ptext-ipt-quote-before').val(),
-            after  = $('#ptext-ipt-quote-after').val();
+    let d;
 
-        if (typeof txt == 'string') {
-            txt = before + txt + after;
-        } else {
-            txt = [before, ...txt, after];
+    if ($('#ptext-chk-split-message').val() == 1) {
+        let msgs = [];
+        const txt2 = txt.split('\n');
+        txt2.forEach(e => {
+            const txt3 = __messagePackge(e);
+            msgs.push({
+                message: txt3
+            });
+        });
+        d = {
+            username: username,
+            messages: msgs
+        }
+    } else {
+        txt = __messagePackge(txt);
+        d = {
+            username: username,
+            messages: [
+                {
+                    message: txt
+                }
+            ]
         }
     }
 
-    let d = {
-        username: username,
-        messages: [
-            {
-                message: txt
-            }
-        ]
-    }
-
     if ($('#ptext-chk-more').val() == 1) {
-        d.messages[0].data = {
-            ...d.messages[0].data,
-            ...{printSpeed: Number($('#ptext-ipt-print-speed').val())}
-        };
+        d.messages.forEach(e => {
+            e.data = {
+                ...d.messages[0].data,
+                ...{printSpeed: Number($('#ptext-ipt-print-speed').val())}
+            };
+        });
     }
 
     return d;
@@ -525,10 +576,10 @@ function sendHistoryMessage(data) {
     $('#history-message-list').prepend(HistoryMessage.item(message, username, time, data.messages.length, l - 1));
 
     // 防止历史记录过多
-    if (config.editor.history_maximum >= 0 && history.length > config.editor.history_maximum) {
-        history.fill(undefined, historyMinimum, history.length - config.editor.history_maximum);
-        historyMinimum = history.length - config.editor.history_maximum;
-        $(`#history-message-list .history-message-item:gt(${config.editor.history_maximum - 1})`).remove();
+    if (config.editor.function.history_maximum >= 0 && history.length > config.editor.function.history_maximum) {
+        history.fill(undefined, historyMinimum, history.length - config.editor.function.history_maximum);
+        historyMinimum = history.length - config.editor.function.history_maximum;
+        $(`#history-message-list .history-message-item:gt(${config.editor.function.history_maximum - 1})`).remove();
     }
 
     // 防止底部游标过高
@@ -566,12 +617,20 @@ $(document).on('click', '.editor-format-btn', function() {
     
     if (value == 'clear') {
         insertTextAtCursor(editorID, format.clear, '', false, false, false, true, function(e) {
-            return e.replace(/(?<!\\)@(\[#[0-9a-fA-F]{3,8}\]|\S)/g, '');
+            return e.replace(/(?<!\\)@(\[#[0-9a-fA-F]{3,8}\]|\{.*?\}|\S)/g, '');
         });
     } else if (value == 'color') {
         popupsDisplay('#popups-palette');
         popupsMoveToElement('#popups-palette', '.editor-controller button[data-value="color"]');
         $('#popups-palette-select').focus();
+    } else if (value == 'emoji') {
+        popupsDisplay('#popups-emoji');
+        popupsMoveToElement('#popups-emoji', '.editor-controller button[data-value="emoji"]');
+        $('#popups-emoji-select').focus();
+    } else if (value == 'image') {
+        popupsDisplay('#popups-image');
+        popupsMoveToElement('#popups-image', '.editor-controller button[data-value="image"]');
+        $('#popups-image-nav .tabpage-nav-item[aria-selected="true"]').focus();
     } else {
         insertTextAtCursor(editorID, format[value], format.clear, false, forceRepeatBefore);
     }
@@ -582,6 +641,15 @@ $(document).on('click', '#popups-palette .color-box', function() {
     let value = $(this).data('value');
     insertTextAtCursor('ptext-content', `@[${ value }]`, '@r');
     popupsDisplay('#popups-palette', false);
+});
+
+// 表情包点击
+$(document).on('click', '#popups-emoji .emoji-box', function() {
+    let value = $(this).data('value');
+    let str = `@{${ value }}`;
+    if ($(this).hasClass('is-true-emoji')) str = value;
+    insertTextAtCursor('ptext-content', str, '', false, true);
+    popupsDisplay('#popups-emoji', false);
 });
 
 // 纯文本编辑器字数统计
@@ -614,7 +682,7 @@ $(document).on('click', '.history-message-item-btn-send', function() {
     $item.find('.sent').text(HistoryMessage.sentAt(getTime()));
     $item.find('.sent').removeClass('hide');
 
-    if (config.editor.history_resend_bubble) $('#history-message-list').prepend($item);
+    if (config.editor.function.history_resend_bubble) $('#history-message-list').prepend($item);
     
     elb.sendData(history[i].data);
     editorLogT('editor.log.message.resent');
@@ -646,11 +714,11 @@ $(document).on('click', '#history-btn-clear-cancel', function() {
 // 仪表盘点击
 $(document).on('click', '.echo-live-client-state-block', function(e) {
     const name = $(this).data('name');
+    if (name == '') return;
     const r = elb.clients.filter((e) => {
         return e.name == name;
     })[0];
     if (r.messagesCount > 0 && !r.hidden) {
-        console.log(name);
         if (name.search(/^[a-f\d]{4}(?:[a-f\d]{4}-){4}[a-f\d]{12}$/i) == 0) {
             elb.sendNext(name);
         } else {
@@ -659,6 +727,87 @@ $(document).on('click', '.echo-live-client-state-block', function(e) {
         editorLogT('editor.log.broadcast.echo_next_from_self_to_target', { name: name });
     }
 });
+
+// 纯文本 - 内容 - 快捷键
+$('#ptext-content').keydown(function(e) {
+    // console.log(e.keyCode);
+    if (e.ctrlKey) {
+        if (e.keyCode == 13) {
+            if (!config.echolive.broadcast.enable) return;
+            $('#ptext-btn-send').click();
+            effectClick('#ptext-btn-send');
+        } else if (e.keyCode == 83) {
+            e.preventDefault();
+        } else {
+            let code = {
+                '66':   'bold',
+                '73':   'italic',
+                '85':   'underline',
+                '68':   'strikethrough',
+                '67':   'color',
+                '69':   'emoji',
+                '38':   'font_size_increase',
+                '40':   'font_size_decrease',
+                '32':   'clear'
+            };
+            if (code[e.keyCode] == undefined) return;
+            if (e.keyCode == 32 && !e.shiftKey) return;
+            if (e.keyCode == 67 && !e.shiftKey) return;
+            if (e.keyCode == 73 && e.shiftKey) {
+                e.preventDefault();
+                $(`#ptext-editor .editor-controller:not(.disabled) button[data-value="image"]`).click();
+                return;
+            }
+
+            e.preventDefault();
+            $(`#ptext-editor .editor-controller:not(.disabled) button[data-value="${code[e.keyCode]}"]`).click();
+        }
+    }
+})
+
+
+
+
+$(document).keydown(function(e) {
+    if (e.keyCode == 191 && e.ctrlKey) {
+        if ($('#commander-input-panel').hasClass('hide')) {
+            $('#commander-input-panel').removeClass('hide');
+            $('#commander-input').focus();
+        } else {
+            $('#commander-input-panel').addClass('hide');
+            $('#commander-input').blur();
+        }
+    }
+});
+
+$('#commander-input').keydown(function(e) {
+    if (e.keyCode == 13) {
+        e.preventDefault();
+        if (e.ctrlKey) {
+            insertTextAtCursor('commander-input', '\n', '', false, true, false, false, () => '');
+        } else {
+            const cmd = $('#commander-input').val();
+            commander.consoleRun(cmd);
+            $('#commander-input').val('');
+        }
+    } else if (e.keyCode == 27) {
+        e.preventDefault();
+        $('#commander-input-panel').addClass('hide');
+        $('#commander-input').blur();
+        $('#commander-input').val('');
+    }
+    commanderInputHeightCheck();
+});
+
+$(document).on('input', '#commander-input', commanderInputHeightCheck);
+
+function commanderInputHeightCheck() {
+    $('#commander-input-panel').css('height', 'inherit');
+    $('#commander-input').css('height', 'auto');
+    const scrollHeight = $('#commander-input').prop('scrollHeight');
+    $('#commander-input').css('height', scrollHeight + 'px');
+    $('#commander-input-panel').css('height', scrollHeight + 'px');
+}
 
 
 

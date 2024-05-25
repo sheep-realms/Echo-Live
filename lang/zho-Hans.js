@@ -36,7 +36,12 @@ const lang_zho_Hans = {
         move_up: "上移",
         move_down: "下移",
         move_left: "左移",
-        move_right: "右移"
+        move_right: "右移",
+        audition: "试听",
+        missingno: {
+            no_author: "未署名",
+            no_name: "未命名"
+        }
     },
     broadcast: {
         client: {
@@ -46,6 +51,34 @@ const lang_zho_Hans = {
                 history: "Echo-Live History",
                 live: "Echo-Live",
                 unknow: "未知终端"
+            }
+        }
+    },
+    command: {
+        common: {
+            fail: {
+                exceed_maximum_value: "逻辑错误：'{n}' 太大了，最大只能为 {max}",
+                exceed_minimum_value: "逻辑错误：'{n}' 太小了，最小只能为 {min}",
+                invalid_json: "语法错误：无效的 JSON",
+                invalid_key_name: "语法错误：'{name}' 不是一个有效的键名",
+                invalid_number: "语法错误：无效的数字",
+                missing_parameter: "语法错误：缺少必要参数",
+                unknow_option: "语法错误：不存在名为 '{name}' 的选项",
+                not_broadcast: "运行失败：广播未启动"
+            },
+            success: {
+                broadcast_everyone: "已广播 {action} 消息",
+                broadcast_target: "已发送 {action} 消息至 {name}"
+            }
+        },
+        var: {
+            success: {
+                del: "已删除 {stack} 堆中变量 {name}",
+                get: "{stack} 堆中变量 {name} 的值为 {value}",
+                set: "已设置 {stack} 堆中变量 {name} 的值为 {value}"
+            },
+            fail: {
+                var_undefined: "{stack} 堆中变量 {name} 未定义"
             }
         }
     },
@@ -94,186 +127,303 @@ const lang_zho_Hans = {
         echolive: {
             _title: "Echo-Live",
             _description: "Echo-Live 相关配置",
-            live_theme: {
-                _title: "对话框主题",
-                _description: "留空则使用全局主题。关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。"
+            style: {
+                _title: "主题样式",
+                _description: "设置对话框的样式",
+                live_theme: {
+                    _title: "对话框主题",
+                    _description: "留空则使用全局主题。关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。"
+                },
+                live_theme_script_enable: {
+                    _title: "启用对话框主题脚本",
+                    _description: "此配置项需要启用全局主题脚本才能生效。"
+                }
             },
-            live_theme_script_enable: {
-                _title: "启用对话框主题脚本",
-                _description: "此配置项需要启用全局主题脚本才能生效。"
+            broadcast: {
+                _title: "广播",
+                _description: "Echo-Live 的基本工作模式",
+                enable: {
+                    _title: "启用广播",
+                    _description: "可通过编辑器直接发送消息，启用此项将禁用消息轮询。"
+                },
+                channel: {
+                    _title: "广播频道",
+                    _description: "如果您不知道这是什么请不要动它。"
+                },
+                websocket_enable: {
+                    _title: "启用 WebSocket",
+                    _description: "如果没人要求您这么做，请不要动它。<br>广播模式下启用 WebSocket 可连接至服务器以从第三方软件获取消息。<br>可从服务器接收的消息和广播消息一致，发送的消息须使用类似于 JSON.stringify 的方法序列化。<br>详见<a href='https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/' target='_blank'>帮助文档</a>。"
+                },
+                websocket_url: {
+                    _title: "WebSocket 连接地址",
+                    _description: "提供 WebSocket 连接的服务器地址，使用 ws:// 协议头。"
+                },
+                websocket_reconnect_limit: {
+                    _title: "WebSocket 最大重连尝试次数",
+                    _description: "连接关闭和连接失败将会尝试重连，一旦超过重连尝试次数限制将不再尝试重连。"
+                },
+                experimental_api_enable: {
+                    _title: "启用实验性 API",
+                    _description: "实验性 API 包含了一些危险操作，实现一些特殊功能可能是必要的，但如果使用不当可能会造成严重后果。<br>请开发者注意，如果您提供的产品需要启用此实验性 API，请务必说明您不得不这么做的原因。<br>请用户注意，如果您使用的第三方软件要求您启用实验性 API 而未说明理由，非常不推荐您照做。"
+                }
             },
-            broadcast_enable: {
-                _title: "启用广播",
-                _description: "可通过编辑器直接发送消息，启用此项将禁用消息轮询。"
+            messages_polling: {
+                _title: "消息轮询",
+                _description: "早期版本中广播系统的替代",
+                enable: {
+                    _title: "启用消息轮询",
+                    _description: "定时监听 start.js 的内容更改而无需手动刷新，关闭则使用旧版手动操作。<br>启用广播将禁用此功能。"
+                },
+                tick: {
+                    _title: "消息轮询间隔",
+                    _description: "单位：毫秒。值越小响应越快，性能消耗越高。"
+                },
             },
-            broadcast_channel: {
-                _title: "广播频道",
-                _description: "如果您不知道这是什么请不要动它。"
+            sleep: {
+                _title: "休眠机制",
+                _description: "页面不可见时使对话框休眠",
+                enable: {
+                    _title: "启用休眠机制",
+                    _description: "当页面不可见时休眠以防止计时器失效所引发的灾难性演出。<br>特别强调：如果您不了解这是什么，请不要关闭它。<br>- 如果您只是想方便在浏览器中预览而临时关闭它，请一定不要忘记打开。"
+                },
+                during_printing_stop_print: {
+                    _title: "在打印期间休眠立即停止打印",
+                    _description: "防止计时器失效导致打印过程阻塞。"
+                },
             },
-            websocket_enable: {
-                _title: "启用 WebSocket",
-                _description: "如果没人要求您这么做，请不要动它。<br>广播模式下启用 WebSocket 可连接至服务器以从第三方软件获取消息。<br>可从服务器接收的消息和广播消息一致，发送的消息须使用类似于 JSON.stringify 的方法序列化。<br>详见<a href='https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/' target='_blank'>帮助文档</a>。"
+            print_audio: {
+                _title: "打字音效",
+                _description: "在每次输出字符时播放音效",
+                enable: {
+                    _title: "启用打字音效",
+                    _description: ""
+                },
+                name: {
+                    _title: "音效名称",
+                    _description: "可用的音效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/#list' target='_blank'>帮助文档</a>。"
+                },
+                volume: {
+                    _title: "音效音量",
+                    _description: "1 为最大。"
+                },
+                rate: {
+                    _title: "音效播放速度",
+                    _description: "1 为原速。"
+                }
             },
-            websocket_url: {
-                _title: "WebSocket 连接地址",
-                _description: "提供 WebSocket 连接的服务器地址，使用 ws:// 协议头。"
+            next_audio: {
+                _title: "新对话入场音效",
+                _description: "在每条消息开始打印时播放音效",
+                enable: {
+                    _title: "启用新对话入场音效",
+                    _description: ""
+                },
+                name: {
+                    _title: "音效名称",
+                    _description: "可用的音效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/#list' target='_blank'>帮助文档</a>。"
+                },
+                volume: {
+                    _title: "音效音量",
+                    _description: "1 为最大。"
+                },
+                rate: {
+                    _title: "音效播放速度",
+                    _description: "1 为原速。"
+                }
             },
-            websocket_reconnect_limit: {
-                _title: "WebSocket 最大重连尝试次数",
-                _description: "连接关闭和连接失败将会尝试重连，一旦超过重连尝试次数限制将不再尝试重连。"
+            speech_synthesis: {
+                _title: "讲述人",
+                _description: "使用系统语音合成接口读出消息内容",
+                enable: {
+                    _title: "启用讲述人",
+                    _description: ""
+                },
+                voice: {
+                    _title: "语音资源",
+                    _description: "在这里选择可用的语音资源，留空则使用系统默认值。<br>在内容为空的情况下，点击文本框即可列出所有可用的值。部分浏览器可能需要多点一次。<br>请注意：不同的浏览器会出现不同的值，一些浏览器会提供独有的语音资源，例如 Chrome 的 Google 合成语音，这些语音资源不能在 OBS 中使用。语音资源能否正确使用最终取决于前台页面所在的浏览器环境。<br>当所选择的值不可用时，将使用系统默认值。"
+                },
+                pitch: {
+                    _title: "音高",
+                    _description: "1 为基准音高。"
+                },
+                rate: {
+                    _title: "语速",
+                    _description: "1 为基准速度。"
+                },
+                delay: {
+                    _title: "延迟",
+                    _description: "在消息发出后延迟读出，单位为毫秒，1000 毫秒为 1 秒。"
+                },
+                speech_emoji: {
+                    _title: "读出表情符号",
+                    _description: "启用后讲述人将会读出消息中的 emoji 符号和表情图片的描述。<br>其它特殊符号不受影响。"
+                },
+                ignored_characters: {
+                    _title: "忽略的字符",
+                    _description: "指定一些字符不会被讲述人读出。"
+                }
             },
-            experimental_api_enable: {
-                _title: "启用实验性 API",
-                _description: "实验性 API 包含了一些危险操作，实现一些特殊功能可能是必要的，但如果使用不当可能会造成严重后果。<br>请开发者注意，如果您提供的产品需要启用此实验性 API，请务必说明您不得不这么做的原因。<br>请用户注意，如果您使用的第三方软件要求您启用实验性 API 而未说明理由，非常不推荐您照做。"
-            },
-            messages_polling_enable: {
-                _title: "启用消息轮询",
-                _description: "定时监听 start.js 的内容更改而无需手动刷新，关闭则使用旧版手动操作。<br>启用广播将禁用此功能。"
-            },
-            messages_polling_tick: {
-                _title: "消息轮询间隔",
-                _description: "单位：毫秒。值越小响应越快，性能消耗越高。"
-            },
-            sleep_enable: {
-                _title: "启用休眠机制",
-                _description: "当页面不可见时休眠以防止计时器失效所引发的灾难性演出。<br>特别强调：如果您不了解这是什么，请不要关闭它。<br>- 如果您只是想方便在浏览器中预览而临时关闭它，请一定不要忘记打开。"
-            },
-            sleep_during_printing_stop_print: {
-                _title: "在打印期间休眠立即停止打印",
-                _description: "防止计时器失效导致打印过程阻塞。"
-            },
-            print_audio_enable: {
-                _title: "启用打字音效",
-                _description: "在每次输出字符时播放音效。"
-            },
-            print_audio_name: {
-                _title: "音效名称",
-                _description: "可用的音效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/#list' target='_blank'>帮助文档</a>。"
-            },
-            print_audio_volume: {
-                _title: "音效音量",
-                _description: "1 为最大。"
-            },
-            print_audio_rate: {
-                _title: "音效播放速度",
-                _description: "1 为原速。"
-            },
-            next_audio_enable: {
-                _title: "启用新对话入场音效",
-                _description: "在每条消息开始打印时播放音效。"
-            },
-            next_audio_name: {
-                _title: "音效名称",
-                _description: "可用的音效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/#list' target='_blank'>帮助文档</a>。"
-            },
-            next_audio_volume: {
-                _title: "音效音量",
-                _description: "1 为最大。"
-            },
-            next_audio_rate: {
-                _title: "音效播放速度",
-                _description: "1 为原速。"
+            image: {
+                _title: "图片",
+                _description: "对话框消息中显示的图片",
+                enable: {
+                    _title: "启用图片",
+                    _description: "启用后可以在消息中插入图片。"
+                },
+                allow_data_url_and_relative_url: {
+                    _title: "允许 Data URL 和相对地址",
+                    _description: "允许使用 Data URL 格式传输图片和使用相对地址。<br>禁用将无法在编辑器中通过导入文件设置图片，且只能使用 http(s):// 和 file:/// 协议头的地址。<br>特别提醒：不要导入大得离谱的图片！"
+                },
+                default_max_size: {
+                    _title: "默认最大图片尺寸",
+                    _description: "控制图片在对话框中的默认最大尺寸。单位：em（相对于字符尺寸的长度单位）。"
+                }
             }
         },
         editor: {
             _title: "编辑器",
             _description: "编辑器相关配置",
-            tabpage_config_enable: {
-                _title: "显示配置标签页",
-                _description: "编辑器中的配置标签页用于控制输出内容格式，仅编写代码时有用。"
+            function: {
+                _title: "功能",
+                _description: "编辑器中的功能",
+                tabpage_config_enable: {
+                    _title: "显示配置标签页",
+                    _description: "编辑器中的配置标签页用于控制输出内容格式，仅编写代码时有用。"
+                },
+                tabpage_output_enable: {
+                    _title: "显示输出标签页",
+                    _description: "编辑器生成的代码会在此标签页导出。输出标签页在广播模式下还可以发送自定义消息。"
+                },
+                client_state_panel_enable: {
+                    _title: "显示对话框状态仪表板",
+                    _description: "仪表板可以显示所有对话框的状态，绿色为激活，红色为休眠，灰色则表示没有对话框加入频道。<br>如果您添加了多个对话框，建议您启用此项。<br>如果您是红绿色盲，请在无障碍设置中启用红绿色盲。<br>- 启用后，蓝色填充为激活，蓝色边框为休眠。"
+                },
+                history_resend_bubble: {
+                    _title: "历史消息再发送时上浮",
+                    _description: "历史消息再次发送时使历史记录回到顶部"
+                },
+                history_maximum: {
+                    _title: "历史消息数量上限",
+                    _description: "设为 -1 则不设上限。"
+                },
+                log_line_maximum: {
+                    _title: "日志行数上限",
+                    _description: "设为 -1 则不设上限。"
+                },
+                images_cache_maximum: {
+                    _title: "自定义消息图片缓存数上限",
+                    _description: "设为 -1 则不设上限。"
+                }
             },
-            tabpage_output_enable: {
-                _title: "显示输出标签页",
-                _description: "编辑器生成的代码会在此标签页导出。输出标签页在广播模式下还可以发送自定义消息。"
+            form: {
+                _title: "表单预填充",
+                _description: "编辑器初始化时表单的默认填充内容",
+                username: {
+                    _title: "初始说话人",
+                    _description: "编辑器启动后在说话人输入框中默认填充的内容。"
+                },
+                quote_before: {
+                    _title: "引用符号（开头）",
+                    _description: ""
+                },
+                quote_after: {
+                    _title: "引用符号（结尾）",
+                    _description: ""
+                },
+                ontput_before_enable: {
+                    _title: "启用在输出内容前插入内容",
+                    _description: ""
+                },
+                output_before: {
+                    _title: "在输出内容前插入的内容",
+                    _description: "用于生成可执行的消息发送命令。"
+                },
+                ontput_after_enable: {
+                    _title: "启用在输出内容后插入内容",
+                    _description: ""
+                },
+                output_after: {
+                    _title: "在输出内容后插入的内容",
+                    _description: "用于生成可执行的消息发送命令。"
+                }
             },
-            client_state_panel_enable: {
-                _title: "显示对话框状态仪表板",
-                _description: "仪表板可以显示所有对话框的状态，绿色为激活，红色为休眠，灰色则表示没有对话框加入频道。<br>如果您添加了多个对话框，建议您启用此项。<br>如果您是红绿色盲，请在无障碍设置中启用红绿色盲。<br>- 启用后，蓝色填充为激活，蓝色边框为休眠。"
+            color_picker: {
+                _title: "拾色器",
+                _description: "拾色器相关配置",
+                palette: {
+                    _title: "启用的色板",
+                    _description: "拾色器中有多种色板可供挑选。<br>预制的色板有 material、tailwindcss、ant_design 和 minecraft。<br>若要挑选启用的色板或调整排序，请反选 “全部启用”，并在下方文本框中输入色板名称，一&#65279;行一&#65279;个。",
+                    all_selected: "全部启用"
+                },
+                contrast_enable: {
+                    _title: "启用 WCAG 颜色对比度测试",
+                    _description: "在拾色器中显示颜色对比面板和 WCAG 颜色对比度测试结果。"
+                },
+                contrast_background_color: {
+                    _title: "WCAG 颜色对比度测试面板参考背景色",
+                    _description: "仅支持十六进制颜色码。<br>请注意：背景色的 Alpha 通道会被忽略。<br>- 如果您的对话框背景颜色是半透明或全透明将无法正确计算对比度，请您自行采集混合后的背景颜色。"
+                },
+                contrast_threshold: {
+                    _title: "WCAG 颜色对比度测试面板对比度参考阈值",
+                    _description: "对比度低于此值视为测试失败。"
+                }
             },
-            username_init: {
-                _title: "初始说话人",
-                _description: "编辑器启动后在说话人输入框中默认填充的内容。"
-            },
-            output_before: {
-                _title: "在输出内容前插入的内容",
-                _description: "用于生成可执行的消息发送命令。"
-            },
-            ontput_before_enable: {
-                _title: "启用在输出内容前插入内容",
-                _description: ""
-            },
-            output_after: {
-                _title: "在输出内容后插入的内容",
-                _description: "用于生成可执行的消息发送命令。"
-            },
-            ontput_after_enable: {
-                _title: "启用在输出内容后插入内容",
-                _description: ""
-            },
-            history_resend_bubble: {
-                _title: "历史消息再发送时上浮",
-                _description: "历史消息再次发送时使历史记录回到顶部"
-            },
-            history_maximum: {
-                _title: "历史消息数量上限",
-                _description: "设为 -1 则不设上限。"
-            },
-            log_line_maximum: {
-                _title: "日志行数上限",
-                _description: "设为 -1 则不设上限。"
-            },
-            palette: {
-                _title: "启用的色板",
-                _description: "拾色器中有多种色板可供挑选。<br>预制的色板有 material、tailwindcss、ant_design 和 minecraft。<br>若要挑选启用的色板或调整排序，请反选 “全部启用”，并在下方文本框中输入色板名称，一行一个。",
-                all_selected: "全部启用"
-            },
-            palette_color_contrast_enable: {
-                _title: "启用 WCAG 颜色对比度测试",
-                _description: "在拾色器中显示颜色对比面板和 WCAG 颜色对比度测试结果。"
-            },
-            palette_color_contrast_background_color: {
-                _title: "WCAG 颜色对比度测试面板参考背景色",
-                _description: "仅支持十六进制颜色码。<br>请注意：背景色的 Alpha 通道会被忽略。<br>- 如果您的对话框背景颜色是半透明或全透明将无法正确计算对比度，请您自行采集混合后的背景颜色。"
-            },
-            palette_color_contrast_threshold: {
-                _title: "WCAG 颜色对比度测试面板对比度参考阈值",
-                _description: "对比度低于此值视为测试失败。"
+            emoji_picker: {
+                _title: "表情选择器",
+                _description: "表情选择器相关配置",
+                emoji: {
+                    _title: "启用的表情包",
+                    _description: "表情选择器中预制了一些表情包。<br>预制的表情包有 emoji、sheep-realms:pixel-head 和 sheep-realms:other。<br>若要挑选启用的表情包或调整排序，请反选 “全部启用”，并在下方文本框中输入表情包名称，一&#65279;行一&#65279;个。",
+                    all_selected: "全部启用"
+                }
             }
         },
         history: {
             _title: "历史记录",
             _description: "面向观众展示的历史记录",
-            history_theme: {
-                _title: "历史记录主题",
-                _description: "留空则使用全局主题。关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。"
+            style: {
+                _title: "主题样式",
+                _description: "设置历史记录的样式",
+                history_theme: {
+                    _title: "历史记录主题",
+                    _description: "留空则使用全局主题。关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。"
+                },
+                history_theme_script_enable: {
+                    _title: "启用历史记录主题脚本",
+                    _description: "此配置项需要启用全局主题脚本才能生效。"
+                }
             },
-            history_theme_script_enable: {
-                _title: "启用历史记录主题脚本",
-                _description: "此配置项需要启用全局主题脚本才能生效。"
+            layout: {
+                _title: "布局",
+                _description: "历史记录的内容布局",
+                message_list_reverse: {
+                    _title: "历史记录倒序排列",
+                    _description: "历史记录按照发送时间由新到旧排列。"
+                },
+                message_item_reverse: {
+                    _title: "历史记录布局左右翻转",
+                    _description: "翻转后的排列从左到右依次是：发送时间、消息内容、说话人。"
+                },
+                display_username: {
+                    _title: "显示说话人",
+                    _description: "在历史记录中显示说话人。"
+                },
+                display_time: {
+                    _title: "显示发送时间",
+                    _description: "在历史记录中显示发送时间。"
+                }
             },
-            message_list_reverse: {
-                _title: "历史记录倒序排列",
-                _description: "历史记录按照发送时间由新到旧排列。"
-            },
-            message_item_reverse: {
-                _title: "历史记录布局左右翻转",
-                _description: "翻转后的排列从左到右依次是：发送时间、消息内容、说话人。"
-            },
-            display_username: {
-                _title: "显示说话人",
-                _description: "在历史记录中显示说话人。"
-            },
-            display_time: {
-                _title: "显示发送时间",
-                _description: "在历史记录中显示发送时间。"
-            },
-            remove_continuous_duplicate: {
-                _title: "去除连续的重复消息",
-                _description: "如果场景中有多个对话框同时接收消息，启用此项可避免重复记录历史消息。"
-            },
-            latest_message_hide: {
-                _title: "隐藏最新的历史记录",
-                _description: "对话框在开始打印消息时会立即发送消息到历史记录中，启用此项可避免最新消息立即显示在历史记录中。"
+            message: {
+                _title: "消息",
+                _description: "历史记录的消息处理逻辑",
+                remove_continuous_duplicate: {
+                    _title: "去除连续的重复消息",
+                    _description: "如果场景中有多个对话框同时接收消息，启用此项可避免重复记录历史消息。"
+                },
+                latest_message_hide: {
+                    _title: "隐藏最新的历史记录",
+                    _description: "对话框在开始打印消息时会立即发送消息到历史记录中，启用此项可避免最新消息立即显示在历史记录中。"
+                }
             }
         },
         accessible: {
@@ -298,6 +448,18 @@ const lang_zho_Hans = {
             drotanopia_and_deuteranopia: {
                 _title: "红绿色盲",
                 _description: "绿色（安全）功能色会以蓝色（通用）代替，以便和功能差异较大的黄色（警告）和红色（危险）作出区分。"
+            },
+            link_underline: {
+                _title: "总是显示链接下划线",
+                _description: "为链接添加下划线使其更醒目。"
+            },
+            animation_disable: {
+                _title: "禁用动画",
+                _description: "禁用所有动画和过渡效果。"
+            },
+            power_saving_mode: {
+                _title: "禁用高开销效果",
+                _description: "禁用后台页面所有高性能消耗的画面效果。"
             }
         },
         advanced: {
@@ -315,6 +477,10 @@ const lang_zho_Hans = {
             editor: {
                 _title: "编辑器",
                 _description: "编辑器的高级设置",
+                forced_display_split_message: {
+                    _title: "强制显示“{ @editor.form.label.split_message }”选项",
+                    _description: "即便没有开启对话框状态仪表板也显示此选项。"
+                },
                 history_minimum_breaker_threshold: {
                     _title: "历史记录底部游标熔断阈值",
                     _description: "设为 -1 可禁用此机制。"
@@ -340,6 +506,11 @@ const lang_zho_Hans = {
             user_guide: "用户指南"
         }
     },
+    echolive: {
+        system_message: "系统消息",
+        shutdown: "Echo-Live 因收到 shutdown 命令已停止运行，需要重新启动请刷新此页面。",
+        shutdown_reason: "Echo-Live 因收到 shutdown 命令已停止运行，原因为“{reason}”，需要重新启动请刷新此页面。"
+    },
     editor: {
         client_state: {
             active: "激活",
@@ -358,6 +529,7 @@ const lang_zho_Hans = {
         form: {
             text_length: "{n} 字符",
             aria_label: {
+                commander: "控制台",
                 content_plain_text: "纯文本内容编辑框",
                 log_box: "这里是日志列表，如果您听到了这句话，请注意，这里的阅读体验可能会很差。",
                 output_content: "输出内容编辑框"
@@ -371,6 +543,8 @@ const lang_zho_Hans = {
                 print_speed: "每个打印循环的延迟时间（毫秒），默认为 30。数字越大，耗时越长。中日韩字符延迟 × 2。",
                 print_speed_custom: "每个打印循环的延迟时间（毫秒），默认为 30，您的默认配置为 {value}。数字越大，耗时越长。中日韩字符延迟 × 2。",
                 quote: "自动在每一句话开头和结尾添加引用符号，Echo Live 会为一些引用符号自动缩进。",
+                split_message_example_1: "每一行视为一条消息，组成消息队列，可以依次打印。",
+                split_message_example_2: "当开启对话框状态仪表板时，可以点击对应的对话框按钮打印下一条消息。",
                 open_settings: "打开配置文件编辑器"
             },
             label: {
@@ -384,6 +558,7 @@ const lang_zho_Hans = {
                 quote: "引用符号",
                 quote_after: "结尾",
                 quote_before: "开头",
+                split_message: "多行文本分割为消息队列",
                 startup_parameter: "启动参数",
                 use_formatting_code: "使用快速格式化代码"
             }
@@ -392,8 +567,10 @@ const lang_zho_Hans = {
             bold: "粗体",
             clear: "清除格式",
             color: "文本颜色",
+            emoji: "表情",
             font_size_decrease: "减小字号",
             font_size_increase: "增大字号",
+            image: "插入图片",
             italic: "斜体",
             underline: "下划线",
             strikethrough: "删除线"
@@ -403,6 +580,38 @@ const lang_zho_Hans = {
             clear_confirm: "确认清空",
             messages_more: "... 等 {n} 条消息",
             resent_at: "（于 {time} 再次发送）"
+        },
+        image_popups: {
+            button: {
+                delete_all_images: "删除所有图片"
+            },
+            label: {
+                image_margin: "外边距",
+                image_rendering: "重采样",
+                image_size_max: "最大图片尺寸",
+                image_size_min: "最小图片尺寸",
+                set_image_parameter: "设置图片属性"
+            },
+            option: {
+                image_rendering: {
+                    auto: "自动",
+                    pixelated: "最邻近"
+                }
+            },
+            tabpage: {
+                file: {
+                    title: "导入文件",
+                    description: "直接导入图片文件"
+                },
+                url: {
+                    title: "导入地址",
+                    description: "导入 URL 地址"
+                },
+                images: {
+                    title: "图库",
+                    description: "已缓存的图片"
+                }
+            }
         },
         log: {
             index: "日志",
@@ -423,6 +632,8 @@ const lang_zho_Hans = {
                 echo_next_from_self_to_target: "已命令 {name} 打印下一条消息。",
                 hello: "{client} 进入广播频道，识别名：{name}",
                 hello_hidden: "{client} 进入广播频道，已休眠，识别名：{name}",
+                hello_reply: "{client} 响应了广播，识别名：{name}",
+                hello_reply_hidden: "{client} 响应了广播，已休眠，识别名：{name}",
                 hello_to_server: "{client} 已向 Websocket 服务器发送 HELLO 消息，识别名：{name}",
                 message_data_third: "收到来自其他服务端的消息数据。",
                 page_hidden: "{client} 因不可见已休眠，识别名：{name}",
@@ -430,6 +641,8 @@ const lang_zho_Hans = {
                 ping_server: "有其他服务端加入频道，识别名：{name}",
                 set_theme_style_url: "收到来自其他服务端的命令：设置主题样式文件 URL 为 {url}",
                 set_theme: "收到来自其他服务端的命令：设置主题为 {name}",
+                shutdown: "收到来自其他服务端的命令：立即停止。",
+                shutdown_reason: "收到来自其他服务端的命令：立即停止。原因为：${reason}",
                 websocket_close: "收到来自其他服务端的命令：关闭 Websocket 连接。此命令将阻止 {client} 尝试重连。"
             },
             broadcast_launch: {
@@ -483,6 +696,124 @@ const lang_zho_Hans = {
                     ok: "{name} 测试通过",
                     fail: "{name} 测试失败"
                 }
+            },
+            label: {
+                title_after: "{title} - {after}",
+                common: {
+                    after: {
+                        deep: "深色",
+                        default: "默认",
+                        light: "浅色",
+                        lighter: "更浅",
+                        lightest: "最浅",
+                        middle: "适中"
+                    },
+                    color: {
+                        amber: "琥珀色 | 琥珀色 {value}",
+                        aqua: "水蓝色 | 水蓝色 {value}",
+                        cyan: "青色 | 青色 {value}",
+                        black: "黑色 | 黑色 {value}",
+                        blue: "蓝色 | 蓝色 {value}",
+                        blue_gray: "蓝灰色 | 蓝灰色 {value}",
+                        brown: "棕色 | 棕色 {value}",
+                        deep_aqua: "暗水蓝色 | 暗水蓝色 {value}",
+                        deep_blue: "深蓝色 | 深蓝色 {value}",
+                        deep_gray: "深灰色 | 深灰色 {value}",
+                        deep_green: "深绿色 | 深绿色 {value}",
+                        deep_orange: "暗橙色 | 暗橙色 {value}",
+                        deep_purple: "深紫色 | 深紫色 {value}",
+                        deep_red: "深红色 | 深红色 {value}",
+                        deep_yellow: "深黄色 | 深黄色 {value}",
+                        gold: "金色 | 金色 {value}",
+                        gray: "灰色 | 灰色 {value}",
+                        green: "绿色 | 绿色 {value}",
+                        light_aqua: "亮水蓝色 | 亮水蓝色 {value}",
+                        light_blue: "淡蓝色 | 淡蓝色 {value}",
+                        light_gray: "淡灰色 | 淡灰色 {value}",
+                        light_green: "淡绿色 | 淡绿色 {value}",
+                        light_purple: "淡紫色 | 淡紫色 {value}",
+                        light_orange: "亮橙色 | 亮橙色 {value}",
+                        light_red: "淡红色 | 淡红色 {value}",
+                        light_yellow: "淡黄色 | 淡黄色 {value}",
+                        lime: "黄绿色 | 黄绿色 {value}",
+                        indigo: "靛蓝色 | 靛蓝色 {value}",
+                        magenta: "紫红色 | 紫红色 {value}",
+                        orange: "橙色 | 橙色 {value}",
+                        pink: "粉红色 | 粉红色 {value}",
+                        purple: "紫色 | 紫色 {value}",
+                        red: "红色 | 红色 {value}",
+                        silver: "银色 | 银色 {value}",
+                        sky: "天蓝色 | 天蓝色 {value}",
+                        teal: "蓝绿色 | 蓝绿色 {value}",
+                        white: "白色 | 白色 {value}",
+                        violet: "蓝紫色 | 蓝紫色 {value}",
+                        yellow: "黄色 | 黄色 {value}"
+                    },
+                    functional_color: {
+                        danger: "危险 | 危险 {value}",
+                        error: "错误 | 错误 {value}",
+                        general: "通用 | 通用 {value}",
+                        link: "链接 | 链接 {value}",
+                        safe: "安全 | 安全 {value}",
+                        success: "成功 | 成功 {value}",
+                        warning: "警告 | 警告 {value}",
+                    },
+                    group: {
+                        functional_color: "功能色",
+                        neutral_color: "中性色"
+                    }
+                },
+                ant_design: {
+                    title: "Ant Design",
+                    color: {
+                        blue: "拂晓蓝 {value}",
+                        cyan: "明青 {value}",
+                        geek_blue: "极客蓝 {value}",
+                        gold: "金盏花 {value}",
+                        green: "极光绿 {value}",
+                        lime: "青柠 {value}",
+                        magenta: "洋红 {value}",
+                        orange: "日暮 {value}",
+                        purple: "酱紫 {value}",
+                        red: "薄暮 {value}",
+                        volcano: "火山 {value}",
+                        yellow: "日出 {value}"
+                    },
+                    group: {
+                        blue: "Daybreak Blue / 拂晓蓝",
+                        cyan: "Cyan / 明青",
+                        geek_blue: "Geek Blue / 极客蓝",
+                        gold: "Calendula Gold / 金盏花",
+                        green: "Polar Green / 极光绿",
+                        lime: "Lime / 青柠",
+                        magenta: "Magenta / 法式洋红",
+                        orange: "Sunset Orange / 日暮",
+                        purple: "Golden Purple / 酱紫",
+                        red: "Dust Red / 薄暮",
+                        volcano: "Volcano / 火山",
+                        yellow: "Sunrise Yellow / 日出"
+                    }
+                },
+                material: {
+                    title: "Material Design"
+                },
+                minecraft: {
+                    title: "Minecraft"
+                },
+                tailwindcss: {
+                    title: "Tailwind CSS",
+                    color: {
+                        emerald: "绿宝石色 {value}",
+                        neutral: "中性色",
+                        rose: "玫瑰色 {value}",
+                        slate: "暗蓝灰色",
+                        stone: "石头",
+                        zinc: "金属"
+                    },
+                    group: {
+                        weight: "深度 {value}"
+                    }
+                }
             }
         },
         tabpage: {
@@ -519,6 +850,81 @@ const lang_zho_Hans = {
             hot_key_textarea_quick_send: "当焦点在此文本框中时，可以按下 Ctrl + Enter 快速发送"
         }
     },
+    emoji: {
+        emoji: {
+            title: 'Emoji',
+            group: {
+                animal: "动物",
+                emotion: "情感",
+                food: "食物",
+                gesture: "手势",
+                nature: "森罗万象"
+            }
+        },
+        sheep_realms: {
+            other: {
+                title: "绵羊的大表情",
+                emoji: {
+                    ahwu: "啊呜",
+                    dame: "禁止",
+                    danger: "危",
+                    eating_potato_chips: "吃薯片",
+                    nani: "问号",
+                    orz: "累趴",
+                    sofa: "大佬躺姿",
+                    ze: "不爽"
+                }
+            },
+            pixel_head: {
+                title: "绵羊的像素头像",
+                emoji: {
+                    angry: "生气",
+                    bathe: "洗澡",
+                    black_stripe: "不愿透露姓名的绵羊女士",
+                    box_gear: "盒精装备",
+                    chaos: "混乱",
+                    ciallo: "Ciallo~",
+                    click: "戳一下",
+                    close_eyes: "闭眼",
+                    cry: "哭了",
+                    default: "注视",
+                    doubt: "疑问",
+                    elec: "触电",
+                    elec2: "发电",
+                    exciting: "兴奋",
+                    fear: "害怕",
+                    glowing_glasses: "眼镜发光",
+                    hammer: "锤一下",
+                    happy: "开心",
+                    heart: "爱心",
+                    hehe: "流汗",
+                    loading: "加载",
+                    magnifier: "放大镜",
+                    missingno: "查无此羊",
+                    no: "不行",
+                    pants: "蓝白胖次",
+                    phone: "打电话",
+                    pot_me: "铁锅炖自己",
+                    respirator: "口罩",
+                    sex: "发情",
+                    shock: "警觉",
+                    shy: "害羞",
+                    sleep: "睡觉",
+                    stone: "石化",
+                    sunglasses: "墨镜",
+                    unwelcome: "头套",
+                    vomit: "呕吐",
+                    wall: "偷看",
+                    water: "浇水",
+                    waterfall: "瀑布",
+                    waterfall_end: "接水",
+                    waterfall_start: "口若悬河",
+                    watermelon: "吃瓜",
+                    yes: "可以"
+                }
+            }
+        }
+    },
     file: {
         name: "文件名",
         last_modified_date: "最后修改时间",
@@ -540,11 +946,33 @@ const lang_zho_Hans = {
             drop_file_cancel_many: "一位用户反复拖拽文件，这是他的程序发生的变化",
             drop_file_long_time: "你怎么还不放手？",
             drop_file_now: "松开鼠标拖放文件",
+            please_click: "点击此处选择文件",
             please_drop_file: "在这里拖放文件或点击此处选择文件",
-            please_drop_file_keyboard: "当焦点在此处时，您也可以按下 Enter 或空格键选择文件"
+            please_drop_file_keyboard: "当焦点在此处时，您也可以按下 Enter 或空格键选择文件",
+            dialog: {
+                many_file: {
+                    title: "太多了",
+                    description: "处理不了那么多文件，请一个一个来。"
+                },
+                selected: {
+                    title: "已选择文件",
+                    description: "文件名：{name}",
+                    import_image: "插入图片"
+                },
+                type_error: {
+                    title: "文件类型错误",
+                    description: "这似乎并不是我们想要的文件。"
+                },
+                use_chrome: {
+                    title: "建议您使用最新版 Chrome 浏览器",
+                    description: "此页面使用了一些最新技术，您的浏览器可能无法支持部分功能。<br>当然您也可以试试 Edge 浏览器。",
+                    goto: "获取 Chrome"
+                }
+            }
         },
         picker: {
-            config: "配置文件"
+            config: "配置文件",
+            image: "图片"
         }
     },
     message_preview: {
@@ -600,11 +1028,6 @@ const lang_zho_Hans = {
                 title: "未知的配置文件版本",
                 description: "此配置文件没有版本号，可能来自于 1.2.7 之前的版本。<br>您可以强制升级此配置文件，但并不能保证其正常运作，不建议您继续使用此配置文件。",
                 update: "强制更新"
-            },
-            use_chrome: {
-                title: "建议您使用最新版 Chrome 浏览器",
-                description: "此页面使用了一些最新技术，您的浏览器可能无法支持部分功能。<br>当然您也可以试试 Edge 浏览器。",
-                goto: "获取 Chrome"
             }
         },
         functional_color: {
@@ -621,7 +1044,11 @@ const lang_zho_Hans = {
         },
         msgbox: {
             accessibility: "Echo-Live 所有后台页面均支持键盘访问。<br>更多有关无障碍使用的帮助请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>帮助文档</a>。",
-            advanced_settings: "不要随意更改这里的配置，除非您知道您在做什么。"
+            advanced_settings: "不要随意更改这里的配置，除非您知道您在做什么。",
+            echo: {
+                title: "关于 Echo",
+                description: "Echo 是 Echo-Live 的内核，提供了文本滚动输出功能。<br>它是一个工具库，任何人都可以使用 Echo 创建自己的文本展示项目。<br>如果您有兴趣了解 Echo，请见其 <a href='https://github.com/sheep-realms/Echo' target='_blank'>GitHub 仓库</a>。"
+            }
         },
         tabpage: {
             edit: {

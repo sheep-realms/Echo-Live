@@ -1,5 +1,5 @@
 const config = {
-    "data_version": 3,
+    "data_version": 4,
     "global": {
         "language": "zho-Hans",
         "theme": "vanilla",
@@ -11,26 +11,52 @@ const config = {
         "html_format_enable": true
     },
     "echolive": {
-        "live_theme": "",
-        "live_theme_script_enable": false,
-        "broadcast_enable": true,
-        "broadcast_channel": "sheep-realms:echolive",
-        "websocket_enable": false,
-        "websocket_url": "ws://127.0.0.1:3000",
-        "websocket_reconnect_limit": 5,
-        "experimental_api_enable": false,
-        "messages_polling_enable": true,
-        "messages_polling_tick": 250,
-        "sleep_enable": true,
-        "sleep_during_printing_stop_print": true,
-        "print_audio_enable": false,
-        "print_audio_name": "typewriter_loop",
-        "print_audio_volume": 0.5,
-        "print_audio_rate": 1,
-        "next_audio_enable": false,
-        "next_audio_name": "enter",
-        "next_audio_volume": 0.5,
-        "next_audio_rate": 1,
+        "style": {
+            "live_theme": "",
+            "live_theme_script_enable": false
+        },
+        "broadcast": {
+            "enable": true,
+            "channel": "sheep-realms:echolive",
+            "websocket_enable": false,
+            "websocket_url": "ws://127.0.0.1:3000",
+            "websocket_reconnect_limit": 5,
+            "experimental_api_enable": false
+        },
+        "messages_polling": {
+            "enable": true,
+            "tick": 250
+        },
+        "sleep": {
+            "enable": true,
+            "during_printing_stop_print": true
+        },
+        "print_audio": {
+            "enable": false,
+            "name": "typewriter_loop",
+            "volume": 0.5,
+            "rate": 1
+        },
+        "next_audio": {
+            "enable": false,
+            "name": "enter",
+            "volume": 0.5,
+            "rate": 1
+        },
+        "speech_synthesis": {
+            "enable": false,
+            "voice": "",
+            "pitch": 1,
+            "rate": 1,
+            "delay": 0,
+            "speech_emoji": false,
+            "ignored_characters": ""
+        },
+        "image": {
+            "enable": true,
+            "allow_data_url_and_relative_url": true,
+            "default_max_size": 3
+        },
         "next_effect_name": "none",
         "next_effect_duration": 0,
         "print_effect_name": "none",
@@ -41,44 +67,66 @@ const config = {
         "print_end_effect_duration": 0
     },
     "editor": {
-        "tabpage_config_enable": true,
-        "tabpage_output_enable": true,
-        "client_state_panel_enable": false,
-        "username_init": "",
-        "output_before": "echolive.send(",
-        "ontput_before_enable": 1,
-        "output_after": ");",
-        "ontput_after_enable": 1,
-        "history_resend_bubble": false,
-        "history_maximum": 128,
-        "log_line_maximum": 512,
-        "palette": "all",
-        "palette_color_contrast_enable": false,
-        "palette_color_contrast_background_color": "#ffffff",
-        "palette_color_contrast_threshold": 3.8
+        "function": {
+            "tabpage_config_enable": true,
+            "tabpage_output_enable": true,
+            "client_state_panel_enable": false,
+            "history_resend_bubble": false,
+            "history_maximum": 128,
+            "log_line_maximum": 512,
+            "images_cache_maximum": 64
+        },
+        "form": {
+            "username": "",
+            "quote_before": "「",
+            "quote_after": "」",
+            "ontput_before_enable": 0,
+            "output_before": "echolive.send(",
+            "ontput_after_enable": 0,
+            "output_after": ");"
+        },
+        "color_picker": {
+            "palette": "all",
+            "contrast_enable": false,
+            "contrast_background_color": "#ffffff",
+            "contrast_threshold": 3.8
+        },
+        "emoji_picker": {
+            "emoji": "all"
+        }
     },
     "history": {
-        "history_theme": "",
-        "history_theme_script_enable": false,
-        "message_list_reverse": false,
-        "message_item_reverse": false,
-        "display_username": true,
-        "display_time": true,
-        "remove_continuous_duplicate": true,
-        "latest_message_hide": true
+        "style": {
+            "history_theme": "",
+            "history_theme_script_enable": false
+        },
+        "layout": {
+            "message_list_reverse": false,
+            "message_item_reverse": false,
+            "display_username": true,
+            "display_time": true
+        },
+        "message": {
+            "remove_continuous_duplicate": true,
+            "latest_message_hide": true
+        }
     },
     "accessible": {
         "high_contrast": false,
         "high_contrast_outline_color": "#00E9FF",
         "high_contrast_outline_size": "2px",
         "high_contrast_outline_style": "solid",
-        "drotanopia_and_deuteranopia": false
+        "drotanopia_and_deuteranopia": false,
+        "link_underline": false,
+        "animation_disable": false,
+        "power_saving_mode": false
     },
     "advanced": {
         "broadcast": {
             "allow_name_duplicate": false
         },
         "editor": {
+            "forced_display_split_message": false,
             "history_minimum_breaker_threshold": 128
         }
     },

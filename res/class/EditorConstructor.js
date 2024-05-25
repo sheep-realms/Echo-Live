@@ -235,19 +235,31 @@ class EditorForm {
                 icon: Icon.palette(),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="color"`,
-                title: $t('editor.format.color')
+                title: $t('editor.format.color') + ' [Ctrl+Shift+C]'
+            }),
+            EditorForm.buttonAir('', {
+                icon: Icon.emoticonHappy(),
+                class: 'editor-format-btn',
+                attr: `data-editorid="${editorID}" data-value="emoji"`,
+                title: $t('editor.format.emoji') + ' [Ctrl+E]'
+            }),
+            EditorForm.buttonAir('', {
+                icon: Icon.image(),
+                class: 'editor-format-btn',
+                attr: `data-editorid="${editorID}" data-value="image"`,
+                title: $t('editor.format.image') + ' [Ctrl+Shift+I]'
             }),
             EditorForm.buttonAir('', {
                 icon: Icon.formatFontSizeIncrease(),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="font_size_increase"`,
-                title: $t('editor.format.font_size_increase')
+                title: $t('editor.format.font_size_increase') + ' [Ctrl+↑]'
             }),
             EditorForm.buttonAir('', {
                 icon: Icon.formatFontSizeDecrease(),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="font_size_decrease"`,
-                title: $t('editor.format.font_size_decrease')
+                title: $t('editor.format.font_size_decrease') + ' [Ctrl+↓]'
             }),
             EditorForm.buttonAir('', {
                 icon: Icon.formatClear(),
@@ -320,7 +332,11 @@ class Popups {
     static paletteOptions(palette = []) {
         let dom = '';
         palette.forEach(e => {
-            dom += `<option value="${ e.meta.name }">${ e.meta.title }</option>`
+            let title = e.meta.title;
+            if (typeof e?.meta?.i18n == 'string') {
+                title = $t('editor.palette.label.' + e.meta.i18n);
+            }
+            dom += `<option value="${ e.meta.name }">${ title }</option>`
         });
         return dom;
     }
@@ -331,15 +347,47 @@ class Popups {
      * @returns {String} DOM
      */
     static paletteContent(palette = {}) {
+        if (palette.colors.length <= 0) return '';
         let dom = '<div class="palette-list">';
+        let firstGruop = false;
+        if (palette.colors[0]?.type == 'group') {
+            dom = '';
+            firstGruop = true;
+        }
         palette.colors.forEach(e => {
+            let title;
+            let tv;
             if (e?.type === undefined || e?.type === 'color') {
-                dom += `<button class="color-box" title="${ e.title.replace(/"/g, '&quot;') }" data-value="${ e.value.replace(/"/g, '') }" style="--color: ${ e.value.replace(/"/g, '') };"><div class="color"></div></button>`
+                title = e.title;
+
+                if (typeof e?.i18n == 'string') {
+                    tv = { n: 0 };
+                    if (typeof e?.i18n_var == 'object') tv = {...tv, ...e.i18n_var, ...{ n: 2 }};
+                    title = $t('editor.palette.label.' + e.i18n, tv);
+                }
+
+                if (typeof e?.after == 'string') {
+                    title = $t('editor.palette.label.title_after', {
+                        title: title,
+                        after: $t('editor.palette.label.common.after.' + e.after)
+                    });
+                }
+
+                dom += `<button class="color-box" title="${ title.replace(/"/g, '&quot;') }" data-value="${ e.value.replace(/"/g, '') }" style="--color: ${ e.value.replace(/"/g, '') };"><div class="color"></div></button>`;
             } else if (e?.type === 'group') {
-                dom += `</div><div class="palette-group">${ EchoLiveTools.safeHTML(e.value) }</div><div class="palette-list">`
+                title = e.value;
+
+                if (typeof e?.i18n == 'string') {
+                    tv = { n: 0 };
+                    if (typeof e?.i18n_var == 'object') tv = {...tv, ...e.i18n_var, ...{ n: 2 }};
+                    title = $t('editor.palette.label.' + e.i18n, tv);
+                }
+
+                dom += `${ firstGruop ? '' : '</div>' }<div class="palette-group">${ EchoLiveTools.safeHTML(title) }</div><div class="palette-list">`;
             }
+            firstGruop = false;
         });
-        dom += '</div>'
+        if (!firstGruop) dom += '</div>'
         return dom;
     }
 
@@ -483,6 +531,323 @@ class Popups {
             data
         );
     }
+
+    
+
+    /**
+     * 表情选择器悬浮框
+     * @param {Array<Object>} emojiPacks 表情包列表
+     * @param {Object} data 属性值
+     * @param {String} data.class 类
+     * @param {Object} data.pos 位置
+     * @param {Number} data.pos.x X 坐标
+     * @param {Number} data.pos.y Y 坐标
+     * @param {Object} data.width 宽度
+     * @param {String} data.width.min 最小宽度
+     * @param {String} data.width.max 最大宽度
+     * @param {Object} data.height 高度
+     * @param {String} data.height.min 最小高度
+     * @param {String} data.height.max 最大高度
+     * @param {String} id ID
+     * @returns {String} DOM
+     */
+    static emojiPopups(emojiPacks = [], data = {}, id = 'popups-emoji') {
+        data = {
+            width: {
+                min: '400px',
+                max: '400px'
+            },
+            height: {
+                min: '300px',
+                max: '300px'
+            },
+            ...data
+        }
+
+        if (!Array.isArray(emojiPacks) || emojiPacks.length < 1) {
+            emojiPacks = [
+                {
+                    meta: {
+                        name: 'missingno',
+                        namespace: 'missingno',
+                        title: 'missingno'
+                    },
+                    image: {
+                        isEmoji: true,
+                        show_title: false
+                    },
+                    content: [
+                        ':('
+                    ]
+                }
+            ];
+        }
+
+        return Popups.container(
+            `<div class="popups-emoji-header">
+                <label for="popups-emoji-select" style="display: none;">${ $t('editor.emoji.select') }</label>
+                <div class="popups-emoji-select-content">
+                    <kbd class="accessible-key">Q</kbd>
+                    <select name="popups-emoji-select" id="popups-emoji-select">
+                        ${ Popups.emojiOptions(emojiPacks) }
+                    </select>
+                    <kbd class="accessible-key">E</kbd>
+                </div>
+            </div>
+            <div class="popups-emoji-content">
+                ${ Popups.emojiPage(emojiPacks) }
+            </div>`,
+            id,
+            data
+        );
+    }
+
+    /**
+     * 表情选择器切换选项
+     * @param {Array<Object>} emojiPacks 表情包列表
+     * @returns {String} DOM
+     */
+    static emojiOptions(emojiPacks = []) {
+        let dom = '';
+        emojiPacks.forEach(e => {
+            let title = e.meta.title;
+            if (typeof e?.meta?.title_i18n == 'string') {
+                title = $t('emoji.' + e.meta.title_i18n);
+            }
+            dom += `<option value="${ e.meta.name }">${ title }</option>`
+        });
+        return dom;
+    }
+
+    /**
+     * 表情选择器页面
+     * @param {Array<Object>} emojiPacks 表情包列表
+     * @returns {String} DOM
+     */
+    static emojiPage(emojiPacks = []) {
+        let dom = '';
+        emojiPacks.forEach(e => {
+            dom += `<div class="emoji-page hide review-size-${ e.image.review_size } image-rendering-${ e.image.rendering }" data-emoji-pack-id="${ e.meta.name }">${ Popups.emojiContent(e) }</div>`
+        });
+        return dom;
+    }
+
+    /**
+     * 表情选择器内容
+     * @param {Object} emojiPack 表情包
+     * @returns {String} DOM
+     */
+    static emojiContent(emojiPack = {}) {
+        if (emojiPack.content.length <= 0) return '';
+        let dom = '<div class="emoji-list">';
+        let firstGruop = false;
+        if (emojiPack.content[0]?.type == 'group') {
+            dom = '';
+            firstGruop = true;
+        }
+
+        emojiPack.content.forEach(e => {
+            let title;
+            if (e?.type === 'emoji' || e?.type === undefined) {
+                if (emojiPack.image.show_title) {
+                    title = e.title;
+                    if (e.title_i18n != undefined) title = $t( 'emoji.' + emojiPack.path.i18n + 'emoji.' + e.title_i18n );
+                }
+
+                if (emojiPack.image.isEmoji) {
+                    if (typeof e == 'string') {
+                        dom += `<button class="emoji-box is-true-emoji" data-value="${ e }">${ e }</button>`;
+                    } else if (typeof e == 'object') {
+                        dom += `<button class="emoji-box is-true-emoji" ${ title != undefined ? `title="${ title }"` : '' } data-value="${ e.name }">${ e.name }</button>`;
+                    }
+                } else {
+                    dom += `<button class="emoji-box" ${ title != undefined ? `title="${ title }"` : '' } data-value="${ emojiPack.meta.namespace + ':' + e.name }"><img src="${ emojiPack.path.images + e.path }" alt="${ title }"></button>`;
+                }
+            } else if (e?.type === 'group') {
+                title = e.title;
+                if (e.title_i18n != undefined) title = $t( 'emoji.' + emojiPack.path.i18n + 'group.' + e.title_i18n );
+
+                dom += `${ firstGruop ? '' : '</div>' }<div class="emoji-group">${ title }</div><div class="emoji-list">`;
+            }
+            firstGruop = false;
+        });
+        if (!firstGruop) dom += '</div>'
+        return dom;
+    }
+
+    /**
+     * 图片选择器悬浮框
+     * @param {Object} data 属性值
+     * @param {String} id ID
+     * @returns 
+     */
+    static imagePopups(data = {}, id = 'popups-image') {
+        data = {
+            width: {
+                min: '502px',
+                max: '502px'
+            },
+            height: {
+                min: '200px',
+                max: 'calc(100vh - 32px)'
+            },
+            ...data
+        }
+
+        return Popups.container(
+            `<nav id="popups-image-nav" class="tabpage-nav" data-navid="popups-image">
+                <button
+                    class="tabpage-nav-item"
+                    data-pageid="file"
+                    role="tab"
+                    aria-selected="true"
+                    title="${ $t('editor.image_popups.tabpage.file.description') }"
+                >${ $t('editor.image_popups.tabpage.file.title') }</button>
+                <button
+                    class="tabpage-nav-item"
+                    data-pageid="url"
+                    role="tab"
+                    aria-selected="false"
+                    title="${ $t('editor.image_popups.tabpage.url.description') }"
+                >${ $t('editor.image_popups.tabpage.url.title') }</button>
+                <button
+                    class="tabpage-nav-item"
+                    data-pageid="images"
+                    role="tab"
+                    aria-selected="false"
+                    title="${ $t('editor.image_popups.tabpage.images.description') }"
+                >${ $t('editor.image_popups.tabpage.images.title') }</button>
+            </nav>
+            <div class="tabpage-centent" data-navid="popups-image">
+                <section class="tabpage-panel" role="tabpanel" data-pageid="file">
+                    <div class="popups-image-file-panel">
+                        <div class="file-input">
+                            <button id="image-file-input-box" class="file-drop-box" aria-label="${ $t('file.droper.title') }">
+                                <span class="file-drop-box-message">${ $t('file.droper.please_click') }</span>
+                                <span class="file-drop-box-message-keyboard">${ $t('file.droper.please_drop_file_keyboard') }</span>
+                            </button>
+                            <div id="image-file-check-dialog" class="hide"></div>
+                        </div>
+                    </div>
+                </section>
+                <section class="tabpage-panel hide" role="tabpanel" data-pageid="url">
+                    <div class="echo-editor-form">
+                        <label for="image-url">URL</label>
+                        <input type="text" id="image-url">
+                        <div class="image-url-action">
+                            <div class="image-url-message"></div>
+                            ${ EditorForm.button(
+                                $t('file.droper.dialog.selected.import_image'),
+                                {
+                                    id: 'btn-flie-check-dialog-import-image-url',
+                                    icon: Icon.check()
+                                }
+                            ) }
+                        </div>
+                    </div>
+                </section>
+                <section class="tabpage-panel hide" role="tabpanel" data-pageid="images">
+                    <div class="images-list-action">
+                        ${ Popups.imagesListAction(0) }
+                    </div>
+                    <div id="popups-image-images-list" class="images-list"></div>
+                </section>
+            </div>
+            <div class="image-parameter echo-editor-form">
+                <div class="collapse">
+                    <div class="collapse-title">
+                        <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
+                            <span class="icon"></span>
+                            <span class="text">${ $t('editor.image_popups.label.set_image_parameter') }</span>
+                            <input type="hidden" id="image-parameter-set" value="0">
+                        </button>
+                    </div>
+                    <div class="collapse-content hide">
+                        <div class="image-parameter-line">
+                            <div class="image-parameter-item">
+                                <label for="image-size-max">${ $t('editor.image_popups.label.image_size_max') }</label>
+                                <input type="number" id="image-size-max" value="${ config.echolive.image.default_max_size }">
+                            </div>
+                            <div class="image-parameter-item">
+                                <label for="image-size-min">${ $t('editor.image_popups.label.image_size_min') }</label>
+                                <input type="number" id="image-size-min" value="0">
+                            </div>
+                        </div>
+                        <div class="image-parameter-line">
+                            <div class="image-parameter-item">
+                                <label for="image-margin">${ $t('editor.image_popups.label.image_margin') }</label>
+                                <input type="number" id="image-margin" value="0.5">
+                            </div>
+                            <div class="image-parameter-item">
+                                <label for="image-rendering">${ $t('editor.image_popups.label.image_rendering') }</label>
+                                <select name="pets" id="image-rendering">
+                                    <option value="auto">${ $t('editor.image_popups.option.image_rendering.auto') }</option>
+                                    <option value="pixelated">${ $t('editor.image_popups.option.image_rendering.pixelated') }</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>`,
+            id,
+            data
+        );
+    }
+
+    static imagesListAction(mode = 0) {
+        const btnDeleteStart = EditorForm.buttonGhost(
+            $t('ui.delete'),
+            {
+                class: 'btn-image-cache-delete',
+                icon: Icon.toggleSwitchOffOutline(),
+                color: 'danger',
+                size: "small"
+            }
+        );
+        const btnDeleteEnd = EditorForm.button(
+            $t('ui.delete'),
+            {
+                class: 'btn-image-cache-delete-stop',
+                icon: Icon.toggleSwitch(),
+                color: 'danger',
+                size: "small"
+            }
+        );
+        const btnDeleteAll = EditorForm.buttonGhost(
+            $t('editor.image_popups.button.delete_all_images'),
+            {
+                class: 'btn-image-cache-delete-all',
+                icon: Icon.delete(),
+                color: 'danger',
+                size: "small"
+            }
+        )
+        if (mode == 0) {
+            return btnDeleteStart;
+        } else {
+            return btnDeleteEnd + btnDeleteAll;
+        }
+    }
+
+    static imagesContent(imagesData = []) {
+        let dom = '';
+        for (let i = 0; i < imagesData.length; i++) {
+            const e = imagesData[i];
+            if (e == undefined || e == null) continue;
+            dom = Popups.imageBox(i, e.url, e.isAbsolute, e.rendering == 'pixelated' ? true : false) + dom;
+        }
+        return dom;
+    }
+
+    static imageBox(index, url, isAbsolute = false, isPixelated = false) {
+        return `<button
+            class="image-box ${ isAbsolute ? 'image-is-absolute' : ''} ${ isPixelated ? 'image-rendering-pixelated' : ''}"
+            data-value="${ index }"
+            data-is-absolute="${ isAbsolute }"
+        >
+            <img src="${ url }" alt="${ $t('file.picker.image') }">
+        </button>`
+    }
 }
 
 // 客户端状态仪表构造器
@@ -616,7 +981,20 @@ class SettingsPanel {
         return `<div class="settings-page hide" data-pageid="${ id }">${ content }</div>`;
     }
 
-    static setGroupTitle(title = '', description = '') {
+    static setGroupTitle(title = '', description = '', depth) {
+        if (depth === 1) {
+            return `<button class="settings-group-collapse-title">
+                <div class="title">${ title }</div>
+                <div class="icon">
+                    <span class="open">${ Icon.chevronDown() }</span>
+                    <span class="close">${ Icon.chevronUp() }</span>
+                </div>
+            </button>`;
+        } else if (depth > 1) {
+            return `<div class="settings-group-collapse-subtitle">
+                <div class="title">${ title }</div>
+            </div>`;
+        }
         return `<div class="settings-group-title">
             <div class="title">${ title }</div>
             <div class="description">${ description }</div>
@@ -660,7 +1038,7 @@ class SettingsPanel {
         const title = $t( 'config.' + item.name + '._title' );
         const description = $t( 'config.' + item.name + '._description' );
 
-        if (item.type == 'object') return SettingsPanel.setGroupTitle(title, description);
+        if (item.type == 'object') return SettingsPanel.setGroupTitle(title, description, item?.depth);
         if (item.type == 'boolean.bit') return SettingsPanel.setItemBoolean(item.type, item.name, title, description, item.default, item?.attribute, true);
 
         return SettingsPanel[run](item.type, item.name, title, description, item.default, item?.attribute);
@@ -668,9 +1046,37 @@ class SettingsPanel {
 
     static setItems(items) {
         let dom = '';
+        let inGroup = false;
+        let inCollapse = false;
         items.forEach(e => {
+            if (e.type == 'object' && (e?.depth == undefined || e?.depth <= 1)) {
+                if (inCollapse) {
+                    dom += '</div></div>';
+                    inCollapse = false;
+                }
+                if (inGroup && (e?.depth == undefined || e?.depth <= 0)) {
+                    dom += '</div></div>';
+                    inGroup = false;
+                }
+                
+                if (e?.depth > 0) {
+                    dom += `<div class="settings-group-collapse state-close" data-id="${ e.name }">`;
+                } else {
+                    dom += `<div class="settings-group" data-id="${ e.name }">`;
+                }
+            }
             dom += SettingsPanel.setItemAuto(e);
+            if (e.type == 'object' && (e?.depth == undefined || e?.depth <= 1)) {
+                if (e?.depth > 0) {
+                    dom += (inCollapse ? '</div>' : '') + `<div class="settings-group-collapse-content">`;
+                    inCollapse = true;
+                } else {
+                    dom += (inGroup ? '</div>' : '') + `<div class="settings-group-content">`;
+                    inGroup = true;
+                }
+            }
         });
+        if (inGroup) dom += '</div></div>';
         return dom;
     }
 
@@ -682,6 +1088,7 @@ class SettingsPanel {
     }
 
     static setItemString(type = '', id = '', title = '', description = '', value = '', attribute = undefined) {
+        if (type === 'string.multiline') return SettingsPanel.setItemStringMultiLine(type, id, title, description, value);
         value = String(value).replace(/"/g, '&quot;');
         let dl = '';
         let hasDatalist = false;
@@ -699,6 +1106,17 @@ class SettingsPanel {
             'string', id, title, description,
             `<label class="title" style="display: none;" for="${ id.replace(/\./g, '-') }">${ title }</label>
             <input type="text" id="${ id.replace(/\./g, '-') }" class="settings-value code" ${ hasDatalist ? `list="${ id.replace(/\./g, '-') }-datalist"` : '' } aria-label="${ title }" data-default="${ value }" value="${ value }">${ dl }`
+        );
+    }
+
+    static setItemStringMultiLine(type = '', id = '', title = '', description = '', value = '') {
+        // value = String(value).replace(/"/g, '&quot;');
+        return SettingsPanel.setItem(
+            type, id, title, description,
+            `<label class="title" style="display: none;" for="${ id.replace(/\./g, '-') }">${ title }</label>`,
+            `<div class="content">
+                <textarea id="${ id.replace(/\./g, '-') }" class="settings-value code" aria-label="${ title }" data-default="${ encodeURIComponent(value) }">${ value }</textarea>
+            </div>`
         );
     }
 
@@ -887,6 +1305,20 @@ class SettingsFileChecker {
         </div>`;
     }
 
+    static dialogSuccess(title = '', description = '', controller = '') {
+        if (controller == '') {
+            controller = EditorForm.button(
+                $t('ui.ok'),
+                {
+                    id: 'btn-flie-check-dialog-cancel',
+                    class: 'btn-default',
+                    icon: Icon.check()
+                }
+            );
+        }
+        return SettingsFileChecker.dialog(title, description, controller, 'check', 'state-success');
+    }
+
     static dialogWarn(title = '', description = '', controller = '') {
         if (controller == '') {
             controller = EditorForm.button(
@@ -943,8 +1375,8 @@ class SettingsFileChecker {
 
     static dialogUseChrome() {
         return SettingsFileChecker.dialogWarn(
-            $t('settings.config_input.use_chrome.title'),
-            $t('settings.config_input.use_chrome.description'),
+            $t('file.droper.dialog.use_chrome.title'),
+            $t('file.droper.dialog.use_chrome.description'),
             EditorForm.buttonGhost(
                 $t('ui.close'),
                 {
@@ -954,7 +1386,7 @@ class SettingsFileChecker {
                 }
             ) +
             EditorForm.button(
-                $t('settings.config_input.use_chrome.goto'),
+                $t('file.droper.dialog.use_chrome.goto'),
                 {
                     id: 'btn-flie-check-dialog-goto-chrome',
                     class: 'btn-default',
@@ -1030,6 +1462,29 @@ class SettingsFileChecker {
                     class: 'btn-default',
                     icon: Icon.arrowRight(),
                     color: 'warn'
+                }
+            )
+        );
+    }
+
+    static dialogImageFileSelected(filename = '') {
+        return SettingsFileChecker.dialogSuccess(
+            $t('file.droper.dialog.selected.title'),
+            $t('file.droper.dialog.selected.description', { name: filename }),
+            EditorForm.buttonGhost(
+                $t('ui.cancel'),
+                {
+                    id: 'btn-flie-check-dialog-cancel',
+                    icon: Icon.close(),
+                    color: 'danger'
+                }
+            ) +
+            EditorForm.button(
+                $t('file.droper.dialog.selected.import_image'),
+                {
+                    id: 'btn-flie-check-dialog-import-image',
+                    class: 'btn-default',
+                    icon: Icon.check()
                 }
             )
         );

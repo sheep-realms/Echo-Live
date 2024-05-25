@@ -8,6 +8,7 @@ class EchoLiveHistory {
         this.theme = [];
         this.event = {
             newHistory: function() {},
+            shutdown: function() {},
             themeScriptLoad: function() {},
             themeScriptUnload: function() {},
         };
@@ -25,7 +26,7 @@ class EchoLiveHistory {
             this.broadcast.error(msg, filename, e.lineno, e.colno);
         });
 
-        if (this.config.echolive.sleep_enable) {
+        if (this.config.echolive.sleep.enable) {
             document.addEventListener("visibilitychange", () => {
                 if (document.visibilityState === "visible") {
                     this.hidden = false;
@@ -35,8 +36,9 @@ class EchoLiveHistory {
             });
         }
 
-        if (this.config.echolive.broadcast_enable) {
-            this.broadcast = new EchoLiveBroadcastHistory(this.config.echolive.broadcast_channel, this, this.config);
+        if (this.config.echolive.broadcast.enable) {
+            this.broadcast = new EchoLiveBroadcastHistory(this.config.echolive.broadcast.channel, this, this.config);
+            this.broadcast.on('shutdown', reason => this.shutdown(reason));
         }
     }
 
@@ -57,7 +59,7 @@ class EchoLiveHistory {
      */
     send(data) {
         if (
-            this.config.history.remove_continuous_duplicate
+            this.config.history.message.remove_continuous_duplicate
             && typeof data === 'object'
             && JSON.stringify(data) === JSON.stringify(this.prevMessage)
         ) return;
@@ -102,7 +104,7 @@ class EchoLiveHistory {
 
         this.setThemeStyleUrl(theme.style);
 
-        if ((this.config.history.history_theme_script_enable && this.config.global.theme_script_enable) && typeof theme.script == 'object') {
+        if ((this.config.history.style.history_theme_script_enable && this.config.global.theme_script_enable) && typeof theme.script == 'object') {
             theme.script.forEach(e => {
                 let s = document.createElement("script");
                 s.src = e;
@@ -114,5 +116,14 @@ class EchoLiveHistory {
         this.event.themeScriptLoad();
 
         return theme.style;
+    }
+
+    /**
+     * 立即关闭
+     * @param {String} reason 理由
+     */
+    shutdown(reason = undefined) {
+        this.broadcast = undefined;
+        this.event.shutdown(reason);
     }
 }

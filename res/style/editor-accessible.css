@@ -31,8 +31,12 @@
     --text-secondary: #444;
     --text-placeholder: #666;
 
-    --border-coler: #000;
+    --page-bgcolor-glass: var(--page-bgcolor);
+    --border-color: #000;
     --box-shadow: 0 0 0 4px rgba(128, 128, 128, 0.75);
+
+    --commander-bgcolor: #000000;
+    --commander-color: #FFFFFF;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -64,12 +68,15 @@
         --text-secondary: #BBB;
         --text-placeholder: #999;
     
-        --border-coler: #FFF;
+        --border-color: #FFF;
         --box-shadow: 0 2px 16px rgba(128, 128, 128, 0.75);
     
         --page-bgcolor: #000;
+        --page-bgcolor-glass: var(--page-bgcolor);
         --input-bgcolor: #0D111A;
         --input-color: var(--text-primary);
+        --commander-bgcolor: #FFFFFF;
+        --commander-color: #000000;
 
         --checkbox-corner-marker-color: rgba(30, 33, 41, 0.5);
     }
@@ -107,12 +114,15 @@
     --text-secondary: #BBB;
     --text-placeholder: #999;
 
-    --border-coler: #FFF;
+    --border-color: #FFF;
     --box-shadow: 0 2px 16px rgba(128, 128, 128, 0.75);
 
     --page-bgcolor: #000;
+    --page-bgcolor-glass: var(--page-bgcolor);
     --input-bgcolor: #0D111A;
     --input-color: var(--text-primary);
+    --commander-bgcolor: #FFFFFF;
+    --commander-color: #000000;
 
     --checkbox-corner-marker-color: rgba(30, 33, 41, 0.5);
 }
@@ -154,7 +164,8 @@
     border: 1px solid var(--text-primary);
 }
 
-.accessible-high-contrast #popups-palette:not(:focus-within) .popups-palette-select-content kbd {
+.accessible-high-contrast #popups-palette:not(:focus-within) .popups-palette-select-content kbd, 
+.accessible-high-contrast #popups-emoji:not(:focus-within) .popups-emoji-select-content kbd {
     opacity: 0;
 }
 
@@ -162,7 +173,8 @@
 .accessible-high-contrast input[type=text]:focus,
 .accessible-high-contrast textarea:focus,
 .accessible-high-contrast select:focus,
-.accessible-high-contrast button:focus {
+.accessible-high-contrast button:focus,
+.accessible-high-contrast a:focus {
     outline: var(--accessible-outline) !important;
 }
 
@@ -171,8 +183,24 @@
     animation: unset;
 }
 
-.accessible-high-contrast .settings-panel a:not(.settings-link-bar) {
+.accessible-high-contrast .settings-panel a:not(.settings-link-bar),
+.accessible-high-contrast .fh-link,
+.accessible-link-underline .settings-panel a:not(.settings-link-bar),
+.accessible-link-underline .fh-link {
     border-bottom: var(--color-general-dark) 1px solid;
+}
+
+.accessible-high-contrast .settings-item.settings-item-condition-test-fail>* {
+    opacity: 1;
+}
+
+.accessible-high-contrast .settings-item.settings-item-condition-test-fail .title {
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+.accessible-high-contrast .settings-item.settings-item-condition-test-fail:hover>* {
+    opacity: 1;
 }
 
 
@@ -211,6 +239,14 @@
 
 .prefers-color-scheme-dark .accessible-high-contrast.accessible-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content.fail svg {
     color: var(--page-bgcolor);
+}
+
+
+/* 禁用动画 */
+.accessible-animation-disable,
+.accessible-animation-disable * {
+    animation: unset !important;
+    transition: unset !important;
 }
 
 

@@ -18,8 +18,9 @@ class EchoLive {
             messagesPolling: -1
         };
         this.event = {
+            shutdown: function() {},
             themeScriptLoad: function() {},
-            themeScriptUnload: function() {},
+            themeScriptUnload: function() {}
         };
 
         this.init();
@@ -31,7 +32,9 @@ class EchoLive {
     init() {
         let urlName = EchoLiveTools.getUrlParam('name');
         let urlColor = EchoLiveTools.getUrlParam('color');
-        if (urlName != null) this.custom.name = urlName.replace(/</g, '').replace(/>/g, '');
+        if (urlName != null && urlName.search(/^[a-f\d]{4}(?:[a-f\d]{4}-){4}[a-f\d]{12}$/i) == -1) {
+            this.custom.name = urlName.replace(/</g, '').replace(/>/g, '');
+        }
         if (urlColor != null) this.custom.color = urlColor;
         
         window.addEventListener("error", (e) => {
@@ -43,25 +46,10 @@ class EchoLive {
         //     this.broadcast.error(message, source, line, col);
         // };
 
-        // 嵌套有点多了，这不好，要改
-        if (this.config.echolive.sleep_enable) {
+        if (this.config.echolive.sleep.enable) {
+            this.checkVisibility();
             document.addEventListener("visibilitychange", () => {
-                if (document.visibilityState === "visible") {
-                    this.hidden = false;
-                    if (this.broadcast != undefined) this.broadcast.pageVisible();
-                    if (this.timer.messagesPolling != -1) {
-                        this.antiFlood = true;
-                        this.start();
-                    }
-                } else {
-                    this.hidden = true;
-                    if (this.broadcast != undefined) this.broadcast.pageHidden();
-                    if (this.timer.messagesPolling != -1) this.stop();
-                    if (this.echo.state != 'stop') {
-                        this.echo.stop();
-                        this.broadcast.echoStateUpdate('stop', this.echo.messageList.length);
-                    }
-                }
+                this.checkVisibility();
             });
         }
 
@@ -71,9 +59,10 @@ class EchoLive {
             this.echo.printSpeedChange = this.config.echo.print_speed;
         }
 
-        if (this.config.echolive.broadcast_enable) {
-            this.broadcast = new EchoLiveBroadcastPortal(this.config.echolive.broadcast_channel, this, this.config);
-        } else if (this.config.echolive.messages_polling_enable) {
+        if (this.config.echolive.broadcast.enable) {
+            this.broadcast = new EchoLiveBroadcastPortal(this.config.echolive.broadcast.channel, this, this.config);
+            this.broadcast.on('shutdown', reason => this.shutdown(reason));
+        } else if (this.config.echolive.messages_polling.enable) {
             this.start();
         }
     }
@@ -87,6 +76,28 @@ class EchoLive {
     on(eventName, action = function() {}) {
         if (typeof action != 'function') return;
         return this.event[eventName] = action;
+    }
+
+    /**
+     * 检查对话框可见性
+     */
+    checkVisibility() {
+        if (document.visibilityState === "visible") {
+            this.hidden = false;
+            if (this.broadcast != undefined) this.broadcast.pageVisible();
+            if (this.timer.messagesPolling != -1) {
+                this.antiFlood = true;
+                this.start();
+            }
+        } else {
+            this.hidden = true;
+            if (this.broadcast != undefined) this.broadcast.pageHidden();
+            if (this.timer.messagesPolling != -1) this.stop();
+            if (this.echo.state != 'stop' && this.config.echolive.sleep.enable && this.config.echolive.sleep.during_printing_stop_print) {
+                this.echo.stop();
+                this.broadcast.echoStateUpdate('stop', this.echo.messageList.length);
+            }
+        }
     }
 
     /**
@@ -141,7 +152,7 @@ class EchoLive {
         let that = this;
         this.timer.messagesPolling = setInterval(function() {
             that.reload();
-        }, this.config.echolive.messages_polling_tick);
+        }, this.config.echolive.messages_polling.tick);
     }
 
     /**
@@ -188,7 +199,7 @@ class EchoLive {
 
         this.setThemeStyleUrl(theme.style);
 
-        if ((this.config.echolive.live_theme_script_enable && this.config.global.theme_script_enable) && typeof theme.script == 'object') {
+        if ((this.config.echolive.style.live_theme_script_enable && this.config.global.theme_script_enable) && typeof theme.script == 'object') {
             theme.script.forEach(e => {
                 let s = document.createElement("script");
                 s.src = e;
@@ -200,5 +211,16 @@ class EchoLive {
         this.event.themeScriptLoad();
 
         return theme.style;
+    }
+
+    /**
+     * 立即关闭
+     * @param {String} reason 理由
+     */
+    shutdown(reason = undefined) {
+        this.echo.stop();
+        this.broadcast = undefined;
+        this.timer.messagesPolling = -1;
+        this.event.shutdown(reason);
     }
 }

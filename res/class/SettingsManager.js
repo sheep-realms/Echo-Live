@@ -14,9 +14,26 @@ class SettingsManager {
         });
     }
 
+    findConfigDefine(name) {
+        return this.configDefine.find((e) => {
+            return e.name == name;
+        });
+    }
+
     findIndexConfigDefine(name) {
         return this.configDefine.findIndex((e) => {
             return e.name == name;
+        });
+    }
+
+    filterConfigDefineByCondition(conditionKey = '') {
+        const cd = this.configDefine.filter(e => Array.isArray(e?.conditions));
+
+        if (cd.length <= 0) return [];
+        if (conditionKey === '') return cd;
+
+        return cd.filter((e) => {
+            return e.conditions.filter(e2 => e2.name == conditionKey).length > 0;
         });
     }
 
@@ -52,6 +69,21 @@ class SettingsManager {
         nestedObj[keys[keys.length - 1]] = value;
     }
 
+    deleteConfig(key) {
+        const keys = key.split('.');
+        let current = this.config;
+    
+        for (let i = 0; i < keys.length - 1; i++) {
+            const key = keys[i];
+            if (!(key in current)) {
+                return;
+            }
+            current = current[key];
+        }
+    
+        delete current[keys[keys.length - 1]];
+    }
+
     importConfig(value) {
         if (typeof value != 'object') return;
         this.configBackup = this.config;
@@ -76,6 +108,13 @@ class SettingsManager {
 
             cd.forEach(e => {
                 this.setConfig(e.name, e.default);
+                if (typeof e?.from == 'string') {
+                    let v = this.getConfig(e.from);
+                    if (v != undefined) {
+                        this.setConfig(e.name, v);
+                        this.deleteConfig(e.from);
+                    }
+                }
             });
         }
         

@@ -5,6 +5,10 @@ let configFileFiltered = '';
 let configFileWritableFileHandle = undefined;
 let configBuffer = {};
 
+let lastColorScheme = config.global.color_scheme;
+
+let bodyClassCache = '';
+
 const settingsNav = [
     {
         id: 'global',
@@ -105,6 +109,10 @@ const observer = new PerformanceObserver((list) => {
 
 observer.observe({ type: "navigation", buffered: true });
 
+try {
+    speechSynthesis.getVoices();
+} catch (error) {}
+
 
 
 
@@ -118,7 +126,11 @@ function getSettingsItemValue(name, isDefault = false) {
         if (!isDefault) {
             value = $sel.find('.settings-value').eq(0).val();
         } else {
-            value = String($sel.find('.settings-value').eq(0).data('default'));
+            if (type === 'string.multiline') {
+                value = String(decodeURIComponent($sel.find('.settings-value').eq(0).data('default')));
+            } else {
+                value = String($sel.find('.settings-value').eq(0).data('default'));
+            }
         }
 
         switch (types[0]) {
@@ -180,9 +192,15 @@ function setSettingsItemValue(name, value, isDefault = false) {
     
     if (type.split('.')[0] != 'special') {
         $sel.find('.settings-value').eq(0).val(value);
-        if (isDefault) $sel.find('.settings-value').eq(0).data('default', value);
+        if (isDefault) {
+            if (type === 'string.multiline') {
+                $sel.find('.settings-value').eq(0).data('default', encodeURIComponent(value));
+            } else {
+                $sel.find('.settings-value').eq(0).data('default', value);
+            }
+        }
 
-        switch (type) {
+        switch (type.split('.')[0]) {
             case 'boolean':
                 $sel.find('.settings-switch').removeClass('state-off state-on');
                 $sel.find('.settings-switch').addClass(bt[Number(value)]);
@@ -224,6 +242,39 @@ function setSettingsItemValue(name, value, isDefault = false) {
         }
     }
 }
+
+function configConditionTest(name) {
+    let cd = settingsManager.findConfigDefine(name);
+    if (!Array.isArray(cd?.conditions)) return true;
+
+    for (let i = 0; i < cd.conditions.length; i++) {
+        const e = cd.conditions[i];
+        const ev = getSettingsItemValue(e.name);
+        if (ev == undefined) continue;
+        if (ev !== e.value) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function checkConfigCondition(name = '') {
+    let ccd = settingsManager.filterConfigDefineByCondition(name);
+    if (ccd.length <= 0) return;
+
+    ccd.forEach(element => {
+        if (configConditionTest(element.name)) {
+            $(`.settings-item[data-id="${ element.name }"]`).removeClass('settings-item-condition-test-fail');
+        } else {
+            $(`.settings-item[data-id="${ element.name }"]`).addClass('settings-item-condition-test-fail');
+        }
+    });
+}
+
+
+
+
+
 
 function showFileCheckDialog(content) {
     $('#settings-file-check-dialog').html(content);
@@ -298,7 +349,9 @@ function configUndoAll() {
         setSettingsItemValue(id, dv);
     }
     $sel.removeClass('change');
+    $('body').attr('class', bodyClassCache);
     configSaveCloseController();
+    checkConfigCondition();
 }
 
 function configSaveAll(effect = false) {
@@ -313,6 +366,18 @@ function configSaveAll(effect = false) {
     configSaveCloseController();
     configOutput(true);
     if (effect) effectFlicker('#tabpage-nav-export');
+
+    setTimeout(function() {
+        let colorScheme = settingsManager.getConfig('global.color_scheme');
+        if (colorScheme != lastColorScheme) {
+            lastColorScheme = colorScheme;
+            EchoLiveTools.updateView(function() {
+                $('html').removeClass('prefers-color-scheme-auto prefers-color-scheme-light prefers-color-scheme-dark');
+                $('html').addClass('prefers-color-scheme-' + colorScheme);
+            });
+        }
+        bodyClassCache = $('body').attr('class') ?? '';
+    }, 800)
 }
 
 function configOutput(setUnsave = false) {
@@ -404,10 +469,23 @@ $(document).ready(function() {
         });
     });
 
-    i = settingsManager.findIndexConfigDefine('echolive.print_audio_name');
+    i = settingsManager.findIndexConfigDefine('echolive.print_audio.name');
     settingsManager.configDefine[i].attribute.datalist = datalistLang;
-    i = settingsManager.findIndexConfigDefine('echolive.next_audio_name');
+    i = settingsManager.findIndexConfigDefine('echolive.next_audio.name');
     settingsManager.configDefine[i].attribute.datalist = datalistLang;
+    
+    i = settingsManager.findIndexConfigDefine('echolive.speech_synthesis.voice');
+    let voices = [];
+    try {
+        voices = speechSynthesis.getVoices();
+    } catch (error) {}
+    let voiceName = [];
+    voices.forEach(e => {
+        voiceName.push({
+            value: e.name
+        });
+    });
+    settingsManager.configDefine[i].attribute.datalist = voiceName;
 
     datalistLang = [
         { value: 'auto', title: $t('config.global.color_scheme._value.auto') },
@@ -428,6 +506,14 @@ $(document).ready(function() {
             $('.settings-pages').append(SettingsPanel.page(e.id, dom));
         }
     });
+
+    $('.settings-item[data-id="echolive.speech_synthesis.voice"] .value').append(EditorForm.buttonGhost(
+        $t('ui.audition'),
+        {
+            id: 'btn-speech-voice-audition',
+            icon: Icon.accountVoice()
+        }
+    ));
 
     if (config.data_version < db_config_version) {
         settingsManager.updateConfig(db_config_version);
@@ -451,6 +537,11 @@ $(document).ready(function() {
 
     $('#settings-file-check-box').html(SettingsFileChecker.default());
 
+    
+    $('.settings-page[data-pageid="echo"]').prepend(SettingsPanel.msgBox(
+        $t('settings.msgbox.echo.title'),
+        $t('settings.msgbox.echo.description')
+    ));
     $('.settings-page[data-pageid="accessible"]').prepend(
         SettingsPanel.msgBoxBlack(
             $t('config.about.accessibility'),
@@ -475,6 +566,10 @@ $(document).ready(function() {
     } else if (ua.search(/ obs\//) != -1) {
         showFileCheckDialogWarn('in_obs');
     }
+
+    bodyClassCache = $('body').attr('class') ?? '';
+
+    $(window).resize();
 
     // 调试信息
 
@@ -518,6 +613,8 @@ $(document).on('click', '#settings-file-input-box', function(e) {
 
 function configLoad() {
     if ($('.settings-item.change').length > 0) configUndoAll();
+    $(`.settings-item`).removeClass('settings-item-update');
+
     settingsManager.getConfigDefine().forEach((e) => {
         let value = settingsManager.getConfig(e.name);
         if (value != undefined && (typeof value != 'object' || Array.isArray(value))) {
@@ -525,16 +622,25 @@ function configLoad() {
         }
     });
 
-    if (settingsManager.getConfig('editor.palette') === 'all') {
-        $('#editor-palette-list').val([
+    if (settingsManager.getConfig('editor.color_picker.palette') === 'all') {
+        $('#editor-color_picker-palette-list').val([
             'material',
             'tailwindcss',
             'ant_design',
-            'minecraft',
+            'minecraft'
+        ].join('\n'));
+    }
+
+    if (settingsManager.getConfig('editor.emoji_picker.emoji') === 'all') {
+        $('#editor-emoji_picker-emoji-list').val([
+            'emoji',
+            'sheep-realms:pixel-head',
+            'sheep-realms:other'
         ].join('\n'));
     }
 
     configOutput();
+    checkConfigCondition();
 }
 
 async function filePicker() {
@@ -690,11 +796,21 @@ $(document).on('click', '#btn-flie-check-dialog-goto-chrome', function() {
 });
 
 $(document).on('click', '#btn-flie-check-dialog-update-config', function() {
+    const oldConfigVersion = settingsManager.getConfig('data_version');
     settingsManager.updateConfig(db_config_version);
     configLoad();
     showFileChecker(dropFile, 'loaded');
     closeFileCheckDialog();
     $('#tabpage-nav-edit, #tabpage-nav-export').removeClass('disabled');
+
+    $(`.settings-item`).removeClass('settings-item-update');
+    const cd = settingsManager.getConfigDefine('', oldConfigVersion + 1, db_config_version);
+    cd.forEach(e => {
+        if (e.type != 'object') {
+            $(`.settings-item[data-id="${ e.name }"]`).addClass('settings-item-update');
+        }
+    });
+
     effectFlicker('#tabpage-nav-edit');
 });
 
@@ -726,6 +842,7 @@ $(document).on('click', '.settings-nav-item', function() {
     const pageid = $(this).data('pageid');
     $(`.settings-page`).addClass('hide');
     $(`.settings-page[data-pageid="${pageid}"]`).removeClass('hide');
+    $(window).scrollTop(0);
 });
 
 $(document).on('click', '.settings-switch', function() {
@@ -772,7 +889,12 @@ $(document).on('click', '.settings-switch', function() {
     } else {
         $parent.removeClass('change');
     }
+
     configChangeCheck();
+
+    setTimeout(function() {
+        checkConfigCondition(name);
+    }, 10);
 });
 
 
@@ -849,6 +971,20 @@ $(document).on('click', '#edit-btn-file-save', function() {
 
 
 
+
+$(document).on('click', '.settings-group-collapse-title', function() {
+    const parent = $(this).parent();
+    if (parent.hasClass('state-close')) {
+        parent.removeClass('state-close');
+        parent.addClass('state-open');
+    } else {
+        parent.removeClass('state-open');
+        parent.addClass('state-close');
+    }
+});
+
+
+
 $(document).keydown(function(e) {
     if (e.keyCode == 83 && e.ctrlKey) {
         e.preventDefault();
@@ -862,4 +998,130 @@ $(document).keydown(function(e) {
         configSaveAll(true);
         configExport('config.js');
     }
+});
+
+
+
+
+$(window).resize(function() {
+    const tabHeight = $('#echo-editor-nav').height();
+    $('.settings-nav').css('top', `${tabHeight + 17}px`);
+    $('body').css('--settings-group-title-stickt-top', `${tabHeight + 1}px`);
+
+    // $('.settings-group-collapse').each(function() {
+    //     const e = $(this).parents('.settings-group').eq(0).find('.settings-group-title').eq(0);
+    // });
+});
+
+$(document).on('click', '.settings-item[data-id="accessible.high_contrast"] .settings-switch button', function() {
+    setTimeout(function() {
+        let value = getSettingsItemValue('accessible.high_contrast');
+        if (value) {
+            $('body').addClass('accessible-high-contrast');
+        } else {
+            $('body').removeClass('accessible-high-contrast');
+        }
+    }, 12);
+});
+
+$(document).on('click', '.settings-item[data-id="accessible.drotanopia_and_deuteranopia"] .settings-switch button', function() {
+    setTimeout(function() {
+        let value = getSettingsItemValue('accessible.drotanopia_and_deuteranopia');
+        if (value) {
+            $('body').addClass('accessible-drotanopia-and-deuteranopia');
+        } else {
+            $('body').removeClass('accessible-drotanopia-and-deuteranopia');
+        }
+    }, 12);
+});
+
+$(document).on('click', '.settings-item[data-id="accessible.link_underline"] .settings-switch button', function() {
+    setTimeout(function() {
+        let value = getSettingsItemValue('accessible.link_underline');
+        if (value) {
+            $('body').addClass('accessible-link-underline');
+        } else {
+            $('body').removeClass('accessible-link-underline');
+        }
+    }, 12);
+});
+
+$(document).on('click', '.settings-item[data-id="accessible.animation_disable"] .settings-switch button', function() {
+    setTimeout(function() {
+        let value = getSettingsItemValue('accessible.animation_disable');
+        if (value) {
+            $('body').addClass('accessible-animation-disable');
+        } else {
+            $('body').removeClass('accessible-animation-disable');
+        }
+    }, 12);
+});
+
+
+
+
+$(document).on('click', '#btn-speech-voice-audition', function() {
+    speechSynthesis.cancel();
+
+    // 试音用，不要本地化
+    const auditionText = {
+        en: [
+            'The only way to do great work is to love what you do.',
+            'Success is not final, failure is not fatal: It is the courage to continue that counts.',
+            "Believe you can and you're halfway there.",
+            'If you want it, then you will have to take it.',
+            'Never gonna give you up, never gonna let you down, never gonna run around and desert you.',
+            'Establishing battlefield control, stand by.',
+            'The appropriately named Apocalypse Tank is war in a can. It can attack any ground or air targets and be expected to be the last unit standing.'
+        ],
+        ja: [
+            '日々私たちが過ごしている日常は、実は、奇跡の連続なのかもしれない。',
+            'そうだ。俺たちが今まで積み上げてきたもんは全部無駄じゃなかった。これからも俺たちが立ち止まらないかぎり道は続く。',
+            'この中に宇宙人、未来人、異世界人、超能力者がいたら、あたしのところに来なさい。以上！',
+            '黒より黒く、闇より暗き漆黒に、我が深紅の混淆を望みたもう。覚醒のとき来たれり、無謬の境界に落ちし理、無行の歪みとなりて。現出せよ！エクスプロージョン！',
+            'フィクションにリアリティを求める奴のほうがどうかしていると思うが。',
+            '人間讃歌は勇気の讃歌ッ！人間のすばらしさは勇気のすばらしさ！',
+            'ドクター、終わってない仕事がたくさんありますから、まだ休んじゃだめですよ。',
+            '司令官、ロシア風チョコ、あげる。どこがロシア風かって？それは...内緒だ。'
+        ],
+        zh: [
+            '我们所经历的每个平凡的日常，也许就是连续发生的奇迹。',
+            '很可怕吗？是的，很可怕。',
+            '这个加上这个，能不能站着把钱挣了？',
+            '这屋子太暗，须在这里开一个窗，大家一定是不允许的。但是如果你主张拆掉屋顶，他们就来调和，愿意开窗了。',
+            '道路千万条，安全第一条。行车不规范，亲人两航泪。',
+            '失去人性，失去很多；失去兽性，失去一切。',
+            '给阿姨倒一杯卡布奇诺，开始你的炸弹秀。',
+            '你吼辣么大声干什么嘛！',
+            '这是一款可用于无声系虚拟主播直播的仿视觉小说对话框OBS插件。',
+            '在虚构的故事当中寻求真实感的人脑袋一定有问题。',
+            '一项研究表明，虚拟主播看多了容易引起乘法口诀模块受损。'
+        ]
+    };
+
+    let voices = speechSynthesis.getVoices();
+    let configVoice = getSettingsItemValue('echolive.speech_synthesis.voice');
+    let configPitch = getSettingsItemValue('echolive.speech_synthesis.pitch');
+    let configRate = getSettingsItemValue('echolive.speech_synthesis.rate');
+    let voiceIndex = voices.findIndex(e => e.name == configVoice);
+    let defaultVoice = voices.find(e => e.default);
+    let defaultVoiceLang = 'en';
+    let voiceLang = 'en';
+
+    if (defaultVoice != undefined) voiceLang = defaultVoiceLang = defaultVoice.lang.split('-')[0];
+
+    if (voiceIndex != -1) {
+        voiceLang = voices[voiceIndex].lang.split('-')[0];
+        if (auditionText[voiceLang] == undefined) voiceLang = 'en';
+    }
+
+    let speechText = auditionText[voiceLang][Math.floor(Math.random() * auditionText[voiceLang].length)];
+    // console.log(speechText);
+    let utterance = new SpeechSynthesisUtterance(speechText);
+
+    if (voiceIndex != -1) utterance.voice = voices[voiceIndex];
+    utterance.pitch = configPitch;
+    utterance.rate = configRate;
+
+    speechSynthesis.speak(utterance);
 });

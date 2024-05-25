@@ -58,27 +58,47 @@ class EchoLiveTools {
      * 获取段落格式纯文本内容
      * @param {String|Object|Array<Object>} message 段落格式
      * @param {Boolean} HTMLFilter 是否启用 HTML 过滤器
+     * @param {Boolean} noEmoji 是否禁用表情符号
+     * @param {RegExp} regFilter 过滤正则表达式
      * @returns {String} 纯文本内容
      */
-    static getMessagePlainText(message, HTMLFilter = false) {
+    static getMessagePlainText(message, HTMLFilter = false, noEmoji = false, regFilter = undefined) {
+        let str = '';
+
         if (typeof message == 'object' && message?.message != undefined) message = message.message;
         if (typeof message == 'string') {
-            if (HTMLFilter) message.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>');
-            return message;
+            str = message;
+            if (HTMLFilter) str = str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>');
+            if (noEmoji) str = str.replace(/\p{Emoji}/gu, '');
+            if (regFilter instanceof RegExp) str = str.replace(regFilter, '');
+            return str;
         }
-        if (typeof message == 'object' && !Array.isArray(message)) return message?.text;
+        if (typeof message == 'object' && !Array.isArray(message)) message = [message];
         if (!Array.isArray(message)) return;
 
-        let str = '';
         message.forEach(e => {
             if (typeof e == 'string') {
                 str += e;
             } else {
+                if (e?.data?.image != undefined) {
+                    str += ` [${ $t('file.picker.image') }] `;
+                }
+                if (e?.data?.emoji != undefined && !noEmoji) {
+                    try {
+                        typeof emojiHako;
+                        let emoji = emojiHako.getEmoji(e.data.emoji);
+                        str += ` [${ $t( 'emoji.' + emoji?.title_i18n ) }] `;
+                    } catch (error) {
+                        str += ` [${ e.data.emoji }] `;
+                    }
+                }
                 str += e.text;
             }
         });
 
         if (HTMLFilter) str = str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>');
+        if (noEmoji) str = str.replace(/\p{Emoji}/gu, '');
+        if (regFilter instanceof RegExp) str = str.replace(regFilter, '');
 
         return str;
     }
@@ -120,20 +140,23 @@ class EchoLiveTools {
      */
     static getMessageSendLog(message, username = '') {
         username = EchoLiveTools.safeHTML(username);
-        if (typeof message != 'string') message = EchoLiveTools.getMessagePlainText(message);
-        if (message == '') message = '<i>[空消息]</i>';
-        if (username == '') username = '<i>[未指定说话人]</i>';
+        if (typeof message != 'string') message = EchoLiveTools.safeHTML(EchoLiveTools.getMessagePlainText(message));
+        if (message == '') message = `<i>${ $t( 'message_preview.empty_message' ) }</i>`;
+        if (username == '') username = `<i>${ $t( 'message_preview.empty_username' ) }</i>`;
 
-        return `<${ username }> ${ EchoLiveTools.safeHTML(message) }`;
+        return `<${ username }> ${ message }`;
     }
 
     /**
      * 快速格式化代码转换成段落格式
      * @param {String} text 文本
+     * @param {Object} data 附加数据
+     * @param {Object} data.images 图片列表
      * @returns {String|Object|Array<Object>} 段落格式
      */
-    static formattingCodeToMessage(text) {
+    static formattingCodeToMessage(text, data = {}) {
         let message = [];
+        data = JSON.parse(JSON.stringify(data));
 
         const fontSizeValue = [
             'extra-small',
@@ -144,18 +167,20 @@ class EchoLiveTools {
         ];
         let fontSizeFindIndex;
 
-        function msgPush(msg = '', style = undefined) {
+        function msgPush(msg = '', style = undefined, data = undefined) {
             msg = msg.replace(/{{{sheep-realms:at}}}/g, '@');
             if (style == undefined) return message.push(msg);
-            return message.push({
-                text: msg,
-                style: style
-            });
+            let output = {
+                text: msg
+            };
+            if (style != undefined && Object.keys(style).length != 0) output.style = style;
+            if (data != undefined) output.data = data;
+            return message.push(output);
         }
 
         let replaced = text;
         replaced = replaced.replace(/\\@/g, '{{{sheep-realms:at}}}');
-        replaced = replaced.replace(/@(\[#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})\]|.?)/g, '{{{sheep-realms:split}}}@$1{{{sheep-realms:format}}}');
+        replaced = replaced.replace(/@(\[#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})\]|\{.*?\}|.?)/g, '{{{sheep-realms:split}}}@$1{{{sheep-realms:format}}}');
 
         let arrayMsg = replaced.split('{{{sheep-realms:split}}}');
 
@@ -173,6 +198,8 @@ class EchoLiveTools {
             }
 
             let style = {};
+            let imageKey = '';
+            let imageObj = {};
             switch (e[0]) {
                 case '@b':
                     style.bold = true;
@@ -217,6 +244,35 @@ class EchoLiveTools {
                     if (e[0].search(/^@\[.*\]$/g) != -1) {
                         style.color = e[0].substring(2, e[0].length - 1);
                         break;
+                    } else if (e[0].search(/^@\{.*\}$/g) != -1) {
+                        imageKey = e[0].substring(2, e[0].length - 1);
+
+                        
+                        if (imageKey.split(':')[0] === 'sys') {
+                            // 插入图片
+                            if (imageKey.split(':')[1] === 'img' && data?.images != undefined) {
+                                imageObj = data.images[imageKey.split(':')[2]];
+                                delete imageObj?.isAbsolute;
+                                delete imageObj?.isPixelated;
+                                msgPush(
+                                    e[1],
+                                    styleCache,
+                                    {
+                                        image: data.images[imageKey.split(':')[2]]
+                                    }
+                                );
+                            }
+                        } else {
+                            // 插入表情包
+                            msgPush(
+                                e[1],
+                                styleCache,
+                                {
+                                    emoji: imageKey
+                                }
+                            );
+                        }
+                        continue;
                     } else {
                         msgPush(e[0] + e[1]);
                         continue;
@@ -284,5 +340,29 @@ class EchoLiveTools {
     static safeHTML(text) {
         if (typeof text != 'string') return text;
         return text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    /**
+     * 使用 ViewTransition API 更新视图
+     * @param {Function} action 过程
+     */
+    static updateView(action = function() {}) {
+        if (!document.startViewTransition) {
+            action();
+            return;
+        }
+        document.startViewTransition(() => action());
+    }
+
+    /**
+     * 根据字符串生成匹配字符串内任意字符的正则表达式
+     * @param {String} str 字符串
+     * @returns {RegExp} 正则表达式
+     */
+    static generateCharRegex(str) {
+        str = str.replace(/\s/gm, '');
+        const escapedStr = str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regexStr = '[' + escapedStr + ']';
+        return new RegExp(regexStr, 'g');
     }
 }

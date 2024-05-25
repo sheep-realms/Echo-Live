@@ -1,6 +1,7 @@
 class EchoLiveEditor {
     constructor(config) {
         this.palette = [];
+        this.emojiHako = undefined;
         this.config = config;
     }
 
@@ -33,7 +34,7 @@ class EchoLiveEditor {
     }
 
     getPalettes() {
-        let palettes = this.config.editor.palette;
+        let palettes = this.config.editor.color_picker.palette;
         if (typeof palettes === 'string' && palettes === 'all') return this.palette;
         if (!Array.isArray(palettes)) return this.palette;
 
@@ -41,6 +42,21 @@ class EchoLiveEditor {
         palettes.forEach(e => {
             let p = this.findPalette(e);
             if (p != undefined) output.push(p);
+        });
+
+        return output;
+    }
+
+    getEmoji() {
+        if (!(this.emojiHako instanceof EmojiHako)) return [];
+        const emojiConfig = this.config.editor.emoji_picker.emoji;
+        if (typeof emojiConfig === 'string' && emojiConfig === 'all') return this.emojiHako.getEmojiPack();
+        if (!Array.isArray(emojiConfig)) return this.emojiHako.getEmojiPack();
+
+        let output = [];
+        emojiConfig.forEach(e => {
+            let emojiPack = this.emojiHako.getEmojiPack(e);
+            if (emojiPack != undefined) output.push(emojiPack);
         });
 
         return output;

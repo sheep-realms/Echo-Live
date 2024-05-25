@@ -177,11 +177,11 @@ class EchoLiveBroadcast {
      * @returns {Boolean} 结果
      */
     experimentalAPICheck(apiName) {
-        if (!this.echolive.config.echolive.experimental_api_enable) {
+        if (!this.echolive.config.echolive.broadcast.experimental_api_enable) {
             // TODO: 在这里抛出异常
         }
 
-        return this.echolive.config.echolive.experimental_api_enable;
+        return this.echolive.config.echolive.broadcast.experimental_api_enable;
     }
 }
 
@@ -201,6 +201,9 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         this.timer = {
             noClient: -1
         }
+        this.stateFlag = {
+            noClientChecked: false
+        };
         this.event = {
             ...this.event,
             clientsChange: function() {},
@@ -229,9 +232,12 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
      */
     ping(target = undefined) {
         let that = this;
-        this.timer.noClient = setTimeout(function() {
-            that.event.noClient();
-        }, 5000)
+        if (!this.stateFlag.noClientChecked) {
+            this.timer.noClient = setTimeout(function() {
+                that.event.noClient();
+            }, 5000);
+            this.stateFlag.noClientChecked = true;
+        }
 
         return this.sendData({}, 'ping', target);
     }
@@ -325,6 +331,18 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
     }
 
     /**
+     * 发送命令：立即关闭
+     * @param {String} reason 理由
+     * @param {String} target 发送目标
+     * @returns {Object} 发送的消息
+     */
+    sendShutdown(reason = undefined, target = undefined) {
+        return this.sendData({
+            reason: reason
+        }, 'shutdown', target);
+    }
+
+    /**
      * 新增客户端
      * @param {String} uuid UUID
      * @param {String} name 识别名
@@ -340,7 +358,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         clearTimeout(this.timer.noClient);
 
         let f = this.clients.filter(function(e) {
-            return e.name == name;
+            return e.name == name || e.uuid == name;
         });
 
         if (!this.config.advanced.broadcast.allow_name_duplicate && f.length > 0) {
@@ -442,8 +460,12 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
         this.websocketReconnectCount = 0;
         this.websocketClosed = false;
         this.timer = {};
+        this.stateFlag = {
+            onWindowClose: false
+        };
         this.event = {
             ...this.event,
+            shutdown: function() {},
             websocketClose: function() {}
         };
         this.depth = 1;
@@ -457,11 +479,12 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
     initClient() {
         this.setListenCallback(1, this, this.getDataClient);
 
-        window.onunload = () => {
+        window.onbeforeunload = () => {
+            this.stateFlag.onWindowClose - true;
             this.close();
         };
 
-        if (this.config.echolive.websocket_enable) {
+        if (this.config.echolive.broadcast.websocket_enable) {
             this.websocketConnect();
         }
     }
@@ -471,7 +494,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      */
     websocketConnect() {
         this.websocketClosed = false;
-        this.websocket = new WebSocket(this.config.echolive.websocket_url);
+        this.websocket = new WebSocket(this.config.echolive.broadcast.websocket_url);
 
         this.websocket.addEventListener('open', (e) => {
             this.websocket.addEventListener('close', (e) => {
@@ -506,9 +529,9 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
     websocketReconnect() {
         if (this.websocketClosed) return;
 
-        if (this.websocketReconnectCount >= this.config.echolive.websocket_reconnect_limit) {
+        if (this.websocketReconnectCount >= this.config.echolive.broadcast.websocket_reconnect_limit) {
             this.sendError('websocket_error', {
-                url: this.config.echolive.websocket_url,
+                url: this.config.echolive.broadcast.websocket_url,
                 tryReconnect: false,
                 reconnectCount: this.websocketReconnectCount
             });
@@ -518,7 +541,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
         this.websocketReconnectCount++;
 
         this.sendError('websocket_error', {
-            url: this.config.echolive.websocket_url,
+            url: this.config.echolive.broadcast.websocket_url,
             tryReconnect: true,
             reconnectCount: this.websocketReconnectCount
         });
@@ -553,6 +576,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      * @returns {Object} 发送的消息
      */
     pageHidden(target = undefined) {
+        if (this.stateFlag.onWindowClose) return;
         return this.sendData({}, 'page_hidden', target);
     }
 
@@ -562,6 +586,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      * @returns {Object} 发送的消息
      */
     pageVisible(target = undefined) {
+        if (this.stateFlag.onWindowClose) return;
         return this.sendData({}, 'page_visible', target);
     }
 
@@ -604,6 +629,18 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
     }
 
     /**
+     * 立即关闭
+     * @param {String} reason 理由
+     */
+    shutdown(reason = undefined) {
+        this.close();
+        this.websocketClose();
+        this.broadcast.close();
+        this.broadcast = undefined;
+        this.event.shutdown(reason);
+    }
+
+    /**
      * 处理侦听获取的数据
      * @param {Object} data 数据内容
      * @param {EchoLiveBroadcast} listener 监听对象
@@ -620,6 +657,10 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
 
             case 'websocket_close':
                 listener.websocketClose();
+                break;
+
+            case 'shutdown':
+                listener.shutdown(data.data.reason);
                 break;
         
             default:
@@ -805,91 +846,5 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
             default:
                 break;
         }
-    }
-}
-
-
-
-
-class ServerSentEventsClient {
-    constructor(eventSourceUrl = undefined) {
-        this.eventSourceUrl = eventSourceUrl;
-        this.eventSource = undefined;
-        this.token = undefined;
-    }
-
-    reconnect(eventSourceUrl = undefined) {
-        this.stop();
-        if (eventSourceUrl) {
-            this.eventSourceUrl = eventSourceUrl;
-        }
-        this.start();
-    }
-
-    start() {
-        if (this.eventSource || !this.eventSourceUrl) return false;
-
-        console.log(`Try to connect "${this.eventSourceUrl}"...`);
-        this.eventSource = new EventSource(this.eventSourceUrl); // { withCredentials: true }
-        this.eventSource.onopen = (event) => {
-            console.log("SSE open:", event);
-            // this.statusBadge.appendChild(newElement);
-        }
-        this.eventSource.onerror = (event) => {
-            console.log("SSE error:", event);
-            // console.log("Different code meaning:", Event.AT_TARGET === EventSource.CLOSED)
-            // if (event.eventPhase == EventSource.CLOSED) this.eventSource.close()
-            // Event.NONE (0)、Event.CAPTURING_PHASE (1)、Event.AT_TARGET (2) 和 Event.BUBBLING_PHASE (3)
-            // EventSource.CONNECTING (0)、EventSource.OPEN (1)、EventSource.CLOSED (2)
-            if (event.target.readyState == EventSource.CLOSED) {
-                console.warn("Disconnected");
-                this.stop();
-            } else if (event.target.readyState == EventSource.CONNECTING) {
-                console.log(`Connecting "${this.eventSourceUrl}"...`);
-            }
-        }
-        this.eventSource.onmessage = (event) => {
-            console.log("SSE message:", event);
-            const data = JSON.parse(event.data);
-            console.log(data);
-            // this.addMessage(data);
-        };
-    }
-
-    stop() {
-        if (this.eventSource) {
-            this.eventSource.close();
-            this.eventSource = undefined;
-        }
-        // this.statusBadge.innerHTML = "";
-    }
-
-    sendMessage(data) {
-        if (typeof data != 'object') return;
-
-        fetch(this.eventSourceUrl, {
-            method: "POST",
-            headers: {
-                'Origin': 'https://sse.osrp.run',
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${this.token}`,
-            },
-            body: JSON.stringify({
-                data: { data },
-                meta: "from Echo-Live Broadcast System",
-            }),
-        })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(`Request failed (${response.status})`);
-            }
-            return response.json();
-        })
-        .then((data) => {
-            console.log(data);
-        })
-        .catch((error) => {
-            console.error("发生错误：", error);
-        });
     }
 }

@@ -7,6 +7,18 @@ class Translator {
     }
 
     output(key, variable={}, __inPlanB = false) {
+        function __extractVariableNames(inputString) {
+            const regI18nVar = /\{\s*@([A-Za-z_\.]+)\s*\}/g;
+            const matches = [];
+            let match;
+            
+            while ((match = regI18nVar.exec(inputString)) !== null) {
+                matches.push(match[1]);
+            }
+            
+            return matches;
+        }
+
         // 配置排错
         if (this.i18n[this.lang] == undefined) this.lang = this.langMain;
 
@@ -28,9 +40,26 @@ class Translator {
             return key;
         }
 
-        // 赋值
+        // 本地化变量赋值
+        const i18nVarList = __extractVariableNames(t);
+        if (i18nVarList.length > 0) {
+            let i18nVarValue = [];
+            i18nVarList.forEach(e => {
+                i18nVarValue.push({
+                    key: e,
+                    value: this.output(e)
+                });
+            });
+
+            i18nVarValue.forEach(e => {
+                let p = new RegExp('\\{\\s*@' + e.key.replace(/\./g, '\\.') + '\\s*\\}', 'g');
+                t = t.replace(p, e.value);
+            });
+        }
+
+        // 常规变量赋值
         for (const v in variable) {
-            let p = new RegExp('\{\s*'+v+'\s*\}', 'g');
+            let p = new RegExp('\\{\\s*'+v+'\\s*\\}', 'g');
             t = t.replace(p, variable[v]);
         }
 

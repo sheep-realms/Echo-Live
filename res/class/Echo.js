@@ -18,6 +18,7 @@ class Echo {
         this.printSpeedChange = 30;
         this.state = 'stop';
         this.typewrite = 'none';
+        this.ruby = false;
         this.filter = {
             HTMLFormat: true
         };
@@ -26,12 +27,15 @@ class Echo {
             clear: function() {},
             customData: function() {},
             customEvent: function() {},
+            customSequence: function() {},
             groupEnd: function() {},
             groupStart: function() {},
             next: function() {},
             print: function() {},
             printEnd: function() {},
             printStart: function() {},
+            rubyEnd: function() {},
+            rubyStart: function() {},
             send: function() {},
             sendList: function() {},
             skip: function() {},
@@ -82,6 +86,10 @@ class Echo {
             groupNow: n
         }
         
+        if (obj?.ruby != undefined) {
+            this.ruby = false;
+            this.event.rubyEnd(obj.ruby);
+        }
         if (obj?.typewrite != undefined) {
             this.typewrite = 'ready';
         }
@@ -111,7 +119,21 @@ class Echo {
             this.event.customData(obj?.data);
         }
         this.event.groupStart(e);
+        if (obj?.ruby != undefined) {
+            this.ruby = true;
+            this.event.rubyStart(obj.ruby);
+        }
         return e;
+    }
+
+    insertSequence(data = {}, afterSpace = 0, beforeSpace = 0) {
+        const obj = {
+            ...data,
+            action: 'custom_sequence'
+        }
+        if (afterSpace > 0) this.messageBuffer.unshift(...Array(afterSpace).fill(''));
+        this.messageBuffer.unshift(obj);
+        if (beforeSpace > 0) this.messageBuffer.unshift(...Array(beforeSpace).fill(''));
     }
 
     messageSerialize(msg) {
@@ -123,6 +145,7 @@ class Echo {
                 class: msg?.class,
                 style: msg?.style,
                 typewrite: msg?.typewrite,
+                ruby: msg?.ruby,
                 printSpeed: msg?.speed,
                 event: msg?.event,
                 data: msg?.data
@@ -130,7 +153,8 @@ class Echo {
 
             let dataAfter = {
                 action: 'group_end',
-                typewrite: msg?.typewrite
+                typewrite: msg?.typewrite,
+                ruby: msg?.ruby
             };
 
             let dataContent, data;
@@ -147,8 +171,7 @@ class Echo {
             }
 
             if (msg?.pause) {
-                let before = ' '.repeat(msg.pause).split(' ');
-                before.shift();
+                let before = Array(msg.pause).fill('');
                 data = [...data, ...before];
             }
             
@@ -189,6 +212,8 @@ class Echo {
                     that.dbChrBuffer = a;
                     return;
                 }
+            } else if (typeof that.messageBuffer[0] == 'object' && that.messageBuffer[0]?.action == 'custom_sequence') {
+                that.event.customSequence(that.messageBuffer.shift());
             }
         }
 
@@ -207,14 +232,19 @@ class Echo {
         }
         that.event.print(a);
 
-        if (typeof that.messageBuffer[0] == 'object') {
-            let obj = that.messageBuffer.shift();
-            if (obj.action == 'group_start') {
-                that.groupStart(obj);
-            } else if (obj.action == 'group_end') {
-                that.groupEnd(obj);
+        function __checkMessageBufferNext() {
+            if (typeof that.messageBuffer[0] == 'object' && that.messageBuffer[0]?.action != 'custom_sequence') {
+                let obj = that.messageBuffer.shift();
+                if (obj.action == 'group_start') {
+                    that.groupStart(obj);
+                } else if (obj.action == 'group_end') {
+                    that.groupEnd(obj);
+                }
+                __checkMessageBufferNext();
             }
         }
+
+        __checkMessageBufferNext();
 
         if (that.messageBuffer.length == 0 && that.dbChrBuffer == '') {
             clearInterval(that.timer);

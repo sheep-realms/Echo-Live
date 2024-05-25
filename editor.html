@@ -7,6 +7,7 @@
     <link rel="icon" href="res/image/favicon.ico">
     <link rel="stylesheet" href="res/style/fh-ui.css">
     <link rel="stylesheet" href="res/style/editor.css">
+    <link rel="stylesheet" href="res/style/editor-only.css">
     <link rel="stylesheet" href="res/style/editor-accessible.css">
     <script src="lib/jquery-3.7.1.min.js"></script>
     <script src="res/script/config-load-fail.js"></script>
@@ -28,10 +29,14 @@
     </script>
     <script src="res/class/Icon.js"></script>
     <script src="res/class/EchoLiveTools.js"></script>
+    <script src="res/class/LocalStorageManager.js"></script>
     <script src="res/class/EchoLiveEditor.js"></script>
     <script src="res/script/palettes.js"></script>
     <script src="res/class/EchoLiveBroadcast.js"></script>
     <script src="res/class/EditorConstructor.js"></script>
+    <script src="res/class/EmojiHako.js"></script>
+    <script src="res/script/emoji.js"></script>
+    <script src="res/class/Commander.js"></script>
 </head>
 <body>
     <main>
@@ -187,6 +192,20 @@
                             <div class="echo-editor-form-checkbox-list">
                                 <span class="echo-editor-form-input-tip" data-i18n="editor.form.description.quote"></span>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="collapse hide" id="collapse-split-message">
+                        <div class="collapse-title">
+                            <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
+                                <span class="icon"></span>
+                                <span class="text" data-i18n="editor.form.label.split_message"></span>
+                                <input type="hidden" name="ptext-chk-use-split-message" id="ptext-chk-split-message" value="0">
+                            </button>
+                        </div>
+                        <div class="collapse-content hide" style="padding: 0.5em; font-size: 14px; color: var(--text-secondary);">
+                            <p data-i18n="editor.form.description.split_message_example_1"></p>
+                            <p data-i18n="editor.form.description.split_message_example_2"></p>
                         </div>
                     </div>
 
@@ -460,7 +479,14 @@
         </div>
     </main>
 
+    <div id="commander-input-panel" class="hide">
+        <div class="commander-input-left"></div>
+        <textarea id="commander-input" class="code" data-i18n-aria-label="editor.form.aria_label.commander" rows="1"></textarea>
+        <div class="commander-input-right"></div>
+    </div>
+
     <script src="res/script/editor-common.js"></script>
     <script src="res/script/editor.js"></script>
+    <script src="res/script/editor-file-picker.js"></script>
 </body>
 </html>

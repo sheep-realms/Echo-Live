@@ -156,6 +156,7 @@ class EchoLiveTools {
      */
     static formattingCodeToMessage(text, data = {}) {
         let message = [];
+        data = JSON.parse(JSON.stringify(data));
 
         const fontSizeValue = [
             'extra-small',
@@ -198,6 +199,7 @@ class EchoLiveTools {
 
             let style = {};
             let imageKey = '';
+            let imageObj = {};
             switch (e[0]) {
                 case '@b':
                     style.bold = true;
@@ -249,6 +251,9 @@ class EchoLiveTools {
                         if (imageKey.split(':')[0] === 'sys') {
                             // 插入图片
                             if (imageKey.split(':')[1] === 'img' && data?.images != undefined) {
+                                imageObj = data.images[imageKey.split(':')[2]];
+                                delete imageObj?.isAbsolute;
+                                delete imageObj?.isPixelated;
                                 msgPush(
                                     e[1],
                                     styleCache,

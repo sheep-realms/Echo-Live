@@ -292,6 +292,7 @@ input.code {
 .editor-controller.disabled {
     pointer-events: none;
     opacity: 0;
+    max-height: 35px;
 }
 
 .editor-controller+label {

@@ -213,6 +213,14 @@ input.code {
     display: none;
 }
 
+.tabpage-panel.hide a,
+.tabpage-panel.hide button,
+.tabpage-panel.hide input,
+.tabpage-panel.hide select,
+.tabpage-panel.hide textarea {
+    visibility: hidden;
+}
+
 .tabpage-panel-title {
     font-size: 0;
 }
@@ -293,6 +301,7 @@ input.code {
     pointer-events: none;
     opacity: 0;
     max-height: 35px;
+    visibility: hidden;
 }
 
 .editor-controller+label {
@@ -806,6 +815,14 @@ select:focus {
 .fh-popups.hide {
     opacity: 0;
     pointer-events: none;
+}
+
+.fh-popups.hide a,
+.fh-popups.hide button,
+.fh-popups.hide input,
+.fh-popups.hide select,
+.fh-popups.hide textarea {
+    visibility: hidden;
 }
 
 #popups-palette {

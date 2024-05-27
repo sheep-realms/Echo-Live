@@ -819,11 +819,11 @@ const lang_zho_Hant_HK = {
         tabpage: {
             broadcast: {
                 title: "廣播",
-                description: "廣播控制 [alt+5]"
+                description: "廣播控制 [alt+6]"
             },
             config: {
                 title: "配置",
-                description: "編輯配置 [alt+3]"
+                description: "編輯配置 [alt+2]"
             },
             editor: {
                 title: "編輯器",
@@ -835,11 +835,11 @@ const lang_zho_Hant_HK = {
             },
             log: {
                 title: "日誌",
-                description: "運行日誌 [alt+6]"
+                description: "運行日誌 [alt+4]"
             },
             output: {
                 title: "輸出",
-                description: "輸出代碼 [alt+4]"
+                description: "輸出代碼 [alt+3]"
             },
             output_content: {
                 title: "輸出內容",

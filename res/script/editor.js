@@ -389,7 +389,7 @@ function ptextSubmit() {
     let txt = $('#ptext-content').val();
     let username = $('#ptext-character').val();
 
-    function __messagePackge(text) {
+    function __messagePackage(text) {
         if ($('#ptext-chk-use-formatting-code').val() == 1) {
             text = EchoLiveTools.formattingCodeToMessage(text, {
                 images: selectedImageData
@@ -400,10 +400,16 @@ function ptextSubmit() {
             let before = $('#ptext-ipt-quote-before').val(),
                 after  = $('#ptext-ipt-quote-after').val();
     
-            if (typeof text == 'string') {
+            if (typeof text == 'string' || typeof text == 'number') {
                 text = before + text + after;
             } else {
-                text = [before, ...text, after];
+                if (Array.isArray(text)) {
+                    text = [before, ...text, after];
+                } else if (typeof text == 'object') {
+                    text = [before, text, after];
+                } else {
+                    throw 'Message Packaging Exception'
+                }
             }
         }
 
@@ -416,7 +422,7 @@ function ptextSubmit() {
         let msgs = [];
         const txt2 = txt.split('\n');
         txt2.forEach(e => {
-            const txt3 = __messagePackge(e);
+            const txt3 = __messagePackage(e);
             msgs.push({
                 message: txt3
             });
@@ -426,7 +432,7 @@ function ptextSubmit() {
             messages: msgs
         }
     } else {
-        txt = __messagePackge(txt);
+        txt = __messagePackage(txt);
         d = {
             username: username,
             messages: [

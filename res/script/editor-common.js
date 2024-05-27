@@ -326,6 +326,9 @@ function popupsMoveToElement(popupsSel, elementSel, align = 'left', vertical = '
 $(document).on('mousedown', function(e) {
     if ($(e.target).closest('.fh-popups:not(.hide)').length == 0) $('.fh-popups').addClass('hide');
 });
+$(document).on('focus', '*', function(e) {
+    if ($(e.target).closest('.fh-popups:not(.hide)').length == 0) $('.fh-popups').addClass('hide');
+});
 
 // 复选框
 $(document).on('click', '.checkbox', function() {
@@ -480,6 +483,20 @@ $(document).on('keydown', '#popups-emoji', function(e) {
             }, 4);
             $('#popups-emoji-select').change();
             $('#popups-emoji-select').focus();
+            break;
+    
+        default:
+            break;
+    }
+});
+
+// 图片选择器快捷键
+$(document).on('keydown', '#popups-image', function(e) {
+    // console.log(e.keyCode);
+    switch (e.keyCode) {
+        case 27:
+            popupsDisplay('#popups-image', false);
+            $('#ptext-content').focus();
             break;
     
         default:

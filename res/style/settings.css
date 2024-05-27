@@ -46,6 +46,14 @@
     display: none;
 }
 
+.settings-page.hide a,
+.settings-page.hide button,
+.settings-page.hide input,
+.settings-page.hide select,
+.settings-page.hide textarea {
+    visibility: hidden;
+}
+
 
 
 

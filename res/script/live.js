@@ -71,7 +71,7 @@ echo.on('next', function(msg) {
 
     // 判断文字书写方向
     $('.echo-output').removeClass('echo-text-rlo');
-    if (str.trim().search(/[\u0600-\u06FF\u0750-\u077F\u0590-\u05FF\uFE70-\uFEFF\u0700-\u074F\u0860-\u086F]/) == 0) {
+    if (str.trim().search(/[\u0590-\u05FF\u0600-\u06FF\u0700-\u074F\u0750-\u077F\u07C0-\u07FF\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/) == 0) {
         $('.echo-output').addClass('echo-text-rlo');
     }
 

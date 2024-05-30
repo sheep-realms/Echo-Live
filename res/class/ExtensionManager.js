@@ -182,13 +182,16 @@ class Addon {
  * ```
  */
 class Theme {
-    constructor(meta) {
+    constructor(meta, root) {
         if (meta?.name == undefined) throw Error("主题初始化时出现了错误，因为该主题缺少了名称");
+        if (meta?.style == undefined) throw Error("主题初始化时出现了错误，因为该主题缺少了 style");
+
+        this.root = root;
 
         this.name = meta.name;
         this.title = meta.title ?? meta.name;
         this.description = meta.description ?? "";
-        this.style = meta.style ?? "res/style/live-theme/vanilla.css";  // Fallback
+        this.style = meta.style;
     }
 
     toObject() {
@@ -198,6 +201,10 @@ class Theme {
             "description": this.description,
             "style": this.style
         }
+    }
+
+    load() {
+        document.getElementById("echo-live-theme").href = this.root + this.style;
     }
 }
 
@@ -216,7 +223,13 @@ class Theme {
  *         "url": "..."    // 可以留空
  *     },
  *     "addons": [ ... ],
- *     "themes": [ ... ]
+ *     "themes": [ ... ],
+ *     "audio": [ {
+ *         "name": "audioName",
+ *         "path": [
+ *             "audioPath"
+ *         ]
+ *     } ]
  * }
  * ```
  */
@@ -242,7 +255,7 @@ class Extension {
             if (this.namespace == "echo-live") {
                 root = "res/";
             } else {
-                root = "packs/" + this.namespace + "/";
+                root = "extensions/" + this.namespace + "/";
             }
 
             this.addons.push(new Addon(addon, root));
@@ -253,7 +266,15 @@ class Extension {
             if (theme.name == undefined) return;
             if (theme.style == undefined) return;
 
-            this.themes.push(new Theme(theme));
+            var root;
+
+            if (this.namespace == "echo-live") {
+                root = "res/";
+            } else {
+                root = "packs/" + this.namespace + "/";
+            }
+
+            this.themes.push(new Theme(theme, root));
         });
     }
 
@@ -284,6 +305,16 @@ class Extension {
 
         return;
     }
+
+    getThemeByName(name) {
+        for (let i = 0; i < this.themes.length; i++) {
+            if (this.themes[i].name == name) {
+                return this.themes[i];
+            }
+        }
+
+        return;
+    }
 }
 
 
@@ -298,6 +329,7 @@ class ExtensionManager {
     load(data = {}) {
         if (data?.meta == undefined) return;
         if (data.meta?.namespace == undefined) return;
+        if (this.getExtensionByNamespace(data.meta.namespace) != undefined) return;
 
         var extension = new Extension(data);
         this.extensions.push(extension);
@@ -327,6 +359,10 @@ class ExtensionManager {
      * @returns 插件，如果没有找到则返回 `undefined`。
      */
     getAddonByName(name) {
+        if (name.split(":").length == 1) {
+            return this.getExtensionByNamespace("echo-live").getAddonByName(name);
+        }
+
         if (name.split(":").length != 2) {
             return;
         }
@@ -338,6 +374,28 @@ class ExtensionManager {
 
             if (addon) {
                 return addon;
+            }
+        }
+
+        return;
+    }
+
+    getThemeByName(name) {
+        if (name.split(":").length == 1) {
+            return this.getExtensionByNamespace("echo-live").getThemeByName(name);
+        }
+
+        if (name.split(":").length != 2) {
+            return;
+        }
+
+        for (let i = 0; i < this.extensions.length; i++) {
+            if (this.extensions[i].namespace != name.split(":")[0]) continue;
+
+            const theme = this.extensions[i].getThemeByName(name.split(":")[1]);
+
+            if (theme) {
+                return theme;
             }
         }
 
@@ -361,6 +419,16 @@ class ExtensionManager {
         localStorageManager.setItem("enabledAddons", this.enabledAddons);
     }
 
+    getExtensionByNamespace(namespace) {
+        for (let i = 0; i < this.extensions.length; i++) {
+            if (this.extensions[i].namespace == namespace) {
+                return this.extensions[i];
+            }
+        }
+
+        return;
+    }
+
     removeExtensionByNamespace(namespace) {
         this.extensions.filter(e => e.namespace == namespace).forEach(extension => {
             extension.addons.forEach(addon => {
@@ -374,6 +442,13 @@ class ExtensionManager {
 
     enableAddons() {
         this.enabledAddons.forEach(a => this.getAddonByName(a).enable());
+    }
+
+    loadTheme(name = "vanilla") {
+        var theme = this.getThemeByName(name) ?? this.getThemeByName("vanilla");
+
+        theme.load();
+        return theme;
     }
 
     themes() {

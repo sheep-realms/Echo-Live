@@ -32,7 +32,7 @@ const config = {
             "during_printing_stop_print": true
         },
         "print_audio": {
-            "enable": false,
+            "enable": true,
             "name": "typewriter_loop",
             "volume": 0.5,
             "rate": 1

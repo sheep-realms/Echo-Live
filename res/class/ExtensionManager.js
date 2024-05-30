@@ -92,6 +92,7 @@ class AddonHook {
  *     "editor": ...,// 在 editor 页面挂载的插件钩子
  *     "history": ...,// 在 history 页面挂载的插件钩子
  *     "settings": ...,// 在 settings 页面挂载的插件钩子
+ *     "global": ...,// 全局的插件钩子
  *     "requirements": "namespace:addon-name>=1.0.0"// 目前还没有在这里进行硬性规定
  * }
  * ```
@@ -115,7 +116,7 @@ class Addon {
         this.settingsHook = new AddonHook(meta.settingsHook ?? {}, root);
         this.historyHook = new AddonHook(meta.history ?? {}, root);
 
-        this.globalHook = new AddonHook(meta.addonHook ?? {}, root);
+        this.globalHook = new AddonHook(meta.global ?? {}, root);
     }
 
     enable() {
@@ -161,6 +162,7 @@ class Addon {
             "editor": this.editorHook.toObject(),
             "history": this.historyHook.toObject(),
             "settings": this.settingsHook.toObject(),
+            "global": this.globalHook.toObject(),
             "requirements": this.requirements
         }
     }

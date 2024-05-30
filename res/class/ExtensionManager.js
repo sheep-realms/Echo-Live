@@ -507,6 +507,12 @@ class ExtensionManager {
         localStorageManager.setItem("enabledAddons", this.enabledAddons);
     }
 
+    clearLocalStorage() {
+        this.extensions = [];
+        this.enabledAddons = [];
+        this.saveLocalStorage();
+    }
+
     getExtensionByNamespace(namespace) {
         for (let i = 0; i < this.extensions.length; i++) {
             if (this.extensions[i].namespace == namespace) {
@@ -544,6 +550,10 @@ class ExtensionManager {
     }
 
     enableAddon(name) {
+        if (this.enabledAddons.indexOf(name) != -1) {
+            return;
+        }
+
         this.enabledAddons.push(name);
         this.refreshEnabledAddonsList();
         this.saveLocalStorage();
@@ -562,9 +572,4 @@ class ExtensionManager {
 }
 
 let extensionManager = new ExtensionManager();
-
-if (config.global.theme_script_enable) {
-    extensionManager.enableAddons();
-} else {
-    console.warn("配置文件中未允许允许外置脚本，因此所有的 Addons 都没有被启动。")
-}
+extensionManager.clearLocalStorage();   // 临时添加。当不再使用 `extension.js` 时删去此行

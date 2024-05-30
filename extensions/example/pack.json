@@ -1,11 +1,22 @@
 {
     "meta": {
-        "namespace": "example"
+        "namespace": "example",
+        "author": "Echo-Live"
     },
     "audio": [
         {
             "name": "sonar",
             "path": "audio/sonar.ogg"
+        }
+    ],
+    "addons": [
+        {
+            "name": "hello",
+            "description": "世界上第一个 Echo-Live 插件",
+            "live": {
+                "scripts": ["script/hello.js"],
+                "styles": ["style/hello.css"]
+            }
         }
     ]
 }

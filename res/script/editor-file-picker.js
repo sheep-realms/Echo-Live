@@ -314,6 +314,7 @@ $(document).on('click', '#popups-image .btn-image-cache-delete-stop', function()
 
 $(document).on('click', '#popups-image .btn-image-cache-delete-all', function() {
     selectedImageData = [];
+    $('#popups-image-images-list').removeClass('in-delete');
     $('#popups-image-images-list .image-box').remove();
     $('#popups-image .images-list-action').html(Popups.imagesListAction(0));
     $('#popups-image .btn-image-cache-delete').focus();

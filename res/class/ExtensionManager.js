@@ -71,7 +71,21 @@ class Addon {
     }
 
     hookOfThisPage() {
-        return this.editorHook();
+        if (window.location.href.indexOf("history.html") != -1) {
+            return this.historyHook;
+        }
+        
+        if (window.location.href.indexOf("editor.html") != -1) {
+            return this.editorHook;
+        }
+        
+        if (window.location.href.indexOf("settings.html") != -1) {
+            return this.settingsHook;
+        }
+        
+        if (window.location.href.indexOf("live.html") != -1) {
+            return this.liveHook;
+        }
     }
 }
 

@@ -543,13 +543,13 @@ class ExtensionManager {
         return this.extensions.map(e => e.themes).flat();
     }
 
-    addAddon(name) {
+    enableAddon(name) {
         this.enabledAddons.push(name);
         this.refreshEnabledAddonsList();
         this.saveLocalStorage();
     }
 
-    removeAddon(name) {
+    disableAddon(name) {
         this.enableAddons = this.enableAddons.filter(a => a != name);
         this.refreshEnabledAddonsList();
     }

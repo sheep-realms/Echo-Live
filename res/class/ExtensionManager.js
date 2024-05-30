@@ -210,6 +210,50 @@ class Theme {
 
 
 /**
+ * 外置音频资源。
+ * 
+ * 标准格式如下：
+ * 
+ * ```json
+ * {
+ *     "name": "audio-name",
+ *     "path": ...  // 是一个单独的地址，或者地址列表，都是可以的
+ *     "volumn": ...  // 可选项
+ *     "rate": ...  // 可选项
+ * }
+ * ```
+ */
+class ExtensionAudio {
+    constructor(data, root) {
+        if (data?.name == undefined) throw Error();
+        if (data?.path == undefined) throw Error();
+
+        this.name = data.name;
+        this.volumn = data?.volumn;
+        this.rate = data?.rate;
+        this.root = root;
+
+        if (!Array.isArray(data.path)) {
+            this.path = [data.path];
+        } else {
+            this.path = data.path;
+        }
+    }
+
+    toObject() {
+        return {
+            "name": this.name,
+            "path": this.path
+        }
+    }
+
+    choose() {
+        return this.root + this.path[Math.floor(Math.random() * this.path.length)]
+    }
+}
+
+
+/**
  * 扩展包。
  * 
  * 标准格式如下：
@@ -224,12 +268,7 @@ class Theme {
  *     },
  *     "addons": [ ... ],
  *     "themes": [ ... ],
- *     "audio": [ {
- *         "name": "audioName",
- *         "path": [
- *             "audioPath"
- *         ]
- *     } ]
+ *     "audio": [ ... ]
  * }
  * ```
  */
@@ -237,6 +276,7 @@ class Extension {
     constructor(data) {
         this.addons = [];
         this.themes = [];
+        this.audio = [];
 
         if (data?.meta == undefined) throw Error();
         if (data.meta?.namespace == undefined) throw Error();
@@ -246,17 +286,17 @@ class Extension {
         this.version = data.meta.version ?? "";
         this.url = data.meta.url ?? "";
 
+        var root;
+
+        if (this.namespace == "echo-live") {
+            root = "res/";
+        } else {
+            root = "extensions/" + this.namespace + "/";
+        }
+
         data?.addons?.forEach?.(addon => {
             if (typeof addon != 'object') return;
             if (addon.name == undefined) return;
-
-            var root;
-
-            if (this.namespace == "echo-live") {
-                root = "res/";
-            } else {
-                root = "extensions/" + this.namespace + "/";
-            }
 
             this.addons.push(new Addon(addon, root));
         });
@@ -266,15 +306,15 @@ class Extension {
             if (theme.name == undefined) return;
             if (theme.style == undefined) return;
 
-            var root;
-
-            if (this.namespace == "echo-live") {
-                root = "res/";
-            } else {
-                root = "packs/" + this.namespace + "/";
-            }
-
             this.themes.push(new Theme(theme, root));
+        });
+
+        data?.audio?.forEach?.(audio => {
+            if (typeof audio != 'object') return;
+            if (audio.name == undefined) return;
+            if (audio.path == undefined) return;
+
+            this.audio.push(new ExtensionAudio(audio, root));
         });
     }
 
@@ -287,7 +327,8 @@ class Extension {
                 "url": this.url
             },
             "addons": this.addons.map(addon => addon.toObject()),
-            "themes": this.themes.map(theme => theme.toObject())
+            "themes": this.themes.map(theme => theme.toObject()),
+            "audio": this.audio.map(audio => audio.toObject()),
         }
     }
 
@@ -310,6 +351,16 @@ class Extension {
         for (let i = 0; i < this.themes.length; i++) {
             if (this.themes[i].name == name) {
                 return this.themes[i];
+            }
+        }
+
+        return;
+    }
+
+    getAudioByName(name) {
+        for (let i = 0; i < this.audio.length; i++) {
+            if (this.audio[i].name == name) {
+                return this.audio[i];
             }
         }
 
@@ -396,6 +447,28 @@ class ExtensionManager {
 
             if (theme) {
                 return theme;
+            }
+        }
+
+        return;
+    }
+
+    getAudioByName(name) {
+        if (name.split(":").length == 1) {
+            return this.getExtensionByNamespace("echo-live").getAudioByName(name);
+        }
+
+        if (name.split(":").length != 2) {
+            return;
+        }
+
+        for (let i = 0; i < this.extensions.length; i++) {
+            if (this.extensions[i].namespace != name.split(":")[0]) continue;
+
+            const audio = this.extensions[i].getAudioByName(name.split(":")[1]);
+
+            if (audio) {
+                return audio;
             }
         }
 

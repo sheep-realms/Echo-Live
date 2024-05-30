@@ -124,30 +124,32 @@ class Addon {
         }
 
         this.globalHook.load();
-        this.hookOfThisPage().load();
+        this.hookOfThisPage()?.load();
     }
 
     disable() {
         this.globalHook.unload();
-        this.hookOfThisPage().unload();
+        this.hookOfThisPage()?.unload();
     }
 
     hookOfThisPage() {
-        if (window.location.href.indexOf("history.html") != -1) {
+        if (thisPage == "history") {
             return this.historyHook;
         }
 
-        if (window.location.href.indexOf("editor.html") != -1) {
+        if (thisPage == "editor") {
             return this.editorHook;
         }
 
-        if (window.location.href.indexOf("settings.html") != -1) {
+        if (thisPage == "settings") {
             return this.settingsHook;
         }
 
-        if (window.location.href.indexOf("live.html") != -1) {
+        if (thisPage == "live") {
             return this.liveHook;
         }
+        
+        return;
     }
 
     toObject() {
@@ -373,4 +375,26 @@ class ExtensionManager {
     enableAddons() {
         this.enabledAddons.forEach(a => this.getAddonByName(a).enable());
     }
+
+    themes() {
+        return this.extensions.map(e => e.themes).flat();
+    }
+
+    addAddon(name) {
+        this.enableAddons.push(name);
+        this.refreshEnabledAddonsList();
+    }
+
+    removeAddon(name) {
+        this.enableAddons = this.enableAddons.filter(a => a != name);
+        this.refreshEnabledAddonsList();
+    }
+}
+
+let extensionManager = new ExtensionManager();
+
+if (config.global.theme_script_enable) {
+    extensionManager.enableAddons();
+} else {
+    console.warn("配置文件中未允许允许外置脚本，因此所有的 Addons 都没有被启动。")
 }

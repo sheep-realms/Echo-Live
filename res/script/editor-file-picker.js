@@ -199,7 +199,7 @@ $(document).on('click', '#btn-flie-check-dialog-cancel', function() {
 });
 
 function addImageData(data, attr) {
-    let r = selectedImageData.findIndex((e) => e.url == data);
+    let r = selectedImageData.findIndex((e) => e?.url == data);
     let isAbsolute = true;
     let isPixelated = attr.rendering == 'pixelated' ? true : false;
 
@@ -248,6 +248,7 @@ $(document).on('click', '#btn-flie-check-dialog-import-image', function() {
 });
 
 $(document).on('click', '#btn-flie-check-dialog-import-image-url', function() {
+    debugger
     const imageURL = $('#image-url').val().trim();
     let i = 0;
     let imageAttr = getImageAttr();

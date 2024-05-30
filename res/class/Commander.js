@@ -388,7 +388,7 @@ class Commander {
         target = this.__getBroadcastTarget(target);
         this.link.broadcast.sendNext(target);
 
-        return this.__broadcastMessageConstructor('next', target);
+        return this.__broadcastMessageConstructor('echo_next', target);
     }
 
     ping(target) {

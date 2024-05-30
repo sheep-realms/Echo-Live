@@ -10,4 +10,6 @@
 .echo-output[lang^="fa"],
 .echo-output[lang^="ur"] {
     text-align: right;
+    direction: rtl;
+    unicode-bidi: embed;
 }

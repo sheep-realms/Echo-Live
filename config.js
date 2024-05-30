@@ -3,7 +3,7 @@ const config = {
     "global": {
         "language": "zho-Hans",
         "theme": "vanilla",
-        "theme_script_enable": true,
+        "theme_script_enable": false,
         "color_scheme": "auto"
     },
     "echo": {
@@ -32,7 +32,7 @@ const config = {
             "during_printing_stop_print": true
         },
         "print_audio": {
-            "enable": true,
+            "enable": false,
             "name": "typewriter_loop",
             "volume": 0.5,
             "rate": 1

@@ -3,7 +3,7 @@ const config = {
     "global": {
         "language": "zho-Hans",
         "theme": "vanilla",
-        "theme_script_enable": false,
+        "theme_script_enable": true,
         "color_scheme": "auto"
     },
     "echo": {

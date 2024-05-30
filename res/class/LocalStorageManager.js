@@ -6,7 +6,6 @@ class LocalStorageManager {
 
     save(data = {'data_version': 1}) {
         localStorage.setItem(this.name, JSON.stringify(data));
-        this.setItem('data_version', 1);
 
         return data;
     }

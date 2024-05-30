@@ -60,7 +60,7 @@ class AddonHook {
         const script = document.createElement("script");
         script.src = this.root + url;
 
-        document.body.appendChild(script);
+        document.head.appendChild(script);
         this.loadedElements.push(script);
         return script;
     }
@@ -398,9 +398,15 @@ class ExtensionManager {
             return;
         }
 
+        if (!Array.isArray(enabledAddons)) {
+            this.saveLocalStorage();
+            return;
+        }
+
         extensions.forEach(extension => {
             this.load(extension);
         });
+
         this.enabledAddons = enabledAddons;
     }
 
@@ -529,13 +535,19 @@ class ExtensionManager {
     }
 
     addAddon(name) {
-        this.enableAddons.push(name);
+        this.enabledAddons.push(name);
         this.refreshEnabledAddonsList();
     }
 
     removeAddon(name) {
         this.enableAddons = this.enableAddons.filter(a => a != name);
         this.refreshEnabledAddonsList();
+    }
+
+    forEachAudio(callback) {
+        this.extensions.forEach(e => {
+            e.auido.forEach(callback);
+        });
     }
 }
 

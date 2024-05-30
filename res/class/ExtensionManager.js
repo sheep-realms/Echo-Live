@@ -119,6 +119,10 @@ class Addon {
     }
 
     enable() {
+        if (!config.global.theme_script_enable) {
+            throw Error("由于配置中禁止使用脚本，因此无法启动这个插件");
+        }
+
         this.globalHook.load();
         this.hookOfThisPage().load();
     }
@@ -263,13 +267,30 @@ class Extension {
             "themes": this.themes.map(theme => theme.toObject())
         }
     }
+
+    /**
+     * 在当前 Extension 命名空间内查找插件。
+     * @param {string} name 插件的名字。
+     * @returns 插件。如果没有找到就返回 `undefined`。
+     */
+    getAddonByName(name) {
+        for (let i = 0; i < this.addons.length; i++) {
+            if (this.addons[i].name == name) {
+                return this.addons[i];
+            }
+        }
+
+        return;
+    }
 }
 
 
 class ExtensionManager {
     constructor() {
-        this.mixer = undefined;
         this.extensions = [];
+        this.enabledAddons = [];
+
+        this.loadLocalStorage();
     }
 
     load(data = {}) {
@@ -285,22 +306,57 @@ class ExtensionManager {
     loadLocalStorage() {
         const localStorageManager = new LocalStorageManager();
         var extensions = localStorageManager.getItem("extensions");
+        var enabledAddons = localStorageManager.getItem("enabledAddons");
 
         if (!Array.isArray(extensions)) {
-            localStorageManager.setItem("extensions", []);
+            this.saveLocalStorage();
             return;
         }
 
         extensions.forEach(extension => {
             this.load(extension);
         });
+        this.enabledAddons = enabledAddons;
+    }
+
+    /**
+     * 获得对应的 Addon
+     * @param {string} name 插件的名称，符合 `命名空间:插件名` 的格式
+     * @returns 插件，如果没有找到则返回 `undefined`。
+     */
+    getAddonByName(name) {
+        if (name.split(":").length != 2) {
+            return;
+        }
+
+        for (let i = 0; i < this.extensions.length; i++) {
+            if (this.extensions[i].namespace != name.split(":")[0]) continue;
+
+            const addon = this.extensions[i].getAddonByName(name.split(":")[1]);
+
+            if (addon) {
+                return addon;
+            }
+        }
+
+        return;
+    }
+
+    /**
+     * 刷新 `enabledAddonsList` 列表，清除不存在的插件。
+     */
+    refreshEnabledAddonsList() {
+        this.enabledAddons = this.enabledAddons.filter(a => this.getAddonByName(a) != undefined);
     }
 
     saveLocalStorage() {
+        this.refreshEnabledAddonsList();
+
         const localStorageManager = new LocalStorageManager();
         localStorageManager.setItem("extensions", this.extensions.map(
             extension => extension.toObject()
         ));
+        localStorageManager.setItem("enabledAddons", this.enabledAddons);
     }
 
     removeExtensionByNamespace(namespace) {
@@ -314,11 +370,7 @@ class ExtensionManager {
         this.saveLocalStorage();
     }
 
-    launch(extList = []) {
-        extList.forEach(e => {
-            let s = document.createElement("script");
-            s.src = `extensions/${e}/pack.js`;
-            document.head.appendChild(s);
-        });
+    enableAddons() {
+        this.enabledAddons.forEach(a => this.getAddonByName(a).enable());
     }
 }

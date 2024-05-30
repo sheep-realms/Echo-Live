@@ -92,7 +92,7 @@ class AddonHook {
  *     "editor": ...,// 在 editor 页面挂载的插件钩子
  *     "history": ...,// 在 history 页面挂载的插件钩子
  *     "settings": ...,// 在 settings 页面挂载的插件钩子
- *     "requirements": "namespace:addon-name"
+ *     "requirements": "namespace:addon-name>=1.0.0"// 目前还没有在这里进行硬性规定
  * }
  * ```
  */
@@ -250,6 +250,19 @@ class Extension {
             this.themes.push(new Theme(theme));
         });
     }
+
+    toObject() {
+        return {
+            "meta": {
+                "namespace": this.namespace,
+                "author": this.author,
+                "version": this.version,
+                "url": this.url
+            },
+            "addons": this.addons.map(addon => addon.toObject()),
+            "themes": this.themes.map(theme => theme.toObject())
+        }
+    }
 }
 
 
@@ -270,7 +283,7 @@ class ExtensionManager {
     }
 
     loadLocalStorage() {
-        var localStorageManager = new LocalStorageManager();
+        const localStorageManager = new LocalStorageManager();
         var extensions = localStorageManager.getItem("extensions");
 
         if (!Array.isArray(extensions)) {
@@ -281,6 +294,24 @@ class ExtensionManager {
         extensions.forEach(extension => {
             this.load(extension);
         });
+    }
+
+    saveLocalStorage() {
+        const localStorageManager = new LocalStorageManager();
+        localStorageManager.setItem("extensions", this.extensions.map(
+            extension => extension.toObject()
+        ));
+    }
+
+    removeExtensionByNamespace(namespace) {
+        this.extensions.filter(e => e.namespace == namespace).forEach(extension => {
+            extension.addons.forEach(addon => {
+                addon.disable();
+            });
+        });
+
+        this.extensions = this.extensions.filter(e => e.namespace != namespace);
+        this.saveLocalStorage();
     }
 
     launch(extList = []) {

@@ -1,34 +1,107 @@
+class AddonHook {
+    constructor(meta, root) {
+        this.root = root;
+
+        this.styles = (meta.styles ?? []).map(s => root + "/" + s);
+        this.scripts = (meta.scripts ?? []).map(s => root + "/" + s);
+
+        this.loadedElements = [];
+    }
+
+    load() {
+        this.styles.forEach(s => this.loadStyle(s));
+        this.scripts.forEach(s => this.loadScript(s));
+    }
+
+    unload() {
+        this.loadedElements.forEach(e => e.remove());
+        this.loadedElements = [];
+    }
+
+    loadStyle(url) {
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = url;
+
+        document.head.appendChild(link);
+        this.loadedElements.push(link);
+        return link;
+    }
+
+    loadScript(url) {
+        const script = document.createElement("script");
+        script.src = url;
+
+        document.body.appendChild(script);
+        this.loadedElements.push(script);
+        return script;
+    }
+}
+
+
+class Addon {
+    constructor(meta, root) {
+        this.root = root;
+
+        if (meta?.name == undefined) {
+            throw Error();
+        }
+
+        this.name = String(meta.name);
+        this.description = String(meta.description) ?? "";
+
+        this.requirements = meta.requirements ?? [];
+
+        this.editorHook = new AddonHook(meta.editor ?? {}, root);
+        this.liveHook = new AddonHook(meta.live ?? {}, root);
+        this.settingsHook = new AddonHook(meta.settingsHook ?? {}, root);
+        this.historyHook = new AddonHook(meta.history ?? {}, root);
+
+        this.globalHook = new AddonHook(meta.addonHook ?? {}, root);
+    }
+
+    enable() {
+        this.globalHook.load();
+        this.hookOfThisPage().load();
+    }
+
+    disable() {
+        this.globalHook.unload();
+        this.hookOfThisPage().unload();
+    }
+
+    hookOfThisPage() {
+        return this.editorHook();
+    }
+}
+
+
 class ExtensionManager {
     constructor() {
         this.mixer = undefined;
         this.theme = [];
+        this.addons = [];
     }
 
     load(data = {}) {
         if (data?.meta == undefined) return;
 
-        if (data?.addon != undefined) {
-            if (typeof data.addon?.audio == 'object' && this.mixer != undefined) {
-                data.addon.audio.forEach(e => {
-                    e.name = data.meta.namespace + ':' + e.name;
-                    e.path = `extensions/${data.meta.namespace}/${e.path}`;
-                    this.mixer.audioDB.push(e);
-                });
-            }
+        if (data?.addons != undefined && Array.isArray(data.addons)) {
+            data.addons.forEach(
+                addon => {
+                    if (typeof addon == 'object') {
+                        this.addons.push(new Addon(addon));
+                    }
+                }
+            );
+        }
 
-            // 出现了！新的屎山代码！
-            if (typeof data.addon?.theme == 'object') {
-                data.addon.theme.forEach(e => {
-                    e.name = data.meta.namespace + ':' + e.name;
-                    e.style = `extensions/${data.meta.namespace}/${e2}`;
-                    let script = [];
-                    e.script.forEach(e2 => {
-                        script.push(`extensions/${data.meta.namespace}/${e2}`);
-                    });
-                    e.script = script;
-                    this.theme.push(e);
-                });
-            }
+        if (data?.themes != undefined && Array.isArray(data.themes)) {
+            data.themes.forEach(theme => {
+                if (data.themes?.name == undefined || data.themes?.style == undefined) return;
+
+                this.theme.push(theme);
+            });
         }
     }
 

@@ -382,12 +382,19 @@ class ExtensionManager {
     load(data = {}) {
         if (data?.meta == undefined) return;
         if (data.meta?.namespace == undefined) return;
-        if (this.getExtensionByNamespace(data.meta.namespace) != undefined) return;
+        while (this.getExtensionByNamespace(data.meta.namespace) != undefined) {
+            this.removeExtensionByNamespace(data.meta.namespace);
+        }
 
         var extension = new Extension(data);
         this.extensions.push(extension);
 
         return extension;
+    }
+
+    import(data={}) {
+        this.load(data);
+        this.saveLocalStorage();
     }
 
     loadLocalStorage() {
@@ -539,6 +546,7 @@ class ExtensionManager {
     addAddon(name) {
         this.enabledAddons.push(name);
         this.refreshEnabledAddonsList();
+        this.saveLocalStorage();
     }
 
     removeAddon(name) {

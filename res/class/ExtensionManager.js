@@ -47,8 +47,9 @@ class Addon {
             throw Error();
         }
 
-        this.name = String(meta.name);
-        this.description = String(meta.description) ?? "";
+        this.name = meta.name;
+        this.title = meta.title ?? "";
+        this.description = meta.description ?? "";
 
         this.requirements = meta.requirements ?? [];
 
@@ -104,7 +105,11 @@ class ExtensionManager {
             data.addons.forEach(
                 addon => {
                     if (typeof addon == 'object') {
-                        this.addons.push(new Addon(addon));
+                        try {
+                            this.addons.push(new Addon(addon));
+                        } catch (e) {
+                            console.warn(e);
+                        }
                     }
                 }
             );
@@ -117,6 +122,20 @@ class ExtensionManager {
                 this.theme.push(theme);
             });
         }
+    }
+
+    loadLocalStorage() {
+        var localStorageManager = new LocalStorageManager();
+        var extensions = localStorageManager.getItem("extensions");
+
+        if (!Array.isArray(extensions)) {
+            localStorageManager.setItem("extensions", []);
+            return;
+        }
+
+        extensions.forEach(extension => {
+            this.load(extension);
+        });
     }
 
     launch(extList = []) {

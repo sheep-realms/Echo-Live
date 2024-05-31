@@ -18,9 +18,7 @@ class EchoLive {
             messagesPolling: -1
         };
         this.event = {
-            shutdown: function() {},
-            themeScriptLoad: function() {},
-            themeScriptUnload: function() {}
+            shutdown: function() {}
         };
 
         this.init();
@@ -173,44 +171,12 @@ class EchoLive {
     }
 
     /**
-     * 查找主题
-     * @param {String} name 主题ID
-     * @returns {Object} 主题数据
-     */
-    findTheme(name) {
-        return this.theme.find((e) => {
-            return e.name == name;
-        })
-    }
-
-    /**
      * 设置主题
      * @param {String} name 主题ID
      * @returns {String} 主题入口样式文件URL
      */
     setTheme(name) {
-        const theme = this.findTheme(name);
-        if (theme == undefined) return;
-
-        this.event.themeScriptUnload()
-        this.event.themeScriptLoad = function() {};
-        this.event.themeScriptUnload = function() {};
-        $('script.echo-live-theme-script').remove();
-
-        this.setThemeStyleUrl(theme.style);
-
-        if ((this.config.echolive.style.live_theme_script_enable && this.config.global.theme_script_enable) && typeof theme.script == 'object') {
-            theme.script.forEach(e => {
-                let s = document.createElement("script");
-                s.src = e;
-                s.class = 'echo-live-theme-script';
-                document.head.appendChild(s);
-            });
-        }
-
-        this.event.themeScriptLoad();
-
-        return theme.style;
+        return extensionManager.loadTheme(name).style;
     }
 
     /**

@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="res/style/settings.css">
     <link rel="stylesheet" href="res/style/editor-accessible.css">
     <script src="lib/jquery-3.7.1.min.js"></script>
+    <script>
+        const thisPage = "settings";
+    </script>
     <script src="res/script/config-load-fail.js"></script>
     <script src="config.js" onerror="configLoadFail()"></script>
     <script src="lang/index.js"></script>
@@ -28,13 +31,16 @@
         $('html').attr('lang', $t('lang.code_ietf'));
     </script>
     <script src="res/class/Mixer.js"></script>
-    <script src="res/script/sounds.js"></script>
     <script src="res/class/Icon.js"></script>
     <script src="res/class/EchoLiveTools.js"></script>
     <script src="res/class/EditorConstructor.js"></script>
     <script src="res/class/SettingsManager.js"></script>
+    <script src="res/class/LocalStorageManager.js"></script>
+    <script src="res/class/ExtensionManager.js"></script>
     <script src="res/script/config-define.js"></script>
     <script src="res/script/settings.js"></script>
+    <script src="extension.js"></script>
+    <script src="res/script/load-extension.js"></script>
 </head>
 <body>
     <main>

@@ -235,8 +235,8 @@ const lang_zho_Hans = {
                 _title: "隐去与显现动画",
                 _description: "调整对话框的隐去与显现动画的参数",
                 auto: {
-                    _title: "闲置时自动隐藏",
-                    _description: "启用后，对话框会在保持没有任何动作一段时间后自动隐藏。"
+                    _title: "闲置时自动隐去",
+                    _description: "启用后，对话框会在保持没有任何动作一段时间后自动隐去。"
                 },
                 hidden_wait_time: {
                     _title: "闲置等候时间",
@@ -247,11 +247,11 @@ const lang_zho_Hans = {
                     _description: "当消息文本过长时会额外补偿一些等候时间，设为 0 则禁用。"
                 },
                 hidden_time: {
-                    _title: "隐去动画时间",
+                    _title: "隐去动画用时",
                     _description: "对话框隐去所需时间，单位毫秒。"
                 },
                 show_time: {
-                    _title: "显现动画时间",
+                    _title: "显现动画用时",
                     _description: "对话框显现所需时间，单位毫秒。"
                 }
             },

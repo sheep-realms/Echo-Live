@@ -358,7 +358,8 @@ const db_config_define = [
         default: 20000,
         created: 5,
         attribute: {
-            min: 0
+            min: 0,
+            step: 1000
         },
         conditions: [
             {
@@ -387,7 +388,8 @@ const db_config_define = [
         default: 1000,
         created: 5,
         attribute: {
-            min: 0
+            min: 0,
+            step: 100
         }
     }, {
         name: 'echolive.display.show_time',
@@ -395,7 +397,8 @@ const db_config_define = [
         default: 500,
         created: 5,
         attribute: {
-            min: 0
+            min: 0,
+            step: 100
         }
     }, {
         name: 'echolive.speech_synthesis',

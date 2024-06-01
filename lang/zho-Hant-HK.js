@@ -235,8 +235,8 @@ const lang_zho_Hant_HK = {
                 _title: "隱去與顯現動畫",
                 _description: "調整對話框的隱去與顯現動畫的參數",
                 auto: {
-                    _title: "閒置時自動隱藏",
-                    _description: "啟用後，對話框會在保持沒有任何動作一段時間後自動隱藏。"
+                    _title: "閒置時自動隱去",
+                    _description: "啟用後，對話框會在保持沒有任何動作一段時間後自動隱去。"
                 },
                 hidden_wait_time: {
                     _title: "閒置等候時間",
@@ -247,11 +247,11 @@ const lang_zho_Hant_HK = {
                     _description: "當消息文本過長時會額外補償一些等候時間，設為 0 則禁用。"
                 },
                 hidden_time: {
-                    _title: "隱去動畫時間",
+                    _title: "隱去動畫用時",
                     _description: "對話框隱去所需時間，單位毫秒。"
                 },
                 show_time: {
-                    _title: "顯現動畫時間",
+                    _title: "顯現動畫用時",
                     _description: "對話框顯現所需時間，單位毫秒。"
                 }
             },

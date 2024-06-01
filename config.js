@@ -1,5 +1,5 @@
 const config = {
-    "data_version": 4,
+    "data_version": 5,
     "global": {
         "language": "zho-Hans",
         "theme": "vanilla",
@@ -42,6 +42,13 @@ const config = {
             "name": "enter",
             "volume": 0.5,
             "rate": 1
+        },
+        "display": {
+            "auto": false,
+            "hidden_wait_time": 20000,
+            "long_text_compensation_rate": 0.15,
+            "hidden_time": 1000,
+            "show_time": 500
         },
         "speech_synthesis": {
             "enable": false,

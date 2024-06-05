@@ -1,10 +1,23 @@
 :root {
     /* 使对话框文本不可选中 */
     user-select: none;
+
+    --animation-speed-display-hidden: 1000ms;
+    --animation-speed-display-show: 500ms;
 }
 
 body {
     background-color: transparent;
+}
+
+#echo-live:not(.display-hidden) {
+    opacity: 1;
+    transition: opacity var(--animation-speed-display-show) ease-out;
+}
+
+#echo-live.display-hidden {
+    opacity: 0;
+    transition: opacity var(--animation-speed-display-hidden) ease-in;
 }
 
 #echo-live .center-center,

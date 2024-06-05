@@ -480,11 +480,13 @@ $(document).ready(function() {
         voices = speechSynthesis.getVoices();
     } catch (error) {}
     let voiceName = [];
-    voices.forEach(e => {
+    for (let i = 0; i < voices.length; i++) {
+        if (i >= 64) break;
+        const e = voices[i];
         voiceName.push({
             value: e.name
         });
-    });
+    }
     settingsManager.configDefine[i].attribute.datalist = voiceName;
 
     datalistLang = [

@@ -231,6 +231,30 @@ const lang_zho_Hans = {
                     _description: "1 为原速。"
                 }
             },
+            display: {
+                _title: "隐去与显现动画",
+                _description: "调整对话框的隐去与显现动画的参数",
+                auto: {
+                    _title: "闲置时自动隐去",
+                    _description: "启用后，对话框会在保持没有任何动作一段时间后自动隐去。"
+                },
+                hidden_wait_time: {
+                    _title: "闲置等候时间",
+                    _description: "进入闲置状态的最小等候时间，单位毫秒（1 秒 = 1000 毫秒）。"
+                },
+                long_text_compensation_rate: {
+                    _title: "长文本等候时间补偿率",
+                    _description: "当消息文本过长时会额外补偿一些等候时间，设为 0 则禁用。"
+                },
+                hidden_time: {
+                    _title: "隐去动画用时",
+                    _description: "对话框隐去所需时间，单位毫秒。"
+                },
+                show_time: {
+                    _title: "显现动画用时",
+                    _description: "对话框显现所需时间，单位毫秒。"
+                }
+            },
             speech_synthesis: {
                 _title: "讲述人",
                 _description: "使用系统语音合成接口读出消息内容",

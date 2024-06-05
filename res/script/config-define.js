@@ -1,4 +1,4 @@
-const db_config_version = 4;
+const db_config_version = 5;
 
 const db_config_define = [
     {
@@ -343,6 +343,63 @@ const db_config_define = [
                 value: true
             }
         ]
+    }, {
+        name: 'echolive.display',
+        type: 'object',
+        created: 5
+    }, {
+        name: 'echolive.display.auto',
+        type: 'boolean',
+        default: false,
+        created: 5
+    }, {
+        name: 'echolive.display.hidden_wait_time',
+        type: 'number',
+        default: 20000,
+        created: 5,
+        attribute: {
+            min: 0,
+            step: 1000
+        },
+        conditions: [
+            {
+                name: 'echolive.display.auto',
+                value: true
+            }
+        ]
+    }, {
+        name: 'echolive.display.long_text_compensation_rate',
+        type: 'number',
+        default: 0.15,
+        created: 5,
+        attribute: {
+            min: 0,
+            step: 0.05
+        },
+        conditions: [
+            {
+                name: 'echolive.display.auto',
+                value: true
+            }
+        ]
+    }, {
+        name: 'echolive.display.hidden_time',
+        type: 'number',
+        default: 1000,
+        created: 5,
+        attribute: {
+            min: 0,
+            step: 100
+        }
+    }, {
+        name: 'echolive.display.show_time',
+        type: 'number',
+        default: 500,
+        created: 5,
+        attribute: {
+            min: 0,
+            step: 100
+        }
     }, {
         name: 'echolive.speech_synthesis',
         type: 'object',

@@ -199,7 +199,7 @@ $(document).on('click', '#btn-flie-check-dialog-cancel', function() {
 });
 
 function addImageData(data, attr) {
-    let r = selectedImageData.findIndex((e) => e.url == data);
+    let r = selectedImageData.findIndex((e) => e?.url == data);
     let isAbsolute = true;
     let isPixelated = attr.rendering == 'pixelated' ? true : false;
 
@@ -248,6 +248,7 @@ $(document).on('click', '#btn-flie-check-dialog-import-image', function() {
 });
 
 $(document).on('click', '#btn-flie-check-dialog-import-image-url', function() {
+    debugger
     const imageURL = $('#image-url').val().trim();
     let i = 0;
     let imageAttr = getImageAttr();
@@ -314,6 +315,7 @@ $(document).on('click', '#popups-image .btn-image-cache-delete-stop', function()
 
 $(document).on('click', '#popups-image .btn-image-cache-delete-all', function() {
     selectedImageData = [];
+    $('#popups-image-images-list').removeClass('in-delete');
     $('#popups-image-images-list .image-box').remove();
     $('#popups-image .images-list-action').html(Popups.imagesListAction(0));
     $('#popups-image .btn-image-cache-delete').focus();

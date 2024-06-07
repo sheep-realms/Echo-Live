@@ -11,15 +11,29 @@ class EchoLive {
             data: {}
         };
         this.hidden = false;
+        this.idle = false;
         this.antiFlood = false;
         this.theme = [];
         this.username = '';
         this.timer = {
+            displayHiddenWait: -1,
             messagesPolling: -1
         };
         this.event = {
-            shutdown: function() {}
+            displayHidden: function() {},
+            displayHiddenNow: function() {},
+            displayShow: function() {},
+            shutdown: function() {},
+            themeScriptLoad: function() {},
+            themeScriptUnload: function() {}
         };
+        this.task = [];
+        this.taskNow = {};
+        this.taskRunning = false;
+        this.taskLastID = 0;
+        this.debug = {
+            taskLog: false
+        }
 
         this.init();
     }
@@ -63,6 +77,8 @@ class EchoLive {
         } else if (this.config.echolive.messages_polling.enable) {
             this.start();
         }
+
+        if (this.config.echolive.display.auto) this.setDisplayHiddenWaitTimer();
     }
 
     /**
@@ -95,7 +111,139 @@ class EchoLive {
                 this.echo.stop();
                 this.broadcast.echoStateUpdate('stop', this.echo.messageList.length);
             }
+            if (this.config.echolive.display.auto) {
+                this.clearDisplayHiddenWaitTimer();
+                this.displayHiddenNow();
+            }
         }
+    }
+
+    /**
+     * 添加任务
+     * @param {String} taskName 任务名称
+     * @param {Object} taskData 任务数据
+     * @param {Boolean} runNow 是否立即运行
+     * @returns {Object} 任务信息
+     */
+    addTask(taskName = '', taskData = {}, runNow = true) {
+        if (typeof taskName != 'string' || typeof taskData != 'object') return;
+
+        let data = {
+            id: this.taskLastID++,
+            name: taskName,
+            data: taskData
+        };
+        let i = this.task.push(data);
+
+        if (this.debug.taskLog) console.log(`[+] ADD TASK: ${taskName} (ID: ${data.id})`);
+
+        // 烂活，得改
+        if (taskName == 'display_show' && this.taskNow?.name == 'display_hidden') this.killTask();
+        if (runNow && !this.taskRunning) this.runTask();
+
+        return {
+            index: i,
+            task: data
+        }
+    }
+
+    /**
+     * 添加任务队列
+     * @param {Array} taskList 任务列表
+     */
+    addTaskList(taskList = []) {
+        if (!Array.isArray(taskList)) return;
+
+        taskList.forEach(e => {
+            if (typeof e == 'string') {
+                this.addTask(e, {}, false);
+            } else if (typeof e == 'object') {
+                this.addTask(e?.name, e?.data, false);
+            }
+        });
+
+        this.runTask();
+    }
+
+    /**
+     * 运行任务
+     */
+    runTask() {
+        if (this.taskRunning || this.task.length == 0) return;
+        this.taskNow = this.task.shift();
+        this.taskRunning = true;
+        if (this.debug.taskLog) console.log(`[>] RUN TASK: ${this.taskNow.name} (ID: ${this.taskNow.id})`);
+
+        switch (this.taskNow.name) {
+            case 'display_hidden':
+                this.displayHidden(this.taskNow.id);
+                return;
+
+            case 'display_show':
+                this.displayShow(this.taskNow.id);
+                return;
+
+            case 'next':
+                this.next();
+                break;
+
+            case 'send':
+                this.send(this.taskNow.data);
+                break;
+        
+            default:
+                break;
+        }
+
+        this.endTask();
+    }
+
+    /**
+     * 结束当前任务，尝试运行下一个任务
+     * @param {Number} taskID 任务ID
+     */
+    endTask(taskID = -1) {
+        this.killTask(taskID);
+        if (this.task.length > 0) setTimeout(() => {
+            this.runTask();
+        }, 0);
+    }
+
+    /**
+     * 清除任务
+     * @param {Number} taskID 任务ID
+     * @param {Boolean} force 是否强制清除
+     */
+    killTask(taskID = -1, force = false) {
+        // 无效参数
+        if (taskID < -1) return;
+
+        // 检查所指定的任务ID与当前任务是否不匹配
+        if (taskID != -1 && taskID != this.taskNow.id) {
+            // 不是强制执行则退出
+            if (!force) return;
+
+            // 查找任务列表中对应的任务并删除
+            let i = this.task.findIndex(e => e?.id == taskID);
+            if (i == -1) return;
+            if (this.debug.taskLog) console.log(`[-] KILL TASK: ${this.task[i].name} (ID: ${taskID})`);
+            this.task.splice(i, 1);
+            return;
+        }
+
+        // 清除当前任务
+        if (this.debug.taskLog) console.log(`[-] END TASK: ${this.taskNow.name} (ID: ${taskID})`);
+        this.taskNow = {};
+        this.taskRunning = false;
+    }
+
+    /**
+     * 清空任务
+     */
+    clearTask() {
+        this.killTask();
+        this.task = [];
+        if (this.debug.taskLog) console.log('[X] TASK CLEAR');
     }
 
     /**
@@ -113,7 +261,21 @@ class EchoLive {
             return;
         }
         if (typeof this.data === 'object' && JSON.stringify(data) === JSON.stringify(this.data)) return;
+
         if (this.echo.state != 'stop') this.echo.stop();
+        if (this.idle) {
+            this.addTaskList([
+                'display_show',
+                {
+                    name: 'send',
+                    data: data
+                }
+            ]);
+            return;
+        }
+
+        if (this.config.echolive.display.auto) this.clearDisplayHiddenWaitTimer();
+
         this.data = data;
         if (typeof data?.username === 'string') {
             this.username = data.username;
@@ -128,6 +290,14 @@ class EchoLive {
     next() {
         if (this.hidden) return;
         if (this.echo.state != 'stop') this.echo.stop();
+        if (this.idle) {
+            this.addTaskList([
+                'display_show',
+                'next'
+            ]);
+            return;
+        }
+        if (this.config.echolive.display.auto) this.clearDisplayHiddenWaitTimer();
         this.echo.next();
     }
 
@@ -180,6 +350,50 @@ class EchoLive {
     }
 
     /**
+     * 显示对话框
+     * @param {Number} taskID 任务ID
+     */
+    displayShow(taskID = -2) {
+        if (!this.idle) return this.endTask(taskID);
+        this.idle = false;
+        this.event.displayShow(() => {
+            this.endTask(taskID);
+        });
+    }
+
+    /**
+     * 隐藏对话框
+     * @param {Number} taskID 任务ID
+     */
+    displayHidden(taskID = -2) {
+        if (this.idle) return this.endTask(taskID);
+        this.idle = true;
+        this.event.displayHidden(() => {
+            this.endTask(taskID);
+        });
+    }
+
+    /**
+     * 立即隐藏对话框
+     * @param {Number} taskID 任务ID
+     */
+    displayHiddenNow() {
+        this.idle = true;
+        this.event.displayHiddenNow();
+    }
+
+    clearDisplayHiddenWaitTimer() {
+        clearTimeout(this.timer.displayHiddenWait);
+    }
+
+    setDisplayHiddenWaitTimer(time = 0) {
+        this.clearDisplayHiddenWaitTimer();
+        this.timer.displayHiddenWait = setTimeout(() => {
+            this.addTask('display_hidden');
+        }, Math.max(this.config.echolive.display.hidden_wait_time, time));
+    }
+
+    /**
      * 立即关闭
      * @param {String} reason 理由
      */
@@ -187,6 +401,7 @@ class EchoLive {
         this.echo.stop();
         this.broadcast = undefined;
         this.timer.messagesPolling = -1;
+        this.clearDisplayHiddenWaitTimer();
         this.event.shutdown(reason);
     }
 }

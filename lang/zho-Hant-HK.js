@@ -231,6 +231,30 @@ const lang_zho_Hant_HK = {
                     _description: "1 為原速。"
                 }
             },
+            display: {
+                _title: "隱去與顯現動畫",
+                _description: "調整對話框的隱去與顯現動畫的參數",
+                auto: {
+                    _title: "閒置時自動隱去",
+                    _description: "啟用後，對話框會在保持沒有任何動作一段時間後自動隱去。"
+                },
+                hidden_wait_time: {
+                    _title: "閒置等候時間",
+                    _description: "進入閒置狀態的最小等候時間，單位毫秒（1 秒 = 1000 毫秒）。"
+                },
+                long_text_compensation_rate: {
+                    _title: "長文本等候時間補償率",
+                    _description: "當消息文本過長時會額外補償一些等候時間，設為 0 則禁用。"
+                },
+                hidden_time: {
+                    _title: "隱去動畫用時",
+                    _description: "對話框隱去所需時間，單位毫秒。"
+                },
+                show_time: {
+                    _title: "顯現動畫用時",
+                    _description: "對話框顯現所需時間，單位毫秒。"
+                }
+            },
             speech_synthesis: {
                 _title: "講述人",
                 _description: "使用系統語音合成接口讀出消息內容",

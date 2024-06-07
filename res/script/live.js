@@ -7,6 +7,9 @@ echolive.theme = extensionManager.themes();
 let urlTheme = EchoLiveTools.getUrlParam('theme');
 echolive.setTheme(urlTheme || config.echolive.style.live_theme || config.global.theme);
 
+$('body').css('--animation-speed-display-hidden', config.echolive.display.hidden_time + 'ms');
+$('body').css('--animation-speed-display-show', config.echolive.display.show_time + 'ms');
+
 let data;
 
 let printSeCd = 33;
@@ -23,6 +26,9 @@ let messageActions = {
 };
 
 let inRuby = false;
+
+
+let messageLenB = 0;
 
 
 
@@ -68,6 +74,7 @@ echo.on('next', function(msg) {
     echolive.broadcast.echoStateUpdate('ready', echo.messageList.length);
 
     let str = EchoLiveTools.getMessagePlainText(msg.message);
+    messageLenB = new TextEncoder().encode(str).length;
 
     // 判断文字书写方向
     $('.echo-output').removeClass('echo-text-rlo');
@@ -132,6 +139,9 @@ echo.on('skip', function() {
 });
 
 echo.on('printStart', function() {
+    performance.clearMarks();
+    performance.clearMeasures();
+    performance.mark('printStart');
     printSeCd = echo.printSpeedChange + 3;
     first = true;
     echolive.broadcast.echoStateUpdate('play', echo.messageList.length);
@@ -141,6 +151,19 @@ echo.on('printEnd', function() {
     // 整理字符串
     // $('.echo-output').html($('.echo-output').html());
     echolive.broadcast.echoStateUpdate('stop', echo.messageList.length);
+
+    performance.mark('printEnd');
+    performance.measure('printTime', 'printStart', 'printEnd');
+    let duration = 0;
+    try {
+        const measure = performance.getEntriesByName('printTime')[0];
+        duration = measure.duration;
+    } catch (error) {
+        duration = 0;
+    }
+    if (config.echolive.display.auto) {
+        echolive.setDisplayHiddenWaitTimer(messageLenB * 1000 * config.echolive.display.long_text_compensation_rate - duration);
+    }
 
     if (messageActions.printEnd == 'next') {
         messageActions.printEnd = undefined;
@@ -266,6 +289,24 @@ echolive.on('shutdown', function(reason) {
     } else {
         $('#echo-live .echo-output').text($t( 'echolive.shutdown' ));
     }
+});
+
+echolive.on('displayShow', function(callback) {
+    $('#echo-live, body').removeClass('display-hidden');
+    setTimeout(() => {
+        callback();
+    }, config.echolive.display.show_time);
+});
+
+echolive.on('displayHidden', function(callback) {
+    $('#echo-live, body').addClass('display-hidden');
+    setTimeout(() => {
+        callback();
+    }, config.echolive.display.hidden_time);
+});
+
+echolive.on('displayHiddenNow', function() {
+    $('#echo-live, body').addClass('display-hidden');
 });
 
 $(document).on('click', function() {

@@ -3,7 +3,7 @@
 let echo = new Echo();
 if (config.echo.html_format_enable != true) echo.filter.HTMLFormat = false;
 let echolive = new EchoLive(echo, config);
-echolive.theme = extensionManager.theme;
+echolive.theme = extensionManager.themes();
 let urlTheme = EchoLiveTools.getUrlParam('theme');
 echolive.setTheme(urlTheme || config.echolive.style.live_theme || config.global.theme);
 

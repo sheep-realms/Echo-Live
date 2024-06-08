@@ -507,12 +507,12 @@ $(document).on('keydown', '#popups-image', function(e) {
 // 关闭通知
 $(document).on('click', '.fh-notice-item-btn-close', function(e) {
     if (e.shiftKey) {
-        if (config.accessible.animation_disable) return $('.fh-notice-item').remove();
+        if (config.accessible.animation_disable || $('body').hasClass('accessible-animation-disable')) return $('.fh-notice-item').remove();
         $('.fh-notice-item:not(.fh-notice-ani-in)').addClass('fh-notice-ani-out');
         return;
     }
     const $item = $(this).parents('.fh-notice-item').eq(0);
-    if (config.accessible.animation_disable) return $item.remove();
+    if (config.accessible.animation_disable || $('body').hasClass('accessible-animation-disable')) return $item.remove();
     $item.addClass('fh-notice-ani-out');
 });
 

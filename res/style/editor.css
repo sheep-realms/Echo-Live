@@ -1229,6 +1229,10 @@ select:focus {
     transition: opacity .15s;
 }
 
+.fh-notice-item-content-action button {
+    margin: 0;
+}
+
 .fh-notice-item-container:hover .fh-notice-item-content-action {
     opacity: 0.5;
 }

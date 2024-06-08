@@ -17,7 +17,7 @@ class SystemNotice {
         const index = this.lastnNoticeIndex++;
         data = {
             ...data,
-            animation: !config.accessible.animation_disable && ( data?.animation ?? true ),
+            animation: !config.accessible.animation_disable && !$('body').hasClass('accessible-animation-disable') && ( data?.animation ?? true ),
             index: index
         };
 
@@ -28,7 +28,7 @@ class SystemNotice {
 
         setTimeout(() => {
             const $sel = $(`${ this.sel } .fh-notice-item[data-index=${ index }]`)
-            if (config.accessible.animation_disable) {
+            if (config.accessible.animation_disable || $('body').hasClass('accessible-animation-disable')) {
                 $sel.remove();
                 return;
             }

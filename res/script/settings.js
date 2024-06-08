@@ -411,8 +411,13 @@ async function saveConfigFile(content, fileName = 'config.js', saveAs = false) {
         await writable.write(content);
         await writable.close();
         outputTabUnsavePoint(false);
+        sysNotice.send($t('notice.config_saved'), '', 'success', {
+            icon: 'contentSave'
+        });
     } catch (error) {
-        // TODO ...
+        sysNotice.send($t('notice.config_saving_fail'), '', 'error', {
+            icon: 'contentSaveAlert'
+        });
     }
 }
 

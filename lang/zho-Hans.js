@@ -1005,6 +1005,8 @@ const lang_zho_Hans = {
         undefined_message: "[未定义消息]"
     },
     notice: {
+        config_saved: "配置文件已保存！",
+        config_saving_fail: "未授权写入，配置文件未保存。",
         unknow_error: {
             title: "发生了未捕获的错误",
             message: "这应该不是什么意料之中的战术性报错，您可以将此问题反馈给开发者，并提供复现方法。"

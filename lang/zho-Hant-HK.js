@@ -1005,6 +1005,8 @@ const lang_zho_Hant_HK = {
         undefined_message: "[未定義消息]"
     },
     notice: {
+        config_saved: "配置文件已保存！",
+        config_saving_fail: "未授權寫入，配置文件未保存。",
         unknow_error: {
             title: "發生了未捕獲的錯誤",
             message: "這應該不是甚麼意料之中的戰術性報錯，您可以將此問題反饋給開發者，並提供復現方法。"

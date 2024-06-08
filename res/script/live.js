@@ -58,6 +58,10 @@ function messageOutput(text = '') {
     }
 }
 
+function setUsername(name = '') {
+    $('#echo-live .name').html(name.replace(/ /g, '&ensp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'));
+}
+
 
 
 
@@ -201,7 +205,7 @@ echo.on('customEvent', function(e) {
 });
 
 echo.on('customData', function(e) {
-    if (e?.username) $('#echo-live .name').text(e.username);
+    if (e?.username) setUsername(e.username);
     if (e?.emoji) {
         echo.insertSequence({
             type: 'emoji',
@@ -282,7 +286,7 @@ echo.on('customSequence', function(e) {
 });
 
 echolive.on('shutdown', function(reason) {
-    $('#echo-live .name').text($t( 'echolive.system_message' ));
+    setUsername($t( 'echolive.system_message' ));
 
     if (reason != undefined && reason != '') {
         $('#echo-live .echo-output').text($t( 'echolive.shutdown_reason', { reason: reason } ));

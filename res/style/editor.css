@@ -1302,6 +1302,6 @@ select:focus {
 
 
 @keyframes fh-notice-ani-in-content {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+    0% { opacity: 0; left: 16px; position: relative; }
+    100% { opacity: 1; left: 0px; position: relative; }
 }

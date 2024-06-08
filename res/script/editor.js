@@ -3,6 +3,18 @@
 // 为了防止再出现逆天的建立在bug上运行的程序加入了严格模式
 "use strict";
 
+let sysNotice = new SystemNotice();
+
+let unknowErrorListenerDown = false;
+window.addEventListener("error", (e) => {
+    if (unknowErrorListenerDown) return;
+    sysNotice.send($t('notice.unknow_error.message'), $t('notice.unknow_error.title'), 'fatal');
+    unknowErrorListenerDown = true;
+    setTimeout(() => {
+        unknowErrorListenerDown = false;
+    }, 10000)
+});
+
 let localStorageManager = new LocalStorageManager();
 
 let textList = [

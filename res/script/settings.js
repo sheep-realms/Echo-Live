@@ -1,5 +1,11 @@
 "use strict";
 
+let sysNotice = new SystemNotice();
+
+window.addEventListener("error", (e) => {
+    sysNotice.send($t('notice.unknow_error.message'), $t('notice.unknow_error.title'), 'fatal');
+});
+
 let configFileBuffer = '';
 let configFileFiltered = '';
 let configFileWritableFileHandle = undefined;

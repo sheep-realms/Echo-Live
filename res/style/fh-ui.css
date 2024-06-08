@@ -442,7 +442,26 @@ p .fh-loading {
 .fh-button.fh-air:focus {
     --border-style: solid;
     border: var(--color-general-dark) 1px var(--border-style);
-    --corner-marker-color: var(--color-general-dark);
+}
+
+.fh-button.fh-air.fh-safe:focus {
+    --border-style: solid;
+    border: var(--color-safe-dark) 1px var(--border-style);
+}
+
+.fh-button.fh-air.fh-warn:focus {
+    --border-style: solid;
+    border: var(--color-warn-dark) 1px var(--border-style);
+}
+
+.fh-button.fh-air.fh-danger:focus {
+    --border-style: solid;
+    border: var(--color-danger-dark) 1px var(--border-style);
+}
+
+.fh-button.fh-air.fh-special:focus {
+    --border-style: solid;
+    border: var(--color-special-dark) 1px var(--border-style);
 }
 
 .fh-button.fh-safe:focus {

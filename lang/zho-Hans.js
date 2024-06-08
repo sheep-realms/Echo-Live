@@ -1004,6 +1004,12 @@ const lang_zho_Hans = {
         empty_username: "[未指定说话人]",
         undefined_message: "[未定义消息]"
     },
+    notice: {
+        unknow_error: {
+            title: "发生了未捕获的错误",
+            message: "这应该不是什么意料之中的战术性报错，您可以将此问题反馈给开发者，并提供复现方法。"
+        }
+    },
     page_title: {
         editor: "Echo Live 编辑器",
         history: "Echo Live 历史记录",

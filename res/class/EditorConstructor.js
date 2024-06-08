@@ -1490,3 +1490,81 @@ class SettingsFileChecker {
         );
     }
 }
+
+
+
+
+class FHUINotice {
+    constructor() {}
+
+    static notice(message = '', title = '', type = 'info', data = {}) {
+        const themes = {
+            info: {
+                icon: 'information',
+                color: 'general'
+            },
+            success: {
+                icon: 'check',
+                color: 'safe'
+            },
+            alert: {
+                icon: 'alert',
+                color: 'warn'
+            },
+            warn: {
+                icon: 'alert',
+                color: 'warn'
+            },
+            error: {
+                icon: 'close',
+                color: 'danger'
+            },
+            fatal: {
+                icon: 'alertOctagon',
+                color: 'danger'
+            },
+            experimental: {
+                icon: 'testTube',
+                color: 'special'
+            }
+        };
+        let theme = themes[type];
+        if (theme == undefined) {
+            theme = {
+                icon: 'information',
+                color: 'general'
+            };
+        }
+
+        data = {
+            animation: true,
+            icon: theme.icon,
+            index: -1,
+            ...data
+        };
+        return `<div
+                class="fh-notice-item fh-${ theme.color } ${ data.animation ? 'fh-notice-ani-in' : '' }"
+                data-index="${ data.index }"
+            >
+            <div class="fh-notice-item-container">
+                <div class="fh-notice-item-content">
+                    <div class="fh-notice-item-content-icon">
+                        ${ Icon[data.icon]() }
+                    </div>
+                    <div class="fh-notice-item-content-message">
+                        ${ title != '' ? `<div class="title">${ title }</div>` : '' }
+                        <div class="message">${ message }</div>
+                    </div>
+                    <div class="fh-notice-item-content-action">
+                        ${ EditorForm.buttonAir('', {
+                            class: 'fh-notice-item-btn-close',
+                            icon: Icon.close(),
+                            color: 'danger'
+                        }) }
+                    </div>
+                </div>
+                <div class="fh-notice-item-bg"></div>
+            </div>
+        </div>`;
+    }
+}

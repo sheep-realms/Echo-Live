@@ -24,7 +24,7 @@ class SystemNotice {
         $(this.sel).prepend(FHUINotice.notice(message, title, type, data));
 
         let messageLenB = new TextEncoder().encode(message + title).length;
-        let waitTime = Math.max(7000, messageLenB * 1000 * 0.15 + 500);
+        let waitTime = Math.max(5000, messageLenB * 1000 * 0.15 + 500);
 
         setTimeout(() => {
             const $sel = $(`${ this.sel } .fh-notice-item[data-index=${ index }]`)

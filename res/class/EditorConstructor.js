@@ -766,17 +766,17 @@ class Popups {
                         <div class="image-parameter-line">
                             <div class="image-parameter-item">
                                 <label for="image-size-max">${ $t('editor.image_popups.label.image_size_max') }</label>
-                                <input type="number" id="image-size-max" value="${ config.echolive.image.default_max_size }">
+                                <input type="number" id="image-size-max" value="${ config.echolive.image.default_max_size }" min="0">
                             </div>
                             <div class="image-parameter-item">
                                 <label for="image-size-min">${ $t('editor.image_popups.label.image_size_min') }</label>
-                                <input type="number" id="image-size-min" value="0">
+                                <input type="number" id="image-size-min" value="0" min="0">
                             </div>
                         </div>
                         <div class="image-parameter-line">
                             <div class="image-parameter-item">
                                 <label for="image-margin">${ $t('editor.image_popups.label.image_margin') }</label>
-                                <input type="number" id="image-margin" value="0.5">
+                                <input type="number" id="image-margin" value="0.5" min="0" step="0.5">
                             </div>
                             <div class="image-parameter-item">
                                 <label for="image-rendering">${ $t('editor.image_popups.label.image_rendering') }</label>

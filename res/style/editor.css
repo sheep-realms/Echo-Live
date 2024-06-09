@@ -1165,26 +1165,26 @@ select:focus {
 
 .fh-notice-item {
     --fh-notice-width: min(450px, calc(100vw - 32px));
-    --fh-notice-theme-color: var(--color-general-dark);
+    --fh-notice-theme-color: var(--color-general);
     min-height: 48px;
     width: var(--fh-notice-width);
     position: relative;
 }
 
 .fh-notice-item.fh-safe {
-    --fh-notice-theme-color: var(--color-safe-dark);
+    --fh-notice-theme-color: var(--color-safe);
 }
 
 .fh-notice-item.fh-warn {
-    --fh-notice-theme-color: var(--color-warn-dark);
+    --fh-notice-theme-color: var(--color-warn);
 }
 
 .fh-notice-item.fh-danger {
-    --fh-notice-theme-color: var(--color-danger-dark);
+    --fh-notice-theme-color: var(--color-danger);
 }
 
 .fh-notice-item.fh-special {
-    --fh-notice-theme-color: var(--color-special-dark);
+    --fh-notice-theme-color: var(--color-special);
 }
 
 .fh-notice-item-container {

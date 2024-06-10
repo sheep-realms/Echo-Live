@@ -69,7 +69,7 @@
         --text-placeholder: #999;
     
         --border-color: #FFF;
-        --box-shadow: 0 2px 16px rgba(128, 128, 128, 0.75);
+        --box-shadow: 0 0 0 4px rgba(128, 128, 128, 0.75);
     
         --page-bgcolor: #000;
         --page-bgcolor-glass: var(--page-bgcolor);
@@ -115,7 +115,7 @@
     --text-placeholder: #999;
 
     --border-color: #FFF;
-    --box-shadow: 0 2px 16px rgba(128, 128, 128, 0.75);
+    --box-shadow: 0 0 0 4px rgba(128, 128, 128, 0.75);
 
     --page-bgcolor: #000;
     --page-bgcolor-glass: var(--page-bgcolor);
@@ -200,6 +200,11 @@
 }
 
 .accessible-high-contrast .settings-item.settings-item-condition-test-fail:hover>* {
+    opacity: 1;
+}
+
+.accessible-high-contrast .fh-notice-item.is-permanently .fh-notice-item-content-action,
+.accessible-high-contrast .fh-notice-item-container:hover .fh-notice-item-content-action {
     opacity: 1;
 }
 

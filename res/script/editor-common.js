@@ -504,6 +504,28 @@ $(document).on('keydown', '#popups-image', function(e) {
     }
 });
 
+// 关闭通知
+$(document).on('click', '.fh-notice-item-btn-close', function(e) {
+    if (e.shiftKey) {
+        if (config.accessible.animation_disable || $('body').hasClass('accessible-animation-disable')) return $('.fh-notice-item').remove();
+        $('.fh-notice-item:not(.fh-notice-ani-in)').addClass('fh-notice-ani-out');
+        return;
+    }
+    const $item = $(this).parents('.fh-notice-item').eq(0);
+    if (config.accessible.animation_disable || $('body').hasClass('accessible-animation-disable')) return $item.remove();
+    $item.addClass('fh-notice-ani-out');
+});
+
+// 通知入场动画结束
+$(document).on('animationend', '.fh-notice-item.fh-notice-ani-in', function() {
+    $(this).removeClass('fh-notice-ani-in');
+});
+
+// 通知退场动画结束
+$(document).on('animationend', '.fh-notice-item.fh-notice-ani-out', function() {
+    $(this).remove();
+});
+
 function paletteColorContrastCheck(value) {
     let bg = config.editor.color_picker.contrast_background_color;
     let threshold = config.editor.color_picker.contrast_threshold;

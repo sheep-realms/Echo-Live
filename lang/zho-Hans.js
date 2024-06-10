@@ -1004,6 +1004,21 @@ const lang_zho_Hans = {
         empty_username: "[未指定说话人]",
         undefined_message: "[未定义消息]"
     },
+    notice: {
+        config_re_output: "已重新导出配置文件内容！",
+        config_saved: "配置文件已保存！",
+        config_saving_fail: "未授权写入，配置文件未保存。",
+        browser_zoom: "如果您不小心调整了缩放率不知道怎么复原，请按：<kbd>Ctrl</kbd> + <kbd>0</kbd>（数字键）",
+        browser_zoom_reset: {
+            title: "漂亮的抢救！",
+            message: "您已经掌握了如何操作浏览器缩放。请注意，<kbd>Ctrl</kbd> + <kbd>-</kbd> 和 <kbd>Ctrl</kbd> + <kbd>+</kbd> 组合键可以调整浏览器缩放，当心误操作！"
+        },
+        drop_file_cancel_many: "你倒是放啊！",
+        unknow_error: {
+            title: "发生了未捕获的错误",
+            message: "这应该不是什么意料之中的战术性报错，您可以将此问题反馈给开发者，并提供复现方法。"
+        }
+    },
     page_title: {
         editor: "Echo Live 编辑器",
         history: "Echo Live 历史记录",

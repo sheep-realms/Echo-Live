@@ -29,7 +29,7 @@ function sendHistory(username = '', message = '') {
     if (username == '' || username == undefined) username = $t('message_preview.empty_username');
     if (message == '' || message == undefined) message = $t('message_preview.empty_message');
 
-    username = username.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ');
+    username = username.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/ /g, '&ensp;');
     message = EchoLiveTools.getMessagePlainText(message);
 
     function __getTime() {

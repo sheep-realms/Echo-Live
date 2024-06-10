@@ -1164,11 +1164,25 @@ select:focus {
 }
 
 .fh-notice-item {
-    --fh-notice-width: min(450px, calc(100vw - 32px));
+    --fh-notice-width-custom: 450px;
+    --fh-notice-left-padding: 8px;
+    --fh-notice-width: min(calc(var(--fh-notice-width-custom) + var(--fh-notice-left-padding)), calc(100vw - 48px));
     --fh-notice-theme-color: var(--color-general);
     min-height: 48px;
     width: var(--fh-notice-width);
     position: relative;
+}
+
+@media screen and (min-width: 1200px) {
+    .fh-notice-item {
+        --fh-notice-left-padding: 16px;
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    .fh-notice-item {
+        --fh-notice-left-padding: 20px;
+    }
 }
 
 .fh-notice-item.fh-safe {
@@ -1202,7 +1216,7 @@ select:focus {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 12px 8px 16px;
+    padding: 8px 12px 8px calc(8px + var(--fh-notice-left-padding));
     box-sizing: border-box;
     gap: 8px;
 }
@@ -1227,6 +1241,10 @@ select:focus {
     gap: 8px;
     opacity: 0;
     transition: opacity .15s;
+}
+
+.fh-notice-item.is-permanently .fh-notice-item-content-action {
+    opacity: 0.35;
 }
 
 .fh-notice-item-content-action button {

@@ -1526,6 +1526,14 @@ class FHUINotice {
             experimental: {
                 icon: 'testTube',
                 color: 'special'
+            },
+            trophy: {
+                icon: 'trophy',
+                color: 'general'
+            },
+            tips: {
+                icon: 'lightbulbOn',
+                color: 'general'
             }
         };
         let theme = themes[type];
@@ -1539,12 +1547,17 @@ class FHUINotice {
         data = {
             animation: true,
             icon: theme.icon,
+            id: undefined,
             index: -1,
+            waitTime: undefined,
+            width: undefined,
             ...data
         };
         return `<div
-                class="fh-notice-item fh-${ theme.color } ${ data.animation ? 'fh-notice-ani-in' : '' }"
+                class="fh-notice-item fh-${ theme.color } ${ data.animation ? 'fh-notice-ani-in' : '' } ${ data.waitTime < 0 ? 'is-permanently' : '' }"
                 data-index="${ data.index }"
+                ${ data.id ? `data-id="${ data.id }"` : '' }
+                style="${ data?.width != undefined ? `--fh-notice-width-custom: ${ data.width };` : '' }"
             >
             <div class="fh-notice-item-container">
                 <div class="fh-notice-item-content">

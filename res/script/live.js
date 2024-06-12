@@ -58,6 +58,10 @@ function messageOutput(text = '') {
     }
 }
 
+function setUsername(name = '') {
+    $('#echo-live .name').html(name.replace(/ /g, '&ensp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'));
+}
+
 
 
 
@@ -67,11 +71,11 @@ echo.on('next', function(msg) {
     };
 
     echolive.username = EchoLiveTools.getMessageUsername(echolive.username, msg);
-    echolive.broadcast.echoPrinting(echolive.username, EchoLiveTools.getMessagePlainText(msg));
+    if(config.echolive.broadcast.enable) echolive.broadcast.echoPrinting(echolive.username, EchoLiveTools.getMessagePlainText(msg));
 
     $('#echo-live').attr('class', '');
 
-    echolive.broadcast.echoStateUpdate('ready', echo.messageList.length);
+    if(config.echolive.broadcast.enable) echolive.broadcast.echoStateUpdate('ready', echo.messageList.length);
 
     let str = EchoLiveTools.getMessagePlainText(msg.message);
     messageLenB = new TextEncoder().encode(str).length;
@@ -144,13 +148,13 @@ echo.on('printStart', function() {
     performance.mark('printStart');
     printSeCd = echo.printSpeedChange + 3;
     first = true;
-    echolive.broadcast.echoStateUpdate('play', echo.messageList.length);
+    if(config.echolive.broadcast.enable) echolive.broadcast.echoStateUpdate('play', echo.messageList.length);
 });
 
 echo.on('printEnd', function() {
     // 整理字符串
     // $('.echo-output').html($('.echo-output').html());
-    echolive.broadcast.echoStateUpdate('stop', echo.messageList.length);
+    if(config.echolive.broadcast.enable) echolive.broadcast.echoStateUpdate('stop', echo.messageList.length);
 
     performance.mark('printEnd');
     performance.measure('printTime', 'printStart', 'printEnd');
@@ -201,7 +205,7 @@ echo.on('customEvent', function(e) {
 });
 
 echo.on('customData', function(e) {
-    if (e?.username) $('#echo-live .name').text(e.username);
+    if (e?.username) setUsername(e.username);
     if (e?.emoji) {
         echo.insertSequence({
             type: 'emoji',
@@ -282,7 +286,7 @@ echo.on('customSequence', function(e) {
 });
 
 echolive.on('shutdown', function(reason) {
-    $('#echo-live .name').text($t( 'echolive.system_message' ));
+    setUsername($t( 'echolive.system_message' ));
 
     if (reason != undefined && reason != '') {
         $('#echo-live .echo-output').text($t( 'echolive.shutdown_reason', { reason: reason } ));

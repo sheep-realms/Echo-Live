@@ -672,6 +672,22 @@ class Popups {
             firstGruop = false;
         });
         if (!firstGruop) dom += '</div>'
+
+        dom += '<div class="emoji-meta">';
+        if (emojiPack.meta?.author != undefined && emojiPack.meta?.author != '') {
+            dom += `<div>${ $t('meta_info.author', { name: emojiPack.meta.author }) }</div>`
+        }
+        if (emojiPack.meta?.license != undefined) {
+            dom += `<div>
+                ${ $t('meta_info.license', {
+                    name:
+                        emojiPack.meta.license?.url != undefined
+                        ? `<a href="${ emojiPack.meta.license.url }" target="_blank">${ emojiPack.meta.license?.title }</a>`
+                        : emojiPack.meta.license?.title
+                }) }
+            </div>`
+        }
+        dom += '</div>'
         return dom;
     }
 
@@ -766,17 +782,17 @@ class Popups {
                         <div class="image-parameter-line">
                             <div class="image-parameter-item">
                                 <label for="image-size-max">${ $t('editor.image_popups.label.image_size_max') }</label>
-                                <input type="number" id="image-size-max" value="${ config.echolive.image.default_max_size }">
+                                <input type="number" id="image-size-max" value="${ config.echolive.image.default_max_size }" min="0">
                             </div>
                             <div class="image-parameter-item">
                                 <label for="image-size-min">${ $t('editor.image_popups.label.image_size_min') }</label>
-                                <input type="number" id="image-size-min" value="0">
+                                <input type="number" id="image-size-min" value="0" min="0">
                             </div>
                         </div>
                         <div class="image-parameter-line">
                             <div class="image-parameter-item">
                                 <label for="image-margin">${ $t('editor.image_popups.label.image_margin') }</label>
-                                <input type="number" id="image-margin" value="0.5">
+                                <input type="number" id="image-margin" value="0.5" min="0" step="0.5">
                             </div>
                             <div class="image-parameter-item">
                                 <label for="image-rendering">${ $t('editor.image_popups.label.image_rendering') }</label>
@@ -1488,5 +1504,96 @@ class SettingsFileChecker {
                 }
             )
         );
+    }
+}
+
+
+
+
+class FHUINotice {
+    constructor() {}
+
+    static notice(message = '', title = '', type = 'info', data = {}) {
+        const themes = {
+            info: {
+                icon: 'information',
+                color: 'general'
+            },
+            success: {
+                icon: 'check',
+                color: 'safe'
+            },
+            alert: {
+                icon: 'alert',
+                color: 'warn'
+            },
+            warn: {
+                icon: 'alert',
+                color: 'warn'
+            },
+            error: {
+                icon: 'close',
+                color: 'danger'
+            },
+            fatal: {
+                icon: 'alertOctagon',
+                color: 'danger'
+            },
+            experimental: {
+                icon: 'testTube',
+                color: 'special'
+            },
+            trophy: {
+                icon: 'trophy',
+                color: 'general'
+            },
+            tips: {
+                icon: 'lightbulbOn',
+                color: 'general'
+            }
+        };
+        let theme = themes[type];
+        if (theme == undefined) {
+            theme = {
+                icon: 'information',
+                color: 'general'
+            };
+        }
+
+        data = {
+            animation: true,
+            icon: theme.icon,
+            id: undefined,
+            index: -1,
+            waitTime: undefined,
+            width: undefined,
+            ...data
+        };
+        return `<div
+                class="fh-notice-item fh-${ theme.color } ${ data.animation ? 'fh-notice-ani-in' : '' } ${ data.waitTime < 0 ? 'is-permanently' : '' }"
+                data-index="${ data.index }"
+                ${ data.id ? `data-id="${ data.id }"` : '' }
+                style="${ data?.width != undefined ? `--fh-notice-width-custom: ${ data.width };` : '' }"
+            >
+            <div class="fh-notice-item-container">
+                <div class="fh-notice-item-content">
+                    <div class="fh-notice-item-content-icon">
+                        ${ Icon[data.icon]() }
+                    </div>
+                    <div class="fh-notice-item-content-message">
+                        ${ title != '' ? `<div class="title">${ title }</div>` : '' }
+                        <div class="message">${ message }</div>
+                    </div>
+                    <div class="fh-notice-item-content-action">
+                        ${ EditorForm.buttonAir('', {
+                            class: 'fh-notice-item-btn-close',
+                            icon: Icon.close(),
+                            color: 'danger'
+                        }) }
+                    </div>
+                </div>
+                <div class="fh-notice-item-bg"></div>
+            </div>
+        </div>`;
     }
 }

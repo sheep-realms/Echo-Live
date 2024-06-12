@@ -279,7 +279,7 @@ class EchoLive {
         this.data = data;
         if (typeof data?.username === 'string') {
             this.username = data.username;
-            $('#echo-live .name').text(data.username);
+            $('#echo-live .name').html(data.username.replace(/ /g, '&ensp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'));
         }
         if (Array.isArray(data?.messages)) this.echo.sendList(JSON.parse(JSON.stringify(data.messages)));
     }

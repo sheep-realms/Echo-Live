@@ -3,6 +3,18 @@
 // 为了防止再出现逆天的建立在bug上运行的程序加入了严格模式
 "use strict";
 
+let sysNotice = new SystemNotice();
+
+let unknowErrorListenerDown = false;
+window.addEventListener("error", (e) => {
+    if (unknowErrorListenerDown) return;
+    sysNotice.sendThasTitle('notice.unknow_error', {}, 'fatal');
+    unknowErrorListenerDown = true;
+    setTimeout(() => {
+        unknowErrorListenerDown = false;
+    }, 10000)
+});
+
 let localStorageManager = new LocalStorageManager();
 
 let textList = [
@@ -25,6 +37,10 @@ let hasError = false;
 let logScrollButInvisible = false;
 
 echoLiveEditor.emojiHako = emojiHako;
+
+let initDevicePixelRatio = window.devicePixelRatio;
+let devicePixelRatioChanged = 0;
+let inOBS = false;
 
 setDefaultValue('#config-output-before', config.editor.form.output_before);
 setDefaultValue('#config-output-after', config.editor.form.output_after);
@@ -119,6 +135,7 @@ if (config.echolive.broadcast.enable) {
     editorLog('User Agent: ' + navigator.userAgent, 'dbug');
     if (navigator.userAgent.toLowerCase().search(/ obs\//) != -1) {
         editorLogT('editor.log.broadcast_launch.user_agent_check', {}, 'done');
+        inOBS = true;
     } else {
         editorLogT('editor.log.broadcast_launch.user_agent_error', {}, 'tips');
     }
@@ -848,3 +865,15 @@ function checkNowDate() {
         }
     }
 }
+
+
+
+$(window).resize(function() {
+    if (inOBS && devicePixelRatioChanged === 0 && initDevicePixelRatio != window.devicePixelRatio) {
+        devicePixelRatioChanged = 1;
+        sysNotice.sendT('notice.browser_zoom', {}, 'tips');
+    } else if (devicePixelRatioChanged === 1 && initDevicePixelRatio == window.devicePixelRatio) {
+        devicePixelRatioChanged = -1;
+        sysNotice.sendThasTitle('notice.browser_zoom_reset', {}, 'trophy');
+    }
+});

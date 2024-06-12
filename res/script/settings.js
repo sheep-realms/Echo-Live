@@ -1,5 +1,11 @@
 "use strict";
 
+let sysNotice = new SystemNotice();
+
+window.addEventListener("error", (e) => {
+    sysNotice.sendThasTitle('notice.unknow_error', {}, 'fatal');
+});
+
 let configFileBuffer = '';
 let configFileFiltered = '';
 let configFileWritableFileHandle = undefined;
@@ -112,6 +118,9 @@ observer.observe({ type: "navigation", buffered: true });
 try {
     speechSynthesis.getVoices();
 } catch (error) {}
+
+let easterEggDrop = false;
+let logoClick = 0;
 
 
 
@@ -405,8 +414,13 @@ async function saveConfigFile(content, fileName = 'config.js', saveAs = false) {
         await writable.write(content);
         await writable.close();
         outputTabUnsavePoint(false);
+        sysNotice.sendT('notice.config_saved', {}, 'success', {
+            icon: 'contentSave'
+        });
     } catch (error) {
-        // TODO ...
+        sysNotice.sendT('notice.config_saving_fail', {}, 'error', {
+            icon: 'contentSaveAlert'
+        });
     }
 }
 
@@ -751,6 +765,10 @@ $(document).on('dragleave', '#settings-file-input-box', function(e) {
         dragleaveCount++;
         if (dragleaveCount >= 5) {
             $('#settings-file-input-box .file-drop-box-message').text($t('file.droper.drop_file_cancel_many'));
+            if (!easterEggDrop) {
+                easterEggDrop = true;
+                sysNotice.sendT('notice.drop_file_cancel_many', {}, 'trophy');
+            }
         } else {
             $('#settings-file-input-box .file-drop-box-message').text($t('file.droper.drop_file_cancel'));
         }
@@ -961,6 +979,7 @@ $(document).on('click', '#edit-btn-save-output', function() {
 
 $(document).on('click', '#edit-btn-output', function() {
     configOutput();
+    sysNotice.sendT('notice.config_re_output', {}, 'success');
 });
 
 $(document).on('click', '#edit-btn-file-save-as', function() {
@@ -1126,4 +1145,15 @@ $(document).on('click', '#btn-speech-voice-audition', function() {
     utterance.rate = configRate;
 
     speechSynthesis.speak(utterance);
+});
+
+$(document).on('click', '.settings-about-banner img', function() {
+    if (logoClick >= 0 && logoClick < 4) {
+        logoClick++
+    } else if (logoClick >= 4) {
+        logoClick = -1;
+        sysNotice.send('???', '', 'info', {
+            icon: 'help'
+        });
+    }
 });

@@ -1004,6 +1004,25 @@ const lang_zho_Hant_HK = {
         empty_username: "[未指定說話人]",
         undefined_message: "[未定義消息]"
     },
+    meta_info: {
+        author: "作者：{ name }",
+        license: "授權協議：{ name }"
+    },
+    notice: {
+        config_re_output: "已重新導出配置文件內容！",
+        config_saved: "配置文件已保存！",
+        config_saving_fail: "未授權寫入，配置文件未保存。",
+        browser_zoom: "如果您不小心調整了縮放率不知道怎麼復原，請按：<kbd>Ctrl</kbd> + <kbd>0</kbd>（數字鍵）",
+        browser_zoom_reset: {
+            title: "漂亮的搶救！",
+            message: "您已經掌握了如何操作瀏覽器縮放。請注意，<kbd>Ctrl</kbd> + <kbd>-</kbd> 和 <kbd>Ctrl</kbd> + <kbd>+</kbd> 組合鍵可以調整瀏覽器縮放，當心誤操作！"
+        },
+        drop_file_cancel_many: "你倒是放啊！",
+        unknow_error: {
+            title: "發生了未捕獲的錯誤",
+            message: "這應該不是甚麼意料之中的戰術性報錯，您可以將此問題反饋給開發者，並提供復現方法。"
+        }
+    },
     page_title: {
         editor: "Echo Live 編輯器",
         history: "Echo Live 歷史記錄",

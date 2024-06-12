@@ -750,6 +750,7 @@
 .settings-about-banner>img {
     width: 100%;
     height: auto;
+    cursor: pointer;
 }
 
 a.settings-link-bar {

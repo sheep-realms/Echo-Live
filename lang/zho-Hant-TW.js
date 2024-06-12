@@ -1004,6 +1004,10 @@ const lang_zho_Hant_TW = {
         empty_username: "[未指定說話人]",
         undefined_message: "[未定義訊息]"
     },
+    meta_info: {
+        author: "作者：{ name }",
+        license: "授權協議：{ name }"
+    },
     notice: {
         config_re_output: "已重新匯出配置檔案內容！",
         config_saved: "配置檔案已儲存！",

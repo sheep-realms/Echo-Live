@@ -1004,6 +1004,10 @@ const lang_zho_Hant_HK = {
         empty_username: "[未指定說話人]",
         undefined_message: "[未定義消息]"
     },
+    meta_info: {
+        author: "作者：{ name }",
+        license: "授權協議：{ name }"
+    },
     notice: {
         config_re_output: "已重新導出配置文件內容！",
         config_saved: "配置文件已保存！",

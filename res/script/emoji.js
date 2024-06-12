@@ -63,7 +63,11 @@ emojiHako.load([
             namespace: 'sp',
             title: '绵羊的像素头像',
             title_i18n: 'sheep_realms.pixel_head.title',
-            author: 'Sheep-realms'
+            author: 'Sheep-realms',
+            license: {
+                title: 'CC BY-NC-SA 4.0',
+                url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/'
+            }
         },
         path: {
             i18n: 'sheep_realms.pixel_head.',
@@ -270,7 +274,11 @@ emojiHako.load([
             namespace: 'so',
             title: '绵羊的大表情',
             title_i18n: 'sheep_realms.other.title',
-            author: 'Sheep-realms'
+            author: 'Sheep-realms',
+            license: {
+                title: 'CC BY-NC-SA 4.0',
+                url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/'
+            }
         },
         path: {
             i18n: 'sheep_realms.other.',

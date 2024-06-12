@@ -1004,6 +1004,10 @@ const lang_zho_Hans = {
         empty_username: "[未指定说话人]",
         undefined_message: "[未定义消息]"
     },
+    meta_info: {
+        author: "作者：{ name }",
+        license: "授权协议：{ name }"
+    },
     notice: {
         config_re_output: "已重新导出配置文件内容！",
         config_saved: "配置文件已保存！",

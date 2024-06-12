@@ -672,6 +672,22 @@ class Popups {
             firstGruop = false;
         });
         if (!firstGruop) dom += '</div>'
+
+        dom += '<div class="emoji-meta">';
+        if (emojiPack.meta?.author != undefined && emojiPack.meta?.author != '') {
+            dom += `<div>${ $t('meta_info.author', { name: emojiPack.meta.author }) }</div>`
+        }
+        if (emojiPack.meta?.license != undefined) {
+            dom += `<div>
+                ${ $t('meta_info.license', {
+                    name:
+                        emojiPack.meta.license?.url != undefined
+                        ? `<a href="${ emojiPack.meta.license.url }" target="_blank">${ emojiPack.meta.license?.title }</a>`
+                        : emojiPack.meta.license?.title
+                }) }
+            </div>`
+        }
+        dom += '</div>'
         return dom;
     }
 

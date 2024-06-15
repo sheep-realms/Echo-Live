@@ -1569,6 +1569,8 @@ class FHUINotice {
             width: undefined,
             ...data
         };
+        let iconDOM = Icon[data.icon] != undefined ? Icon[data.icon]() : Icon.information();
+
         return `<div
                 class="fh-notice-item fh-${ theme.color } ${ data.animation ? 'fh-notice-ani-in' : '' } ${ data.waitTime < 0 ? 'is-permanently' : '' }"
                 data-index="${ data.index }"
@@ -1578,7 +1580,7 @@ class FHUINotice {
             <div class="fh-notice-item-container">
                 <div class="fh-notice-item-content">
                     <div class="fh-notice-item-content-icon">
-                        ${ Icon[data.icon]() }
+                        ${ iconDOM }
                     </div>
                     <div class="fh-notice-item-content-message">
                         ${ title != '' ? `<div class="title">${ title }</div>` : '' }

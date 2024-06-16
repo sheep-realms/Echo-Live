@@ -2,7 +2,8 @@ class Commander {
     constructor() {
         this.link = {
             broadcast: undefined,
-            messager: undefined
+            messager: undefined,
+            systemNotice: undefined
         };
         this.value = {};
         this.commands = [

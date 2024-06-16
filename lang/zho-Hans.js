@@ -1011,6 +1011,7 @@ const lang_zho_Hans = {
     notice: {
         config_re_output: "已重新导出配置文件内容！",
         config_saved: "配置文件已保存！",
+        config_saving: "保存中...",
         config_saving_fail: "未授权写入，配置文件未保存。",
         browser_zoom: "如果您不小心调整了缩放率不知道怎么复原，请按：<kbd>Ctrl</kbd> + <kbd>0</kbd>（数字键）",
         browser_zoom_reset: {

@@ -1011,6 +1011,7 @@ const lang_zho_Hant_HK = {
     notice: {
         config_re_output: "已重新導出配置文件內容！",
         config_saved: "配置文件已保存！",
+        config_saving: "保存中...",
         config_saving_fail: "未授權寫入，配置文件未保存。",
         browser_zoom: "如果您不小心調整了縮放率不知道怎麼復原，請按：<kbd>Ctrl</kbd> + <kbd>0</kbd>（數字鍵）",
         browser_zoom_reset: {

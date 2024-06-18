@@ -156,7 +156,7 @@ const lang_zho_Hant_TW = {
                 },
                 websocket_url: {
                     _title: "WebSocket 連線地址",
-                    _description: "提供 WebSocket 連線的伺服器地址，使用 ws:// 協議頭。"
+                    _description: "提供 WebSocket 連線的伺服器地址，使用 ws:// 或 wss:// 協議頭。"
                 },
                 websocket_reconnect_limit: {
                     _title: "WebSocket 最大重連嘗試次數",

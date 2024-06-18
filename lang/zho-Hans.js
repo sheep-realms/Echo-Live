@@ -156,7 +156,7 @@ const lang_zho_Hans = {
                 },
                 websocket_url: {
                     _title: "WebSocket 连接地址",
-                    _description: "提供 WebSocket 连接的服务器地址，使用 ws:// 协议头。"
+                    _description: "提供 WebSocket 连接的服务器地址，使用 ws:// 或 wss:// 协议头。"
                 },
                 websocket_reconnect_limit: {
                     _title: "WebSocket 最大重连尝试次数",

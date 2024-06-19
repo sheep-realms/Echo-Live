@@ -6,6 +6,7 @@
     --corner-marker-angle: -135deg;
     --corner-marker-angle-reverse: 45deg;
     --corner-marker: linear-gradient(var(--corner-marker-angle), var(--corner-marker-color) 5px, transparent 5px);
+    --corner-marker-black: linear-gradient(-135deg, #CCC 5px, transparent 5px);
 }
 
 :root {
@@ -50,12 +51,14 @@
     :root:not(.prefers-color-scheme-light) * {
         --corner-marker-color: rgba(30, 33, 41, 0.5);
         --fh-border-coler: #666666;
+        --corner-marker-black: linear-gradient(-135deg, #747780 5px, transparent 5px);
     }
 }
 
 .prefers-color-scheme-dark * {
     --corner-marker-color: rgba(30, 33, 41, 0.5);
     --fh-border-coler: #666666;
+    --corner-marker-black: linear-gradient(-135deg, #747780 5px, transparent 5px);
 }
 
 
@@ -391,6 +394,8 @@ p .fh-loading {
 /* FH Button */
 
 .fh-button {
+    --fh-color: var(--color-general-dark);
+    --fh-color-glass: var(--color-general-glass);
     height: 35px;
     line-height: 35px;
     padding: 0 10px;
@@ -401,7 +406,7 @@ p .fh-loading {
     cursor: pointer;
     vertical-align: baseline;
     outline: none;
-    background-color: var(--color-general-dark);
+    background-color: var(--fh-color);
     background-image: var(--corner-marker);
     background-repeat: no-repeat;
     transition: filter var(--animation-speed-button-switch), background-color var(--animation-speed-button-switch), box-shadow var(--animation-speed-button-switch);
@@ -417,51 +422,35 @@ p .fh-loading {
 }
 
 .fh-button.fh-safe {
-    background-color: var(--color-safe-dark);
+    --fh-color: var(--color-safe-dark);
+    --fh-color-glass: var(--color-safe-glass);
 }
 
 .fh-button.fh-warn {
-    background-color: var(--color-warn-dark);
+    --fh-color: var(--color-warn-dark);
+    --fh-color-glass: var(--color-warn-glass);
 }
 
 .fh-button.fh-danger {
-    background-color: var(--color-danger-dark);
+    --fh-color: var(--color-danger-dark);
+    --fh-color-glass: var(--color-danger-glass);
 }
 
 .fh-button.fh-special {
-    background-color: var(--color-special-dark);
+    --fh-color: var(--color-special-dark);
+    --fh-color-glass: var(--color-special-glass);
 }
 
 .fh-button:focus:not(.fh-disabled, :disabled, :active) {
     --color-focus: var(--color-general-glass);
     --box-shadow-size: 5px;
     filter: brightness(1.05);
-    box-shadow: var(--color-focus) 0 0 var(--box-shadow-size), var(--color-focus) 0 0 var(--box-shadow-size), var(--color-focus) 0 0 var(--box-shadow-size), var(--color-focus) 0 0 var(--box-shadow-size), var(--color-focus) 0 0 var(--box-shadow-size);
+    box-shadow: var(--fh-color-glass) 0 0 var(--box-shadow-size), var(--fh-color-glass) 0 0 var(--box-shadow-size), var(--fh-color-glass) 0 0 var(--box-shadow-size), var(--fh-color-glass) 0 0 var(--box-shadow-size), var(--fh-color-glass) 0 0 var(--box-shadow-size);
 }
 
 .fh-button.fh-air:focus {
     --border-style: solid;
-    border: var(--color-general-dark) 1px var(--border-style);
-}
-
-.fh-button.fh-air.fh-safe:focus {
-    --border-style: solid;
-    border: var(--color-safe-dark) 1px var(--border-style);
-}
-
-.fh-button.fh-air.fh-warn:focus {
-    --border-style: solid;
-    border: var(--color-warn-dark) 1px var(--border-style);
-}
-
-.fh-button.fh-air.fh-danger:focus {
-    --border-style: solid;
-    border: var(--color-danger-dark) 1px var(--border-style);
-}
-
-.fh-button.fh-air.fh-special:focus {
-    --border-style: solid;
-    border: var(--color-special-dark) 1px var(--border-style);
+    border: var(--fh-color) 1px var(--border-style);
 }
 
 .fh-button.fh-safe:focus {
@@ -485,11 +474,11 @@ p .fh-loading {
     height: 35px;
     line-height: 33px;
     padding: 0 9px;
-    color: var(--color-general-dark);
+    color: var(--fh-color);
     --border-style: solid;
-    border: var(--color-general-dark) 1px var(--border-style);
+    border: var(--fh-color) 1px var(--border-style);
     background-color: transparent;
-    --corner-marker-color: var(--color-general-dark);
+    --corner-marker-color: var(--fh-color);
     background-image: var(--corner-marker);
     background-position: 0.5px -0.5px;
 }
@@ -498,11 +487,11 @@ p .fh-loading {
     height: 35px;
     line-height: 33px;
     padding: 0 9px;
-    color: var(--color-general-dark);
+    color: var(--fh-color);
     --border-style: dashed;
-    border: var(--color-general-dark) 1px dashed;
+    border: var(--fh-color) 1px dashed;
     background-color: transparent;
-    --corner-marker-color: var(--color-general-dark);
+    --corner-marker-color: var(--fh-color);
     background-image: var(--corner-marker);
     background-position: 1px -1px;
 }
@@ -511,113 +500,33 @@ p .fh-loading {
     height: 35px;
     line-height: 35px;
     padding: 0 10px;
-    color: var(--color-general-dark);
+    color: var(--fh-color);
     --border-style: dashed;
     border: transparent 1px solid;
     background-color: transparent;
-    --corner-marker-color: var(--color-general-dark);
+    --corner-marker-color: var(--fh-color);
     background-image: var(--corner-marker);
 }
 
-.fh-button.fh-ghost:hover:not(.fh-disabled, :disabled),
-.fh-button.fh-ghost:active:not(.fh-disabled, :disabled),
-.fh-button.fh-dashed:hover:not(.fh-disabled, :disabled),
-.fh-button.fh-dashed:active:not(.fh-disabled, :disabled),
-.fh-button.fh-air:hover:not(.fh-disabled, :disabled),
-.fh-button.fh-air:active:not(.fh-disabled, :disabled) {
-    background-color: var(--color-general-glass);
+.fh-button.fh-ghost:hover,
+.fh-button.fh-dashed:hover,
+.fh-button.fh-air:hover {
+    background-color: var(--fh-color-glass);
 }
 
-.fh-button.fh-ghost.fh-safe:hover:not(.fh-disabled, :disabled),
-.fh-button.fh-ghost.fh-safe:active:not(.fh-disabled, :disabled),
-.fh-button.fh-dashed.fh-safe:hover:not(.fh-disabled, :disabled),
-.fh-button.fh-dashed.fh-safe:active:not(.fh-disabled, :disabled),
-.fh-button.fh-air.fh-safe:hover:not(.fh-disabled, :disabled),
-.fh-button.fh-air.fh-safe:active:not(.fh-disabled, :disabled) {
-    background-color: var(--color-safe-glass);
+
+@media (prefers-color-scheme: dark) {
+    :root .fh-button.fh-ghost,
+    :root .fh-button.fh-dashed,
+    :root .fh-button.fh-air {
+        --corner-marker-color: var(--fh-color);
+    }
 }
 
-.fh-button.fh-ghost.fh-warn:hover:not(.fh-disabled, :disabled),
-.fh-button.fh-ghost.fh-warn:active:not(.fh-disabled, :disabled),
-.fh-button.fh-dashed.fh-warn:hover:not(.fh-disabled, :disabled),
-.fh-button.fh-dashed.fh-warn:active:not(.fh-disabled, :disabled),
-.fh-button.fh-air.fh-warn:hover:not(.fh-disabled, :disabled),
-.fh-button.fh-air.fh-warn:active:not(.fh-disabled, :disabled) {
-    background-color: var(--color-warn-glass);
-}
-
-.fh-button.fh-ghost.fh-danger:hover:not(.fh-disabled, :disabled),
-.fh-button.fh-ghost.fh-danger:active:not(.fh-disabled, :disabled),
-.fh-button.fh-dashed.fh-danger:hover:not(.fh-disabled, :disabled),
-.fh-button.fh-dashed.fh-danger:active:not(.fh-disabled, :disabled),
-.fh-button.fh-air.fh-danger:hover:not(.fh-disabled, :disabled),
-.fh-button.fh-air.fh-danger:active:not(.fh-disabled, :disabled) {
-    background-color: var(--color-danger-glass);
-}
-
-.fh-button.fh-ghost.fh-special:hover:not(.fh-disabled, :disabled),
-.fh-button.fh-ghost.fh-special:active:not(.fh-disabled, :disabled),
-.fh-button.fh-dashed.fh-special:hover:not(.fh-disabled, :disabled),
-.fh-button.fh-dashed.fh-special:active:not(.fh-disabled, :disabled),
-.fh-button.fh-air.fh-special:hover:not(.fh-disabled, :disabled),
-.fh-button.fh-air.fh-special:active:not(.fh-disabled, :disabled) {
-    background-color: var(--color-special-glass);
-}
-
-.fh-button.fh-ghost.fh-safe,
-.fh-button.fh-dashed.fh-safe {
-    color: var(--color-safe-dark);
-    border: var(--color-safe-dark) 1px var(--border-style);
-    --corner-marker-color: var(--color-safe-dark);
-    background-image: var(--corner-marker);
-}
-
-.fh-button.fh-ghost.fh-warn,
-.fh-button.fh-dashed.fh-warn {
-    color: var(--color-warn-dark);
-    border: var(--color-warn-dark) 1px var(--border-style);
-    --corner-marker-color: var(--color-warn-dark);
-    background-image: var(--corner-marker);
-}
-
-.fh-button.fh-ghost.fh-danger,
-.fh-button.fh-dashed.fh-danger {
-    color: var(--color-danger-dark);
-    border: var(--color-danger-dark) 1px var(--border-style);
-    --corner-marker-color: var(--color-danger-dark);
-    background-image: var(--corner-marker);
-}
-
-.fh-button.fh-ghost.fh-special,
-.fh-button.fh-dashed.fh-special {
-    color: var(--color-special-dark);
-    border: var(--color-special-dark) 1px var(--border-style);
-    --corner-marker-color: var(--color-special-dark);
-    background-image: var(--corner-marker);
-}
-
-.fh-button.fh-air.fh-safe {
-    color: var(--color-safe-dark);
-    --corner-marker-color: var(--color-safe-dark);
-    background-image: var(--corner-marker);
-}
-
-.fh-button.fh-air.fh-warn {
-    color: var(--color-warn-dark);
-    --corner-marker-color: var(--color-warn-dark);
-    background-image: var(--corner-marker);
-}
-
-.fh-button.fh-air.fh-danger {
-    color: var(--color-danger-dark);
-    --corner-marker-color: var(--color-danger-dark);
-    background-image: var(--corner-marker);
-}
-
-.fh-button.fh-air.fh-special {
-    color: var(--color-special-dark);
-    --corner-marker-color: var(--color-special-dark);
-    background-image: var(--corner-marker);
+.prefers-color-scheme-dark .fh-button.fh-ghost,
+.prefers-color-scheme-dark .fh-button.fh-dashed,
+.prefers-color-scheme-dark .fh-button.fh-air {
+    --corner-marker-color: var(--fh-color);
 }
 
 .fh-button.fh-disabled,

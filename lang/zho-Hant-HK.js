@@ -999,6 +999,177 @@ const lang_zho_Hant_HK = {
             image: "圖片"
         }
     },
+    help: {
+        popover: {
+            done: "完成",
+            next: "繼續 →",
+            prev: "← 後退",
+            progress: "{{current}} / {{total}}"
+        },
+        step: {
+            editor_overview: {
+                s1: {
+                    title: "歡迎使用 Echo-Live！",
+                    description: "接下來我們將進入關於編輯器的新手引導。<br>如果您不方便使用鼠標，可以使用方向鍵 <kbd>→</kbd> 前往下一個步驟，也可以按 <kbd>Esc</kbd> 鍵退出引導。"
+                },
+                s2: {
+                    title: "我們只能一路向前",
+                    description: "雖然我把後退按鈕刪了，但你還是可以通過方向鍵來後退。為了引導的正常進行，請不要後退，也不要亂點高亮框內的東西。求求您千萬不要！"
+                },
+                s3: {
+                    title: "說話人",
+                    description: "這裏填入需要在對話框中顯示的說話人，如果不需要則可以留空。",
+                    input: "追音"
+                },
+                s4: {
+                    title: "消息內容",
+                    description: "這裏填入在對話框中顯示的消息，消息將會使用打印動畫逐字輸出內容。",
+                    input: "你好，世界！"
+                },
+                s5: {
+                    title: "快速格式化代碼",
+                    description: "如果想要更豐富的文本樣式，可以在這裏啟用快速格式化代碼。"
+                },
+                s6: {
+                    title: "工具欄",
+                    description: "啟用快速格式化代碼後，您可以點擊這些按鈕插入快速格式化代碼。"
+                },
+                s7: {
+                    title: "插入代碼",
+                    description: "點擊工具欄中的按鈕，就能在光標處插入對應的代碼。",
+                    input: "@b你好，世界！"
+                },
+                s8: {
+                    title: "顏色選擇器",
+                    description: "您可以在這裏選擇文本顏色，點擊色塊就能在光標處插入對應的顏色代碼。"
+                },
+                s9: {
+                    title: "色板",
+                    description: "不喜歡這些顏色？這裏有多種色板供您選擇。"
+                },
+                s10: {
+                    title: "插入顏色",
+                    description: "現在，我們已經成功插入了顏色！",
+                    input: "@b你好，@[#1890ff]世界！"
+                },
+                s11: {
+                    title: "關於快速格式化代碼",
+                    description: "請注意，快速格式化代碼會影響其後所有文本的樣式，並且是可以疊加的。直到遇到 @r，這會清空所有樣式。"
+                },
+                s12: {
+                    title: "圖片選擇器",
+                    description: "您還可以在消息中插入圖片。可以直接導入文件，這會打開一個系統的文件選擇器，也可以通過 URL 地址導入文件。"
+                },
+                s13: {
+                    title: "圖庫",
+                    description: "您使用過的圖片會保存在這裏，即使您刷新網頁之後也依舊存在。"
+                },
+                s14: {
+                    title: "輸出消息",
+                    description: "當您編寫好消息後，就可以在這裏點擊按鈕輸出消息了。如果您啟用了廣播模式，您可以在這裏直接發送消息。"
+                },
+                s15: {
+                    title: "導航欄",
+                    description: "接下來我們來看看別的東西。"
+                },
+                s16: {
+                    title: "輸出標籤頁",
+                    description: "當您在編輯器中點擊了輸出按鈕時，消息的代碼會輸出到此處。"
+                },
+                s17: {
+                    title: "自定義消息",
+                    description: "如果您啟用了廣播模式，您可以在這裏直接發送消息，這意味着您可以發送功能更豐富的自定義消息。"
+                },
+                s18: {
+                    title: "日誌標籤頁",
+                    description: "在日誌標籤頁中，您可以看到廣播模式下廣播系統的運行日誌。"
+                },
+                s19: {
+                    title: "通知",
+                    description: "此刻冒出來的是通知消息，一些需要您留意的通知會出現在此處。",
+                    notice: "您好！"
+                },
+                s20: {
+                    title: "新人引導結束",
+                    description: "再次感謝您使用 Echo-Live！如果您還有疑問，可以閱讀<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/' target='_blank'>幫助文檔</a>或諮詢開發者。"
+                }
+            },
+            settings_overview: {
+                s1: {
+                    title: "歡迎使用 Echo-Live！",
+                    description: "接下來我們將進入關於配置文件編輯器的新手引導。<br>如果您不方便使用鼠標，可以使用方向鍵 <kbd>→</kbd> 前往下一個步驟，也可以按 <kbd>Esc</kbd> 鍵退出引導。"
+                },
+                s2: {
+                    title: "我們只能一路向前",
+                    description: "雖然我把後退按鈕刪了，但你還是可以通過方向鍵來後退。為了引導的正常進行，請不要後退，也不要亂點高亮框內的東西。求求您千萬不要！"
+                },
+                s3: {
+                    title: "導航欄",
+                    description: "如你所見，配置文件編輯器的使用過程可以分為這三個步驟。"
+                },
+                s4: {
+                    title: "導入",
+                    description: "先來看看導入這個步驟。"
+                },
+                s5: {
+                    title: "導入和升級配置文件",
+                    description: "你可以點擊此處或將文件拖進這裏來導入配置文件。如果您導入了舊版配置文件，可以在這裏自動升級。"
+                },
+                s6: {
+                    title: "文件資訊",
+                    description: "這裏是當前所選中的文件的資訊，包括文件名、尺寸、最後更改時間。"
+                },
+                s7: {
+                    title: "編輯",
+                    description: "導入完成後，我們應該來編輯配置文件了。"
+                },
+                s8: {
+                    title: "分類",
+                    description: "這裏是配置文件項目的分類。"
+                },
+                s9: {
+                    title: "配置項",
+                    description: "這是其中一條配置項。您可以在這裏閱讀關於此配置項的描述，並嘗試更改配置值。"
+                },
+                s10: {
+                    title: "更改配置",
+                    description: "當您更改了配置後，對應的配置標題會顯示一個紅色星號，代表其已更改但未保存。"
+                },
+                s11: {
+                    title: "保存配置",
+                    description: "您可以在這裏保存或撤銷更改。<br>暫存：保存更改，但不導出文件。<br>保存：保存更改，並導出文件。"
+                },
+                s12: {
+                    title: "導出配置文件",
+                    description: "當您導出配置文件時，請將其放置在 Echo-Live 的目錄中，替換 config.js 文件。在這之後刷新網頁就可以應用最新配置。"
+                },
+                s13: {
+                    title: "新增的配置項",
+                    description: "當您導入並升級了一個舊版本的配置文件時，新增的配置項會被高亮。"
+                },
+                s14: {
+                    title: "導出",
+                    description: "來看看最後一個標籤頁。"
+                },
+                s15: {
+                    title: "導出內容",
+                    description: "其實剛剛我們已經提到過導出文件了，這裏只是為了查看和編輯導出內容，以及另存為。"
+                },
+                s16: {
+                    title: "重新導出",
+                    description: "如果你不小心搞砸了，點擊這個按鈕即可重新導出配置文件內容。"
+                },
+                s17: {
+                    title: "無障礙訪問",
+                    description: "另外，如果您需要調整無障礙訪問相關配置，可以在這裏找到。<br>如有需要，您可以<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>點擊此處閱讀無障礙使用指南</a>。"
+                },
+                s18: {
+                    title: "新人引導結束",
+                    description: "再次感謝您使用 Echo-Live！如果您還有疑問，可以閱讀<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/' target='_blank'>幫助文檔</a>或諮詢開發者。"
+                }
+            }
+        }
+    },
     message_preview: {
         empty_message: "[空消息]",
         empty_username: "[未指定說話人]",

@@ -97,3 +97,7 @@
 .driver-overlay path {
     fill: var(--commander-bgcolor) !important;
 }
+
+.settings-nav.driver-active-element {
+    position: unset;
+}

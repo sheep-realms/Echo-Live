@@ -1000,6 +1000,10 @@ const lang_zho_Hant_HK = {
         }
     },
     help: {
+        easter_egg: {
+            previous: "你就是想跟我反着干，對吧？",
+            previous_is_first_step: "別退了！已經到頭了！"
+        },
         popover: {
             done: "完成",
             next: "繼續 →",

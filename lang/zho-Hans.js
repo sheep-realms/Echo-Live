@@ -1000,6 +1000,10 @@ const lang_zho_Hans = {
         }
     },
     help: {
+        easter_egg: {
+            previous: "你就是想跟我反着干，对吧？",
+            previous_is_first_step: "别退了！已经到头了！"
+        },
         popover: {
             done: "完成",
             next: "继续 →",

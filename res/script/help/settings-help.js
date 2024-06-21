@@ -1,6 +1,8 @@
 let helpKey = EchoLiveTools.getUrlParam('help');
 const driver = window.driver.js.driver;
 
+let hasPrevClick = false;
+
 if (helpKey != null && helpKey != undefined) {
     switch (helpKey) {
         case 'overview':
@@ -38,8 +40,22 @@ function driverShowOverview() {
     ];
     let popoverData = [
         null,
-        null,
-        null,
+        {
+            onPrevClick: () => {
+                sysNotice.sendT('help.easter_egg.previous_is_first_step', {}, 'info');
+                return;
+            }
+        },
+        {
+            onPrevClick: () => {
+                if (!hasPrevClick) {
+                    hasPrevClick = true;
+                    sysNotice.sendT('help.easter_egg.previous', {}, 'trophy');
+                    return;
+                }
+                driverObj.movePrevious();
+            }
+        },
         null,
         null,
         {
@@ -56,7 +72,10 @@ function driverShowOverview() {
             side: 'right'
         }, {
             onNextClick: () => {
-                setSettingsItemValue('global.theme', 'void');
+                let v = getSettingsItemValue('global.theme', true);
+                let v2 = 'void';
+                if (v === 'void') v2 = 'vanilla';
+                setSettingsItemValue('global.theme', v2);
                 $('.settings-item[data-id="global.theme"] .settings-value').trigger('input');
                 driverObj.moveNext();
             }
@@ -96,7 +115,13 @@ function driverShowOverview() {
 
     driverObj = driver(
         EchoLiveTools.generateDriverData(
-            {},
+            {
+                onDestroyStarted: () => {
+                    $('.settings-item[data-id="global.color_scheme"]').removeClass('settings-item-update');
+                    $('#edit-btn-undo').click();
+                    driverObj.destroy();
+                }
+            },
             EchoLiveTools.generateDriverSteps('settings_overview', 18, elementData, popoverData)
         )
     );

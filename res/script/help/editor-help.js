@@ -1,6 +1,8 @@
 let helpKey = EchoLiveTools.getUrlParam('help');
 const driver = window.driver.js.driver;
 
+let hasPrevClick = false;
+
 if (helpKey != null && helpKey != undefined) {
     switch (helpKey) {
         case 'overview':
@@ -38,11 +40,24 @@ function driverShowOverview() {
     ];
     let popoverData = [
         null,
-        null,
+        {
+            onPrevClick: () => {
+                sysNotice.sendT('help.easter_egg.previous_is_first_step', {}, 'info');
+                return;
+            }
+        },
         {
             onNextClick: () => {
                 $('#ptext-character').val($t('help.step.editor_overview.s3.input'));
                 driverObj.moveNext();
+            },
+            onPrevClick: () => {
+                if (!hasPrevClick) {
+                    hasPrevClick = true;
+                    sysNotice.sendT('help.easter_egg.previous', {}, 'trophy');
+                    return;
+                }
+                driverObj.movePrevious();
             }
         }, {
             onNextClick: () => {
@@ -113,7 +128,7 @@ function driverShowOverview() {
                 $('#tabpage-nav-ptext').click();
                 sysNotice.send($t('help.step.editor_overview.s19.notice'), '', 'info', {
                     id: 'help-sey-hello',
-                    waitTime: 30000
+                    waitTime: 60000
                 });
                 driverObj.moveNext();
             }

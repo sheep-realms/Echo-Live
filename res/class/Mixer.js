@@ -1,25 +1,11 @@
 class Mixer {
-    constructor() {
-        this.audioDB = [];
-    }
-
-    find(name) {
-        return this.audioDB.find(function(e) {
-            return e.name == name
-        });
-    }
+    constructor() {}
 
     play(name, volume = undefined, rate = undefined) {
-        let obj = this.find(name);
+        let obj = extensionManager.getAudioByName(name);
         if (obj == undefined) return undefined;
 
-        let a;
-        if (Array.isArray(obj.path)) {
-            let r = Math.round(Math.random() * obj.path.length - 1);
-            a = new Audio(obj.path[r]);
-        } else {
-            a = new Audio(obj.path);
-        }
+        let a = new Audio(obj.choose());
 
         if (volume != undefined) {
             a.volume = volume

@@ -7,7 +7,7 @@ if (!config.history.layout.display_time) $('body').addClass('echo-live-history-d
 if (config.history.message.latest_message_hide) $('body').addClass('echo-live-history-latest-message-hide');
 
 let echoLiveHistory = new EchoLiveHistory(config);
-echoLiveHistory.theme = extensionManager.theme;
+echoLiveHistory.theme = extensionManager.themes();
 let urlTheme = EchoLiveTools.getUrlParam('theme');
 echoLiveHistory.setTheme(urlTheme || config.history.style.history_theme || config.global.theme);
 

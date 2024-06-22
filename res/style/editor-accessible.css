@@ -190,6 +190,11 @@
     border-bottom: var(--color-general-dark) 1px solid;
 }
 
+.accessible-link-underline #popups-emoji .emoji-meta a {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+
 .accessible-high-contrast .settings-item.settings-item-condition-test-fail>* {
     opacity: 1;
 }

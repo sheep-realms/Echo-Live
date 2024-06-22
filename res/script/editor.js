@@ -90,6 +90,7 @@ logMessager.on('message', function(message, type = 'info', isInput = false) {
     editorLog('[Commander] ' + ( isInput ? '&lt; ' : '&gt; ' ) + EchoLiveTools.safeHTML(message), type);
 });
 commander.link.messager = logMessager;
+commander.link.systemNotice = sysNotice;
 
 
 let elb;

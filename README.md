@@ -40,3 +40,7 @@
 建议您安装可免费商用字体以规避版权纠纷，Echo-Live 默认使用思源黑体。
 
 - [思源黑体](https://github.com/adobe-fonts/source-han-sans)
+
+您还可以在这里搜寻可免费商用的字体：
+
+- [100font.com](https://www.100font.com/)

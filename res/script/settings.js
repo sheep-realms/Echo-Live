@@ -122,6 +122,8 @@ try {
 let easterEggDrop = false;
 let logoClick = 0;
 
+let timerSaving = 0;
+
 
 
 
@@ -408,16 +410,24 @@ async function saveConfigFile(content, fileName = 'config.js', saveAs = false) {
         excludeAcceptAllOption: true,
     };
 
+    timerSaving = setTimeout(function() {
+        sysNotice.sendT('notice.config_saving', {}, 'info', {
+            icon: 'timerSand'
+        });
+    }, 1000);
+
     try {
         if (saveAs || configFileWritableFileHandle == undefined) configFileWritableFileHandle = await window.showSaveFilePicker(opts);
         const writable = await configFileWritableFileHandle.createWritable();
         await writable.write(content);
         await writable.close();
         outputTabUnsavePoint(false);
+        clearTimeout(timerSaving);
         sysNotice.sendT('notice.config_saved', {}, 'success', {
             icon: 'contentSave'
         });
     } catch (error) {
+        clearTimeout(timerSaving);
         sysNotice.sendT('notice.config_saving_fail', {}, 'error', {
             icon: 'contentSaveAlert'
         });

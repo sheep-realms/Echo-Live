@@ -71,11 +71,11 @@ echo.on('next', function(msg) {
     };
 
     echolive.username = EchoLiveTools.getMessageUsername(echolive.username, msg);
-    echolive.broadcast.echoPrinting(echolive.username, EchoLiveTools.getMessagePlainText(msg));
+    if(config.echolive.broadcast.enable) echolive.broadcast.echoPrinting(echolive.username, EchoLiveTools.getMessagePlainText(msg));
 
     $('#echo-live').attr('class', '');
 
-    echolive.broadcast.echoStateUpdate('ready', echo.messageList.length);
+    if(config.echolive.broadcast.enable) echolive.broadcast.echoStateUpdate('ready', echo.messageList.length);
 
     let str = EchoLiveTools.getMessagePlainText(msg.message);
     messageLenB = new TextEncoder().encode(str).length;
@@ -148,13 +148,13 @@ echo.on('printStart', function() {
     performance.mark('printStart');
     printSeCd = echo.printSpeedChange + 3;
     first = true;
-    echolive.broadcast.echoStateUpdate('play', echo.messageList.length);
+    if(config.echolive.broadcast.enable) echolive.broadcast.echoStateUpdate('play', echo.messageList.length);
 });
 
 echo.on('printEnd', function() {
     // 整理字符串
     // $('.echo-output').html($('.echo-output').html());
-    echolive.broadcast.echoStateUpdate('stop', echo.messageList.length);
+    if(config.echolive.broadcast.enable) echolive.broadcast.echoStateUpdate('stop', echo.messageList.length);
 
     performance.mark('printEnd');
     performance.measure('printTime', 'printStart', 'printEnd');

@@ -365,4 +365,52 @@ class EchoLiveTools {
         const regexStr = '[' + escapedStr + ']';
         return new RegExp(regexStr, 'g');
     }
+
+    /**
+     * 生成 driver.js 引导数据
+     * @param {Object} data 附加数据
+     * @param {Array<Object>} step 步骤数据
+     * @returns {Object} 引导数据
+     */
+    static generateDriverData(data = {}, steps = []) {
+        return {
+            animate: !config.accessible.animation_disable,
+            showProgress: true,
+            progressText: $t('help.popover.progress'),
+            nextBtnText: $t('help.popover.next'),
+            prevBtnText: $t('help.popover.prev'),
+            doneBtnText: $t('help.popover.done'),
+            showButtons: [
+                'next',
+                'close'
+            ],
+            ...data,
+            steps: steps
+        }
+    }
+
+    /**
+     * 生成 driver.js 引导步骤
+     * @param {String} key 翻译键
+     * @param {Number} step 总步骤数
+     * @param {Array<Object>} elementData 目标元素数据
+     * @param {Array<Object>} popoverData 附加数据
+     * @returns {Array<Object>} 步骤数据
+     */
+    static generateDriverSteps(key = '', step = 1, elementData = [], popoverData = []) {
+        let steps = [];
+        for (let i = 1; i <= step; i++) {
+            steps.push({
+                element: elementData[i] ? elementData[i] : undefined,
+                popover: {
+                    title: $t(`help.step.${key}.s${i}.title`),
+                    description: $t(`help.step.${key}.s${i}.description`),
+                    side: "bottom",
+                    align: 'start',
+                    ...popoverData[i]
+                }
+            });
+        }
+        return steps;
+    }
 }

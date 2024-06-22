@@ -672,6 +672,22 @@ class Popups {
             firstGruop = false;
         });
         if (!firstGruop) dom += '</div>'
+
+        dom += '<div class="emoji-meta">';
+        if (emojiPack.meta?.author != undefined && emojiPack.meta?.author != '') {
+            dom += `<div>${ $t('meta_info.author', { name: emojiPack.meta.author }) }</div>`
+        }
+        if (emojiPack.meta?.license != undefined) {
+            dom += `<div>
+                ${ $t('meta_info.license', {
+                    name:
+                        emojiPack.meta.license?.url != undefined
+                        ? `<a href="${ emojiPack.meta.license.url }" target="_blank">${ emojiPack.meta.license?.title }</a>`
+                        : emojiPack.meta.license?.title
+                }) }
+            </div>`
+        }
+        dom += '</div>'
         return dom;
     }
 
@@ -1553,6 +1569,8 @@ class FHUINotice {
             width: undefined,
             ...data
         };
+        let iconDOM = Icon[data.icon] != undefined ? Icon[data.icon]() : Icon.information();
+
         return `<div
                 class="fh-notice-item fh-${ theme.color } ${ data.animation ? 'fh-notice-ani-in' : '' } ${ data.waitTime < 0 ? 'is-permanently' : '' }"
                 data-index="${ data.index }"
@@ -1562,7 +1580,7 @@ class FHUINotice {
             <div class="fh-notice-item-container">
                 <div class="fh-notice-item-content">
                     <div class="fh-notice-item-content-icon">
-                        ${ Icon[data.icon]() }
+                        ${ iconDOM }
                     </div>
                     <div class="fh-notice-item-content-message">
                         ${ title != '' ? `<div class="title">${ title }</div>` : '' }

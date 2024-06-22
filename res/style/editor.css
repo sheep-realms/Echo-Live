@@ -883,6 +883,22 @@ select:focus {
     margin-top: 0;
 }
 
+#popups-emoji .emoji-meta {
+    font-size: var(--font-size-small);
+    color: var(--text-secondary);
+    padding: 8px;
+}
+
+#popups-emoji .emoji-meta a {
+    color: var(--text-secondary);
+    text-decoration: none;
+}
+
+#popups-emoji .emoji-meta a:hover {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+
 #popups-palette .color-box {
     --color: transparent;
     width: 32px;

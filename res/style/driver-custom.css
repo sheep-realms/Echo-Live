@@ -1,0 +1,103 @@
+.driver-popover {
+    background-color: var(--input-bgcolor);
+    border-radius: unset;
+    box-shadow: var(--box-shadow);
+    font-size: var(--font-size-base);
+    max-width: 500px;
+}
+
+.driver-popover-arrow {
+    border: 5px solid var(--input-bgcolor);
+}
+
+.driver-popover-arrow-side-bottom {
+    border-left-color: transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+}
+
+.driver-popover-arrow-side-top {
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+}
+
+.driver-popover-arrow-side-left {
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+}
+
+.driver-popover-arrow-side-right {
+    border-left-color: transparent;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+}
+
+.driver-popover-title {
+    color: var(--text-primary);
+    font-size: var(--font-size-extra-large);
+}
+
+.driver-popover-description {
+    color: var(--text-regular);
+    font-size: var(--font-size-middle);
+}
+
+.driver-popover-progress-text {
+    color: var(--text-secondary);
+    font-size: var(--font-size-middle);
+}
+
+.driver-popover-footer button.driver-popover-next-btn {
+    height: 35px;
+    line-height: 35px;
+    padding: 0 10px;
+    margin: 0 3px;
+    font-size: var(--font-size-small);
+    color: #FFF;
+    border: none;
+    cursor: pointer;
+    vertical-align: baseline;
+    outline: none;
+    background-color: var(--color-general-dark);
+    background-image: var(--corner-marker);
+    background-repeat: no-repeat;
+    transition: filter var(--animation-speed-button-switch), background-color var(--animation-speed-button-switch), box-shadow var(--animation-speed-button-switch);
+    text-shadow: unset;
+    border-radius: unset;
+}
+
+.driver-popover-footer button.driver-popover-next-btn:hover {
+    filter: brightness(1.15);
+}
+
+.driver-popover-footer button.driver-popover-next-btn:active {
+    transition: filter 0s, background-color 0s, box-shadow var(--animation-speed-button-switch);
+    filter: brightness(0.85);
+}
+
+.driver-popover-footer button.driver-popover-next-btn:focus:not(:disabled, :active) {
+    --color-focus: var(--color-general-glass);
+    --box-shadow-size: 5px;
+    filter: brightness(1.05);
+    box-shadow: var(--color-focus) 0 0 var(--box-shadow-size), var(--color-focus) 0 0 var(--box-shadow-size), var(--color-focus) 0 0 var(--box-shadow-size), var(--color-focus) 0 0 var(--box-shadow-size), var(--color-focus) 0 0 var(--box-shadow-size);
+}
+
+.driver-popover button.driver-popover-close-btn {
+    color: var(--text-secondary);
+    background-image: var(--corner-marker-black);
+    transform: filter var(--animation-speed-button-switch), background-color var(--animation-speed-button-switch), color var(--animation-speed-button-switch);
+}
+
+.driver-popover button.driver-popover-close-btn:hover {
+    color: var(--text-primary);
+}
+
+.driver-overlay path {
+    fill: var(--commander-bgcolor) !important;
+}
+
+.settings-nav.driver-active-element {
+    position: unset;
+}

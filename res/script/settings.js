@@ -537,7 +537,7 @@ $(document).ready(function() {
         $t('ui.audition'),
         {
             id: 'btn-speech-voice-audition',
-            icon: Icon.accountVoice()
+            icon: Icon.accountVoice
         }
     ));
 

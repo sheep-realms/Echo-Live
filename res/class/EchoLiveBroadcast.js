@@ -4,9 +4,9 @@ class EchoLiveBroadcast {
      * @param {String} channel 频道名称
      * @param {Object} config 配置
      */
-    constructor(channel = 'sheep-realms:echolive', config = undefined) {
+    constructor(channel = EchoLiveBroadcast.DEFAULT_CHANNEL, config = undefined) {
         this.uuid = undefined;
-        this.type = 'unknow';
+        this.type = EchoLiveBroadcast.TYPE_UNKNOW;
         this.custom = {
             name: undefined,
             color: undefined,
@@ -26,6 +26,38 @@ class EchoLiveBroadcast {
         this.listenCallbackListener = [];
 
         this.init();
+    }
+
+    static {
+        EchoLiveTools.defineObjectPropertyReadOnly(EchoLiveBroadcast, {
+            API_NAME_BROADCAST_CLOSE:       'broadcast_close',
+            API_NAME_CLOSE:                 'close',
+            API_NAME_ECHO_NEXT:             'echo_next',
+            API_NAME_ECHO_PRINTING:         'echo_printing',
+            API_NAME_ECHO_STATE_UPDATE:     'echo_state_update',
+            API_NAME_ERROR:                 'error',
+            API_NAME_ERROR_UNKNOW:          'error_unknow',
+            API_NAME_HELLO:                 'hello',
+            API_NAME_MESSAGE_DATA:          'message_data',
+            API_NAME_PAGE_HIDDEN:           'page_hidden',
+            API_NAME_PAGE_VISIBLE:          'page_visible',
+            API_NAME_PING:                  'ping',
+            API_NAME_SET_THEME:             'set_theme',
+            API_NAME_SET_THEME_STYLE_URL:   'set_theme_style_url',
+            API_NAME_SHUTDOWN:              'shutdown',
+            API_NAME_WEBSOCKET_CLOSE:       'websocket_close',
+
+            DEFAULT_CHANNEL: 'sheep-realms:echolive',
+
+            TARGET_SERVER:              '@__server',
+            TARGET_WEBSOCKET_SERVER:    '@__ws_server',
+
+            TYPE_CLIENT:    'client',
+            TYPE_HISTORY:   'history',
+            TYPE_PORTAL:    'live',
+            TYPE_SERVER:    'server',
+            TYPE_UNKNOW:    'unknow'
+        });
     }
 
     /**
@@ -104,7 +136,7 @@ class EchoLiveBroadcast {
      * @param {String} target 目标
      * @returns {Object} 发送的数据
      */
-    sendData(data = {}, action = 'message_data', target = undefined) {
+    sendData(data = {}, action = EchoLiveBroadcast.API_NAME_MESSAGE_DATA, target = undefined) {
         let d = {
             action: action,
             target: target,
@@ -118,7 +150,7 @@ class EchoLiveBroadcast {
         };
 
         this.broadcast.postMessage(d);
-        if (target === '@__server' && this.websocket != undefined) {
+        if (target === EchoLiveBroadcast.TARGET_SERVER && this.websocket != undefined) {
             try {
                 this.websocket.send(JSON.stringify(d));
             } catch (error) {
@@ -143,7 +175,7 @@ class EchoLiveBroadcast {
             } else if (data.target.substring(1) != this.custom.name) return;
         } else if (data.target != undefined && data.target != this.uuid) return;
 
-        if (data.action == 'error') this.event.error(data);
+        if (data.action == EchoLiveBroadcast.API_NAME_ERROR) this.event.error(data);
 
         this.runListenCallback(data);
     }
@@ -159,7 +191,7 @@ class EchoLiveBroadcast {
         return this.sendData({
             name: name,
             ...data
-        }, 'error', target);
+        }, EchoLiveBroadcast.API_NAME_ERROR, target);
     }
 
     /**
@@ -193,9 +225,9 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
      * @param {String} channel 频道名称
      * @param {Object} config 配置
      */
-    constructor(channel = 'sheep-realms:echolive', config = undefined) {
+    constructor(channel = EchoLiveBroadcast.DEFAULT_CHANNEL, config = undefined) {
         super(channel, config);
-        this.type = 'server';
+        this.type = EchoLiveBroadcast.TYPE_SERVER;
         this.isServer = true;
         this.clients = [];
         this.timer = {
@@ -239,7 +271,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
             this.stateFlag.noClientChecked = true;
         }
 
-        return this.sendData({}, 'ping', target);
+        return this.sendData({}, EchoLiveBroadcast.API_NAME_PING, target);
     }
 
     /**
@@ -248,7 +280,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
      * @returns {Object} 发送的消息
      */
     sendNext(target = undefined) {
-        return this.sendData({}, 'echo_next', target);
+        return this.sendData({}, EchoLiveBroadcast.API_NAME_ECHO_NEXT, target);
     }
 
     /**
@@ -297,7 +329,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
     sendThemeStyleUrl(url, target = undefined) {
         return this.sendData({
             url: url
-        }, 'set_theme_style_url', target);
+        }, EchoLiveBroadcast.API_NAME_SET_THEME_STYLE_URL, target);
     }
 
     /**
@@ -309,7 +341,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
     sendTheme(name, target = undefined) {
         return this.sendData({
             name: name
-        }, 'set_theme', target);
+        }, EchoLiveBroadcast.API_NAME_SET_THEME, target);
     }
 
     /**
@@ -318,7 +350,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
      * @returns {Object} 发送的消息
      */
     sendBroadcastClose(target = undefined) {
-        return this.sendData({}, 'broadcast_close', target);
+        return this.sendData({}, EchoLiveBroadcast.API_NAME_BROADCAST_CLOSE, target);
     }
 
     /**
@@ -327,7 +359,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
      * @returns {Object} 发送的消息
      */
     sendWebsocketClose(target = undefined) {
-        return this.sendData({}, 'websocket_close', target);
+        return this.sendData({}, EchoLiveBroadcast.API_NAME_WEBSOCKET_CLOSE, target);
     }
 
     /**
@@ -339,7 +371,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
     sendShutdown(reason = undefined, target = undefined) {
         return this.sendData({
             reason: reason
-        }, 'shutdown', target);
+        }, EchoLiveBroadcast.API_NAME_SHUTDOWN, target);
     }
 
     /**
@@ -405,7 +437,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
      * @returns {Boolean} 结果
      */
     targetTypeCheck(type) {
-        if (type != 'server') return false;
+        if (type != EchoLiveBroadcast.TYPE_SERVER) return false;
         return true;
     }
 
@@ -416,23 +448,23 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
      */
     getDataServer(data, listener = this) {
         switch (data.action) {
-            case 'hello':
+            case EchoLiveBroadcast.API_NAME_HELLO:
                 listener.addClient(data.from.uuid, data.from.name, data.from.type, data.data?.hidden);
                 break;
 
-            case 'echo_state_update':
+            case EchoLiveBroadcast.API_NAME_ECHO_STATE_UPDATE:
                 listener.setEchoState(data.from.uuid, data.data.state, data.data.messagesCount);
                 break;
 
-            case 'close':
+            case EchoLiveBroadcast.API_NAME_CLOSE:
                 listener.removeClient(data.from.uuid);
                 break;
 
-            case 'page_hidden':
+            case EchoLiveBroadcast.API_NAME_PAGE_HIDDEN:
                 listener.setClientHidden(data.from.uuid, true);
                 break;
 
-            case 'page_visible':
+            case EchoLiveBroadcast.API_NAME_PAGE_VISIBLE:
                 listener.setClientHidden(data.from.uuid, false);
                 break;
         
@@ -452,7 +484,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      * @param {'live'|'history'} clientType 客户端类型
      * @param {Object} config 配置
      */
-    constructor(channel = 'sheep-realms:echolive', clientType = 'client', config = undefined) {
+    constructor(channel = EchoLiveBroadcast.DEFAULT_CHANNEL, clientType = EchoLiveBroadcast.TYPE_CLIENT, config = undefined) {
         super(channel, config);
         this.type = clientType;
         this.isServer = false;
@@ -504,7 +536,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
             });
 
             this.websocketReconnectCount = 0;
-            this.sendHello('@__ws_server');
+            this.sendHello(EchoLiveBroadcast.TARGET_WEBSOCKET_SERVER);
         });
 
         this.websocket.addEventListener('message', (e) => {
@@ -567,7 +599,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
     sendHello(target = undefined) {
         return this.sendData({
             hidden: this.echolive.hidden
-        }, 'hello', target);
+        }, EchoLiveBroadcast.API_NAME_HELLO, target);
     }
 
     /**
@@ -577,7 +609,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      */
     pageHidden(target = undefined) {
         if (this.stateFlag.onWindowClose) return;
-        return this.sendData({}, 'page_hidden', target);
+        return this.sendData({}, EchoLiveBroadcast.API_NAME_PAGE_HIDDEN, target);
     }
 
     /**
@@ -587,7 +619,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      */
     pageVisible(target = undefined) {
         if (this.stateFlag.onWindowClose) return;
-        return this.sendData({}, 'page_visible', target);
+        return this.sendData({}, EchoLiveBroadcast.API_NAME_PAGE_VISIBLE, target);
     }
 
     /**
@@ -595,7 +627,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      * @returns {Object} 发送的消息
      */
     close() {
-        this.sendData({}, 'close');
+        this.sendData({}, EchoLiveBroadcast.API_NAME_CLOSE);
         return this.broadcast.close();
     }
 
@@ -615,7 +647,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
             source: source,
             line: line,
             col: col
-        }, 'error_unknow', target);
+        }, EchoLiveBroadcast.API_NAME_ERROR_UNKNOW, target);
     }
 
     /**
@@ -624,7 +656,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      * @returns {Boolean} 结果
      */
     targetTypeCheck(type) {
-        if (type != 'client' && type != this.type) return false;
+        if (type != EchoLiveBroadcast.TYPE_CLIENT && type != this.type) return false;
         return true;
     }
 
@@ -647,19 +679,19 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      */
     getDataClient(data, listener = this) {
         switch (data.action) {
-            case 'ping':
+            case EchoLiveBroadcast.API_NAME_PING:
                 listener.sendHello(data.from.uuid);
                 break;
 
-            case 'broadcast_close':
+            case EchoLiveBroadcast.API_NAME_BROADCAST_CLOSE:
                 listener.close();
                 break;
 
-            case 'websocket_close':
+            case EchoLiveBroadcast.API_NAME_WEBSOCKET_CLOSE:
                 listener.websocketClose();
                 break;
 
-            case 'shutdown':
+            case EchoLiveBroadcast.API_NAME_SHUTDOWN:
                 listener.shutdown(data.data.reason);
                 break;
         
@@ -679,8 +711,8 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
      * @param {EchoLive} echolive Echo-Live 实例
      * @param {Object} config 配置
      */
-    constructor(channel = 'sheep-realms:echolive', echolive = undefined, config = undefined) {
-        super(channel, 'live', config);
+    constructor(channel = EchoLiveBroadcast.DEFAULT_CHANNEL, echolive = undefined, config = undefined) {
+        super(channel, EchoLiveBroadcast.TYPE_PORTAL, config);
         this.echolive = echolive;
         this.uuid = this.echolive.uuid;
         this.isServer = false;
@@ -711,7 +743,7 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
      */
     setThemeStyleUrl(url) {
         if (this.isServer) return;
-        if (!this.experimentalAPICheck('set_theme_style_url')) return;
+        if (!this.experimentalAPICheck(EchoLiveBroadcast.API_NAME_SET_THEME_STYLE_URL)) return;
         return this.echolive.setThemeStyleUrl(url);
     }
 
@@ -736,7 +768,7 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
         return this.sendData({
             state: state,
             messagesCount: messagesCount
-        }, 'echo_state_update', target);
+        }, EchoLiveBroadcast.API_NAME_ECHO_STATE_UPDATE, target);
     }
 
     /**
@@ -750,7 +782,7 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
         return this.sendData({
             username: username,
             message: message
-        }, 'echo_printing', target);
+        }, EchoLiveBroadcast.API_NAME_ECHO_PRINTING, target);
     }
 
     /**
@@ -760,19 +792,19 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
      */
     getDataPortal(data, listener = this) {
         switch (data.action) {
-            case 'message_data':
+            case EchoLiveBroadcast.API_NAME_MESSAGE_DATA:
                 listener.echolive.send(data.data);
                 break;
 
-            case 'echo_next':
+            case EchoLiveBroadcast.API_NAME_ECHO_NEXT:
                 listener.echolive.next();
                 break;
 
-            case 'set_theme_style_url':
+            case EchoLiveBroadcast.API_NAME_SET_THEME_STYLE_URL:
                 listener.setThemeStyleUrl(data.data.url);
                 break;
 
-            case 'set_theme':
+            case EchoLiveBroadcast.API_NAME_SET_THEME:
                 listener.setTheme(data.data.name);
                 break;
         
@@ -791,8 +823,8 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
      * @param {EchoLiveHistory} echoLiveHistory Echo-Live 历史记录实例
      * @param {Object} config 配置
      */
-    constructor(channel = 'sheep-realms:echolive', echoLiveHistory = undefined, config = {}) {
-        super(channel, 'history', config);
+    constructor(channel = EchoLiveBroadcast.DEFAULT_CHANNEL, echoLiveHistory = undefined, config = {}) {
+        super(channel, EchoLiveBroadcast.TYPE_HISTORY, config);
         this.echoLiveHistory = echoLiveHistory;
         this.uuid = this.echoLiveHistory.uuid;
         this.isServer = false;
@@ -826,7 +858,7 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
     sendHello(target = undefined) {
         return this.sendData({
             hidden: undefined
-        }, 'hello', target);
+        }, EchoLiveBroadcast.API_NAME_HELLO, target);
     }
 
     /**
@@ -836,7 +868,7 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
      */
     getDataHistory(data, listener = this) {
         switch (data.action) {
-            case 'echo_printing':
+            case EchoLiveBroadcast.API_NAME_ECHO_PRINTING:
                 listener.echoLiveHistory.send({
                     username: data.data?.username,
                     message: data.data?.message

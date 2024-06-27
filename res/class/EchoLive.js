@@ -16,8 +16,8 @@ class EchoLive {
         this.theme = [];
         this.username = '';
         this.timer = {
-            displayHiddenWait: -1,
-            messagesPolling: -1
+            displayHiddenWait: EchoLive.NOT_ACTIVE_TIMER,
+            messagesPolling: EchoLive.NOT_ACTIVE_TIMER
         };
         this.event = {
             displayHidden: function() {},
@@ -33,9 +33,17 @@ class EchoLive {
         this.taskLastID = 0;
         this.debug = {
             taskLog: false
-        }
+        };
 
         this.init();
+    }
+
+    static {
+        EchoLiveTools.defineObjectPropertyReadOnly(EchoLive, {
+            NOT_ACTIVE_TIMER: -1,
+            NOW_TASK_ID: -1,
+            INVALID_TASK_ID: -2
+        });
     }
 
     /**
@@ -99,14 +107,14 @@ class EchoLive {
         if (document.visibilityState === "visible") {
             this.hidden = false;
             if (this.broadcast != undefined) this.broadcast.pageVisible();
-            if (this.timer.messagesPolling != -1) {
+            if (this.timer.messagesPolling != EchoLive.NOT_ACTIVE_TIMER) {
                 this.antiFlood = true;
                 this.start();
             }
         } else {
             this.hidden = true;
             if (this.broadcast != undefined) this.broadcast.pageHidden();
-            if (this.timer.messagesPolling != -1) this.stop();
+            if (this.timer.messagesPolling != EchoLive.NOT_ACTIVE_TIMER) this.stop();
             if (this.echo.state != 'stop' && this.config.echolive.sleep.enable && this.config.echolive.sleep.during_printing_stop_print) {
                 this.echo.stop();
                 this.broadcast.echoStateUpdate('stop', this.echo.messageList.length);
@@ -202,7 +210,7 @@ class EchoLive {
      * 结束当前任务，尝试运行下一个任务
      * @param {Number} taskID 任务ID
      */
-    endTask(taskID = -1) {
+    endTask(taskID = EchoLive.NOW_TASK_ID) {
         this.killTask(taskID);
         if (this.task.length > 0) setTimeout(() => {
             this.runTask();
@@ -214,18 +222,18 @@ class EchoLive {
      * @param {Number} taskID 任务ID
      * @param {Boolean} force 是否强制清除
      */
-    killTask(taskID = -1, force = false) {
+    killTask(taskID = EchoLive.NOW_TASK_ID, force = false) {
         // 无效参数
-        if (taskID < -1) return;
+        if (taskID <= EchoLive.INVALID_TASK_ID) return;
 
         // 检查所指定的任务ID与当前任务是否不匹配
-        if (taskID != -1 && taskID != this.taskNow.id) {
+        if (taskID != EchoLive.NOW_TASK_ID && taskID != this.taskNow.id) {
             // 不是强制执行则退出
             if (!force) return;
 
             // 查找任务列表中对应的任务并删除
             let i = this.task.findIndex(e => e?.id == taskID);
-            if (i == -1) return;
+            if (i == EchoLive.NOW_TASK_ID) return;
             if (this.debug.taskLog) console.log(`[-] KILL TASK: ${this.task[i].name} (ID: ${taskID})`);
             this.task.splice(i, 1);
             return;
@@ -385,7 +393,7 @@ class EchoLive {
      * 显示对话框
      * @param {Number} taskID 任务ID
      */
-    displayShow(taskID = -2) {
+    displayShow(taskID = EchoLive.INVALID_TASK_ID) {
         if (!this.idle) return this.endTask(taskID);
         this.idle = false;
         this.event.displayShow(() => {
@@ -397,7 +405,7 @@ class EchoLive {
      * 隐藏对话框
      * @param {Number} taskID 任务ID
      */
-    displayHidden(taskID = -2) {
+    displayHidden(taskID = EchoLive.INVALID_TASK_ID) {
         if (this.idle) return this.endTask(taskID);
         this.idle = true;
         this.event.displayHidden(() => {
@@ -432,7 +440,7 @@ class EchoLive {
     shutdown(reason = undefined) {
         this.echo.stop();
         this.broadcast = undefined;
-        this.timer.messagesPolling = -1;
+        this.timer.messagesPolling = EchoLive.NOT_ACTIVE_TIMER;
         this.clearDisplayHiddenWaitTimer();
         this.event.shutdown(reason);
     }

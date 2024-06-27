@@ -413,4 +413,21 @@ class EchoLiveTools {
         }
         return steps;
     }
+
+    /**
+     * 定义对象只读属性
+     * @param {Object} obj 目标对象
+     * @param {Object} data 属性数据
+     */
+    static defineObjectPropertyReadOnly(obj, data = {}) {
+        for (const key in data) {
+            if (Object.hasOwnProperty.call(data, key)) {
+                const e = data[key];
+                Object.defineProperty(obj, key, {
+                    value: e,
+                    writable: false
+                });
+            }
+        }
+    }
 }

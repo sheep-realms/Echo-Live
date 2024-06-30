@@ -1,37 +1,37 @@
 class EchoLive {
     constructor(echo, config) {
-        this.echo = echo;
-        this.config = config;
-        this.data = undefined;
-        this.broadcast = undefined;
-        this.uuid = EchoLiveTools.getUUID();
-        this.custom = {
-            name: undefined,
-            color: undefined,
-            data: {}
+        this.echo           = echo;
+        this.config         = config;
+        this.data           = undefined;
+        this.broadcast      = undefined;
+        this.uuid           = EchoLiveTools.getUUID();
+        this.custom         = {
+            name:   undefined,
+            color:  undefined,
+            data:   {}
         };
-        this.hidden = false;
-        this.idle = false;
-        this.antiFlood = false;
-        this.theme = [];
-        this.username = '';
-        this.timer = {
-            displayHiddenWait: EchoLive.NOT_ACTIVE_TIMER,
-            messagesPolling: EchoLive.NOT_ACTIVE_TIMER
+        this.hidden         = false;
+        this.idle           = false;
+        this.antiFlood      = false;
+        this.theme          = [];
+        this.username       = '';
+        this.timer          = {
+            displayHiddenWait:  EchoLive.NOT_ACTIVE_TIMER,
+            messagesPolling:    EchoLive.NOT_ACTIVE_TIMER
         };
-        this.event = {
-            displayHidden: function() {},
-            displayHiddenNow: function() {},
-            displayShow: function() {},
-            shutdown: function() {},
-            themeScriptLoad: function() {},
-            themeScriptUnload: function() {}
+        this.event          = {
+            displayHidden:      function() {},
+            displayHiddenNow:   function() {},
+            displayShow:        function() {},
+            shutdown:           function() {},
+            themeScriptLoad:    function() {},
+            themeScriptUnload:  function() {}
         };
-        this.task = [];
-        this.taskNow = {};
-        this.taskRunning = false;
-        this.taskLastID = 0;
-        this.debug = {
+        this.task           = [];
+        this.taskNow        = {};
+        this.taskRunning    = false;
+        this.taskLastID     = 0;
+        this.debug          = {
             taskLog: false
         };
 
@@ -40,26 +40,34 @@ class EchoLive {
 
     static {
         EchoLiveTools.defineObjectPropertyReadOnly(EchoLive, {
-            NOT_ACTIVE_TIMER: -1,
-            NOW_TASK_ID: -1,
-            INVALID_TASK_ID: -2
+            NOT_ACTIVE_TIMER:   -1,
+            NOW_TASK_ID:        -1,
+            INVALID_TASK_ID:    -2
         });
+    }
+
+    /**
+     * 主题脚本是否启用
+     */
+    get themeScriptEnable() {
+        if (this.config.echolive.style.live_theme_script_enable && this.config.global.theme_script_enable) return true;
+        return false;
     }
 
     /**
      * 初始化
      */
     init() {
-        let urlName = EchoLiveTools.getUrlParam('name');
-        let urlColor = EchoLiveTools.getUrlParam('color');
+        let urlName     = EchoLiveTools.getUrlParam('name');
+        let urlColor    = EchoLiveTools.getUrlParam('color');
         if (urlName != null && urlName.search(/^[a-f\d]{4}(?:[a-f\d]{4}-){4}[a-f\d]{12}$/i) == -1) {
             this.custom.name = urlName.replace(/</g, '').replace(/>/g, '');
         }
         if (urlColor != null) this.custom.color = urlColor;
         
         window.addEventListener("error", (e) => {
-            const msg = e.error != null ? e.error.stack : e.message;
-            const filename = e.filename != '' ? e.filename : 'null';
+            const msg       = e.error != null ? e.error.stack : e.message;
+            const filename  = e.filename != '' ? e.filename : 'null';
             this.broadcast.error(msg, filename, e.lineno, e.colno);
         });
         // window.onerror = (message, source, line, col, error) => {
@@ -74,9 +82,9 @@ class EchoLive {
         }
 
         if (this.config.echo.print_speed != undefined) {
-            this.echo.printSpeed = this.config.echo.print_speed;
-            this.echo.printSpeedStart = this.config.echo.print_speed;
-            this.echo.printSpeedChange = this.config.echo.print_speed;
+            this.echo.printSpeed        = this.config.echo.print_speed;
+            this.echo.printSpeedStart   = this.config.echo.print_speed;
+            this.echo.printSpeedChange  = this.config.echo.print_speed;
         }
 
         if (this.config.echolive.broadcast.enable) {
@@ -137,9 +145,9 @@ class EchoLive {
         if (typeof taskName != 'string' || typeof taskData != 'object') return;
 
         let data = {
-            id: this.taskLastID++,
-            name: taskName,
-            data: taskData
+            id:     this.taskLastID++,
+            name:   taskName,
+            data:   taskData
         };
         let i = this.task.push(data);
 
@@ -150,8 +158,8 @@ class EchoLive {
         if (runNow && !this.taskRunning) this.runTask();
 
         return {
-            index: i,
-            task: data
+            index:  i,
+            task:   data
         }
     }
 
@@ -178,8 +186,8 @@ class EchoLive {
      */
     runTask() {
         if (this.taskRunning || this.task.length == 0) return;
-        this.taskNow = this.task.shift();
-        this.taskRunning = true;
+        this.taskNow        = this.task.shift();
+        this.taskRunning    = true;
         if (this.debug.taskLog) console.log(`[>] RUN TASK: ${this.taskNow.name} (ID: ${this.taskNow.id})`);
 
         switch (this.taskNow.name) {
@@ -241,8 +249,8 @@ class EchoLive {
 
         // 清除当前任务
         if (this.debug.taskLog) console.log(`[-] END TASK: ${this.taskNow.name} (ID: ${taskID})`);
-        this.taskNow = {};
-        this.taskRunning = false;
+        this.taskNow        = {};
+        this.taskRunning    = false;
     }
 
     /**
@@ -264,8 +272,8 @@ class EchoLive {
         if (this.hidden) return;
         if (typeof data != 'object') return;
         if (this.antiFlood) {
-            this.data = data;
-            this.antiFlood = false;
+            this.data       = data;
+            this.antiFlood  = false;
             return;
         }
         if (typeof this.data === 'object' && JSON.stringify(data) === JSON.stringify(this.data)) return;
@@ -315,9 +323,9 @@ class EchoLive {
     reload() {
         if (this.hidden) return;
         $('#start-script').remove();
-        let s = document.createElement('script');
-        s.src = `start.js`;
-        s.id = 'start-script';
+        let s   = document.createElement('script');
+        s.src   = `start.js`;
+        s.id    = 'start-script';
         document.body.appendChild(s);
     }
 
@@ -354,9 +362,7 @@ class EchoLive {
      * @returns {Object} 主题数据
      */
     findTheme(name) {
-        return this.theme.find((e) => {
-            return e.name == name;
-        })
+        return this.theme.find((e) => e.name == name);
     }
 
     /**
@@ -368,17 +374,17 @@ class EchoLive {
         const theme = this.findTheme(name);
         if (theme == undefined) return;
 
-        this.event.themeScriptUnload()
-        this.event.themeScriptLoad = function() {};
-        this.event.themeScriptUnload = function() {};
+        this.event.themeScriptUnload();
+        this.event.themeScriptLoad      = function() {};
+        this.event.themeScriptUnload    = function() {};
         $('script.echo-live-theme-script').remove();
 
         this.setThemeStyleUrl(theme.style);
 
-        if ((this.config.echolive.style.live_theme_script_enable && this.config.global.theme_script_enable) && typeof theme.script == 'object') {
+        if (this.themeScriptEnable && typeof theme.script == 'object') {
             theme.script.forEach(e => {
-                let s = document.createElement("script");
-                s.src = e;
+                let s   = document.createElement("script");
+                s.src   = e;
                 s.class = 'echo-live-theme-script';
                 document.head.appendChild(s);
             });

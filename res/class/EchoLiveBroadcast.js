@@ -5,24 +5,24 @@ class EchoLiveBroadcast {
      * @param {Object} config 配置
      */
     constructor(channel = EchoLiveBroadcast.DEFAULT_CHANNEL, config = undefined) {
-        this.uuid = undefined;
-        this.type = EchoLiveBroadcast.TYPE_UNKNOW;
-        this.custom = {
-            name: undefined,
-            color: undefined,
-            data: {}
+        this.uuid       = undefined;
+        this.type       = EchoLiveBroadcast.TYPE_UNKNOW;
+        this.custom     = {
+            name:       undefined,
+            color:      undefined,
+            data:       {}
         };
-        this.broadcast = new BroadcastChannel(channel);
-        this.websocket = undefined;
-        this.config = config;
-        this.isServer = false;
-        this.timer = {};
-        this.event = {
-            message: function() {},
-            error: function() {}
+        this.broadcast  = new BroadcastChannel(channel);
+        this.websocket  = undefined;
+        this.config     = config;
+        this.isServer   = false;
+        this.timer      = {};
+        this.event      = {
+            message:    function() {},
+            error:      function() {}
         };
-        this.listenCallbackDepth = 0;
-        this.listenCallback = [];
+        this.listenCallbackDepth    = 0;
+        this.listenCallback         = [];
         this.listenCallbackListener = [];
 
         this.init();
@@ -141,12 +141,12 @@ class EchoLiveBroadcast {
             action: action,
             target: target,
             from: {
-                name: this.getName(),
-                uuid: this.uuid,
-                type: this.type,
-                timestamp: new Date().getTime()
+                name:       this.getName(),
+                uuid:       this.uuid,
+                type:       this.type,
+                timestamp:  new Date().getTime()
             },
-            data: data
+            data:   data
         };
 
         this.broadcast.postMessage(d);
@@ -209,11 +209,11 @@ class EchoLiveBroadcast {
      * @returns {Boolean} 结果
      */
     experimentalAPICheck(apiName) {
-        if (!this.echolive.config.echolive.broadcast.experimental_api_enable) {
+        if (!this.config.echolive.broadcast.experimental_api_enable) {
             // TODO: 在这里抛出异常
         }
 
-        return this.echolive.config.echolive.broadcast.experimental_api_enable;
+        return this.config.echolive.broadcast.experimental_api_enable;
     }
 }
 
@@ -227,22 +227,22 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
      */
     constructor(channel = EchoLiveBroadcast.DEFAULT_CHANNEL, config = undefined) {
         super(channel, config);
-        this.type = EchoLiveBroadcast.TYPE_SERVER;
-        this.isServer = true;
-        this.clients = [];
-        this.timer = {
-            noClient: -1
+        this.type       = EchoLiveBroadcast.TYPE_SERVER;
+        this.isServer   = true;
+        this.clients    = [];
+        this.timer      = {
+            noClient:   -1
         }
-        this.stateFlag = {
+        this.stateFlag  = {
             noClientChecked: false
         };
-        this.event = {
+        this.event      = {
             ...this.event,
-            clientsChange: function() {},
-            nameDuplicate: function() {},
-            noClient: function() {}
+            clientsChange:  function() {},
+            nameDuplicate:  function() {},
+            noClient:       function() {}
         };
-        this.depth = 1;
+        this.depth      = 1;
 
         this.initServer();
     }
@@ -313,8 +313,8 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         if (i == -1) return;
         let r = this.clients[i] = {
             ...this.clients[i],
-            echoState: echoState,
-            messagesCount: messagesCount
+            echoState:      echoState,
+            messagesCount:  messagesCount
         };
         this.event.clientsChange(this.clients);
         return r;
@@ -399,15 +399,15 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         }
 
         let r = {
-            uuid: uuid,
-            name: name,
-            type: type ? type : 'client',
+            uuid:   uuid,
+            name:   name,
+            type:   type ? type : 'client',
             hidden: hidden
         };
         if (r.type == 'live') r = {
             ...r,
-            echoState: 'stop',
-            messagesCount: 0
+            echoState:      'stop',
+            messagesCount:  0
         };
 
         this.clients.push(r);
@@ -486,21 +486,21 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      */
     constructor(channel = EchoLiveBroadcast.DEFAULT_CHANNEL, clientType = EchoLiveBroadcast.TYPE_CLIENT, config = undefined) {
         super(channel, config);
-        this.type = clientType;
-        this.isServer = false;
-        this.websocket = undefined;
-        this.websocketReconnectCount = 0;
-        this.websocketClosed = false;
-        this.timer = {};
-        this.stateFlag = {
+        this.type       = clientType;
+        this.isServer   = false;
+        this.websocket                  = undefined;
+        this.websocketReconnectCount    = 0;
+        this.websocketClosed            = false;
+        this.timer      = {};
+        this.stateFlag  = {
             onWindowClose: false
         };
-        this.event = {
+        this.event      = {
             ...this.event,
-            shutdown: function() {},
+            shutdown:       function() {},
             websocketClose: function() {}
         };
-        this.depth = 1;
+        this.depth      = 1;
 
         this.initClient();
     }
@@ -525,8 +525,8 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      * 连接 WebSocket 服务器
      */
     websocketConnect() {
-        this.websocketClosed = false;
-        this.websocket = new WebSocket(this.config.echolive.broadcast.websocket_url);
+        this.websocketClosed    = false;
+        this.websocket          = new WebSocket(this.config.echolive.broadcast.websocket_url);
 
         this.websocket.addEventListener('open', (e) => {
             this.websocket.addEventListener('close', (e) => {
@@ -563,8 +563,8 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
 
         if (this.websocketReconnectCount >= this.config.echolive.broadcast.websocket_reconnect_limit) {
             this.sendError('websocket_error', {
-                url: this.config.echolive.broadcast.websocket_url,
-                tryReconnect: false,
+                url:            this.config.echolive.broadcast.websocket_url,
+                tryReconnect:   false,
                 reconnectCount: this.websocketReconnectCount
             });
             return;
@@ -573,8 +573,8 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
         this.websocketReconnectCount++;
 
         this.sendError('websocket_error', {
-            url: this.config.echolive.broadcast.websocket_url,
-            tryReconnect: true,
+            url:            this.config.echolive.broadcast.websocket_url,
+            tryReconnect:   true,
             reconnectCount: this.websocketReconnectCount
         });
         
@@ -586,9 +586,9 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      */
     websocketClose() {
         if (this.websocket == undefined) return;
-        this.websocketClosed = true;
+        this.websocketClosed    = true;
         this.websocket.close();
-        this.websocket = undefined;
+        this.websocket          = undefined;
     }
 
     /**
@@ -642,11 +642,11 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      */
     error(message, source, line, col, target = undefined) {
         return this.sendData({
-            name: this.getName(),
-            message: message,
-            source: source,
-            line: line,
-            col: col
+            name:       this.getName(),
+            message:    message,
+            source:     source,
+            line:       line,
+            col:        col
         }, EchoLiveBroadcast.API_NAME_ERROR_UNKNOW, target);
     }
 
@@ -713,12 +713,12 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
      */
     constructor(channel = EchoLiveBroadcast.DEFAULT_CHANNEL, echolive = undefined, config = undefined) {
         super(channel, EchoLiveBroadcast.TYPE_PORTAL, config);
-        this.echolive = echolive;
-        this.uuid = this.echolive.uuid;
-        this.isServer = false;
-        this.timer = {};
+        this.echolive   = echolive;
+        this.uuid       = this.echolive.uuid;
+        this.isServer   = false;
+        this.timer      = {};
         // this.event = {};
-        this.depth = 2;
+        this.depth      = 2;
 
         this.initPortal();
     }
@@ -766,8 +766,8 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
      */
     echoStateUpdate(state, messagesCount = 0, target = undefined) {
         return this.sendData({
-            state: state,
-            messagesCount: messagesCount
+            state:          state,
+            messagesCount:  messagesCount
         }, EchoLiveBroadcast.API_NAME_ECHO_STATE_UPDATE, target);
     }
 
@@ -780,8 +780,8 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
      */
     echoPrinting(username, message, target = undefined) {
         return this.sendData({
-            username: username,
-            message: message
+            username:   username,
+            message:    message
         }, EchoLiveBroadcast.API_NAME_ECHO_PRINTING, target);
     }
 
@@ -826,15 +826,15 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
     constructor(channel = EchoLiveBroadcast.DEFAULT_CHANNEL, echoLiveHistory = undefined, config = {}) {
         super(channel, EchoLiveBroadcast.TYPE_HISTORY, config);
         this.echoLiveHistory = echoLiveHistory;
-        this.uuid = this.echoLiveHistory.uuid;
-        this.isServer = false;
-        this.timer = {};
+        this.uuid       = this.echoLiveHistory.uuid;
+        this.isServer   = false;
+        this.timer      = {};
         // this.event = {};
-        this.event = {
+        this.event      = {
             ...this.event,
             newHistory: function() {}
         };
-        this.depth = 2;
+        this.depth      = 2;
 
         this.initHistory();
     }
@@ -870,8 +870,8 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
         switch (data.action) {
             case EchoLiveBroadcast.API_NAME_ECHO_PRINTING:
                 listener.echoLiveHistory.send({
-                    username: data.data?.username,
-                    message: data.data?.message
+                    username:   data.data?.username,
+                    message:    data.data?.message
                 });
                 break;
         

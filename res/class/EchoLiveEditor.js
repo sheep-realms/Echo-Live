@@ -1,8 +1,8 @@
 class EchoLiveEditor {
     constructor(config) {
-        this.palette = [];
-        this.emojiHako = undefined;
-        this.config = config;
+        this.palette    = [];
+        this.emojiHako  = undefined;
+        this.config     = config;
     }
 
     addPalette(data) {
@@ -22,15 +22,11 @@ class EchoLiveEditor {
     }
 
     findPalette(name) {
-        return this.palette.find(function(e) {
-            return e.meta.name == name;
-        });
+        return this.palette.find(e => e.meta.name == name);
     }
 
     findPaletteIndex(name) {
-        return this.palette.findIndex(function(e) {
-            return e.meta.name == name;
-        });
+        return this.palette.findIndex(e => e.meta.name == name);
     }
 
     getPalettes() {

@@ -29,8 +29,8 @@ class EchoLiveHistory {
      */
     init() {
         window.addEventListener("error", (e) => {
-            const msg       = e.error != null ? e.error.stack : e.message;
-            const filename  = e.filename != '' ? e.filename : 'null';
+            const msg       = e.error       != null ? e.error.stack : e.message;
+            const filename  = e.filename    != ''   ? e.filename    : 'null';
             this.broadcast.error(msg, filename, e.lineno, e.colno);
         });
 

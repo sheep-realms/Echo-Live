@@ -60,6 +60,12 @@ class EchoLiveBroadcast {
         });
     }
 
+    // 是否有自定义识别信息
+    get hasCustom() {
+        if (this.custom.name != undefined || this.custom.color != undefined || JSON.stringify(this.custom.data) !== '{}') return true;
+        return false;
+    }
+
     /**
      * 广播初始化
      */

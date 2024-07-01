@@ -46,12 +46,29 @@ class EchoLive {
         });
     }
 
-    /**
-     * 主题脚本是否启用
-     */
+    // 主题脚本是否启用
     get themeScriptEnable() {
         if (this.config.echolive.style.live_theme_script_enable && this.config.global.theme_script_enable) return true;
         return false;
+    }
+
+    // 是否有自定义识别信息
+    get hasCustom() {
+        if (this.custom.name != undefined || this.custom.color != undefined || JSON.stringify(this.custom.data) !== '{}') return true;
+        return false;
+    }
+
+    // 是否处于打印中
+    get inPrinting() {
+        if (this.echo.state !== 'stop') return true;
+        return false;
+    }
+
+    // 当前任务数
+    get taskCount() {
+        let c = this.task.length;
+        if (this.taskRunning) c++;
+        return c;
     }
 
     /**
@@ -66,8 +83,8 @@ class EchoLive {
         if (urlColor != null) this.custom.color = urlColor;
         
         window.addEventListener("error", (e) => {
-            const msg       = e.error != null ? e.error.stack : e.message;
-            const filename  = e.filename != '' ? e.filename : 'null';
+            const msg       = e.error       != null ? e.error.stack : e.message;
+            const filename  = e.filename    != ''   ? e.filename    : 'null';
             this.broadcast.error(msg, filename, e.lineno, e.colno);
         });
         // window.onerror = (message, source, line, col, error) => {

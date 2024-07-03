@@ -300,7 +300,7 @@ input.code {
 .editor-controller.disabled {
     pointer-events: none;
     opacity: 0;
-    max-height: 35px;
+    max-height: calc(var(--font-size-base) + 20px);
     visibility: hidden;
 }
 
@@ -319,8 +319,8 @@ input.code {
 }
 
 .editor-controller .fh-icon-button>svg {
-    width: 28px;
-    height: 28px;
+    width: var(--icon-size-large);
+    height: var(--icon-size-large);
 }
 
 .editor-bottom-bar {
@@ -465,7 +465,7 @@ input[type=text] {
     outline: none;
     background-color: var(--input-bgcolor);
     transition: border-color .3s;
-    height: 32px;
+    height: calc(var(--font-size-base) + 20px);
     color: var(--input-color);
 }
 
@@ -680,16 +680,16 @@ select:focus {
 }
 
 .echo-live-client-state-block .client-info .client-icon {
-    height: 24px;
-    width: 24px;
+    height: var(--icon-size-middle);
+    width: var(--icon-size-middle);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .echo-live-client-state-block .client-info .client-icon svg {
-    width: 24px;
-    height: 24px;
+    width: var(--icon-size-middle);
+    height: var(--icon-size-middle);
     fill: var(--text-primary);
 }
 
@@ -1277,8 +1277,8 @@ select:focus {
 }
 
 .fh-notice-item-content-icon>svg {
-    width: 28px;
-    height: 28px;
+    width: var(--icon-size-large);
+    height: var(--icon-size-large);
     fill: var(--fh-notice-theme-color);
 }
 

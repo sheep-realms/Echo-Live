@@ -120,8 +120,8 @@
 
 .file-check-box .state .icon,
 .file-check-box .state .icon svg {
-    width: 28px;
-    height: 28px;
+    width: var(--icon-size-large);
+    height: var(--icon-size-large);
 }
 
 .file-check-box .state .message {
@@ -197,8 +197,8 @@
 
 .file-check-dialog .icon,
 .file-check-dialog .icon svg {
-    width: 48px;
-    height: 48px;
+    width: calc(var(--font-size-base) + 32px);
+    height: calc(var(--font-size-base) + 32px);
 }
 
 .file-check-dialog .icon svg {
@@ -310,8 +310,8 @@
 
 .settings-nav-item .icon,
 .settings-nav-item .icon svg {
-    height: 28px;
-    width: 28px;
+    height: var(--icon-size-large);
+    width: var(--icon-size-large);
 }
 
 .settings-nav-item .icon svg {
@@ -397,8 +397,8 @@
 }
 
 .settings-group-collapse-title .icon {
-    height: 24px;
-    width: 24px;
+    height: var(--icon-size-middle);
+    width: var(--icon-size-middle);
 }
 
 .settings-group-collapse-title .icon svg {
@@ -651,8 +651,8 @@
 
 .msgbox .icon,
 .msgbox .icon svg {
-    width: 32px;
-    height: 32px;
+    width: var(--icon-size-extra-large);
+    height: var(--icon-size-extra-large);
 }
 
 .msgbox .icon svg {
@@ -783,8 +783,8 @@ a.settings-link-bar:active {
 
 .settings-link-bar .icon,
 .settings-link-bar .icon svg {
-    width: 24px;
-    height: 24px;
+    width: var(--icon-size-middle);
+    height: var(--icon-size-middle);
 }
 
 .settings-link-bar .icon.left svg {

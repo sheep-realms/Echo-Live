@@ -41,6 +41,20 @@
     <script src="res/class/EmojiHako.js"></script>
     <script src="res/script/emoji.js"></script>
     <script src="res/class/Commander.js"></script>
+    <script> // 检查版本更新的代码，每行都有注释（狗头）
+        fetch('http://orangestd.cn/Test/version.json') //好耶这里我用了我自己的Test测了一下，我放了Github Pages
+            .then(response => response.json()) //to json
+            .then(data => { //这里谁想要写注释啊
+                const currentVersion = '1.0.0'; //默认版本，请记得修改捏
+                if (data.version !== currentVersion) { //判断版本号
+                    alert('一个新版本可用！版本号： ' + data.version + '更新内容：' + data.description);
+                    // 可以在此处添加更多的更新处理逻辑啊吧啊吧啊吧啊吧
+                } //这里谁想要写注释啊
+            }) //这里谁想要写注释啊
+            .catch(error => {
+                console.error('Error checking for updates:', error); //如果有错误就直接丢Console里面了，大概率是403或者一些其他的hhh
+            }); //这里谁想要写注释啊
+    </script> <!-- 这里谁想要写注释啊 -->
 </head>
 <body>
     <main>

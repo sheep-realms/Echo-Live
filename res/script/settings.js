@@ -125,6 +125,10 @@ let logoClick = 0;
 let timerSaving = 0;
 
 
+let localStorageManager = new LocalStorageManager();
+let updater = new Updater();
+updater.localStorageManager = localStorageManager;
+
 
 
 function getSettingsItemValue(name, isDefault = false) {

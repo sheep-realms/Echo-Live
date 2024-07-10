@@ -695,7 +695,7 @@ class Popups {
      * 图片选择器悬浮框
      * @param {Object} data 属性值
      * @param {String} id ID
-     * @returns 
+     * @returns {String} DOM
      */
     static imagePopups(data = {}, id = 'popups-image') {
         data = {
@@ -1597,5 +1597,133 @@ class FHUINotice {
                 <div class="fh-notice-item-bg"></div>
             </div>
         </div>`;
+    }
+}
+
+class FHUIWindow {
+    constructor() {}
+
+    /**
+     * 对话窗口
+     * @param {String} content 内容
+     * @param {String} title 标题
+     * @param {Object} data 数据
+     * @param {String} data.attr 自定义属性
+     * @param {Boolean} data.closable 可关闭
+     * @param {String} data.icon 标题栏图标
+     * @param {String} data.id ID
+     * @param {Number} data.index 索引编号
+     * @param {Array<String|Object>} data.controller 控制器按钮
+     * @param {Boolean} data.maskClosable 点击蒙层可关闭
+     * @param {Boolean} data.modal 模态
+     * @param {String} data.style 样式
+     * @returns {String} DOM
+     */
+    static window(content = '', title = '', data = {}) {
+        data = {
+            attr: undefined,
+            closable: true,
+            icon: undefined,
+            id: undefined,
+            index: -1,
+            controller: ['confirm'],
+            maskClosable: false,
+            modal: true,
+            style: undefined,
+            size: {
+                width: '500px',
+                height: '300px'
+            },
+            ...data
+        }
+
+        let iconDom = '';
+        if (data.icon != undefined && Icon[data.icon] != undefined) {
+            iconDom = Icon[data.icon];
+        } else {
+            iconDom = Icon.information
+        }
+
+        let dom = `<div
+            role="dialog"
+            ${ data.id != undefined ? `id="${ data.id }"` : '' }
+            class="fh-window window-show"
+            style="
+                --width: min(${ data.size.width }, calc(100vw - 32px));
+                --height: min(${ data.size.height }, calc(100vh - 32px));
+                ${ data.style ?? '' }
+            "
+            data-index="${ data.index }"
+            ${ data.attr ?? '' }
+        >
+            <div class="fh-window-title">
+                <span class="icon">
+                    ${ iconDom }
+                </span>
+                <span class="title">
+                    ${ title }
+                </span>
+                <button class="close" ${ !data.closable ? 'disabled' : '' }>
+                    ${ Icon.close }
+                </button>
+            </div>
+            <div class="fh-window-content">
+                <div class="fh-msgbox-content">${ content }</div>
+                <div class="fh-msgbox-controller">
+                    ${ FHUIWindow.controller(data.controller) }
+                </div>
+            </div>
+        </div>`;
+
+        if (data.modal) {
+            dom = `<div
+                class="
+                    fh-window-modal-bg
+                    window-show
+                    ${ data.maskClosable ? 'fh-window-modal-bg-closable' : '' }
+                "
+                data-index="${ data.index }"
+            >
+                ${ dom }
+            </div>`;
+        }
+
+        return dom;
+    }
+
+    static controller(data = []) {
+        let dom = '';
+        data.forEach(e => {
+            if (typeof e === 'object' && !Array.isArray(e)) {
+                dom += FHUIWindow.controllerButton(e?.id, e?.content, e?.data);
+            } else if (typeof e === 'string') {
+                dom += FHUIWindow.controllerButton(e);
+            }
+        });
+        return dom;
+    }
+
+    static controllerButton(id, content = undefined, data = {}) {
+        const btnColorType = {
+            cancel: 'danger',
+            no: 'danger'
+        };
+        const btnIcon = {
+            cancel: 'close',
+            confirm: 'check',
+            no: 'close',
+            yes: 'check',
+        }
+
+        let colorType = btnColorType[id];
+        if (content == undefined) content = $t('ui.' + id);
+        data = {
+            class: 'fh-window-controller-button fh-window-controller-button-' + id,
+            color: colorType,
+            attr: `data-controller-id="${ id }"`,
+            ...data
+        }
+
+        return EditorForm.button(content, data);
     }
 }

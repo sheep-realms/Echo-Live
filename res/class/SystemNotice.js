@@ -1,7 +1,7 @@
 class SystemNotice {
     constructor(sel = '#fh-notice') {
         this.sel = sel;
-        this.lastnNoticeIndex = 0;
+        this.lastNoticeIndex = 0;
     }
 
     /**
@@ -17,7 +17,7 @@ class SystemNotice {
      * @param {String} data.width 宽度
      */
     send(message = '', title = '', type = 'info', data = {}) {
-        const index = this.lastnNoticeIndex++;
+        const index = this.lastNoticeIndex++;
         data = {
             id:         undefined,
             waitTime:   undefined,

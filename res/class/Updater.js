@@ -62,7 +62,8 @@ class Updater {
     updateCheckCallback(data = [], callback = () => {}) {
         if (!Array.isArray(data)) return;
         let notPreReleases = data.filter(e => {
-            if (e?.prerelease == undefined) return false;
+            // 不要相信别人的东西
+            if (e?.prerelease == undefined) return true;
             return !e.prerelease;
         });
         if (notPreReleases.length == 0) return;
@@ -118,6 +119,7 @@ class Updater {
      * @returns {number} 1：新版，0：相同，-1：旧版，-2：格式不匹配
      */
     compareVersions(version) {
+        if (version === this.version) return 0;
         if (!/^\d+(\.\d+)*$/.test(version)) return -2;
 
         const v1Parts = version.split('.').map(Number);

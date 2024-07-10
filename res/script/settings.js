@@ -129,6 +129,8 @@ let localStorageManager = new LocalStorageManager();
 let updater = new Updater();
 updater.localStorageManager = localStorageManager;
 
+let uniWindow = new UniverseWindow();
+
 
 
 function getSettingsItemValue(name, isDefault = false) {

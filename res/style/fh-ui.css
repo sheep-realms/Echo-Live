@@ -35,7 +35,7 @@
 
     --fh-border-coler: #AAAAAA;
 
-    --animation-speed: 1.0s;
+    --animation-speed: 0.5s;
     --animation-speed-button-switch: 0.1s;
 
     --font-size-base: 16px;
@@ -327,15 +327,20 @@ p .fh-loading {
 }
 
 .fh-window-title .close {
-    width: 50px;
+    width: calc(var(--font-size-base) + 36px);
     height: var(--title-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     --corner-marker-color: rgba(0,0,0,0.15);
     background-image: var(--corner-marker);
     background-color: transparent;
-    transition: background-color var(--animation-speed-button-switch);
+    transition: filter var(--animation-speed-button-switch), background-color var(--animation-speed-button-switch);
+    cursor: pointer;
 }
 
-.fh-window-title .close:hover {
+.fh-window-title .close:hover:not(:disabled),
+.fh-window-title .close:focus:not(:disabled) {
     background-color: var(--color-danger);
 }
 
@@ -369,14 +374,14 @@ p .fh-loading {
 }
 
 @keyframes fh-window-show-content {
-    0% {height:0; color: transparent; overflow-y: hidden;}
-    50% {height:0; color: transparent; overflow-y: hidden;}
+    0% {height:0; overflow-y: hidden;}
+    50% {height:0; overflow-y: hidden;}
     100% {overflow-y: hidden;}
 }
 
 @keyframes fh-window-close-content {
     0% {height: var(--height); overflow-y: hidden;}
-    100% {height:0; color: transparent; overflow-y: hidden;}
+    100% {height: 0; overflow-y: hidden;}
 }
 
 .fh-msgbox-content {

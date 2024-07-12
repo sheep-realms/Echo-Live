@@ -4,6 +4,14 @@ const lang_zho_Hant_TW = {
         code_ietf: "zh-Hant-TW",
         title: "繁體中文（臺灣地區）"
     },
+    localization: {
+        data_common: '{y}-{MM}-{dd}',
+        data_time_common: '{y}-{MM}-{dd} {hh}:{mm}:{ss}',
+        data: '{y} 年 {M} 月 {d} 日',
+        data_pad_zero: '{y} 年 {MM} 月 {dd} 日',
+        data_time: '{y} 年 {M} 月 {d} 日 {h}:{m}:{s}',
+        data_time_pad_zero: '{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}',
+    },
     ui: {
         confirm: "確認",
         cancel: "取消",
@@ -38,6 +46,7 @@ const lang_zho_Hant_TW = {
         move_left: "左移",
         move_right: "右移",
         audition: "試聽",
+        download: "下載",
         missingno: {
             no_author: "未署名",
             no_name: "未命名"
@@ -1194,6 +1203,11 @@ const lang_zho_Hant_TW = {
             message: "您已經掌握瞭如何操作瀏覽器縮放。請注意，<kbd>Ctrl</kbd> + <kbd>-</kbd> 和 <kbd>Ctrl</kbd> + <kbd>+</kbd> 組合鍵可以調整瀏覽器縮放，當心誤操作！"
         },
         drop_file_cancel_many: "你倒是放啊！",
+        github_download_but_no_assets: {
+            title: "讓我們開始下載...... 等一下？",
+            message: "釋出了新版本結果沒上傳檔案？還能有這種事情？！"
+        },
+        import_image_url_empty: "未填寫圖片 URL！",
         unknow_error: {
             title: "發生了未捕獲的錯誤",
             message: "這應該不是什麼意料之中的戰術性報錯，您可以將此問題反饋給開發者，並提供復現方法。"

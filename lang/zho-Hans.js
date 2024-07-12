@@ -4,6 +4,14 @@ const lang_zho_Hans = {
         code_ietf: "zh-Hans",
         title: "简体中文"
     },
+    localization: {
+        data_common: '{y}-{MM}-{dd}',
+        data_time_common: '{y}-{MM}-{dd} {hh}:{mm}:{ss}',
+        data: '{y} 年 {M} 月 {d} 日',
+        data_pad_zero: '{y} 年 {MM} 月 {dd} 日',
+        data_time: '{y} 年 {M} 月 {d} 日 {h}:{m}:{s}',
+        data_time_pad_zero: '{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}',
+    },
     ui: {
         confirm: "确认",
         cancel: "取消",
@@ -38,6 +46,7 @@ const lang_zho_Hans = {
         move_left: "左移",
         move_right: "右移",
         audition: "试听",
+        download: "下载",
         missingno: {
             no_author: "未署名",
             no_name: "未命名"
@@ -1194,6 +1203,11 @@ const lang_zho_Hans = {
             message: "您已经掌握了如何操作浏览器缩放。请注意，<kbd>Ctrl</kbd> + <kbd>-</kbd> 和 <kbd>Ctrl</kbd> + <kbd>+</kbd> 组合键可以调整浏览器缩放，当心误操作！"
         },
         drop_file_cancel_many: "你倒是放啊！",
+        github_download_but_no_assets: {
+            title: "让我们开始下载...... 等一下？",
+            message: "发布了新版本结果没上传文件？还能有这种事情？！"
+        },
+        import_image_url_empty: "未填写图片 URL！",
         unknow_error: {
             title: "发生了未捕获的错误",
             message: "这应该不是什么意料之中的战术性报错，您可以将此问题反馈给开发者，并提供复现方法。"

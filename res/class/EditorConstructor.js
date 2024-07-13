@@ -1302,7 +1302,7 @@ class SettingsFileChecker {
                 <div class="meta">
                     <div class="name" title="${ $t('file.name') }">${ file.name }</div>
                     <div class="size" title="${ $t('file.size') }">${ EchoLiveTools.formatFileSize(file.size) }</div>
-                    <div class="last-modified-date" title="${ $t('file.last_modified_date') }">${ EchoLiveTools.formatDate(file.lastModifiedDate || file.lastModified) }</div>
+                    <div class="last-modified-date" title="${ $t('file.last_modified_date') }">${ EchoLiveTools.formatDate(file.lastModifiedDate || file.lastModified, 'data_time') }</div>
                 </div>
             </div>
             <div class="state state-${ state }">
@@ -1609,6 +1609,8 @@ class FHUIWindow {
      * @param {String} title 标题
      * @param {Object} data 数据
      * @param {String} data.attr 自定义属性
+     * @param {String} data.autoFocusButton 自动获得焦点的按钮
+     * @param {Boolean} data.autoIconButton 自动设置按钮图标
      * @param {Boolean} data.closable 可关闭
      * @param {String} data.icon 标题栏图标
      * @param {String} data.id ID
@@ -1622,6 +1624,8 @@ class FHUIWindow {
     static window(content = '', title = '', data = {}) {
         data = {
             attr: undefined,
+            autoFocusButton: undefined,
+            autoFocusButton: false,
             closable: true,
             icon: undefined,
             id: undefined,
@@ -1654,6 +1658,7 @@ class FHUIWindow {
                 ${ data.style ?? '' }
             "
             data-index="${ data.index }"
+            ${ data.autoFocusButton != undefined ? `data-auto-focus-button="${ data.autoFocusButton }"` : '' }
             ${ data.attr ?? '' }
         >
             <div class="fh-window-title">
@@ -1669,8 +1674,8 @@ class FHUIWindow {
             </div>
             <div class="fh-window-content">
                 <div class="fh-msgbox-content">${ content }</div>
-                <div class="fh-msgbox-controller">
-                    ${ FHUIWindow.controller(data.controller) }
+                <div class="fh-msgbox-controller ${ data.controller.length > 3 ? 'controller-overload' : '' }">
+                    ${ FHUIWindow.controller(data.controller, data.autoIconButton) }
                 </div>
             </div>
         </div>`;
@@ -1691,39 +1696,74 @@ class FHUIWindow {
         return dom;
     }
 
-    static controller(data = []) {
+    static controller(data = [], autoIconButton = false) {
         let dom = '';
         data.forEach(e => {
             if (typeof e === 'object' && !Array.isArray(e)) {
-                dom += FHUIWindow.controllerButton(e?.id, e?.content, e?.data);
+                dom += FHUIWindow.controllerButton(e?.id, e?.content, e?.data, autoIconButton);
             } else if (typeof e === 'string') {
-                dom += FHUIWindow.controllerButton(e);
+                if (e === 'no' && data.indexOf('cancel') != -1) {
+                    dom += FHUIWindow.controllerButton(e, undefined, {
+                        color: 'warn'
+                    }, autoIconButton);
+                } else {
+                    dom += FHUIWindow.controllerButton(e, undefined, {}, autoIconButton);
+                }
             }
         });
         return dom;
     }
 
-    static controllerButton(id, content = undefined, data = {}) {
+    static controllerButton(id, content = undefined, data = {}, autoIconButton = false) {
         const btnColorType = {
             cancel: 'danger',
-            no: 'danger'
+            clear: 'danger',
+            close: 'danger',
+            delete: 'danger',
+            no: 'danger',
+            reset: 'danger'
         };
         const btnIcon = {
             cancel: 'close',
+            close: 'close',
             confirm: 'check',
+            download: 'download',
             no: 'close',
             yes: 'check',
         }
 
         let colorType = btnColorType[id];
+        let icon = autoIconButton ? btnIcon[id] : undefined;
         if (content == undefined) content = $t('ui.' + id);
         data = {
             class: 'fh-window-controller-button fh-window-controller-button-' + id,
             color: colorType,
             attr: `data-controller-id="${ id }"`,
+            icon: icon != undefined ? Icon[icon] : undefined,
             ...data
         }
 
         return EditorForm.button(content, data);
+    }
+
+    static releasesView(releasesData) {
+        return `<div class="releases-view">
+            <div class="releases-view-meta">
+                <div class="title">${ releasesData?.tag_name ?? '?' }</div>
+                <div class="meta">
+                    <div class="created-at">发布时间：${ EchoLiveTools.formatDate(releasesData?.created_at) }</div>
+                    <div class="author">作者：${ releasesData?.author?.login }</div>
+                </div>
+            </div>
+            <div class="releases-view-body markdown-body">${ marked.parse(releasesData?.body) }</div>
+        </div>`;
+    }
+
+    static assetsSelectorsView(assets) {
+        let dom = '';
+        assets.forEach(e => {
+            dom += `<div class="assets-item"><a class="fh-link" href="${ e?.browser_download_url }" target="_blank">${ EchoLiveTools.safeHTML(e?.name) }</a></div>`;
+        });
+        return `<div class="assets-list">${ dom }</div>`;
     }
 }

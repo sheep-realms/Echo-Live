@@ -1513,3 +1513,63 @@ select:focus {
     0% { opacity: 0; position: relative; top: -0.5em; }
     100% { opacity: 1; position: relative; top: 0em; }
 }
+
+.fh-msgbox-controller {
+    padding: 0 16px;
+    gap: 16px;
+}
+
+.fh-msgbox-controller .fh-button {
+    margin: 0;
+}
+
+.fh-msgbox-controller.controller-overload .fh-button {
+    min-width: unset;
+    flex: 1;
+}
+
+.fh-msgbox-controller.controller-overload .fh-icon-button {
+    padding-left: 6px;
+}
+
+.fh-msgbox-controller .fh-icon-button>svg {
+    position: relative;
+    top: 1px;
+}
+
+@media screen and (max-width: 450px) {
+    .fh-msgbox-controller .fh-button {
+        min-width: unset;
+        flex: 1;
+    }
+}
+
+
+
+.releases-view {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 16px 64px;
+}
+
+.releases-view .releases-view-meta {
+    padding: 8px 0;
+    border-bottom: var(--border-color) 1px solid;
+    margin-bottom: 16px;
+}
+
+.releases-view .releases-view-meta .title {
+    font-size: var(--font-size-title-2);
+    font-weight: bold;
+    color: var(--text-primary);
+}
+
+.releases-view .releases-view-meta .meta {
+    font-size: var(--font-size-small);
+    color: var(--text-secondary)
+}
+
+.releases-view .releases-view-body {
+    padding-bottom: calc(var(--height) / 3);
+}

@@ -39,6 +39,8 @@
     --animation-speed-button-switch: 0.1s;
 
     --font-size-base: 16px;
+    --font-size-title-1: 2rem;
+    --font-size-title-2: 1.75rem;
     --font-size-title-3: 1.5rem;
     --font-size-extra-large: 1.25rem;
     --font-size-large: 1.125rem;
@@ -409,7 +411,7 @@ p .fh-loading {
     --fh-color-glass: var(--color-general-glass);
     height: calc(var(--font-size-base) + 20px);
     line-height: calc(var(--font-size-base) + 20px);
-    padding: 0 10px;
+    padding: 0 10px 2px 10px;
     margin: 0 3px;
     font-size: var(--font-size-small);
     color: #FFF;

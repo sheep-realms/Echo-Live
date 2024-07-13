@@ -320,20 +320,63 @@ class EchoLiveTools {
     }
 
     /**
-     * 格式化时间戳
-     * @param {Number} timestamp 时间戳
+     * 格式化日期时间
+     * @param {String|Number} value 日期时间值
+     * @param {String} formatKey 格式化键名
      * @returns {String} 格式化后的日期时间
      */
-    static formatDate(timestamp) {
-        const date      = new Date(timestamp);
-        const year      = date.getFullYear();
-        const month     = ('0' + (date.getMonth() + 1)) .slice(-2);
-        const day       = ('0' + date.getDate())        .slice(-2);
-        const hours     = ('0' + date.getHours())       .slice(-2);
-        const minutes   = ('0' + date.getMinutes())     .slice(-2);
-        const seconds   = ('0' + date.getSeconds())     .slice(-2);
+    static formatDate(value, formatKey = 'data_time_common') {
+        let data = EchoLiveTools.formatDateToObject(value);
         
-        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        return $t('localization.' + formatKey, data);
+    }
+
+    /**
+     * 格式化日期时间为 Object
+     * @param {String|Number} value  日期时间值
+     * @returns  {Object} 日期时间数据
+     */
+    static formatDateToObject(value = undefined) {
+        let date = value != undefined ? new Date(value) : new Date();
+        const padZero = (num, pad = 2) => num.toString().padStart(pad, '0');
+    
+        const y = date.getFullYear();
+        const M = date.getMonth() + 1;
+        const d = date.getDate();
+        const h = date.getHours();
+        const m = date.getMinutes();
+        const s = date.getSeconds();
+        const ms = date.getMilliseconds();
+        const utcz = date.getTimezoneOffset() / 60
+        const utc = utcz < 0 ? utcz * -1 : utcz * 1
+        const h12 = (h - 1) % 12 + 1;
+        let utcs = '';
+        if (utc != 0) {
+            utcs = ( utc > 0 ? '+' : '-' ) + utc
+        }
+    
+        return {
+            y: y,
+            M: M,
+            d: d,
+            h: h,
+            h12: h12,
+            m: m,
+            s: s,
+            ms: ms,
+            MM: padZero(M),
+            dd: padZero(d),
+            hh: padZero(h),
+            hh12: padZero(h12),
+            mm: padZero(m),
+            ss: padZero(s),
+            mms: padZero(ms, 3),
+            utc: utc,
+            utcs: utcs,
+            isAM: h < 12,
+            isPM: h >= 12,
+            AMorPM: h < 12 ? 'am' : 'pm'
+        };
     }
 
     /**

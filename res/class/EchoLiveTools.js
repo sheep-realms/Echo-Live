@@ -349,7 +349,7 @@ class EchoLiveTools {
         const ms = date.getMilliseconds();
         const utcz = date.getTimezoneOffset() / 60
         const utc = utcz < 0 ? utcz * -1 : utcz * 1
-        const h12 = (h - 1) % 12 + 1;
+        const h12 = ((h - 1) % 12 + 1) || 12;
         let utcs = '';
         if (utc != 0) {
             utcs = ( utc > 0 ? '+' : '-' ) + utc

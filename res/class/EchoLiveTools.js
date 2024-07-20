@@ -11,11 +11,11 @@ class EchoLiveTools {
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
             let random = Math.random() * 16;
             if (timestamp > 0) {
-                random = (timestamp + random) % 16 | 0;
-                timestamp = Math.floor(timestamp / 16);
+                random      = (timestamp + random) % 16 | 0;
+                timestamp   = Math.floor(timestamp / 16);
             } else {
-                random = (perforNow + random) % 16 | 0;
-                perforNow = Math.floor(perforNow / 16);
+                random      = (perforNow + random) % 16 | 0;
+                perforNow   = Math.floor(perforNow / 16);
             }
             return (c === 'x' ? random : (random & 0x3) | 0x8).toString(16);
         });
@@ -34,18 +34,19 @@ class EchoLiveTools {
         let style = '';
         if (data?.typewrite) cls += 'echo-text-typewrite '
         if (data?.style) {
-            if (data.style?.color) style += `color: ${data.style.color}; --echo-span-color: ${data.style.color}; `;
-            if (data.style?.backgroundColor) style += `background-color: ${data.style.backgroundColor}; `;
-            if (data.style?.bold && data.style?.weight == undefined) cls += 'echo-text-bold '
-            if (data.style?.italic) cls += 'echo-text-italic '
-            if (data.style?.underline) cls += 'echo-text-underline '
-            if (data.style?.strikethrough) cls += 'echo-text-strikethrough '
-            if (data.style?.size) cls += 'echo-text-size-' + data.style.size + ' '
-            if (data.style?.weight) cls += 'echo-text-weight-' + data.style.weight + ' '
-            if (data.style?.stretch) cls += 'echo-text-stretch-' + data.style.stretch + ' '
-            if (data.style?.letterSpacing) cls += 'echo-text-letter-spacing-' + data.style.letterSpacing + ' '
-            if (data.style?.rock) cls += 'echo-text-rock-' + data.style.rock + ' '
-            if (data.style?.style) style += data.style.style;
+            if (data.style?.color)              style   += `color: ${data.style.color}; --echo-span-color: ${data.style.color}; `;
+            if (data.style?.backgroundColor)    style   += `background-color: ${data.style.backgroundColor}; `;
+            if (data.style?.bold && data.style?.weight == undefined) 
+                                                cls     += 'echo-text-bold ';
+            if (data.style?.italic)             cls     += 'echo-text-italic ';
+            if (data.style?.underline)          cls     += 'echo-text-underline ';
+            if (data.style?.strikethrough)      cls     += 'echo-text-strikethrough ';
+            if (data.style?.size)               cls     += 'echo-text-size-'            + data.style.size           + ' ';
+            if (data.style?.weight)             cls     += 'echo-text-weight-'          + data.style.weight         + ' ';
+            if (data.style?.stretch)            cls     += 'echo-text-stretch-'         + data.style.stretch        + ' ';
+            if (data.style?.letterSpacing)      cls     += 'echo-text-letter-spacing-'  + data.style.letterSpacing  + ' ';
+            if (data.style?.rock)               cls     += 'echo-text-rock-'            + data.style.rock           + ' ';
+            if (data.style?.style)              style   += data.style.style;
         }
 
         return {
@@ -69,7 +70,7 @@ class EchoLiveTools {
         if (typeof message == 'string') {
             str = message;
             if (HTMLFilter) str = str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>');
-            if (noEmoji) str = str.replace(/\p{Emoji}/gu, '');
+            if (noEmoji)    str = str.replace(/\p{Emoji}/gu, '');
             if (regFilter instanceof RegExp) str = str.replace(regFilter, '');
             return str;
         }
@@ -97,7 +98,7 @@ class EchoLiveTools {
         });
 
         if (HTMLFilter) str = str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>');
-        if (noEmoji) str = str.replace(/\p{Emoji}/gu, '');
+        if (noEmoji)    str = str.replace(/\p{Emoji}/gu, '');
         if (regFilter instanceof RegExp) str = str.replace(regFilter, '');
 
         return str;
@@ -111,14 +112,14 @@ class EchoLiveTools {
      * @returns {String} 说话人
      */
     static getMessageUsername(username, message, HTMLFilter = false) {
-        let u = username;
-        let u2 = message?.data?.customData?.username;
+        let u   = username;
+        let u2  = message?.data?.customData?.username;
         if (typeof u2 == 'string') u = u2;
 
         if (Array.isArray(message.message)) {
             for (let i = message.message.length - 1; i >= 0; i--) {
                 const e = message.message[i];
-                u2 = e?.data?.username;
+                u2      = e?.data?.username;
                 if (typeof u2 == 'string') break;
             }
         } else {
@@ -141,8 +142,8 @@ class EchoLiveTools {
     static getMessageSendLog(message, username = '') {
         username = EchoLiveTools.safeHTML(username);
         if (typeof message != 'string') message = EchoLiveTools.safeHTML(EchoLiveTools.getMessagePlainText(message));
-        if (message == '') message = `<i>${ $t( 'message_preview.empty_message' ) }</i>`;
-        if (username == '') username = `<i>${ $t( 'message_preview.empty_username' ) }</i>`;
+        if (message     == '') message  = `<i>${ $t( 'message_preview.empty_message' ) }</i>`;
+        if (username    == '') username = `<i>${ $t( 'message_preview.empty_username' ) }</i>`;
 
         return `<${ username }> ${ message }`;
     }
@@ -156,7 +157,7 @@ class EchoLiveTools {
      */
     static formattingCodeToMessage(text, data = {}) {
         let message = [];
-        data = JSON.parse(JSON.stringify(data));
+        data        = JSON.parse(JSON.stringify(data));
 
         const fontSizeValue = [
             'extra-small',
@@ -173,14 +174,17 @@ class EchoLiveTools {
             let output = {
                 text: msg
             };
-            if (style != undefined && Object.keys(style).length != 0) output.style = style;
-            if (data != undefined) output.data = data;
+            if (style   != undefined && Object.keys(style).length != 0) output.style    = style;
+            if (data    != undefined)                                   output.data     = data;
             return message.push(output);
         }
 
         let replaced = text;
         replaced = replaced.replace(/\\@/g, '{{{sheep-realms:at}}}');
-        replaced = replaced.replace(/@(\[#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})\]|\{.*?\}|.?)/g, '{{{sheep-realms:split}}}@$1{{{sheep-realms:format}}}');
+        replaced = replaced.replace(
+            /@(\[#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})\]|\{.*?\}|.?)/g,
+            '{{{sheep-realms:split}}}@$1{{{sheep-realms:format}}}'
+        );
 
         let arrayMsg = replaced.split('{{{sheep-realms:split}}}');
 
@@ -197,9 +201,9 @@ class EchoLiveTools {
                 continue;
             }
 
-            let style = {};
-            let imageKey = '';
-            let imageObj = {};
+            let style       = {};
+            let imageKey    = '';
+            let imageObj    = {};
             switch (e[0]) {
                 case '@b':
                     style.bold = true;
@@ -220,18 +224,18 @@ class EchoLiveTools {
                 case '@+':
                     style.size = 'large';
                     if (styleCache?.size != undefined) {
-                        fontSizeFindIndex = fontSizeValue.indexOf(styleCache?.size);
-                        fontSizeFindIndex = Math.min(fontSizeFindIndex + 1, fontSizeValue.length - 1);
-                        style.size = fontSizeValue[fontSizeFindIndex];
+                        fontSizeFindIndex   = fontSizeValue.indexOf(styleCache?.size);
+                        fontSizeFindIndex   = Math.min(fontSizeFindIndex + 1, fontSizeValue.length - 1);
+                        style.size          = fontSizeValue[fontSizeFindIndex];
                     }
                     break;
 
                 case '@-':
                     style.size = 'small';
                     if (styleCache?.size != undefined) {
-                        fontSizeFindIndex = fontSizeValue.indexOf(styleCache?.size);
-                        fontSizeFindIndex = Math.max(fontSizeFindIndex - 1, 0);
-                        style.size = fontSizeValue[fontSizeFindIndex];
+                        fontSizeFindIndex   = fontSizeValue.indexOf(styleCache?.size);
+                        fontSizeFindIndex   = Math.max(fontSizeFindIndex - 1, 0);
+                        style.size          = fontSizeValue[fontSizeFindIndex];
                     }
                     break;
 
@@ -308,28 +312,71 @@ class EchoLiveTools {
     static formatFileSize(bytes) {
         if (bytes === 0) return '0 B';
     
-        const k = 1024;
+        const k     = 1024;
         const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        const i     = Math.floor(Math.log(bytes) / Math.log(k));
     
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
 
     /**
-     * 格式化时间戳
-     * @param {Number} timestamp 时间戳
+     * 格式化日期时间
+     * @param {String|Number} value 日期时间值
+     * @param {String} formatKey 格式化键名
      * @returns {String} 格式化后的日期时间
      */
-    static formatDate(timestamp) {
-        const date = new Date(timestamp);
-        const year = date.getFullYear();
-        const month = ('0' + (date.getMonth() + 1)).slice(-2);
-        const day = ('0' + date.getDate()).slice(-2);
-        const hours = ('0' + date.getHours()).slice(-2);
-        const minutes = ('0' + date.getMinutes()).slice(-2);
-        const seconds = ('0' + date.getSeconds()).slice(-2);
+    static formatDate(value, formatKey = 'data_time_common') {
+        let data = EchoLiveTools.formatDateToObject(value);
         
-        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        return $t('localization.' + formatKey, data);
+    }
+
+    /**
+     * 格式化日期时间为 Object
+     * @param {String|Number} value  日期时间值
+     * @returns  {Object} 日期时间数据
+     */
+    static formatDateToObject(value = undefined) {
+        let date = value != undefined ? new Date(value) : new Date();
+        const padZero = (num, pad = 2) => num.toString().padStart(pad, '0');
+    
+        const y = date.getFullYear();
+        const M = date.getMonth() + 1;
+        const d = date.getDate();
+        const h = date.getHours();
+        const m = date.getMinutes();
+        const s = date.getSeconds();
+        const ms = date.getMilliseconds();
+        const utcz = date.getTimezoneOffset() / 60
+        const utc = utcz < 0 ? utcz * -1 : utcz * 1
+        const h12 = (h % 12) || 12;
+        let utcs = '';
+        if (utc != 0) {
+            utcs = ( utc > 0 ? '+' : '-' ) + utc
+        }
+    
+        return {
+            y: y,
+            M: M,
+            d: d,
+            h: h,
+            h12: h12,
+            m: m,
+            s: s,
+            ms: ms,
+            MM: padZero(M),
+            dd: padZero(d),
+            hh: padZero(h),
+            hh12: padZero(h12),
+            mm: padZero(m),
+            ss: padZero(s),
+            mms: padZero(ms, 3),
+            utc: utc,
+            utcs: utcs,
+            isAM: h < 12,
+            isPM: h >= 12,
+            AMorPM: h < 12 ? 'am' : 'pm'
+        };
     }
 
     /**
@@ -361,8 +408,73 @@ class EchoLiveTools {
      */
     static generateCharRegex(str) {
         str = str.replace(/\s/gm, '');
-        const escapedStr = str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const regexStr = '[' + escapedStr + ']';
+        const escapedStr    = str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regexStr      = '[' + escapedStr + ']';
         return new RegExp(regexStr, 'g');
+    }
+
+    /**
+     * 生成 driver.js 引导数据
+     * @param {Object} data 附加数据
+     * @param {Array<Object>} step 步骤数据
+     * @returns {Object} 引导数据
+     */
+    static generateDriverData(data = {}, steps = []) {
+        return {
+            animate:        !config.accessible.animation_disable,
+            showProgress:   true,
+            progressText:   $t('help.popover.progress'),
+            nextBtnText:    $t('help.popover.next'),
+            prevBtnText:    $t('help.popover.prev'),
+            doneBtnText:    $t('help.popover.done'),
+            showButtons:    [
+                'next',
+                'close'
+            ],
+            ...data,
+            steps:          steps
+        }
+    }
+
+    /**
+     * 生成 driver.js 引导步骤
+     * @param {String} key 翻译键
+     * @param {Number} step 总步骤数
+     * @param {Array<Object>} elementData 目标元素数据
+     * @param {Array<Object>} popoverData 附加数据
+     * @returns {Array<Object>} 步骤数据
+     */
+    static generateDriverSteps(key = '', step = 1, elementData = [], popoverData = []) {
+        let steps = [];
+        for (let i = 1; i <= step; i++) {
+            steps.push({
+                element: elementData[i] ? elementData[i] : undefined,
+                popover: {
+                    title:          $t(`help.step.${key}.s${i}.title`),
+                    description:    $t(`help.step.${key}.s${i}.description`),
+                    side:           'bottom',
+                    align:          'start',
+                    ...popoverData[i]
+                }
+            });
+        }
+        return steps;
+    }
+
+    /**
+     * 定义对象只读属性
+     * @param {Object} obj 目标对象
+     * @param {Object} data 属性数据
+     */
+    static defineObjectPropertyReadOnly(obj, data = {}) {
+        for (const key in data) {
+            if (Object.hasOwnProperty.call(data, key)) {
+                const e = data[key];
+                Object.defineProperty(obj, key, {
+                    value:      e,
+                    writable:   false
+                });
+            }
+        }
     }
 }

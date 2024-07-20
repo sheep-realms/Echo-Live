@@ -5,13 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="page_title.editor">Echo Live 编辑器</title>
     <link rel="icon" href="res/image/favicon.ico">
+    <link rel="stylesheet" href="lib/driver/driver.css">
     <link rel="stylesheet" href="res/style/fh-ui.css">
     <link rel="stylesheet" href="res/style/editor.css">
     <link rel="stylesheet" href="res/style/editor-only.css">
     <link rel="stylesheet" href="res/style/editor-accessible.css">
+    <link rel="stylesheet" href="res/style/driver-custom.css">
+    <link rel="stylesheet" href="res/style/markdown.css">
     <script src="lib/jquery-3.7.1.min.js"></script>
+    <script src="lib/driver/driver.js.iife.js"></script>
+    <script src="lib/markdown/marked.min.js"></script>
     <script src="res/script/config-load-fail.js"></script>
     <script src="config.js" onerror="configLoadFail()"></script>
+    <script src="app.js"></script>
     <script src="lang/index.js"></script>
     <script src="lang/zho-Hans.js"></script>
     <script src="lang/zho-Hant-HK.js"></script>
@@ -44,6 +50,7 @@
         <!-- 标签页标题 -->
         <nav id="echo-editor-nav" class="tabpage-nav" data-navid="main">
             <button
+                id="tabpage-nav-ptext"
                 class="tabpage-nav-item"
                 data-pageid="ptext"
                 role="tab"
@@ -139,7 +146,7 @@
 
                     <div class="collapse">
                         <div class="collapse-title">
-                            <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
+                            <button role="checkbox" aria-selected="false" id="ptext-collapse-use-formatting-code" class="checkbox collapse-checkbox">
                                 <span class="icon"></span>
                                 <span class="text" data-i18n="editor.form.label.use_formatting_code">使用快速格式化代码</span>
                                 <input type="hidden" name="ptext-chk-use-formatting-code" id="ptext-chk-use-formatting-code" value="0">
@@ -489,5 +496,6 @@
     <script src="res/script/editor-common.js"></script>
     <script src="res/script/editor.js"></script>
     <script src="res/script/editor-file-picker.js"></script>
+    <script src="res/script/help/editor-help.js"></script>
 </body>
 </html>

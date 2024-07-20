@@ -1,8 +1,8 @@
 class SettingsManager {
     constructor(configDefine = []) {
-        this.configDefine = configDefine;
-        this.config = {};
-        this.configBackup = {};
+        this.configDefine   = configDefine;
+        this.config         = {};
+        this.configBackup   = {};
     }
 
     getConfigDefine(prefix = '', verMin = 0, verMax = 100000) {

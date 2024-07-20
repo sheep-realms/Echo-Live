@@ -1,7 +1,7 @@
 class SystemNotice {
     constructor(sel = '#fh-notice') {
         this.sel = sel;
-        this.lastnNoticeIndex = 0;
+        this.lastNoticeIndex = 0;
     }
 
     /**
@@ -17,14 +17,14 @@ class SystemNotice {
      * @param {String} data.width 宽度
      */
     send(message = '', title = '', type = 'info', data = {}) {
-        const index = this.lastnNoticeIndex++;
+        const index = this.lastNoticeIndex++;
         data = {
-            id: undefined,
-            waitTime: undefined,
-            width: undefined,
+            id:         undefined,
+            waitTime:   undefined,
+            width:      undefined,
             ...data,
-            animation: !config.accessible.animation_disable && !$('body').hasClass('accessible-animation-disable') && ( data?.animation ?? true ),
-            index: index
+            animation:  !config.accessible.animation_disable && !$('body').hasClass('accessible-animation-disable') && ( data?.animation ?? true ),
+            index:      index
         };
 
         if (data.id != undefined && $(`${ this.sel } .fh-notice-item[data-id="${ data.id }"]`).length > 0) {
@@ -34,7 +34,7 @@ class SystemNotice {
         $(this.sel).prepend(FHUINotice.notice(message, title, type, data));
 
         let messageLenB = new TextEncoder().encode((message + title).replace(/<\/?[\w\s="':;.-]*>/g, '')).length;
-        let waitTime = Math.max(5000, messageLenB * 1000 * 0.15 + 500);
+        let waitTime    = Math.max(5000, messageLenB * 1000 * 0.15 + 500);
         if (data?.waitTime != undefined) waitTime = data.waitTime;
 
         if (waitTime < 0) return;

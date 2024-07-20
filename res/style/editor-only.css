@@ -291,3 +291,8 @@
     margin-bottom: 8px;
     border-bottom: var(--border-color) 1px solid;
 }
+
+#popups-image-images-list {
+    display: flex;
+    flex-wrap: wrap;
+}

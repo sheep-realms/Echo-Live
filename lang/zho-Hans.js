@@ -4,6 +4,14 @@ const lang_zho_Hans = {
         code_ietf: "zh-Hans",
         title: "简体中文"
     },
+    localization: {
+        data_common: '{y}-{MM}-{dd}',
+        data_time_common: '{y}-{MM}-{dd} {hh}:{mm}:{ss}',
+        data: '{y} 年 {M} 月 {d} 日',
+        data_pad_zero: '{y} 年 {MM} 月 {dd} 日',
+        data_time: '{y} 年 {M} 月 {d} 日 {h}:{m}:{s}',
+        data_time_pad_zero: '{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}',
+    },
     ui: {
         confirm: "确认",
         cancel: "取消",
@@ -38,6 +46,7 @@ const lang_zho_Hans = {
         move_left: "左移",
         move_right: "右移",
         audition: "试听",
+        download: "下载",
         missingno: {
             no_author: "未署名",
             no_name: "未命名"
@@ -156,7 +165,7 @@ const lang_zho_Hans = {
                 },
                 websocket_url: {
                     _title: "WebSocket 连接地址",
-                    _description: "提供 WebSocket 连接的服务器地址，使用 ws:// 协议头。"
+                    _description: "提供 WebSocket 连接的服务器地址，使用 ws:// 或 wss:// 协议头。"
                 },
                 websocket_reconnect_limit: {
                     _title: "WebSocket 最大重连尝试次数",
@@ -999,6 +1008,181 @@ const lang_zho_Hans = {
             image: "图片"
         }
     },
+    help: {
+        easter_egg: {
+            previous: "你就是想跟我反着干，对吧？",
+            previous_is_first_step: "别退了！已经到头了！"
+        },
+        popover: {
+            done: "完成",
+            next: "继续 →",
+            prev: "← 后退",
+            progress: "{{current}} / {{total}}"
+        },
+        step: {
+            editor_overview: {
+                s1: {
+                    title: "欢迎使用 Echo-Live！",
+                    description: "接下来我们将进入关于编辑器的新手引导。<br>如果您不方便使用鼠标，可以使用方向键 <kbd>→</kbd> 前往下一个步骤，也可以按 <kbd>Esc</kbd> 键退出引导。"
+                },
+                s2: {
+                    title: "我们只能一路向前",
+                    description: "虽然我把后退按钮删了，但你还是可以通过方向键来后退。为了引导的正常进行，请不要后退，也不要乱点高亮框内的东西。求求您千万不要！"
+                },
+                s3: {
+                    title: "说话人",
+                    description: "这里填入需要在对话框中显示的说话人，如果不需要则可以留空。",
+                    input: "追音"
+                },
+                s4: {
+                    title: "消息内容",
+                    description: "这里填入在对话框中显示的消息，消息将会使用打印动画逐字输出内容。",
+                    input: "你好，世界！"
+                },
+                s5: {
+                    title: "快速格式化代码",
+                    description: "如果想要更丰富的文本样式，可以在这里启用快速格式化代码。"
+                },
+                s6: {
+                    title: "工具栏",
+                    description: "启用快速格式化代码后，您可以点击这些按钮插入快速格式化代码。"
+                },
+                s7: {
+                    title: "插入代码",
+                    description: "点击工具栏中的按钮，就能在光标处插入对应的代码。",
+                    input: "@b你好，世界！"
+                },
+                s8: {
+                    title: "颜色选择器",
+                    description: "您可以在这里选择文本颜色，点击色块就能在光标处插入对应的颜色代码。"
+                },
+                s9: {
+                    title: "色板",
+                    description: "不喜欢这些颜色？这里有多种色板供您选择。"
+                },
+                s10: {
+                    title: "插入颜色",
+                    description: "现在，我们已经成功插入了颜色！",
+                    input: "@b你好，@[#1890ff]世界！"
+                },
+                s11: {
+                    title: "关于快速格式化代码",
+                    description: "请注意，快速格式化代码会影响其后所有文本的样式，并且是可以叠加的。直到遇到 @r，这会清空所有样式。"
+                },
+                s12: {
+                    title: "图片选择器",
+                    description: "您还可以在消息中插入图片。可以直接导入文件，这会打开一个系统的文件选择器，也可以通过 URL 地址导入文件。"
+                },
+                s13: {
+                    title: "图库",
+                    description: "您使用过的图片会保存在这里，即便您刷新网页之后也依旧存在。"
+                },
+                s14: {
+                    title: "输出消息",
+                    description: "当您编写好消息后，就可以在这里点击按钮输出消息了。如果您启用了广播模式，您可以在这里直接发送消息。"
+                },
+                s15: {
+                    title: "导航栏",
+                    description: "接下来我们来看看别的东西。"
+                },
+                s16: {
+                    title: "输出标签页",
+                    description: "当您在编辑器中点击了输出按钮时，消息的代码会输出到此处。"
+                },
+                s17: {
+                    title: "自定义消息",
+                    description: "如果您启用了广播模式，您可以在这里直接发送消息，这意味着您可以发送功能更丰富的自定义消息。"
+                },
+                s18: {
+                    title: "日志标签页",
+                    description: "在日志标签页中，您可以看到广播模式下广播系统的运行日志。"
+                },
+                s19: {
+                    title: "通知",
+                    description: "此刻冒出来的是通知消息，一些需要您留意的通知会出现在此处。",
+                    notice: "您好！"
+                },
+                s20: {
+                    title: "新人引导结束",
+                    description: "再次感谢您使用 Echo-Live！如果您还有疑问，可以阅读<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/' target='_blank'>帮助文档</a>或咨询开发者。"
+                }
+            },
+            settings_overview: {
+                s1: {
+                    title: "欢迎使用 Echo-Live！",
+                    description: "接下来我们将进入关于配置文件编辑器的新手引导。<br>如果您不方便使用鼠标，可以使用方向键 <kbd>→</kbd> 前往下一个步骤，也可以按 <kbd>Esc</kbd> 键退出引导。"
+                },
+                s2: {
+                    title: "我们只能一路向前",
+                    description: "虽然我把后退按钮删了，但你还是可以通过方向键来后退。为了引导的正常进行，请不要后退，也不要乱点高亮框内的东西。求求您千万不要！"
+                },
+                s3: {
+                    title: "导航栏",
+                    description: "如你所见，配置文件编辑器的使用过程可以分为这三个步骤。"
+                },
+                s4: {
+                    title: "导入",
+                    description: "先来看看导入这个步骤。"
+                },
+                s5: {
+                    title: "导入和升级配置文件",
+                    description: "你可以点击此处或将文件拖进这里来导入配置文件。如果您导入了旧版配置文件，可以在这里自动升级。"
+                },
+                s6: {
+                    title: "文件信息",
+                    description: "这里是当前所选中的文件的信息，包括文件名、尺寸、最后更改时间。"
+                },
+                s7: {
+                    title: "编辑",
+                    description: "导入完成后，我们应该来编辑配置文件了。"
+                },
+                s8: {
+                    title: "分类",
+                    description: "这里是配置文件项目的分类。"
+                },
+                s9: {
+                    title: "配置项",
+                    description: "这是其中一条配置项。您可以在这里阅读关于此配置项的描述，并尝试更改配置值。"
+                },
+                s10: {
+                    title: "更改配置",
+                    description: "当您更改了配置后，对应的配置标题会显示一个红色星号，代表其已更改但未保存。"
+                },
+                s11: {
+                    title: "保存配置",
+                    description: "您可以在这里保存或撤销更改。<br>暂存：保存更改，但不导出文件。<br>保存：保存更改，并导出文件。"
+                },
+                s12: {
+                    title: "导出配置文件",
+                    description: "当您导出配置文件时，请将其放置在 Echo-Live 的目录中，替换 config.js 文件。在这之后刷新网页就可以应用最新配置。"
+                },
+                s13: {
+                    title: "新增的配置项",
+                    description: "当您导入并升级了一个旧版本的配置文件时，新增的配置项会被高亮。"
+                },
+                s14: {
+                    title: "导出",
+                    description: "来看看最后一个标签页。"
+                },
+                s15: {
+                    title: "导出内容",
+                    description: "其实刚刚我们已经提到过导出文件了，这里只是为了查看和编辑导出内容，以及另存为。"
+                },
+                s16: {
+                    title: "重新导出",
+                    description: "如果你不小心搞砸了，点击这个按钮即可重新导出配置文件内容。"
+                },
+                s17: {
+                    title: "无障碍访问",
+                    description: "另外，如果您需要调整无障碍访问相关配置，可以在这里找到。<br>如有需要，您可以<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>点击此处阅读无障碍使用指南</a>。"
+                },
+                s18: {
+                    title: "新人引导结束",
+                    description: "再次感谢您使用 Echo-Live！如果您还有疑问，可以阅读<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/' target='_blank'>帮助文档</a>或咨询开发者。"
+                }
+            }
+        }
+    },
     message_preview: {
         empty_message: "[空消息]",
         empty_username: "[未指定说话人]",
@@ -1011,6 +1195,7 @@ const lang_zho_Hans = {
     notice: {
         config_re_output: "已重新导出配置文件内容！",
         config_saved: "配置文件已保存！",
+        config_saving: "保存中...",
         config_saving_fail: "未授权写入，配置文件未保存。",
         browser_zoom: "如果您不小心调整了缩放率不知道怎么复原，请按：<kbd>Ctrl</kbd> + <kbd>0</kbd>（数字键）",
         browser_zoom_reset: {
@@ -1018,6 +1203,11 @@ const lang_zho_Hans = {
             message: "您已经掌握了如何操作浏览器缩放。请注意，<kbd>Ctrl</kbd> + <kbd>-</kbd> 和 <kbd>Ctrl</kbd> + <kbd>+</kbd> 组合键可以调整浏览器缩放，当心误操作！"
         },
         drop_file_cancel_many: "你倒是放啊！",
+        github_download_but_no_assets: {
+            title: "让我们开始下载...... 等一下？",
+            message: "发布了新版本结果没上传文件？还能有这种事情？！"
+        },
+        import_image_url_empty: "未填写图片 URL！",
         unknow_error: {
             title: "发生了未捕获的错误",
             message: "这应该不是什么意料之中的战术性报错，您可以将此问题反馈给开发者，并提供复现方法。"

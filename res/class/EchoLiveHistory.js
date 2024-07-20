@@ -1,19 +1,27 @@
 class EchoLiveHistory {
     constructor(config) {
-        this.config = config;
-        this.broadcast = undefined;
-        this.uuid = EchoLiveTools.getUUID();
-        this.hidden = false;
-        this.prevMessage = {};
-        this.theme = [];
-        this.event = {
-            newHistory: function() {},
-            shutdown: function() {},
-            themeScriptLoad: function() {},
-            themeScriptUnload: function() {},
+        this.config         = config;
+        this.broadcast      = undefined;
+        this.uuid           = EchoLiveTools.getUUID();
+        this.hidden         = false;
+        this.prevMessage    = {};
+        this.theme          = [];
+        this.event          = {
+            newHistory:         function() {},
+            shutdown:           function() {},
+            themeScriptLoad:    function() {},
+            themeScriptUnload:  function() {},
         };
 
         this.init();
+    }
+
+    /**
+     * 主题脚本是否启用
+     */
+    get themeScriptEnable() {
+        if (this.config.history.style.history_theme_script_enable && this.config.global.theme_script_enable) return true;
+        return false;
     }
     
     /**
@@ -21,8 +29,8 @@ class EchoLiveHistory {
      */
     init() {
         window.addEventListener("error", (e) => {
-            const msg = e.error != null ? e.error.stack : e.message;
-            const filename = e.filename != '' ? e.filename : 'null';
+            const msg       = e.error       != null ? e.error.stack : e.message;
+            const filename  = e.filename    != ''   ? e.filename    : 'null';
             this.broadcast.error(msg, filename, e.lineno, e.colno);
         });
 
@@ -83,9 +91,7 @@ class EchoLiveHistory {
      * @returns {Object} 主题数据
      */
     findTheme(name) {
-        return this.theme.find((e) => {
-            return e.name == name;
-        })
+        return this.theme.find((e) => e.name == name);
     }
 
     /**
@@ -98,16 +104,16 @@ class EchoLiveHistory {
         if (theme == undefined) return;
 
         this.event.themeScriptUnload()
-        this.event.themeScriptLoad = function() {};
-        this.event.themeScriptUnload = function() {};
+        this.event.themeScriptLoad      = function() {};
+        this.event.themeScriptUnload    = function() {};
         $('script.echo-live-theme-script').remove();
 
         this.setThemeStyleUrl(theme.style);
 
-        if ((this.config.history.style.history_theme_script_enable && this.config.global.theme_script_enable) && typeof theme.script == 'object') {
+        if (this.themeScriptEnable && typeof theme.script == 'object') {
             theme.script.forEach(e => {
-                let s = document.createElement("script");
-                s.src = e;
+                let s   = document.createElement("script");
+                s.src   = e;
                 s.class = 'echo-live-theme-script';
                 document.head.appendChild(s);
             });

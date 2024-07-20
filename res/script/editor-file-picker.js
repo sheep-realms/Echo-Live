@@ -248,8 +248,11 @@ $(document).on('click', '#btn-flie-check-dialog-import-image', function() {
 });
 
 $(document).on('click', '#btn-flie-check-dialog-import-image-url', function() {
-    debugger
     const imageURL = $('#image-url').val().trim();
+    if (imageURL == '') {
+        sysNotice.sendT('notice.import_image_url_empty', {}, 'error');
+        return;
+    }
     let i = 0;
     let imageAttr = getImageAttr();
     i = addImageData(imageURL, imageAttr);

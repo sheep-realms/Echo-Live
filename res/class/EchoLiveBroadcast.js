@@ -455,23 +455,23 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
     getDataServer(data, listener = this) {
         switch (data.action) {
             case EchoLiveBroadcast.API_NAME_HELLO:
-                listener.addClient(data.from.uuid, data.from.name, data.from.type, data.data?.hidden);
+                listener.addClient(data.from?.uuid, data.from?.name, data.from?.type, data.data?.hidden);
                 break;
 
             case EchoLiveBroadcast.API_NAME_ECHO_STATE_UPDATE:
-                listener.setEchoState(data.from.uuid, data.data.state, data.data.messagesCount);
+                listener.setEchoState(data.from?.uuid, data.data?.state, data.data?.messagesCount);
                 break;
 
             case EchoLiveBroadcast.API_NAME_CLOSE:
-                listener.removeClient(data.from.uuid);
+                listener.removeClient(data.from?.uuid);
                 break;
 
             case EchoLiveBroadcast.API_NAME_PAGE_HIDDEN:
-                listener.setClientHidden(data.from.uuid, true);
+                listener.setClientHidden(data.from?.uuid, true);
                 break;
 
             case EchoLiveBroadcast.API_NAME_PAGE_VISIBLE:
-                listener.setClientHidden(data.from.uuid, false);
+                listener.setClientHidden(data.from?.uuid, false);
                 break;
         
             default:
@@ -686,7 +686,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
     getDataClient(data, listener = this) {
         switch (data.action) {
             case EchoLiveBroadcast.API_NAME_PING:
-                listener.sendHello(data.from.uuid);
+                listener.sendHello(data.from?.uuid);
                 break;
 
             case EchoLiveBroadcast.API_NAME_BROADCAST_CLOSE:
@@ -698,7 +698,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
                 break;
 
             case EchoLiveBroadcast.API_NAME_SHUTDOWN:
-                listener.shutdown(data.data.reason);
+                listener.shutdown(data.data?.reason);
                 break;
         
             default:
@@ -807,11 +807,11 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
                 break;
 
             case EchoLiveBroadcast.API_NAME_SET_THEME_STYLE_URL:
-                listener.setThemeStyleUrl(data.data.url);
+                listener.setThemeStyleUrl(data.data?.url);
                 break;
 
             case EchoLiveBroadcast.API_NAME_SET_THEME:
-                listener.setTheme(data.data.name);
+                listener.setTheme(data.data?.name);
                 break;
         
             default:

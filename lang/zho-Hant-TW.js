@@ -591,6 +591,7 @@ const lang_zho_Hant_TW = {
                 quote: "引用符號",
                 quote_after: "結尾",
                 quote_before: "開頭",
+                sent_clear: "傳送後清空內容",
                 split_message: "多行文字分割為訊息佇列",
                 startup_parameter: "啟動引數",
                 use_formatting_code: "使用快速格式化程式碼"

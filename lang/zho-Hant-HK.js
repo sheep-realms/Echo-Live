@@ -591,6 +591,7 @@ const lang_zho_Hant_HK = {
                 quote: "引用符號",
                 quote_after: "結尾",
                 quote_before: "開頭",
+                sent_clear: "發送後清空內容",
                 split_message: "多行文本分割為消息隊列",
                 startup_parameter: "啟動參數",
                 use_formatting_code: "使用快速格式化代碼"

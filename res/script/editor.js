@@ -101,7 +101,7 @@ if (config.echo.print_speed != 30) {
 
 if (config.echolive.broadcast.enable) {
     $('#ptext-btn-submit').addClass('fh-ghost');
-    $('#ptext-btn-send, #output-btn-send').removeClass('hide');
+    $('#ptext-btn-send, #output-btn-send, #checkbox-sent-clear').removeClass('hide');
     $('#ptext-content, #output-content').attr('title', $t('editor.tip.hot_key_textarea_quick_send'));
 
     if (config.editor.function.client_state_panel_enable) {
@@ -491,6 +491,10 @@ $('#ptext-btn-send').click(function() {
     sendHistoryMessage(d);
 
     editorLogT('editor.log.message.sent', { msg: EchoLiveTools.getMessageSendLog(d.messages[0].message, d.username) });
+
+    if($('#ptext-chk-sent-clear').val() == 1) $('#ptext-content').val('');
+
+    $('#ptext-content').focus();
 });
 
 // 输出页发送

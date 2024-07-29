@@ -215,6 +215,12 @@
                         </div>
                     </div>
 
+                    <button role="checkbox" aria-selected="false" class="checkbox hide" id="checkbox-sent-clear">
+                        <span class="icon"></span>
+                        <span class="text" data-i18n="editor.form.label.sent_clear"></span>
+                        <input type="hidden" name="ptext-chk-sent-clear" id="ptext-chk-sent-clear" value="0">
+                    </button>
+
                     <div class="editor-controller-bottom fh-flex-row">
                         <button id="ptext-btn-clear" class="fh-button fh-big fh-danger" data-i18n="ui.reset">重置</button>
                         <button id="ptext-btn-submit" class="fh-button fh-big" data-i18n="ui.output">输出</button>
@@ -381,18 +387,18 @@
                 <div class="echo-editor-form">
                     <label for="config-output-before" data-i18n="editor.form.label.output_before">头部内容</label>
                     <textarea name="output-before" id="config-output-before" class="code"></textarea>
-                    <button role="checkbox" aria-selected="true" class="checkbox selected">
+                    <button role="checkbox" aria-selected="false" class="checkbox">
                         <span class="icon"></span>
                         <span class="text" data-i18n="editor.form.description.output_before">在输出内容之前插入头部内容</span>
-                        <input type="hidden" name="config-output-use-before" id="config-output-use-before" value="1">
+                        <input type="hidden" name="config-output-use-before" id="config-output-use-before" value="0">
                     </button>
 
                     <label for="config-output-after" data-i18n="editor.form.label.output_after">尾部内容</label>
                     <textarea name="output-after" id="config-output-after" class="code"></textarea>
-                    <button role="checkbox" aria-selected="true" class="checkbox selected">
+                    <button role="checkbox" aria-selected="false" class="checkbox">
                         <span class="icon"></span>
                         <span class="text" data-i18n="editor.form.description.output_before">在输出内容之后插入尾部内容</span>
-                        <input type="hidden" name="config-output-use-after" id="config-output-use-after" value="1">
+                        <input type="hidden" name="config-output-use-after" id="config-output-use-after" value="0">
                     </button>
 
                     <p style="margin-top: 1rem;"><a class="fh-link" href="settings.html" target="_blank" data-i18n="editor.form.description.open_settings"></a></p>

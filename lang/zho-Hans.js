@@ -1209,6 +1209,7 @@ const lang_zho_Hans = {
             message: "发布了新版本结果没上传文件？还能有这种事情？！"
         },
         import_image_url_empty: "未填写图片 URL！",
+        open_settings_in_obs: "请在浏览器中打开 settings.html，而不是在 OBS 中！",
         unknow_error: {
             title: "发生了未捕获的错误",
             message: "这应该不是什么意料之中的战术性报错，您可以将此问题反馈给开发者，并提供复现方法。"

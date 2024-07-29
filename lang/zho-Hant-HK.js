@@ -1209,6 +1209,7 @@ const lang_zho_Hant_HK = {
             message: "發布了新版本結果沒上傳文件？還能有這種事情？！"
         },
         import_image_url_empty: "未填寫圖片 URL！",
+        open_settings_in_obs: "請在瀏覽器中打開 settings.html，而不是在 OBS 中！",
         unknow_error: {
             title: "發生了未捕獲的錯誤",
             message: "這應該不是甚麼意料之中的戰術性報錯，您可以將此問題反饋給開發者，並提供復現方法。"

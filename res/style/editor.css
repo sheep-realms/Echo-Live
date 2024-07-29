@@ -370,6 +370,7 @@ input.code {
     text-align: left;
     align-items: center;
     color: var(--text-regular);
+    width: 100%;
 }
 
 .checkbox .icon {

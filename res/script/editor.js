@@ -837,6 +837,13 @@ function commanderInputHeightCheck() {
     $('#commander-input-panel').css('height', scrollHeight + 'px');
 }
 
+$(document).on('click', '#link-open-settings', function(e) {
+    if (inOBS) {
+        e.preventDefault();
+        sysNotice.sendT('notice.open_settings_in_obs');
+    }
+});
+
 
 
 // 彩蛋

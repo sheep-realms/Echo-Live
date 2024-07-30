@@ -119,6 +119,10 @@ const lang_zho_Hans = {
                     dark: "深色",
                     light: "浅色"
                 }
+            },
+            controller_layout_reverse: {
+                _title: "反转控制器按钮布局",
+                _description: "根据阅读方向将重要按钮放置于最先被阅读的位置。"
             }
         },
         echo: {

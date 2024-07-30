@@ -1,4 +1,4 @@
-const db_config_version = 5;
+const db_config_version = 6;
 
 const db_config_define = [
     {
@@ -34,6 +34,11 @@ const db_config_define = [
         attribute: {
             datalist: []
         }
+    }, {
+        name: 'global.controller_layout_reverse',
+        type: 'boolean',
+        default: false,
+        created: 6
     },
     
 

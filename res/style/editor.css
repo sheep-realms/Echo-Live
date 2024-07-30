@@ -114,6 +114,14 @@ main {
     filter: brightness(0.85);
 }
 
+.fh-controller {
+    flex-direction: row;
+}
+
+.controller-layout-reverse .fh-controller {
+    flex-direction: row-reverse;
+}
+
 kbd {
     display: inline-flex;
     background-color: #000000;
@@ -286,15 +294,12 @@ input.code {
     position: sticky;
     bottom: 0;
     background-color: var(--page-bgcolor);
+    gap: 16px;
 }
 
 .editor-controller-bottom>* {
     flex: 1;
     margin: 0;
-}
-
-.editor-controller-bottom>*+* {
-    margin-left: 16px;
 }
 
 .editor-controller {

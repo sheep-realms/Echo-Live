@@ -1094,6 +1094,17 @@ $(document).on('click', '.settings-item[data-id="accessible.animation_disable"] 
     }, 12);
 });
 
+$(document).on('click', '.settings-item[data-id="global.controller_layout_reverse"] .settings-switch button', function() {
+    setTimeout(function() {
+        let value = getSettingsItemValue('global.controller_layout_reverse');
+        if (value) {
+            $('body').addClass('controller-layout-reverse');
+        } else {
+            $('body').removeClass('controller-layout-reverse');
+        }
+    }, 12);
+});
+
 
 
 

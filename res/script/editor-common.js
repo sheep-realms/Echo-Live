@@ -1,8 +1,7 @@
 "use strict";
 
-if (config.global.color_scheme != 'auto') {
-    $('html').addClass('prefers-color-scheme-' + config.global.color_scheme);
-}
+if (config.global.color_scheme != 'auto') $('html').addClass('prefers-color-scheme-' + config.global.color_scheme);
+if (config.global.controller_layout_reverse) $('html').addClass('controller-layout-reverse');
 if (config.accessible.high_contrast || window.matchMedia('(forced-colors: active)').matches) {
     $('body').addClass('accessible-high-contrast');
     $('body').css('--accessible-outline-color', config.accessible.high_contrast_outline_color);

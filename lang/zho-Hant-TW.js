@@ -119,6 +119,10 @@ const lang_zho_Hant_TW = {
                     dark: "深色",
                     light: "淺色"
                 }
+            },
+            controller_layout_reverse: {
+                _title: "反轉控制器按鈕佈局",
+                _description: "根據閱讀方向將重要按鈕放置於最先被閱讀的位置。"
             }
         },
         echo: {

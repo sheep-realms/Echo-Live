@@ -522,6 +522,18 @@ const lang_zho_Hant_HK = {
                     _title: "歷史記錄底部游標熔斷閾值",
                     _description: "設為 -1 可禁用此機制。"
                 }
+            },
+            settings: {
+                _title: "配置文件編輯器",
+                _description: "配置文件編輯器的高級設定",
+                display_config_key: {
+                    _title: "顯示配置項鍵名",
+                    _description: "在配置項描述下方顯示鍵名。"
+                },
+                speech_synthesis_voices_maximum: {
+                    _title: "講述人語音資源列表最大顯示數量",
+                    _description: "在某些操作系統中可能會列出大量項目從而影響渲染性能。<br>設為 -1 則不設上限。"
+                }
             }
         },
         about: {

@@ -136,6 +136,10 @@ const config = {
         "editor": {
             "forced_display_split_message": false,
             "history_minimum_breaker_threshold": 128
+        },
+        "settings": {
+            "display_config_key": false,
+            "speech_synthesis_voices_maximum": 64
         }
     },
     "selector": {},

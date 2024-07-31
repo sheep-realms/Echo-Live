@@ -522,6 +522,18 @@ const lang_zho_Hans = {
                     _title: "历史记录底部游标熔断阈值",
                     _description: "设为 -1 可禁用此机制。"
                 }
+            },
+            settings: {
+                _title: "配置文件编辑器",
+                _description: "配置文件编辑器的高级设置",
+                display_config_key: {
+                    _title: "显示配置项键名",
+                    _description: "在配置项描述下方显示键名。"
+                },
+                speech_synthesis_voices_maximum: {
+                    _title: "讲述人语音资源列表最大显示数量",
+                    _description: "在某些操作系统中可能会列出大量项目从而影响渲染性能。<br>设为 -1 则不设上限。"
+                }
             }
         },
         about: {

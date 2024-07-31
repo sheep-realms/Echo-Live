@@ -1022,6 +1022,7 @@ class SettingsPanel {
             <div class="meta">
                 <div class="title">${ title }</div>
                 <div class="description">${ description }</div>
+                <div class="key"><code>${ id }</code></div>
             </div>
             <div class="value">
                 ${ content }

@@ -934,6 +934,23 @@ const db_config_define = [
         attribute: {
             min: -1
         }
+    }, {
+        name: 'advanced.settings',
+        type: 'object',
+        created: 6
+    }, {
+        name: 'advanced.settings.display_config_key',
+        type: 'boolean',
+        default: false,
+        created: 6
+    }, {
+        name: 'advanced.settings.speech_synthesis_voices_maximum',
+        type: 'number',
+        default: 64,
+        created: 6,
+        attribute: {
+            min: -1
+        }
     },
 
 

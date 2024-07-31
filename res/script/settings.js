@@ -6,6 +6,8 @@ window.addEventListener("error", (e) => {
     sysNotice.sendThasTitle('notice.unknow_error', {}, 'fatal');
 });
 
+if (config.advanced.settings.display_config_key) $('html').addClass('display-config-key');
+
 let configFileBuffer = '';
 let configFileFiltered = '';
 let configFileWritableFileHandle = undefined;
@@ -511,7 +513,10 @@ $(document).ready(function() {
     } catch (error) {}
     let voiceName = [];
     for (let i = 0; i < voices.length; i++) {
-        if (i >= 64) break;
+        if (
+            i >= config.advanced.settings.speech_synthesis_voices_maximum &&
+            config.advanced.settings.speech_synthesis_voices_maximum >= 0
+        ) break;
         const e = voices[i];
         voiceName.push({
             value: e.name
@@ -1103,6 +1108,27 @@ $(document).on('click', '.settings-item[data-id="global.controller_layout_revers
             $('body').removeClass('controller-layout-reverse');
         }
     }, 12);
+});
+
+$(document).on('click', '.settings-item[data-id="advanced.settings.display_config_key"] .settings-switch button', function() {
+    const scrollY = window.scrollY;
+    const offsetTop = $('.settings-item[data-id="advanced.settings.display_config_key"] .settings-switch').offset().top;
+    setTimeout(function() {
+        let value = getSettingsItemValue('advanced.settings.display_config_key');
+        if (value) {
+            $('body').addClass('display-config-key');
+        } else {
+            $('body').removeClass('display-config-key');
+        }
+        const offsetTopNew = $('.settings-item[data-id="advanced.settings.display_config_key"] .settings-switch').offset().top;
+        window.scrollTo({ top: scrollY + (offsetTopNew - offsetTop) });
+    }, 12);
+});
+
+
+
+$(document).on('click', '#tabpage-nav-edit:not(:disabled)', function() {
+    window.scrollTo({ top: 0 });
 });
 
 

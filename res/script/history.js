@@ -32,24 +32,11 @@ function sendHistory(username = '', message = '') {
     username = username.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/ /g, '&ensp;');
     message = EchoLiveTools.getMessagePlainText(message);
 
-    function __getTime() {
-        let d = new Date();
-        return `${__afterZero(d.getHours())}:${__afterZero(d.getMinutes())}:${__afterZero(d.getSeconds())}`;
-    }
-
-    function __afterZero(value) {
-        if (value >= 10) {
-            return `${value}`;
-        } else {
-            return `0${value}`;
-        }
-    }
-
     $('#echo-live-history-message-list').append(
         `<div class="history-message-item">
             <div class="username"><div class="content">${EchoLiveTools.safeHTML(username)}</div></div>
             <div class="message"><div class="content echo-output" data-before="${message.substring(0, 1).replace(/"/g, '&quot;')}">${EchoLiveTools.safeHTML(message)}</div></div>
-            <div class="time"><div class="content">${__getTime()}</div></div>
+            <div class="time"><div class="content">${EchoLiveTools.formatDate(undefined, 'time_common')}</div></div>
         </div>`
     );
 

@@ -11,6 +11,7 @@ const lang_zho_Hans = {
         data_pad_zero: '{y} 年 {MM} 月 {dd} 日',
         data_time: '{y} 年 {M} 月 {d} 日 {h}:{m}:{s}',
         data_time_pad_zero: '{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}',
+        time_common: '{hh}:{mm}:{ss}',
     },
     ui: {
         confirm: "确认",

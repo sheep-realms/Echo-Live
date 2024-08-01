@@ -97,28 +97,6 @@ function effectFlicker($sel) {
     }, 1000);
 }
 
-/**
- * 获取格式化时间
- * @returns {String} 格式化时间
- */
-function getTime() {
-    let d = new Date();
-    return `${d.getFullYear()}-${afterZero(d.getMonth() + 1)}-${afterZero(d.getDate())} ${afterZero(d.getHours())}:${afterZero(d.getMinutes())}:${afterZero(d.getSeconds())}`;
-}
-
-/**
- * 时间前补零
- * @param {Number} value 数字
- * @returns {String} 补零后的字符串
- */
-function afterZero(value) {
-    if (value >= 10) {
-        return `${value}`;
-    } else {
-        return `0${value}`;
-    }
-}
-
 
 /**
  * 编辑器插入字符

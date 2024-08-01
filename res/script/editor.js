@@ -153,7 +153,7 @@ if (config.echolive.broadcast.enable) {
 let logMsgMark = 0;
 
 function editorLog(message = '', type = 'info') {
-    $('#editor-log').append(`<div role="listitem" class="log-item log-type-${type}" ${type == 'dbug' ? 'aria-hidden="true"' : ''}><span class="time" aria-hidden="true">${getTime()}</span> <span class="type" aria-label="${ $t('editor.log.accessible.type.' + type) }">[${type.toUpperCase()}]</span> <span class="message" ${type == 'erro' || type == 'warn' ? ' role="alert"' : ''}>${message}</span></div>`);
+    $('#editor-log').append(`<div role="listitem" class="log-item log-type-${type}" ${type == 'dbug' ? 'aria-hidden="true"' : ''}><span class="time" aria-hidden="true">${EchoLiveTools.formatDate(undefined, 'data_time_common')}</span> <span class="type" aria-label="${ $t('editor.log.accessible.type.' + type) }">[${type.toUpperCase()}]</span> <span class="message" ${type == 'erro' || type == 'warn' ? ' role="alert"' : ''}>${message}</span></div>`);
     $('#editor-log').scrollTop(4503599627370496);
 
     if ($('#tabpage-nav-log[aria-selected="true"]').length <= 0) {
@@ -597,7 +597,7 @@ function sendHistoryMessage(data) {
     if (Array.isArray(data.messages) && data.messages.length > 0) {
         message = EchoLiveTools.getMessagePlainText(data.messages[0].message)
     }
-    let time = getTime();
+    let time = EchoLiveTools.formatDate();
     if (message == '') message = $t('message_preview.empty_message');
     if (username == undefined || username == '') username = $t('message_preview.empty_username');
 
@@ -711,7 +711,7 @@ $(document).on('click', '.history-message-item-btn-send', function() {
     let i = $(this).data('index');
     let $item = $(this).parents('.history-message-item').eq(0);
 
-    $item.find('.sent').text(HistoryMessage.sentAt(getTime()));
+    $item.find('.sent').text(HistoryMessage.sentAt(EchoLiveTools.formatDate()));
     $item.find('.sent').removeClass('hide');
 
     if (config.editor.function.history_resend_bubble) $('#history-message-list').prepend($item);
@@ -853,7 +853,7 @@ $(document).on('click', '#link-open-settings', function(e) {
 // 彩蛋
 function getDateNumber() {
     let d = new Date();
-    return `${afterZero(d.getMonth() + 1)}${afterZero(d.getDate())}`;
+    return `${String(d.getMonth() + 1).padStart(2, 0)}${String(d.getDate() + 1).padStart(2, 0)}`;
 }
 
 function checkNowDate() {

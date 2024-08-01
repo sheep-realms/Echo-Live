@@ -397,8 +397,10 @@ class Commander {
             $t('window.clear_local_storage.message'),
             $t('window.clear_local_storage.title'),
             {
+                autoFocusButton: 'cancel',
                 controller: ['cancel', 'confirm'],
-                icon: 'alert'
+                icon: 'alert',
+                maskClosable: true
             },
             (value, unit) => {
                 if (value == 'confirm') {

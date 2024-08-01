@@ -368,7 +368,7 @@ function configUndoAll() {
         setSettingsItemValue(id, dv);
     }
     $sel.removeClass('change');
-    $('body').attr('class', bodyClassCache);
+    $('html').attr('class', bodyClassCache);
     configSaveCloseController();
     checkConfigCondition();
 }
@@ -395,7 +395,7 @@ function configSaveAll(effect = false) {
                 $('html').addClass('prefers-color-scheme-' + colorScheme);
             });
         }
-        bodyClassCache = $('body').attr('class') ?? '';
+        bodyClassCache = $('html').attr('class') ?? '';
     }, 800)
 }
 
@@ -604,7 +604,7 @@ $(document).ready(function() {
         showFileCheckDialogWarn('in_obs');
     }
 
-    bodyClassCache = $('body').attr('class') ?? '';
+    bodyClassCache = $('html').attr('class') ?? '';
 
     $(window).resize();
 
@@ -1048,7 +1048,7 @@ $(document).keydown(function(e) {
 $(window).resize(function() {
     const tabHeight = $('#echo-editor-nav').height();
     $('.settings-nav').css('top', `${tabHeight + 17}px`);
-    $('body').css('--settings-group-title-stickt-top', `${tabHeight + 1}px`);
+    $('html').css('--settings-group-title-stickt-top', `${tabHeight + 1}px`);
 
     // $('.settings-group-collapse').each(function() {
     //     const e = $(this).parents('.settings-group').eq(0).find('.settings-group-title').eq(0);
@@ -1059,9 +1059,9 @@ $(document).on('click', '.settings-item[data-id="accessible.high_contrast"] .set
     setTimeout(function() {
         let value = getSettingsItemValue('accessible.high_contrast');
         if (value) {
-            $('body').addClass('accessible-high-contrast');
+            $('html').addClass('accessible-high-contrast');
         } else {
-            $('body').removeClass('accessible-high-contrast');
+            $('html').removeClass('accessible-high-contrast');
         }
     }, 12);
 });
@@ -1070,9 +1070,9 @@ $(document).on('click', '.settings-item[data-id="accessible.drotanopia_and_deute
     setTimeout(function() {
         let value = getSettingsItemValue('accessible.drotanopia_and_deuteranopia');
         if (value) {
-            $('body').addClass('accessible-drotanopia-and-deuteranopia');
+            $('html').addClass('accessible-drotanopia-and-deuteranopia');
         } else {
-            $('body').removeClass('accessible-drotanopia-and-deuteranopia');
+            $('html').removeClass('accessible-drotanopia-and-deuteranopia');
         }
     }, 12);
 });
@@ -1081,9 +1081,9 @@ $(document).on('click', '.settings-item[data-id="accessible.link_underline"] .se
     setTimeout(function() {
         let value = getSettingsItemValue('accessible.link_underline');
         if (value) {
-            $('body').addClass('accessible-link-underline');
+            $('html').addClass('accessible-link-underline');
         } else {
-            $('body').removeClass('accessible-link-underline');
+            $('html').removeClass('accessible-link-underline');
         }
     }, 12);
 });
@@ -1092,9 +1092,9 @@ $(document).on('click', '.settings-item[data-id="accessible.animation_disable"] 
     setTimeout(function() {
         let value = getSettingsItemValue('accessible.animation_disable');
         if (value) {
-            $('body').addClass('accessible-animation-disable');
+            $('html').addClass('accessible-animation-disable');
         } else {
-            $('body').removeClass('accessible-animation-disable');
+            $('html').removeClass('accessible-animation-disable');
         }
     }, 12);
 });
@@ -1103,9 +1103,9 @@ $(document).on('click', '.settings-item[data-id="global.controller_layout_revers
     setTimeout(function() {
         let value = getSettingsItemValue('global.controller_layout_reverse');
         if (value) {
-            $('body').addClass('controller-layout-reverse');
+            $('html').addClass('controller-layout-reverse');
         } else {
-            $('body').removeClass('controller-layout-reverse');
+            $('html').removeClass('controller-layout-reverse');
         }
     }, 12);
 });
@@ -1116,9 +1116,9 @@ $(document).on('click', '.settings-item[data-id="advanced.settings.display_confi
     setTimeout(function() {
         let value = getSettingsItemValue('advanced.settings.display_config_key');
         if (value) {
-            $('body').addClass('display-config-key');
+            $('html').addClass('display-config-key');
         } else {
-            $('body').removeClass('display-config-key');
+            $('html').removeClass('display-config-key');
         }
         const offsetTopNew = $('.settings-item[data-id="advanced.settings.display_config_key"] .settings-switch').offset().top;
         window.scrollTo({ top: scrollY + (offsetTopNew - offsetTop) });

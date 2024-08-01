@@ -1,10 +1,10 @@
 "use strict";
 
-if (config.history.layout.message_list_reverse) $('body').addClass('echo-live-history-message-list-reverse');
-if (config.history.layout.message_item_reverse) $('body').addClass('echo-live-history-message-item-reverse');
-if (!config.history.layout.display_username) $('body').addClass('echo-live-history-disable-username');
-if (!config.history.layout.display_time) $('body').addClass('echo-live-history-disable-time');
-if (config.history.message.latest_message_hide) $('body').addClass('echo-live-history-latest-message-hide');
+if (config.history.layout.message_list_reverse) $('html').addClass('echo-live-history-message-list-reverse');
+if (config.history.layout.message_item_reverse) $('html').addClass('echo-live-history-message-item-reverse');
+if (!config.history.layout.display_username) $('html').addClass('echo-live-history-disable-username');
+if (!config.history.layout.display_time) $('html').addClass('echo-live-history-disable-time');
+if (config.history.message.latest_message_hide) $('html').addClass('echo-live-history-latest-message-hide');
 
 let echoLiveHistory = new EchoLiveHistory(config);
 echoLiveHistory.theme = extensionManager.theme;
@@ -16,7 +16,7 @@ echoLiveHistory.on('newHistory', function(e) {
 });
 
 echoLiveHistory.on('shutdown', function(reason) {
-    $('body').removeClass('echo-live-history-latest-message-hide');
+    $('html').removeClass('echo-live-history-latest-message-hide');
 
     if (reason != undefined && reason != '') {
         sendHistory($t( 'echolive.system_message' ), $t( 'echolive.shutdown_reason', { reason: reason } ));

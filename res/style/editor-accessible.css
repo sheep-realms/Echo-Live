@@ -267,6 +267,11 @@
     transition: unset !important;
 }
 
+.accessible-animation-disable::view-transition-old(root),
+.accessible-animation-disable::view-transition-new(root) {
+    animation-duration: 0s;
+}
+
 
 /* 通用 */
 .accessible-high-contrast #popups-palette,

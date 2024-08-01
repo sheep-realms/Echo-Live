@@ -3,15 +3,15 @@
 if (config.global.color_scheme != 'auto') $('html').addClass('prefers-color-scheme-' + config.global.color_scheme);
 if (config.global.controller_layout_reverse) $('html').addClass('controller-layout-reverse');
 if (config.accessible.high_contrast || window.matchMedia('(forced-colors: active)').matches) {
-    $('body').addClass('accessible-high-contrast');
-    $('body').css('--accessible-outline-color', config.accessible.high_contrast_outline_color);
-    $('body').css('--accessible-outline-size', config.accessible.high_contrast_outline_size);
-    $('body').css('--accessible-outline-style', config.accessible.high_contrast_outline_style);
+    $('html').addClass('accessible-high-contrast');
+    $('html').css('--accessible-outline-color', config.accessible.high_contrast_outline_color);
+    $('html').css('--accessible-outline-size', config.accessible.high_contrast_outline_size);
+    $('html').css('--accessible-outline-style', config.accessible.high_contrast_outline_style);
 }
-if (config.accessible.drotanopia_and_deuteranopia) $('body').addClass('accessible-drotanopia-and-deuteranopia');
-if (config.accessible.link_underline) $('body').addClass('accessible-link-underline');
-if (config.accessible.animation_disable) $('body').addClass('accessible-animation-disable');
-if (config.accessible.power_saving_mode) $('body').addClass('power-saving-mode');
+if (config.accessible.drotanopia_and_deuteranopia) $('html').addClass('accessible-drotanopia-and-deuteranopia');
+if (config.accessible.link_underline) $('html').addClass('accessible-link-underline');
+if (config.accessible.animation_disable) $('html').addClass('accessible-animation-disable');
+if (config.accessible.power_saving_mode) $('html').addClass('power-saving-mode');
 
 
 
@@ -506,12 +506,12 @@ $(document).on('keydown', '#popups-image', function(e) {
 // 关闭通知
 $(document).on('click', '.fh-notice-item-btn-close', function(e) {
     if (e.shiftKey) {
-        if (config.accessible.animation_disable || $('body').hasClass('accessible-animation-disable')) return $('.fh-notice-item').remove();
+        if (config.accessible.animation_disable || $('html').hasClass('accessible-animation-disable')) return $('.fh-notice-item').remove();
         $('.fh-notice-item:not(.fh-notice-ani-in)').addClass('fh-notice-ani-out');
         return;
     }
     const $item = $(this).parents('.fh-notice-item').eq(0);
-    if (config.accessible.animation_disable || $('body').hasClass('accessible-animation-disable')) return $item.remove();
+    if (config.accessible.animation_disable || $('html').hasClass('accessible-animation-disable')) return $item.remove();
     $item.addClass('fh-notice-ani-out');
 });
 

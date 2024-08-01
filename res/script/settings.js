@@ -1055,60 +1055,32 @@ $(window).resize(function() {
     // });
 });
 
-$(document).on('click', '.settings-item[data-id="accessible.high_contrast"] .settings-switch button', function() {
-    setTimeout(function() {
-        let value = getSettingsItemValue('accessible.high_contrast');
-        if (value) {
-            $('html').addClass('accessible-high-contrast');
-        } else {
-            $('html').removeClass('accessible-high-contrast');
-        }
-    }, 12);
-});
+function setSwitchButtonOnClickToChangeClass(key = '', className = '') {
+    $(document).on('click', `.settings-item[data-id="${ key }"] .settings-switch button`, function() {
+        setTimeout(function() {
+            let value = getSettingsItemValue(key);
+            if (value) {
+                $('html').addClass(className);
+            } else {
+                $('html').removeClass(className);
+            }
+        }, 12);
+    });
+}
 
-$(document).on('click', '.settings-item[data-id="accessible.drotanopia_and_deuteranopia"] .settings-switch button', function() {
-    setTimeout(function() {
-        let value = getSettingsItemValue('accessible.drotanopia_and_deuteranopia');
-        if (value) {
-            $('html').addClass('accessible-drotanopia-and-deuteranopia');
-        } else {
-            $('html').removeClass('accessible-drotanopia-and-deuteranopia');
-        }
-    }, 12);
-});
+function setSwitchButtonOnClickToChangeClassForArray(data = []) {
+    data.forEach(e => {
+        setSwitchButtonOnClickToChangeClass(e[0], e[1]);
+    });
+}
 
-$(document).on('click', '.settings-item[data-id="accessible.link_underline"] .settings-switch button', function() {
-    setTimeout(function() {
-        let value = getSettingsItemValue('accessible.link_underline');
-        if (value) {
-            $('html').addClass('accessible-link-underline');
-        } else {
-            $('html').removeClass('accessible-link-underline');
-        }
-    }, 12);
-});
-
-$(document).on('click', '.settings-item[data-id="accessible.animation_disable"] .settings-switch button', function() {
-    setTimeout(function() {
-        let value = getSettingsItemValue('accessible.animation_disable');
-        if (value) {
-            $('html').addClass('accessible-animation-disable');
-        } else {
-            $('html').removeClass('accessible-animation-disable');
-        }
-    }, 12);
-});
-
-$(document).on('click', '.settings-item[data-id="global.controller_layout_reverse"] .settings-switch button', function() {
-    setTimeout(function() {
-        let value = getSettingsItemValue('global.controller_layout_reverse');
-        if (value) {
-            $('html').addClass('controller-layout-reverse');
-        } else {
-            $('html').removeClass('controller-layout-reverse');
-        }
-    }, 12);
-});
+setSwitchButtonOnClickToChangeClassForArray([
+    ['accessible.high_contrast',                'accessible-high-contrast'],
+    ['accessible.drotanopia_and_deuteranopia',  'accessible-drotanopia-and-deuteranopia'],
+    ['accessible.link_underline',               'accessible-link-underline'],
+    ['accessible.animation_disable',            'accessible-animation-disable'],
+    ['global.controller_layout_reverse',        'controller-layout-reverse'],
+]);
 
 $(document).on('click', '.settings-item[data-id="advanced.settings.display_config_key"] .settings-switch button', function() {
     const scrollY = window.scrollY;

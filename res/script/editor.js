@@ -17,6 +17,8 @@ window.addEventListener("error", (e) => {
 
 let localStorageManager = new LocalStorageManager();
 
+let uniWindow = new UniverseWindow();
+
 let textList = [
     {text: ''}
 ];
@@ -89,8 +91,10 @@ let logMessager = new Messager();
 logMessager.on('message', function(message, type = 'info', isInput = false) {
     editorLog('[Commander] ' + ( isInput ? '&lt; ' : '&gt; ' ) + EchoLiveTools.safeHTML(message), type);
 });
+commander.link.localStorageManager = localStorageManager;
 commander.link.messager = logMessager;
 commander.link.systemNotice = sysNotice;
+commander.link.window = uniWindow;
 
 
 let elb;

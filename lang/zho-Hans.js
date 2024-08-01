@@ -1225,6 +1225,7 @@ const lang_zho_Hans = {
             message: "发布了新版本结果没上传文件？还能有这种事情？！"
         },
         import_image_url_empty: "未填写图片 URL！",
+        local_storage_cleared: "已清除本地存储数据！",
         open_settings_in_obs: "请在浏览器中打开 settings.html，而不是在 OBS 中！",
         unknow_error: {
             title: "发生了未捕获的错误",
@@ -1314,6 +1315,12 @@ const lang_zho_Hans = {
                 title: "导入",
                 description: "导入配置文件 [alt+1]"
             }
+        }
+    },
+    window: {
+        clear_local_storage: {
+            title: "清除本地存储数据",
+            message: "您确定要清除本地存储数据吗？<br>这是一个不可逆的操作，您将会永久丢失这些数据。"
         }
     }
 };

@@ -1225,6 +1225,7 @@ const lang_zho_Hant_TW = {
             message: "釋出了新版本結果沒上傳檔案？還能有這種事情？！"
         },
         import_image_url_empty: "未填寫圖片 URL！",
+        local_storage_cleared: "已清除本地儲存資料！",
         open_settings_in_obs: "請在瀏覽器中開啟 settings.html，而不是在 OBS 中！",
         unknow_error: {
             title: "發生了未捕獲的錯誤",
@@ -1314,6 +1315,12 @@ const lang_zho_Hant_TW = {
                 title: "匯入",
                 description: "匯入配置檔案 [alt+1]"
             }
+        }
+    },
+    window: {
+        clear_local_storage: {
+            title: "清除本地儲存資料",
+            message: "您確定要清除本地儲存資料嗎？<br>這是一個不可逆的操作，您將會永久丟失這些資料。"
         }
     }
 };

@@ -495,7 +495,7 @@ $(document).ready(function() {
 
     datalistLang = [];
 
-    mixer.audioDB.forEach((e) => {
+    extensionManager.forEachAudio((e) => {
         datalistLang.push({
             value: e.name
         });

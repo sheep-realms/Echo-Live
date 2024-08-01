@@ -100,28 +100,7 @@ class EchoLiveHistory {
      * @returns {String} 主题入口样式文件URL
      */
     setTheme(name) {
-        const theme = this.findTheme(name);
-        if (theme == undefined) return;
-
-        this.event.themeScriptUnload()
-        this.event.themeScriptLoad      = function() {};
-        this.event.themeScriptUnload    = function() {};
-        $('script.echo-live-theme-script').remove();
-
-        this.setThemeStyleUrl(theme.style);
-
-        if (this.themeScriptEnable && typeof theme.script == 'object') {
-            theme.script.forEach(e => {
-                let s   = document.createElement("script");
-                s.src   = e;
-                s.class = 'echo-live-theme-script';
-                document.head.appendChild(s);
-            });
-        }
-
-        this.event.themeScriptLoad();
-
-        return theme.style;
+        return extensionManager.loadTheme(name).style;
     }
 
     /**

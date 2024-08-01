@@ -2,14 +2,24 @@ class LocalStorageManager {
     constructor(name = 'echolive') {
         this.name = name;
 
-        this.init();
     }
 
-    init() {
+    save(data = {'data_version': 1}) {
+        localStorage.setItem(this.name, JSON.stringify(data));
+
+        return data;
+    }
+
+    data() {
         const s = localStorage.getItem(this.name);
         if (s == null) {
-            localStorage.setItem(this.name, '{}');
-            this.setItem('data_version', 1);
+            return this.save();
+        }
+
+        try {
+            return JSON.parse(s);
+        } catch {
+            return this.save();
         }
     }
 
@@ -18,31 +28,13 @@ class LocalStorageManager {
     }
 
     getItem(key) {
-        const s = localStorage.getItem(this.name);
-        if (s == null) return;
-        let data;
-        try {
-            data = JSON.parse(s);
-        } catch (error) {
-            return;
-        }
-
-        if (key == undefined) return data;
-
-        return data[key];
+        if (key == undefined) return this.data();
+        return this.data()[key];
     }
 
     setItem(key, value) {
-        let data = this.getItem();
-        if (typeof data != 'object') return;
+        let data = this.data();
         data[key] = value;
-        let json;
-        try {
-            json = JSON.stringify(data);
-        } catch (error) {
-            return;
-        }
-        localStorage.setItem(this.name, json);
-        return data;
+        this.save(data);
     }
 }

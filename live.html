@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="page_title.live">Echo Live</title>
     <script src="lib/jquery-3.7.1.min.js"></script>
+    <script>
+        const thisPage = "live";
+    </script>
     <script src="res/class/EchoLiveTools.js"></script>
     <script src="res/class/Echo.js"></script>
     <script src="res/class/EchoLive.js"></script>
@@ -26,19 +29,20 @@
         $('html').attr('lang', $t('lang.code_ietf'));
     </script>
     <script src="res/class/Mixer.js"></script>
-    <script src="res/script/sounds.js"></script>
+    <script src="res/class/LocalStorageManager.js"></script>
     <script src="res/class/ExtensionManager.js"></script>
-    <script src="extensions.js"></script>
     <script src="res/script/live-pre.js"></script>
     <script src="res/script/themes.js"></script>
     <script src="res/class/EmojiHako.js"></script>
     <script src="res/script/emoji.js"></script>
     <link rel="icon" href="res/image/favicon.ico">
+    <script src="extension.js"></script>
 
     <!-- ↓ 设置主题的方式已更新，不要修改此处，详见 config.js -->
     <link id="echo-live-theme" rel="stylesheet" href="res/style/live-theme/vanilla.css">
-
     <link rel="stylesheet" href="res/style/echo.css">
+
+    <script src="res/script/load-extension.js"></script>
 </head>
 <body>
     <div id="echo-live">

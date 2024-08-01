@@ -1,0 +1,60 @@
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+    color: var(--text-primary);
+}
+
+.markdown-body h2 {
+    font-size: var(--font-size-title-3);
+    padding: 0.125em 0;
+    border-bottom: var(--border-color) 1px solid;
+    margin-block-start: 1em;
+    margin-block-end: 0.75em;
+}
+
+.markdown-body h3 {
+    font-size: var(--font-size-extra-large);
+    margin-block-start: 0.75em;
+    margin-block-end: 0.5em;
+}
+
+.markdown-body h4 {
+    margin-block-start: 0.75em;
+    margin-block-end: 0.5em;
+    font-size: var(--font-size-large);
+}
+
+.markdown-body ul {
+    margin-left: 1.5em;
+}
+
+.markdown-body li {
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
+}
+
+.markdown-body code {
+    background-color: var(--page-bgcolor-glass);
+}
+
+.markdown-body p,
+.markdown-body li,
+.markdown-body code {
+    line-height: calc(var(--font-size-base) + 4px);
+}
+
+.markdown-body a {
+    color: var(--color-general-dark);
+    text-decoration: none;
+}
+
+.markdown-body a:hover {
+    filter: brightness(1.15);
+}
+
+.markdown-body a:active {
+    filter: brightness(0.85);
+}

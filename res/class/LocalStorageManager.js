@@ -23,6 +23,10 @@ class LocalStorageManager {
         }
     }
 
+    clear() {
+        localStorage.removeItem(this.name);
+    }
+
     getItem(key) {
         if (key == undefined) return this.data();
         return this.data()[key];

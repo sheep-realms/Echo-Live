@@ -1,19 +1,27 @@
 class EchoLiveHistory {
     constructor(config) {
-        this.config = config;
-        this.broadcast = undefined;
-        this.uuid = EchoLiveTools.getUUID();
-        this.hidden = false;
-        this.prevMessage = {};
-        this.theme = [];
-        this.event = {
-            newHistory: function() {},
-            shutdown: function() {},
-            themeScriptLoad: function() {},
-            themeScriptUnload: function() {},
+        this.config         = config;
+        this.broadcast      = undefined;
+        this.uuid           = EchoLiveTools.getUUID();
+        this.hidden         = false;
+        this.prevMessage    = {};
+        this.theme          = [];
+        this.event          = {
+            newHistory:         function() {},
+            shutdown:           function() {},
+            themeScriptLoad:    function() {},
+            themeScriptUnload:  function() {},
         };
 
         this.init();
+    }
+
+    /**
+     * 主题脚本是否启用
+     */
+    get themeScriptEnable() {
+        if (this.config.history.style.history_theme_script_enable && this.config.global.theme_script_enable) return true;
+        return false;
     }
     
     /**
@@ -21,8 +29,8 @@ class EchoLiveHistory {
      */
     init() {
         window.addEventListener("error", (e) => {
-            const msg = e.error != null ? e.error.stack : e.message;
-            const filename = e.filename != '' ? e.filename : 'null';
+            const msg       = e.error       != null ? e.error.stack : e.message;
+            const filename  = e.filename    != ''   ? e.filename    : 'null';
             this.broadcast.error(msg, filename, e.lineno, e.colno);
         });
 
@@ -65,6 +73,25 @@ class EchoLiveHistory {
         ) return;
         this.prevMessage = data;
         this.event.newHistory(data);
+    }
+
+    /**
+     * 修改主题样式地址
+     * @param {String} url 样式文件地址
+     */
+    setThemeStyleUrl(url) {
+        if ($('#echo-live-theme').attr('href') == url) return url;
+        $('#echo-live-theme').attr('href', url);
+        return url;
+    }
+
+    /**
+     * 查找主题
+     * @param {String} name 主题ID
+     * @returns {Object} 主题数据
+     */
+    findTheme(name) {
+        return this.theme.find((e) => e.name == name);
     }
 
     /**

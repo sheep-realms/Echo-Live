@@ -2,12 +2,18 @@ class Commander {
     constructor() {
         this.link = {
             broadcast: undefined,
+            localStorageManager: undefined,
             messager: undefined,
-            systemNotice: undefined
+            systemNotice: undefined,
+            window: undefined
         };
         this.value = {};
         this.commands = [
             {
+                name: 'clearlocalstorage',
+                parameters: [],
+                inFunctionDisable: true
+            }, {
                 name: 'next',
                 parameters: [
                     {
@@ -84,7 +90,7 @@ class Commander {
         
     }
 
-    run(command = '') {
+    run(command = '', inFn = false) {
         let cmds = command.split(' ');
 
         // 查找命令
@@ -95,6 +101,8 @@ class Commander {
         if (targetCmd == undefined) {
             return;
         }
+
+        if (inFn && targetCmd?.inFunctionDisable) return StateMessage.getFail('in_function_disable');
 
         cmds.shift();
 
@@ -145,7 +153,7 @@ class Commander {
         this.__setStack(uuid);
 
         for (let i = 0; i < commands.length; i++) {
-            let r = this.run(commands[i]);
+            let r = this.run(commands[i], true);
             if (r.state == 'success') {
                 success++;
             } else {
@@ -384,6 +392,25 @@ class Commander {
         }
     }
 
+    clearlocalstorage() {
+        this.link.window.messageWindow(
+            $t('window.clear_local_storage.message'),
+            $t('window.clear_local_storage.title'),
+            {
+                controller: ['cancel', 'confirm'],
+                icon: 'alert'
+            },
+            (value, unit) => {
+                if (value == 'confirm') {
+                    this.link.localStorageManager.clear();
+                    this.link.systemNotice.sendT('notice.local_storage_cleared', {}, 'success');
+                }
+                unit.close();
+            }
+        );
+        return StateMessage.getSuccess();
+    }
+
     next(target) {
         if (this.link.broadcast == undefined) return this.__messageConstructor('common', StateMessage.getFail('not_broadcast'));
         target = this.__getBroadcastTarget(target);
@@ -579,7 +606,7 @@ class StateMessage {
     static getFail(failReason, data = {}, value = -1) {
         return {
             state: 'fail',
-            value: -1,
+            value: value,
             failReason: failReason,
             data: data
         };

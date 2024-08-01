@@ -208,61 +208,61 @@ class EditorForm {
     static editorController(editorID) {
         return DOMConstructor.join([
             EditorForm.buttonAir('', {
-                icon: Icon.formatBold(),
+                icon: Icon.formatBold,
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="bold"`,
                 title: $t('editor.format.bold') + ' [Ctrl+B]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.formatItalic(),
+                icon: Icon.formatItalic,
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="italic"`,
                 title: $t('editor.format.italic') + ' [Ctrl+I]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.formatUnderline(),
+                icon: Icon.formatUnderline,
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="underline"`,
                 title: $t('editor.format.underline') + ' [Ctrl+U]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.formatStrikethroughVariant(),
+                icon: Icon.formatStrikethroughVariant,
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="strikethrough"`,
                 title: $t('editor.format.strikethrough') + ' [Ctrl+D]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.palette(),
+                icon: Icon.palette,
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="color"`,
                 title: $t('editor.format.color') + ' [Ctrl+Shift+C]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.emoticonHappy(),
+                icon: Icon.emoticonHappy,
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="emoji"`,
                 title: $t('editor.format.emoji') + ' [Ctrl+E]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.image(),
+                icon: Icon.image,
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="image"`,
                 title: $t('editor.format.image') + ' [Ctrl+Shift+I]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.formatFontSizeIncrease(),
+                icon: Icon.formatFontSizeIncrease,
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="font_size_increase"`,
                 title: $t('editor.format.font_size_increase') + ' [Ctrl+↑]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.formatFontSizeDecrease(),
+                icon: Icon.formatFontSizeDecrease,
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="font_size_decrease"`,
                 title: $t('editor.format.font_size_decrease') + ' [Ctrl+↓]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.formatClear(),
+                icon: Icon.formatClear,
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="clear"`,
                 title: $t('editor.format.clear') + ' [Ctrl+Shift+Space]'
@@ -417,13 +417,13 @@ class Popups {
             <div class="diff-result-content ok" title="${ $t('editor.palette.diff_dashboard.state.ok', { name: title }) }">
                 <div class="title">${ value }</div>
                 <div class="icon">
-                    ${ Icon.check() }
+                    ${ Icon.check }
                 </div>
             </div>
             <div class="diff-result-content fail" title="${ $t('editor.palette.diff_dashboard.state.fail', { name: title }) }">
                 <div class="title">${ value }</div>
                 <div class="icon">
-                    ${ Icon.close() }
+                    ${ Icon.close }
                 </div>
             </div>
         </div>`;
@@ -695,7 +695,7 @@ class Popups {
      * 图片选择器悬浮框
      * @param {Object} data 属性值
      * @param {String} id ID
-     * @returns 
+     * @returns {String} DOM
      */
     static imagePopups(data = {}, id = 'popups-image') {
         data = {
@@ -756,7 +756,7 @@ class Popups {
                                 $t('file.droper.dialog.selected.import_image'),
                                 {
                                     id: 'btn-flie-check-dialog-import-image-url',
-                                    icon: Icon.check()
+                                    icon: Icon.check
                                 }
                             ) }
                         </div>
@@ -815,7 +815,7 @@ class Popups {
             $t('ui.delete'),
             {
                 class: 'btn-image-cache-delete',
-                icon: Icon.toggleSwitchOffOutline(),
+                icon: Icon.toggleSwitchOffOutline,
                 color: 'danger',
                 size: "small"
             }
@@ -824,7 +824,7 @@ class Popups {
             $t('ui.delete'),
             {
                 class: 'btn-image-cache-delete-stop',
-                icon: Icon.toggleSwitch(),
+                icon: Icon.toggleSwitch,
                 color: 'danger',
                 size: "small"
             }
@@ -833,7 +833,7 @@ class Popups {
             $t('editor.image_popups.button.delete_all_images'),
             {
                 class: 'btn-image-cache-delete-all',
-                icon: Icon.delete(),
+                icon: Icon.delete,
                 color: 'danger',
                 size: "small"
             }
@@ -897,8 +897,8 @@ class EditorClientState {
                 <div class="client-icon client-icon-left"></div>
                 <div class="client-name">${name2}</div>
                 <div class="client-icon client-icon-right">
-                    ${ echoState == 'play' || echoState == 'ready' ? Icon.timerSand() : ''}
-                    ${ messagesCount > 0 && echoState == 'stop' ? Icon.messageProcessing() : '' }
+                    ${ echoState == 'play' || echoState == 'ready' ? Icon.timerSand : ''}
+                    ${ messagesCount > 0 && echoState == 'stop' ? Icon.messageProcessing : '' }
                 </div>
             </div>
             <div class="state-color-block"></div>
@@ -950,12 +950,12 @@ class HistoryMessage {
             </div>
             <div class="action">
                 ${EditorForm.buttonGhost($t('ui.edit'), {
-                    icon: Icon.pencil(),
+                    icon: Icon.pencil,
                     class: 'history-message-item-btn-edit',
                     attr: `data-index="${index}"`
                 })}
                 ${EditorForm.buttonGhost($t('ui.send'), {
-                    icon: Icon.send(),
+                    icon: Icon.send,
                     class: 'history-message-item-btn-send',
                     attr: `data-index="${index}"`
                 })}
@@ -978,7 +978,7 @@ class SettingsPanel {
             aria-selected="false"
             title="${ $t( 'config.' + item.id + '._description' ) }"
         >
-            <span class="icon left">${ item.icon != undefined ? Icon[item.icon]() : ''}</span>
+            <span class="icon left">${ item.icon != undefined ? Icon[item.icon] : ''}</span>
             <span class="title">${ $t( 'config.' + item.id + '._title' ) }</span>
             <span class="icon right"></span>
         </button>`;
@@ -1002,8 +1002,8 @@ class SettingsPanel {
             return `<button class="settings-group-collapse-title">
                 <div class="title">${ title }</div>
                 <div class="icon">
-                    <span class="open">${ Icon.chevronDown() }</span>
-                    <span class="close">${ Icon.chevronUp() }</span>
+                    <span class="open">${ Icon.chevronDown }</span>
+                    <span class="close">${ Icon.chevronUp }</span>
                 </div>
             </button>`;
         } else if (depth > 1) {
@@ -1022,6 +1022,7 @@ class SettingsPanel {
             <div class="meta">
                 <div class="title">${ title }</div>
                 <div class="description">${ description }</div>
+                <div class="key"><code>${ id }</code></div>
             </div>
             <div class="value">
                 ${ content }
@@ -1158,14 +1159,14 @@ class SettingsPanel {
             `<div class="settings-switch state-${ value ? 'on' : 'off' }" data-is-bit="${ isBit ? '1' : '0' }">
                 ${
                     EditorForm.button($t('ui.off'), {
-                        icon: Icon.toggleSwitchOffOutline(),
+                        icon: Icon.toggleSwitchOffOutline,
                         class: 'btn-switch btn-off',
                         type: 'ghost'
                     })
                 }
                 ${
                     EditorForm.button($t('ui.on'), {
-                        icon: Icon.toggleSwitch(),
+                        icon: Icon.toggleSwitch,
                         class: 'btn-switch btn-on'
                     })
                 }
@@ -1193,14 +1194,14 @@ class SettingsPanel {
             `<div class="settings-switch settings-switch-all-or-array-string state-${ isAll ? 'on' : 'off' }">
                 ${
                     EditorForm.button($t('ui.enable_all'), {
-                        icon: Icon.toggleSwitchOffOutline(),
+                        icon: Icon.toggleSwitchOffOutline,
                         class: 'btn-switch btn-off',
                         type: 'ghost'
                     })
                 }
                 ${
                     EditorForm.button($t('ui.enable_all'), {
-                        icon: Icon.toggleSwitch(),
+                        icon: Icon.toggleSwitch,
                         class: 'btn-switch btn-on'
                     })
                 }
@@ -1216,9 +1217,9 @@ class SettingsPanel {
 
     static linkBar(title = '', href = '', icon = undefined) {
         return `<a class="settings-link-bar" href="${ href }" target="_blank">
-            <div class="icon left">${ icon != undefined ? Icon[icon]() : '' }</div>
+            <div class="icon left">${ icon != undefined ? Icon[icon] : '' }</div>
             <div class="title">${ title }</div>
-            <div class="icon right">${ Icon.openInNew() }</div>
+            <div class="icon right">${ Icon.openInNew }</div>
         </a>`;
     }
 
@@ -1236,7 +1237,7 @@ class SettingsPanel {
      */
     static msgBox(title = '', content = '', icon = 'information', type = 'info') {
         return `<div class="msgbox state-${ type }">
-            <div class="icon">${ Icon[icon]() }</div>
+            <div class="icon">${ Icon[icon] }</div>
             <div class="text">
                 <div class="title">${ title }</div>
                 <div class="content">${ content }</div>
@@ -1298,15 +1299,15 @@ class SettingsFileChecker {
         };
         return `<div class="file-check-box">
             <div class="info">
-                <div class="icon">${ Icon.fileCodeOutline() }</div>
+                <div class="icon">${ Icon.fileCodeOutline }</div>
                 <div class="meta">
                     <div class="name" title="${ $t('file.name') }">${ file.name }</div>
                     <div class="size" title="${ $t('file.size') }">${ EchoLiveTools.formatFileSize(file.size) }</div>
-                    <div class="last-modified-date" title="${ $t('file.last_modified_date') }">${ EchoLiveTools.formatDate(file.lastModifiedDate || file.lastModified) }</div>
+                    <div class="last-modified-date" title="${ $t('file.last_modified_date') }">${ EchoLiveTools.formatDate(file.lastModifiedDate || file.lastModified, 'data_time') }</div>
                 </div>
             </div>
             <div class="state state-${ state }">
-                <div class="icon">${ Icon[icons[state]]() }</div>
+                <div class="icon">${ Icon[icons[state]] }</div>
                 <div class="message">${ stateMessage }</div>
             </div>
         </div>`;
@@ -1314,7 +1315,7 @@ class SettingsFileChecker {
 
     static dialog(title = '', description = '', controller = '', icon = undefined, domClass = '') {
         return `<div class="file-check-dialog ${ domClass }">
-            <div class="icon">${ icon != undefined ? Icon[icon]() : ''}</div>
+            <div class="icon">${ icon != undefined ? Icon[icon] : ''}</div>
             <div class="title">${ title }</div>
             <div class="description">${ description }</div>
             <div class="controller">${ controller }</div>
@@ -1328,7 +1329,7 @@ class SettingsFileChecker {
                 {
                     id: 'btn-flie-check-dialog-cancel',
                     class: 'btn-default',
-                    icon: Icon.check()
+                    icon: Icon.check
                 }
             );
         }
@@ -1342,7 +1343,7 @@ class SettingsFileChecker {
                 {
                     id: 'btn-flie-check-dialog-cancel',
                     class: 'btn-default',
-                    icon: Icon.close(),
+                    icon: Icon.close,
                     color: 'danger'
                 }
             );
@@ -1357,7 +1358,7 @@ class SettingsFileChecker {
                 {
                     id: 'btn-flie-check-dialog-cancel',
                     class: 'btn-default',
-                    icon: Icon.close(),
+                    icon: Icon.close,
                     color: 'danger'
                 }
             );
@@ -1373,7 +1374,7 @@ class SettingsFileChecker {
                 $t('ui.cancel'),
                 {
                     id: 'btn-flie-check-dialog-cancel',
-                    icon: Icon.close(),
+                    icon: Icon.close,
                     color: 'danger'
                 }
             ) +
@@ -1382,7 +1383,7 @@ class SettingsFileChecker {
                 {
                     id: 'btn-flie-check-dialog-unsafe-load',
                     class: 'btn-default',
-                    icon: Icon.shieldOff(),
+                    icon: Icon.shieldOff,
                     color: 'warn'
                 }
             )
@@ -1397,7 +1398,7 @@ class SettingsFileChecker {
                 $t('ui.close'),
                 {
                     id: 'btn-flie-check-dialog-cancel',
-                    icon: Icon.close(),
+                    icon: Icon.close,
                     color: 'danger'
                 }
             ) +
@@ -1406,7 +1407,7 @@ class SettingsFileChecker {
                 {
                     id: 'btn-flie-check-dialog-goto-chrome',
                     class: 'btn-default',
-                    icon: Icon.openInNew()
+                    icon: Icon.openInNew
                 }
             )
         );
@@ -1420,7 +1421,7 @@ class SettingsFileChecker {
                 $t('ui.cancel'),
                 {
                     id: 'btn-flie-check-dialog-cancel-rollback',
-                    icon: Icon.close(),
+                    icon: Icon.close,
                     color: 'danger'
                 }
             ) +
@@ -1429,7 +1430,7 @@ class SettingsFileChecker {
                 {
                     id: 'btn-flie-check-dialog-update-config',
                     class: 'btn-default',
-                    icon: Icon.update()
+                    icon: Icon.update
                 }
             )
         );
@@ -1443,7 +1444,7 @@ class SettingsFileChecker {
                 $t('ui.cancel'),
                 {
                     id: 'btn-flie-check-dialog-cancel-rollback',
-                    icon: Icon.close(),
+                    icon: Icon.close,
                     color: 'danger'
                 }
             ) +
@@ -1452,7 +1453,7 @@ class SettingsFileChecker {
                 {
                     id: 'btn-flie-check-dialog-update-config-from-unknow-version',
                     class: 'btn-default',
-                    icon: Icon.update(),
+                    icon: Icon.update,
                     color: 'warn'
                 }
             )
@@ -1467,7 +1468,7 @@ class SettingsFileChecker {
                 $t('ui.cancel'),
                 {
                     id: 'btn-flie-check-dialog-cancel-rollback',
-                    icon: Icon.close(),
+                    icon: Icon.close,
                     color: 'danger'
                 }
             ) +
@@ -1476,7 +1477,7 @@ class SettingsFileChecker {
                 {
                     id: 'btn-flie-check-dialog-config-from-future',
                     class: 'btn-default',
-                    icon: Icon.arrowRight(),
+                    icon: Icon.arrowRight,
                     color: 'warn'
                 }
             )
@@ -1491,7 +1492,7 @@ class SettingsFileChecker {
                 $t('ui.cancel'),
                 {
                     id: 'btn-flie-check-dialog-cancel',
-                    icon: Icon.close(),
+                    icon: Icon.close,
                     color: 'danger'
                 }
             ) +
@@ -1500,7 +1501,7 @@ class SettingsFileChecker {
                 {
                     id: 'btn-flie-check-dialog-import-image',
                     class: 'btn-default',
-                    icon: Icon.check()
+                    icon: Icon.check
                 }
             )
         );
@@ -1569,7 +1570,7 @@ class FHUINotice {
             width: undefined,
             ...data
         };
-        let iconDOM = Icon[data.icon] != undefined ? Icon[data.icon]() : Icon.information();
+        let iconDOM = Icon[data.icon] != undefined ? Icon[data.icon] : Icon.information;
 
         return `<div
                 class="fh-notice-item fh-${ theme.color } ${ data.animation ? 'fh-notice-ani-in' : '' } ${ data.waitTime < 0 ? 'is-permanently' : '' }"
@@ -1589,7 +1590,7 @@ class FHUINotice {
                     <div class="fh-notice-item-content-action">
                         ${ EditorForm.buttonAir('', {
                             class: 'fh-notice-item-btn-close',
-                            icon: Icon.close(),
+                            icon: Icon.close,
                             color: 'danger'
                         }) }
                     </div>
@@ -1597,5 +1598,173 @@ class FHUINotice {
                 <div class="fh-notice-item-bg"></div>
             </div>
         </div>`;
+    }
+}
+
+class FHUIWindow {
+    constructor() {}
+
+    /**
+     * 对话窗口
+     * @param {String} content 内容
+     * @param {String} title 标题
+     * @param {Object} data 数据
+     * @param {String} data.attr 自定义属性
+     * @param {String} data.autoFocusButton 自动获得焦点的按钮
+     * @param {Boolean} data.autoIconButton 自动设置按钮图标
+     * @param {Boolean} data.closable 可关闭
+     * @param {String} data.icon 标题栏图标
+     * @param {String} data.id ID
+     * @param {Number} data.index 索引编号
+     * @param {Array<String|Object>} data.controller 控制器按钮
+     * @param {Boolean} data.maskClosable 点击蒙层可关闭
+     * @param {Boolean} data.modal 模态
+     * @param {String} data.style 样式
+     * @returns {String} DOM
+     */
+    static window(content = '', title = '', data = {}) {
+        data = {
+            attr: undefined,
+            autoFocusButton: undefined,
+            autoFocusButton: false,
+            closable: true,
+            icon: undefined,
+            id: undefined,
+            index: -1,
+            controller: ['confirm'],
+            maskClosable: false,
+            modal: true,
+            style: undefined,
+            size: {
+                width: '500px',
+                height: '300px'
+            },
+            ...data
+        }
+
+        let iconDom = '';
+        if (data.icon != undefined && Icon[data.icon] != undefined) {
+            iconDom = Icon[data.icon];
+        } else {
+            iconDom = Icon.information
+        }
+
+        let dom = `<div
+            role="dialog"
+            ${ data.id != undefined ? `id="${ data.id }"` : '' }
+            class="fh-window window-show"
+            style="
+                --width: min(${ data.size.width }, calc(100vw - 32px));
+                --height: min(${ data.size.height }, calc(100vh - 32px));
+                ${ data.style ?? '' }
+            "
+            data-index="${ data.index }"
+            ${ data.autoFocusButton != undefined ? `data-auto-focus-button="${ data.autoFocusButton }"` : '' }
+            ${ data.attr ?? '' }
+        >
+            <div class="fh-window-title">
+                <span class="icon">
+                    ${ iconDom }
+                </span>
+                <span class="title">
+                    ${ title }
+                </span>
+                <button class="close" ${ !data.closable ? 'disabled' : '' }>
+                    ${ Icon.close }
+                </button>
+            </div>
+            <div class="fh-window-content">
+                <div class="fh-msgbox-content">${ content }</div>
+                <div class="fh-msgbox-controller fh-controller ${ data.controller.length > 3 ? 'controller-overload' : '' }">
+                    ${ FHUIWindow.controller(data.controller, data.autoIconButton) }
+                </div>
+            </div>
+        </div>`;
+
+        if (data.modal) {
+            dom = `<div
+                class="
+                    fh-window-modal-bg
+                    window-show
+                    ${ data.maskClosable ? 'fh-window-modal-bg-closable' : '' }
+                "
+                data-index="${ data.index }"
+            >
+                ${ dom }
+            </div>`;
+        }
+
+        return dom;
+    }
+
+    static controller(data = [], autoIconButton = false) {
+        let dom = '';
+        data.forEach(e => {
+            if (typeof e === 'object' && !Array.isArray(e)) {
+                dom += FHUIWindow.controllerButton(e?.id, e?.content, e?.data, autoIconButton);
+            } else if (typeof e === 'string') {
+                if (e === 'no' && data.indexOf('cancel') != -1) {
+                    dom += FHUIWindow.controllerButton(e, undefined, {
+                        color: 'warn'
+                    }, autoIconButton);
+                } else {
+                    dom += FHUIWindow.controllerButton(e, undefined, {}, autoIconButton);
+                }
+            }
+        });
+        return dom;
+    }
+
+    static controllerButton(id, content = undefined, data = {}, autoIconButton = false) {
+        const btnColorType = {
+            cancel: 'danger',
+            clear: 'danger',
+            close: 'danger',
+            delete: 'danger',
+            no: 'danger',
+            reset: 'danger'
+        };
+        const btnIcon = {
+            cancel: 'close',
+            close: 'close',
+            confirm: 'check',
+            download: 'download',
+            no: 'close',
+            yes: 'check',
+        }
+
+        let colorType = btnColorType[id];
+        let icon = autoIconButton ? btnIcon[id] : undefined;
+        if (content == undefined) content = $t('ui.' + id);
+        data = {
+            class: 'fh-window-controller-button fh-window-controller-button-' + id,
+            color: colorType,
+            attr: `data-controller-id="${ id }"`,
+            icon: icon != undefined ? Icon[icon] : undefined,
+            ...data
+        }
+
+        return EditorForm.button(content, data);
+    }
+
+    static releasesView(releasesData) {
+        return `<div class="releases-view">
+            <div class="releases-view-meta">
+                <div class="title">${ releasesData?.tag_name ?? '?' }</div>
+                <div class="meta">
+                    <div class="created-at">发布时间：${ EchoLiveTools.formatDate(releasesData?.created_at) }</div>
+                    <div class="author">作者：${ releasesData?.author?.login }</div>
+                </div>
+            </div>
+            <div class="releases-view-body markdown-body">${ marked.parse(releasesData?.body) }</div>
+        </div>`;
+    }
+
+    static assetsSelectorsView(assets) {
+        let dom = '';
+        assets.forEach(e => {
+            dom += `<div class="assets-item"><a class="fh-link" href="${ e?.browser_download_url }" target="_blank">${ EchoLiveTools.safeHTML(e?.name) }</a></div>`;
+        });
+        return `<div class="assets-list">${ dom }</div>`;
     }
 }

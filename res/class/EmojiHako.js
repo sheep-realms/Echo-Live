@@ -10,37 +10,37 @@ class EmojiHako {
         data.forEach(e => {
             let emojiPack = {
                 meta: {
-                    name: 'missingno',
-                    namespace: 'missingno',
-                    title: $t('ui.missingno.no_name'),
-                    author: $t('ui.missingno.no_author'),
+                    name:           'missingno',
+                    namespace:      'missingno',
+                    title:          $t('ui.missingno.no_name'),
+                    author:         $t('ui.missingno.no_author'),
                     ...e?.meta
                 },
                 path: {
-                    i18n: '',
-                    images: `res/emoji/${ e?.name ? e.name : 'missingno' }/`,
+                    i18n:           '',
+                    images:         `res/emoji/${ e?.name ? e.name : 'missingno' }/`,
                     ...e?.path
                 },
                 image: {
-                    isEmoji: e?.image?.isEmoji != undefined ? e.image.isEmoji : false,
-                    rendering: e?.image?.rendering ? e.image.rendering : 'auto',
-                    review_size: e?.image?.review_size ? e.image.review_size : 'middle',
-                    show_title: e?.image?.show_title != undefined ? e.image.show_title : true,
+                    isEmoji:        e?.image?.isEmoji != undefined ? e.image.isEmoji : false,
+                    rendering:      e?.image?.rendering ? e.image.rendering : 'auto',
+                    review_size:    e?.image?.review_size ? e.image.review_size : 'middle',
+                    show_title:     e?.image?.show_title != undefined ? e.image.show_title : true,
                     margin: {
-                        left: '0.5em',
-                        right: '0.5em',
+                        left:       '0.5em',
+                        right:      '0.5em',
                         ...e?.image?.margin
                     },
                     size: {
                         width: {
-                            value: '1em',
-                            max: 'unset',
-                            min: 'unset'
+                            value:  '1em',
+                            max:    'unset',
+                            min:    'unset'
                         },
                         height: {
-                            value: '1em',
-                            max: 'unset',
-                            min: 'unset'
+                            value:  '1em',
+                            max:    'unset',
+                            min:    'unset'
                         },
                         ...e?.image?.size
                     }
@@ -53,17 +53,17 @@ class EmojiHako {
             e.content.forEach(e2 => {
                 if (e2?.type == 'group') {
                     emojiPack.content.push({
-                        type: 'group',
-                        title: $t('ui.missingno.no_name'),
+                        type:   'group',
+                        title:  $t('ui.missingno.no_name'),
                         ...e2
                     });
                 } else {
                     if (typeof e2 == 'object') {
                         emojiPack.content.push({
-                            type: 'emoji',
-                            name: 'missingno',
-                            title: $t('ui.missingno.no_name'),
-                            path: 'missingno.png',
+                            type:   'emoji',
+                            name:   'missingno',
+                            title:  $t('ui.missingno.no_name'),
+                            path:   'missingno.png',
                             ...e2
                         });
                     } else if (typeof e2 == 'string' && emojiPack.image.isEmoji) {
@@ -84,9 +84,7 @@ class EmojiHako {
             return this.emoji;
         }
 
-        let mp = this.emoji.find((e) => {
-            return e.meta.namespace == namespace;
-        });
+        let mp = this.emoji.find(e => e.meta.namespace == namespace);
 
         if (mp == undefined) {
             mp = this.getEmojiPackByName(namespace);
@@ -103,18 +101,16 @@ class EmojiHako {
 
     getEmojiPackByName(name = '') {
         if (typeof name != 'string' || name === '') return;
-        let r = this.emoji.find((e) => {
-            return e.meta.name == name;
-        });
+        let r = this.emoji.find(e => e.meta.name == name);
         if (r == undefined) return;
         return JSON.parse(JSON.stringify(r));
     }
 
     getEmoji(key = '', isOriginal = false) {
         if (typeof key != 'string') return;
-        let keys = key.split(':');
+        let keys        = key.split(':');
         const emojiName = keys.pop();
-        const ns = keys.join(':');
+        const ns        = keys.join(':');
         if (ns === '') return;
 
         const mp = this.getEmojiPack(ns);
@@ -147,8 +143,8 @@ class EmojiHako {
             }
         };
 
-        emoji.path = mp.path.images + emoji.path;
-        emoji.title_i18n = mp.path.i18n + 'emoji.' + emoji.title_i18n;
+        emoji.path          = mp.path.images + emoji.path;
+        emoji.title_i18n    = mp.path.i18n + 'emoji.' + emoji.title_i18n;
 
         return emoji;
     }

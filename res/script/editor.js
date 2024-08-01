@@ -17,6 +17,8 @@ window.addEventListener("error", (e) => {
 
 let localStorageManager = new LocalStorageManager();
 
+let uniWindow = new UniverseWindow();
+
 let textList = [
     {text: ''}
 ];
@@ -89,8 +91,10 @@ let logMessager = new Messager();
 logMessager.on('message', function(message, type = 'info', isInput = false) {
     editorLog('[Commander] ' + ( isInput ? '&lt; ' : '&gt; ' ) + EchoLiveTools.safeHTML(message), type);
 });
+commander.link.localStorageManager = localStorageManager;
 commander.link.messager = logMessager;
 commander.link.systemNotice = sysNotice;
+commander.link.window = uniWindow;
 
 
 let elb;
@@ -101,7 +105,7 @@ if (config.echo.print_speed != 30) {
 
 if (config.echolive.broadcast.enable) {
     $('#ptext-btn-submit').addClass('fh-ghost');
-    $('#ptext-btn-send, #output-btn-send').removeClass('hide');
+    $('#ptext-btn-send, #output-btn-send, #checkbox-sent-clear').removeClass('hide');
     $('#ptext-content, #output-content').attr('title', $t('editor.tip.hot_key_textarea_quick_send'));
 
     if (config.editor.function.client_state_panel_enable) {
@@ -491,6 +495,10 @@ $('#ptext-btn-send').click(function() {
     sendHistoryMessage(d);
 
     editorLogT('editor.log.message.sent', { msg: EchoLiveTools.getMessageSendLog(d.messages[0].message, d.username) });
+
+    if($('#ptext-chk-sent-clear').val() == 1) $('#ptext-content').val('');
+
+    $('#ptext-content').focus();
 });
 
 // 输出页发送
@@ -832,6 +840,13 @@ function commanderInputHeightCheck() {
     $('#commander-input').css('height', scrollHeight + 'px');
     $('#commander-input-panel').css('height', scrollHeight + 'px');
 }
+
+$(document).on('click', '#link-open-settings', function(e) {
+    if (inOBS) {
+        e.preventDefault();
+        sysNotice.sendT('notice.open_settings_in_obs');
+    }
+});
 
 
 

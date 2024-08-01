@@ -10,6 +10,10 @@ body {
     background-color: transparent;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 #echo-live:not(.display-hidden) {
     opacity: 1;
     transition: opacity var(--animation-speed-display-show) ease-out;

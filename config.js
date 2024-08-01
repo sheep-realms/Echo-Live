@@ -1,10 +1,11 @@
 const config = {
-    "data_version": 5,
+    "data_version": 6,
     "global": {
         "language": "zho-Hans",
         "theme": "vanilla",
         "theme_script_enable": false,
-        "color_scheme": "auto"
+        "color_scheme": "auto",
+        "controller_layout_reverse": false
     },
     "echo": {
         "print_speed": 30,
@@ -135,6 +136,10 @@ const config = {
         "editor": {
             "forced_display_split_message": false,
             "history_minimum_breaker_threshold": 128
+        },
+        "settings": {
+            "display_config_key": false,
+            "speech_synthesis_voices_maximum": 64
         }
     },
     "selector": {},

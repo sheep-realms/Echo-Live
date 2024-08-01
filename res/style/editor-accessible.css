@@ -35,6 +35,8 @@
     --border-color: #000;
     --box-shadow: 0 0 0 4px rgba(128, 128, 128, 0.75);
 
+    --modal-bgcolor: rgba(0, 0, 0, 0.75);
+    --msgbox-bgcolor: #FFFFFF;
     --commander-bgcolor: #000000;
     --commander-color: #FFFFFF;
 }
@@ -75,6 +77,9 @@
         --page-bgcolor-glass: var(--page-bgcolor);
         --input-bgcolor: #0D111A;
         --input-color: var(--text-primary);
+
+        --modal-bgcolor: rgba(255, 255, 255, 0.65);
+        --msgbox-bgcolor: #0D111A;
         --commander-bgcolor: #FFFFFF;
         --commander-color: #000000;
 
@@ -121,6 +126,9 @@
     --page-bgcolor-glass: var(--page-bgcolor);
     --input-bgcolor: #0D111A;
     --input-color: var(--text-primary);
+
+    --modal-bgcolor: rgba(255, 255, 255, 0.65);
+    --msgbox-bgcolor: #0D111A;
     --commander-bgcolor: #FFFFFF;
     --commander-color: #000000;
 
@@ -257,6 +265,11 @@
 .accessible-animation-disable * {
     animation: unset !important;
     transition: unset !important;
+}
+
+.accessible-animation-disable::view-transition-old(root),
+.accessible-animation-disable::view-transition-new(root) {
+    animation-duration: 0s;
 }
 
 

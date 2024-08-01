@@ -11,13 +11,16 @@
     <link rel="stylesheet" href="res/style/settings.css">
     <link rel="stylesheet" href="res/style/editor-accessible.css">
     <link rel="stylesheet" href="res/style/driver-custom.css">
+    <link rel="stylesheet" href="res/style/markdown.css">
     <script src="lib/jquery-3.7.1.min.js"></script>
     <script src="lib/driver/driver.js.iife.js"></script>
+    <script src="lib/markdown/marked.min.js"></script>
     <script>
         const thisPage = "settings";
     </script>
     <script src="res/script/config-load-fail.js"></script>
     <script src="config.js" onerror="configLoadFail()"></script>
+    <script src="app.js"></script>
     <script src="lang/index.js"></script>
     <script src="lang/zho-Hans.js"></script>
     <script src="lang/zho-Hant-HK.js"></script>
@@ -42,6 +45,9 @@
     <script src="res/class/ExtensionManager.js"></script>
     <script src="res/script/config-define.js"></script>
     <script src="res/class/SystemNotice.js"></script>
+    <script src="res/class/LocalStorageManager.js"></script>
+    <script src="res/class/UniverseWindow.js"></script>
+    <script src="res/class/Updater.js"></script>
     <script src="res/script/settings.js"></script>
     <script src="extension.js"></script>
     <script src="res/script/load-extension.js"></script>
@@ -145,7 +151,7 @@
 
                             <div class="settings-controller-bottom fh-flex-row disabled">
                                 <span class="settings-controller-message" data-i18n="settings.label.config_changed">配置已更改</span>
-                                <div class="settings-controller-action">
+                                <div class="settings-controller-action fh-controller">
                                     <button id="edit-btn-undo" class="fh-button fh-big fh-danger" disabled data-i18n="ui.undo">撤销</button>
                                     <button id="edit-btn-save" class="fh-button fh-big fh-ghost" disabled data-i18n="ui.staging">暂存</button>
                                     <button id="edit-btn-save-output" class="fh-button fh-big" disabled data-i18n="ui.save">保存</button>
@@ -163,7 +169,7 @@
                     <label for="edit-config-output" data-i18n="settings.label.config_output">导出配置内容</label>
                     <textarea name="message-data" id="edit-config-output" class="code"></textarea>
 
-                    <div class="editor-controller-bottom fh-flex-row">
+                    <div class="editor-controller-bottom fh-flex-row fh-controller">
                         <button id="edit-btn-output" class="fh-button fh-big fh-ghost fh-danger" data-i18n="ui.re_export">导出</button>
                         <button id="edit-btn-file-save-as" class="fh-button fh-big fh-ghost" data-i18n="ui.save_as">另存为</button>
                         <button id="edit-btn-file-save" class="fh-button fh-big" data-i18n="ui.save">保存</button>

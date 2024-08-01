@@ -4,6 +4,14 @@ const lang_zho_Hant_TW = {
         code_ietf: "zh-Hant-TW",
         title: "繁體中文（臺灣地區）"
     },
+    localization: {
+        data_common: '{y}-{MM}-{dd}',
+        data_time_common: '{y}-{MM}-{dd} {hh}:{mm}:{ss}',
+        data: '{y} 年 {M} 月 {d} 日',
+        data_pad_zero: '{y} 年 {MM} 月 {dd} 日',
+        data_time: '{y} 年 {M} 月 {d} 日 {h}:{m}:{s}',
+        data_time_pad_zero: '{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}',
+    },
     ui: {
         confirm: "確認",
         cancel: "取消",
@@ -38,6 +46,7 @@ const lang_zho_Hant_TW = {
         move_left: "左移",
         move_right: "右移",
         audition: "試聽",
+        download: "下載",
         missingno: {
             no_author: "未署名",
             no_name: "未命名"
@@ -110,6 +119,10 @@ const lang_zho_Hant_TW = {
                     dark: "深色",
                     light: "淺色"
                 }
+            },
+            controller_layout_reverse: {
+                _title: "反轉控制器按鈕佈局",
+                _description: "根據閱讀方向將重要按鈕放置於最先被閱讀的位置。"
             }
         },
         echo: {
@@ -509,6 +522,18 @@ const lang_zho_Hant_TW = {
                     _title: "歷史記錄底部遊標熔斷閾值",
                     _description: "設為 -1 可禁用此機制。"
                 }
+            },
+            settings: {
+                _title: "配置檔案編輯器",
+                _description: "配置檔案編輯器的高階設定",
+                display_config_key: {
+                    _title: "顯示配置項鍵名",
+                    _description: "在配置項描述下方顯示鍵名。"
+                },
+                speech_synthesis_voices_maximum: {
+                    _title: "講述人語音資源列表最大顯示數量",
+                    _description: "在某些作業系統中可能會列出大量專案從而影響渲染效能。<br>設為 -1 則不設上限。"
+                }
             }
         },
         about: {
@@ -582,6 +607,7 @@ const lang_zho_Hant_TW = {
                 quote: "引用符號",
                 quote_after: "結尾",
                 quote_before: "開頭",
+                sent_clear: "傳送後清空內容",
                 split_message: "多行文字分割為訊息佇列",
                 startup_parameter: "啟動引數",
                 use_formatting_code: "使用快速格式化程式碼"
@@ -1194,6 +1220,13 @@ const lang_zho_Hant_TW = {
             message: "您已經掌握瞭如何操作瀏覽器縮放。請注意，<kbd>Ctrl</kbd> + <kbd>-</kbd> 和 <kbd>Ctrl</kbd> + <kbd>+</kbd> 組合鍵可以調整瀏覽器縮放，當心誤操作！"
         },
         drop_file_cancel_many: "你倒是放啊！",
+        github_download_but_no_assets: {
+            title: "讓我們開始下載...... 等一下？",
+            message: "釋出了新版本結果沒上傳檔案？還能有這種事情？！"
+        },
+        import_image_url_empty: "未填寫圖片 URL！",
+        local_storage_cleared: "已清除本地儲存資料！",
+        open_settings_in_obs: "請在瀏覽器中開啟 settings.html，而不是在 OBS 中！",
         unknow_error: {
             title: "發生了未捕獲的錯誤",
             message: "這應該不是什麼意料之中的戰術性報錯，您可以將此問題反饋給開發者，並提供復現方法。"
@@ -1282,6 +1315,12 @@ const lang_zho_Hant_TW = {
                 title: "匯入",
                 description: "匯入配置檔案 [alt+1]"
             }
+        }
+    },
+    window: {
+        clear_local_storage: {
+            title: "清除本地儲存資料",
+            message: "您確定要清除本地儲存資料嗎？<br>這是一個不可逆的操作，您將會永久丟失這些資料。"
         }
     }
 };

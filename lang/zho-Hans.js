@@ -4,6 +4,14 @@ const lang_zho_Hans = {
         code_ietf: "zh-Hans",
         title: "简体中文"
     },
+    localization: {
+        data_common: '{y}-{MM}-{dd}',
+        data_time_common: '{y}-{MM}-{dd} {hh}:{mm}:{ss}',
+        data: '{y} 年 {M} 月 {d} 日',
+        data_pad_zero: '{y} 年 {MM} 月 {dd} 日',
+        data_time: '{y} 年 {M} 月 {d} 日 {h}:{m}:{s}',
+        data_time_pad_zero: '{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}',
+    },
     ui: {
         confirm: "确认",
         cancel: "取消",
@@ -38,6 +46,7 @@ const lang_zho_Hans = {
         move_left: "左移",
         move_right: "右移",
         audition: "试听",
+        download: "下载",
         missingno: {
             no_author: "未署名",
             no_name: "未命名"
@@ -110,6 +119,10 @@ const lang_zho_Hans = {
                     dark: "深色",
                     light: "浅色"
                 }
+            },
+            controller_layout_reverse: {
+                _title: "反转控制器按钮布局",
+                _description: "根据阅读方向将重要按钮放置于最先被阅读的位置。"
             }
         },
         echo: {
@@ -509,6 +522,18 @@ const lang_zho_Hans = {
                     _title: "历史记录底部游标熔断阈值",
                     _description: "设为 -1 可禁用此机制。"
                 }
+            },
+            settings: {
+                _title: "配置文件编辑器",
+                _description: "配置文件编辑器的高级设置",
+                display_config_key: {
+                    _title: "显示配置项键名",
+                    _description: "在配置项描述下方显示键名。"
+                },
+                speech_synthesis_voices_maximum: {
+                    _title: "讲述人语音资源列表最大显示数量",
+                    _description: "在某些操作系统中可能会列出大量项目从而影响渲染性能。<br>设为 -1 则不设上限。"
+                }
             }
         },
         about: {
@@ -582,6 +607,7 @@ const lang_zho_Hans = {
                 quote: "引用符号",
                 quote_after: "结尾",
                 quote_before: "开头",
+                sent_clear: "发送后清空内容",
                 split_message: "多行文本分割为消息队列",
                 startup_parameter: "启动参数",
                 use_formatting_code: "使用快速格式化代码"
@@ -1194,6 +1220,13 @@ const lang_zho_Hans = {
             message: "您已经掌握了如何操作浏览器缩放。请注意，<kbd>Ctrl</kbd> + <kbd>-</kbd> 和 <kbd>Ctrl</kbd> + <kbd>+</kbd> 组合键可以调整浏览器缩放，当心误操作！"
         },
         drop_file_cancel_many: "你倒是放啊！",
+        github_download_but_no_assets: {
+            title: "让我们开始下载...... 等一下？",
+            message: "发布了新版本结果没上传文件？还能有这种事情？！"
+        },
+        import_image_url_empty: "未填写图片 URL！",
+        local_storage_cleared: "已清除本地存储数据！",
+        open_settings_in_obs: "请在浏览器中打开 settings.html，而不是在 OBS 中！",
         unknow_error: {
             title: "发生了未捕获的错误",
             message: "这应该不是什么意料之中的战术性报错，您可以将此问题反馈给开发者，并提供复现方法。"
@@ -1282,6 +1315,12 @@ const lang_zho_Hans = {
                 title: "导入",
                 description: "导入配置文件 [alt+1]"
             }
+        }
+    },
+    window: {
+        clear_local_storage: {
+            title: "清除本地存储数据",
+            message: "您确定要清除本地存储数据吗？<br>这是一个不可逆的操作，您将会永久丢失这些数据。"
         }
     }
 };

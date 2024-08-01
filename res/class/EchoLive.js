@@ -1,57 +1,90 @@
 class EchoLive {
     constructor(echo, config) {
-        this.echo = echo;
-        this.config = config;
-        this.data = undefined;
-        this.broadcast = undefined;
-        this.uuid = EchoLiveTools.getUUID();
-        this.custom = {
-            name: undefined,
-            color: undefined,
-            data: {}
+        this.echo           = echo;
+        this.config         = config;
+        this.data           = undefined;
+        this.broadcast      = undefined;
+        this.uuid           = EchoLiveTools.getUUID();
+        this.custom         = {
+            name:   undefined,
+            color:  undefined,
+            data:   {}
         };
-        this.hidden = false;
-        this.idle = false;
-        this.antiFlood = false;
-        this.theme = [];
-        this.username = '';
-        this.timer = {
-            displayHiddenWait: -1,
-            messagesPolling: -1
+        this.hidden         = false;
+        this.idle           = false;
+        this.antiFlood      = false;
+        this.theme          = [];
+        this.username       = '';
+        this.timer          = {
+            displayHiddenWait:  EchoLive.NOT_ACTIVE_TIMER,
+            messagesPolling:    EchoLive.NOT_ACTIVE_TIMER
         };
-        this.event = {
-            displayHidden: function() {},
-            displayHiddenNow: function() {},
-            displayShow: function() {},
-            shutdown: function() {},
-            themeScriptLoad: function() {},
-            themeScriptUnload: function() {}
+        this.event          = {
+            displayHidden:      function() {},
+            displayHiddenNow:   function() {},
+            displayShow:        function() {},
+            shutdown:           function() {},
+            themeScriptLoad:    function() {},
+            themeScriptUnload:  function() {}
         };
-        this.task = [];
-        this.taskNow = {};
-        this.taskRunning = false;
-        this.taskLastID = 0;
-        this.debug = {
+        this.task           = [];
+        this.taskNow        = {};
+        this.taskRunning    = false;
+        this.taskLastID     = 0;
+        this.debug          = {
             taskLog: false
-        }
+        };
 
         this.init();
+    }
+
+    static {
+        EchoLiveTools.defineObjectPropertyReadOnly(EchoLive, {
+            NOT_ACTIVE_TIMER:   -1,
+            NOW_TASK_ID:        -1,
+            INVALID_TASK_ID:    -2
+        });
+    }
+
+    // 主题脚本是否启用
+    get themeScriptEnable() {
+        if (this.config.echolive.style.live_theme_script_enable && this.config.global.theme_script_enable) return true;
+        return false;
+    }
+
+    // 是否有自定义识别信息
+    get hasCustom() {
+        if (this.custom.name != undefined || this.custom.color != undefined || JSON.stringify(this.custom.data) !== '{}') return true;
+        return false;
+    }
+
+    // 是否处于打印中
+    get inPrinting() {
+        if (this.echo.state !== 'stop') return true;
+        return false;
+    }
+
+    // 当前任务数
+    get taskCount() {
+        let c = this.task.length;
+        if (this.taskRunning) c++;
+        return c;
     }
 
     /**
      * 初始化
      */
     init() {
-        let urlName = EchoLiveTools.getUrlParam('name');
-        let urlColor = EchoLiveTools.getUrlParam('color');
+        let urlName     = EchoLiveTools.getUrlParam('name');
+        let urlColor    = EchoLiveTools.getUrlParam('color');
         if (urlName != null && urlName.search(/^[a-f\d]{4}(?:[a-f\d]{4}-){4}[a-f\d]{12}$/i) == -1) {
             this.custom.name = urlName.replace(/</g, '').replace(/>/g, '');
         }
         if (urlColor != null) this.custom.color = urlColor;
         
         window.addEventListener("error", (e) => {
-            const msg = e.error != null ? e.error.stack : e.message;
-            const filename = e.filename != '' ? e.filename : 'null';
+            const msg       = e.error       != null ? e.error.stack : e.message;
+            const filename  = e.filename    != ''   ? e.filename    : 'null';
             this.broadcast.error(msg, filename, e.lineno, e.colno);
         });
         // window.onerror = (message, source, line, col, error) => {
@@ -66,9 +99,9 @@ class EchoLive {
         }
 
         if (this.config.echo.print_speed != undefined) {
-            this.echo.printSpeed = this.config.echo.print_speed;
-            this.echo.printSpeedStart = this.config.echo.print_speed;
-            this.echo.printSpeedChange = this.config.echo.print_speed;
+            this.echo.printSpeed        = this.config.echo.print_speed;
+            this.echo.printSpeedStart   = this.config.echo.print_speed;
+            this.echo.printSpeedChange  = this.config.echo.print_speed;
         }
 
         if (this.config.echolive.broadcast.enable) {
@@ -99,14 +132,14 @@ class EchoLive {
         if (document.visibilityState === "visible") {
             this.hidden = false;
             if (this.broadcast != undefined) this.broadcast.pageVisible();
-            if (this.timer.messagesPolling != -1) {
+            if (this.timer.messagesPolling != EchoLive.NOT_ACTIVE_TIMER) {
                 this.antiFlood = true;
                 this.start();
             }
         } else {
             this.hidden = true;
             if (this.broadcast != undefined) this.broadcast.pageHidden();
-            if (this.timer.messagesPolling != -1) this.stop();
+            if (this.timer.messagesPolling != EchoLive.NOT_ACTIVE_TIMER) this.stop();
             if (this.echo.state != 'stop' && this.config.echolive.sleep.enable && this.config.echolive.sleep.during_printing_stop_print) {
                 this.echo.stop();
                 this.broadcast.echoStateUpdate('stop', this.echo.messageList.length);
@@ -129,9 +162,9 @@ class EchoLive {
         if (typeof taskName != 'string' || typeof taskData != 'object') return;
 
         let data = {
-            id: this.taskLastID++,
-            name: taskName,
-            data: taskData
+            id:     this.taskLastID++,
+            name:   taskName,
+            data:   taskData
         };
         let i = this.task.push(data);
 
@@ -142,8 +175,8 @@ class EchoLive {
         if (runNow && !this.taskRunning) this.runTask();
 
         return {
-            index: i,
-            task: data
+            index:  i,
+            task:   data
         }
     }
 
@@ -170,8 +203,8 @@ class EchoLive {
      */
     runTask() {
         if (this.taskRunning || this.task.length == 0) return;
-        this.taskNow = this.task.shift();
-        this.taskRunning = true;
+        this.taskNow        = this.task.shift();
+        this.taskRunning    = true;
         if (this.debug.taskLog) console.log(`[>] RUN TASK: ${this.taskNow.name} (ID: ${this.taskNow.id})`);
 
         switch (this.taskNow.name) {
@@ -202,7 +235,7 @@ class EchoLive {
      * 结束当前任务，尝试运行下一个任务
      * @param {Number} taskID 任务ID
      */
-    endTask(taskID = -1) {
+    endTask(taskID = EchoLive.NOW_TASK_ID) {
         this.killTask(taskID);
         if (this.task.length > 0) setTimeout(() => {
             this.runTask();
@@ -214,18 +247,18 @@ class EchoLive {
      * @param {Number} taskID 任务ID
      * @param {Boolean} force 是否强制清除
      */
-    killTask(taskID = -1, force = false) {
+    killTask(taskID = EchoLive.NOW_TASK_ID, force = false) {
         // 无效参数
-        if (taskID < -1) return;
+        if (taskID <= EchoLive.INVALID_TASK_ID) return;
 
         // 检查所指定的任务ID与当前任务是否不匹配
-        if (taskID != -1 && taskID != this.taskNow.id) {
+        if (taskID != EchoLive.NOW_TASK_ID && taskID != this.taskNow.id) {
             // 不是强制执行则退出
             if (!force) return;
 
             // 查找任务列表中对应的任务并删除
             let i = this.task.findIndex(e => e?.id == taskID);
-            if (i == -1) return;
+            if (i == EchoLive.NOW_TASK_ID) return;
             if (this.debug.taskLog) console.log(`[-] KILL TASK: ${this.task[i].name} (ID: ${taskID})`);
             this.task.splice(i, 1);
             return;
@@ -233,8 +266,8 @@ class EchoLive {
 
         // 清除当前任务
         if (this.debug.taskLog) console.log(`[-] END TASK: ${this.taskNow.name} (ID: ${taskID})`);
-        this.taskNow = {};
-        this.taskRunning = false;
+        this.taskNow        = {};
+        this.taskRunning    = false;
     }
 
     /**
@@ -256,8 +289,8 @@ class EchoLive {
         if (this.hidden) return;
         if (typeof data != 'object') return;
         if (this.antiFlood) {
-            this.data = data;
-            this.antiFlood = false;
+            this.data       = data;
+            this.antiFlood  = false;
             return;
         }
         if (typeof this.data === 'object' && JSON.stringify(data) === JSON.stringify(this.data)) return;
@@ -307,9 +340,9 @@ class EchoLive {
     reload() {
         if (this.hidden) return;
         $('#start-script').remove();
-        let s = document.createElement('script');
-        s.src = `start.js`;
-        s.id = 'start-script';
+        let s   = document.createElement('script');
+        s.src   = `start.js`;
+        s.id    = 'start-script';
         document.body.appendChild(s);
     }
 
@@ -341,6 +374,15 @@ class EchoLive {
     }
 
     /**
+     * 查找主题
+     * @param {String} name 主题ID
+     * @returns {Object} 主题数据
+     */
+    findTheme(name) {
+        return this.theme.find((e) => e.name == name);
+    }
+
+    /**
      * 设置主题
      * @param {String} name 主题ID
      * @returns {String} 主题入口样式文件URL
@@ -353,7 +395,7 @@ class EchoLive {
      * 显示对话框
      * @param {Number} taskID 任务ID
      */
-    displayShow(taskID = -2) {
+    displayShow(taskID = EchoLive.INVALID_TASK_ID) {
         if (!this.idle) return this.endTask(taskID);
         this.idle = false;
         this.event.displayShow(() => {
@@ -365,7 +407,7 @@ class EchoLive {
      * 隐藏对话框
      * @param {Number} taskID 任务ID
      */
-    displayHidden(taskID = -2) {
+    displayHidden(taskID = EchoLive.INVALID_TASK_ID) {
         if (this.idle) return this.endTask(taskID);
         this.idle = true;
         this.event.displayHidden(() => {
@@ -400,7 +442,7 @@ class EchoLive {
     shutdown(reason = undefined) {
         this.echo.stop();
         this.broadcast = undefined;
-        this.timer.messagesPolling = -1;
+        this.timer.messagesPolling = EchoLive.NOT_ACTIVE_TIMER;
         this.clearDisplayHiddenWaitTimer();
         this.event.shutdown(reason);
     }

@@ -35,16 +35,24 @@
 
     --fh-border-coler: #AAAAAA;
 
-    --animation-speed: 1.0s;
+    --animation-speed: 0.5s;
     --animation-speed-button-switch: 0.1s;
 
     --font-size-base: 16px;
+    --font-size-title-1: 2rem;
+    --font-size-title-2: 1.75rem;
     --font-size-title-3: 1.5rem;
     --font-size-extra-large: 1.25rem;
     --font-size-large: 1.125rem;
     --font-size-middle: 1rem;
     --font-size-small: 0.875rem;
     --font-size-extra-small: 0.75rem;
+
+    --icon-size-extra-large: calc(var(--font-size-base) + 16px);
+    --icon-size-large: calc(var(--font-size-base) + 12px);
+    --icon-size-middle: calc(var(--font-size-base) + 8px);
+    --icon-size-small: calc(var(--font-size-base) + 4px);
+    --icon-size-extra-small: var(--font-size-base);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -278,7 +286,7 @@ p .fh-loading {
 .fh-window {
     --width: 500px;
     --height: 300px;
-    --title-height: 35px;
+    --title-height: calc(var(--font-size-base) + 20px);
     width: var(--width);
     position: fixed;
     top: calc(50vh - (var(--height) + var(--title-height)) / 2);
@@ -321,15 +329,20 @@ p .fh-loading {
 }
 
 .fh-window-title .close {
-    width: 50px;
+    width: calc(var(--font-size-base) + 36px);
     height: var(--title-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     --corner-marker-color: rgba(0,0,0,0.15);
     background-image: var(--corner-marker);
     background-color: transparent;
-    transition: background-color var(--animation-speed-button-switch);
+    transition: filter var(--animation-speed-button-switch), background-color var(--animation-speed-button-switch);
+    cursor: pointer;
 }
 
-.fh-window-title .close:hover {
+.fh-window-title .close:hover:not(:disabled),
+.fh-window-title .close:focus:not(:disabled) {
     background-color: var(--color-danger);
 }
 
@@ -363,14 +376,14 @@ p .fh-loading {
 }
 
 @keyframes fh-window-show-content {
-    0% {height:0; color: transparent; overflow-y: hidden;}
-    50% {height:0; color: transparent; overflow-y: hidden;}
+    0% {height:0; overflow-y: hidden;}
+    50% {height:0; overflow-y: hidden;}
     100% {overflow-y: hidden;}
 }
 
 @keyframes fh-window-close-content {
     0% {height: var(--height); overflow-y: hidden;}
-    100% {height:0; color: transparent; overflow-y: hidden;}
+    100% {height: 0; overflow-y: hidden;}
 }
 
 .fh-msgbox-content {
@@ -396,9 +409,9 @@ p .fh-loading {
 .fh-button {
     --fh-color: var(--color-general-dark);
     --fh-color-glass: var(--color-general-glass);
-    height: 35px;
-    line-height: 35px;
-    padding: 0 10px;
+    height: calc(var(--font-size-base) + 20px);
+    line-height: calc(var(--font-size-base) + 20px);
+    padding: 0 10px 2px 10px;
     margin: 0 3px;
     font-size: var(--font-size-small);
     color: #FFF;
@@ -471,8 +484,8 @@ p .fh-loading {
 
 
 .fh-button.fh-ghost {
-    height: 35px;
-    line-height: 33px;
+    height: calc(var(--font-size-base) + 20px);
+    line-height: calc(var(--font-size-base) + 18px);
     padding: 0 9px;
     color: var(--fh-color);
     --border-style: solid;
@@ -484,8 +497,8 @@ p .fh-loading {
 }
 
 .fh-button.fh-dashed {
-    height: 35px;
-    line-height: 33px;
+    height: 3calc(var(--font-size-base) + 20px);
+    line-height: calc(var(--font-size-base) + 18px);
     padding: 0 9px;
     color: var(--fh-color);
     --border-style: dashed;
@@ -497,8 +510,8 @@ p .fh-loading {
 }
 
 .fh-button.fh-air {
-    height: 35px;
-    line-height: 35px;
+    height: calc(var(--font-size-base) + 20px);
+    line-height: calc(var(--font-size-base) + 20px);
     padding: 0 10px;
     color: var(--fh-color);
     --border-style: dashed;
@@ -536,15 +549,15 @@ p .fh-loading {
 }
 
 .fh-button.fh-big {
-    height: 45px;
-    line-height: 43px;
+    height: calc(var(--font-size-base) + 28px);
+    line-height: calc(var(--font-size-base) + 26px);
     padding: 0 15px;
-    font-size: 16px;
+    font-size: var(--font-size-middle);
 }
 
 .fh-button.fh-small {
-    height: 26px;
-    line-height: 23px;
+    height: calc(var(--font-size-base) + 10px);
+    line-height: calc(var(--font-size-base) + 8px);
     padding: 0 8px;
 }
 
@@ -585,8 +598,8 @@ p .fh-loading {
 .fh-icon-button>svg {
     --icon-fill-color: #FFF;
     fill: var(--icon-fill-color);
-    width: 20px;
-    height: 20px;
+    width: var(--icon-size-small);
+    height: var(--icon-size-small);
 }
 
 .fh-icon-button.fh-ghost>svg,
@@ -633,8 +646,8 @@ p .fh-loading {
 
 
 .fh-input-text {
-    height: 35px;
-    line-height: 35px;
+    height: calc(var(--font-size-base) + 20px);
+    line-height: calc(var(--font-size-base) + 20px);
     padding: 0 10px;
     margin: 0 3px;
     font-size: var(--font-size-small);
@@ -654,4 +667,93 @@ p .fh-loading {
     filter: brightness(1.15);
     --corner-marker-color: var(--color-general-dark);
     border: var(--color-general-dark) 1px solid;
+}
+
+
+
+input[type=range] {
+    --fh-color: var(--color-general-dark);
+    --fh-color-glass: var(--color-general-glass);
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    background: transparent;
+    height: calc(var(--font-size-base) + 20px);
+    cursor: pointer;
+    outline: none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    height: calc(var(--font-size-base) + 20px);
+    width: 16px;
+    background: var(--fh-color);
+    margin-top: -14px;
+    background-image: var(--corner-marker);
+    transition: filter var(--animation-speed-button-switch), box-shadow var(--animation-speed-button-switch);
+}
+
+input[type=range]:hover:not(.fh-disabled, :disabled)::-webkit-slider-thumb {
+    filter: brightness(1.15);
+}
+
+input[type=range]:focus:not(.fh-disabled, :disabled)::-webkit-slider-thumb {
+    --color-focus: var(--fh-color-glass);
+    --box-shadow-size: 5px;
+    filter: brightness(1.05);
+    box-shadow: var(--fh-color-glass) 0 0 var(--box-shadow-size), var(--fh-color-glass) 0 0 var(--box-shadow-size), var(--fh-color-glass) 0 0 var(--box-shadow-size), var(--fh-color-glass) 0 0 var(--box-shadow-size), var(--fh-color-glass) 0 0 var(--box-shadow-size);
+}
+
+input[type=range]:active:not(.fh-disabled, :disabled)::-webkit-slider-thumb {
+    transition: filter 0s, background-color 0s, box-shadow var(--animation-speed-button-switch);
+    filter: brightness(0.85);
+}
+
+input[type=range]::-moz-range-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    height: calc(var(--font-size-base) + 20px);
+    width: var(--font-size-base);
+    background: var(--fh-color);
+    border-radius: 0;
+    border: none;
+    background-image: var(--corner-marker);
+    transition: filter var(--animation-speed-button-switch), box-shadow var(--animation-speed-button-switch);
+}
+
+input[type=range]:hover:not(.fh-disabled, :disabled)::-moz-range-thumb {
+    filter: brightness(1.15);
+}
+
+input[type=range]:focus:not(.fh-disabled, :disabled)::-moz-range-thumb {
+    --color-focus: var(--fh-color-glass);
+    --box-shadow-size: 5px;
+    filter: brightness(1.05);
+    box-shadow: var(--fh-color-glass) 0 0 var(--box-shadow-size), var(--fh-color-glass) 0 0 var(--box-shadow-size), var(--fh-color-glass) 0 0 var(--box-shadow-size), var(--fh-color-glass) 0 0 var(--box-shadow-size), var(--fh-color-glass) 0 0 var(--box-shadow-size);
+}
+
+input[type=range]:active:not(.fh-disabled, :disabled)::-moz-range-thumb {
+    transition: filter 0s, background-color 0s, box-shadow var(--animation-speed-button-switch);
+    filter: brightness(0.85);
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 8px;
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--fh-color);
+}
+
+input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 8px;
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--fh-color);
+}
+
+input[type=range].fh-disabled,
+input[type=range]:disabled {
+    cursor: not-allowed;
+    filter: opacity(0.35);
 }

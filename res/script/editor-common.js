@@ -1,5 +1,12 @@
 "use strict";
 
+if (APP_META.isBeta) {
+    const iconPath = $('head link[rel="icon"]').attr('href');
+    let iconPathSplit = iconPath.split('/');
+    iconPathSplit[iconPathSplit.length - 1] = 'favicon-beta.ico';
+    $('head link[rel="icon"]').attr('href', iconPathSplit.join('/'));
+}
+
 if (config.global.color_scheme != 'auto') $('html').addClass('prefers-color-scheme-' + config.global.color_scheme);
 if (config.global.controller_layout_reverse) $('html').addClass('controller-layout-reverse');
 if (config.accessible.high_contrast || window.matchMedia('(forced-colors: active)').matches) {

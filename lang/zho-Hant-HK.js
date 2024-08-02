@@ -5,13 +5,13 @@ const lang_zho_Hant_HK = {
         title: "繁體中文（香港特別行政區）"
     },
     localization: {
-        data_common: '{y}-{MM}-{dd}',
-        data_time_common: '{y}-{MM}-{dd} {hh}:{mm}:{ss}',
-        data: '{y} 年 {M} 月 {d} 日',
-        data_pad_zero: '{y} 年 {MM} 月 {dd} 日',
-        data_time: '{y} 年 {M} 月 {d} 日 {h}:{m}:{s}',
-        data_time_pad_zero: '{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}',
-        time_common: '{hh}:{mm}:{ss}',
+        data_common: "{y}-{MM}-{dd}",
+        data_time_common: "{y}-{MM}-{dd} {hh}:{mm}:{ss}",
+        data: "{y} 年 {M} 月 {d} 日",
+        data_pad_zero: "{y} 年 {MM} 月 {dd} 日",
+        data_time: "{y} 年 {M} 月 {d} 日 {h}:{m}:{s}",
+        data_time_pad_zero: "{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}",
+        time_common: "{hh}:{mm}:{ss}",
     },
     ui: {
         confirm: "確認",
@@ -76,10 +76,19 @@ const lang_zho_Hant_HK = {
                 unknow_option: "語法錯誤：不存在名為 '{name}' 的選項",
                 not_broadcast: "運行失敗：廣播未啟動"
             },
+            label: {
+                function_mode: "函數模式"
+            },
             success: {
                 broadcast_everyone: "已廣播 {action} 消息",
-                broadcast_target: "已發送 {action} 消息至 {name}"
+                broadcast_target: "已發送 {action} 消息至 {name}",
+                function: "已執行函數中的 {count} 條命令",
+                function_fail_item: "- 第 {line} 行：{reason}",
+                function_has_fail: "已執行函數中的 {count} 條命令，失敗 {fail} 條，失敗原因為："
             }
+        },
+        clearlocalstorage: {
+            success: "請在彈出對話框中確認清除本地存儲數據"
         },
         var: {
             success: {

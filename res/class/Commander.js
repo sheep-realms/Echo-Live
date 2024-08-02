@@ -147,12 +147,14 @@ class Commander {
 
         let success = 0,
             fail = 0,
+            count = 0,
             failLog = [],
             uuid = EchoLiveTools.getUUID();
 
         this.__setStack(uuid);
 
         for (let i = 0; i < commands.length; i++) {
+            if (commands[i].substring(0, 2) === '//' || commands[i].trim() === '') continue;
             let r = this.run(commands[i], true);
             if (r.state == 'success') {
                 success++;
@@ -163,12 +165,14 @@ class Commander {
                     reason: r.failReason
                 });
             }
+            count++;
         }
 
         this.__clearStack();
 
         return {
             state: {
+                count: count,
                 success: success,
                 fail: fail
             },
@@ -410,7 +414,7 @@ class Commander {
                 unit.close();
             }
         );
-        return StateMessage.getSuccess();
+        return this.__messageConstructor('clearlocalstorage', StateMessage.getSuccess());
     }
 
     next(target) {

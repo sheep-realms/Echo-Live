@@ -95,6 +95,7 @@ commander.link.localStorageManager = localStorageManager;
 commander.link.messager = logMessager;
 commander.link.systemNotice = sysNotice;
 commander.link.window = uniWindow;
+let commanderFnMode = false;
 
 
 let elb;
@@ -812,15 +813,64 @@ $(document).keydown(function(e) {
     }
 });
 
+function commanderRun() {
+    let cmd = $('#commander-input').val();
+    let r;
+    let commanderFnModeChange = false;
+    if ((commanderFnMode && cmd === '//') || (!commanderFnMode && cmd.substring(0, 2) === '//')) {
+        commanderFnMode = !commanderFnMode;
+        commanderFnModeChange = true;
+    }
+
+    if (commanderFnModeChange) {
+        if (commanderFnMode) {
+            $('#commander-input-panel').addClass('function-mode');
+            cmd = cmd.split('\n');
+            if (cmd.length <= 1) return $('#commander-input').val('');
+        } else {
+            $('#commander-input-panel').removeClass('function-mode');
+            return $('#commander-input').val('');
+        }
+    }
+
+    if (!commanderFnMode) {
+        commander.consoleRun(cmd);
+    } else {
+        r = commander.fn(cmd);
+        logMessager.send($t(
+            r.state.fail > 0 ? 'command.common.success.function_has_fail' : 'command.common.success.function',
+            {
+                count: r.state.count,
+                success: r.state.success,
+                fail: r.state.fail
+            }
+        ));
+        if (r.state.fail > 0) {
+            r.log.fail.forEach(e => {
+                logMessager.send($t(
+                    'command.common.success.function_fail_item',
+                    {
+                        line: e.line,
+                        reason: e.reason
+                    }
+                ));
+            });
+        }
+    }
+    $('#commander-input').val('');
+}
+
+function commanderEnter() {
+    insertTextAtCursor('commander-input', '\n', '', false, true, false, false, () => '');
+}
+
 $('#commander-input').keydown(function(e) {
     if (e.keyCode == 13) {
         e.preventDefault();
-        if (e.ctrlKey) {
-            insertTextAtCursor('commander-input', '\n', '', false, true, false, false, () => '');
+        if (commanderFnMode ? !e.ctrlKey : e.ctrlKey) {
+            commanderEnter();
         } else {
-            const cmd = $('#commander-input').val();
-            commander.consoleRun(cmd);
-            $('#commander-input').val('');
+            commanderRun();
         }
     } else if (e.keyCode == 27) {
         e.preventDefault();

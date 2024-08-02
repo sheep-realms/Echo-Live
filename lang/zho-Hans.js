@@ -5,13 +5,13 @@ const lang_zho_Hans = {
         title: "简体中文"
     },
     localization: {
-        data_common: '{y}-{MM}-{dd}',
-        data_time_common: '{y}-{MM}-{dd} {hh}:{mm}:{ss}',
-        data: '{y} 年 {M} 月 {d} 日',
-        data_pad_zero: '{y} 年 {MM} 月 {dd} 日',
-        data_time: '{y} 年 {M} 月 {d} 日 {h}:{m}:{s}',
-        data_time_pad_zero: '{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}',
-        time_common: '{hh}:{mm}:{ss}',
+        data_common: "{y}-{MM}-{dd}",
+        data_time_common: "{y}-{MM}-{dd} {hh}:{mm}:{ss}",
+        data: "{y} 年 {M} 月 {d} 日",
+        data_pad_zero: "{y} 年 {MM} 月 {dd} 日",
+        data_time: "{y} 年 {M} 月 {d} 日 {h}:{m}:{s}",
+        data_time_pad_zero: "{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}",
+        time_common: "{hh}:{mm}:{ss}",
     },
     ui: {
         confirm: "确认",
@@ -76,10 +76,19 @@ const lang_zho_Hans = {
                 unknow_option: "语法错误：不存在名为 '{name}' 的选项",
                 not_broadcast: "运行失败：广播未启动"
             },
+            label: {
+                function_mode: "函数模式"
+            },
             success: {
                 broadcast_everyone: "已广播 {action} 消息",
-                broadcast_target: "已发送 {action} 消息至 {name}"
+                broadcast_target: "已发送 {action} 消息至 {name}",
+                function: "已执行函数中的 {count} 条命令",
+                function_fail_item: "- 第 {line} 行：{reason}",
+                function_has_fail: "已执行函数中的 {count} 条命令，失败 {fail} 条，失败原因为："
             }
+        },
+        clearlocalstorage: {
+            success: "请在弹出对话框中确认清除本地存储数据"
         },
         var: {
             success: {

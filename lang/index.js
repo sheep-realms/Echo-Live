@@ -11,7 +11,7 @@ const lang_index = {
             url: "zho-Hant-HK.js"
         }, {
             code: "zho-Hant-TW",
-            title: "繁體中文（台灣地區）",
+            title: "繁體中文（臺灣地區）",
             url: "zho-Hant-TW.js"
         }
     ]

@@ -700,7 +700,11 @@ async function filePicker() {
         let fileData = await handle.getFile();
         checkConfigFile([fileData]);
     } catch (error) {
-        // console.log(error);
+        if (error.name == 'AbortError') {
+            sysNotice.sendT('notice.open_file_picker_cancel', {}, 'warn');
+        } else {
+            sysNotice.sendThasTitle('notice.open_file_picker_fail', {}, 'error');
+        }
     }
 }
 

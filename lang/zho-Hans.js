@@ -1243,6 +1243,11 @@ const lang_zho_Hans = {
         },
         import_image_url_empty: "未填写图片 URL！",
         local_storage_cleared: "已清除本地存储数据！",
+        open_file_picker_cancel: "已取消选择文件！",
+        open_file_picker_fail: {
+            title: "打开文件选择器时发生错误",
+            message: "这很有可能是因为您当前使用的浏览器不支持此功能。您还可以尝试将文件拖入框中，但还是建议您更换浏览器。"
+        },
         open_settings_in_obs: "请在浏览器中打开 settings.html，而不是在 OBS 中！",
         unknow_error: {
             title: "发生了未捕获的错误",

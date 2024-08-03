@@ -1243,6 +1243,11 @@ const lang_zho_Hant_HK = {
         },
         import_image_url_empty: "未填寫圖片 URL！",
         local_storage_cleared: "已清除本地存儲數據！",
+        open_file_picker_cancel: "已取消選擇文件！",
+        open_file_picker_fail: {
+            title: "打開文件選擇器時發生錯誤",
+            message: "這很有可能是因為您當前使用的瀏覽器不支持此功能。您還可以嘗試將文件拖入框中，但還是建議您更換瀏覽器。"
+        },
         open_settings_in_obs: "請在瀏覽器中打開 settings.html，而不是在 OBS 中！",
         unknow_error: {
             title: "發生了未捕獲的錯誤",

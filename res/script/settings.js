@@ -135,6 +135,17 @@ let uniWindow = new UniverseWindow();
 
 
 
+let hasUnsavedConfig = false;
+let hasUnsavedConfigToFile = false;
+window.addEventListener('beforeunload', function (e) {
+    if (hasUnsavedConfig || hasUnsavedConfigToFile) {
+        e.preventDefault();
+        e.returnValue = '';
+    }
+});
+
+
+
 function getSettingsItemValue(name, isDefault = false) {
     let $sel = $(`.settings-item[data-id="${ name }"]`),
         type = $sel.data('type'),
@@ -342,11 +353,13 @@ function closeFileChecker() {
 }
 
 function configChangeShowController() {
+    hasUnsavedConfig = true;
     $('.settings-controller-bottom').removeClass('disabled');
     $('.settings-controller-bottom button').removeAttr('disabled');
 }
 
 function configSaveCloseController() {
+    hasUnsavedConfig = false;
     $('.settings-controller-bottom').addClass('disabled');
     $('.settings-controller-bottom button').attr('disabled', 'disabled');
 }
@@ -468,6 +481,7 @@ function configExport(fileName = 'config.js', saveAs = false) {
 }
 
 function outputTabUnsavePoint(state = true) {
+    hasUnsavedConfigToFile = state;
     if (state) return $('#export-unsave').removeClass('hide');
     $('#export-unsave').addClass('hide');
 }

@@ -90,6 +90,13 @@ const lang_zho_Hant_TW = {
         clearlocalstorage: {
             success: "請在彈出對話方塊中確認清除本地儲存資料"
         },
+        getlang: {
+            success: {
+                code: "當前語言的 ISO 639-3 程式碼為：{ @lang.code_iso_639_3 }",
+                ietf: "當前語言的 IETF 程式碼為：{ @lang.code_ietf }",
+                name: "當前語言的名稱為：{ @lang.title }"
+            }
+        },
         var: {
             success: {
                 del: "已刪除 {stack} 堆中變數 {name}",

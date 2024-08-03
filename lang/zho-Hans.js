@@ -90,6 +90,13 @@ const lang_zho_Hans = {
         clearlocalstorage: {
             success: "请在弹出对话框中确认清除本地存储数据"
         },
+        getlang: {
+            success: {
+                code: "当前语言的 ISO 639-3 代码为：{ @lang.code_iso_639_3 }",
+                ietf: "当前语言的 IETF 代码为：{ @lang.code_ietf }",
+                name: "当前语言的名称为：{ @lang.title }"
+            }
+        },
         var: {
             success: {
                 del: "已删除 {stack} 堆中变量 {name}",

@@ -14,6 +14,14 @@ class Commander {
                 parameters: [],
                 inFunctionDisable: true
             }, {
+                name: 'getlang',
+                parameters: [
+                    {
+                        type: 'select',
+                        value: ['code', 'ietf', 'name']
+                    }
+                ]
+            }, {
                 name: 'next',
                 parameters: [
                     {
@@ -60,7 +68,7 @@ class Commander {
                         required: true
                     }, {
                         type: 'select',
-                        value: ['=', '+', '-', '*', '/', '/^', '/_', '//', '%', '^^', '++', '--', '&+', '^', '&', '|', '>>', '<<', '>>>', 'del', 'get', 'max', 'min', 'typeof', 'return']
+                        value: ['=', '+', '-', '*', '/', '/^', '/_', '//', '%', '^^', '++', '--', '&+', '^', '&', '|', '~', '>>', '<<', '>>>', 'del', 'get', 'max', 'min', 'typeof', 'return']
                     }, {
                         type: 'text'
                     }
@@ -73,7 +81,7 @@ class Commander {
                         required: true
                     }, {
                         type: 'select',
-                        value: ['=', '+', '-', '*', '/', '/^', '/_', '//', '%', '^^', '++', '--', '&+', '^', '&', '|', '>>', '<<', '>>>', 'del', 'get', 'max', 'min', 'typeof', 'return']
+                        value: ['=', '+', '-', '*', '/', '/^', '/_', '//', '%', '^^', '++', '--', '&+', '^', '&', '|', '~', '>>', '<<', '>>>', 'del', 'get', 'max', 'min', 'typeof', 'return']
                     }, {
                         type: 'text'
                     }
@@ -417,6 +425,34 @@ class Commander {
         return this.__messageConstructor('clearlocalstorage', StateMessage.getSuccess());
     }
 
+    getlang(key = 'code') {
+        switch (key) {
+            case 'ietf':
+                return this.__messageConstructor(
+                    'getlang',
+                    StateMessage.getSuccess({}, $t('lang.code_ietf') ),
+                    {},
+                    'ietf'
+                );
+
+            case 'name':
+                return this.__messageConstructor(
+                    'getlang',
+                    StateMessage.getSuccess({}, $t('lang.title')),
+                    {},
+                    'name'
+                );
+        
+            default:
+                return this.__messageConstructor(
+                    'getlang',
+                    StateMessage.getSuccess({}, $t('lang.code_iso_639_3')),
+                    {},
+                    'code'
+                );
+        }
+    }
+
     next(target) {
         if (this.link.broadcast == undefined) return this.__messageConstructor('common', StateMessage.getFail('not_broadcast'));
         target = this.__getBroadcastTarget(target);
@@ -464,7 +500,9 @@ class Commander {
                         stack: stack,
                         name: name,
                         value: v1
-                    }
+                    },
+                    v1,
+                    true
                 ),
                 {
                     stack: stack,
@@ -485,7 +523,9 @@ class Commander {
                         stack: stack,
                         name: name,
                         value: v1
-                    }
+                    },
+                    v1,
+                    true
                 ),
                 {
                     stack: stack,
@@ -506,7 +546,9 @@ class Commander {
                         stack: stack,
                         name: name,
                         value: v1
-                    }
+                    },
+                    v1,
+                    true
                 ),
                 {
                     stack: stack,
@@ -543,6 +585,7 @@ class Commander {
             case '^'     : this.__setVar(name, v ^   value,               stack); break;
             case '|'     : this.__setVar(name, v |   value,               stack); break;
             case '&'     : this.__setVar(name, v &   value,               stack); break;
+            case '~'     : this.__setVar(name, ~ v,                       stack); break;
             case '<<'    : this.__setVar(name, v <<  value,               stack); break;
             case '>>'    : this.__setVar(name, v >>  value,               stack); break;
             case '>>>'   : this.__setVar(name, v >>> value,               stack); break;
@@ -579,7 +622,9 @@ class Commander {
                     stack: stack,
                     name: name,
                     value: v
-                }
+                },
+                v,
+                true
             ),
             {
                 stack: stack,
@@ -601,7 +646,8 @@ class Commander {
 class StateMessage {
     constructor() {}
 
-    static getSuccess(data = {}, value = 0) {
+    static getSuccess(data = {}, value = undefined, valueIsUndefined = false) {
+        if (value == undefined && !valueIsUndefined) value = 0;
         return {
             state: 'success',
             value: value,

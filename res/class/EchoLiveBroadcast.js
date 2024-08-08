@@ -130,7 +130,7 @@ class EchoLiveBroadcast {
      */
     setName(value) {
         if (typeof value != 'string' || value == '') return;
-        if (value.substring(0, 2) == '__') return;
+        if (value.startsWith('__')) return;
         this.custom.name = value;
         return this.custom.name;
     }
@@ -175,8 +175,8 @@ class EchoLiveBroadcast {
         this.listenCallbackDepth = 0;
         this.event.message(data);
 
-        if (typeof data.target == 'string' && data.target.substring(0, 1) == '@') {
-            if (data.target.substring(1, 3) == '__') {
+        if (typeof data.target == 'string' && data.target.startsWith('@')) {
+            if (data.target.startsWith('__', 1)) {
                 if (!this.targetTypeCheck(data.target.substring(3))) return;
             } else if (data.target.substring(1) != this.custom.name) return;
         } else if (data.target != undefined && data.target != this.uuid) return;

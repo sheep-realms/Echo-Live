@@ -162,7 +162,7 @@ class Commander {
         this.__setStack(uuid);
 
         for (let i = 0; i < commands.length; i++) {
-            if (commands[i].substring(0, 2) === '//' || commands[i].trim() === '') continue;
+            if (commands[i].startsWith('//') || commands[i].trim() === '') continue;
             let r = this.run(commands[i], true);
             if (r.state == 'success') {
                 success++;

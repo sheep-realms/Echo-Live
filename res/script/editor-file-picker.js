@@ -54,7 +54,7 @@ function checkImageFile(fileList) {
     dropFileReader.onload = function(e2) {
         dropData = e2.target.result;
 
-        if (dropFile.type.substring(0,6) != 'image/') {
+        if (!dropFile.type.startsWith('image/')) {
             showFileCheckDialogError('type_error');
             return;
         }

@@ -1339,6 +1339,25 @@ const lang_zho_Hant_TW = {
             }
         }
     },
+    studio: {
+        text_to_messages: {
+            colon: "：",
+            label: {
+                character_split: "說話人分隔符",
+                text: "對話文字"
+            },
+            tabpage: {
+                edit: {
+                    title: "編輯",
+                    description: "編輯文字 [alt+1]"
+                },
+                output: {
+                    title: "輸出",
+                    description: "輸出訊息格式 [alt+2]"
+                }
+            }
+        }
+    },
     window: {
         clear_local_storage: {
             title: "清除本地儲存資料",

@@ -49,7 +49,8 @@
                 role="tab"
                 aria-selected="true"
                 accesskey="1"
-                title="编辑配置文件 [alt+1]"
+                data-i18n="studio.text_to_messages.tabpage.edit.title"
+                data-i18n-title="studio.text_to_messages.tabpage.edit.description"
             >编辑</button>
             <button
                 id="tabpage-nav-output"
@@ -58,7 +59,8 @@
                 role="tab"
                 aria-selected="false"
                 accesskey="2"
-                title="导入配置文件 [alt+2]"
+                data-i18n="studio.text_to_messages.tabpage.output.title"
+                data-i18n-title="studio.text_to_messages.tabpage.output.description"
             >输出</button>
         </nav>
 
@@ -66,12 +68,12 @@
         <div class="tabpage-centent" data-navid="main">
             <!-- 编辑标签页 -->
             <section class="tabpage-panel" role="tabpanel" data-pageid="edit">
-                <h2 class="tabpage-panel-title">编辑</h2>
+                <h2 class="tabpage-panel-title" data-i18n="studio.text_to_messages.tabpage.edit.title"></h2>
                 <div class="echo-editor-form">
-                    <label for="character-split">说话人分隔符</label>
-                    <input type="text" name="character" id="character-split" value="：">
+                    <label for="character-split" data-i18n="studio.text_to_messages.label.character_split"></label>
+                    <input type="text" name="character" id="character-split" value="">
 
-                    <label for="text-edit">文本</label>
+                    <label for="text-edit" data-i18n="studio.text_to_messages.label.text"></label>
                     <textarea name="message-data" id="text-edit" class="code"></textarea>
 
                     <div class="editor-controller-bottom fh-flex-row fh-controller">
@@ -83,9 +85,9 @@
 
             <!-- 输出标签页 -->
             <section class="tabpage-panel hide" role="tabpanel" data-pageid="output">
-                <h2 class="tabpage-panel-title" data-i18n="editor.tabpage.output.title">输出</h2>
+                <h2 class="tabpage-panel-title" data-i18n="studio.text_to_messages.tabpage.output.title"></h2>
                 <div class="echo-editor-form">
-                    <label for="meaasge-output" data-i18n="editor.form.label.output_content">输出内容</label>
+                    <label for="meaasge-output" data-i18n="editor.form.label.output_content"></label>
                     <textarea name="message-data" id="meaasge-output" class="code"></textarea>
                 </div>
             </section>
@@ -97,6 +99,8 @@
     <script src="../res/script/editor-common.js"></script>
     <script>
         let sysNotice = new SystemNotice();
+
+        $('#character-split').val($t('studio.text_to_messages.colon'))
 
         $(document).on('click', '#btn-clear', function() {
             $('#text-edit').val('');

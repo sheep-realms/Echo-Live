@@ -1339,6 +1339,25 @@ const lang_zho_Hans = {
             }
         }
     },
+    studio: {
+        text_to_messages: {
+            colon: "：",
+            label: {
+                character_split: "说话人分隔符",
+                text: "对话文本"
+            },
+            tabpage: {
+                edit: {
+                    title: "编辑",
+                    description: "编辑文本 [alt+1]"
+                },
+                output: {
+                    title: "输出",
+                    description: "输出消息格式 [alt+2]"
+                }
+            }
+        }
+    },
     window: {
         clear_local_storage: {
             title: "清除本地存储数据",

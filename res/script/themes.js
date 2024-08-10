@@ -10,6 +10,11 @@ extensionManager.importDefaultTheme([
         "description": "Echo-Live 内置主题",
         "style": "res/style/live-theme/bubble.css"
     }, {
+        "name": "glass",
+        "title": "玻璃",
+        "description": "Echo-Live 内置主题",
+        "style": "res/style/live-theme/glass.css"
+    }, {
         "name": "void",
         "title": "虚空",
         "description": "Echo-Live 内置主题",

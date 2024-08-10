@@ -114,6 +114,14 @@ main {
     filter: brightness(0.85);
 }
 
+.fh-controller {
+    flex-direction: row;
+}
+
+.controller-layout-reverse .fh-controller {
+    flex-direction: row-reverse;
+}
+
 kbd {
     display: inline-flex;
     background-color: #000000;
@@ -205,6 +213,7 @@ input.code {
 
 
 .fh-button.hide,
+.checkbox.hide,
 .tabpage-panel.hide,
 .tabpage-nav-item.hide,
 .collapse-content.hide,
@@ -285,15 +294,12 @@ input.code {
     position: sticky;
     bottom: 0;
     background-color: var(--page-bgcolor);
+    gap: 16px;
 }
 
 .editor-controller-bottom>* {
     flex: 1;
     margin: 0;
-}
-
-.editor-controller-bottom>*+* {
-    margin-left: 16px;
 }
 
 .editor-controller {
@@ -369,6 +375,7 @@ input.code {
     text-align: left;
     align-items: center;
     color: var(--text-regular);
+    width: 100%;
 }
 
 .checkbox .icon {
@@ -1119,12 +1126,13 @@ select:focus {
 
 
 #commander-input-panel {
+    --panel-top: 48px;
     color: var(--commander-color);
     height: 48px;
     max-height: 50vh;
     width: 100%;
     position: fixed;
-    top: 48px;
+    top: var(--panel-top);
     left: 0;
     display: flex;
     align-items: flex-start;
@@ -1163,6 +1171,24 @@ select:focus {
     background-image: linear-gradient(to left, transparent, var(--commander-bgcolor));
 } */
 
+.commander-function-mode-label {
+    display: none;
+    --label-height: calc(var(--font-size-middle) + 0.5em);
+    --calc-left: calc(100vw - 1017px);
+    position: fixed;
+    top: calc(var(--panel-top) - var(--label-height));
+    left: max(calc(var(--calc-left) / 2), 0px);
+    height: var(--label-height);
+    line-height: calc(var(--label-height) - 1px);
+    padding: 0 0.75em;
+    font-size: var(--font-size-middle);
+    color: #FFF;
+    background-color: var(--color-special-dark);
+}
+
+#commander-input-panel.function-mode .commander-function-mode-label {
+    display: flex;
+}
 
 
 
@@ -1542,6 +1568,10 @@ select:focus {
         min-width: unset;
         flex: 1;
     }
+}
+
+.fh-msgbox-content-message {
+    padding: 32px;
 }
 
 

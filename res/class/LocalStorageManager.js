@@ -13,6 +13,10 @@ class LocalStorageManager {
         }
     }
 
+    clear() {
+        localStorage.removeItem(this.name);
+    }
+
     getItem(key) {
         const s = localStorage.getItem(this.name);
         if (s == null) return;

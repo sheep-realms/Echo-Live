@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo Live 工作室：文本转消息格式</title>
+    <link rel="icon" href="../res/image/favicon.ico">
+    <link rel="stylesheet" href="../res/style/fh-ui.css">
+    <link rel="stylesheet" href="../res/style/editor.css">
+    <link rel="stylesheet" href="../res/style/editor-accessible.css">
+    <script src="../lib/jquery-3.7.1.min.js"></script>
+    <script src="../res/script/config-load-fail.js"></script>
+    <script src="../config.js" onerror="configLoadFail()"></script>
+    <script src="../app.js"></script>
+    <script src="../lang/index.js"></script>
+    <script src="../lang/zho-Hans.js"></script>
+    <script src="../lang/zho-Hant-HK.js"></script>
+    <script src="../lang/zho-Hant-TW.js"></script>
+    <script src="../res/class/Translator.js"></script>
+    <script>
+        const translator = new Translator(config.global.language, lang_index);
+        const $t = function(...e) {
+            return translator.output(...e);
+        };
+        translator.load(lang_zho_Hans);
+        translator.load(lang_zho_Hant_HK);
+        translator.load(lang_zho_Hant_TW);
+        $('html').attr('lang', $t('lang.code_ietf'));
+    </script>
+    <script src="../res/class/Icon.js"></script>
+    <script src="../res/class/EchoLiveTools.js"></script>
+    <script src="../res/class/EditorConstructor.js"></script>
+    <script src="../res/class/SystemNotice.js"></script>
+    <style>
+        #text-edit,
+        #meaasge-output {
+            height: 50vh;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <!-- 标签页标题 -->
+        <nav id="echo-editor-nav" class="tabpage-nav" data-navid="main">
+            <button
+                id="tabpage-nav-edit"
+                class="tabpage-nav-item"
+                data-pageid="edit"
+                role="tab"
+                aria-selected="true"
+                accesskey="1"
+                data-i18n="studio.text_to_messages.tabpage.edit.title"
+                data-i18n-title="studio.text_to_messages.tabpage.edit.description"
+            >编辑</button>
+            <button
+                id="tabpage-nav-output"
+                class="tabpage-nav-item"
+                data-pageid="output"
+                role="tab"
+                aria-selected="false"
+                accesskey="2"
+                data-i18n="studio.text_to_messages.tabpage.output.title"
+                data-i18n-title="studio.text_to_messages.tabpage.output.description"
+            >输出</button>
+        </nav>
+
+        <!-- 标签页面板 -->
+        <div class="tabpage-centent" data-navid="main">
+            <!-- 编辑标签页 -->
+            <section class="tabpage-panel" role="tabpanel" data-pageid="edit">
+                <h2 class="tabpage-panel-title" data-i18n="studio.text_to_messages.tabpage.edit.title"></h2>
+                <div class="echo-editor-form">
+                    <label for="character-split" data-i18n="studio.text_to_messages.label.character_split"></label>
+                    <input type="text" name="character" id="character-split" value="">
+
+                    <label for="text-edit" data-i18n="studio.text_to_messages.label.text"></label>
+                    <textarea name="message-data" id="text-edit" class="code"></textarea>
+
+                    <div class="editor-controller-bottom fh-flex-row fh-controller">
+                        <button id="btn-clear" class="fh-button fh-big fh-danger" data-i18n="ui.reset">重置</button>
+                        <button id="btn-submit" class="fh-button fh-big" data-i18n="ui.output">输出</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 输出标签页 -->
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="output">
+                <h2 class="tabpage-panel-title" data-i18n="studio.text_to_messages.tabpage.output.title"></h2>
+                <div class="echo-editor-form">
+                    <label for="meaasge-output" data-i18n="editor.form.label.output_content"></label>
+                    <textarea name="message-data" id="meaasge-output" class="code"></textarea>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div id="fh-notice" aria-live="polite"></div>
+
+    <script src="../res/script/editor-common.js"></script>
+    <script>
+        let sysNotice = new SystemNotice();
+
+        $('#character-split').val($t('studio.text_to_messages.colon'))
+
+        $(document).on('click', '#btn-clear', function() {
+            $('#text-edit').val('');
+            $('#text-edit').focus();
+        });
+
+        $(document).on('click', '#btn-submit', function() {
+            let splitChr = String($('#character-split').val());
+            if (splitChr == '') splitChr = '：';
+            const text = String($('#text-edit').val());
+            const messages = text.split('\n');
+            let obj = {
+                username: '',
+                messages: []
+            };
+
+            messages.forEach(e => {
+                if (e == '') return obj.messages.push({
+                        message: ''
+                    });
+                let msg = e.split(splitChr);
+                if (msg.length < 2) {
+                    obj.messages.push({
+                        message: msg[0]
+                    });
+                } else {
+                    let name = msg.shift();
+                    obj.messages.push({
+                        message: msg.join(splitChr),
+                        data: {
+                            customData: {
+                                username: name
+                            }
+                        }
+                    });
+                }
+            });
+
+            $('#meaasge-output').val(JSON.stringify(obj, null, 4));
+            $('#tabpage-nav-output').click();
+            $('#meaasge-output').focus();
+            $('#meaasge-output').select();
+        });
+    </script>
+</body>
+</html>

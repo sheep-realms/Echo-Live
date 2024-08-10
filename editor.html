@@ -41,6 +41,7 @@
     <script src="res/script/palettes.js"></script>
     <script src="res/class/EchoLiveBroadcast.js"></script>
     <script src="res/class/EditorConstructor.js"></script>
+    <script src="res/class/UniverseWindow.js"></script>
     <script src="res/class/EmojiHako.js"></script>
     <script src="res/script/emoji.js"></script>
     <script src="res/class/Commander.js"></script>
@@ -215,7 +216,13 @@
                         </div>
                     </div>
 
-                    <div class="editor-controller-bottom fh-flex-row">
+                    <button role="checkbox" aria-selected="false" class="checkbox hide" id="checkbox-sent-clear">
+                        <span class="icon"></span>
+                        <span class="text" data-i18n="editor.form.label.sent_clear"></span>
+                        <input type="hidden" name="ptext-chk-sent-clear" id="ptext-chk-sent-clear" value="0">
+                    </button>
+
+                    <div class="editor-controller-bottom fh-flex-row fh-controller">
                         <button id="ptext-btn-clear" class="fh-button fh-big fh-danger" data-i18n="ui.reset">重置</button>
                         <button id="ptext-btn-submit" class="fh-button fh-big" data-i18n="ui.output">输出</button>
                         <button id="ptext-btn-send" class="fh-button fh-big hide" data-i18n="ui.send">发送</button>
@@ -368,7 +375,7 @@
                         </div>
                     </div>
 
-                    <div class="editor-controller-bottom fh-flex-row">
+                    <div class="editor-controller-bottom fh-flex-row fh-controller">
                         <button id="rtext-btn-clear" class="fh-button fh-big fh-danger">重置</button>
                         <button id="rtext-btn-submit" class="fh-button fh-big">输出</button>
                     </div>
@@ -381,21 +388,21 @@
                 <div class="echo-editor-form">
                     <label for="config-output-before" data-i18n="editor.form.label.output_before">头部内容</label>
                     <textarea name="output-before" id="config-output-before" class="code"></textarea>
-                    <button role="checkbox" aria-selected="true" class="checkbox selected">
+                    <button role="checkbox" aria-selected="false" class="checkbox">
                         <span class="icon"></span>
                         <span class="text" data-i18n="editor.form.description.output_before">在输出内容之前插入头部内容</span>
-                        <input type="hidden" name="config-output-use-before" id="config-output-use-before" value="1">
+                        <input type="hidden" name="config-output-use-before" id="config-output-use-before" value="0">
                     </button>
 
                     <label for="config-output-after" data-i18n="editor.form.label.output_after">尾部内容</label>
                     <textarea name="output-after" id="config-output-after" class="code"></textarea>
-                    <button role="checkbox" aria-selected="true" class="checkbox selected">
+                    <button role="checkbox" aria-selected="false" class="checkbox">
                         <span class="icon"></span>
                         <span class="text" data-i18n="editor.form.description.output_before">在输出内容之后插入尾部内容</span>
-                        <input type="hidden" name="config-output-use-after" id="config-output-use-after" value="1">
+                        <input type="hidden" name="config-output-use-after" id="config-output-use-after" value="0">
                     </button>
 
-                    <p style="margin-top: 1rem;"><a class="fh-link" href="settings.html" target="_blank" data-i18n="editor.form.description.open_settings"></a></p>
+                    <p style="margin-top: 1rem;"><a class="fh-link" id="link-open-settings" href="settings.html" target="_blank" data-i18n="editor.form.description.open_settings"></a></p>
                 </div>
             </section>
 
@@ -443,7 +450,7 @@
                                 aria-label="输出内容编辑框"
                                 data-i18n-aria-label="editor.form.aria_label.output_content"
                             ></textarea>
-                            <div class="editor-controller-bottom fh-flex-row">
+                            <div class="editor-controller-bottom fh-flex-row fh-controller">
                                 <button id="output-btn-clear" class="fh-button fh-big fh-danger" data-i18n="ui.clear">清空</button>
                                 <button id="output-btn-send" class="fh-button fh-big hide" data-i18n="ui.send">发送</button>
                             </div>
@@ -456,7 +463,7 @@
                         <div id="history-message-list">
 
                         </div>
-                        <div id="history-editor-controller" class="editor-controller-bottom fh-flex-row">
+                        <div id="history-editor-controller" class="editor-controller-bottom fh-flex-row fh-controller">
                             <button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger" data-i18n="editor.history.clear">清空历史记录</button>
                         </div>
                     </section>
@@ -489,6 +496,7 @@
         <div class="commander-input-left"></div>
         <textarea id="commander-input" class="code" data-i18n-aria-label="editor.form.aria_label.commander" rows="1"></textarea>
         <div class="commander-input-right"></div>
+        <div class="commander-function-mode-label" data-i18n="command.common.label.function_mode"></div>
     </div>
 
     <div id="fh-notice" aria-live="polite"></div>

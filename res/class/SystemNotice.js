@@ -23,7 +23,7 @@ class SystemNotice {
             waitTime:   undefined,
             width:      undefined,
             ...data,
-            animation:  !config.accessible.animation_disable && !$('body').hasClass('accessible-animation-disable') && ( data?.animation ?? true ),
+            animation:  !config.accessible.animation_disable && !$('html').hasClass('accessible-animation-disable') && ( data?.animation ?? true ),
             index:      index
         };
 
@@ -88,7 +88,7 @@ class SystemNotice {
 
     kill(sel, now = false) {
         const $sel = $(`${ this.sel } .fh-notice-item${ sel }`)
-        if (now || config.accessible.animation_disable || $('body').hasClass('accessible-animation-disable')) {
+        if (now || config.accessible.animation_disable || $('html').hasClass('accessible-animation-disable')) {
             $sel.remove();
             return;
         }

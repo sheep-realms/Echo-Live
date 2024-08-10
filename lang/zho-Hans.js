@@ -5,12 +5,13 @@ const lang_zho_Hans = {
         title: "简体中文"
     },
     localization: {
-        data_common: '{y}-{MM}-{dd}',
-        data_time_common: '{y}-{MM}-{dd} {hh}:{mm}:{ss}',
-        data: '{y} 年 {M} 月 {d} 日',
-        data_pad_zero: '{y} 年 {MM} 月 {dd} 日',
-        data_time: '{y} 年 {M} 月 {d} 日 {h}:{m}:{s}',
-        data_time_pad_zero: '{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}',
+        data_common: "{y}-{MM}-{dd}",
+        data_time_common: "{y}-{MM}-{dd} {hh}:{mm}:{ss}",
+        data: "{y} 年 {M} 月 {d} 日",
+        data_pad_zero: "{y} 年 {MM} 月 {dd} 日",
+        data_time: "{y} 年 {M} 月 {d} 日 {h}:{m}:{s}",
+        data_time_pad_zero: "{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}",
+        time_common: "{hh}:{mm}:{ss}",
     },
     ui: {
         confirm: "确认",
@@ -75,9 +76,25 @@ const lang_zho_Hans = {
                 unknow_option: "语法错误：不存在名为 '{name}' 的选项",
                 not_broadcast: "运行失败：广播未启动"
             },
+            label: {
+                function_mode: "函数模式"
+            },
             success: {
                 broadcast_everyone: "已广播 {action} 消息",
-                broadcast_target: "已发送 {action} 消息至 {name}"
+                broadcast_target: "已发送 {action} 消息至 {name}",
+                function: "已执行函数中的 {count} 条命令",
+                function_fail_item: "- 第 {line} 行：{reason}",
+                function_has_fail: "已执行函数中的 {count} 条命令，失败 {fail} 条，失败原因为："
+            }
+        },
+        clearlocalstorage: {
+            success: "请在弹出对话框中确认清除本地存储数据"
+        },
+        getlang: {
+            success: {
+                code: "当前语言的 ISO 639-3 代码为：{ @lang.code_iso_639_3 }",
+                ietf: "当前语言的 IETF 代码为：{ @lang.code_ietf }",
+                name: "当前语言的名称为：{ @lang.title }"
             }
         },
         var: {
@@ -119,6 +136,10 @@ const lang_zho_Hans = {
                     dark: "深色",
                     light: "浅色"
                 }
+            },
+            controller_layout_reverse: {
+                _title: "反转控制器按钮布局",
+                _description: "根据阅读方向将重要按钮放置于最先被阅读的位置。"
             }
         },
         echo: {
@@ -518,6 +539,18 @@ const lang_zho_Hans = {
                     _title: "历史记录底部游标熔断阈值",
                     _description: "设为 -1 可禁用此机制。"
                 }
+            },
+            settings: {
+                _title: "配置文件编辑器",
+                _description: "配置文件编辑器的高级设置",
+                display_config_key: {
+                    _title: "显示配置项键名",
+                    _description: "在配置项描述下方显示键名。"
+                },
+                speech_synthesis_voices_maximum: {
+                    _title: "讲述人语音资源列表最大显示数量",
+                    _description: "在某些操作系统中可能会列出大量项目从而影响渲染性能。<br>设为 -1 则不设上限。"
+                }
             }
         },
         about: {
@@ -591,6 +624,7 @@ const lang_zho_Hans = {
                 quote: "引用符号",
                 quote_after: "结尾",
                 quote_before: "开头",
+                sent_clear: "发送后清空内容",
                 split_message: "多行文本分割为消息队列",
                 startup_parameter: "启动参数",
                 use_formatting_code: "使用快速格式化代码"
@@ -1208,6 +1242,13 @@ const lang_zho_Hans = {
             message: "发布了新版本结果没上传文件？还能有这种事情？！"
         },
         import_image_url_empty: "未填写图片 URL！",
+        local_storage_cleared: "已清除本地存储数据！",
+        open_file_picker_cancel: "已取消选择文件！",
+        open_file_picker_fail: {
+            title: "打开文件选择器时发生错误",
+            message: "这很有可能是因为您当前使用的浏览器不支持此功能。您还可以尝试拖放文件，但还是建议您更换浏览器。"
+        },
+        open_settings_in_obs: "请在浏览器中打开 settings.html，而不是在 OBS 中！",
         unknow_error: {
             title: "发生了未捕获的错误",
             message: "这应该不是什么意料之中的战术性报错，您可以将此问题反馈给开发者，并提供复现方法。"
@@ -1296,6 +1337,31 @@ const lang_zho_Hans = {
                 title: "导入",
                 description: "导入配置文件 [alt+1]"
             }
+        }
+    },
+    studio: {
+        text_to_messages: {
+            colon: "：",
+            label: {
+                character_split: "说话人分隔符",
+                text: "对话文本"
+            },
+            tabpage: {
+                edit: {
+                    title: "编辑",
+                    description: "编辑文本 [alt+1]"
+                },
+                output: {
+                    title: "输出",
+                    description: "输出消息格式 [alt+2]"
+                }
+            }
+        }
+    },
+    window: {
+        clear_local_storage: {
+            title: "清除本地存储数据",
+            message: "您确定要清除本地存储数据吗？<br>这是一个不可逆的操作，您将会永久丢失这些数据。"
         }
     }
 };

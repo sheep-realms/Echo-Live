@@ -1,10 +1,10 @@
 "use strict";
 
-if (config.history.layout.message_list_reverse) $('body').addClass('echo-live-history-message-list-reverse');
-if (config.history.layout.message_item_reverse) $('body').addClass('echo-live-history-message-item-reverse');
-if (!config.history.layout.display_username) $('body').addClass('echo-live-history-disable-username');
-if (!config.history.layout.display_time) $('body').addClass('echo-live-history-disable-time');
-if (config.history.message.latest_message_hide) $('body').addClass('echo-live-history-latest-message-hide');
+if (config.history.layout.message_list_reverse) $('html').addClass('echo-live-history-message-list-reverse');
+if (config.history.layout.message_item_reverse) $('html').addClass('echo-live-history-message-item-reverse');
+if (!config.history.layout.display_username) $('html').addClass('echo-live-history-disable-username');
+if (!config.history.layout.display_time) $('html').addClass('echo-live-history-disable-time');
+if (config.history.message.latest_message_hide) $('html').addClass('echo-live-history-latest-message-hide');
 
 let echoLiveHistory = new EchoLiveHistory(config);
 echoLiveHistory.theme = extensionManager.theme;
@@ -16,7 +16,7 @@ echoLiveHistory.on('newHistory', function(e) {
 });
 
 echoLiveHistory.on('shutdown', function(reason) {
-    $('body').removeClass('echo-live-history-latest-message-hide');
+    $('html').removeClass('echo-live-history-latest-message-hide');
 
     if (reason != undefined && reason != '') {
         sendHistory($t( 'echolive.system_message' ), $t( 'echolive.shutdown_reason', { reason: reason } ));
@@ -32,24 +32,11 @@ function sendHistory(username = '', message = '') {
     username = username.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/ /g, '&ensp;');
     message = EchoLiveTools.getMessagePlainText(message);
 
-    function __getTime() {
-        let d = new Date();
-        return `${__afterZero(d.getHours())}:${__afterZero(d.getMinutes())}:${__afterZero(d.getSeconds())}`;
-    }
-
-    function __afterZero(value) {
-        if (value >= 10) {
-            return `${value}`;
-        } else {
-            return `0${value}`;
-        }
-    }
-
     $('#echo-live-history-message-list').append(
         `<div class="history-message-item">
             <div class="username"><div class="content">${EchoLiveTools.safeHTML(username)}</div></div>
             <div class="message"><div class="content echo-output" data-before="${message.substring(0, 1).replace(/"/g, '&quot;')}">${EchoLiveTools.safeHTML(message)}</div></div>
-            <div class="time"><div class="content">${__getTime()}</div></div>
+            <div class="time"><div class="content">${EchoLiveTools.formatDate(undefined, 'time_common')}</div></div>
         </div>`
     );
 

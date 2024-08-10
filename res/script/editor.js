@@ -17,6 +17,8 @@ window.addEventListener("error", (e) => {
 
 let localStorageManager = new LocalStorageManager();
 
+let uniWindow = new UniverseWindow();
+
 let textList = [
     {text: ''}
 ];
@@ -89,8 +91,11 @@ let logMessager = new Messager();
 logMessager.on('message', function(message, type = 'info', isInput = false) {
     editorLog('[Commander] ' + ( isInput ? '&lt; ' : '&gt; ' ) + EchoLiveTools.safeHTML(message), type);
 });
+commander.link.localStorageManager = localStorageManager;
 commander.link.messager = logMessager;
 commander.link.systemNotice = sysNotice;
+commander.link.window = uniWindow;
+let commanderFnMode = false;
 
 
 let elb;
@@ -101,7 +106,7 @@ if (config.echo.print_speed != 30) {
 
 if (config.echolive.broadcast.enable) {
     $('#ptext-btn-submit').addClass('fh-ghost');
-    $('#ptext-btn-send, #output-btn-send').removeClass('hide');
+    $('#ptext-btn-send, #output-btn-send, #checkbox-sent-clear').removeClass('hide');
     $('#ptext-content, #output-content').attr('title', $t('editor.tip.hot_key_textarea_quick_send'));
 
     if (config.editor.function.client_state_panel_enable) {
@@ -149,7 +154,7 @@ if (config.echolive.broadcast.enable) {
 let logMsgMark = 0;
 
 function editorLog(message = '', type = 'info') {
-    $('#editor-log').append(`<div role="listitem" class="log-item log-type-${type}" ${type == 'dbug' ? 'aria-hidden="true"' : ''}><span class="time" aria-hidden="true">${getTime()}</span> <span class="type" aria-label="${ $t('editor.log.accessible.type.' + type) }">[${type.toUpperCase()}]</span> <span class="message" ${type == 'erro' || type == 'warn' ? ' role="alert"' : ''}>${message}</span></div>`);
+    $('#editor-log').append(`<div role="listitem" class="log-item log-type-${type}" ${type == 'dbug' ? 'aria-hidden="true"' : ''}><span class="time" aria-hidden="true">${EchoLiveTools.formatDate(undefined, 'data_time_common')}</span> <span class="type" aria-label="${ $t('editor.log.accessible.type.' + type) }">[${type.toUpperCase()}]</span> <span class="message" ${type == 'erro' || type == 'warn' ? ' role="alert"' : ''}>${message}</span></div>`);
     $('#editor-log').scrollTop(4503599627370496);
 
     if ($('#tabpage-nav-log[aria-selected="true"]').length <= 0) {
@@ -491,6 +496,10 @@ $('#ptext-btn-send').click(function() {
     sendHistoryMessage(d);
 
     editorLogT('editor.log.message.sent', { msg: EchoLiveTools.getMessageSendLog(d.messages[0].message, d.username) });
+
+    if($('#ptext-chk-sent-clear').val() == 1) $('#ptext-content').val('');
+
+    $('#ptext-content').focus();
 });
 
 // 输出页发送
@@ -589,7 +598,7 @@ function sendHistoryMessage(data) {
     if (Array.isArray(data.messages) && data.messages.length > 0) {
         message = EchoLiveTools.getMessagePlainText(data.messages[0].message)
     }
-    let time = getTime();
+    let time = EchoLiveTools.formatDate();
     if (message == '') message = $t('message_preview.empty_message');
     if (username == undefined || username == '') username = $t('message_preview.empty_username');
 
@@ -703,7 +712,7 @@ $(document).on('click', '.history-message-item-btn-send', function() {
     let i = $(this).data('index');
     let $item = $(this).parents('.history-message-item').eq(0);
 
-    $item.find('.sent').text(HistoryMessage.sentAt(getTime()));
+    $item.find('.sent').text(HistoryMessage.sentAt(EchoLiveTools.formatDate()));
     $item.find('.sent').removeClass('hide');
 
     if (config.editor.function.history_resend_bubble) $('#history-message-list').prepend($item);
@@ -804,15 +813,64 @@ $(document).keydown(function(e) {
     }
 });
 
+function commanderRun() {
+    let cmd = $('#commander-input').val();
+    let r;
+    let commanderFnModeChange = false;
+    if ((commanderFnMode && cmd === '//') || (!commanderFnMode && cmd.substring(0, 2) === '//')) {
+        commanderFnMode = !commanderFnMode;
+        commanderFnModeChange = true;
+    }
+
+    if (commanderFnModeChange) {
+        if (commanderFnMode) {
+            $('#commander-input-panel').addClass('function-mode');
+            cmd = cmd.split('\n');
+            if (cmd.length <= 1) return $('#commander-input').val('');
+        } else {
+            $('#commander-input-panel').removeClass('function-mode');
+            return $('#commander-input').val('');
+        }
+    }
+
+    if (!commanderFnMode) {
+        commander.consoleRun(cmd);
+    } else {
+        r = commander.fn(cmd);
+        logMessager.send($t(
+            r.state.fail > 0 ? 'command.common.success.function_has_fail' : 'command.common.success.function',
+            {
+                count: r.state.count,
+                success: r.state.success,
+                fail: r.state.fail
+            }
+        ));
+        if (r.state.fail > 0) {
+            r.log.fail.forEach(e => {
+                logMessager.send($t(
+                    'command.common.success.function_fail_item',
+                    {
+                        line: e.line,
+                        reason: e.reason
+                    }
+                ));
+            });
+        }
+    }
+    $('#commander-input').val('');
+}
+
+function commanderEnter() {
+    insertTextAtCursor('commander-input', '\n', '', false, true, false, false, () => '');
+}
+
 $('#commander-input').keydown(function(e) {
     if (e.keyCode == 13) {
         e.preventDefault();
-        if (e.ctrlKey) {
-            insertTextAtCursor('commander-input', '\n', '', false, true, false, false, () => '');
+        if (commanderFnMode ? !e.ctrlKey : e.ctrlKey) {
+            commanderEnter();
         } else {
-            const cmd = $('#commander-input').val();
-            commander.consoleRun(cmd);
-            $('#commander-input').val('');
+            commanderRun();
         }
     } else if (e.keyCode == 27) {
         e.preventDefault();
@@ -833,12 +891,19 @@ function commanderInputHeightCheck() {
     $('#commander-input-panel').css('height', scrollHeight + 'px');
 }
 
+$(document).on('click', '#link-open-settings', function(e) {
+    if (inOBS) {
+        e.preventDefault();
+        sysNotice.sendT('notice.open_settings_in_obs');
+    }
+});
+
 
 
 // 彩蛋
 function getDateNumber() {
     let d = new Date();
-    return `${afterZero(d.getMonth() + 1)}${afterZero(d.getDate())}`;
+    return `${String(d.getMonth() + 1).padStart(2, 0)}${String(d.getDate() + 1).padStart(2, 0)}`;
 }
 
 function checkNowDate() {

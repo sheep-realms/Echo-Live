@@ -529,6 +529,21 @@
     font-size: var(--font-size-small);
 }
 
+.settings-item .meta .key {
+    display: none;
+    color: var(--text-regular);
+    font-size: var(--font-size-extra-small);
+    margin-top: 0.25em;
+}
+
+.settings-item .meta .key code {
+    margin: 0;
+}
+
+.display-config-key .settings-item .meta .key {
+    display: block;
+}
+
 .settings-item .value {
     /* width: 280px; */
     flex: 2;

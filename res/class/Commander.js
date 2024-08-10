@@ -2,12 +2,26 @@ class Commander {
     constructor() {
         this.link = {
             broadcast: undefined,
+            localStorageManager: undefined,
             messager: undefined,
-            systemNotice: undefined
+            systemNotice: undefined,
+            window: undefined
         };
         this.value = {};
         this.commands = [
             {
+                name: 'clearlocalstorage',
+                parameters: [],
+                inFunctionDisable: true
+            }, {
+                name: 'getlang',
+                parameters: [
+                    {
+                        type: 'select',
+                        value: ['code', 'ietf', 'name']
+                    }
+                ]
+            }, {
                 name: 'next',
                 parameters: [
                     {
@@ -54,7 +68,7 @@ class Commander {
                         required: true
                     }, {
                         type: 'select',
-                        value: ['=', '+', '-', '*', '/', '/^', '/_', '//', '%', '^^', '++', '--', '&+', '^', '&', '|', '>>', '<<', '>>>', 'del', 'get', 'max', 'min', 'typeof', 'return']
+                        value: ['=', '+', '-', '*', '/', '/^', '/_', '//', '%', '^^', '++', '--', '&+', '^', '&', '|', '~', '>>', '<<', '>>>', 'del', 'get', 'max', 'min', 'typeof', 'return']
                     }, {
                         type: 'text'
                     }
@@ -67,7 +81,7 @@ class Commander {
                         required: true
                     }, {
                         type: 'select',
-                        value: ['=', '+', '-', '*', '/', '/^', '/_', '//', '%', '^^', '++', '--', '&+', '^', '&', '|', '>>', '<<', '>>>', 'del', 'get', 'max', 'min', 'typeof', 'return']
+                        value: ['=', '+', '-', '*', '/', '/^', '/_', '//', '%', '^^', '++', '--', '&+', '^', '&', '|', '~', '>>', '<<', '>>>', 'del', 'get', 'max', 'min', 'typeof', 'return']
                     }, {
                         type: 'text'
                     }
@@ -84,7 +98,7 @@ class Commander {
         
     }
 
-    run(command = '') {
+    run(command = '', inFn = false) {
         let cmds = command.split(' ');
 
         // 查找命令
@@ -95,6 +109,8 @@ class Commander {
         if (targetCmd == undefined) {
             return;
         }
+
+        if (inFn && targetCmd?.inFunctionDisable) return StateMessage.getFail('in_function_disable');
 
         cmds.shift();
 
@@ -139,13 +155,15 @@ class Commander {
 
         let success = 0,
             fail = 0,
+            count = 0,
             failLog = [],
             uuid = EchoLiveTools.getUUID();
 
         this.__setStack(uuid);
 
         for (let i = 0; i < commands.length; i++) {
-            let r = this.run(commands[i]);
+            if (commands[i].startsWith('//') || commands[i].trim() === '') continue;
+            let r = this.run(commands[i], true);
             if (r.state == 'success') {
                 success++;
             } else {
@@ -155,12 +173,14 @@ class Commander {
                     reason: r.failReason
                 });
             }
+            count++;
         }
 
         this.__clearStack();
 
         return {
             state: {
+                count: count,
                 success: success,
                 fail: fail
             },
@@ -384,6 +404,55 @@ class Commander {
         }
     }
 
+    clearlocalstorage() {
+        this.link.window.messageWindow(
+            $t('window.clear_local_storage.message'),
+            $t('window.clear_local_storage.title'),
+            {
+                autoFocusButton: 'cancel',
+                controller: ['cancel', 'confirm'],
+                icon: 'alert',
+                maskClosable: true
+            },
+            (value, unit) => {
+                if (value == 'confirm') {
+                    this.link.localStorageManager.clear();
+                    this.link.systemNotice.sendT('notice.local_storage_cleared', {}, 'success');
+                }
+                unit.close();
+            }
+        );
+        return this.__messageConstructor('clearlocalstorage', StateMessage.getSuccess());
+    }
+
+    getlang(key = 'code') {
+        switch (key) {
+            case 'ietf':
+                return this.__messageConstructor(
+                    'getlang',
+                    StateMessage.getSuccess({}, $t('lang.code_ietf') ),
+                    {},
+                    'ietf'
+                );
+
+            case 'name':
+                return this.__messageConstructor(
+                    'getlang',
+                    StateMessage.getSuccess({}, $t('lang.title')),
+                    {},
+                    'name'
+                );
+        
+            default:
+                return this.__messageConstructor(
+                    'getlang',
+                    StateMessage.getSuccess({}, $t('lang.code_iso_639_3')),
+                    {},
+                    'code'
+                );
+        }
+    }
+
     next(target) {
         if (this.link.broadcast == undefined) return this.__messageConstructor('common', StateMessage.getFail('not_broadcast'));
         target = this.__getBroadcastTarget(target);
@@ -431,7 +500,9 @@ class Commander {
                         stack: stack,
                         name: name,
                         value: v1
-                    }
+                    },
+                    v1,
+                    true
                 ),
                 {
                     stack: stack,
@@ -452,7 +523,9 @@ class Commander {
                         stack: stack,
                         name: name,
                         value: v1
-                    }
+                    },
+                    v1,
+                    true
                 ),
                 {
                     stack: stack,
@@ -473,7 +546,9 @@ class Commander {
                         stack: stack,
                         name: name,
                         value: v1
-                    }
+                    },
+                    v1,
+                    true
                 ),
                 {
                     stack: stack,
@@ -510,6 +585,7 @@ class Commander {
             case '^'     : this.__setVar(name, v ^   value,               stack); break;
             case '|'     : this.__setVar(name, v |   value,               stack); break;
             case '&'     : this.__setVar(name, v &   value,               stack); break;
+            case '~'     : this.__setVar(name, ~ v,                       stack); break;
             case '<<'    : this.__setVar(name, v <<  value,               stack); break;
             case '>>'    : this.__setVar(name, v >>  value,               stack); break;
             case '>>>'   : this.__setVar(name, v >>> value,               stack); break;
@@ -546,7 +622,9 @@ class Commander {
                     stack: stack,
                     name: name,
                     value: v
-                }
+                },
+                v,
+                true
             ),
             {
                 stack: stack,
@@ -568,7 +646,8 @@ class Commander {
 class StateMessage {
     constructor() {}
 
-    static getSuccess(data = {}, value = 0) {
+    static getSuccess(data = {}, value = undefined, valueIsUndefined = false) {
+        if (value == undefined && !valueIsUndefined) value = 0;
         return {
             state: 'success',
             value: value,
@@ -579,7 +658,7 @@ class StateMessage {
     static getFail(failReason, data = {}, value = -1) {
         return {
             state: 'fail',
-            value: -1,
+            value: value,
             failReason: failReason,
             data: data
         };

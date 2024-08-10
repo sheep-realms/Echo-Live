@@ -8,7 +8,7 @@ class Translator {
 
     output(key, variable={}, __inPlanB = false) {
         function __extractVariableNames(inputString) {
-            const regI18nVar = /\{\s*@([A-Za-z_\.]+)\s*\}/g;
+            const regI18nVar = /\{\s*@([A-Za-z0-9_\.]+)\s*\}/g;
             const matches = [];
             let match;
             

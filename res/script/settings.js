@@ -6,6 +6,8 @@ window.addEventListener("error", (e) => {
     sysNotice.sendThasTitle('notice.unknow_error', {}, 'fatal');
 });
 
+if (config.advanced.settings.display_config_key) $('html').addClass('display-config-key');
+
 let configFileBuffer = '';
 let configFileFiltered = '';
 let configFileWritableFileHandle = undefined;
@@ -130,6 +132,17 @@ let updater = new Updater();
 updater.localStorageManager = localStorageManager;
 
 let uniWindow = new UniverseWindow();
+
+
+
+let hasUnsavedConfig = false;
+let hasUnsavedConfigToFile = false;
+window.addEventListener('beforeunload', function (e) {
+    if (hasUnsavedConfig || hasUnsavedConfigToFile) {
+        e.preventDefault();
+        e.returnValue = '';
+    }
+});
 
 
 
@@ -340,11 +353,13 @@ function closeFileChecker() {
 }
 
 function configChangeShowController() {
+    hasUnsavedConfig = true;
     $('.settings-controller-bottom').removeClass('disabled');
     $('.settings-controller-bottom button').removeAttr('disabled');
 }
 
 function configSaveCloseController() {
+    hasUnsavedConfig = false;
     $('.settings-controller-bottom').addClass('disabled');
     $('.settings-controller-bottom button').attr('disabled', 'disabled');
 }
@@ -366,7 +381,7 @@ function configUndoAll() {
         setSettingsItemValue(id, dv);
     }
     $sel.removeClass('change');
-    $('body').attr('class', bodyClassCache);
+    $('html').attr('class', bodyClassCache);
     configSaveCloseController();
     checkConfigCondition();
 }
@@ -393,7 +408,7 @@ function configSaveAll(effect = false) {
                 $('html').addClass('prefers-color-scheme-' + colorScheme);
             });
         }
-        bodyClassCache = $('body').attr('class') ?? '';
+        bodyClassCache = $('html').attr('class') ?? '';
     }, 800)
 }
 
@@ -466,6 +481,7 @@ function configExport(fileName = 'config.js', saveAs = false) {
 }
 
 function outputTabUnsavePoint(state = true) {
+    hasUnsavedConfigToFile = state;
     if (state) return $('#export-unsave').removeClass('hide');
     $('#export-unsave').addClass('hide');
 }
@@ -511,7 +527,10 @@ $(document).ready(function() {
     } catch (error) {}
     let voiceName = [];
     for (let i = 0; i < voices.length; i++) {
-        if (i >= 64) break;
+        if (
+            i >= config.advanced.settings.speech_synthesis_voices_maximum &&
+            config.advanced.settings.speech_synthesis_voices_maximum >= 0
+        ) break;
         const e = voices[i];
         voiceName.push({
             value: e.name
@@ -599,7 +618,7 @@ $(document).ready(function() {
         showFileCheckDialogWarn('in_obs');
     }
 
-    bodyClassCache = $('body').attr('class') ?? '';
+    bodyClassCache = $('html').attr('class') ?? '';
 
     $(window).resize();
 
@@ -681,7 +700,11 @@ async function filePicker() {
         let fileData = await handle.getFile();
         checkConfigFile([fileData]);
     } catch (error) {
-        // console.log(error);
+        if (error.name == 'AbortError') {
+            sysNotice.sendT('notice.open_file_picker_cancel', {}, 'warn');
+        } else {
+            sysNotice.sendThasTitle('notice.open_file_picker_fail', {}, 'error');
+        }
     }
 }
 
@@ -1043,55 +1066,59 @@ $(document).keydown(function(e) {
 $(window).resize(function() {
     const tabHeight = $('#echo-editor-nav').height();
     $('.settings-nav').css('top', `${tabHeight + 17}px`);
-    $('body').css('--settings-group-title-stickt-top', `${tabHeight + 1}px`);
+    $('html').css('--settings-group-title-stickt-top', `${tabHeight + 1}px`);
 
     // $('.settings-group-collapse').each(function() {
     //     const e = $(this).parents('.settings-group').eq(0).find('.settings-group-title').eq(0);
     // });
 });
 
-$(document).on('click', '.settings-item[data-id="accessible.high_contrast"] .settings-switch button', function() {
+function setSwitchButtonOnClickToChangeClass(key = '', className = '') {
+    $(document).on('click', `.settings-item[data-id="${ key }"] .settings-switch button`, function() {
+        setTimeout(function() {
+            let value = getSettingsItemValue(key);
+            if (value) {
+                $('html').addClass(className);
+            } else {
+                $('html').removeClass(className);
+            }
+        }, 12);
+    });
+}
+
+function setSwitchButtonOnClickToChangeClassForArray(data = []) {
+    data.forEach(e => {
+        setSwitchButtonOnClickToChangeClass(e[0], e[1]);
+    });
+}
+
+setSwitchButtonOnClickToChangeClassForArray([
+    ['accessible.high_contrast',                'accessible-high-contrast'],
+    ['accessible.drotanopia_and_deuteranopia',  'accessible-drotanopia-and-deuteranopia'],
+    ['accessible.link_underline',               'accessible-link-underline'],
+    ['accessible.animation_disable',            'accessible-animation-disable'],
+    ['global.controller_layout_reverse',        'controller-layout-reverse'],
+]);
+
+$(document).on('click', '.settings-item[data-id="advanced.settings.display_config_key"] .settings-switch button', function() {
+    const scrollY = window.scrollY;
+    const offsetTop = $('.settings-item[data-id="advanced.settings.display_config_key"] .settings-switch').offset().top;
     setTimeout(function() {
-        let value = getSettingsItemValue('accessible.high_contrast');
+        let value = getSettingsItemValue('advanced.settings.display_config_key');
         if (value) {
-            $('body').addClass('accessible-high-contrast');
+            $('html').addClass('display-config-key');
         } else {
-            $('body').removeClass('accessible-high-contrast');
+            $('html').removeClass('display-config-key');
         }
+        const offsetTopNew = $('.settings-item[data-id="advanced.settings.display_config_key"] .settings-switch').offset().top;
+        window.scrollTo({ top: scrollY + (offsetTopNew - offsetTop) });
     }, 12);
 });
 
-$(document).on('click', '.settings-item[data-id="accessible.drotanopia_and_deuteranopia"] .settings-switch button', function() {
-    setTimeout(function() {
-        let value = getSettingsItemValue('accessible.drotanopia_and_deuteranopia');
-        if (value) {
-            $('body').addClass('accessible-drotanopia-and-deuteranopia');
-        } else {
-            $('body').removeClass('accessible-drotanopia-and-deuteranopia');
-        }
-    }, 12);
-});
 
-$(document).on('click', '.settings-item[data-id="accessible.link_underline"] .settings-switch button', function() {
-    setTimeout(function() {
-        let value = getSettingsItemValue('accessible.link_underline');
-        if (value) {
-            $('body').addClass('accessible-link-underline');
-        } else {
-            $('body').removeClass('accessible-link-underline');
-        }
-    }, 12);
-});
 
-$(document).on('click', '.settings-item[data-id="accessible.animation_disable"] .settings-switch button', function() {
-    setTimeout(function() {
-        let value = getSettingsItemValue('accessible.animation_disable');
-        if (value) {
-            $('body').addClass('accessible-animation-disable');
-        } else {
-            $('body').removeClass('accessible-animation-disable');
-        }
-    }, 12);
+$(document).on('click', '#tabpage-nav-edit:not(:disabled)', function() {
+    window.scrollTo({ top: 0 });
 });
 
 

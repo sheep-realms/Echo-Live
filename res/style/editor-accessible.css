@@ -42,7 +42,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-    :root:not(.prefers-color-scheme-light) .accessible-high-contrast {
+    :root:not(.prefers-color-scheme-light).accessible-high-contrast {
         --color-main: rgb(64, 173, 235);
         --color-main-dark: rgb(40, 144, 204);
     
@@ -92,7 +92,7 @@
     }
 }
 
-.prefers-color-scheme-dark .accessible-high-contrast {
+.prefers-color-scheme-dark.accessible-high-contrast {
     --color-main: rgb(64, 173, 235);
     --color-main-dark: rgb(40, 144, 204);
     
@@ -265,6 +265,11 @@
 .accessible-animation-disable * {
     animation: unset !important;
     transition: unset !important;
+}
+
+.accessible-animation-disable::view-transition-old(root),
+.accessible-animation-disable::view-transition-new(root) {
+    animation-duration: 0s;
 }
 
 

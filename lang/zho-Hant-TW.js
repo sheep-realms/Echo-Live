@@ -5,12 +5,13 @@ const lang_zho_Hant_TW = {
         title: "繁體中文（臺灣地區）"
     },
     localization: {
-        data_common: '{y}-{MM}-{dd}',
-        data_time_common: '{y}-{MM}-{dd} {hh}:{mm}:{ss}',
-        data: '{y} 年 {M} 月 {d} 日',
-        data_pad_zero: '{y} 年 {MM} 月 {dd} 日',
-        data_time: '{y} 年 {M} 月 {d} 日 {h}:{m}:{s}',
-        data_time_pad_zero: '{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}',
+        data_common: "{y}-{MM}-{dd}",
+        data_time_common: "{y}-{MM}-{dd} {hh}:{mm}:{ss}",
+        data: "{y} 年 {M} 月 {d} 日",
+        data_pad_zero: "{y} 年 {MM} 月 {dd} 日",
+        data_time: "{y} 年 {M} 月 {d} 日 {h}:{m}:{s}",
+        data_time_pad_zero: "{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}",
+        time_common: "{hh}:{mm}:{ss}",
     },
     ui: {
         confirm: "確認",
@@ -75,9 +76,25 @@ const lang_zho_Hant_TW = {
                 unknow_option: "語法錯誤：不存在名為 '{name}' 的選項",
                 not_broadcast: "執行失敗：廣播未啟動"
             },
+            label: {
+                function_mode: "函式模式"
+            },
             success: {
                 broadcast_everyone: "已廣播 {action} 訊息",
-                broadcast_target: "已傳送 {action} 訊息至 {name}"
+                broadcast_target: "已傳送 {action} 訊息至 {name}",
+                function: "已執行函式中的 {count} 條命令",
+                function_fail_item: "- 第 {line} 行：{reason}",
+                function_has_fail: "已執行函式中的 {count} 條命令，失敗 {fail} 條，失敗原因為："
+            }
+        },
+        clearlocalstorage: {
+            success: "請在彈出對話方塊中確認清除本地儲存資料"
+        },
+        getlang: {
+            success: {
+                code: "當前語言的 ISO 639-3 程式碼為：{ @lang.code_iso_639_3 }",
+                ietf: "當前語言的 IETF 程式碼為：{ @lang.code_ietf }",
+                name: "當前語言的名稱為：{ @lang.title }"
             }
         },
         var: {
@@ -119,6 +136,10 @@ const lang_zho_Hant_TW = {
                     dark: "深色",
                     light: "淺色"
                 }
+            },
+            controller_layout_reverse: {
+                _title: "反轉控制器按鈕佈局",
+                _description: "根據閱讀方向將重要按鈕放置於最先被閱讀的位置。"
             }
         },
         echo: {
@@ -518,6 +539,18 @@ const lang_zho_Hant_TW = {
                     _title: "歷史記錄底部遊標熔斷閾值",
                     _description: "設為 -1 可禁用此機制。"
                 }
+            },
+            settings: {
+                _title: "配置檔案編輯器",
+                _description: "配置檔案編輯器的高階設定",
+                display_config_key: {
+                    _title: "顯示配置項鍵名",
+                    _description: "在配置項描述下方顯示鍵名。"
+                },
+                speech_synthesis_voices_maximum: {
+                    _title: "講述人語音資源列表最大顯示數量",
+                    _description: "在某些作業系統中可能會列出大量專案從而影響渲染效能。<br>設為 -1 則不設上限。"
+                }
             }
         },
         about: {
@@ -591,6 +624,7 @@ const lang_zho_Hant_TW = {
                 quote: "引用符號",
                 quote_after: "結尾",
                 quote_before: "開頭",
+                sent_clear: "傳送後清空內容",
                 split_message: "多行文字分割為訊息佇列",
                 startup_parameter: "啟動引數",
                 use_formatting_code: "使用快速格式化程式碼"
@@ -1208,6 +1242,13 @@ const lang_zho_Hant_TW = {
             message: "釋出了新版本結果沒上傳檔案？還能有這種事情？！"
         },
         import_image_url_empty: "未填寫圖片 URL！",
+        local_storage_cleared: "已清除本地儲存資料！",
+        open_file_picker_cancel: "已取消選擇檔案！",
+        open_file_picker_fail: {
+            title: "開啟檔案選擇器時發生錯誤",
+            message: "這很有可能是因為您當前使用的瀏覽器不支援此功能。您還可以嘗試拖放檔案，但還是建議您更換瀏覽器。"
+        },
+        open_settings_in_obs: "請在瀏覽器中開啟 settings.html，而不是在 OBS 中！",
         unknow_error: {
             title: "發生了未捕獲的錯誤",
             message: "這應該不是什麼意料之中的戰術性報錯，您可以將此問題反饋給開發者，並提供復現方法。"
@@ -1296,6 +1337,31 @@ const lang_zho_Hant_TW = {
                 title: "匯入",
                 description: "匯入配置檔案 [alt+1]"
             }
+        }
+    },
+    studio: {
+        text_to_messages: {
+            colon: "：",
+            label: {
+                character_split: "說話人分隔符",
+                text: "對話文字"
+            },
+            tabpage: {
+                edit: {
+                    title: "編輯",
+                    description: "編輯文字 [alt+1]"
+                },
+                output: {
+                    title: "輸出",
+                    description: "輸出訊息格式 [alt+2]"
+                }
+            }
+        }
+    },
+    window: {
+        clear_local_storage: {
+            title: "清除本地儲存資料",
+            message: "您確定要清除本地儲存資料嗎？<br>這是一個不可逆的操作，您將會永久丟失這些資料。"
         }
     }
 };

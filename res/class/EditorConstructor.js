@@ -1022,6 +1022,7 @@ class SettingsPanel {
             <div class="meta">
                 <div class="title">${ title }</div>
                 <div class="description">${ description }</div>
+                <div class="key"><code>${ id }</code></div>
             </div>
             <div class="value">
                 ${ content }
@@ -1674,7 +1675,7 @@ class FHUIWindow {
             </div>
             <div class="fh-window-content">
                 <div class="fh-msgbox-content">${ content }</div>
-                <div class="fh-msgbox-controller ${ data.controller.length > 3 ? 'controller-overload' : '' }">
+                <div class="fh-msgbox-controller fh-controller ${ data.controller.length > 3 ? 'controller-overload' : '' }">
                     ${ FHUIWindow.controller(data.controller, data.autoIconButton) }
                 </div>
             </div>

@@ -93,6 +93,30 @@ class UniverseWindow {
     }
 
     /**
+     * 创建消息对话窗口
+     * @param {String} content 内容
+     * @param {String} title 标题
+     * @param {Object} data 数据
+     * @param {String} data.attr 自定义属性
+     * @param {String} data.autoFocusButton 自动获得焦点的按钮
+     * @param {Boolean} data.closable 可关闭
+     * @param {String} data.icon 标题栏图标
+     * @param {String} data.id ID
+     * @param {Array<String|Object>} data.controller 控制器按钮
+     * @param {Boolean} data.maskClosable 点击蒙层可关闭
+     * @param {Boolean} data.modal 模态
+     * @param {String} data.style 样式
+     * @param {Function} callback 回调函数
+     * @returns {String} DOM
+     */
+    messageWindow(content = '', title = '', data = {}, callback = undefined) {
+        return this.window(
+            `<div class="fh-msgbox-content-message">${ content }</div>`,
+            title, data, callback
+        );
+    }
+
+    /**
      * 添加窗口
      * @param {Number} index 索引编号
      * @param {Object} data 数据

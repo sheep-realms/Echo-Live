@@ -122,7 +122,7 @@ const lang_zho_Hant_HK = {
             },
             theme: {
                 _title: "全局主題",
-                _description: "控制對話框、歷史記錄等面向觀眾展示的界面主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>幫助文檔</a>。"
+                _description: "控制對話框、歷史記錄等面向觀眾展示的界面主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>幫助文檔</a>。<br>為了主題樣式的表現正常，請在 OBS 選中對話框（包括歷史記錄在內的其他前台頁面），右鍵，在彈出菜單中找到 “混合方式”，選擇 “關閉 SRGB”。"
             },
             theme_script_enable: {
                 _title: "啟用全局主題腳本",

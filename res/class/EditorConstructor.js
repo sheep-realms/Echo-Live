@@ -1563,6 +1563,7 @@ class FHUINotice {
 
         data = {
             animation: true,
+            hasClick: false,
             icon: theme.icon,
             id: undefined,
             index: -1,
@@ -1573,7 +1574,13 @@ class FHUINotice {
         let iconDOM = Icon[data.icon] != undefined ? Icon[data.icon] : Icon.information;
 
         return `<div
-                class="fh-notice-item fh-${ theme.color } ${ data.animation ? 'fh-notice-ani-in' : '' } ${ data.waitTime < 0 ? 'is-permanently' : '' }"
+                class="
+                    fh-notice-item
+                    fh-${ theme.color }
+                    ${ data.animation ? 'fh-notice-ani-in' : '' }
+                    ${ data.waitTime < 0 ? 'is-permanently' : '' }
+                    ${ data.hasClick ? 'has-click' : '' }
+                "
                 data-index="${ data.index }"
                 ${ data.id ? `data-id="${ data.id }"` : '' }
                 style="${ data?.width != undefined ? `--fh-notice-width-custom: ${ data.width };` : '' }"

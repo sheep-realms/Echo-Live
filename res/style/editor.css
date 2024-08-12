@@ -1233,6 +1233,10 @@ select:focus {
     }
 }
 
+.fh-notice-item.has-click {
+    cursor: pointer;
+}
+
 .fh-notice-item.fh-safe {
     --fh-notice-theme-color: var(--color-safe);
 }

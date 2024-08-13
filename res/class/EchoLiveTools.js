@@ -45,6 +45,7 @@ class EchoLiveTools {
             if (data.style?.weight)             cls     += 'echo-text-weight-'          + data.style.weight         + ' ';
             if (data.style?.stretch)            cls     += 'echo-text-stretch-'         + data.style.stretch        + ' ';
             if (data.style?.letterSpacing)      cls     += 'echo-text-letter-spacing-'  + data.style.letterSpacing  + ' ';
+            if (data.style?.emphasis)           cls     += 'echo-text-emphasis';
             if (data.style?.rock)               cls     += 'echo-text-rock-'            + data.style.rock           + ' ';
             if (data.style?.style)              style   += data.style.style;
         }

@@ -45,16 +45,17 @@ if (config.echolive.speech_synthesis.enable) {
     if (config.echolive.speech_synthesis.voice != '') voiceIndex = voices.findIndex(e => e.name == config.echolive.speech_synthesis.voice);
 }
 
-function messageOutput(text = '') {
+function messageOutput(text = '', hasHTML = false) {
+    let textDOM = hasHTML ? text : `<span class="echo-chr ${inTypewriteEnd ? 'echo-typewrite-enter' : ''}">${EchoLiveTools.safeHTML(text)}</span>`;
     let exsel = inRuby ? ' ruby' : '';
     if (inTypewriteEnd) {
         inTypewriteEnd = false;
-        $('.echo-output .echo-text-typewrite' + exsel).text(text);
+        $('.echo-output .echo-text-typewrite' + exsel).html(textDOM);
         $('.echo-output .echo-text-typewrite' + exsel).removeClass('echo-text-typewrite');
     } else if (gruopIndex == 0) {
-        $('.echo-output' + exsel).append(text);
+        $('.echo-output' + exsel).append(textDOM);
     } else {
-        $(`.echo-output span[data-group="${gruopIndex}"]` + exsel).append(text);
+        $(`.echo-output span[data-group="${gruopIndex}"]` + exsel).append(textDOM);
     }
 }
 
@@ -191,12 +192,12 @@ echo.on('typewriteEnd', function() {
 });
 
 echo.on('rubyStart', function() {
-    messageOutput('<ruby></ruby>');
+    messageOutput('<ruby></ruby>', true);
     inRuby = true;
 })
 
 echo.on('rubyEnd', function(e) {
-    messageOutput(`<rt>${e}</rt>`);
+    messageOutput(`<rt>${e}</rt>`, true);
     inRuby = false;
 })
 

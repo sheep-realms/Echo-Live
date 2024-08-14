@@ -1,4 +1,4 @@
-const db_config_version = 6;
+const db_config_version = 7;
 
 const db_config_define = [
     {
@@ -52,6 +52,7 @@ const db_config_define = [
         type: 'number',
         default: 30,
         created: 1,
+        unit: 'ms',
         attribute: {
             min: 4
         }
@@ -198,6 +199,7 @@ const db_config_define = [
         default: 250,
         from: 'echolive.messages_polling_tick',
         created: 4,
+        unit: 'ms',
         attribute: {
             min: 4
         },
@@ -349,6 +351,39 @@ const db_config_define = [
             }
         ]
     }, {
+        name: 'echolive.print_effect',
+        type: 'object',
+        created: 7
+    }, {
+        name: 'echolive.print_effect.name',
+        type: 'string',
+        default: 'none',
+        created: 7
+    }, {
+        name: 'echolive.print_effect.duration',
+        type: 'number',
+        default: 250,
+        created: 7,
+        unit: 'ms',
+        attribute: {
+            min: 0,
+            step: 250
+        }
+    }, {
+        name: 'echolive.print_effect.scale',
+        type: 'number',
+        default: 1,
+        created: 7,
+        attribute: {
+            min: 0,
+            step: 0.25
+        }
+    }, {
+        name: 'echolive.print_effect.timing_function',
+        type: 'string',
+        default: 'ease-out',
+        created: 7
+    }, {
         name: 'echolive.display',
         type: 'object',
         created: 5
@@ -362,6 +397,7 @@ const db_config_define = [
         type: 'number',
         default: 20000,
         created: 5,
+        unit: 'ms',
         attribute: {
             min: 0,
             step: 1000
@@ -392,6 +428,7 @@ const db_config_define = [
         type: 'number',
         default: 1000,
         created: 5,
+        unit: 'ms',
         attribute: {
             min: 0,
             step: 100
@@ -401,6 +438,7 @@ const db_config_define = [
         type: 'number',
         default: 500,
         created: 5,
+        unit: 'ms',
         attribute: {
             min: 0,
             step: 100
@@ -463,6 +501,7 @@ const db_config_define = [
         type: 'number',
         default: 0,
         created: 4,
+        unit: 'ms',
         attribute: {
             min: 0,
             step: 100
@@ -536,16 +575,6 @@ const db_config_define = [
         created: -1
     }, {
         name: 'echolive.next_effect_duration',
-        type: 'number',
-        default: 0,
-        created: -1
-    }, {
-        name: 'echolive.print_effect_name',
-        type: 'string',
-        default: 'none',
-        created: -1
-    }, {
-        name: 'echolive.print_effect_duration',
         type: 'number',
         default: 0,
         created: -1

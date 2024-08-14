@@ -1,0 +1,147 @@
+:root {
+    --char-effect-speed: 250ms;
+    --char-effect-name: none;
+    --char-effect-scale: 1;
+    --char-effect-scale-calc: max(var(--char-effect-scale), 0);
+    --char-effect-timing-function: ease-out;
+}
+
+.echo-chr {
+    animation-name: var(--char-effect-name);
+    animation-duration: var(--char-effect-speed);
+    animation-timing-function: var(--char-effect-timing-function);
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+}
+
+.echo-chr::after {
+    animation-name: none;
+    animation-duration: var(--char-effect-speed);
+    animation-timing-function: var(--char-effect-timing-function);
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+}
+
+.echo-text-typewrite .echo-chr,
+.echo-chr.echo-typewrite-enter {
+    animation: unset;
+}
+
+/* 淡入 */
+@keyframes fade-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* 从上方移入 */
+@keyframes move-in-up {
+    0% {
+        position: relative;
+        top: calc(-1em * var(--char-effect-scale-calc));
+        opacity: 0;
+    }
+    100% {
+        position: relative;
+        top: 0em;
+        opacity: 1;
+    }
+}
+
+/* 从下方移入 */
+@keyframes move-in-down {
+    0% {
+        position: relative;
+        bottom: calc(-1em * var(--char-effect-scale-calc));
+        opacity: 0;
+    }
+    100% {
+        position: relative;
+        bottom: 0em;
+        opacity: 1;
+    }
+}
+
+/* 放大进入 */
+@keyframes zoom-in-inside {
+    0% {
+        opacity: 0;
+        display: inline-block;
+        transform: scale(max(calc(1 - var(--char-effect-scale-calc)), 0));
+    }
+    100% {
+        opacity: 1;
+        display: inline-block;
+        transform: scale(1);
+    }
+}
+
+/* 缩小进入 */
+@keyframes zoom-in-outside {
+    0% {
+        opacity: 0;
+        display: inline-block;
+        transform: scale(calc(2 * var(--char-effect-scale-calc)));
+    }
+    100% {
+        opacity: 1;
+        display: inline-block;
+        transform: scale(1);
+    }
+}
+
+/* 聚焦 */
+@keyframes blur-in {
+    0% {
+        opacity: 0;
+        filter: blur(calc(1em * var(--char-effect-scale-calc)));
+    }
+    100% {
+        opacity: 1;
+        filter: blur(0em);
+    }
+}
+
+
+/* 废案 */
+.char-effect-scrape-out .echo-chr {
+    animation-name: scrape-out;
+}
+
+.char-effect-scrape-out .echo-chr::after {
+    content: "";
+    animation-name: scrape-out-after;
+}
+
+@keyframes scrape-out {
+    0% {
+        opacity: 0;
+        position: relative;
+        display: inline-block;
+    }
+    100% {
+        opacity: 1;
+        position: relative;
+        display: inline-block;
+    }
+}
+
+@keyframes scrape-out-after {
+    0% {
+        position: absolute;
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        bottom: 0;
+        background-color: #000;
+    }
+    100% {
+        position: absolute;
+        display: inline-block;
+        width: 100%;
+        height: 0%;
+        left: 0;
+        bottom: 0;
+        background-color: #000;
+    }
+}

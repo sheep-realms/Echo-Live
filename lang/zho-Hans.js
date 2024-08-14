@@ -53,6 +53,10 @@ const lang_zho_Hans = {
             no_name: "未命名"
         }
     },
+    unit: {
+        ms: "毫秒",
+        sec: "秒"
+    },
     broadcast: {
         client: {
             type: {
@@ -206,7 +210,7 @@ const lang_zho_Hans = {
                 },
                 tick: {
                     _title: "消息轮询间隔",
-                    _description: "单位：毫秒。值越小响应越快，性能消耗越高。"
+                    _description: "值越小响应越快，性能消耗越高。"
                 },
             },
             sleep: {
@@ -261,6 +265,26 @@ const lang_zho_Hans = {
                     _description: "1 为原速。"
                 }
             },
+            print_effect: {
+                _title: "字符打印动效",
+                _description: "打印每个字符时所使用的动画效果",
+                name: {
+                    _title: "动效名称",
+                    _description: "可用的音效名称请见<a href='#' target='_blank'>记得在这里填写地址</a>。"
+                },
+                duration: {
+                    _title: "动效用时",
+                    _description: "播放动画所需时间。"
+                },
+                scale: {
+                    _title: "动效规模乘数",
+                    _description: "动画的运动幅度乘数。"
+                },
+                timing_function: {
+                    _title: "动效时间曲线",
+                    _description: "动画在不同时间段的运动速度。"
+                }
+            },
             display: {
                 _title: "隐去与显现动画",
                 _description: "调整对话框的隐去与显现动画的参数",
@@ -270,7 +294,7 @@ const lang_zho_Hans = {
                 },
                 hidden_wait_time: {
                     _title: "闲置等候时间",
-                    _description: "进入闲置状态的最小等候时间，单位毫秒（1 秒 = 1000 毫秒）。"
+                    _description: "进入闲置状态的最小等候时间。"
                 },
                 long_text_compensation_rate: {
                     _title: "长文本等候时间补偿率",
@@ -278,11 +302,11 @@ const lang_zho_Hans = {
                 },
                 hidden_time: {
                     _title: "隐去动画用时",
-                    _description: "对话框隐去所需时间，单位毫秒。"
+                    _description: "对话框隐去所需时间。"
                 },
                 show_time: {
                     _title: "显现动画用时",
-                    _description: "对话框显现所需时间，单位毫秒。"
+                    _description: "对话框显现所需时间。"
                 }
             },
             speech_synthesis: {
@@ -306,7 +330,7 @@ const lang_zho_Hans = {
                 },
                 delay: {
                     _title: "延迟",
-                    _description: "在消息发出后延迟读出，单位为毫秒，1000 毫秒为 1 秒。"
+                    _description: "在消息发出后延迟读出。"
                 },
                 speech_emoji: {
                     _title: "读出表情符号",

@@ -1,5 +1,5 @@
 const config = {
-    "data_version": 6,
+    "data_version": 7,
     "global": {
         "language": "zho-Hans",
         "theme": "vanilla",
@@ -44,6 +44,12 @@ const config = {
             "volume": 0.5,
             "rate": 1
         },
+        "print_effect": {
+            "name": "none",
+            "duration": 250,
+            "scale": 1,
+            "timing_function": "ease-out"
+        },
         "display": {
             "auto": false,
             "hidden_wait_time": 20000,
@@ -67,8 +73,6 @@ const config = {
         },
         "next_effect_name": "none",
         "next_effect_duration": 0,
-        "print_effect_name": "none",
-        "print_effect_duration": 0,
         "print_start_effect_name": "none",
         "print_start_effect_duration": 0,
         "print_end_effect_name": "none",

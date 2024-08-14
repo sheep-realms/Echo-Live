@@ -53,6 +53,10 @@ const lang_zho_Hant_TW = {
             no_name: "未命名"
         }
     },
+    unit: {
+        ms: "毫秒",
+        sec: "秒"
+    },
     broadcast: {
         client: {
             type: {
@@ -206,7 +210,7 @@ const lang_zho_Hant_TW = {
                 },
                 tick: {
                     _title: "訊息輪詢間隔",
-                    _description: "單位：毫秒。值越小響應越快，效能消耗越高。"
+                    _description: "值越小響應越快，效能消耗越高。"
                 },
             },
             sleep: {
@@ -261,6 +265,26 @@ const lang_zho_Hant_TW = {
                     _description: "1 為原速。"
                 }
             },
+            print_effect: {
+                _title: "字元列印動效",
+                _description: "列印每個字元時所使用的動畫效果",
+                name: {
+                    _title: "動效名稱",
+                    _description: "可用的音效名稱請見<a href='#' target='_blank'>記得在這裡填寫地址</a>。"
+                },
+                duration: {
+                    _title: "動效用時",
+                    _description: "播放動畫所需時間。"
+                },
+                scale: {
+                    _title: "動效規模乘數",
+                    _description: "動畫的運動幅度乘數。"
+                },
+                timing_function: {
+                    _title: "動效時間曲線",
+                    _description: "動畫在不同時間段的運動速度。"
+                }
+            },
             display: {
                 _title: "隱去與顯現動畫",
                 _description: "調整對話方塊的隱去與顯現動畫的引數",
@@ -270,7 +294,7 @@ const lang_zho_Hant_TW = {
                 },
                 hidden_wait_time: {
                     _title: "閒置等候時間",
-                    _description: "進入閒置狀態的最小等候時間，單位毫秒（1 秒 = 1000 毫秒）。"
+                    _description: "進入閒置狀態的最小等候時間。"
                 },
                 long_text_compensation_rate: {
                     _title: "長文字等候時間補償率",
@@ -278,11 +302,11 @@ const lang_zho_Hant_TW = {
                 },
                 hidden_time: {
                     _title: "隱去動畫用時",
-                    _description: "對話方塊隱去所需時間，單位毫秒。"
+                    _description: "對話方塊隱去所需時間。"
                 },
                 show_time: {
                     _title: "顯現動畫用時",
-                    _description: "對話方塊顯現所需時間，單位毫秒。"
+                    _description: "對話方塊顯現所需時間。"
                 }
             },
             speech_synthesis: {
@@ -306,7 +330,7 @@ const lang_zho_Hant_TW = {
                 },
                 delay: {
                     _title: "延遲",
-                    _description: "在訊息發出後延遲讀出，單位為毫秒，1000 毫秒為 1 秒。"
+                    _description: "在訊息發出後延遲讀出。"
                 },
                 speech_emoji: {
                     _title: "讀出表情符號",

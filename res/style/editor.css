@@ -1607,3 +1607,43 @@ select:focus {
 .releases-view .releases-view-body {
     padding-bottom: calc(var(--height) / 3);
 }
+
+
+
+.fh-input-component {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.fh-input-label {
+    font-size: var(--font-size-middle);
+    box-sizing: border-box;
+    padding: 0.25em 0.5em;
+    border: unset;
+    border-bottom: var(--border-color) 1px solid;
+    background-color: var(--input-bgcolor);
+    transition: border-color .3s;
+    height: calc(var(--font-size-base) + 20px);
+    color: var(--text-placeholder);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fh-input-label-type-after {
+    padding-inline-start: 0.25em;
+}
+
+.fh-input-label-type-before {
+    padding-inline-end: 0.25em;
+}
+
+.fh-input-component .fh-input:focus~.fh-input-label {
+    border-color: var(--color-general);
+}
+
+.fh-input-label .text {
+    position: relative;
+    top: -0.05em;
+}

@@ -64,7 +64,7 @@ class EditorForm {
      * @returns {String} DOM
      */
     static item(id, label, content, tip = '') {
-        return `<div class="echo-editor-form-row"><label for="${id}">${label}</label>${content}</div>${tip != '' ? FormConstructor.tip(tip) : ''}`;
+        return `<div class="echo-editor-form-row"><label for="${id}">${label}</label>${content}</div>${tip != '' ? EditorForm.tip(tip) : ''}`;
     }
 
     /**
@@ -77,7 +77,7 @@ class EditorForm {
      * @returns {String} DOM
      */
     static input(id, label, def, tip = '', type = 'text') {
-        return FormConstructor.item(
+        return EditorForm.item(
             id,
             label,
             `<input type="${type}" name="${id}" id="${id}" class=" echo-editor-form-item" value="${def}" data-default="${def}">`,
@@ -94,7 +94,7 @@ class EditorForm {
      * @returns {String} DOM
      */
     static inputNum(id, label, def, tip = '') {
-        return FormConstructor.input(id, label, def, tip, 'number');
+        return EditorForm.input(id, label, def, tip, 'number');
     }
 
     /**
@@ -106,7 +106,7 @@ class EditorForm {
      * @returns {String} DOM
      */
     static checkbox(id, label, def, tip = '') {
-        return FormConstructor.item(
+        return EditorForm.item(
             id,
             '',
             `<button role="checkbox" aria-selected="${def}" class="checkbox ${def == 1 ? 'selected' : ''}">
@@ -1058,7 +1058,7 @@ class SettingsPanel {
         if (item.type == 'object') return SettingsPanel.setGroupTitle(title, description, item?.depth);
         if (item.type == 'boolean.bit') return SettingsPanel.setItemBoolean(item.type, item.name, title, description, item.default, item?.attribute, true);
 
-        return SettingsPanel[run](item.type, item.name, title, description, item.default, item?.attribute);
+        return SettingsPanel[run](item.type, item.name, title, description, item.default, item?.attribute, item?.unit);
     }
 
     static setItems(items) {
@@ -1137,18 +1137,35 @@ class SettingsPanel {
         );
     }
 
-    static setItemNumber(type = '', id = '', title = '', description = '', value = '', attribute = undefined) {
-        value = String(value).replace(/"/g, '&quot;');
-        let attr = '';
-        if (attribute != undefined) {
-            if (attribute?.max != undefined) attr += `max="${ attribute.max }" `;
-            if (attribute?.min != undefined) attr += `min="${ attribute.min }" `;
-            if (attribute?.step != undefined) attr += `step="${ attribute.step }" `;
-        }
+    static setItemNumber(type = '', id = '', title = '', description = '', value = '', attribute = undefined, unit = undefined) {
         return SettingsPanel.setItem(
             type, id, title, description,
-            `<label class="title" style="display: none;" for="${ id.replace(/\./g, '-') }">${ title }</label>
-            <input type="number" id="${ id.replace(/\./g, '-') }" ${ attr }class="settings-value code" aria-label="${ title }" data-default="${ value }" value="${ value }">`
+            FHUI.element(
+                'label',
+                {
+                    class: 'title',
+                    style: 'display: none;',
+                    for: id.replace(/\./g, '-')
+                },
+                title
+            ) +
+            FHUIComponentInput.input(
+                value,
+                'number',
+                {
+                    id: id.replace(/\./g, '-'),
+                    class: 'settings-value code',
+                    after: {
+                        label: unit ? $t('unit.' + unit) : undefined
+                    },
+                    attribute: {
+                        ...attribute,
+                        aria: {
+                            label: title
+                        }
+                    }
+                }
+            )
         );
     }
 

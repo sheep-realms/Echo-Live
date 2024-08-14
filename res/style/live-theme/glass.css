@@ -8,6 +8,9 @@
 /* 导入：默认字体 */
 @import url("../live-common/font-family.css");
 
+/* 导入：字符打印效果 */
+@import url("../live-common/char-effect.css");
+
 /* 导入：引用符号缩进 */
 @import url("../live-common/char-indent.css");
 
@@ -125,6 +128,8 @@
 
     /* 文本不可选中 */
     user-select: none;
+    /* 下划线默认颜色 */
+    --echo-span-color: var(--echo-live-content-color);
 }
 
 

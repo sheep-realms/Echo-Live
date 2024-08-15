@@ -615,7 +615,9 @@
     width: 100%;
 }
 
-.settings-item input[type=number], input[type=text] {
+.settings-item input[type=number],
+.settings-item input[type=text],
+.settings-item .fh-input-component {
     flex: 1;
 }
 

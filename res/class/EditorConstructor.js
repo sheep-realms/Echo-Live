@@ -1106,23 +1106,32 @@ class SettingsPanel {
 
     static setItemString(type = '', id = '', title = '', description = '', value = '', attribute = undefined) {
         if (type === 'string.multiline') return SettingsPanel.setItemStringMultiLine(type, id, title, description, value);
-        value = String(value).replace(/"/g, '&quot;');
-        let dl = '';
-        let hasDatalist = false;
-        if (attribute != undefined) {
-            if (attribute?.datalist != undefined) {
-                hasDatalist = true;
-                dl += `<datalist id="${ id.replace(/\./g, '-') }-datalist">`;
-                attribute.datalist.forEach(e => {
-                    dl += `<option value="${ e.value }">${ e?.title ? e.title : '' }</option>`;
-                });
-                dl += `</datalist>`;
-            }
-        }
+
         return SettingsPanel.setItem(
-            'string', id, title, description,
-            `<label class="title" style="display: none;" for="${ id.replace(/\./g, '-') }">${ title }</label>
-            <input type="text" id="${ id.replace(/\./g, '-') }" class="settings-value code" ${ hasDatalist ? `list="${ id.replace(/\./g, '-') }-datalist"` : '' } aria-label="${ title }" data-default="${ value }" value="${ value }">${ dl }`
+            type, id, title, description,
+            FHUI.element(
+                'label',
+                {
+                    class: 'title',
+                    style: 'display: none;',
+                    for: id.replace(/\./g, '-')
+                },
+                title
+            ) +
+            FHUIComponentInput.input(
+                value,
+                'text',
+                {
+                    id: id.replace(/\./g, '-'),
+                    class: 'settings-value code',
+                    datalist: attribute?.datalist ?? undefined,
+                    attribute: {
+                        aria: {
+                            label: title
+                        }
+                    }
+                }
+            )
         );
     }
 
@@ -1159,10 +1168,12 @@ class SettingsPanel {
                         label: unit ? $t('unit.' + unit) : undefined
                     },
                     attribute: {
-                        ...attribute,
                         aria: {
                             label: title
-                        }
+                        },
+                        max: attribute?.max ? attribute.max : undefined,
+                        min: attribute?.min ? attribute.min : undefined,
+                        step: attribute?.step ? attribute.step : undefined
                     }
                 }
             )

@@ -1644,6 +1644,10 @@ select:focus {
     border-color: var(--color-general);
 }
 
+.fh-input-component .fh-input:out-of-range~.fh-input-label {
+    border-color: var(--color-danger);
+}
+
 .fh-input-label .text {
     position: relative;
     top: -0.05em;

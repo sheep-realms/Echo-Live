@@ -68,36 +68,6 @@ class EditorForm {
     }
 
     /**
-     * 输入框
-     * @param {String} id ID
-     * @param {String} label 标签名称
-     * @param {String} def 默认值
-     * @param {String} tip 提示
-     * @param {String} type 类型
-     * @returns {String} DOM
-     */
-    static input(id, label, def, tip = '', type = 'text') {
-        return EditorForm.item(
-            id,
-            label,
-            `<input type="${type}" name="${id}" id="${id}" class=" echo-editor-form-item" value="${def}" data-default="${def}">`,
-            tip
-        );
-    }
-
-    /**
-     * 数字输入框
-     * @param {String} id ID
-     * @param {String} label 标签名称
-     * @param {String} def 默认值
-     * @param {String} tip 提示
-     * @returns {String} DOM
-     */
-    static inputNum(id, label, def, tip = '') {
-        return EditorForm.input(id, label, def, tip, 'number');
-    }
-
-    /**
      * 复选框
      * @param {String} id ID
      * @param {String} label 标签名称

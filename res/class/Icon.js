@@ -2,6 +2,9 @@
 class Icon {
     constructor() {}
 
+    // 非 MDI
+    static FHLoading = `<svg class="fh-svg-loading-diamond" xmlns='http://www.w3.org/2000/svg' viewBox="0 0 8 8"><polygon points='4,0 6,2 4,4 2,2' fill='black' /><polygon points='6,2 8,4 6,6 4,4' fill='transparent' /><polygon points='4,4 6,6 4,8 2,6' fill='transparent' /><polygon points='2,2 4,4 2,6 0,4' fill='transparent' /></svg>`;
+
     static accountVoice = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9,5A4,4 0 0,1 13,9A4,4 0 0,1 9,13A4,4 0 0,1 5,9A4,4 0 0,1 9,5M9,15C11.67,15 17,16.34 17,19V21H1V19C1,16.34 6.33,15 9,15M16.76,5.36C18.78,7.56 18.78,10.61 16.76,12.63L15.08,10.94C15.92,9.76 15.92,8.23 15.08,7.05L16.76,5.36M20.07,2C24,6.05 23.97,12.11 20.07,16L18.44,14.37C21.21,11.19 21.21,6.65 18.44,3.63L20.07,2Z" /></svg>';
 
     static alarmLight = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6,6.9L3.87,4.78L5.28,3.37L7.4,5.5L6,6.9M13,1V4H11V1H13M20.13,4.78L18,6.9L16.6,5.5L18.72,3.37L20.13,4.78M4.5,10.5V12.5H1.5V10.5H4.5M19.5,10.5H22.5V12.5H19.5V10.5M6,20H18A2,2 0 0,1 20,22H4A2,2 0 0,1 6,20M12,5A6,6 0 0,1 18,11V19H6V11A6,6 0 0,1 12,5Z" /></svg>';

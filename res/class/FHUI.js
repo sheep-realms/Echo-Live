@@ -1,6 +1,11 @@
 class FHUI {
     constructor() {}
 
+    /**
+     * DOM 属性
+     * @param {Object} attr 属性数据
+     * @returns {String} DOM 属性
+     */
     static attributes(attr = {}) {
         let dom = '';
         for (const key in attr) {
@@ -10,7 +15,7 @@ class FHUI {
                 let val = e;
                 if (typeof e === 'object') {
                     if (Array.isArray(e)) {
-                        val = e.join(' ');
+                        val = e.filter(e2 => e2 != undefined && e2 != null).join(' ');
                     } else {
                         dom += FHUI.subAttributes(key, e) + ' ';
                         continue;
@@ -22,14 +27,20 @@ class FHUI {
         return dom.trim();
     }
 
-    static subAttributes(attrName, subAttr) {
+    /**
+     * DOM 子属性
+     * @param {String} attrName 属性名
+     * @param {Object} subAttr 子属性数据
+     * @returns {String} DOM 属性
+     */
+    static subAttributes(attrName, subAttr = {}) {
         let dom = '';
         for (const key in subAttr) {
             if (Object.prototype.hasOwnProperty.call(subAttr, key)) {
                 const e = subAttr[key];
                 let val = e;
                 if (Array.isArray(e)) {
-                    val = e.join(' ');
+                    val = e.filter(e2 => e2 != undefined && e2 != null).join(' ');
                 }
                 dom += `${ attrName }-${ key }="${ String(val).replace(/"/g, '&quot;') }" `
             }
@@ -37,11 +48,23 @@ class FHUI {
         return dom.trim();
     }
 
+    /**
+     * DOM 元素
+     * @param {String} tagName 标签名称
+     * @param {Object} attributes 属性
+     * @param {String|null} content 内容
+     * @returns {String} DOM
+     */
     static element(tagName = 'div', attributes = {}, content = '') {
         if (content == null) return `<${ tagName } ${ FHUI.attributes(attributes) }>`;
         return `<${ tagName } ${ FHUI.attributes(attributes) }>${ FHUI.__elementJoin(content) }</${ tagName }>`
     }
 
+    /**
+     * 拼接 DOM 元素
+     * @param {Array<String|undefined|null>} content 元素列表
+     * @returns {String} DOM
+     */
     static __elementJoin(content = []) {
         if (Array.isArray(content)) {
             let r = content.filter((e) => e !== undefined && e !== null);
@@ -50,6 +73,64 @@ class FHUI {
         return content;
     }
 }
+
+
+class FHUIComponentLabel {
+    constructor() {}
+
+    static label(content, data = {}) {
+        data = {
+            icon: undefined,
+            ...data
+        };
+
+        return FHUI.element(
+            'span',
+            {
+                class: 'fh-label'
+            },
+            FHUIComponentLabel.insideLabel(content, data)
+        );
+    }
+
+    static insideLabel(content, data = {}) {
+        data = {
+            icon: undefined,
+            ...data
+        };
+
+        let dom = '';
+        let iconDOM = undefined;
+        if (data?.icon !== undefined && Icon[data.icon] !== undefined) {
+            iconDOM = Icon[data.icon];
+            dom += FHUI.element(
+                'span',
+                {
+                    class: [
+                        'icon',
+                        'fh-label-icon'
+                    ]
+                },
+                iconDOM
+            )
+        }
+        if (content !== undefined) {
+            dom += FHUI.element(
+                'span',
+                {
+                    class: [
+                        'text',
+                        'fh-label-text'
+                    ]
+                },
+                content
+            )
+        }
+
+        return dom;
+    }
+}
+
 
 class FHUIComponentInput {
     constructor() {}
@@ -154,17 +235,77 @@ class FHUIComponentInput {
     }
 
     /**
+     * 范围滑块
+     * @param {Number} value 值
+     * @param {Object} data 数据
+     * @param {String} data.class 类
+     * @param {String|Number} data.default_value 默认值
+     * @param {String} data.id ID
+     * @param {String} data.name 名称
+     * @param {String} data.style 样式
+     * @param {Object} data.attribute 元素属性
+     * @param {Number} data.attribute.max 最大值
+     * @param {Number} data.attribute.min 最小值
+     * @param {Number} data.attribute.step 步长
+     * @returns {String} DOM
+     */
+    static range(value = undefined, data = {}) {
+        data = {
+            class: undefined,
+            default_value: undefined,
+            id: undefined,
+            name: undefined,
+            style: undefined,
+            ...data,
+            attribute: {
+                max: undefined,
+                min: undefined,
+                step: undefined,
+                ...data?.attribute
+            }
+        };
+
+        if (data.value === undefined) data.value = data.attribute.min || data.attribute.max || 0;
+
+        return FHUI.element(
+            'div',
+            {
+                class: [
+                    'fh-input-component',
+                    `fh-input-type-${ type }`
+                ]
+            },
+            [
+                FHUI.element(
+                    'input',
+                    {
+                        ...data.attribute,
+                        type: 'range',
+                        name: data.name,
+                        id: data.id,
+                        class: [
+                            'fh-input',
+                            data.class
+                        ],
+                        style: data.style,
+                        value: value,
+                        data: {
+                            default: data.default_value
+                        }
+                    },
+                    null
+                )
+            ]
+        );
+    }
+
+    /**
      * 文本框头尾标签
      * @param {'after'|'before'} type 类型
      * @param {Object} data 数据
      * @returns {String} DOM
      */
     static __inputLabel(type, data = {}) {
-        let iconDOM = undefined;
-        if (data?.icon !== undefined && Icon[data.icon] !== undefined) {
-            iconDOM = Icon[data.icon];
-        }
-
         return FHUI.element(
             'div',
             {
@@ -173,10 +314,7 @@ class FHUIComponentInput {
                     `fh-input-label-type-${ type }`
                 ]
             },
-            [
-                iconDOM ? `<span class="icon">${ iconDOM }</span>` : undefined,
-                data?.label ? `<span class="text">${ data.label }</span>` : undefined
-            ]
+            FHUIComponentLabel.insideLabel(data.label, { icon: data.icon })
         );
     }
 
@@ -217,5 +355,90 @@ class FHUIComponentInput {
             },
             dom
         );
+    }
+}
+
+
+class FHUIComponentButton {
+    constructor() {}
+
+    /**
+     * 按钮
+     * @param {String} content 内容
+     * @param {Object} data 属性值
+     * @param {String} data.id ID
+     * @param {String} data.class 类
+     * @param {Object} data.attribute 元素属性
+     * @param {String} data.title Title 属性
+     * @param {String} data.icon 图标名称
+     * @param {Boolean} data.disabled 禁用按钮
+     * @param {Boolean} data.loading 加载状态
+     * @param {undefined|'ghost'|'dashed'|'air'} data.type 按钮类型
+     * @param {undefined|'big'|'small'} data.size 按钮尺寸
+     * @param {undefined|'safe'|'warn'|'danger'|'special'} data.color 按钮功能色
+     * @returns {String} DOM
+     */
+    static button(content = '', data = {}) {
+        data = {
+            class: undefined,
+            color: undefined,
+            disabled: false,
+            loading: false,
+            icon: undefined,
+            id: undefined,
+            size: undefined,
+            title: undefined,
+            type: undefined,
+            ...data,
+            attribute: {
+                ...data?.attribute
+            }
+        };
+
+        if (data.loading) data.icon = 'FHLoading'
+
+        return FHUI.element(
+            'button',
+            {
+                ...data.attribute,
+                class: [
+                    'fh-button',
+                    data.color ? `fh-${ data.color }` : null,
+                    data.size ? `fh-${ data.size }` : null,
+                    data.type ? `fh-${ data.type }` : null,
+                    data?.icon ? 'fh-icon-button' : null,
+                    data.class
+                ],
+                color: data.color,
+                disabled: data.disabled ? '' : undefined,
+                id: data.id,
+                title: data.title
+            },
+            FHUIComponentLabel.insideLabel(content, { icon: data.icon })
+        );
+    }
+
+    static buttonGhost(content = '', data = {}) {
+        data = {
+            ...data,
+            type: 'ghost'
+        }
+        return FHUIComponentButton.button(content, data);
+    }
+
+    static buttonDashed(content = '', data = {}) {
+        data = {
+            ...data,
+            type: 'dashed'
+        }
+        return FHUIComponentButton.button(content, data);
+    }
+
+    static buttonAir(content = '', data = {}) {
+        data = {
+            ...data,
+            type: 'air'
+        }
+        return FHUIComponentButton.button(content, data);
     }
 }

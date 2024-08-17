@@ -595,40 +595,47 @@ p .fh-loading {
     gap: 0.35em;
 }
 
-.fh-icon-button>svg {
+.fh-icon-button .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fh-icon-button .icon,
+.fh-icon-button svg {
     --icon-fill-color: #FFF;
     fill: var(--icon-fill-color);
     width: var(--icon-size-small);
     height: var(--icon-size-small);
 }
 
-.fh-icon-button.fh-ghost>svg,
-.fh-icon-button.fh-dashed>svg,
-.fh-icon-button.fh-air>svg {
+.fh-icon-button.fh-ghost svg,
+.fh-icon-button.fh-dashed svg,
+.fh-icon-button.fh-air svg {
     --icon-fill-color: var(--color-general-dark);
 }
 
-.fh-icon-button.fh-safe.fh-ghost>svg,
-.fh-icon-button.fh-safe.fh-dashed>svg,
-.fh-icon-button.fh-safe.fh-air>svg {
+.fh-icon-button.fh-safe.fh-ghost svg,
+.fh-icon-button.fh-safe.fh-dashed svg,
+.fh-icon-button.fh-safe.fh-air svg {
     --icon-fill-color: var(--color-safe-dark);
 }
 
-.fh-icon-button.fh-warn.fh-ghost>svg,
-.fh-icon-button.fh-warn.fh-dashed>svg,
-.fh-icon-button.fh-warn.fh-air>svg {
+.fh-icon-button.fh-warn.fh-ghost svg,
+.fh-icon-button.fh-warn.fh-dashed svg,
+.fh-icon-button.fh-warn.fh-air svg {
     --icon-fill-color: var(--color-warn-dark);
 }
 
-.fh-icon-button.fh-danger.fh-ghost>svg,
-.fh-icon-button.fh-danger.fh-dashed>svg,
-.fh-icon-button.fh-danger.fh-air>svg {
+.fh-icon-button.fh-danger.fh-ghost svg,
+.fh-icon-button.fh-danger.fh-dashed svg,
+.fh-icon-button.fh-danger.fh-air svg {
     --icon-fill-color: var(--color-danger-dark);
 }
 
-.fh-icon-button.fh-special.fh-ghost>svg,
-.fh-icon-button.fh-special.fh-dashed>svg,
-.fh-icon-button.fh-special.fh-air>svg {
+.fh-icon-button.fh-special.fh-ghost svg,
+.fh-icon-button.fh-special.fh-dashed svg,
+.fh-icon-button.fh-special.fh-air svg {
     --icon-fill-color: var(--color-special-dark);
 }
 
@@ -757,3 +764,28 @@ input[type=range]:disabled {
     cursor: not-allowed;
     filter: opacity(0.35);
 }
+
+
+
+
+@keyframes fh-svg-loading-diamond {
+    0% { fill: transparent; }
+    25% { fill: var(--icon-fill-color, --fh-color-general); }
+    100% { fill: transparent; }
+}
+
+svg.fh-svg-loading-diamond {
+    fill: var(--icon-fill-color, --fh-color-general);
+}
+
+svg.fh-svg-loading-diamond>polygon {
+    animation-name: fh-svg-loading-diamond;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
+}
+
+svg.fh-svg-loading-diamond>polygon:nth-child(1) { animation-delay: 0s; }
+svg.fh-svg-loading-diamond>polygon:nth-child(2) { animation-delay: .25s; }
+svg.fh-svg-loading-diamond>polygon:nth-child(3) { animation-delay: .5s; }
+svg.fh-svg-loading-diamond>polygon:nth-child(4) { animation-delay: .75s; }

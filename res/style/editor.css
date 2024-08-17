@@ -1629,6 +1629,7 @@ select:focus {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 0.25em;
 }
 
 .fh-input-label-type-after {
@@ -1646,4 +1647,20 @@ select:focus {
 .fh-input-label .text {
     position: relative;
     top: -0.05em;
+}
+
+.fh-input-label .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fh-input-label .icon,
+.fh-input-label .icon svg {
+    width: calc(var(--font-size-base) + 8px);
+    height: calc(var(--font-size-base) + 8px);
+}
+
+.fh-input-label .icon svg {
+    fill: var(--text-placeholder);
 }

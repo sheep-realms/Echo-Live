@@ -1141,9 +1141,9 @@ class SettingsPanel {
                         aria: {
                             label: title
                         },
-                        max: attribute?.max ? attribute.max : undefined,
-                        min: attribute?.min ? attribute.min : undefined,
-                        step: attribute?.step ? attribute.step : undefined
+                        max: attribute?.max !== undefined ? attribute.max : undefined,
+                        min: attribute?.min !== undefined ? attribute.min : undefined,
+                        step: attribute?.step !== undefined ? attribute.step : undefined
                     }
                 }
             )
@@ -1156,17 +1156,22 @@ class SettingsPanel {
             type, id, title, description,
             `<div class="settings-switch state-${ value ? 'on' : 'off' }" data-is-bit="${ isBit ? '1' : '0' }">
                 ${
-                    EditorForm.button($t('ui.off'), {
-                        icon: Icon.toggleSwitchOffOutline,
-                        class: 'btn-switch btn-off',
-                        type: 'ghost'
-                    })
+                    FHUIComponentButton.buttonGhost(
+                        $t('ui.off'),
+                        {
+                            icon: 'toggleSwitchOffOutline',
+                            class: 'btn-switch btn-off'
+                        }
+                    )
                 }
                 ${
-                    EditorForm.button($t('ui.on'), {
-                        icon: Icon.toggleSwitch,
-                        class: 'btn-switch btn-on'
-                    })
+                    FHUIComponentButton.button(
+                        $t('ui.on'),
+                        {
+                            icon: 'toggleSwitch',
+                            class: 'btn-switch btn-on'
+                        }
+                    )
                 }
                 <input type="hidden" id="${ id.replace(/\./g, '-') }" class="settings-value settings-switch-value" data-default="${ value }" value="${ value }">
             </div>`
@@ -1191,17 +1196,22 @@ class SettingsPanel {
             type, id, title, description,
             `<div class="settings-switch settings-switch-all-or-array-string state-${ isAll ? 'on' : 'off' }">
                 ${
-                    EditorForm.button($t('ui.enable_all'), {
-                        icon: Icon.toggleSwitchOffOutline,
-                        class: 'btn-switch btn-off',
-                        type: 'ghost'
-                    })
+                    FHUIComponentButton.buttonGhost(
+                        $t('ui.enable_all'),
+                        {
+                            icon: 'toggleSwitchOffOutline',
+                            class: 'btn-switch btn-off'
+                        }
+                    )
                 }
                 ${
-                    EditorForm.button($t('ui.enable_all'), {
-                        icon: Icon.toggleSwitch,
-                        class: 'btn-switch btn-on'
-                    })
+                    FHUIComponentButton.button(
+                        $t('ui.enable_all'),
+                        {
+                            icon: 'toggleSwitch',
+                            class: 'btn-switch btn-on'
+                        }
+                    )
                 }
                 <input type="hidden" id="${ id.replace(/\./g, '-') }-is-all" class="settings-value-enable-all settings-switch-value" data-default="${ isAll }" value="${ isAll }">
             </div>`,
@@ -1745,10 +1755,11 @@ class FHUIWindow {
             class: 'fh-window-controller-button fh-window-controller-button-' + id,
             color: colorType,
             attr: `data-controller-id="${ id }"`,
-            icon: icon != undefined ? Icon[icon] : undefined,
+            icon: icon,
             ...data
         }
 
+        return FHUIComponentButton.button(content, data);
         return EditorForm.button(content, data);
     }
 

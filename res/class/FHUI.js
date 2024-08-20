@@ -75,6 +75,33 @@ class FHUI {
 }
 
 
+class FHUIComponent {
+    constructor() {}
+
+    static group(name, content = [], data = {}) {
+        data = {
+            class: undefined,
+            id: undefined,
+            style: undefined,
+            ...data,
+            attribute: {
+                ...data.attribute
+            }
+        };
+        return FHUI.element(
+            'div',
+            {
+                class: [
+                    'fh-component-group',
+                    `fh-component-group-${ name }`
+                ]
+            },
+            content
+        );
+    }
+}
+
+
 class FHUIComponentLabel {
     constructor() {}
 
@@ -135,10 +162,24 @@ class FHUIComponentLabel {
 class FHUIComponentInput {
     constructor() {}
 
+    static {
+        $(document).on('input', '.fh-component-group-range-input .fh-input-component.fh-input-type-range .fh-range', function() {
+            const cpt = $(this).parents('.fh-component-group-range-input').eq(0);
+            const ipt = cpt.find('.fh-input-component.fh-input-type-number .fh-input').eq(0);
+            ipt.val($(this).val());
+        });
+
+        $(document).on('input', '.fh-component-group-range-input .fh-input-component.fh-input-type-number .fh-input', function() {
+            const cpt = $(this).parents('.fh-component-group-range-input ').eq(0);
+            const ipt = cpt.find('.fh-input-component.fh-input-type-range .fh-range').eq(0);
+            ipt.val($(this).val());
+        });
+    }
+
     /**
      * 文本框
      * @param {String|Number} value 文本框中的值
-     * @param {'text'|'number'|'password'} type 文本框类型
+     * @param {'text'|'number'|'password'|'search'|'url'|'email'|'tel'} type 文本框类型
      * @param {Object} data 数据
      * @param {String} data.class 类
      * @param {Array<Object>} data.datalist 数据列表
@@ -254,25 +295,84 @@ class FHUIComponentInput {
             class: undefined,
             default_value: undefined,
             id: undefined,
+            hasInput: false,
             name: undefined,
             style: undefined,
             ...data,
             attribute: {
                 max: undefined,
-                min: undefined,
+                min: 0,
                 step: undefined,
                 ...data?.attribute
+            },
+            label: {
+                range: {
+                    max: undefined,
+                    middle: undefined,
+                    min: undefined
+                }
             }
         };
 
-        if (data.value === undefined) data.value = data.attribute.min || data.attribute.max || 0;
+        if (value === undefined) value = data.attribute.min || data.attribute.max || 0;
 
+        const rangeComponent = FHUI.element(
+            'div',
+            {
+                class: [
+                    'fh-input-component',
+                    `fh-input-type-range`
+                ]
+            },
+            FHUI.element(
+                'input',
+                {
+                    ...data.attribute,
+                    type: 'range',
+                    name: data.name,
+                    id: data.id,
+                    class: [
+                        'fh-range',
+                        data.class
+                    ],
+                    style: data.style,
+                    value: value,
+                    data: {
+                        default: data.default_value
+                    }
+                },
+                null
+            )
+        );
+
+        if (data.hasInput) {
+            const inputComponent = FHUIComponentInput.input(
+                value,
+                'number',
+                {
+                    class: 'fh-range-input',
+                    attribute: {
+                        max: data.attribute.max,
+                        min: data.attribute.min
+                    }
+                }
+            );
+            return FHUIComponent.group(
+                'range-input',
+                [
+                    rangeComponent,
+                    inputComponent
+                ]
+            );
+        }
+
+        return rangeComponent;
         return FHUI.element(
             'div',
             {
                 class: [
                     'fh-input-component',
-                    `fh-input-type-${ type }`
+                    `fh-input-type-range`
                 ]
             },
             [
@@ -284,7 +384,7 @@ class FHUIComponentInput {
                         name: data.name,
                         id: data.id,
                         class: [
-                            'fh-input',
+                            'fh-range',
                             data.class
                         ],
                         style: data.style,
@@ -294,7 +394,18 @@ class FHUIComponentInput {
                         }
                     },
                     null
-                )
+                ),
+                data.hasInput ? FHUIComponentInput.input(
+                    value,
+                    'number',
+                    {
+                        class: 'fh-range-input',
+                        attribute: {
+                            max: data.attribute.max,
+                            min: data.attribute.min
+                        }
+                    }
+                ) : undefined
             ]
         );
     }
@@ -316,6 +427,11 @@ class FHUIComponentInput {
             },
             FHUIComponentLabel.insideLabel(data.label, { icon: data.icon })
         );
+    }
+
+    static __rangeLabel() {
+        // TODO: 想个办法搞定这个
+        return '';
     }
 
     /**

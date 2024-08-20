@@ -411,7 +411,7 @@ p .fh-loading {
     --fh-color-glass: var(--color-general-glass);
     height: calc(var(--font-size-base) + 20px);
     line-height: calc(var(--font-size-base) + 20px);
-    padding: 0 10px 2px 10px;
+    padding: 0 0.75em;
     margin: 0 3px;
     font-size: var(--font-size-small);
     color: #FFF;

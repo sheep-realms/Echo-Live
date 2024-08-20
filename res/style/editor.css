@@ -1562,10 +1562,10 @@ select:focus {
     padding-left: 6px;
 }
 
-.fh-msgbox-controller .fh-icon-button>svg {
+/* .fh-msgbox-controller .fh-icon-button>svg {
     position: relative;
     top: 1px;
-}
+} */
 
 @media screen and (max-width: 450px) {
     .fh-msgbox-controller .fh-button {
@@ -1609,6 +1609,11 @@ select:focus {
 }
 
 
+
+.fh-button .fh-label-text {
+    position: relative;
+    top: -0.0625em;
+}
 
 .fh-input-component {
     display: flex;
@@ -1667,4 +1672,18 @@ select:focus {
 
 .fh-input-label .icon svg {
     fill: var(--text-placeholder);
+}
+
+.fh-component-group-range-input {
+    display: flex;
+}
+
+.fh-component-group-range-input .fh-input-component.fh-input-type-range {
+    flex: 1;
+}
+
+.fh-component-group-range-input .fh-input-component.fh-input-type-number {
+    min-width: 4em;
+    max-width: 6em;
+    margin-inline-start: 16px;
 }

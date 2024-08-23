@@ -992,5 +992,21 @@ const db_config_define = [
         name: 'character',
         type: 'object',
         created: -1
+    },
+    
+    
+    
+    {
+        name: 'echolive.print_effect_name',
+        type: 'string',
+        default: 'none',
+        created: -1,
+        deleted: 7
+    }, {
+        name: 'echolive.print_effect_duration',
+        type: 'number',
+        default: 0,
+        created: -1,
+        deleted: 7
     }
 ];

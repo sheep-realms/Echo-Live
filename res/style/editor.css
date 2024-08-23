@@ -1622,6 +1622,7 @@ select:focus {
 }
 
 .fh-input-label {
+    --label-color: var(--text-placeholder);
     font-size: var(--font-size-middle);
     box-sizing: border-box;
     padding: 0.25em 0.5em;
@@ -1630,11 +1631,18 @@ select:focus {
     background-color: var(--input-bgcolor);
     transition: border-color .3s;
     height: calc(var(--font-size-base) + 20px);
-    color: var(--text-placeholder);
+    color: var(--label-color);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.25em;
+    cursor: text;
+    user-select: none;
+    transition: color .3s;
+}
+
+.fh-input-label-primary {
+    --label-color: var(--text-regular);
 }
 
 .fh-input-label-type-after {
@@ -1645,11 +1653,20 @@ select:focus {
     padding-inline-end: 0.25em;
 }
 
-.fh-input-component .fh-input:focus~.fh-input-label {
+.fh-input-label.fh-input-label-only-icon {
+    padding-inline-start: 0.25em;
+    padding-inline-end: 0.25em;
+}
+
+.fh-input-component .fh-input:focus ~ .fh-input-label {
     border-color: var(--color-general);
 }
 
-.fh-input-component .fh-input:out-of-range~.fh-input-label {
+.fh-input-component .fh-input:focus ~ .fh-input-label-primary {
+    --label-color: var(--text-primary);
+}
+
+.fh-input-component .fh-input:out-of-range ~ .fh-input-label {
     border-color: var(--color-danger);
 }
 
@@ -1671,7 +1688,8 @@ select:focus {
 }
 
 .fh-input-label .icon svg {
-    fill: var(--text-placeholder);
+    fill: var(--label-color);
+    transition: fill .3s;
 }
 
 .fh-component-group-range-input {
@@ -1686,4 +1704,158 @@ select:focus {
     min-width: 4em;
     max-width: 6em;
     margin-inline-start: 16px;
+}
+
+.fh-input-select-component {
+    width: 100%;
+}
+
+.fh-select-option-list {
+    top: -1000px;
+    left: -1000px;
+    --select-list-width-auto: auto;
+    --select-option-height: calc(var(--font-size-base) + 20px);
+    position: absolute;
+    box-shadow: var(--box-shadow);
+    background-color: var(--input-bgcolor);
+    width: min(var(--select-list-width, var(--select-list-width-auto)), calc(100vw - 32px));
+    max-height: calc(var(--select-option-height) * 10);
+    transition: opacity .3s;
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-sizing: border-box;
+    scroll-snap-type: y mandatory;
+    z-index: 2000;
+}
+
+.fh-select-option-list.has-description {
+    --select-option-height: calc(var(--font-size-base) + var(--font-size-small) + 28px);
+    max-height: calc(var(--select-option-height) * 6);
+}
+
+.fh-select-option-list.hide {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.fh-select-option-list.hide .fh-select-option {
+    visibility: hidden;
+}
+
+.fh-select-option-list .fh-select-option {
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.35em 0.75em 0.35em 0.5em;
+    cursor: pointer;
+    min-height: var(--select-option-height);
+    box-sizing: border-box;
+    user-select: none;
+    font-size: var(--font-size-base);
+    transition: background-color var(--animation-speed-button-switch);
+    gap: 0.5em;
+    scroll-snap-align: start;
+}
+
+.fh-select-option-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.fh-select-option-list .fh-select-option:first-child {
+    --corner-marker-color: rgba(0, 0, 0, 0.15);
+    background-image: var(--corner-marker);
+}
+
+.fh-select-option-list .fh-select-option[aria-selected="true"] {
+    --corner-marker-color: var(--color-general-dark);
+    background-image: var(--corner-marker);
+}
+
+.fh-select-option-list .fh-select-option[aria-selected="true"] .title {
+    font-weight: bold;
+}
+
+.fh-select-option-list .fh-select-option:hover,
+.fh-select-option-list .fh-select-option:focus-visible {
+    background-color: var(--color-general-glass);
+}
+
+.fh-select-option-list .fh-select-option:active:not(.fh-disabled, :disabled) {
+    transition: filter 0s, background-color 0s;
+    filter: brightness(0.85);
+}
+
+.fh-select-option-list:not(.hide) {
+    animation: fh-selece-option-list-in .3s ease-out 0s 1;
+}
+
+@keyframes fh-selece-option-list-in {
+    0% { overflow-y: hidden; }
+    100% { overflow-y: hidden; }
+}
+
+.fh-select-option-list.offset-top:not(.hide) .fh-select-option {
+    animation: fh-selece-option-move-in-top .3s ease-out 0s 1;
+}
+
+.fh-select-option-list.offset-bottom:not(.hide) .fh-select-option {
+    animation: fh-selece-option-move-in-bottom .3s ease-out 0s 1;
+}
+
+.fh-select-option-list.offset-center:not(.hide) .fh-select-option {
+    animation: fh-selece-option-move-in-center .3s ease-out 0s 1;
+}
+
+@keyframes fh-selece-option-move-in-top {
+    0% { position: relative; top: 8px; opacity: 0; scroll-snap-align: unset; }
+    100% { position: relative; top: 0px; opacity: 1; scroll-snap-align: unset; }
+}
+
+@keyframes fh-selece-option-move-in-bottom {
+    0% { position: relative; top: -8px; opacity: 0; scroll-snap-align: unset; }
+    100% { position: relative; top: 0px; opacity: 1; scroll-snap-align: unset; }
+}
+
+@keyframes fh-selece-option-move-in-center {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.fh-select-option .title {
+    color: var(--text-primary);
+}
+
+.fh-select-option .description {
+    color: var(--text-secondary);
+    font-size: var(--font-size-small);
+    font-weight: 300;
+}
+
+.fh-select-option .selected-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+}
+
+.fh-select-option[aria-selected="true"] .selected-icon {
+    opacity: 1;
+}
+
+.fh-select-option .selected-icon,
+.fh-select-option .selected-icon svg {
+    width: calc(var(--font-size-base) + 8px);
+    height: calc(var(--font-size-base) + 8px);
+}
+
+.fh-select-option .selected-icon svg {
+    fill: var(--color-general-dark);
 }

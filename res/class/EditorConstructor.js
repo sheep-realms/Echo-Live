@@ -1077,6 +1077,39 @@ class SettingsPanel {
     static setItemString(type = '', id = '', title = '', description = '', value = '', attribute = undefined) {
         if (type === 'string.multiline') return SettingsPanel.setItemStringMultiLine(type, id, title, description, value);
 
+        let inputDOM = '';
+        if (attribute?.datalist === undefined || attribute.datalist.length == 0) {
+            inputDOM = FHUIComponentInput.input(
+                value,
+                'text',
+                {
+                    id: id.replace(/\./g, '-'),
+                    class: 'settings-value code',
+                    attribute: {
+                        aria: {
+                            label: title
+                        }
+                    }
+                }
+            );
+        } else {
+            inputDOM = FHUIComponentInput.inputSelect(
+                value,
+                attribute.datalist,
+                {
+                    id: id.replace(/\./g, '-'),
+                    class: 'settings-value code',
+                    option_description_fill_value: true,
+                    option_width: attribute?.option_width,
+                    attribute: {
+                        aria: {
+                            label: title
+                        }
+                    }
+                }
+            );
+        }
+
         return SettingsPanel.setItem(
             type, id, title, description,
             FHUI.element(
@@ -1088,20 +1121,7 @@ class SettingsPanel {
                 },
                 title
             ) +
-            FHUIComponentInput.input(
-                value,
-                'text',
-                {
-                    id: id.replace(/\./g, '-'),
-                    class: 'settings-value code',
-                    datalist: attribute?.datalist ?? undefined,
-                    attribute: {
-                        aria: {
-                            label: title
-                        }
-                    }
-                }
-            )
+            inputDOM
         );
     }
 

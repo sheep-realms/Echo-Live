@@ -163,16 +163,181 @@ class FHUIComponentInput {
     constructor() {}
 
     static {
+        $(document).on('click', '.fh-input-label', function() {
+            $(this).parents('.fh-input-component').eq(0).find('.fh-input').eq(0).focus();
+        });
+
+        // 范围滑块与输入框绑定
         $(document).on('input', '.fh-component-group-range-input .fh-input-component.fh-input-type-range .fh-range', function() {
             const cpt = $(this).parents('.fh-component-group-range-input').eq(0);
             const ipt = cpt.find('.fh-input-component.fh-input-type-number .fh-input').eq(0);
             ipt.val($(this).val());
         });
 
+        // 输入框和范围滑块绑定
         $(document).on('input', '.fh-component-group-range-input .fh-input-component.fh-input-type-number .fh-input', function() {
-            const cpt = $(this).parents('.fh-component-group-range-input ').eq(0);
+            const cpt = $(this).parents('.fh-component-group-range-input').eq(0);
             const ipt = cpt.find('.fh-input-component.fh-input-type-range .fh-range').eq(0);
             ipt.val($(this).val());
+        });
+
+        // 下拉菜单弹出
+        $(document).on('click', '.fh-input-select-component .fh-input-component .fh-input, .fh-input-select-component .fh-input-component .fh-input-label', function() {
+            __fhSelectOptionShow(this);
+        });
+        $(document).on('keydown', '.fh-input-select-component .fh-input-component .fh-input', function(e) {
+            // console.log(e.keyCode);
+            switch (e.keyCode) {
+                case 13:
+                    __fhSelectOptionShow(this, true);
+                    break;
+            
+                default:
+                    break;
+            }
+        });
+        function __fhSelectOptionShow(that, setFocus = false) {
+            const select = $(that).parents('.fh-input-select-component').eq(0);
+            const inputCpt = select.find('.fh-input-component').eq(0);
+            const input = select.find('.fh-input-component .fh-input').eq(0);
+            const list = select.find('.fh-select-option-list').eq(0);
+            const topCheck = (inputCpt.offset().top - window.scrollY) >= (list.height() + 16);
+            const bottomCheck =
+                (window.scrollY + window.innerHeight) - (inputCpt.offset().top + inputCpt.height()) >= (list.height() + 16);
+
+            input.trigger('input');
+            
+            if (list.hasClass('hide')) {
+                list.css('--select-list-width-auto', select.width() + 'px');
+                list.removeClass('offset-top offset-bottom');
+
+                if (bottomCheck) {
+                    list.css('top', inputCpt.offset().top + inputCpt.height() + 'px');
+                    list.addClass('offset-bottom');
+                } else if (!bottomCheck && topCheck) {
+                    list.css('top', inputCpt.offset().top - list.height() + 'px');
+                    list.addClass('offset-top');
+                } else {
+                    list.css('top', Math.max((window.scrollY + window.innerHeight) - list.height() - 16, 16) + 'px');
+                    list.addClass('offset-center');
+                }
+
+                list.css('left', inputCpt.offset().left + 'px');
+
+                if ((list.offset().left + list.width() + 24) > (window.scrollX + window.innerWidth)) {
+                    list.css('left', window.scrollX + window.innerWidth - list.width() - 24 + 'px');
+                }
+
+                if (setFocus) {
+                    const selectedOptions = list.find('.fh-select-option[aria-selected="true"]');
+                    const options = list.find('.fh-select-option[aria-selected="true"]');
+                    setTimeout(() => {
+                        if (selectedOptions.length > 0) {
+                            selectedOptions.eq(0).focus();
+                        } else if (selectedOptions.length == 0 && options.label > 0) {
+                            options.eq(0).focus();
+                        }
+                    }, 0);
+                }
+
+                list.removeClass('hide');
+            } else {
+                list.addClass('hide');
+            }
+        }
+
+        // 下拉菜单快捷键
+        $(document).on('keydown', '.fh-input-select-component .fh-input-component .fh-input', function(e) {
+            const select = $(this).parents('.fh-input-select-component').eq(0);
+            const input = select.find('.fh-input-component .fh-input').eq(0);
+            const list = select.find('.fh-select-option-list').eq(0);
+            const length = list.data('length');
+            let index = list.data('index');
+
+            switch (e.keyCode) {
+                case 38:
+                    e.preventDefault();
+                    index--;
+                    if (index < 0) index = length - 1;
+                    break;
+
+                case 40:
+                    e.preventDefault();
+                    index = ++index % length;
+                    if (Number.isNaN(index)) index = -1;
+                    break;
+            
+                default:
+                    return
+            }
+
+            list.data('index', index);
+            input.val(list.find(`.fh-select-option[data-index="${ index }"]`).eq(0).data('value'));
+            input.trigger('input');
+            // input.select();
+        });
+        $(document).on('keydown', '.fh-input-select-component .fh-select-option', function(e) {
+            const select = $(this).parents('.fh-input-select-component').eq(0);
+            const input = select.find('.fh-input-component .fh-input').eq(0);
+            const list = $(this).parents('.fh-select-option-list').eq(0);
+            const length = list.data('length');
+            let index = $(this).data('index');
+            switch (e.keyCode) {
+                case 27:
+                    input.focus();
+                    list.addClass('hide');
+                    break;
+
+                case 37:
+                case 38:
+                    e.preventDefault();
+                    index--;
+                    if (index < 0) index = length - 1;
+                    list.find(`.fh-select-option[data-index="${ index }"]`).eq(0).focus();
+                    break;
+
+                case 39:
+                case 40:
+                    e.preventDefault();
+                    index = ++index % length;
+                    if (Number.isNaN(index)) index = -1;
+                    list.find(`.fh-select-option[data-index="${ index }"]`).eq(0).focus();
+                    break;
+            
+                default:
+                    break;
+            }
+        });
+
+        // 下拉菜单选择
+        $(document).on('click', '.fh-input-select-component .fh-select-option', function() {
+            const select = $(this).parents('.fh-input-select-component').eq(0);
+            const input = select.find('.fh-input-component .fh-input').eq(0);
+            const list = select.find('.fh-select-option-list').eq(0);
+            input.val($(this).data('value'));
+            list.data('index', $(this).data('index'));
+            list.find('.fh-select-option').attr('aria-selected', false);
+            list.find(`.fh-select-option[data-value="${ $(this).data('value') }"]`).attr('aria-selected', true);
+            list.addClass('hide');
+            input.focus();
+            input.trigger('input');
+        });
+
+        // 输入框绑定下拉菜单选中状态
+        $(document).on('input', '.fh-input-select-component .fh-input-component .fh-input', function() {
+            const select = $(this).parents('.fh-input-select-component').eq(0);
+            const input = select.find('.fh-input-component .fh-input').eq(0);
+            const list = select.find('.fh-select-option-list').eq(0);
+            list.find('.fh-select-option').attr('aria-selected', false);
+            list.find(`.fh-select-option[data-value="${ input.val() }"]`).attr('aria-selected', true);
+        });
+
+        // 下拉菜单失焦
+        $(document).on('mousedown', function(e) {
+            if ($(e.target).closest('.fh-select-option-list:not(.hide)').length == 0) $('.fh-select-option-list').addClass('hide');
+        });
+        $(document).on('focus', '*', function(e) {
+            if ($(e.target).closest('.fh-select-option-list:not(.hide)').length == 0) $('.fh-select-option-list').addClass('hide');
         });
     }
 
@@ -191,10 +356,12 @@ class FHUIComponentInput {
      * @param {Object} data.after 开头标签
      * @param {String} data.after.icon 开头标签图标
      * @param {String} data.after.label 开头标签内容
+     * @param {Boolean} data.after.is_primary 是否为重要标签
      * @param {Object} data.attribute 元素属性
      * @param {Object} data.before 结尾标签
      * @param {String} data.before.icon 结尾标签图标
      * @param {String} data.before.label 结尾标签内容
+     * @param {Boolean} data.before.is_primary 是否为重要标签
      * @returns {String} DOM
      */
     static input(value = undefined, type = 'text', data = {}) {
@@ -210,11 +377,13 @@ class FHUIComponentInput {
             after: {
                 icon: undefined,
                 label: undefined,
+                is_primary: false,
                 ...data?.after
             },
             before: {
                 icon: undefined,
                 label: undefined,
+                is_primary: true,
                 ...data?.before
             },
             attribute: {
@@ -257,10 +426,7 @@ class FHUIComponentInput {
                         type: type,
                         name: data.name,
                         id: data.id,
-                        class: [
-                            'fh-input',
-                            data.class
-                        ],
+                        class: 'fh-input ' + data.class,
                         style: data.style,
                         value: value,
                         data: {
@@ -314,6 +480,8 @@ class FHUIComponentInput {
             }
         };
 
+        data.name               = data.name             || data.id;
+        data.default_value      = data.default_value    || value;
         if (value === undefined) value = data.attribute.min || data.attribute.max || 0;
 
         const rangeComponent = FHUI.element(
@@ -321,7 +489,7 @@ class FHUIComponentInput {
             {
                 class: [
                     'fh-input-component',
-                    `fh-input-type-range`
+                    'fh-input-type-range'
                 ]
             },
             FHUI.element(
@@ -367,45 +535,145 @@ class FHUIComponentInput {
         }
 
         return rangeComponent;
-        return FHUI.element(
+    }
+
+    static inputSelect(value = undefined, options = [], data = {}) {
+        data = {
+            class: undefined,
+            default_value: undefined,
+            id: undefined,
+            name: undefined,
+            option_description_fill_value: false,
+            option_width: undefined,
+            style: undefined,
+            ...data,
+            attribute: {
+                ...data?.attribute
+            }
+        }
+
+        let hasDescription = false;
+
+        data.name               = data.name             || data.id;
+        data.default_value      = data.default_value    || value;
+
+        let inputDOM = FHUIComponentInput.input(
+            value,
+            'text',
+            {
+                id: data.id,
+                name: data.name,
+                class: 'fh-select ' + data.class,
+                after: {
+                    icon: 'chevronDown',
+                    is_primary: true
+                },
+                attribute: {
+                    data: {
+                        default: data.default_value
+                    },
+                    role: 'select'
+                }
+            }
+        );
+
+        let optionsDOM = '';
+        let selectedIndex = [];
+
+        options.forEach((e, i) => {
+            e = {
+                title: '',
+                description: undefined,
+                value: undefined,
+                ...e
+            };
+
+            if (!hasDescription && e.description !== undefined) hasDescription = true;
+            if (data.option_description_fill_value) {
+                if (e.title === '') {
+                    e.title = e.value;
+                } else {
+                    e.description = e.value;
+                }
+            }
+
+            if (e.value == value) selectedIndex.push(i);
+
+            optionsDOM += FHUI.element(
+                'button',
+                {
+                    aria: {
+                        selected: e.value == value
+                    },
+                    class: 'fh-select-option',
+                    data: {
+                        index: i,
+                        value: e.value
+                    },
+                    role: 'option'
+                },
+                [
+                    FHUI.element(
+                        'div',
+                        {
+                            class: 'selected-icon'
+                        },
+                        Icon.check
+                    ),
+                    FHUI.element(
+                        'div',
+                        {
+                            class: 'fh-select-option-content'
+                        },
+                        [
+                            FHUI.element(
+                                'div',
+                                {
+                                    class: 'title'
+                                },
+                                e.title
+                            ),
+                            e.description !== undefined ? FHUI.element(
+                                'div',
+                                {
+                                    class: 'description'
+                                },
+                                e.description
+                            ) : undefined
+                        ]
+                    )
+                ]
+            );
+        });
+
+        optionsDOM = FHUI.element(
             'div',
             {
                 class: [
-                    'fh-input-component',
-                    `fh-input-type-range`
-                ]
+                    'fh-select-option-list',
+                    hasDescription ? 'has-description' : null,
+                    'hide'
+                ],
+                data: {
+                    length: options.length,
+                    index: selectedIndex.length > 0 ? selectedIndex[0] : -1
+                },
+                role: 'list',
+                style: data.option_width !== undefined ? `--select-list-width: ${ data.option_width };` : undefined
+            },
+            optionsDOM
+        );
+
+        return FHUI.element(
+            'div',
+            {
+                ...data.attribute,
+                class: 'fh-input-select-component',
+                style: data.style
             },
             [
-                FHUI.element(
-                    'input',
-                    {
-                        ...data.attribute,
-                        type: 'range',
-                        name: data.name,
-                        id: data.id,
-                        class: [
-                            'fh-range',
-                            data.class
-                        ],
-                        style: data.style,
-                        value: value,
-                        data: {
-                            default: data.default_value
-                        }
-                    },
-                    null
-                ),
-                data.hasInput ? FHUIComponentInput.input(
-                    value,
-                    'number',
-                    {
-                        class: 'fh-range-input',
-                        attribute: {
-                            max: data.attribute.max,
-                            min: data.attribute.min
-                        }
-                    }
-                ) : undefined
+                inputDOM,
+                optionsDOM
             ]
         );
     }
@@ -422,7 +690,9 @@ class FHUIComponentInput {
             {
                 class: [
                     'fh-input-label',
-                    `fh-input-label-type-${ type }`
+                    `fh-input-label-type-${ type }`,
+                    data.is_primary ? 'fh-input-label-primary' : null,
+                    data.label === undefined && data.icon !== undefined ? 'fh-input-label-only-icon' : null
                 ]
             },
             FHUIComponentLabel.insideLabel(data.label, { icon: data.icon })

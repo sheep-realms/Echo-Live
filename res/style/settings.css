@@ -499,6 +499,7 @@
 
 .settings-item.settings-item-condition-test-fail>.value:focus-within {
     opacity: 1;
+    transition: opacity 0s ;
 }
 
 .settings-item .meta {
@@ -619,7 +620,8 @@
 
 .settings-item input[type=number],
 .settings-item input[type=text],
-.settings-item .fh-input-component {
+.settings-item .fh-input-component,
+.settings-item .fh-input-select-component {
     flex: 1;
 }
 

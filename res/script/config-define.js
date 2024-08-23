@@ -458,7 +458,8 @@ const db_config_define = [
         default: '',
         created: 4,
         attribute: {
-            datalist: []
+            datalist: [],
+            option_width: '450px'
         },
         conditions: [
             {

@@ -1,7 +1,7 @@
 const lang_zho_Hant_HK = {
     lang: {
         code_iso_639_3: "zho-Hant-HK",
-        code_ietf: "zh-Hans-HK",
+        code_ietf: "zh-Hant-HK",
         title: "繁體中文（香港特別行政區）"
     },
     localization: {

@@ -500,7 +500,7 @@ $(document).ready(function() {
     lang_index.index.forEach(e => {
         datalistLang.push({
             value: e.code,
-            title: e.title
+            title: `<span lang="${ e.code_ietf }">${ e.title }</sapn>`
         });
     });
 

@@ -4,7 +4,7 @@ class EchoLiveEditor {
         this.config     = config;
     }
 
-    registryPalette(data = []) {
+    registerPalette(data = []) {
         if (typeof data !== 'object') return;
         if (!Array.isArray(data)) data = [data];
         data.forEach(e => {

@@ -3,7 +3,7 @@ class Mixer {
         this.audioDB = [];
     }
 
-    registry(data = []) {
+    register(data = []) {
         if (typeof data !== 'object') return;
         if (Array.isArray(data)) {
             data.forEach(e => {

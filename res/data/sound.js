@@ -1,4 +1,4 @@
-mixer.registry([
+mixer.register([
     {
         name: 'typewriter',
         path: 'res/audio/print/typewriter.ogg'

@@ -1,4 +1,4 @@
-emojiHako.registry([
+emojiHako.register([
     {
         meta: {
             name: 'emoji',

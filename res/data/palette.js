@@ -1,4 +1,4 @@
-echoLiveEditor.registryPalette([
+echoLiveEditor.registerPalette([
     {
         meta: {
             name: 'material',

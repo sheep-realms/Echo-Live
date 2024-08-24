@@ -1,7 +1,7 @@
 class EmojiHako {
     constructor() {}
 
-    registry(data) {
+    register(data) {
         if (typeof data != 'object') return;
         if (!Array.isArray(data)) data = [data];
 

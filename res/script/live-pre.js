@@ -5,6 +5,7 @@ try {
     
 }
 extensionManager.launch(extensions);
+extensionManager.importDefaultTheme(echoLiveSystem.registry.getRegistryArray('live_theme'));
 
 try {
     if (config.echolive.speech_synthesis.enable) speechSynthesis.getVoices();

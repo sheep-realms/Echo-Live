@@ -1,4 +1,4 @@
-extensionManager.importDefaultTheme([
+echoLiveSystem.registry.loadRegistry('live_theme', 'name', [
     {
         "name": "vanilla",
         "title": "原版",

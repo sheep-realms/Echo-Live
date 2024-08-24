@@ -1,4 +1,4 @@
-mixer.audioDB = [
+mixer.registry([
     {
         name: 'typewriter',
         path: 'res/audio/print/typewriter.ogg'
@@ -29,4 +29,4 @@ mixer.audioDB = [
         name: 'enter',
         path: 'res/audio/next/enter.ogg'
     }
-];
+]);

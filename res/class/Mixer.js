@@ -3,7 +3,19 @@ class Mixer {
         this.audioDB = [];
     }
 
+    registry(data = []) {
+        if (typeof data !== 'object') return;
+        if (Array.isArray(data)) {
+            data.forEach(e => {
+                echoLiveSystem.registry.setRegistryValue('sound', e.name, e);
+            });
+        } else {
+            echoLiveSystem.registry.setRegistryValue('sound', data.name, data);
+        }
+    }
+
     find(name) {
+        return echoLiveSystem.registry.getRegistryValue('sound', name);
         return this.audioDB.find(function(e) {
             return e.name == name
         });
@@ -43,3 +55,4 @@ class Mixer {
 }
 
 let mixer = new Mixer();
+echoLiveSystem.mixer = mixer;

@@ -1,4 +1,4 @@
-emojiHako.load([
+emojiHako.registry([
     {
         meta: {
             name: 'emoji',

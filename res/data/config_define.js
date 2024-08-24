@@ -78,7 +78,10 @@ const db_config_define = [
         type: 'string',
         default: '',
         from: 'echolive.live_theme',
-        created: 4
+        created: 4,
+        attribute: {
+            datalist: []
+        }
     }, {
         name: 'echolive.style.live_theme_script_enable',
         type: 'boolean',
@@ -358,7 +361,10 @@ const db_config_define = [
         name: 'echolive.print_effect.name',
         type: 'string',
         default: 'none',
-        created: 7
+        created: 7,
+        attribute: {
+            datalist: []
+        }
     }, {
         name: 'echolive.print_effect.duration',
         type: 'number',
@@ -382,7 +388,10 @@ const db_config_define = [
         name: 'echolive.print_effect.timing_function',
         type: 'string',
         default: 'ease-out',
-        created: 7
+        created: 7,
+        attribute: {
+            datalist: []
+        }
     }, {
         name: 'echolive.display',
         type: 'object',
@@ -794,7 +803,10 @@ const db_config_define = [
         type: 'string',
         default: '',
         from: 'history.history_theme',
-        created: 4
+        created: 4,
+        attribute: {
+            datalist: []
+        }
     }, {
         name: 'history.style.history_theme_script_enable',
         type: 'boolean',

@@ -213,6 +213,7 @@ class FHUIComponentInput {
             if (list.hasClass('hide')) {
                 list.css('--select-list-width-auto', select.width() + 'px');
                 list.removeClass('offset-top offset-bottom');
+                list.removeClass('hide closed');
 
                 if (bottomCheck) {
                     list.css('top', inputCpt.offset().top + inputCpt.height() + 'px');
@@ -242,8 +243,6 @@ class FHUIComponentInput {
                         }
                     }, 0);
                 }
-
-                list.removeClass('hide closed');
             } else {
                 list.addClass('hide');
             }
@@ -596,7 +595,6 @@ class FHUIComponentInput {
                 ...e
             };
 
-            if (!hasDescription && e.description !== undefined) hasDescription = true;
             if (data.option_description_fill_value) {
                 if (e.title === '') {
                     e.title = e.value;
@@ -604,6 +602,7 @@ class FHUIComponentInput {
                     e.description = e.value;
                 }
             }
+            if (!hasDescription && e.description !== undefined) hasDescription = true;
 
             if (e.value == value) selectedIndex.push(i);
 

@@ -497,6 +497,11 @@ $(document).ready(function() {
 
     let datalistLang = [];
 
+    function __setConfigDefineDatalist(key, data) {
+        let i = settingsManager.findIndexConfigDefine(key);
+        settingsManager.configDefine[i].attribute.datalist = data;
+    }
+
     lang_index.index.forEach(e => {
         datalistLang.push({
             value: e.code,
@@ -504,23 +509,47 @@ $(document).ready(function() {
         });
     });
 
-    let i = settingsManager.findIndexConfigDefine('global.language');
-    settingsManager.configDefine[i].attribute.datalist = datalistLang;
+    __setConfigDefineDatalist('global.language', datalistLang);
 
     datalistLang = [];
+    echoLiveSystem.registry.forEach('live_theme', e => {
+        datalistLang.push({
+            title: e.title,
+            value: e.name
+        });
+    });
+    __setConfigDefineDatalist('global.theme', datalistLang);
+    __setConfigDefineDatalist('echolive.style.live_theme', datalistLang);
+    __setConfigDefineDatalist('history.style.history_theme', datalistLang);
 
-    mixer.audioDB.forEach((e) => {
+    datalistLang = [];
+    echoLiveSystem.registry.forEach('sound', e => {
         datalistLang.push({
             value: e.name
         });
     });
 
-    i = settingsManager.findIndexConfigDefine('echolive.print_audio.name');
-    settingsManager.configDefine[i].attribute.datalist = datalistLang;
-    i = settingsManager.findIndexConfigDefine('echolive.next_audio.name');
-    settingsManager.configDefine[i].attribute.datalist = datalistLang;
-    
-    i = settingsManager.findIndexConfigDefine('echolive.speech_synthesis.voice');
+    __setConfigDefineDatalist('echolive.print_audio.name', datalistLang);
+    __setConfigDefineDatalist('echolive.next_audio.name', datalistLang);
+
+    datalistLang = [];
+    echoLiveSystem.registry.forEach('print_effect', e => {
+        datalistLang.push({
+            title: $t(`effect.print.${ e.name }`),
+            value: e.value
+        });
+    });
+    __setConfigDefineDatalist('echolive.print_effect.name', datalistLang);
+
+    datalistLang = [];
+    echoLiveSystem.registry.forEach('timing_function', e => {
+        datalistLang.push({
+            title: $t(`timing_function.${ e.name }`),
+            value: e.value
+        });
+    });
+    __setConfigDefineDatalist('echolive.print_effect.timing_function', datalistLang);
+
     let voices = [];
     try {
         voices = speechSynthesis.getVoices();
@@ -536,16 +565,14 @@ $(document).ready(function() {
             value: e.name
         });
     }
-    settingsManager.configDefine[i].attribute.datalist = voiceName;
+    __setConfigDefineDatalist('echolive.speech_synthesis.voice', voiceName);
 
     datalistLang = [
         { value: 'auto', title: $t('config.global.color_scheme._value.auto') },
         { value: 'light', title: $t('config.global.color_scheme._value.light') },
         { value: 'dark', title: $t('config.global.color_scheme._value.dark') }
     ];
-
-    i = settingsManager.findIndexConfigDefine('global.color_scheme');
-    settingsManager.configDefine[i].attribute.datalist = datalistLang;
+    __setConfigDefineDatalist('global.color_scheme', datalistLang);
 
     // 生成页面
 

@@ -941,6 +941,17 @@ const lang_zho_Hans = {
             hot_key_textarea_quick_send: "当焦点在此文本框中时，可以按下 Ctrl + Enter 快速发送"
         }
     },
+    effect: {
+        print: {
+            blur_in: "聚焦",
+            fade_in: "淡入",
+            move_in_down: "从下方移入",
+            move_in_up: "从上方移入",
+            none: "无",
+            zoom_in_inside: "放大进入",
+            zoom_in_outside: "缩小进入"
+        }
+    },
     emoji: {
         emoji: {
             title: 'Emoji',
@@ -1381,6 +1392,25 @@ const lang_zho_Hans = {
                 }
             }
         }
+    },
+    timing_function: {
+        ease: "平滑",
+        linear: "线性",
+        ease_in: "缓出",
+        ease_out: "缓入",
+        ease_in_out: "缓入缓出",
+        ease_in_sine: "正弦缓出",
+        ease_out_sine: "正弦缓入",
+        ease_in_out_sine: "正弦缓入缓出",
+        ease_in_cubic: "三次方缓出",
+        ease_out_cubic: "三次方缓入",
+        ease_in_out_cubic: "三次方缓入缓出",
+        ease_in_circ: "圆形缓出",
+        ease_out_circ: "圆形缓入",
+        ease_in_out_circ: "圆形缓入缓出",
+        ease_in_back: "回退缓出",
+        ease_out_back: "回退缓入",
+        ease_in_out_back: "回退缓入缓出"
     },
     window: {
         clear_local_storage: {

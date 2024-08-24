@@ -136,7 +136,10 @@ class FHUIComponentLabel {
                     class: [
                         'icon',
                         'fh-label-icon'
-                    ]
+                    ],
+                    aria: {
+                        hidden: true
+                    }
                 },
                 iconDOM
             )
@@ -240,7 +243,7 @@ class FHUIComponentInput {
                     }, 0);
                 }
 
-                list.removeClass('hide');
+                list.removeClass('hide closed');
             } else {
                 list.addClass('hide');
             }
@@ -330,6 +333,11 @@ class FHUIComponentInput {
             const list = select.find('.fh-select-option-list').eq(0);
             list.find('.fh-select-option').attr('aria-selected', false);
             list.find(`.fh-select-option[data-value="${ input.val() }"]`).attr('aria-selected', true);
+        });
+
+        // 下拉菜单隐去
+        $(document).on('animationend', '.fh-select-option-list.hide ', function() {
+            $(this).addClass('closed');
         });
 
         // 下拉菜单失焦
@@ -616,7 +624,10 @@ class FHUIComponentInput {
                     FHUI.element(
                         'div',
                         {
-                            class: 'selected-icon'
+                            class: 'selected-icon',
+                            aria: {
+                                hidden: true
+                            }
                         },
                         Icon.check
                     ),
@@ -652,7 +663,8 @@ class FHUIComponentInput {
                 class: [
                     'fh-select-option-list',
                     hasDescription ? 'has-description' : null,
-                    'hide'
+                    'hide',
+                    'closed'
                 ],
                 data: {
                     length: options.length,

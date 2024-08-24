@@ -948,9 +948,9 @@ class SettingsPanel {
             aria-selected="false"
             title="${ $t( 'config.' + item.id + '._description' ) }"
         >
-            <span class="icon left">${ item.icon != undefined ? Icon[item.icon] : ''}</span>
+            <span class="icon left" aria-hidden="true">${ item.icon != undefined ? Icon[item.icon] : ''}</span>
             <span class="title">${ $t( 'config.' + item.id + '._title' ) }</span>
-            <span class="icon right"></span>
+            <span class="icon right" aria-hidden="true"></span>
         </button>`;
     }
 

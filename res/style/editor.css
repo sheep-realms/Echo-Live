@@ -1770,7 +1770,7 @@ select:focus {
 }
 
 .fh-select-option-list .fh-select-option:first-child {
-    --corner-marker-color: rgba(0, 0, 0, 0.15);
+    --corner-marker-color: rgba(0, 0, 0, 0.25);
     background-image: var(--corner-marker);
 }
 
@@ -1797,7 +1797,16 @@ select:focus {
     animation: fh-selece-option-list-in .3s ease-out 0s 1;
 }
 
+.fh-select-option-list.hide {
+    animation: fh-selece-option-list-out .3s ease-out 0s 1;
+}
+
 @keyframes fh-selece-option-list-in {
+    0% { overflow-y: hidden; }
+    100% { overflow-y: hidden; }
+}
+
+@keyframes fh-selece-option-list-out {
     0% { overflow-y: hidden; }
     100% { overflow-y: hidden; }
 }
@@ -1827,6 +1836,10 @@ select:focus {
 @keyframes fh-selece-option-move-in-center {
     0% { opacity: 0; }
     100% { opacity: 1; }
+}
+
+.fh-select-option-list.closed {
+    display: none;
 }
 
 .fh-select-option .title {

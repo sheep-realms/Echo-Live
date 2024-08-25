@@ -19,20 +19,15 @@
     <script src="config.js" onerror="configLoadFail()"></script>
     <script src="app.js"></script>
     <script src="res/class/EchoLiveSystem.js"></script>
+    <script src="res/data/root.js"></script>
     <script src="lang/index.js"></script>
-    <script src="lang/zho-Hans.js"></script>
-    <script src="lang/zho-Hant-HK.js"></script>
-    <script src="lang/zho-Hant-TW.js"></script>
     <script src="res/class/Translator.js"></script>
-    <script>
-        const translator = new Translator(config.global.language, lang_index);
+    <script id="translator-init">
+        const translator = new Translator(config.global.language);
         const $t = function(...e) {
             return translator.output(...e);
         };
-        translator.load(lang_zho_Hans);
-        translator.load(lang_zho_Hant_HK);
-        translator.load(lang_zho_Hant_TW);
-        $('html').attr('lang', $t('lang.code_ietf'));
+        translator.init();
     </script>
     <script src="res/class/Icon.js"></script>
     <script src="res/class/EchoLiveTools.js"></script>
@@ -44,8 +39,8 @@
     <script src="res/class/FHUI.js"></script>
     <script src="res/class/EditorConstructor.js"></script>
     <script src="res/class/UniverseWindow.js"></script>
-    <script src="res/class/EmojiHako.js"></script>
-    <script src="res/data/emoji.js"></script>
+    <script src="res/class/EmojiHako.js" defer></script>
+    <script src="res/data/emoji.js" defer></script>
     <script src="res/class/Commander.js"></script>
 </head>
 <body>
@@ -503,9 +498,10 @@
 
     <div id="fh-notice" aria-live="polite"></div>
 
-    <script src="res/script/editor-common.js"></script>
-    <script src="res/script/editor.js"></script>
-    <script src="res/script/editor-file-picker.js"></script>
-    <script src="res/script/help/editor-help.js"></script>
+    <script src="res/script/i18n.js" defer></script>
+    <script src="res/script/editor-common.js" defer></script>
+    <script src="res/script/editor.js" defer></script>
+    <script src="res/script/editor-file-picker.js" defer></script>
+    <script src="res/script/help/editor-help.js" defer></script>
 </body>
 </html>

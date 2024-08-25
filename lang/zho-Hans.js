@@ -57,6 +57,17 @@ const lang_zho_Hans = {
         ms: "毫秒",
         sec: "秒"
     },
+    border_style: {
+        none: "无",
+        solid: "实线",
+        dashed: "虚线",
+        dotted: "点线",
+        double: "双实线",
+        groove: "凹槽",
+        ridge: "凸脊",
+        inset: "嵌入",
+        outset: "突出"
+    },
     broadcast: {
         client: {
             type: {
@@ -134,7 +145,7 @@ const lang_zho_Hans = {
             },
             color_scheme: {
                 _title: "后台配色方案",
-                _description: "控制后台界面的配色。可用的方案有 auto（跟随系统）、light（浅色）和 dark（深色）。",
+                _description: "控制后台界面的配色。",
                 _value: {
                     auto: "跟随系统",
                     dark: "深色",
@@ -318,7 +329,7 @@ const lang_zho_Hans = {
                 },
                 voice: {
                     _title: "语音资源",
-                    _description: "在这里选择可用的语音资源，留空则使用系统默认值。<br>在内容为空的情况下，点击文本框即可列出所有可用的值。部分浏览器可能需要多点一次。<br>请注意：不同的浏览器会出现不同的值，一些浏览器会提供独有的语音资源，例如 Chrome 的 Google 合成语音，这些语音资源不能在 OBS 中使用。语音资源能否正确使用最终取决于前台页面所在的浏览器环境。<br>当所选择的值不可用时，将使用系统默认值。"
+                    _description: "在这里选择可用的语音资源，留空则使用系统默认值。<br>请注意：不同的浏览器会出现不同的值，一些浏览器会提供独有的语音资源，例如 Chrome 的 Google 合成语音，这些语音资源不能在 OBS 中使用。语音资源能否正确使用最终取决于前台页面所在的浏览器环境。<br>当所选择的值不可用时，将使用系统默认值。"
                 },
                 pitch: {
                     _title: "音高",
@@ -521,7 +532,7 @@ const lang_zho_Hans = {
             },
             high_contrast_outline_style: {
                 _title: "焦点高亮边框样式",
-                _description: "焦点元素边框的样式，可以是 solid、dotted、dashed 或 double。"
+                _description: "焦点元素边框的样式。"
             },
             drotanopia_and_deuteranopia: {
                 _title: "红绿色盲",
@@ -615,6 +626,9 @@ const lang_zho_Hans = {
             play: "打印中",
             ready: "就绪",
             stop: "停止"
+        },
+        emoji: {
+            select: "表情包"
         },
         form: {
             text_length: "{n} 字符",
@@ -1374,7 +1388,18 @@ const lang_zho_Hans = {
             }
         }
     },
+    sound: {
+        typewriter: "打字机",
+        typewriter_loop: "打字机（随机音效）",
+        sys001: "清脆敲击",
+        sys002: "嗡嗡",
+        sys003: "冒泡",
+        enter: "打字机回车"
+    },
     studio: {
+        title: {
+            text_to_messages: "Echo Live 工作室：文本转消息格式"
+        },
         text_to_messages: {
             colon: "：",
             label: {
@@ -1419,3 +1444,5 @@ const lang_zho_Hans = {
         }
     }
 };
+
+echoLiveSystem.registry.setLanguageRegistryValue(lang_zho_Hans);

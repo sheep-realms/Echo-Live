@@ -57,6 +57,17 @@ const lang_zho_Hant_HK = {
         ms: "毫秒",
         sec: "秒"
     },
+    border_style: {
+        none: "無",
+        solid: "實線",
+        dashed: "虛線",
+        dotted: "點線",
+        double: "雙實線",
+        groove: "凹槽",
+        ridge: "凸脊",
+        inset: "嵌入",
+        outset: "突出"
+    },
     broadcast: {
         client: {
             type: {
@@ -134,7 +145,7 @@ const lang_zho_Hant_HK = {
             },
             color_scheme: {
                 _title: "後台配色方案",
-                _description: "控制後台界面的配色。可用的方案有 auto（跟隨系統）、light（淺色）和 dark（深色）。",
+                _description: "控制後台界面的配色。",
                 _value: {
                     auto: "跟隨系統",
                     dark: "深色",
@@ -318,7 +329,7 @@ const lang_zho_Hant_HK = {
                 },
                 voice: {
                     _title: "語音資源",
-                    _description: "在這裏選擇可用的語音資源，留空則使用系統默認值。<br>在內容為空的情況下，點擊文本框即可列出所有可用的值。部分瀏覽器可能需要多點一次。<br>請注意：不同的瀏覽器會出現不同的值，一些瀏覽器會提供獨有的語音資源，例如 Chrome 的 Google 合成語音，這些語音資源不能在 OBS 中使用。語音資源能否正確使用最終取決於前台頁面所在的瀏覽器環境。<br>當所選擇的值不可用時，將使用系統默認值。"
+                    _description: "在這裏選擇可用的語音資源，留空則使用系統默認值。<br>請注意：不同的瀏覽器會出現不同的值，一些瀏覽器會提供獨有的語音資源，例如 Chrome 的 Google 合成語音，這些語音資源不能在 OBS 中使用。語音資源能否正確使用最終取決於前台頁面所在的瀏覽器環境。<br>當所選擇的值不可用時，將使用系統默認值。"
                 },
                 pitch: {
                     _title: "音高",
@@ -521,7 +532,7 @@ const lang_zho_Hant_HK = {
             },
             high_contrast_outline_style: {
                 _title: "焦點高亮邊框樣式",
-                _description: "焦點元素邊框的樣式，可以是 solid、dotted、dashed 或 double。"
+                _description: "焦點元素邊框的樣式。"
             },
             drotanopia_and_deuteranopia: {
                 _title: "紅綠色盲",
@@ -615,6 +626,9 @@ const lang_zho_Hant_HK = {
             play: "打印中",
             ready: "就緒",
             stop: "停止"
+        },
+        emoji: {
+            select: "表情包"
         },
         form: {
             text_length: "{n} 字符",
@@ -1374,7 +1388,18 @@ const lang_zho_Hant_HK = {
             }
         }
     },
+    sound: {
+        typewriter: "打字機",
+        typewriter_loop: "打字機（隨機音效）",
+        sys001: "清脆敲擊",
+        sys002: "嗡嗡",
+        sys003: "冒泡",
+        enter: "打字機回車"
+    },
     studio: {
+        title: {
+            text_to_messages: "Echo Live 工作室：文本轉消息格式"
+        },
         text_to_messages: {
             colon: "：",
             label: {
@@ -1419,3 +1444,5 @@ const lang_zho_Hant_HK = {
         }
     }
 };
+
+echoLiveSystem.registry.setLanguageRegistryValue(lang_zho_Hant_HK);

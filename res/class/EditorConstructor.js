@@ -647,13 +647,13 @@ class Popups {
         if (emojiPack.meta?.author != undefined && emojiPack.meta?.author != '') {
             dom += `<div>${ $t('meta_info.author', { name: emojiPack.meta.author }) }</div>`
         }
-        if (emojiPack.meta?.license != undefined) {
+        if (emojiPack.meta?.license != undefined && emojiPack.meta.license?.title != undefined) {
             dom += `<div>
                 ${ $t('meta_info.license', {
                     name:
                         emojiPack.meta.license?.url != undefined
-                        ? `<a href="${ emojiPack.meta.license.url }" target="_blank">${ emojiPack.meta.license?.title }</a>`
-                        : emojiPack.meta.license?.title
+                        ? `<a href="${ emojiPack.meta.license.url }" target="_blank">${ emojiPack.meta.license.title }</a>`
+                        : emojiPack.meta.license.title
                 }) }
             </div>`
         }

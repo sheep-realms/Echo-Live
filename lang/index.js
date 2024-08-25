@@ -19,3 +19,6 @@ const lang_index = {
         }
     ]
 };
+
+echoLiveSystem.registry.setRegistryValue('system', 'main_language', lang_index.main);
+echoLiveSystem.registry.loadRegistry('language_index', 'code', lang_index.index);

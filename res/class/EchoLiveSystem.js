@@ -9,17 +9,37 @@ class EchoLiveSystem {
 
 class EchoLiveRegistry {
     constructor() {
-        this.registry = {
-            emoji: new Map(),
-            emoji_namespace: new Map(),
-            language: new Map(),
-            live_theme: new Map(),
-            palette: new Map(),
-            print_effect: new Map(),
-            sound: new Map(),
-            timing_function: new Map()
+        this.registry = new Map();
+        this.initialized = false;
+        this.event = {
+            setRegistryValue: []
         };
-        
+        this.lastTriggerID = 0;
+
+        this.createRegistry('root');
+    }
+
+    /**
+     * 初始化
+     */
+    init(data = []) {
+        if (this.initialized) return;
+        // 用注册表注册注册表
+        this.loadRegistry('root', 'name', data);
+        data.forEach(e => this.createRegistry(e.name));
+        this.initialized = true;
+    }
+
+    // 注册表数量
+    get registryCount() {
+        return this.registry.size;
+    }
+
+    // 注册表项数量
+    get itemCount() {
+        let count = 0;
+        this.registry.forEach(e => count += e.size);
+        return count;
     }
 
     /**
@@ -29,13 +49,41 @@ class EchoLiveRegistry {
      * @returns {Object} 合并结果
      */
     __deepMerge(target, source) {
+        target = JSON.parse(JSON.stringify(target));
         for (let key in source) {
-            if (source[key] instanceof Object && key in target) {
-                Object.assign(source[key], deepMerge(target[key], source[key]));
+            if (source[key] instanceof Object && !Array.isArray(source[key]) && key in target) {
+                Object.assign(source[key], this.__deepMerge(target[key], source[key]));
+            } else if (Array.isArray(source[key]) && key in target) {
+                target[key] = target[key].concat(source[key]);
+            } else {
+                target[key] = source[key];
             }
         }
-        Object.assign(target || {}, source);
         return target;
+    }
+
+    onSetRegistryValue(table, key = '*', action = () => {}) {
+        if (table.search(':') === -1) table = 'echolive:' + table;
+        const id = this.lastTriggerID++
+        this.event.setRegistryValue.push({
+            id: id,
+            table: table,
+            key: key,
+            action: action
+        });
+        return id;
+    }
+
+    trigger(event, table, key, data = {}) {
+        if (this.event[event] === undefined) return;
+        if (table.search(':') === -1) table = 'echolive:' + table;
+        this.event[event].filter(e => e.table === table && (e.key === key || e.key === '*')).forEach(e => e.action(data));
+    }
+
+    killTrigger(event, id) {
+        if (this.event[event] === undefined) return;
+        const index = this.event[event].findIndex(e => e.id = id);
+        this.event[event].splice(index, 1);
     }
 
     /**
@@ -44,8 +92,21 @@ class EchoLiveRegistry {
      * @returns {Map} 注册表
      */
     getRegistry(key) {
-        if (this.registry[key] !== undefined && this.registry[key] instanceof Map) return this.registry[key];
+        if (key.search(':') === -1) key = 'echolive:' + key;
+        let reg = this.registry.get(key);
+        if (reg !== undefined && reg instanceof Map) return reg;
         return;
+    }
+
+    /**
+     * 创建注册表
+     * @param {String} key 注册表名
+     * @returns {Map} 注册表
+     */
+    createRegistry(key) {
+        if (key.search(':') === -1) key = 'echolive:' + key;
+        if (this.registry.get(key) !== undefined) return;
+        return this.registry.set(key, new Map());
     }
 
     /**
@@ -84,13 +145,25 @@ class EchoLiveRegistry {
      * @returns {*} 合并后的注册表值
      */
     setRegistryValue(table, key, value, fill = false) {
+        if (key === undefined) return;
+        if (table.search(':') === -1) table = 'echolive:' + table;
         let reg = this.getRegistry(table);
         if (reg === undefined) return;
         if (typeof value === 'object') value = JSON.parse(JSON.stringify(value));
+        const defaultData = this.getRegistryValue('root', table)?.default_data;
+
+        const __setReg = v2 => {
+            if (typeof defaultData === 'object' && typeof v2 === 'object' && !Array.isArray(v2)) {
+                v2 = this.__deepMerge(defaultData, v2)
+            }
+            reg.set(key, v2);
+            this.trigger('setRegistryValue', table, key, { value: v2 });
+        }
+
         let v = reg.get(key);
         if (!fill && typeof v === 'object' && !Array.isArray(v) && typeof value === 'object' && !Array.isArray(value)) {
-            v = this.__deepMerge(v, value)
-            reg.set(key, v);
+            v = this.__deepMerge(v, value);
+            __setReg(v);
             return v;
         } else if (!fill && Array.isArray(v)) {
             if (Array.isArray(value)) {
@@ -100,10 +173,10 @@ class EchoLiveRegistry {
             } else {
                 if (!v.includes(e)) v.push(e);
             }
-            reg.set(key, v);
+            __setReg(v);
             return v;
         } else {
-            reg.set(key, value);
+            __setReg(value);
             return value;
         }
     }
@@ -130,6 +203,16 @@ class EchoLiveRegistry {
             this.setRegistryValue(table, key, e);
         });
         return this.getRegistry(table);
+    }
+
+    /**
+     * 设置本地化注册表值
+     * @param {Object} langData 本地化键值组
+     * @returns {*} 注册值
+     */
+    setLanguageRegistryValue(langData = {}) {
+        if (langData?.lang === undefined || langData.lang?.code_iso_639_3 === undefined || langData.lang?.code_ietf === undefined) return;
+        return this.setRegistryValue('language', langData.lang.code_iso_639_3, langData);
     }
 
     registryRedirect(table, table2, key, success = () => {}, fail = () => {}) {

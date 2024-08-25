@@ -17,91 +17,8 @@ let lastColorScheme = config.global.color_scheme;
 
 let bodyClassCache = '';
 
-const settingsNav = [
-    {
-        id: 'global',
-        icon: 'earth'
-    }, {
-        id: 'echo',
-        icon: 'codeBracesBox'
-    }, {
-        id: 'echolive',
-        icon: 'messageText'
-    }, {
-        id: 'editor',
-        icon: 'pencilCircle'
-    }, {
-        id: 'history',
-        icon: 'history'
-    }, {
-        id: 'accessible',
-        icon: 'wheelchairAccessibility'
-    }, {
-        id: 'advanced',
-        icon: 'cog'
-    }, {
-        id: 'about',
-        icon: 'information',
-        isCustom: true
-    }
-];
-
-const aboutLinks = [
-    {
-        name: 'about_echolive',
-        isGroupTitle: true
-    }, {
-        name: 'github',
-        href: 'https://github.com/sheep-realms/Echo-Live',
-        icon: 'github'
-    }, {
-        name: 'copyright',
-        href: 'https://github.com/sheep-realms/Echo-Live/blob/master/copyright.md',
-        icon: 'copyright'
-    }, {
-        name: 'license',
-        href: 'https://www.gnu.org/licenses/gpl-3.0.html',
-        icon: 'license'
-    }, {
-        name: 'security',
-        href: 'https://github.com/sheep-realms/Echo-Live/security/policy',
-        icon: 'security'
-    }, {
-        name: 'user_guide',
-        isGroupTitle: true
-    }, {
-        name: 'document',
-        href: 'https://sheep-realms.github.io/Echo-Live-Doc/',
-        icon: 'helpBox'
-    }, {
-        name: 'accessibility',
-        href: 'https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/',
-        icon: 'wheelchairAccessibility'
-    }, {
-        name: 'releases',
-        href: 'https://github.com/sheep-realms/Echo-Live/releases',
-        icon: 'sourceCommit'
-    }, {
-        name: 'feedback',
-        href: 'https://github.com/sheep-realms/Echo-Live/issues',
-        icon: 'chatAlert'
-    }, {
-        name: 'bug_tracker',
-        href: 'https://github.com/users/sheep-realms/projects/3/views/1',
-        icon: 'bug'
-    }, {
-        name: 'security_advisory_new',
-        href: 'https://github.com/sheep-realms/Echo-Live/security/advisories/new',
-        icon: 'alarmLight'
-    }, {
-        name: 'community',
-        isGroupTitle: true
-    }, {
-        name: 'social_media',
-        href: 'https://github.com/sheep-realms/Echo-Live/blob/master/social-media.md',
-        icon: 'forum'
-    }
-];
+const settingsNav = echoLiveSystem.registry.getRegistryValue('settings_data', 'navigation');
+const aboutLinks = echoLiveSystem.registry.getRegistryValue('settings_data', 'about_link');
 
 let settingsManager = new SettingsManager(db_config_define);
 settingsManager.importConfig(config);
@@ -502,7 +419,14 @@ $(document).ready(function() {
         settingsManager.configDefine[i].attribute.datalist = data;
     }
 
-    lang_index.index.forEach(e => {
+    // lang_index.index.forEach(e => {
+    //     datalistLang.push({
+    //         value: e.code,
+    //         title: `<span lang="${ e.code_ietf }">${ e.title }</sapn>`
+    //     });
+    // });
+
+    echoLiveSystem.registry.forEach('language_index', e => {
         datalistLang.push({
             value: e.code,
             title: `<span lang="${ e.code_ietf }">${ e.title }</sapn>`
@@ -525,6 +449,7 @@ $(document).ready(function() {
     datalistLang = [];
     echoLiveSystem.registry.forEach('sound', e => {
         datalistLang.push({
+            title: $t(`sound.${ e.name }`),
             value: e.name
         });
     });
@@ -573,6 +498,15 @@ $(document).ready(function() {
         { value: 'dark', title: $t('config.global.color_scheme._value.dark') }
     ];
     __setConfigDefineDatalist('global.color_scheme', datalistLang);
+
+    datalistLang = [];
+    echoLiveSystem.registry.forEach('border_style', e => {
+        datalistLang.push({
+            title: $t(`border_style.${ e.name }`),
+            value: e.value
+        });
+    });
+    __setConfigDefineDatalist('accessible.high_contrast_outline_style', datalistLang);
 
     // 生成页面
 
@@ -658,6 +592,7 @@ $(document).ready(function() {
     $('.settings-about-footer-var-3').text(config.global.language);
     $('.settings-about-footer-var-4').text(nowTime.getTime());
     $('.settings-about-footer-var-6').text(config.data_version);
+    $('.settings-about-footer-var-7').text(`${ echoLiveSystem.registry.registryCount }, ${ echoLiveSystem.registry.itemCount }`);
 });
 
 

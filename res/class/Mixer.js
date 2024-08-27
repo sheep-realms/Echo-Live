@@ -1,24 +1,8 @@
 class Mixer {
-    constructor() {
-        this.audioDB = [];
-    }
-
-    register(data = []) {
-        if (typeof data !== 'object') return;
-        if (Array.isArray(data)) {
-            data.forEach(e => {
-                echoLiveSystem.registry.setRegistryValue('sound', e.name, e);
-            });
-        } else {
-            echoLiveSystem.registry.setRegistryValue('sound', data.name, data);
-        }
-    }
+    constructor() {}
 
     find(name) {
         return echoLiveSystem.registry.getRegistryValue('sound', name);
-        return this.audioDB.find(function(e) {
-            return e.name == name
-        });
     }
 
     play(name, volume = undefined, rate = undefined) {

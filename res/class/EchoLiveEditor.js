@@ -4,14 +4,6 @@ class EchoLiveEditor {
         this.config     = config;
     }
 
-    registerPalette(data = []) {
-        if (typeof data !== 'object') return;
-        if (!Array.isArray(data)) data = [data];
-        data.forEach(e => {
-            echoLiveSystem.registry.setRegistryValue('palette', e.meta.name, e);
-        });
-    }
-
     getPalettes() {
         let palettes = this.config.editor.color_picker.palette;
         if (typeof palettes === 'string' && palettes === 'all') return echoLiveSystem.registry.getRegistryArray('palette');

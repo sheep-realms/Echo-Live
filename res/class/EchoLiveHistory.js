@@ -28,11 +28,7 @@ class EchoLiveHistory {
      * 初始化
      */
     init() {
-        window.addEventListener("error", (e) => {
-            const msg       = e.error       != null ? e.error.stack : e.message;
-            const filename  = e.filename    != ''   ? e.filename    : 'null';
-            this.broadcast.error(msg, filename, e.lineno, e.colno);
-        });
+        this.theme = echoLiveSystem.registry.getRegistryArray('live_theme');
 
         if (this.config.echolive.sleep.enable) {
             document.addEventListener("visibilitychange", () => {
@@ -46,6 +42,11 @@ class EchoLiveHistory {
 
         if (this.config.echolive.broadcast.enable) {
             this.broadcast = new EchoLiveBroadcastHistory(this.config.echolive.broadcast.channel, this, this.config);
+            window.addEventListener("error", (e) => {
+                const msg       = e.error       != null ? e.error.stack : e.message;
+                const filename  = e.filename    != ''   ? e.filename    : 'null';
+                this.broadcast.error(msg, filename, e.lineno, e.colno);
+            });
             this.broadcast.on('shutdown', reason => this.shutdown(reason));
         }
     }

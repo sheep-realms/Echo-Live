@@ -1,4 +1,4 @@
-mixer.register([
+echoLiveSystem.registry.loadRegistry('sound', 'name', [
     {
         name: 'typewriter',
         path: 'res/audio/print/typewriter.ogg'

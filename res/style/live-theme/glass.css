@@ -108,15 +108,29 @@
     --echo-live-history-font-size-time: 0.875em;
 
     /* 历史记录字体颜色 */
-    --echo-live-history-color: #000;
+    --echo-live-history-color: #FFF;
+    /* 历史记录文本投影颜色 */
+    --echo-live-history-shadow-color: #000;
     /* 历史记录说话人字体颜色 */
     --echo-live-history-color-username: unset;
+    /* 历史记录说话人投影颜色 */
+    --echo-live-history-shadow-color-username: unset;
     /* 历史记录消息内容字体颜色 */
     --echo-live-history-color-message: unset;
+    /* 历史记录消息内容投影颜色 */
+    --echo-live-history-shadow-color-message: unset;
     /* 历史记录发送时间字体颜色 */
-    --echo-live-history-color-time: #888;
-    /* 历史记录背景颜色，如果要设为透明请使用 transparent */
-    --echo-live-history-bg-color: transparent;
+    --echo-live-history-color-time: #DDD;
+    /* 历史记录发送时间投影颜色 */
+    --echo-live-history-shadow-color-time: unset;
+    /* 历史记录渐变背景颜色 */
+    --echo-live-history-bg-gradient-color: rgba(0, 0, 0, 0.6);
+    /* 历史记录渐变起始位置 */
+    --echo-live-history-bg-gradient-hint-start: 15%;
+    /* 历史记录渐变终止位置 */
+    --echo-live-history-bg-gradient-hint-end: 100%;
+    /* 历史记录内容的上、右、下、左内边距 */
+    --echo-live-history-padding-content: 1em 1em 1em 1em;
 
     /* 历史记录每条记录之间的间隙 */
     --echo-live-history-list-gap: 0.5em;
@@ -199,7 +213,7 @@
     margin-bottom: 0.5em;
     position: relative;
     left: -1em;
-    font-size: var(--echo-live-username-font-size, --echo-live-content-font-size);
+    font-size: var(--echo-live-username-font-size, var(--echo-live-content-font-size));
     color: var(--echo-live-username-color, #FFF);
     text-shadow: 0 0 0.075em var(--echo-live-username-shadow-color), 0 0 0.075em var(--echo-live-username-shadow-color), 0 0 0.075em var(--echo-live-username-shadow-color), 0 0 0.075em var(--echo-live-username-shadow-color);
 }
@@ -222,9 +236,11 @@
 
 /* Echo-Live 历史记录 */
 #echo-live-history {
-    background-color: var(--echo-live-history-bg-color);
+    background-color: transparent;
+    background-image: linear-gradient(to bottom, var(--echo-live-history-bg-gradient-color) var(--echo-live-history-bg-gradient-hint-start), transparent var(--echo-live-history-bg-gradient-hint-end));
     font-size: var(--echo-live-history-font-size);
     color: var(--echo-live-history-color);
+    text-shadow: 0 0 0.075em var(--echo-live-history-shadow-color), 0 0 0.075em var(--echo-live-history-shadow-color), 0 0 0.075em var(--echo-live-history-shadow-color), 0 0 0.075em var(--echo-live-history-shadow-color);
 }
 
 .echo-live-history-title,
@@ -233,7 +249,9 @@
 }
 
 #echo-live-history-message-list {
+    box-sizing: border-box;
     gap: var(--echo-live-history-list-gap);
+    padding: var(--echo-live-history-padding-content);
 }
 
 #echo-live-history .history-message-item {
@@ -244,22 +262,25 @@
     flex: var(--echo-live-history-flex-username);
     min-width: var(--echo-live-history-min-width-username);
     max-width: var(--echo-live-history-max-width-username);
-    color: var(--echo-live-history-color-username, --echo-live-history-color);
-    font-size: var(--echo-live-history-font-size-username, --echo-live-history-font-size);
+    color: var(--echo-live-history-color-username, var(--echo-live-history-color));
+    font-size: var(--echo-live-history-font-size-username, var(--echo-live-history-font-size));
+    text-shadow: 0 0 0.075em var(--echo-live-history-shadow-color-username), 0 0 0.075em var(--echo-live-history-shadow-color-username), 0 0 0.075em var(--echo-live-history-shadow-color-username), 0 0 0.075em var(--echo-live-history-shadow-color-username);
 }
 
 #echo-live-history .history-message-item .message {
     flex: var(--echo-live-history-flex-message);
     min-width: var(--echo-live-history-min-width-message);
     max-width: var(--echo-live-history-max-width-message);
-    color: var(--echo-live-history-color-message, --echo-live-history-color);
-    font-size: var(--echo-live-history-font-size-message, --echo-live-history-font-size);
+    color: var(--echo-live-history-color-message, var(--echo-live-history-color));
+    font-size: var(--echo-live-history-font-size-message, var(--echo-live-history-font-size));
+    text-shadow: 0 0 0.075em var(--echo-live-history-shadow-color-message), 0 0 0.075em var(--echo-live-history-shadow-color-message), 0 0 0.075em var(--echo-live-history-shadow-color-message), 0 0 0.075em var(--echo-live-history-shadow-color-message);
 }
 
 #echo-live-history .history-message-item .time {
     flex: var(--echo-live-history-flex-time);
     min-width: var(--echo-live-history-min-width-time);
     max-width: var(--echo-live-history-max-width-time);
-    color: var(--echo-live-history-color-time, --echo-live-history-color);
-    font-size: var(--echo-live-history-font-size-time, --echo-live-history-font-size);
+    color: var(--echo-live-history-color-time, var(--echo-live-history-font-size));
+    font-size: var(--echo-live-history-font-size-time, var(--echo-live-history-font-size));
+    text-shadow: 0 0 0.075em var(--echo-live-history-shadow-color-time), 0 0 0.075em var(--echo-live-history-shadow-color-time), 0 0 0.075em var(--echo-live-history-shadow-color-time), 0 0 0.075em var(--echo-live-history-shadow-color-time);
 }

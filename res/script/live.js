@@ -3,7 +3,6 @@
 let echo = new Echo();
 if (config.echo.html_format_enable != true) echo.filter.HTMLFormat = false;
 let echolive = new EchoLive(echo, config);
-echolive.theme = extensionManager.theme;
 let urlTheme = EchoLiveTools.getUrlParam('theme');
 echolive.setTheme(urlTheme || config.echolive.style.live_theme || config.global.theme);
 
@@ -50,6 +49,7 @@ if (config.echolive.speech_synthesis.enable) {
 }
 
 function messageOutput(text = '', hasHTML = false) {
+    if (text === '') return;
     let textDOM = hasHTML ? text : `<span class="echo-chr ${inTypewriteEnd ? 'echo-typewrite-enter' : ''}">${EchoLiveTools.safeHTML(text)}</span>`;
     let exsel = inRuby ? ' ruby' : '';
     if (inTypewriteEnd) {

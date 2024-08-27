@@ -75,21 +75,14 @@ class EchoLive {
      * 初始化
      */
     init() {
+        this.theme = echoLiveSystem.registry.getRegistryArray('live_theme');
+
         let urlName     = EchoLiveTools.getUrlParam('name');
         let urlColor    = EchoLiveTools.getUrlParam('color');
         if (urlName != null && urlName.search(/^[a-f\d]{4}(?:[a-f\d]{4}-){4}[a-f\d]{12}$/i) == -1) {
             this.custom.name = urlName.replace(/</g, '').replace(/>/g, '');
         }
         if (urlColor != null) this.custom.color = urlColor;
-        
-        window.addEventListener("error", (e) => {
-            const msg       = e.error       != null ? e.error.stack : e.message;
-            const filename  = e.filename    != ''   ? e.filename    : 'null';
-            this.broadcast.error(msg, filename, e.lineno, e.colno);
-        });
-        // window.onerror = (message, source, line, col, error) => {
-        //     this.broadcast.error(message, source, line, col);
-        // };
 
         if (this.config.echolive.sleep.enable) {
             this.checkVisibility();
@@ -106,6 +99,11 @@ class EchoLive {
 
         if (this.config.echolive.broadcast.enable) {
             this.broadcast = new EchoLiveBroadcastPortal(this.config.echolive.broadcast.channel, this, this.config);
+            window.addEventListener("error", (e) => {
+                const msg       = e.error       != null ? e.error.stack : e.message;
+                const filename  = e.filename    != ''   ? e.filename    : 'null';
+                this.broadcast.error(msg, filename, e.lineno, e.colno);
+            });
             this.broadcast.on('shutdown', reason => this.shutdown(reason));
         } else if (this.config.echolive.messages_polling.enable) {
             this.start();

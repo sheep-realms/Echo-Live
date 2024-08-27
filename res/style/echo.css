@@ -78,7 +78,8 @@
     color: transparent;
     -webkit-background-clip: text;
     background-clip: text;
-    animation:  echo-text-rainbow 2s infinite linear;
+    animation: echo-text-rainbow 2s infinite linear;
+    text-shadow: none;
 }
 
 @keyframes echo-text-rainbow {

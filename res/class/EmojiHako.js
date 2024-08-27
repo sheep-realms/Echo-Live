@@ -1,5 +1,11 @@
 class EmojiHako {
-    constructor() {}
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        this.register(echoLiveSystem.registry.getRegistryArray('emoji'));
+    }
 
     register(data) {
         if (typeof data != 'object') return;
@@ -46,8 +52,6 @@ class EmojiHako {
                 content: []
             }
 
-            if (this.getEmojiPack(emojiPack.meta.namespace, emojiPack.meta.name) != undefined) return;
-
             e.content.forEach(e2 => {
                 if (e2?.type == 'group') {
                     emojiPack.content.push({
@@ -69,7 +73,7 @@ class EmojiHako {
                     }
                 }
             });
-
+            
             echoLiveSystem.registry.setRegistryValue('emoji', emojiPack.meta.name, emojiPack);
             echoLiveSystem.registry.setRegistryValue('emoji_namespace', emojiPack.meta.namespace, emojiPack.meta.name);
         });
@@ -84,7 +88,7 @@ class EmojiHako {
         }
 
         let mp;
-        echoLiveSystem.registry.registryRedirect('emoji_namespace', value => {
+        echoLiveSystem.registry.registryRedirect('emoji_namespace', 'emoji', namespace, value => {
             mp = value;
         });
 

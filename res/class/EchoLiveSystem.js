@@ -48,11 +48,11 @@ class EchoLiveRegistry {
      * @param {Object} source 来源对象
      * @returns {Object} 合并结果
      */
-    __deepMerge(target, source) {
+    static __deepMerge(target, source) {
         target = JSON.parse(JSON.stringify(target));
         for (let key in source) {
             if (source[key] instanceof Object && !Array.isArray(source[key]) && key in target) {
-                Object.assign(source[key], this.__deepMerge(target[key], source[key]));
+                Object.assign(source[key], EchoLiveRegistry.__deepMerge(target[key], source[key]));
             } else if (Array.isArray(source[key]) && key in target) {
                 target[key] = target[key].concat(source[key]);
             } else {
@@ -62,6 +62,13 @@ class EchoLiveRegistry {
         return target;
     }
 
+    /**
+     * 绑定设置注册表值触发
+     * @param {String} table 注册表名
+     * @param {String} key 注册表键
+     * @param {Function} action 方法
+     * @returns {Number} 触发器 ID
+     */
     onSetRegistryValue(table, key = '*', action = () => {}) {
         if (table.search(':') === -1) table = 'echolive:' + table;
         const id = this.lastTriggerID++
@@ -74,12 +81,24 @@ class EchoLiveRegistry {
         return id;
     }
 
+    /**
+     * 激活触发
+     * @param {String} event 事件名
+     * @param {String} table 注册表名
+     * @param {String} key 注册表值
+     * @param {Object} data 附加数据
+     */
     trigger(event, table, key, data = {}) {
         if (this.event[event] === undefined) return;
         if (table.search(':') === -1) table = 'echolive:' + table;
         this.event[event].filter(e => e.table === table && (e.key === key || e.key === '*')).forEach(e => e.action(data));
     }
 
+    /**
+     * 清除触发器
+     * @param {String} event 事件名
+     * @param {Number} id 触发器 ID
+     */
     killTrigger(event, id) {
         if (this.event[event] === undefined) return;
         const index = this.event[event].findIndex(e => e.id = id);
@@ -92,6 +111,7 @@ class EchoLiveRegistry {
      * @returns {Map} 注册表
      */
     getRegistry(key) {
+        if (typeof key !== 'string') return;
         if (key.search(':') === -1) key = 'echolive:' + key;
         let reg = this.registry.get(key);
         if (reg !== undefined && reg instanceof Map) return reg;
@@ -123,6 +143,28 @@ class EchoLiveRegistry {
     }
 
     /**
+     * 获取注册表单位
+     * @param {String} key 注册表名
+     * @returns {EchoLiveRegistryUnit} 注册表单位
+     */
+    getRegistryUnit(key) {
+        let reg = this.getRegistry(key);
+        if (reg === undefined) return;
+        return new EchoLiveRegistryUnit(this, key);
+    }
+
+    /**
+     * 获取注册表内容尺寸
+     * @param {String} key 注册表名
+     * @returns {Number} 注册表内容尺寸
+     */
+    getRegistrySize(key) {
+        let reg = this.getRegistry(key);
+        if (reg === undefined) return;
+        return reg.size;
+    }
+
+    /**
      * 获取注册表值
      * @param {String} table 注册表名
      * @param {String} key 注册表键
@@ -141,31 +183,38 @@ class EchoLiveRegistry {
      * @param {String} table 注册表名
      * @param {String} key 注册表键
      * @param {*} value 注册表值
-     * @param {Boolean} fill 强制覆盖
+     * @param {Data} data 附加数据
+     * @param {Boolean} data.fill 强制覆盖
      * @returns {*} 合并后的注册表值
      */
-    setRegistryValue(table, key, value, fill = false) {
+    setRegistryValue(table, key, value, data = {}) {
         if (key === undefined) return;
         if (table.search(':') === -1) table = 'echolive:' + table;
         let reg = this.getRegistry(table);
         if (reg === undefined) return;
+
+        data = {
+            fill: false,
+            trigger_disable: false
+        }
+
         if (typeof value === 'object') value = JSON.parse(JSON.stringify(value));
         const defaultData = this.getRegistryValue('root', table)?.default_data;
 
         const __setReg = v2 => {
             if (typeof defaultData === 'object' && typeof v2 === 'object' && !Array.isArray(v2)) {
-                v2 = this.__deepMerge(defaultData, v2)
+                v2 = EchoLiveRegistry.__deepMerge(defaultData, v2)
             }
             reg.set(key, v2);
-            this.trigger('setRegistryValue', table, key, { value: v2 });
+            if (!data.trigger_disable) this.trigger('setRegistryValue', table, key, { value: v2 });
         }
 
         let v = reg.get(key);
-        if (!fill && typeof v === 'object' && !Array.isArray(v) && typeof value === 'object' && !Array.isArray(value)) {
-            v = this.__deepMerge(v, value);
+        if (!data.fill && typeof v === 'object' && !Array.isArray(v) && typeof value === 'object' && !Array.isArray(value)) {
+            v = EchoLiveRegistry.__deepMerge(v, value);
             __setReg(v);
             return v;
-        } else if (!fill && Array.isArray(v)) {
+        } else if (!data.fill && Array.isArray(v)) {
             if (Array.isArray(value)) {
                 value.forEach(e => {
                     if (!v.includes(e)) v.push(e);
@@ -215,6 +264,15 @@ class EchoLiveRegistry {
         return this.setRegistryValue('language', langData.lang.code_iso_639_3, langData);
     }
 
+    /**
+     * 注册表重定向
+     * @param {String} table 源注册表名
+     * @param {String} table2 目标注册表名
+     * @param {String} key 源注册表键
+     * @param {Function} success 成功回调
+     * @param {Function} fail 失败回调
+     * @returns {*} 回调返回值
+     */
     registryRedirect(table, table2, key, success = () => {}, fail = () => {}) {
         let value = this.getRegistryValue(table, key);
         if (value === undefined || (typeof value !== 'string' && typeof value !== 'number')) return fail(value);
@@ -233,6 +291,20 @@ class EchoLiveRegistry {
         if (reg === undefined) return;
         reg.forEach(action);
     }
+
+    /**
+     * 遍历注册表获取数组
+     * @param {String} table 注册表名
+     * @param {Function} action 方法
+     * @returns {Array} 数组
+     */
+    forEachGetArray(table, action = () => {}) {
+        let array = [];
+        this.forEach(table, (value, key, map) => {
+            array.push(action(value, key, map));
+        });
+        return array;
+    }
 }
 
 class EchoLiveRegistryUnit {
@@ -244,6 +316,10 @@ class EchoLiveRegistryUnit {
     constructor(registry, name) {
         this.registry = registry;
         this.name = name;
+    }
+
+    get size() {
+        return this.registry.getRegistrySize(this.name);
     }
 
     get() {

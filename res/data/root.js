@@ -16,10 +16,10 @@ echoLiveSystem.registry.init([
     }, {
         name: 'language_index',
         default_data: {
-            code: "zho-Hans",
-            code_ietf: "zh-Hans",
-            title: "missingno",
-            url: "missingno.js"
+            code: 'zho-Hans',
+            code_ietf: 'zh-Hans',
+            title: 'missingno',
+            url: 'missingno.js'
         }
     }, {
         name: 'live_theme',

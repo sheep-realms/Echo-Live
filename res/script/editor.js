@@ -211,16 +211,16 @@ function getMessage(data) {
                 editorLogT(
                     'editor.log.broadcast.hello' + helloMsg2 + helloMsg1,
                     {
-                        client: $t('broadcast.client.type.' + data.from.type),
-                        name: data.from.name
+                        client: $t('broadcast.client.type.' + data.from?.type),
+                        name: data.from?.name
                     }
                 );
             } else if (data.target == '@__server') {
                 editorLogT(
                     'editor.log.broadcast.hello_to_server',
                     {
-                        client: $t('broadcast.client.type.' + data.from.type),
-                        name: data.from.name
+                        client: $t('broadcast.client.type.' + data.from?.type),
+                        name: data.from?.name
                     }
                 );
             }
@@ -246,8 +246,8 @@ function getMessage(data) {
             editorLogT(
                 'editor.log.broadcast.' + data.action,
                 {
-                    client: $t('broadcast.client.type.' + data.from.type),
-                    name: data.from.name
+                    client: $t('broadcast.client.type.' + data.from?.type),
+                    name: data.from?.name
                 }
             );
             break;

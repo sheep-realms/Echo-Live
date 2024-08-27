@@ -635,21 +635,14 @@ function configLoad() {
         }
     });
 
+    let array = [];
+
     if (settingsManager.getConfig('editor.color_picker.palette') === 'all') {
-        $('#editor-color_picker-palette-list').val([
-            'material',
-            'tailwindcss',
-            'ant_design',
-            'minecraft'
-        ].join('\n'));
+        $('#editor-color_picker-palette-list').val(echoLiveSystem.registry.forEachGetArray('palette', e => e.meta.name).join('\n'));
     }
 
     if (settingsManager.getConfig('editor.emoji_picker.emoji') === 'all') {
-        $('#editor-emoji_picker-emoji-list').val([
-            'emoji',
-            'sheep-realms:pixel-head',
-            'sheep-realms:other'
-        ].join('\n'));
+        $('#editor-emoji_picker-emoji-list').val(echoLiveSystem.registry.forEachGetArray('emoji', e => e.meta.name).join('\n'));
     }
 
     configOutput();

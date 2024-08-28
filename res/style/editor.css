@@ -307,6 +307,7 @@ input.code {
     padding: 8px 0 0 0;
     opacity: 1;
     flex-wrap: wrap;
+    gap: 4px;
 }
 
 .editor-controller.disabled {
@@ -328,6 +329,10 @@ input.code {
 .editor-controller.disabled+label{
     opacity: 1;
     pointer-events: all;
+}
+
+.editor-controller .editor-format-btn {
+    margin: unset;
 }
 
 .editor-controller .fh-icon-button>svg {

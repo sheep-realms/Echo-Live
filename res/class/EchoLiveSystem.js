@@ -5,7 +5,54 @@ class EchoLiveSystem {
     }
 }
 
+class EchoLiveData {
+    constructor() {}
 
+    static dataType = {
+        namespace_id: {
+            type: 'string',
+            regexp: /^[^:]+(:[^:]+)+$/,
+            filter: {
+                pad_namespace: (v, unit) => unit.check() ? v : 'echolive:' + v,
+                get_namespace: (v, unit) => unit.check() ? v.split(':')[0] : '',
+                get_id: (v, unit) => unit.check() ? v.split(':').slice(1).join(':') : v
+            }
+        }
+    };
+
+    static check(type, value) {
+        if (EchoLiveData.dataType[type] === undefined) return false;
+        if (typeof value !== EchoLiveData.dataType[type].type) return false;
+        return EchoLiveData.dataType[type].regexp.test(value);
+    }
+
+    static filter(type, filterName, value, strictMode = false) {
+        if (
+            EchoLiveData.dataType[type] === undefined
+            || typeof value !== EchoLiveData.dataType[type].type
+            || EchoLiveData.dataType[type].filter === undefined
+            || typeof EchoLiveData.dataType[type].filter[filterName] !== 'function'
+        ) return strictMode ? undefined : value;
+        return EchoLiveData.dataType[type].filter[filterName](value, new EchoLiveDataUnit(type, value, filterName));
+    }
+}
+
+class EchoLiveDataUnit {
+    constructor(type, value, filterName) {
+        this.type = type;
+        this.value = value;
+        this.filterName = filterName;
+    }
+
+    check(value = this.value) {
+        return EchoLiveData.check(this.type, value);
+    }
+
+    filter(filter, value = this.value, strictMode = false) {
+        if (filter === this.filterName) return;
+        return EchoLiveData.check(this.type, filter, value, strictMode);
+    }
+}
 
 class EchoLiveRegistry {
     constructor() {
@@ -70,7 +117,7 @@ class EchoLiveRegistry {
      * @returns {Number} 触发器 ID
      */
     onSetRegistryValue(table, key = '*', action = () => {}) {
-        if (table.search(':') === -1) table = 'echolive:' + table;
+        table = EchoLiveData.filter('namespace_id', 'pad_namespace', table);
         const id = this.lastTriggerID++
         this.event.setRegistryValue.push({
             id: id,
@@ -90,7 +137,7 @@ class EchoLiveRegistry {
      */
     trigger(event, table, key, data = {}) {
         if (this.event[event] === undefined) return;
-        if (table.search(':') === -1) table = 'echolive:' + table;
+        table = EchoLiveData.filter('namespace_id', 'pad_namespace', table);
         this.event[event].filter(e => e.table === table && (e.key === key || e.key === '*')).forEach(e => e.action(data));
     }
 
@@ -112,7 +159,7 @@ class EchoLiveRegistry {
      */
     getRegistry(key) {
         if (typeof key !== 'string') return;
-        if (key.search(':') === -1) key = 'echolive:' + key;
+        key = EchoLiveData.filter('namespace_id', 'pad_namespace', key);
         let reg = this.registry.get(key);
         if (reg !== undefined && reg instanceof Map) return reg;
         return;
@@ -124,7 +171,8 @@ class EchoLiveRegistry {
      * @returns {Map} 注册表
      */
     createRegistry(key) {
-        if (key.search(':') === -1) key = 'echolive:' + key;
+        key = EchoLiveData.filter('namespace_id', 'pad_namespace', key);
+        if (!EchoLiveData.check('namespace_id', key)) return;
         if (this.registry.get(key) !== undefined) return;
         return this.registry.set(key, new Map());
     }
@@ -189,7 +237,7 @@ class EchoLiveRegistry {
      */
     setRegistryValue(table, key, value, data = {}) {
         if (key === undefined) return;
-        if (table.search(':') === -1) table = 'echolive:' + table;
+        table = EchoLiveData.filter('namespace_id', 'pad_namespace', table);
         let reg = this.getRegistry(table);
         if (reg === undefined) return;
 

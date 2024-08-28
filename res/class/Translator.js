@@ -48,6 +48,7 @@ class Translator {
 
         // 配置排错
         if (this.i18n[this.lang] == undefined) this.lang = this.langMain;
+        if (this.i18n[this.lang] == undefined) return key;
 
         // 提取翻译文本
         let keys = key.split('.');

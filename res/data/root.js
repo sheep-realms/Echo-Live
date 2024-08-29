@@ -1,20 +1,30 @@
 echoLiveSystem.registry.init([
     {
         name: 'border_style',
+        unique_key: 'name',
         default_data: {
             name: undefined,
             value: undefined
         }
     }, {
         name: 'emoji',
+        unique_key: 'meta.name',
         default_data: {}
     }, {
         name: 'emoji_namespace'
     }, {
         name: 'language',
-        default_data: {}
+        unique_key: 'lang.code_iso_639_3',
+        default_data: {
+            lang: {
+                code_iso_639_3: 'zho-Hans',
+                code_ietf: 'zh-Hans',
+                title: 'missingno'
+            }
+        }
     }, {
         name: 'language_index',
+        unique_key: 'code',
         default_data: {
             code: 'zho-Hans',
             code_ietf: 'zh-Hans',
@@ -23,6 +33,7 @@ echoLiveSystem.registry.init([
         }
     }, {
         name: 'live_theme',
+        unique_key: 'name',
         default_data: {
             name: undefined,
             title: 'missingno',
@@ -32,6 +43,7 @@ echoLiveSystem.registry.init([
         }
     }, {
         name: 'palette',
+        unique_key: 'meta.name',
         default_data: {
             meta: {
                 name: undefined,
@@ -42,22 +54,41 @@ echoLiveSystem.registry.init([
         }
     }, {
         name: 'print_effect',
+        unique_key: 'name',
         default_data: {
             name: undefined,
             value: undefined
         }
     }, {
+        name: 'script',
+        unique_key: 'name',
+        default_data: {
+            name: undefined,
+            path: undefined,
+            page: 'all'
+        }
+    }, {
         name: 'settings_data'
     }, {
         name: 'sound',
+        unique_key: 'name',
         default_data: {
             name: undefined,
             path: undefined
         }
     }, {
+        name: 'stylesheet',
+        unique_key: 'name',
+        default_data: {
+            name: undefined,
+            path: undefined,
+            page: 'all'
+        }
+    }, {
         name: 'system'
     }, {
         name: 'timing_function',
+        unique_key: 'name',
         default_data: {
             name: undefined,
             value: undefined

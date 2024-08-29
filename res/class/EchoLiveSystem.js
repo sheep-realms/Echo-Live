@@ -13,7 +13,7 @@ class EchoLiveData {
             type: 'string',
             regexp: /^[^:]+(:[^:]+)+$/,
             filter: {
-                pad_namespace: (v, unit) => unit.check() ? v : 'echolive:' + v,
+                pad_namespace: (v, unit, data) => unit.check() ? v : ( data?.namespace ? data.namespace : 'echolive:' ) + v,
                 get_namespace: (v, unit) => unit.check() ? v.split(':')[0] : '',
                 get_id: (v, unit) => unit.check() ? v.split(':').slice(1).join(':') : v
             }
@@ -26,14 +26,14 @@ class EchoLiveData {
         return EchoLiveData.dataType[type].regexp.test(value);
     }
 
-    static filter(type, filterName, value, strictMode = false) {
+    static filter(type, filterName, value, data = {}, strictMode = false) {
         if (
             EchoLiveData.dataType[type] === undefined
             || typeof value !== EchoLiveData.dataType[type].type
             || EchoLiveData.dataType[type].filter === undefined
             || typeof EchoLiveData.dataType[type].filter[filterName] !== 'function'
         ) return strictMode ? undefined : value;
-        return EchoLiveData.dataType[type].filter[filterName](value, new EchoLiveDataUnit(type, value, filterName));
+        return EchoLiveData.dataType[type].filter[filterName](value, new EchoLiveDataUnit(type, value, filterName), data);
     }
 }
 
@@ -48,9 +48,9 @@ class EchoLiveDataUnit {
         return EchoLiveData.check(this.type, value);
     }
 
-    filter(filter, value = this.value, strictMode = false) {
+    filter(filter, value = this.value, data = {}, strictMode = false) {
         if (filter === this.filterName) return;
-        return EchoLiveData.check(this.type, filter, value, strictMode);
+        return EchoLiveData.check(this.type, filter, value, data, strictMode);
     }
 }
 
@@ -222,8 +222,32 @@ class EchoLiveRegistry {
         let reg = this.getRegistry(table);
         if (reg === undefined) return;
         let value = reg.get(key);
-        if (typeof value === 'object') return JSON.parse(JSON.stringify(reg.get(key)));
+        if (typeof value === 'object') return JSON.parse(JSON.stringify(value));
         return reg.get(key);
+    }
+
+    /**
+     * 在所有命名空间中获取注册表值
+     * @param {String} table 注册表名
+     * @param {String} key 注册表键
+     * @returns {Array<*>} 注册表值数组
+     */
+    getAllNamespaceRegistryValue(table, key) {
+        let array = [];
+        this.registry.forEach((v, k) => {
+            let name = EchoLiveData.filter('namespace_id', 'get_id', k);
+            if (name == table) {
+                let v2;
+                if (key !== undefined) {
+                    v2 = this.getRegistryValue(k, key);
+                    if (v2 !== undefined) array.push(v2);
+                } else {
+                    v2 = this.getRegistryArray(k);
+                    array.push(...v2);
+                }
+            }
+        });
+        return array;
     }
 
     /**
@@ -247,7 +271,10 @@ class EchoLiveRegistry {
         }
 
         if (typeof value === 'object') value = JSON.parse(JSON.stringify(value));
-        const defaultData = this.getRegistryValue('root', table)?.default_data;
+        const defaultData = this.getRegistryValue(
+            `${ EchoLiveData.filter('namespace_id', 'get_namespace', table) }:root`,
+            EchoLiveData.filter('namespace_id', 'get_id', table)
+        )?.default_data;
 
         const __setReg = v2 => {
             if (typeof defaultData === 'object' && typeof v2 === 'object' && !Array.isArray(v2)) {
@@ -255,13 +282,13 @@ class EchoLiveRegistry {
             }
             reg.set(key, v2);
             if (!data.trigger_disable) this.trigger('setRegistryValue', table, key, { value: v2 });
+            return v2;
         }
 
         let v = reg.get(key);
         if (!data.fill && typeof v === 'object' && !Array.isArray(v) && typeof value === 'object' && !Array.isArray(value)) {
             v = EchoLiveRegistry.__deepMerge(v, value);
-            __setReg(v);
-            return v;
+            return __setReg(v);
         } else if (!data.fill && Array.isArray(v)) {
             if (Array.isArray(value)) {
                 value.forEach(e => {
@@ -270,11 +297,9 @@ class EchoLiveRegistry {
             } else {
                 if (!v.includes(e)) v.push(e);
             }
-            __setReg(v);
-            return v;
+            return __setReg(v);
         } else {
-            __setReg(value);
-            return value;
+            return __setReg(value);
         }
     }
 

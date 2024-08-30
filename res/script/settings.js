@@ -535,12 +535,13 @@ $(document).ready(function() {
 
     aboutLinks.forEach(e => {
         if (e?.isGroupTitle) {
-            $('.settings-about-content').append(SettingsPanel.linkBarGroupTitle($t('config.about.' + e.name)));
+            $('.settings-about-content').append(SettingsPanel.linkBarGroupTitle($t('config.about.' + e.name), e));
         } else {
             $('.settings-about-content').append(SettingsPanel.linkBar(
                 $t('config.about.' + e.name),
                 e.href,
-                e?.icon
+                e?.icon,
+                e
             ));
         }
     });
@@ -570,6 +571,11 @@ $(document).ready(function() {
     $('.settings-page[data-pageid="advanced"]').prepend(SettingsPanel.msgBoxWarn(
         '',
         $t('settings.msgbox.advanced_settings')
+    ));
+    $('.settings-page[data-pageid="extension"]').prepend(SettingsPanel.msgBox(
+        $t('settings.msgbox.extension.title'),
+        $t('settings.msgbox.extension.description'),
+        'help'
     ));
 
     let ua = navigator.userAgent.toLowerCase();
@@ -634,8 +640,6 @@ function configLoad() {
             setSettingsItemValue(e.name, settingsManager.getConfig(e.name), true);
         }
     });
-
-    let array = [];
 
     if (settingsManager.getConfig('editor.color_picker.palette') === 'all') {
         $('#editor-color_picker-palette-list').val(echoLiveSystem.registry.forEachGetArray('palette', e => e.meta.name).join('\n'));
@@ -1150,8 +1154,27 @@ $(document).on('click', '.settings-about-banner img', function() {
         logoClick++
     } else if (logoClick >= 4) {
         logoClick = -1;
-        sysNotice.send('???', '', 'info', {
-            icon: 'help'
-        });
+        $('.settings-about-content').addClass('settings-link-debug-show');
+        sysNotice.sendT('notice.debug_mode', {}, 'tips');
     }
+});
+
+$(document).on('click', '.settings-link-bar.settings-link-debug', function(e) {
+    e.preventDefault();
+    const debugValue = $(this).data('debug');
+    switch (debugValue) {
+        case 'local_storage':
+            console.log(localStorageManager.getItem());
+            break;
+
+        case 'registry':
+            console.log(echoLiveSystem.registry.registry);
+            break;
+    
+        default:
+            break;
+    }
+    sysNotice.send('Done!', '', 'success', {
+        id: 'debug_output'
+    });
 });

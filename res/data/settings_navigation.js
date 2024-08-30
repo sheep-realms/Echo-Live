@@ -21,6 +21,9 @@ echoLiveSystem.registry.setRegistryValue('settings_data', 'navigation', [
         id: 'advanced',
         icon: 'cog'
     }, {
+        id: 'extension',
+        icon: 'puzzle'
+    }, {
         id: 'about',
         icon: 'information',
         isCustom: true

@@ -52,5 +52,21 @@ echoLiveSystem.registry.setRegistryValue('settings_data', 'about_link', [
         name: 'social_media',
         href: 'https://github.com/sheep-realms/Echo-Live/blob/master/social-media.md',
         icon: 'forum'
+    }, {
+        name: 'debug.title',
+        isGroupTitle: true,
+        isDebug: true
+    }, {
+        name: 'debug.console_local_storage',
+        href: 'javascript:;',
+        icon: 'consoleLine',
+        isDebug: true,
+        debug: 'local_storage'
+    }, {
+        name: 'debug.console_registry',
+        href: 'javascript:;',
+        icon: 'consoleLine',
+        isDebug: true,
+        debug: 'registry'
     }
 ]);

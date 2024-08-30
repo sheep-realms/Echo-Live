@@ -588,6 +588,10 @@ const lang_zho_Hant_HK = {
                 }
             }
         },
+        extension: {
+            _title: "擴展管理器",
+            _description: "管理擴展包",
+        },
         about: {
             _title: "關於",
             _description: "軟件資訊",
@@ -604,7 +608,12 @@ const lang_zho_Hant_HK = {
             security: "安全政策",
             security_advisory_new: "報告安全漏洞",
             social_media: "社交媒體",
-            user_guide: "用戶指南"
+            user_guide: "用戶指南",
+            debug: {
+                title: "調試選項",
+                console_local_storage: "輸出：Local Storage",
+                console_registry: "輸出：註冊表"
+            }
         }
     },
     echolive: {
@@ -1285,6 +1294,7 @@ const lang_zho_Hant_HK = {
             title: "漂亮的搶救！",
             message: "您已經掌握了如何操作瀏覽器縮放。請注意，<kbd>Ctrl</kbd> + <kbd>-</kbd> 和 <kbd>Ctrl</kbd> + <kbd>+</kbd> 組合鍵可以調整瀏覽器縮放，當心誤操作！"
         },
+        debug_mode: "已啟用調試選項！",
         drop_file_cancel_many: "你倒是放啊！",
         github_download_but_no_assets: {
             title: "讓我們開始下載...... 等一下？",
@@ -1371,6 +1381,10 @@ const lang_zho_Hant_HK = {
             echo: {
                 title: "關於 Echo",
                 description: "Echo 是 Echo-Live 的內核，提供了文本滾動輸出功能。<br>它是一個工具庫，任何人都可以使用 Echo 創建自己的文本展示項目。<br>如果您有興趣了解 Echo，請見其 <a href='https://github.com/sheep-realms/Echo' target='_blank'>GitHub 倉庫</a>。"
+            },
+            extension: {
+                title: "在做了在做了！！！",
+                description: "為了讓擴展的功能變得更強大，我對 Echo-Live 的數據加載邏輯進行了一場驚天地泣鬼神的更改，於是原有的擴展系統不管用了...... 不不不，我不是那個意思！新的擴展系統需要很多配套設施，很多人非常期待這個版本的更新，所以擴展系統的更新需要延後了。如果不出意外的話，它很快就會回來的！"
             }
         },
         tabpage: {

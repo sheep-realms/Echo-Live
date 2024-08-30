@@ -1243,16 +1243,30 @@ class SettingsPanel {
         );
     }
 
-    static linkBar(title = '', href = '', icon = undefined) {
-        return `<a class="settings-link-bar" href="${ href }" target="_blank">
+    static linkBar(title = '', href = '', icon = undefined, data = {}) {
+        data = {
+            isDebug: false,
+            debug: '',
+            ...data
+        };
+        return `<a
+            class="settings-link-bar ${ data.isDebug ? 'settings-link-debug' : ''}"
+            href="${ href }"
+            ${ !data.isDebug ? 'target="_blank"' : '' }
+            ${ data.isDebug ? `data-debug="${ data.debug }"` : '' }
+        >
             <div class="icon left">${ icon != undefined ? Icon[icon] : '' }</div>
             <div class="title">${ title }</div>
-            <div class="icon right">${ Icon.openInNew }</div>
+            <div class="icon right">${ !data?.isDebug ? Icon.openInNew : '' }</div>
         </a>`;
     }
 
-    static linkBarGroupTitle(title = '') {
-        return `<div class="settings-link-bar-group-title">${ title }</div>`;
+    static linkBarGroupTitle(title = '', data = {}) {
+        data = {
+            isDebug: false,
+            ...data
+        };
+        return `<div class="settings-link-bar-group-title ${ data.isDebug ? 'settings-link-debug' : ''}">${ title }</div>`;
     }
 
     /**

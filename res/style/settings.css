@@ -893,3 +893,10 @@ a.settings-link-bar:active {
 .review-color-card .danger .bg {
     background-color: var(--color-danger-dark);
 }
+
+
+
+
+.settings-about-content:not(.settings-link-debug-show) .settings-link-debug {
+    display: none;
+}

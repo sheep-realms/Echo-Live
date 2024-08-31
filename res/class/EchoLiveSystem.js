@@ -251,6 +251,26 @@ class EchoLiveRegistry {
     }
 
     /**
+     * 获取注册表默认值
+     * @param {String} table 注册表名
+     * @returns {*} 默认值
+     */
+    getRegistryDefaultValue(table) {
+        const id = EchoLiveData.filter('namespace_id', 'get_id', table)
+        let data = this.getRegistryValue(
+            `${ EchoLiveData.filter('namespace_id', 'get_namespace', table) }:root`,
+            id
+        );
+        while (typeof data?.inherit === 'string') {
+            if (!EchoLiveData.check('namespace_id', data.inherit)) break;
+            data = this.getRegistryValue(`${
+                EchoLiveData.filter('namespace_id', 'get_namespace', data.inherit)
+            }:root`, EchoLiveData.filter('namespace_id', 'get_id', data.inherit));
+        }
+        return data?.default_data;
+    }
+
+    /**
      * 设置注册表值
      * @param {String} table 注册表名
      * @param {String} key 注册表键
@@ -271,10 +291,7 @@ class EchoLiveRegistry {
         }
 
         if (typeof value === 'object') value = JSON.parse(JSON.stringify(value));
-        const defaultData = this.getRegistryValue(
-            `${ EchoLiveData.filter('namespace_id', 'get_namespace', table) }:root`,
-            EchoLiveData.filter('namespace_id', 'get_id', table)
-        )?.default_data;
+        const defaultData = this.getRegistryDefaultValue(table);
 
         const __setReg = v2 => {
             if (typeof defaultData === 'object' && typeof v2 === 'object' && !Array.isArray(v2)) {

@@ -98,11 +98,17 @@ class EchoLiveRegistry {
     static __deepMerge(target, source) {
         target = JSON.parse(JSON.stringify(target));
         for (let key in source) {
-            if (source[key] instanceof Object && !Array.isArray(source[key]) && key in target) {
-                Object.assign(source[key], EchoLiveRegistry.__deepMerge(target[key], source[key]));
-            } else if (Array.isArray(source[key]) && key in target) {
+            if (
+                source[key] instanceof Object &&
+                !Array.isArray(source[key]) &&
+                key in target &&
+                target[key] instanceof Object &&
+                !Array.isArray(target[key]) 
+            ) {
+                target[key] = EchoLiveRegistry.__deepMerge(target[key], source[key]);
+            } else if (Array.isArray(source[key]) && key in target && Array.isArray(target[key])) {
                 target[key] = target[key].concat(source[key]);
-            } else {
+            } else if (source[key] !== undefined) {
                 target[key] = source[key];
             }
         }
@@ -289,6 +295,8 @@ class EchoLiveRegistry {
             fill: false,
             trigger_disable: false
         }
+
+        if (table == "echolive:palette") debugger
 
         if (typeof value === 'object') value = JSON.parse(JSON.stringify(value));
         const defaultData = this.getRegistryDefaultValue(table);

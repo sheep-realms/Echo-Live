@@ -93,11 +93,11 @@ commander.link.systemNotice = sysNotice;
 commander.link.window = uniWindow;
 let commanderFnMode = false;
 
+let elb;
+
 $(document).ready(function() {
     $('#ptext-editor .editor-bottom-bar .length').text($t('editor.form.text_length', { n: 0 }));
     $('.tabpage-panel[data-pageid="ptext"] .editor-controller').append(EditorForm.editorController('ptext-content'));
-
-    let elb;
 
     if (config.echo.print_speed != 30) {
         $('.echo-editor-form-input-tip').text($t('editor.form.description.print_speed_custom', { value: config.echo.print_speed }));

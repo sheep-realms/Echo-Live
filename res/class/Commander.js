@@ -22,6 +22,17 @@ class Commander {
                     }
                 ]
             }, {
+                name: 'livedisplay',
+                parameters: [
+                    {
+                        type: 'select',
+                        value: ['hidden', 'show'],
+                        required: true
+                    }, {
+                        type: 'any'
+                    }
+                ]
+            }, {
                 name: 'next',
                 parameters: [
                     {
@@ -451,6 +462,25 @@ class Commander {
                     'code'
                 );
         }
+    }
+
+    livedisplay(state, target) {
+        if (this.link.broadcast == undefined) return this.__messageConstructor('common', StateMessage.getFail('not_broadcast'));
+        target = this.__getBroadcastTarget(target);
+        switch (state) {
+            case 'hidden':
+                this.link.broadcast.sendLiveDisplay(false, target);
+                break;
+
+            case 'show':
+                this.link.broadcast.sendLiveDisplay(true, target);
+                break;
+        
+            default:
+                break;
+        }
+
+        return this.__broadcastMessageConstructor('set_live_display', target);
     }
 
     next(target) {

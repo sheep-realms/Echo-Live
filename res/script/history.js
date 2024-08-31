@@ -14,6 +14,10 @@ echoLiveHistory.on('newHistory', function(e) {
     sendHistory(e.username, e.message);
 });
 
+echoLiveHistory.on('clearHistory', function() {
+    $('#echo-live-history-message-list').text('');
+});
+
 echoLiveHistory.on('shutdown', function(reason) {
     $('html').removeClass('echo-live-history-latest-message-hide');
 

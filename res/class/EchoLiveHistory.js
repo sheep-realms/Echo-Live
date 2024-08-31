@@ -7,6 +7,7 @@ class EchoLiveHistory {
         this.prevMessage    = {};
         this.theme          = [];
         this.event          = {
+            clearHistory:         function() {},
             newHistory:         function() {},
             shutdown:           function() {},
             themeScriptLoad:    function() {},
@@ -74,6 +75,13 @@ class EchoLiveHistory {
         ) return;
         this.prevMessage = data;
         this.event.newHistory(data);
+    }
+
+    /**
+     * 清空历史记录
+     */
+    clear() {
+        this.event.clearHistory();
     }
 
     /**

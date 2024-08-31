@@ -417,6 +417,7 @@ class EchoLive {
     displayShow(taskID = EchoLive.INVALID_TASK_ID) {
         if (!this.idle) return this.endTask(taskID);
         this.idle = false;
+        this.broadcast.displayUpdate(true);
         this.event.displayShow(() => {
             this.endTask(taskID);
         });
@@ -429,6 +430,7 @@ class EchoLive {
     displayHidden(taskID = EchoLive.INVALID_TASK_ID) {
         if (this.idle) return this.endTask(taskID);
         this.idle = true;
+        this.broadcast.displayUpdate(false);
         this.event.displayHidden(() => {
             this.endTask(taskID);
         });

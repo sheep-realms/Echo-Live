@@ -867,7 +867,13 @@ const db_config_define = [
         name: 'history.message.live_display_hidden_latest_message_show',
         type: 'boolean',
         default: true,
-        created: 7
+        created: 7,
+        conditions: [
+            {
+                name: 'history.message.latest_message_hide',
+                value: true
+            }
+        ]
     },
 
 

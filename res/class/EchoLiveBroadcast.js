@@ -937,6 +937,13 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
             case EchoLiveBroadcast.API_NAME_HISTORY_CLEAR:
                 listener.echoLiveHistory.clear();
                 break;
+
+            case EchoLiveBroadcast.API_NAME_LIVE_DISPLAY_UPDATE:
+                if (
+                    listener.config.history.message.live_display_hidden_latest_message_show &&
+                    !data.data?.display
+                ) listener.echoLiveHistory.changeLatestHistoryDisplay(true);
+                break;
         
             default:
                 break;

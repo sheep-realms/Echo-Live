@@ -7,11 +7,12 @@ class EchoLiveHistory {
         this.prevMessage    = {};
         this.theme          = [];
         this.event          = {
-            clearHistory:         function() {},
-            newHistory:         function() {},
-            shutdown:           function() {},
-            themeScriptLoad:    function() {},
-            themeScriptUnload:  function() {},
+            latestHistoryDisplayChange:     function() {},
+            clearHistory:                   function() {},
+            newHistory:                     function() {},
+            shutdown:                       function() {},
+            themeScriptLoad:                function() {},
+            themeScriptUnload:              function() {},
         };
 
         this.init();
@@ -74,6 +75,7 @@ class EchoLiveHistory {
             && JSON.stringify(data) === JSON.stringify(this.prevMessage)
         ) return;
         this.prevMessage = data;
+        this.changeLatestHistoryDisplay(false);
         this.event.newHistory(data);
     }
 
@@ -82,6 +84,14 @@ class EchoLiveHistory {
      */
     clear() {
         this.event.clearHistory();
+    }
+
+    /**
+     * 更改最新历史记录的显示状态
+     * @param {Boolean} display 是否显示
+     */
+    changeLatestHistoryDisplay(display = false) {
+        this.event.latestHistoryDisplayChange(display);
     }
 
     /**

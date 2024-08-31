@@ -512,6 +512,10 @@ const lang_zho_Hant_TW = {
                 latest_message_hide: {
                     _title: "隱藏最新的歷史記錄",
                     _description: "對話方塊在開始列印訊息時會立即傳送訊息到歷史記錄中，啟用此項可避免最新訊息立即顯示在歷史記錄中。"
+                },
+                live_display_hidden_latest_message_show: {
+                    _title: "對話方塊隱去時顯示最新的歷史記錄",
+                    _description: "在對話方塊隱去時顯示被隱藏的最新的歷史記錄。"
                 }
             }
         },

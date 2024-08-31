@@ -512,6 +512,10 @@ const lang_zho_Hans = {
                 latest_message_hide: {
                     _title: "隐藏最新的历史记录",
                     _description: "对话框在开始打印消息时会立即发送消息到历史记录中，启用此项可避免最新消息立即显示在历史记录中。"
+                },
+                live_display_hidden_latest_message_show: {
+                    _title: "对话框隐去时显示最新的历史记录",
+                    _description: "在对话框隐去时显示被隐藏的最新的历史记录。"
                 }
             }
         },

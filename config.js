@@ -120,7 +120,8 @@ const config = {
         },
         "message": {
             "remove_continuous_duplicate": true,
-            "latest_message_hide": true
+            "latest_message_hide": true,
+            "live_display_hidden_latest_message_show": true
         }
     },
     "accessible": {

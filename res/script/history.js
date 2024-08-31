@@ -28,6 +28,14 @@ echoLiveHistory.on('shutdown', function(reason) {
     }
 });
 
+echoLiveHistory.on('latestHistoryDisplayChange', function(e) {
+    if (e) {
+        $('html').addClass('echo-live-history-latest-message-show');
+    } else {
+        $('html').removeClass('echo-live-history-latest-message-show');
+    }
+});
+
 function sendHistory(username = '', message = '') {
     if (username == '' || username == undefined) username = $t('message_preview.empty_username');
     if (message == '' || message == undefined) message = $t('message_preview.empty_message');

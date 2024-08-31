@@ -296,8 +296,6 @@ class EchoLiveRegistry {
             trigger_disable: false
         }
 
-        if (table == "echolive:palette") debugger
-
         if (typeof value === 'object') value = JSON.parse(JSON.stringify(value));
         const defaultData = this.getRegistryDefaultValue(table);
 

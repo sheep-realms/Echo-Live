@@ -828,10 +828,10 @@ class Popups {
     static imageBox(index, url, isAbsolute = false, isPixelated = false) {
         return `<button
             class="image-box ${ isAbsolute ? 'image-is-absolute' : ''} ${ isPixelated ? 'image-rendering-pixelated' : ''}"
-            data-value="${ index }"
-            data-is-absolute="${ isAbsolute }"
+            data-value="${ Number(index) }"
+            data-is-absolute="${ Boolean(isAbsolute) }"
         >
-            <img src="${ url }" alt="${ $t('file.picker.image') }">
+            <img src="${ encodeURI(url) }" alt="${ $t('file.picker.image') }">
         </button>`
     }
 }

@@ -281,7 +281,7 @@ const lang_zho_Hant_HK = {
                 _description: "打印每個字符時所使用的動畫效果",
                 name: {
                     _title: "動效名稱",
-                    _description: "可用的音效名稱請見<a href='#' target='_blank'>記得在這裏填寫地址</a>。"
+                    _description: "可用的音效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>幫助文檔</a>。"
                 },
                 duration: {
                     _title: "動效用時",

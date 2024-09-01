@@ -281,7 +281,7 @@ const lang_zho_Hans = {
                 _description: "打印每个字符时所使用的动画效果",
                 name: {
                     _title: "动效名称",
-                    _description: "可用的音效名称请见<a href='#' target='_blank'>记得在这里填写地址</a>。"
+                    _description: "可用的音效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>帮助文档</a>。"
                 },
                 duration: {
                     _title: "动效用时",

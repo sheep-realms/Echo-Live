@@ -50,6 +50,7 @@ if (config.echolive.speech_synthesis.enable) {
 
 function messageOutput(text = '', hasHTML = false) {
     if (text === '') return;
+    if (text === '<br>') hasHTML = true;
     let textDOM = hasHTML ? text : `<span class="echo-chr ${inTypewriteEnd ? 'echo-typewrite-enter' : ''}">${EchoLiveTools.safeHTML(text)}</span>`;
     let exsel = inRuby ? ' ruby' : '';
     if (inTypewriteEnd) {

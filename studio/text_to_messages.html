@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Echo Live 工作室：文本转消息格式</title>
+    <title data-i18n="studio.title.text_to_messages">Echo Live 工作室：文本转消息格式</title>
     <link rel="icon" href="../res/image/favicon.ico">
     <link rel="stylesheet" href="../res/style/fh-ui.css">
     <link rel="stylesheet" href="../res/style/editor.css">
@@ -12,20 +12,16 @@
     <script src="../res/script/config-load-fail.js"></script>
     <script src="../config.js" onerror="configLoadFail()"></script>
     <script src="../app.js"></script>
+    <script src="../res/class/EchoLiveSystem.js"></script>
+    <script src="../res/data/root.js"></script>
     <script src="../lang/index.js"></script>
-    <script src="../lang/zho-Hans.js"></script>
-    <script src="../lang/zho-Hant-HK.js"></script>
-    <script src="../lang/zho-Hant-TW.js"></script>
     <script src="../res/class/Translator.js"></script>
     <script>
-        const translator = new Translator(config.global.language, lang_index);
+        const translator = new Translator(config.global.language);
         const $t = function(...e) {
             return translator.output(...e);
         };
-        translator.load(lang_zho_Hans);
-        translator.load(lang_zho_Hant_HK);
-        translator.load(lang_zho_Hant_TW);
-        $('html').attr('lang', $t('lang.code_ietf'));
+        translator.init('../');
     </script>
     <script src="../res/class/Icon.js"></script>
     <script src="../res/class/EchoLiveTools.js"></script>
@@ -96,53 +92,56 @@
 
     <div id="fh-notice" aria-live="polite"></div>
 
-    <script src="../res/script/editor-common.js"></script>
+    <script src="../res/script/i18n.js" defer></script>
+    <script src="../res/script/editor-common.js" defer></script>
     <script>
-        let sysNotice = new SystemNotice();
+        $(document).ready(function() {
+            let sysNotice = new SystemNotice();
 
-        $('#character-split').val($t('studio.text_to_messages.colon'))
+            $('#character-split').val($t('studio.text_to_messages.colon'))
 
-        $(document).on('click', '#btn-clear', function() {
-            $('#text-edit').val('');
-            $('#text-edit').focus();
-        });
-
-        $(document).on('click', '#btn-submit', function() {
-            let splitChr = String($('#character-split').val());
-            if (splitChr == '') splitChr = '：';
-            const text = String($('#text-edit').val());
-            const messages = text.split('\n');
-            let obj = {
-                username: '',
-                messages: []
-            };
-
-            messages.forEach(e => {
-                if (e == '') return obj.messages.push({
-                        message: ''
-                    });
-                let msg = e.split(splitChr);
-                if (msg.length < 2) {
-                    obj.messages.push({
-                        message: msg[0]
-                    });
-                } else {
-                    let name = msg.shift();
-                    obj.messages.push({
-                        message: msg.join(splitChr),
-                        data: {
-                            customData: {
-                                username: name
-                            }
-                        }
-                    });
-                }
+            $(document).on('click', '#btn-clear', function() {
+                $('#text-edit').val('');
+                $('#text-edit').focus();
             });
 
-            $('#meaasge-output').val(JSON.stringify(obj, null, 4));
-            $('#tabpage-nav-output').click();
-            $('#meaasge-output').focus();
-            $('#meaasge-output').select();
+            $(document).on('click', '#btn-submit', function() {
+                let splitChr = String($('#character-split').val());
+                if (splitChr == '') splitChr = '：';
+                const text = String($('#text-edit').val());
+                const messages = text.split('\n');
+                let obj = {
+                    username: '',
+                    messages: []
+                };
+
+                messages.forEach(e => {
+                    if (e == '') return obj.messages.push({
+                            message: ''
+                        });
+                    let msg = e.split(splitChr);
+                    if (msg.length < 2) {
+                        obj.messages.push({
+                            message: msg[0]
+                        });
+                    } else {
+                        let name = msg.shift();
+                        obj.messages.push({
+                            message: msg.join(splitChr),
+                            data: {
+                                customData: {
+                                    username: name
+                                }
+                            }
+                        });
+                    }
+                });
+
+                $('#meaasge-output').val(JSON.stringify(obj, null, 4));
+                $('#tabpage-nav-output').click();
+                $('#meaasge-output').focus();
+                $('#meaasge-output').select();
+            });
         });
     </script>
 </body>

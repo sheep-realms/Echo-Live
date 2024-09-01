@@ -1,0 +1,18 @@
+{
+    "meta": {
+        "title": "example",
+        "title_i18n": "",
+        "namespace": "example"
+    },
+    "register": [
+        {
+            "registry": "echolive:sound",
+            "value": {
+                "example:sonar": {
+                    "name": "example:sonar",
+                    "path": "audio/sonar.ogg"
+                }
+            }
+        }
+    ]
+}

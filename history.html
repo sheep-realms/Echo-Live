@@ -5,29 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="page_title.history">Echo Live 历史记录</title>
     <script src="lib/jquery-3.7.1.min.js"></script>
+    <script src="res/class/EchoLiveSystem.js"></script>
+    <script src="res/data/root.js"></script>
     <script src="res/class/EchoLiveTools.js"></script>
     <script src="res/class/EchoLiveBroadcast.js"></script>
     <script src="res/class/EchoLiveHistory.js"></script>
     <script src="config.js"></script>
     <script src="lang/index.js"></script>
-    <script src="lang/zho-Hans.js"></script>
-    <script src="lang/zho-Hant-HK.js"></script>
-    <script src="lang/zho-Hant-TW.js"></script>
     <script src="res/class/Translator.js"></script>
-    <script>
-        const translator = new Translator(config.global.language, lang_index);
+    <script id="translator-init">
+        const translator = new Translator(config.global.language);
         const $t = function(...e) {
             return translator.output(...e);
         };
-        translator.load(lang_zho_Hans);
-        translator.load(lang_zho_Hant_HK);
-        translator.load(lang_zho_Hant_TW);
-        $('html').attr('lang', $t('lang.code_ietf'));
+        translator.init();
     </script>
+    <script src="res/data/live_theme.js"></script>
     <script src="res/class/ExtensionManager.js"></script>
     <script src="extensions.js"></script>
-    <script src="res/script/live-pre.js"></script>
-    <script src="res/script/themes.js"></script>
+    <script src="res/script/live-pre.js" defer></script>
     <link rel="icon" href="res/image/favicon.ico">
 
     <link id="echo-live-theme" rel="stylesheet" href="res/style/live-theme/vanilla.css">
@@ -45,6 +41,7 @@
         <div class="echo-live-history-controller"></div>
     </div>
 
-    <script src="res/script/history.js"></script>
+    <script src="res/script/i18n.js" defer></script>
+    <script src="res/script/history.js" defer></script>
 </body>
 </html>

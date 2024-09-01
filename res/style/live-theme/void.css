@@ -8,6 +8,9 @@
 /* 导入：默认字体 */
 @import url("../live-common/font-family.css");
 
+/* 导入：字符打印效果 */
+@import url("../live-common/char-effect.css");
+
 /* 导入：引用符号缩进 */
 @import url("../live-common/char-indent.css");
 
@@ -110,6 +113,8 @@
 
     /* 文本不可选中 */
     user-select: none;
+    /* 下划线默认颜色 */
+    --echo-span-color: var(--echo-live-content-color);
 }
 
 
@@ -170,7 +175,7 @@
     margin-bottom: 0.5em;
     position: relative;
     left: -1em;
-    font-size: var(--echo-live-username-font-size, --echo-live-content-font-size);
+    font-size: var(--echo-live-username-font-size, var(--echo-live-content-font-size));
     color: var(--echo-live-username-color, #000);
 }
 
@@ -198,6 +203,7 @@
 }
 
 #echo-live-history-message-list {
+    box-sizing: border-box;
     gap: var(--echo-live-history-list-gap);
 }
 
@@ -209,22 +215,22 @@
     flex: var(--echo-live-history-flex-username);
     min-width: var(--echo-live-history-min-width-username);
     max-width: var(--echo-live-history-max-width-username);
-    color: var(--echo-live-history-color-username, --echo-live-history-color);
-    font-size: var(--echo-live-history-font-size-username, --echo-live-history-font-size);
+    color: var(--echo-live-history-color-username, var(--echo-live-history-font-size));
+    font-size: var(--echo-live-history-font-size-username, var(--echo-live-history-font-size));
 }
 
 #echo-live-history .history-message-item .message {
     flex: var(--echo-live-history-flex-message);
     min-width: var(--echo-live-history-min-width-message);
     max-width: var(--echo-live-history-max-width-message);
-    color: var(--echo-live-history-color-message, --echo-live-history-color);
-    font-size: var(--echo-live-history-font-size-message, --echo-live-history-font-size);
+    color: var(--echo-live-history-color-message, var(--echo-live-history-font-size));
+    font-size: var(--echo-live-history-font-size-message, var(--echo-live-history-font-size));
 }
 
 #echo-live-history .history-message-item .time {
     flex: var(--echo-live-history-flex-time);
     min-width: var(--echo-live-history-min-width-time);
     max-width: var(--echo-live-history-max-width-time);
-    color: var(--echo-live-history-color-time, --echo-live-history-color);
-    font-size: var(--echo-live-history-font-size-time, --echo-live-history-font-size);
+    color: var(--echo-live-history-color-time, var(--echo-live-history-font-size));
+    font-size: var(--echo-live-history-font-size-time, var(--echo-live-history-font-size));
 }

@@ -307,6 +307,7 @@ input.code {
     padding: 8px 0 0 0;
     opacity: 1;
     flex-wrap: wrap;
+    gap: 4px;
 }
 
 .editor-controller.disabled {
@@ -328,6 +329,10 @@ input.code {
 .editor-controller.disabled+label{
     opacity: 1;
     pointer-events: all;
+}
+
+.editor-controller .editor-format-btn {
+    margin: unset;
 }
 
 .editor-controller .fh-icon-button>svg {
@@ -1233,6 +1238,10 @@ select:focus {
     }
 }
 
+.fh-notice-item.has-click {
+    cursor: pointer;
+}
+
 .fh-notice-item.fh-safe {
     --fh-notice-theme-color: var(--color-safe);
 }
@@ -1558,10 +1567,10 @@ select:focus {
     padding-left: 6px;
 }
 
-.fh-msgbox-controller .fh-icon-button>svg {
+/* .fh-msgbox-controller .fh-icon-button>svg {
     position: relative;
     top: 1px;
-}
+} */
 
 @media screen and (max-width: 450px) {
     .fh-msgbox-controller .fh-button {
@@ -1602,4 +1611,269 @@ select:focus {
 
 .releases-view .releases-view-body {
     padding-bottom: calc(var(--height) / 3);
+}
+
+
+
+.fh-button .fh-label-text {
+    position: relative;
+    top: -0.0625em;
+}
+
+.fh-input-component {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.fh-input-label {
+    --label-color: var(--text-placeholder);
+    font-size: var(--font-size-middle);
+    box-sizing: border-box;
+    padding: 0.25em 0.5em;
+    border: unset;
+    border-bottom: var(--border-color) 1px solid;
+    background-color: var(--input-bgcolor);
+    transition: border-color .3s;
+    height: calc(var(--font-size-base) + 20px);
+    color: var(--label-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25em;
+    cursor: text;
+    user-select: none;
+    transition: color .3s;
+}
+
+.fh-input-label-primary {
+    --label-color: var(--text-regular);
+}
+
+.fh-input-label-type-after {
+    padding-inline-start: 0.25em;
+}
+
+.fh-input-label-type-before {
+    padding-inline-end: 0.25em;
+}
+
+.fh-input-label.fh-input-label-only-icon {
+    padding-inline-start: 0.25em;
+    padding-inline-end: 0.25em;
+}
+
+.fh-input-component .fh-input:focus ~ .fh-input-label {
+    border-color: var(--color-general);
+}
+
+.fh-input-component .fh-input:focus ~ .fh-input-label-primary {
+    --label-color: var(--text-primary);
+}
+
+.fh-input-component .fh-input:out-of-range ~ .fh-input-label {
+    border-color: var(--color-danger);
+}
+
+.fh-input-label .text {
+    position: relative;
+    top: -0.05em;
+}
+
+.fh-input-label .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fh-input-label .icon,
+.fh-input-label .icon svg {
+    width: calc(var(--font-size-base) + 8px);
+    height: calc(var(--font-size-base) + 8px);
+}
+
+.fh-input-label .icon svg {
+    fill: var(--label-color);
+    transition: fill .3s;
+}
+
+.fh-component-group-range-input {
+    display: flex;
+}
+
+.fh-component-group-range-input .fh-input-component.fh-input-type-range {
+    flex: 1;
+}
+
+.fh-component-group-range-input .fh-input-component.fh-input-type-number {
+    min-width: 4em;
+    max-width: 6em;
+    margin-inline-start: 16px;
+}
+
+.fh-input-select-component {
+    width: 100%;
+}
+
+.fh-select-option-list {
+    top: -1000px;
+    left: -1000px;
+    --select-list-width-auto: auto;
+    --select-option-height: calc(var(--font-size-base) + 20px);
+    position: absolute;
+    box-shadow: var(--box-shadow);
+    background-color: var(--input-bgcolor);
+    width: min(var(--select-list-width, var(--select-list-width-auto)), calc(100vw - 32px));
+    max-height: calc(var(--select-option-height) * 10);
+    transition: opacity .3s;
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-sizing: border-box;
+    scroll-snap-type: y mandatory;
+    z-index: 2000;
+}
+
+.fh-select-option-list.has-description {
+    --select-option-height: calc(var(--font-size-base) + var(--font-size-small) + 28px);
+    max-height: calc(var(--select-option-height) * 6);
+}
+
+.fh-select-option-list.hide {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.fh-select-option-list.hide .fh-select-option {
+    visibility: hidden;
+}
+
+.fh-select-option-list .fh-select-option {
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.35em 0.75em 0.35em 0.5em;
+    cursor: pointer;
+    min-height: var(--select-option-height);
+    box-sizing: border-box;
+    user-select: none;
+    font-size: var(--font-size-base);
+    transition: background-color var(--animation-speed-button-switch);
+    gap: 0.5em;
+    scroll-snap-align: start;
+}
+
+.fh-select-option-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.fh-select-option-list .fh-select-option:first-child {
+    --corner-marker-color: rgba(0, 0, 0, 0.25);
+    background-image: var(--corner-marker);
+}
+
+.fh-select-option-list .fh-select-option[aria-selected="true"] {
+    --corner-marker-color: var(--color-general-dark);
+    background-image: var(--corner-marker);
+}
+
+.fh-select-option-list .fh-select-option[aria-selected="true"] .title {
+    font-weight: bold;
+}
+
+.fh-select-option-list .fh-select-option:hover,
+.fh-select-option-list .fh-select-option:focus-visible {
+    background-color: var(--color-general-glass);
+}
+
+.fh-select-option-list .fh-select-option:active:not(.fh-disabled, :disabled) {
+    transition: filter 0s, background-color 0s;
+    filter: brightness(0.85);
+}
+
+.fh-select-option-list:not(.hide) {
+    animation: fh-selece-option-list-in .3s ease-out 0s 1;
+}
+
+.fh-select-option-list.hide {
+    animation: fh-selece-option-list-out .3s ease-out 0s 1;
+}
+
+@keyframes fh-selece-option-list-in {
+    0% { overflow-y: hidden; }
+    100% { overflow-y: hidden; }
+}
+
+@keyframes fh-selece-option-list-out {
+    0% { overflow-y: hidden; }
+    100% { overflow-y: hidden; }
+}
+
+.fh-select-option-list.offset-top:not(.hide) .fh-select-option {
+    animation: fh-selece-option-move-in-top .3s ease-out 0s 1;
+}
+
+.fh-select-option-list.offset-bottom:not(.hide) .fh-select-option {
+    animation: fh-selece-option-move-in-bottom .3s ease-out 0s 1;
+}
+
+.fh-select-option-list.offset-center:not(.hide) .fh-select-option {
+    animation: fh-selece-option-move-in-center .3s ease-out 0s 1;
+}
+
+@keyframes fh-selece-option-move-in-top {
+    0% { position: relative; top: 8px; opacity: 0; scroll-snap-align: unset; }
+    100% { position: relative; top: 0px; opacity: 1; scroll-snap-align: unset; }
+}
+
+@keyframes fh-selece-option-move-in-bottom {
+    0% { position: relative; top: -8px; opacity: 0; scroll-snap-align: unset; }
+    100% { position: relative; top: 0px; opacity: 1; scroll-snap-align: unset; }
+}
+
+@keyframes fh-selece-option-move-in-center {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.fh-select-option-list.closed {
+    display: none;
+}
+
+.fh-select-option .title {
+    color: var(--text-primary);
+}
+
+.fh-select-option .description {
+    color: var(--text-secondary);
+    font-size: var(--font-size-small);
+    font-weight: 300;
+}
+
+.fh-select-option .selected-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+}
+
+.fh-select-option[aria-selected="true"] .selected-icon {
+    opacity: 1;
+}
+
+.fh-select-option .selected-icon,
+.fh-select-option .selected-icon svg {
+    width: calc(var(--font-size-base) + 8px);
+    height: calc(var(--font-size-base) + 8px);
+}
+
+.fh-select-option .selected-icon svg {
+    fill: var(--color-general-dark);
 }

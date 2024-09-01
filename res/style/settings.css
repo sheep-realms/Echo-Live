@@ -326,6 +326,8 @@
     flex: 1;
     text-align: left;
     word-break: break-word;
+    position: relative;
+    top: -0.0625em;
 }
 
 @media screen and (max-width: 760px) {
@@ -497,6 +499,7 @@
 
 .settings-item.settings-item-condition-test-fail>.value:focus-within {
     opacity: 1;
+    transition: opacity 0s ;
 }
 
 .settings-item .meta {
@@ -615,7 +618,10 @@
     width: 100%;
 }
 
-.settings-item input[type=number], input[type=text] {
+.settings-item input[type=number],
+.settings-item input[type=text],
+.settings-item .fh-input-component,
+.settings-item .fh-input-select-component {
     flex: 1;
 }
 
@@ -886,4 +892,11 @@ a.settings-link-bar:active {
 
 .review-color-card .danger .bg {
     background-color: var(--color-danger-dark);
+}
+
+
+
+
+.settings-about-content:not(.settings-link-debug-show) .settings-link-debug {
+    display: none;
 }

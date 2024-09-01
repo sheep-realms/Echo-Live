@@ -18,33 +18,38 @@
     <script src="res/script/config-load-fail.js"></script>
     <script src="config.js" onerror="configLoadFail()"></script>
     <script src="app.js"></script>
+    <script src="res/class/EchoLiveSystem.js"></script>
+    <script src="res/data/root.js"></script>
     <script src="lang/index.js"></script>
-    <script src="lang/zho-Hans.js"></script>
-    <script src="lang/zho-Hant-HK.js"></script>
-    <script src="lang/zho-Hant-TW.js"></script>
     <script src="res/class/Translator.js"></script>
-    <script>
-        const translator = new Translator(config.global.language, lang_index);
+    <script id="translator-init">
+        const translator = new Translator(config.global.language);
         const $t = function(...e) {
             return translator.output(...e);
         };
-        translator.load(lang_zho_Hans);
-        translator.load(lang_zho_Hant_HK);
-        translator.load(lang_zho_Hant_TW);
-        $('html').attr('lang', $t('lang.code_ietf'));
+        translator.init();
     </script>
+    <script src="res/data/sound.js"></script>
+    <script src="res/data/settings_navigation.js"></script>
+    <script src="res/data/settings_about_link.js"></script>
+    <script src="res/data/print_effect.js"></script>
+    <script src="res/data/live_theme.js"></script>
+    <script src="res/data/timing_function.js"></script>
+    <script src="res/data/border_style.js"></script>
+    <script src="res/data/palette.js"></script>
+    <script src="res/data/emoji.js"></script>
     <script src="res/class/Mixer.js"></script>
-    <script src="res/script/sounds.js"></script>
     <script src="res/class/Icon.js"></script>
     <script src="res/class/EchoLiveTools.js"></script>
+    <script src="res/class/FHUI.js"></script>
     <script src="res/class/EditorConstructor.js"></script>
     <script src="res/class/SettingsManager.js"></script>
-    <script src="res/script/config-define.js"></script>
+    <script src="res/data/config_define.js"></script>
     <script src="res/class/SystemNotice.js"></script>
     <script src="res/class/LocalStorageManager.js"></script>
     <script src="res/class/UniverseWindow.js"></script>
     <script src="res/class/Updater.js"></script>
-    <script src="res/script/settings.js"></script>
+    <script src="res/script/settings.js" defer></script>
 </head>
 <body>
     <main>
@@ -139,6 +144,7 @@
                                         <p>④ <span class="settings-about-footer-var-4"></span></p>
                                         <p>⑤ <span class="settings-about-footer-var-5"></span></p>
                                         <p>⑥ <span class="settings-about-footer-var-6"></span></p>
+                                        <p>⑦ <span class="settings-about-footer-var-7"></span></p>
                                     </div>
                                 </div>
                             </div>
@@ -175,7 +181,8 @@
 
     <div id="fh-notice" aria-live="polite"></div>
 
-    <script src="res/script/editor-common.js"></script>
-    <script src="res/script/help/settings-help.js"></script>
+    <script src="res/script/i18n.js" defer></script>
+    <script src="res/script/editor-common.js" defer></script>
+    <script src="res/script/help/settings-help.js" defer></script>
 </body>
 </html>

@@ -1,42 +1,17 @@
 class EchoLiveEditor {
     constructor(config) {
-        this.palette    = [];
         this.emojiHako  = undefined;
         this.config     = config;
     }
 
-    addPalette(data) {
-        let pi = this.findPaletteIndex(data.meta.name);
-        if (pi === -1) return this.palette.push(data);
-        return this.palette[pi] = {
-            ...this.palette[pi],
-            ...data
-        }
-    }
-
-    pushPalette(array = []) {
-        array.forEach(p => {
-            this.addPalette(p);
-        });
-        return;
-    }
-
-    findPalette(name) {
-        return this.palette.find(e => e.meta.name == name);
-    }
-
-    findPaletteIndex(name) {
-        return this.palette.findIndex(e => e.meta.name == name);
-    }
-
     getPalettes() {
         let palettes = this.config.editor.color_picker.palette;
-        if (typeof palettes === 'string' && palettes === 'all') return this.palette;
-        if (!Array.isArray(palettes)) return this.palette;
+        if (typeof palettes === 'string' && palettes === 'all') return echoLiveSystem.registry.getRegistryArray('palette');
+        if (!Array.isArray(palettes)) return echoLiveSystem.registry.getRegistryArray('palette');
 
         let output = [];
         palettes.forEach(e => {
-            let p = this.findPalette(e);
+            let p = echoLiveSystem.registry.getRegistryValue('palette', e);
             if (p != undefined) output.push(p);
         });
 

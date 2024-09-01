@@ -1,9 +1,36 @@
 class Translator {
     constructor(lang='zho-Hans', langIndex = {}) {
         this.lang = lang;
-        this.langMain = langIndex.main;
+        this.langMain = undefined;
         this.i18n = {};
         this.langIndex = langIndex;
+        this.initialized = false;
+        this.loaded = false;
+    }
+
+    init(path = '') {
+        if (this.initialized) return;
+        const mainLang = echoLiveSystem.registry.getRegistryValue('system', 'main_language');
+        const langIndex = echoLiveSystem.registry.getRegistryArray('language_index');
+        this.langIndex = langIndex;
+        this.langMain = mainLang;
+        const mainLangData = langIndex.filter(e => e.code == mainLang)[0];
+        const selectedLangData = langIndex.filter(e => e.code == this.lang)[0];
+        this.initialized = true;
+        echoLiveSystem.registry.onSetRegistryValue('language', '*', data => {
+            this.load(data.value);
+        });
+        this.loadScript(path, mainLangData.url);
+        if (this.lang !== mainLang) this.loadScript(path, selectedLangData.url);
+    }
+
+    loadScript(path = '', url = '') {
+        // let element = document.getElementById('translator-init');
+        // element.insertAdjacentHTML('afterend', `<script src="${ path }lang/${ url }"></script>`);
+        let s   = document.createElement("script");
+                s.src   = `${ path }lang/${ url }`;
+                s.async = false;
+                document.head.appendChild(s);
     }
 
     output(key, variable={}, __inPlanB = false) {
@@ -21,6 +48,7 @@ class Translator {
 
         // 配置排错
         if (this.i18n[this.lang] == undefined) this.lang = this.langMain;
+        if (this.i18n[this.lang] == undefined) return key;
 
         // 提取翻译文本
         let keys = key.split('.');
@@ -88,5 +116,9 @@ class Translator {
 
     load(i18nList) {
         this.i18n[i18nList.lang.code_iso_639_3] = i18nList;
+        if (!this.loaded && i18nList.lang.code_iso_639_3 === this.lang) {
+            this.loaded = true;
+            $('html').attr('lang', $t('lang.code_ietf'));
+        }
     }
 }

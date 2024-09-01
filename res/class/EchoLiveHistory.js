@@ -7,10 +7,12 @@ class EchoLiveHistory {
         this.prevMessage    = {};
         this.theme          = [];
         this.event          = {
-            newHistory:         function() {},
-            shutdown:           function() {},
-            themeScriptLoad:    function() {},
-            themeScriptUnload:  function() {},
+            latestHistoryDisplayChange:     function() {},
+            clearHistory:                   function() {},
+            newHistory:                     function() {},
+            shutdown:                       function() {},
+            themeScriptLoad:                function() {},
+            themeScriptUnload:              function() {},
         };
 
         this.init();
@@ -28,11 +30,7 @@ class EchoLiveHistory {
      * 初始化
      */
     init() {
-        window.addEventListener("error", (e) => {
-            const msg       = e.error       != null ? e.error.stack : e.message;
-            const filename  = e.filename    != ''   ? e.filename    : 'null';
-            this.broadcast.error(msg, filename, e.lineno, e.colno);
-        });
+        this.theme = echoLiveSystem.registry.getRegistryArray('live_theme');
 
         if (this.config.echolive.sleep.enable) {
             document.addEventListener("visibilitychange", () => {
@@ -46,6 +44,11 @@ class EchoLiveHistory {
 
         if (this.config.echolive.broadcast.enable) {
             this.broadcast = new EchoLiveBroadcastHistory(this.config.echolive.broadcast.channel, this, this.config);
+            window.addEventListener("error", (e) => {
+                const msg       = e.error       != null ? e.error.stack : e.message;
+                const filename  = e.filename    != ''   ? e.filename    : 'null';
+                this.broadcast.error(msg, filename, e.lineno, e.colno);
+            });
             this.broadcast.on('shutdown', reason => this.shutdown(reason));
         }
     }
@@ -72,7 +75,23 @@ class EchoLiveHistory {
             && JSON.stringify(data) === JSON.stringify(this.prevMessage)
         ) return;
         this.prevMessage = data;
+        this.changeLatestHistoryDisplay(false);
         this.event.newHistory(data);
+    }
+
+    /**
+     * 清空历史记录
+     */
+    clear() {
+        this.event.clearHistory();
+    }
+
+    /**
+     * 更改最新历史记录的显示状态
+     * @param {Boolean} display 是否显示
+     */
+    changeLatestHistoryDisplay(display = false) {
+        this.event.latestHistoryDisplayChange(display);
     }
 
     /**

@@ -14,6 +14,12 @@ class SettingsManager {
         });
     }
 
+    getDeletedConfigDefine(verMin = 0, verMax = 100000) {
+        return this.configDefine.filter((e) => {
+            return e.deleted >= verMin && e.deleted <= verMax;
+        });
+    }
+
     findConfigDefine(name) {
         return this.configDefine.find((e) => {
             return e.name == name;
@@ -115,6 +121,11 @@ class SettingsManager {
                         this.deleteConfig(e.from);
                     }
                 }
+            });
+
+            let dcd = this.getDeletedConfigDefine(this.config.data_version, this.config.data_version);
+            dcd.forEach(e => {
+                this.deleteConfig(e.name);
             });
         }
         

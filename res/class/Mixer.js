@@ -1,12 +1,8 @@
 class Mixer {
-    constructor() {
-        this.audioDB = [];
-    }
+    constructor() {}
 
     find(name) {
-        return this.audioDB.find(function(e) {
-            return e.name == name
-        });
+        return echoLiveSystem.registry.getRegistryValue('sound', name);
     }
 
     play(name, volume = undefined, rate = undefined) {
@@ -43,3 +39,4 @@ class Mixer {
 }
 
 let mixer = new Mixer();
+echoLiveSystem.mixer = mixer;

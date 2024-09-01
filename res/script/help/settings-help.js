@@ -80,7 +80,12 @@ function driverShowOverview() {
                 driverObj.moveNext();
             }
         },
-        null,
+        {
+            onNextClick: () => {
+                window.scrollTo(0, document.documentElement.scrollHeight + 100);
+                driverObj.moveNext();
+            }
+        },
         {
             side: 'top'
         }, {

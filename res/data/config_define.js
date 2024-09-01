@@ -1,4 +1,4 @@
-const db_config_version = 6;
+const db_config_version = 7;
 
 const db_config_define = [
     {
@@ -52,6 +52,7 @@ const db_config_define = [
         type: 'number',
         default: 30,
         created: 1,
+        unit: 'ms',
         attribute: {
             min: 4
         }
@@ -77,7 +78,10 @@ const db_config_define = [
         type: 'string',
         default: '',
         from: 'echolive.live_theme',
-        created: 4
+        created: 4,
+        attribute: {
+            datalist: []
+        }
     }, {
         name: 'echolive.style.live_theme_script_enable',
         type: 'boolean',
@@ -198,6 +202,7 @@ const db_config_define = [
         default: 250,
         from: 'echolive.messages_polling_tick',
         created: 4,
+        unit: 'ms',
         attribute: {
             min: 4
         },
@@ -349,6 +354,45 @@ const db_config_define = [
             }
         ]
     }, {
+        name: 'echolive.print_effect',
+        type: 'object',
+        created: 7
+    }, {
+        name: 'echolive.print_effect.name',
+        type: 'string',
+        default: 'none',
+        created: 7,
+        attribute: {
+            datalist: []
+        }
+    }, {
+        name: 'echolive.print_effect.duration',
+        type: 'number',
+        default: 250,
+        created: 7,
+        unit: 'ms',
+        attribute: {
+            min: 0,
+            step: 250
+        }
+    }, {
+        name: 'echolive.print_effect.scale',
+        type: 'number',
+        default: 1,
+        created: 7,
+        attribute: {
+            min: 0,
+            step: 0.25
+        }
+    }, {
+        name: 'echolive.print_effect.timing_function',
+        type: 'string',
+        default: 'ease-out',
+        created: 7,
+        attribute: {
+            datalist: []
+        }
+    }, {
         name: 'echolive.display',
         type: 'object',
         created: 5
@@ -362,6 +406,7 @@ const db_config_define = [
         type: 'number',
         default: 20000,
         created: 5,
+        unit: 'ms',
         attribute: {
             min: 0,
             step: 1000
@@ -392,6 +437,7 @@ const db_config_define = [
         type: 'number',
         default: 1000,
         created: 5,
+        unit: 'ms',
         attribute: {
             min: 0,
             step: 100
@@ -401,6 +447,7 @@ const db_config_define = [
         type: 'number',
         default: 500,
         created: 5,
+        unit: 'ms',
         attribute: {
             min: 0,
             step: 100
@@ -420,7 +467,8 @@ const db_config_define = [
         default: '',
         created: 4,
         attribute: {
-            datalist: []
+            datalist: [],
+            option_width: '450px'
         },
         conditions: [
             {
@@ -463,6 +511,7 @@ const db_config_define = [
         type: 'number',
         default: 0,
         created: 4,
+        unit: 'ms',
         attribute: {
             min: 0,
             step: 100
@@ -536,16 +585,6 @@ const db_config_define = [
         created: -1
     }, {
         name: 'echolive.next_effect_duration',
-        type: 'number',
-        default: 0,
-        created: -1
-    }, {
-        name: 'echolive.print_effect_name',
-        type: 'string',
-        default: 'none',
-        created: -1
-    }, {
-        name: 'echolive.print_effect_duration',
         type: 'number',
         default: 0,
         created: -1
@@ -764,7 +803,10 @@ const db_config_define = [
         type: 'string',
         default: '',
         from: 'history.history_theme',
-        created: 4
+        created: 4,
+        attribute: {
+            datalist: []
+        }
     }, {
         name: 'history.style.history_theme_script_enable',
         type: 'boolean',
@@ -821,6 +863,17 @@ const db_config_define = [
         default: true,
         from: 'history.latest_message_hide',
         created: 4
+    }, {
+        name: 'history.message.live_display_hidden_latest_message_show',
+        type: 'boolean',
+        default: true,
+        created: 7,
+        conditions: [
+            {
+                name: 'history.message.latest_message_hide',
+                value: true
+            }
+        ]
     },
 
 
@@ -963,5 +1016,21 @@ const db_config_define = [
         name: 'character',
         type: 'object',
         created: -1
+    },
+    
+    
+    
+    {
+        name: 'echolive.print_effect_name',
+        type: 'string',
+        default: 'none',
+        created: -1,
+        deleted: 7
+    }, {
+        name: 'echolive.print_effect_duration',
+        type: 'number',
+        default: 0,
+        created: -1,
+        deleted: 7
     }
 ];

@@ -22,27 +22,6 @@ if (config.accessible.power_saving_mode) $('html').addClass('power-saving-mode')
 
 
 
-// 本地化
-let $i18n = $('*[data-i18n]');
-for (let i = 0; i < $i18n.length; i++) {
-    const e = $i18n.eq(i);
-    const key = e.data('i18n');
-    e.text($t(key));
-}
-$i18n = $('*[data-i18n-title]');
-for (let i = 0; i < $i18n.length; i++) {
-    const e = $i18n.eq(i);
-    const key = e.data('i18n-title');
-    e.attr('title', $t(key));
-}
-$i18n = $('*[data-i18n-aria-label]');
-for (let i = 0; i < $i18n.length; i++) {
-    const e = $i18n.eq(i);
-    const key = e.data('i18n-aria-label');
-    e.attr('aria-label', $t(key));
-}
-
-
 let timer = {
     clickEffect: -1
 }
@@ -486,28 +465,6 @@ $(document).on('keydown', '#popups-image', function(e) {
         default:
             break;
     }
-});
-
-// 关闭通知
-$(document).on('click', '.fh-notice-item-btn-close', function(e) {
-    if (e.shiftKey) {
-        if (config.accessible.animation_disable || $('html').hasClass('accessible-animation-disable')) return $('.fh-notice-item').remove();
-        $('.fh-notice-item:not(.fh-notice-ani-in)').addClass('fh-notice-ani-out');
-        return;
-    }
-    const $item = $(this).parents('.fh-notice-item').eq(0);
-    if (config.accessible.animation_disable || $('html').hasClass('accessible-animation-disable')) return $item.remove();
-    $item.addClass('fh-notice-ani-out');
-});
-
-// 通知入场动画结束
-$(document).on('animationend', '.fh-notice-item.fh-notice-ani-in', function() {
-    $(this).removeClass('fh-notice-ani-in');
-});
-
-// 通知退场动画结束
-$(document).on('animationend', '.fh-notice-item.fh-notice-ani-out', function() {
-    $(this).remove();
 });
 
 function paletteColorContrastCheck(value) {

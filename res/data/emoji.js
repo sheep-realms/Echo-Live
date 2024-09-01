@@ -1,4 +1,4 @@
-emojiHako.load([
+echoLiveSystem.registry.loadRegistry('emoji', e => e.meta.name, [
     {
         meta: {
             name: 'emoji',
@@ -82,12 +82,12 @@ emojiHako.load([
             review_size: 'small',
             size: {
                 width: {
-                    value: '1em',
+                    value: '1.35em',
                     max: 'unset',
                     min: 'unset'
                 },
                 height: {
-                    value: '1em',
+                    value: '1.35em',
                     max: 'unset',
                     min: 'unset'
                 }

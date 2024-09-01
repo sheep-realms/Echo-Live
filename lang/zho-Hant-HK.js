@@ -1,7 +1,7 @@
 const lang_zho_Hant_HK = {
     lang: {
         code_iso_639_3: "zho-Hant-HK",
-        code_ietf: "zh-Hans-HK",
+        code_ietf: "zh-Hant-HK",
         title: "繁體中文（香港特別行政區）"
     },
     localization: {
@@ -52,6 +52,21 @@ const lang_zho_Hant_HK = {
             no_author: "未署名",
             no_name: "未命名"
         }
+    },
+    unit: {
+        ms: "毫秒",
+        sec: "秒"
+    },
+    border_style: {
+        none: "無",
+        solid: "實線",
+        dashed: "虛線",
+        dotted: "點線",
+        double: "雙實線",
+        groove: "凹槽",
+        ridge: "凸脊",
+        inset: "嵌入",
+        outset: "突出"
     },
     broadcast: {
         client: {
@@ -122,7 +137,7 @@ const lang_zho_Hant_HK = {
             },
             theme: {
                 _title: "全局主題",
-                _description: "控制對話框、歷史記錄等面向觀眾展示的界面主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>幫助文檔</a>。"
+                _description: "控制對話框、歷史記錄等面向觀眾展示的界面主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>幫助文檔</a>。<br>為了主題樣式的表現正常，請在 OBS 選中對話框（包括歷史記錄在內的其他前台頁面），右鍵，在彈出菜單中找到 “混合方式”，選擇 “關閉 sRGB”。"
             },
             theme_script_enable: {
                 _title: "啟用全局主題腳本",
@@ -130,7 +145,7 @@ const lang_zho_Hant_HK = {
             },
             color_scheme: {
                 _title: "後台配色方案",
-                _description: "控制後台界面的配色。可用的方案有 auto（跟隨系統）、light（淺色）和 dark（深色）。",
+                _description: "控制後台界面的配色。",
                 _value: {
                     auto: "跟隨系統",
                     dark: "深色",
@@ -206,7 +221,7 @@ const lang_zho_Hant_HK = {
                 },
                 tick: {
                     _title: "消息輪詢間隔",
-                    _description: "單位：毫秒。值越小響應越快，性能消耗越高。"
+                    _description: "值越小響應越快，性能消耗越高。"
                 },
             },
             sleep: {
@@ -261,6 +276,26 @@ const lang_zho_Hant_HK = {
                     _description: "1 為原速。"
                 }
             },
+            print_effect: {
+                _title: "字符打印動效",
+                _description: "打印每個字符時所使用的動畫效果",
+                name: {
+                    _title: "動效名稱",
+                    _description: "可用的音效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>幫助文檔</a>。"
+                },
+                duration: {
+                    _title: "動效用時",
+                    _description: "播放動畫所需時間。"
+                },
+                scale: {
+                    _title: "動效規模乘數",
+                    _description: "動畫的運動幅度乘數。"
+                },
+                timing_function: {
+                    _title: "動效時間曲線",
+                    _description: "動畫在不同時間段的運動速度。"
+                }
+            },
             display: {
                 _title: "隱去與顯現動畫",
                 _description: "調整對話框的隱去與顯現動畫的參數",
@@ -270,7 +305,7 @@ const lang_zho_Hant_HK = {
                 },
                 hidden_wait_time: {
                     _title: "閒置等候時間",
-                    _description: "進入閒置狀態的最小等候時間，單位毫秒（1 秒 = 1000 毫秒）。"
+                    _description: "進入閒置狀態的最小等候時間。"
                 },
                 long_text_compensation_rate: {
                     _title: "長文本等候時間補償率",
@@ -278,11 +313,11 @@ const lang_zho_Hant_HK = {
                 },
                 hidden_time: {
                     _title: "隱去動畫用時",
-                    _description: "對話框隱去所需時間，單位毫秒。"
+                    _description: "對話框隱去所需時間。"
                 },
                 show_time: {
                     _title: "顯現動畫用時",
-                    _description: "對話框顯現所需時間，單位毫秒。"
+                    _description: "對話框顯現所需時間。"
                 }
             },
             speech_synthesis: {
@@ -294,7 +329,7 @@ const lang_zho_Hant_HK = {
                 },
                 voice: {
                     _title: "語音資源",
-                    _description: "在這裏選擇可用的語音資源，留空則使用系統默認值。<br>在內容為空的情況下，點擊文本框即可列出所有可用的值。部分瀏覽器可能需要多點一次。<br>請注意：不同的瀏覽器會出現不同的值，一些瀏覽器會提供獨有的語音資源，例如 Chrome 的 Google 合成語音，這些語音資源不能在 OBS 中使用。語音資源能否正確使用最終取決於前台頁面所在的瀏覽器環境。<br>當所選擇的值不可用時，將使用系統默認值。"
+                    _description: "在這裏選擇可用的語音資源，留空則使用系統默認值。<br>請注意：不同的瀏覽器會出現不同的值，一些瀏覽器會提供獨有的語音資源，例如 Chrome 的 Google 合成語音，這些語音資源不能在 OBS 中使用。語音資源能否正確使用最終取決於前台頁面所在的瀏覽器環境。<br>當所選擇的值不可用時，將使用系統默認值。"
                 },
                 pitch: {
                     _title: "音高",
@@ -306,7 +341,7 @@ const lang_zho_Hant_HK = {
                 },
                 delay: {
                     _title: "延遲",
-                    _description: "在消息發出後延遲讀出，單位為毫秒，1000 毫秒為 1 秒。"
+                    _description: "在消息發出後延遲讀出。"
                 },
                 speech_emoji: {
                     _title: "讀出表情符號",
@@ -477,6 +512,10 @@ const lang_zho_Hant_HK = {
                 latest_message_hide: {
                     _title: "隱藏最新的歷史記錄",
                     _description: "對話框在開始打印消息時會立即發送消息到歷史記錄中，啟用此項可避免最新消息立即顯示在歷史記錄中。"
+                },
+                live_display_hidden_latest_message_show: {
+                    _title: "對話框隱去時顯示最新的歷史記錄",
+                    _description: "在對話框隱去時顯示被隱藏的最新的歷史記錄。"
                 }
             }
         },
@@ -497,7 +536,7 @@ const lang_zho_Hant_HK = {
             },
             high_contrast_outline_style: {
                 _title: "焦點高亮邊框樣式",
-                _description: "焦點元素邊框的樣式，可以是 solid、dotted、dashed 或 double。"
+                _description: "焦點元素邊框的樣式。"
             },
             drotanopia_and_deuteranopia: {
                 _title: "紅綠色盲",
@@ -553,6 +592,10 @@ const lang_zho_Hant_HK = {
                 }
             }
         },
+        extension: {
+            _title: "擴展管理器",
+            _description: "管理擴展包",
+        },
         about: {
             _title: "關於",
             _description: "軟件資訊",
@@ -569,7 +612,12 @@ const lang_zho_Hant_HK = {
             security: "安全政策",
             security_advisory_new: "報告安全漏洞",
             social_media: "社交媒體",
-            user_guide: "用戶指南"
+            user_guide: "用戶指南",
+            debug: {
+                title: "調試選項",
+                console_local_storage: "輸出：Local Storage",
+                console_registry: "輸出：註冊表"
+            }
         }
     },
     echolive: {
@@ -591,6 +639,9 @@ const lang_zho_Hant_HK = {
             play: "打印中",
             ready: "就緒",
             stop: "停止"
+        },
+        emoji: {
+            select: "表情包"
         },
         form: {
             text_length: "{n} 字符",
@@ -917,6 +968,17 @@ const lang_zho_Hant_HK = {
             hot_key_textarea_quick_send: "當焦點在此文本框中時，可以按下 Ctrl + Enter 快速發送"
         }
     },
+    effect: {
+        print: {
+            blur_in: "聚焦",
+            fade_in: "淡入",
+            move_in_down: "從下方移入",
+            move_in_up: "從上方移入",
+            none: "無",
+            zoom_in_inside: "放大進入",
+            zoom_in_outside: "縮小進入"
+        }
+    },
     emoji: {
         emoji: {
             title: 'Emoji',
@@ -1236,6 +1298,7 @@ const lang_zho_Hant_HK = {
             title: "漂亮的搶救！",
             message: "您已經掌握了如何操作瀏覽器縮放。請注意，<kbd>Ctrl</kbd> + <kbd>-</kbd> 和 <kbd>Ctrl</kbd> + <kbd>+</kbd> 組合鍵可以調整瀏覽器縮放，當心誤操作！"
         },
+        debug_mode: "已啟用調試選項！",
         drop_file_cancel_many: "你倒是放啊！",
         github_download_but_no_assets: {
             title: "讓我們開始下載...... 等一下？",
@@ -1322,6 +1385,10 @@ const lang_zho_Hant_HK = {
             echo: {
                 title: "關於 Echo",
                 description: "Echo 是 Echo-Live 的內核，提供了文本滾動輸出功能。<br>它是一個工具庫，任何人都可以使用 Echo 創建自己的文本展示項目。<br>如果您有興趣了解 Echo，請見其 <a href='https://github.com/sheep-realms/Echo' target='_blank'>GitHub 倉庫</a>。"
+            },
+            extension: {
+                title: "在做了在做了！！！",
+                description: "為了讓擴展的功能變得更強大，我對 Echo-Live 的數據加載邏輯進行了一場驚天地泣鬼神的更改，於是原有的擴展系統不管用了...... 不不不，我不是那個意思！新的擴展系統需要很多配套設施，很多人非常期待這個版本的更新，所以擴展系統的更新需要延後了。如果不出意外的話，它很快就會回來的！"
             }
         },
         tabpage: {
@@ -1339,7 +1406,18 @@ const lang_zho_Hant_HK = {
             }
         }
     },
+    sound: {
+        typewriter: "打字機",
+        typewriter_loop: "打字機（隨機音效）",
+        sys001: "清脆敲擊",
+        sys002: "嗡嗡",
+        sys003: "冒泡",
+        enter: "打字機回車"
+    },
     studio: {
+        title: {
+            text_to_messages: "Echo Live 工作室：文本轉消息格式"
+        },
         text_to_messages: {
             colon: "：",
             label: {
@@ -1358,6 +1436,25 @@ const lang_zho_Hant_HK = {
             }
         }
     },
+    timing_function: {
+        ease: "平滑",
+        linear: "線性",
+        ease_in: "緩出",
+        ease_out: "緩入",
+        ease_in_out: "緩入緩出",
+        ease_in_sine: "正弦緩出",
+        ease_out_sine: "正弦緩入",
+        ease_in_out_sine: "正弦緩入緩出",
+        ease_in_cubic: "三次方緩出",
+        ease_out_cubic: "三次方緩入",
+        ease_in_out_cubic: "三次方緩入緩出",
+        ease_in_circ: "圓形緩出",
+        ease_out_circ: "圓形緩入",
+        ease_in_out_circ: "圓形緩入緩出",
+        ease_in_back: "回退緩出",
+        ease_out_back: "回退緩入",
+        ease_in_out_back: "回退緩入緩出"
+    },
     window: {
         clear_local_storage: {
             title: "清除本地存儲數據",
@@ -1365,3 +1462,5 @@ const lang_zho_Hant_HK = {
         }
     }
 };
+
+echoLiveSystem.registry.setLanguageRegistryValue(lang_zho_Hant_HK);

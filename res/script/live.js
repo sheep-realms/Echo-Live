@@ -3,12 +3,15 @@
 let echo = new Echo();
 if (config.echo.html_format_enable != true) echo.filter.HTMLFormat = false;
 let echolive = new EchoLive(echo, config);
-echolive.theme = extensionManager.theme;
 let urlTheme = EchoLiveTools.getUrlParam('theme');
 echolive.setTheme(urlTheme || config.echolive.style.live_theme || config.global.theme);
 
 $('html').css('--animation-speed-display-hidden', config.echolive.display.hidden_time + 'ms');
 $('html').css('--animation-speed-display-show', config.echolive.display.show_time + 'ms');
+$('html').css('--char-effect-name', config.echolive.print_effect.name);
+$('html').css('--char-effect-speed', config.echolive.print_effect.duration + 'ms');
+$('html').css('--char-effect-scale', config.echolive.print_effect.scale);
+$('html').css('--char-effect-timing-function', config.echolive.print_effect.timing_function);
 
 let data;
 
@@ -45,16 +48,18 @@ if (config.echolive.speech_synthesis.enable) {
     if (config.echolive.speech_synthesis.voice != '') voiceIndex = voices.findIndex(e => e.name == config.echolive.speech_synthesis.voice);
 }
 
-function messageOutput(text = '') {
+function messageOutput(text = '', hasHTML = false) {
+    if (text === '') return;
+    let textDOM = hasHTML ? text : `<span class="echo-chr ${inTypewriteEnd ? 'echo-typewrite-enter' : ''}">${EchoLiveTools.safeHTML(text)}</span>`;
     let exsel = inRuby ? ' ruby' : '';
     if (inTypewriteEnd) {
         inTypewriteEnd = false;
-        $('.echo-output .echo-text-typewrite' + exsel).text(text);
+        $('.echo-output .echo-text-typewrite' + exsel).html(textDOM);
         $('.echo-output .echo-text-typewrite' + exsel).removeClass('echo-text-typewrite');
     } else if (gruopIndex == 0) {
-        $('.echo-output' + exsel).append(text);
+        $('.echo-output' + exsel).append(textDOM);
     } else {
-        $(`.echo-output span[data-group="${gruopIndex}"]` + exsel).append(text);
+        $(`.echo-output span[data-group="${gruopIndex}"]` + exsel).append(textDOM);
     }
 }
 
@@ -191,12 +196,12 @@ echo.on('typewriteEnd', function() {
 });
 
 echo.on('rubyStart', function() {
-    messageOutput('<ruby></ruby>');
+    messageOutput('<ruby></ruby>', true);
     inRuby = true;
 })
 
 echo.on('rubyEnd', function(e) {
-    messageOutput(`<rt>${e}</rt>`);
+    messageOutput(`<rt>${e}</rt>`, true);
     inRuby = false;
 })
 

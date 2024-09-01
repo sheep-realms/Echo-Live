@@ -53,6 +53,21 @@ const lang_zho_Hans = {
             no_name: "未命名"
         }
     },
+    unit: {
+        ms: "毫秒",
+        sec: "秒"
+    },
+    border_style: {
+        none: "无",
+        solid: "实线",
+        dashed: "虚线",
+        dotted: "点线",
+        double: "双实线",
+        groove: "凹槽",
+        ridge: "凸脊",
+        inset: "嵌入",
+        outset: "突出"
+    },
     broadcast: {
         client: {
             type: {
@@ -122,7 +137,7 @@ const lang_zho_Hans = {
             },
             theme: {
                 _title: "全局主题",
-                _description: "控制对话框、历史记录等面向观众展示的界面主题。关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。"
+                _description: "控制对话框、历史记录等面向观众展示的界面主题。关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。<br>为了主题样式的表现正常，请在 OBS 选中对话框（包括历史记录在内的其他前台页面），右键，在弹出菜单中找到 “混合方式”，选择 “关闭 sRGB”。"
             },
             theme_script_enable: {
                 _title: "启用全局主题脚本",
@@ -130,7 +145,7 @@ const lang_zho_Hans = {
             },
             color_scheme: {
                 _title: "后台配色方案",
-                _description: "控制后台界面的配色。可用的方案有 auto（跟随系统）、light（浅色）和 dark（深色）。",
+                _description: "控制后台界面的配色。",
                 _value: {
                     auto: "跟随系统",
                     dark: "深色",
@@ -206,7 +221,7 @@ const lang_zho_Hans = {
                 },
                 tick: {
                     _title: "消息轮询间隔",
-                    _description: "单位：毫秒。值越小响应越快，性能消耗越高。"
+                    _description: "值越小响应越快，性能消耗越高。"
                 },
             },
             sleep: {
@@ -261,6 +276,26 @@ const lang_zho_Hans = {
                     _description: "1 为原速。"
                 }
             },
+            print_effect: {
+                _title: "字符打印动效",
+                _description: "打印每个字符时所使用的动画效果",
+                name: {
+                    _title: "动效名称",
+                    _description: "可用的音效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>帮助文档</a>。"
+                },
+                duration: {
+                    _title: "动效用时",
+                    _description: "播放动画所需时间。"
+                },
+                scale: {
+                    _title: "动效规模乘数",
+                    _description: "动画的运动幅度乘数。"
+                },
+                timing_function: {
+                    _title: "动效时间曲线",
+                    _description: "动画在不同时间段的运动速度。"
+                }
+            },
             display: {
                 _title: "隐去与显现动画",
                 _description: "调整对话框的隐去与显现动画的参数",
@@ -270,7 +305,7 @@ const lang_zho_Hans = {
                 },
                 hidden_wait_time: {
                     _title: "闲置等候时间",
-                    _description: "进入闲置状态的最小等候时间，单位毫秒（1 秒 = 1000 毫秒）。"
+                    _description: "进入闲置状态的最小等候时间。"
                 },
                 long_text_compensation_rate: {
                     _title: "长文本等候时间补偿率",
@@ -278,11 +313,11 @@ const lang_zho_Hans = {
                 },
                 hidden_time: {
                     _title: "隐去动画用时",
-                    _description: "对话框隐去所需时间，单位毫秒。"
+                    _description: "对话框隐去所需时间。"
                 },
                 show_time: {
                     _title: "显现动画用时",
-                    _description: "对话框显现所需时间，单位毫秒。"
+                    _description: "对话框显现所需时间。"
                 }
             },
             speech_synthesis: {
@@ -294,7 +329,7 @@ const lang_zho_Hans = {
                 },
                 voice: {
                     _title: "语音资源",
-                    _description: "在这里选择可用的语音资源，留空则使用系统默认值。<br>在内容为空的情况下，点击文本框即可列出所有可用的值。部分浏览器可能需要多点一次。<br>请注意：不同的浏览器会出现不同的值，一些浏览器会提供独有的语音资源，例如 Chrome 的 Google 合成语音，这些语音资源不能在 OBS 中使用。语音资源能否正确使用最终取决于前台页面所在的浏览器环境。<br>当所选择的值不可用时，将使用系统默认值。"
+                    _description: "在这里选择可用的语音资源，留空则使用系统默认值。<br>请注意：不同的浏览器会出现不同的值，一些浏览器会提供独有的语音资源，例如 Chrome 的 Google 合成语音，这些语音资源不能在 OBS 中使用。语音资源能否正确使用最终取决于前台页面所在的浏览器环境。<br>当所选择的值不可用时，将使用系统默认值。"
                 },
                 pitch: {
                     _title: "音高",
@@ -306,7 +341,7 @@ const lang_zho_Hans = {
                 },
                 delay: {
                     _title: "延迟",
-                    _description: "在消息发出后延迟读出，单位为毫秒，1000 毫秒为 1 秒。"
+                    _description: "在消息发出后延迟读出。"
                 },
                 speech_emoji: {
                     _title: "读出表情符号",
@@ -477,6 +512,10 @@ const lang_zho_Hans = {
                 latest_message_hide: {
                     _title: "隐藏最新的历史记录",
                     _description: "对话框在开始打印消息时会立即发送消息到历史记录中，启用此项可避免最新消息立即显示在历史记录中。"
+                },
+                live_display_hidden_latest_message_show: {
+                    _title: "对话框隐去时显示最新的历史记录",
+                    _description: "在对话框隐去时显示被隐藏的最新的历史记录。"
                 }
             }
         },
@@ -497,7 +536,7 @@ const lang_zho_Hans = {
             },
             high_contrast_outline_style: {
                 _title: "焦点高亮边框样式",
-                _description: "焦点元素边框的样式，可以是 solid、dotted、dashed 或 double。"
+                _description: "焦点元素边框的样式。"
             },
             drotanopia_and_deuteranopia: {
                 _title: "红绿色盲",
@@ -553,6 +592,10 @@ const lang_zho_Hans = {
                 }
             }
         },
+        extension: {
+            _title: "扩展管理器",
+            _description: "管理扩展包",
+        },
         about: {
             _title: "关于",
             _description: "软件信息",
@@ -569,7 +612,12 @@ const lang_zho_Hans = {
             security: "安全政策",
             security_advisory_new: "报告安全漏洞",
             social_media: "社交媒体",
-            user_guide: "用户指南"
+            user_guide: "用户指南",
+            debug: {
+                title: "调试选项",
+                console_local_storage: "输出：Local Storage",
+                console_registry: "输出：注册表"
+            }
         }
     },
     echolive: {
@@ -591,6 +639,9 @@ const lang_zho_Hans = {
             play: "打印中",
             ready: "就绪",
             stop: "停止"
+        },
+        emoji: {
+            select: "表情包"
         },
         form: {
             text_length: "{n} 字符",
@@ -917,6 +968,17 @@ const lang_zho_Hans = {
             hot_key_textarea_quick_send: "当焦点在此文本框中时，可以按下 Ctrl + Enter 快速发送"
         }
     },
+    effect: {
+        print: {
+            blur_in: "聚焦",
+            fade_in: "淡入",
+            move_in_down: "从下方移入",
+            move_in_up: "从上方移入",
+            none: "无",
+            zoom_in_inside: "放大进入",
+            zoom_in_outside: "缩小进入"
+        }
+    },
     emoji: {
         emoji: {
             title: 'Emoji',
@@ -1236,6 +1298,7 @@ const lang_zho_Hans = {
             title: "漂亮的抢救！",
             message: "您已经掌握了如何操作浏览器缩放。请注意，<kbd>Ctrl</kbd> + <kbd>-</kbd> 和 <kbd>Ctrl</kbd> + <kbd>+</kbd> 组合键可以调整浏览器缩放，当心误操作！"
         },
+        debug_mode: "已启用调试选项！",
         drop_file_cancel_many: "你倒是放啊！",
         github_download_but_no_assets: {
             title: "让我们开始下载...... 等一下？",
@@ -1322,6 +1385,10 @@ const lang_zho_Hans = {
             echo: {
                 title: "关于 Echo",
                 description: "Echo 是 Echo-Live 的内核，提供了文本滚动输出功能。<br>它是一个工具库，任何人都可以使用 Echo 创建自己的文本展示项目。<br>如果您有兴趣了解 Echo，请见其 <a href='https://github.com/sheep-realms/Echo' target='_blank'>GitHub 仓库</a>。"
+            },
+            extension: {
+                title: "在做了在做了！！！",
+                description: "为了让扩展的功能变得更强大，咱对 Echo-Live 的数据加载逻辑进行了一场惊天地泣鬼神的更改，于是原有的扩展系统不管用了...... 不不不，咱不是那个意思！新的扩展系统需要很多配套设施，很多人非常期待这个版本的更新，所以扩展系统的更新需要延后了。如果不出意外的话，它很快就会回来的！"
             }
         },
         tabpage: {
@@ -1339,7 +1406,18 @@ const lang_zho_Hans = {
             }
         }
     },
+    sound: {
+        typewriter: "打字机",
+        typewriter_loop: "打字机（随机音效）",
+        sys001: "清脆敲击",
+        sys002: "嗡嗡",
+        sys003: "冒泡",
+        enter: "打字机回车"
+    },
     studio: {
+        title: {
+            text_to_messages: "Echo Live 工作室：文本转消息格式"
+        },
         text_to_messages: {
             colon: "：",
             label: {
@@ -1358,6 +1436,25 @@ const lang_zho_Hans = {
             }
         }
     },
+    timing_function: {
+        ease: "平滑",
+        linear: "线性",
+        ease_in: "缓出",
+        ease_out: "缓入",
+        ease_in_out: "缓入缓出",
+        ease_in_sine: "正弦缓出",
+        ease_out_sine: "正弦缓入",
+        ease_in_out_sine: "正弦缓入缓出",
+        ease_in_cubic: "三次方缓出",
+        ease_out_cubic: "三次方缓入",
+        ease_in_out_cubic: "三次方缓入缓出",
+        ease_in_circ: "圆形缓出",
+        ease_out_circ: "圆形缓入",
+        ease_in_out_circ: "圆形缓入缓出",
+        ease_in_back: "回退缓出",
+        ease_out_back: "回退缓入",
+        ease_in_out_back: "回退缓入缓出"
+    },
     window: {
         clear_local_storage: {
             title: "清除本地存储数据",
@@ -1365,3 +1462,5 @@ const lang_zho_Hans = {
         }
     }
 };
+
+echoLiveSystem.registry.setLanguageRegistryValue(lang_zho_Hans);

@@ -38,10 +38,13 @@ class EchoLiveBroadcast {
             API_NAME_ERROR:                 'error',
             API_NAME_ERROR_UNKNOW:          'error_unknow',
             API_NAME_HELLO:                 'hello',
+            API_NAME_HISTORY_CLEAR:         'history_clear',
+            API_NAME_LIVE_DISPLAY_UPDATE:   'live_display_update',
             API_NAME_MESSAGE_DATA:          'message_data',
             API_NAME_PAGE_HIDDEN:           'page_hidden',
             API_NAME_PAGE_VISIBLE:          'page_visible',
             API_NAME_PING:                  'ping',
+            API_NAME_SET_LIVE_DISPLAY:      'set_live_display',
             API_NAME_SET_THEME:             'set_theme',
             API_NAME_SET_THEME_STYLE_URL:   'set_theme_style_url',
             API_NAME_SHUTDOWN:              'shutdown',
@@ -231,7 +234,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
      * @param {String} channel 频道名称
      * @param {Object} config 配置
      */
-    constructor(channel = EchoLiveBroadcast.DEFAULT_CHANNEL, config = undefined) {
+    constructor(channel = EchoLiveBroadcast.DEFAULT_CHANNEL, config = undefined, initData = {}) {
         super(channel, config);
         this.type       = EchoLiveBroadcast.TYPE_SERVER;
         this.isServer   = true;
@@ -250,17 +253,22 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         };
         this.depth      = 1;
 
-        this.initServer();
+        this.initServer(initData);
     }
 
     /**
      * 服务端初始化
      */
-    initServer() {
+    initServer(data = {}) {
+        data = {
+            noPing: false,
+            ...data
+        };
+        
         this.setListenCallback(1, this, this.getDataServer);
 
         this.uuid = EchoLiveTools.getUUID();
-        this.ping();
+        if (!data.noPing) this.ping();
     }
 
     /**
@@ -324,6 +332,27 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         };
         this.event.clientsChange(this.clients);
         return r;
+    }
+
+    /**
+     * 发送命令：设置对话框显示状态
+     * @param {Boolean} display 显示状态
+     * @param {String} target 发送目标
+     * @returns {Object} 发送的消息
+     */
+    sendLiveDisplay(display, target = undefined) {
+        return this.sendData({
+            display: display
+        }, EchoLiveBroadcast.API_NAME_SET_LIVE_DISPLAY, target);
+    }
+
+    /**
+     * 发送命令：清空历史记录
+     * @param {String} target 发送目标
+     * @returns {Object} 发送的消息
+     */
+    sendHistoryClear(target = undefined) {
+        return this.sendData({}, EchoLiveBroadcast.API_NAME_HISTORY_CLEAR, target);
     }
 
     /**
@@ -778,6 +807,17 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
     }
 
     /**
+     * 显示状态更新广播
+     * @param {Boolean} display 显示状态
+     * @param {String} target 发送目标
+     */
+    displayUpdate(display, target = undefined) {
+        return this.sendData({
+            display: display
+        }, EchoLiveBroadcast.API_NAME_LIVE_DISPLAY_UPDATE, target);
+    }
+
+    /**
      * Echo 打印内容广播
      * @param {String} username 
      * @param {String|Object|Array} message 
@@ -789,6 +829,15 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
             username:   username,
             message:    message
         }, EchoLiveBroadcast.API_NAME_ECHO_PRINTING, target);
+    }
+
+    /**
+     * 设置显示状态
+     * @param {Boolean} display 显示状态
+     */
+    setDisplay(display) {
+        if (display) return this.echolive.addTask('display_show');
+        return this.echolive.addTask('display_hidden');
     }
 
     /**
@@ -804,6 +853,10 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
 
             case EchoLiveBroadcast.API_NAME_ECHO_NEXT:
                 listener.echolive.next();
+                break;
+
+            case EchoLiveBroadcast.API_NAME_SET_LIVE_DISPLAY:
+                listener.setDisplay(data.data?.display);
                 break;
 
             case EchoLiveBroadcast.API_NAME_SET_THEME_STYLE_URL:
@@ -879,6 +932,17 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
                     username:   data.data?.username,
                     message:    data.data?.message
                 });
+                break;
+
+            case EchoLiveBroadcast.API_NAME_HISTORY_CLEAR:
+                listener.echoLiveHistory.clear();
+                break;
+
+            case EchoLiveBroadcast.API_NAME_LIVE_DISPLAY_UPDATE:
+                if (
+                    listener.config.history.message.live_display_hidden_latest_message_show &&
+                    !data.data?.display
+                ) listener.echoLiveHistory.changeLatestHistoryDisplay(true);
                 break;
         
             default:

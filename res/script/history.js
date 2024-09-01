@@ -7,12 +7,15 @@ if (!config.history.layout.display_time) $('html').addClass('echo-live-history-d
 if (config.history.message.latest_message_hide) $('html').addClass('echo-live-history-latest-message-hide');
 
 let echoLiveHistory = new EchoLiveHistory(config);
-echoLiveHistory.theme = extensionManager.theme;
 let urlTheme = EchoLiveTools.getUrlParam('theme');
 echoLiveHistory.setTheme(urlTheme || config.history.style.history_theme || config.global.theme);
 
 echoLiveHistory.on('newHistory', function(e) {
     sendHistory(e.username, e.message);
+});
+
+echoLiveHistory.on('clearHistory', function() {
+    $('#echo-live-history-message-list').text('');
 });
 
 echoLiveHistory.on('shutdown', function(reason) {
@@ -22,6 +25,14 @@ echoLiveHistory.on('shutdown', function(reason) {
         sendHistory($t( 'echolive.system_message' ), $t( 'echolive.shutdown_reason', { reason: reason } ));
     } else {
         sendHistory($t( 'echolive.system_message' ), $t( 'echolive.shutdown' ));
+    }
+});
+
+echoLiveHistory.on('latestHistoryDisplayChange', function(e) {
+    if (e) {
+        $('html').addClass('echo-live-history-latest-message-show');
+    } else {
+        $('html').removeClass('echo-live-history-latest-message-show');
     }
 });
 

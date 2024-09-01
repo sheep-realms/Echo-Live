@@ -64,37 +64,7 @@ class EditorForm {
      * @returns {String} DOM
      */
     static item(id, label, content, tip = '') {
-        return `<div class="echo-editor-form-row"><label for="${id}">${label}</label>${content}</div>${tip != '' ? FormConstructor.tip(tip) : ''}`;
-    }
-
-    /**
-     * 输入框
-     * @param {String} id ID
-     * @param {String} label 标签名称
-     * @param {String} def 默认值
-     * @param {String} tip 提示
-     * @param {String} type 类型
-     * @returns {String} DOM
-     */
-    static input(id, label, def, tip = '', type = 'text') {
-        return FormConstructor.item(
-            id,
-            label,
-            `<input type="${type}" name="${id}" id="${id}" class=" echo-editor-form-item" value="${def}" data-default="${def}">`,
-            tip
-        );
-    }
-
-    /**
-     * 数字输入框
-     * @param {String} id ID
-     * @param {String} label 标签名称
-     * @param {String} def 默认值
-     * @param {String} tip 提示
-     * @returns {String} DOM
-     */
-    static inputNum(id, label, def, tip = '') {
-        return FormConstructor.input(id, label, def, tip, 'number');
+        return `<div class="echo-editor-form-row"><label for="${id}">${label}</label>${content}</div>${tip != '' ? EditorForm.tip(tip) : ''}`;
     }
 
     /**
@@ -106,7 +76,7 @@ class EditorForm {
      * @returns {String} DOM
      */
     static checkbox(id, label, def, tip = '') {
-        return FormConstructor.item(
+        return EditorForm.item(
             id,
             '',
             `<button role="checkbox" aria-selected="${def}" class="checkbox ${def == 1 ? 'selected' : ''}">
@@ -677,13 +647,13 @@ class Popups {
         if (emojiPack.meta?.author != undefined && emojiPack.meta?.author != '') {
             dom += `<div>${ $t('meta_info.author', { name: emojiPack.meta.author }) }</div>`
         }
-        if (emojiPack.meta?.license != undefined) {
+        if (emojiPack.meta?.license != undefined && emojiPack.meta.license?.title != undefined) {
             dom += `<div>
                 ${ $t('meta_info.license', {
                     name:
                         emojiPack.meta.license?.url != undefined
-                        ? `<a href="${ emojiPack.meta.license.url }" target="_blank">${ emojiPack.meta.license?.title }</a>`
-                        : emojiPack.meta.license?.title
+                        ? `<a href="${ emojiPack.meta.license.url }" target="_blank">${ emojiPack.meta.license.title }</a>`
+                        : emojiPack.meta.license.title
                 }) }
             </div>`
         }
@@ -858,10 +828,10 @@ class Popups {
     static imageBox(index, url, isAbsolute = false, isPixelated = false) {
         return `<button
             class="image-box ${ isAbsolute ? 'image-is-absolute' : ''} ${ isPixelated ? 'image-rendering-pixelated' : ''}"
-            data-value="${ index }"
-            data-is-absolute="${ isAbsolute }"
+            data-value="${ Number(index) }"
+            data-is-absolute="${ Boolean(isAbsolute) }"
         >
-            <img src="${ url }" alt="${ $t('file.picker.image') }">
+            <img src="${ encodeURI(url) }" alt="${ $t('file.picker.image') }">
         </button>`
     }
 }
@@ -978,9 +948,9 @@ class SettingsPanel {
             aria-selected="false"
             title="${ $t( 'config.' + item.id + '._description' ) }"
         >
-            <span class="icon left">${ item.icon != undefined ? Icon[item.icon] : ''}</span>
+            <span class="icon left" aria-hidden="true">${ item.icon != undefined ? Icon[item.icon] : ''}</span>
             <span class="title">${ $t( 'config.' + item.id + '._title' ) }</span>
-            <span class="icon right"></span>
+            <span class="icon right" aria-hidden="true"></span>
         </button>`;
     }
 
@@ -1058,7 +1028,7 @@ class SettingsPanel {
         if (item.type == 'object') return SettingsPanel.setGroupTitle(title, description, item?.depth);
         if (item.type == 'boolean.bit') return SettingsPanel.setItemBoolean(item.type, item.name, title, description, item.default, item?.attribute, true);
 
-        return SettingsPanel[run](item.type, item.name, title, description, item.default, item?.attribute);
+        return SettingsPanel[run](item.type, item.name, title, description, item.default, item?.attribute, item?.unit);
     }
 
     static setItems(items) {
@@ -1106,23 +1076,52 @@ class SettingsPanel {
 
     static setItemString(type = '', id = '', title = '', description = '', value = '', attribute = undefined) {
         if (type === 'string.multiline') return SettingsPanel.setItemStringMultiLine(type, id, title, description, value);
-        value = String(value).replace(/"/g, '&quot;');
-        let dl = '';
-        let hasDatalist = false;
-        if (attribute != undefined) {
-            if (attribute?.datalist != undefined) {
-                hasDatalist = true;
-                dl += `<datalist id="${ id.replace(/\./g, '-') }-datalist">`;
-                attribute.datalist.forEach(e => {
-                    dl += `<option value="${ e.value }">${ e?.title ? e.title : '' }</option>`;
-                });
-                dl += `</datalist>`;
-            }
+
+        let inputDOM = '';
+        if (attribute?.datalist === undefined || attribute.datalist.length == 0) {
+            inputDOM = FHUIComponentInput.input(
+                value,
+                'text',
+                {
+                    id: id.replace(/\./g, '-'),
+                    class: 'settings-value code',
+                    attribute: {
+                        aria: {
+                            label: title
+                        }
+                    }
+                }
+            );
+        } else {
+            inputDOM = FHUIComponentInput.inputSelect(
+                value,
+                attribute.datalist,
+                {
+                    id: id.replace(/\./g, '-'),
+                    class: 'settings-value code',
+                    option_description_fill_value: true,
+                    option_width: attribute?.option_width,
+                    attribute: {
+                        aria: {
+                            label: title
+                        }
+                    }
+                }
+            );
         }
+
         return SettingsPanel.setItem(
-            'string', id, title, description,
-            `<label class="title" style="display: none;" for="${ id.replace(/\./g, '-') }">${ title }</label>
-            <input type="text" id="${ id.replace(/\./g, '-') }" class="settings-value code" ${ hasDatalist ? `list="${ id.replace(/\./g, '-') }-datalist"` : '' } aria-label="${ title }" data-default="${ value }" value="${ value }">${ dl }`
+            type, id, title, description,
+            FHUI.element(
+                'label',
+                {
+                    class: 'title',
+                    style: 'display: none;',
+                    for: id.replace(/\./g, '-')
+                },
+                title
+            ) +
+            inputDOM
         );
     }
 
@@ -1137,18 +1136,37 @@ class SettingsPanel {
         );
     }
 
-    static setItemNumber(type = '', id = '', title = '', description = '', value = '', attribute = undefined) {
-        value = String(value).replace(/"/g, '&quot;');
-        let attr = '';
-        if (attribute != undefined) {
-            if (attribute?.max != undefined) attr += `max="${ attribute.max }" `;
-            if (attribute?.min != undefined) attr += `min="${ attribute.min }" `;
-            if (attribute?.step != undefined) attr += `step="${ attribute.step }" `;
-        }
+    static setItemNumber(type = '', id = '', title = '', description = '', value = '', attribute = undefined, unit = undefined) {
         return SettingsPanel.setItem(
             type, id, title, description,
-            `<label class="title" style="display: none;" for="${ id.replace(/\./g, '-') }">${ title }</label>
-            <input type="number" id="${ id.replace(/\./g, '-') }" ${ attr }class="settings-value code" aria-label="${ title }" data-default="${ value }" value="${ value }">`
+            FHUI.element(
+                'label',
+                {
+                    class: 'title',
+                    style: 'display: none;',
+                    for: id.replace(/\./g, '-')
+                },
+                title
+            ) +
+            FHUIComponentInput.input(
+                value,
+                'number',
+                {
+                    id: id.replace(/\./g, '-'),
+                    class: 'settings-value code',
+                    after: {
+                        label: unit ? $t('unit.' + unit) : undefined
+                    },
+                    attribute: {
+                        aria: {
+                            label: title
+                        },
+                        max: attribute?.max !== undefined ? attribute.max : undefined,
+                        min: attribute?.min !== undefined ? attribute.min : undefined,
+                        step: attribute?.step !== undefined ? attribute.step : undefined
+                    }
+                }
+            )
         );
     }
 
@@ -1158,17 +1176,22 @@ class SettingsPanel {
             type, id, title, description,
             `<div class="settings-switch state-${ value ? 'on' : 'off' }" data-is-bit="${ isBit ? '1' : '0' }">
                 ${
-                    EditorForm.button($t('ui.off'), {
-                        icon: Icon.toggleSwitchOffOutline,
-                        class: 'btn-switch btn-off',
-                        type: 'ghost'
-                    })
+                    FHUIComponentButton.buttonGhost(
+                        $t('ui.off'),
+                        {
+                            icon: 'toggleSwitchOffOutline',
+                            class: 'btn-switch btn-off'
+                        }
+                    )
                 }
                 ${
-                    EditorForm.button($t('ui.on'), {
-                        icon: Icon.toggleSwitch,
-                        class: 'btn-switch btn-on'
-                    })
+                    FHUIComponentButton.button(
+                        $t('ui.on'),
+                        {
+                            icon: 'toggleSwitch',
+                            class: 'btn-switch btn-on'
+                        }
+                    )
                 }
                 <input type="hidden" id="${ id.replace(/\./g, '-') }" class="settings-value settings-switch-value" data-default="${ value }" value="${ value }">
             </div>`
@@ -1193,17 +1216,22 @@ class SettingsPanel {
             type, id, title, description,
             `<div class="settings-switch settings-switch-all-or-array-string state-${ isAll ? 'on' : 'off' }">
                 ${
-                    EditorForm.button($t('ui.enable_all'), {
-                        icon: Icon.toggleSwitchOffOutline,
-                        class: 'btn-switch btn-off',
-                        type: 'ghost'
-                    })
+                    FHUIComponentButton.buttonGhost(
+                        $t('ui.enable_all'),
+                        {
+                            icon: 'toggleSwitchOffOutline',
+                            class: 'btn-switch btn-off'
+                        }
+                    )
                 }
                 ${
-                    EditorForm.button($t('ui.enable_all'), {
-                        icon: Icon.toggleSwitch,
-                        class: 'btn-switch btn-on'
-                    })
+                    FHUIComponentButton.button(
+                        $t('ui.enable_all'),
+                        {
+                            icon: 'toggleSwitch',
+                            class: 'btn-switch btn-on'
+                        }
+                    )
                 }
                 <input type="hidden" id="${ id.replace(/\./g, '-') }-is-all" class="settings-value-enable-all settings-switch-value" data-default="${ isAll }" value="${ isAll }">
             </div>`,
@@ -1215,16 +1243,30 @@ class SettingsPanel {
         );
     }
 
-    static linkBar(title = '', href = '', icon = undefined) {
-        return `<a class="settings-link-bar" href="${ href }" target="_blank">
+    static linkBar(title = '', href = '', icon = undefined, data = {}) {
+        data = {
+            isDebug: false,
+            debug: '',
+            ...data
+        };
+        return `<a
+            class="settings-link-bar ${ data.isDebug ? 'settings-link-debug' : ''}"
+            href="${ href }"
+            ${ !data.isDebug ? 'target="_blank"' : '' }
+            ${ data.isDebug ? `data-debug="${ data.debug }"` : '' }
+        >
             <div class="icon left">${ icon != undefined ? Icon[icon] : '' }</div>
             <div class="title">${ title }</div>
-            <div class="icon right">${ Icon.openInNew }</div>
+            <div class="icon right">${ !data?.isDebug ? Icon.openInNew : '' }</div>
         </a>`;
     }
 
-    static linkBarGroupTitle(title = '') {
-        return `<div class="settings-link-bar-group-title">${ title }</div>`;
+    static linkBarGroupTitle(title = '', data = {}) {
+        data = {
+            isDebug: false,
+            ...data
+        };
+        return `<div class="settings-link-bar-group-title ${ data.isDebug ? 'settings-link-debug' : ''}">${ title }</div>`;
     }
 
     /**
@@ -1563,6 +1605,7 @@ class FHUINotice {
 
         data = {
             animation: true,
+            hasClick: false,
             icon: theme.icon,
             id: undefined,
             index: -1,
@@ -1573,7 +1616,13 @@ class FHUINotice {
         let iconDOM = Icon[data.icon] != undefined ? Icon[data.icon] : Icon.information;
 
         return `<div
-                class="fh-notice-item fh-${ theme.color } ${ data.animation ? 'fh-notice-ani-in' : '' } ${ data.waitTime < 0 ? 'is-permanently' : '' }"
+                class="
+                    fh-notice-item
+                    fh-${ theme.color }
+                    ${ data.animation ? 'fh-notice-ani-in' : '' }
+                    ${ data.waitTime < 0 ? 'is-permanently' : '' }
+                    ${ data.hasClick ? 'has-click' : '' }
+                "
                 data-index="${ data.index }"
                 ${ data.id ? `data-id="${ data.id }"` : '' }
                 style="${ data?.width != undefined ? `--fh-notice-width-custom: ${ data.width };` : '' }"
@@ -1740,10 +1789,11 @@ class FHUIWindow {
             class: 'fh-window-controller-button fh-window-controller-button-' + id,
             color: colorType,
             attr: `data-controller-id="${ id }"`,
-            icon: icon != undefined ? Icon[icon] : undefined,
+            icon: icon,
             ...data
         }
 
+        return FHUIComponentButton.button(content, data);
         return EditorForm.button(content, data);
     }
 

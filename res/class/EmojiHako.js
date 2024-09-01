@@ -1,9 +1,13 @@
 class EmojiHako {
     constructor() {
-        this.emoji = [];
+        this.init();
     }
 
-    load(data) {
+    init() {
+        this.register(echoLiveSystem.registry.getRegistryArray('emoji'));
+    }
+
+    register(data) {
         if (typeof data != 'object') return;
         if (!Array.isArray(data)) data = [data];
 
@@ -48,8 +52,6 @@ class EmojiHako {
                 content: []
             }
 
-            if (this.getEmojiPack(emojiPack.meta.namespace, emojiPack.meta.name) != undefined) return;
-
             e.content.forEach(e2 => {
                 if (e2?.type == 'group') {
                     emojiPack.content.push({
@@ -71,39 +73,36 @@ class EmojiHako {
                     }
                 }
             });
-
-            this.emoji.push(emojiPack);
+            
+            echoLiveSystem.registry.setRegistryValue('emoji', emojiPack.meta.name, emojiPack);
+            echoLiveSystem.registry.setRegistryValue('emoji_namespace', emojiPack.meta.namespace, emojiPack.meta.name);
         });
 
-        return this.emoji;
+        return echoLiveSystem.registry.getRegistryArray('emoji');
     }
 
     getEmojiPack(namespace = '', name = undefined) {
         if (typeof namespace != 'string') return;
         if (namespace === '' && name == undefined) {
-            return this.emoji;
+            return echoLiveSystem.registry.getRegistryArray('emoji');
         }
 
-        let mp = this.emoji.find(e => e.meta.namespace == namespace);
+        let mp;
+        echoLiveSystem.registry.registryRedirect('emoji_namespace', 'emoji', namespace, value => {
+            mp = value;
+        });
 
         if (mp == undefined) {
-            mp = this.getEmojiPackByName(namespace);
+            mp = echoLiveSystem.registry.getRegistryValue('emoji', namespace);
         }
 
         if (mp == undefined && name != undefined) {
-            mp = this.getEmojiPackByName(name);
+            mp = echoLiveSystem.registry.getRegistryValue('emoji', name);
         }
 
         if (mp == undefined) return;
 
         return JSON.parse(JSON.stringify(mp));
-    }
-
-    getEmojiPackByName(name = '') {
-        if (typeof name != 'string' || name === '') return;
-        let r = this.emoji.find(e => e.meta.name == name);
-        if (r == undefined) return;
-        return JSON.parse(JSON.stringify(r));
     }
 
     getEmoji(key = '', isOriginal = false) {

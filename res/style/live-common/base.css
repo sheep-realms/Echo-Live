@@ -57,7 +57,7 @@ body {
     flex-direction: row;
 }
 
-.echo-live-history-latest-message-hide #echo-live-history .history-message-item:last-child {
+.echo-live-history-latest-message-hide:not(.echo-live-history-latest-message-show) #echo-live-history .history-message-item:last-child {
     display: none;
 }
 

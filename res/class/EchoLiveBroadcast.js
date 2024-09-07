@@ -159,7 +159,7 @@ class EchoLiveBroadcast {
         };
 
         this.broadcast.postMessage(d);
-        if (target === EchoLiveBroadcast.TARGET_WEBSOCKET_SERVER && this.websocket != undefined) {
+        if (target === EchoLiveBroadcast.TARGET_WEBSOCKET_SERVER && target === undefined && this.websocket != undefined) {
             try {
                 this.websocket.send(JSON.stringify(d));
             } catch (error) {

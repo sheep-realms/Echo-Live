@@ -1,3 +1,7 @@
+**简体中文** | 
+[日本語](README_ja.md) | 
+[English](README_en.md)
+
 # Echo Live
 ![banner](https://sheep-realms.github.io/images/project/echo-live/banner.png)
 

@@ -783,7 +783,7 @@ const lang_zho_Hant_HK = {
                 empty_messages: "發送的消息中沒有消息隊列，這是一個錯誤的消息格式。雖然這麼操作似乎不會引發嚴重問題，但不建議這麼操作。",
                 illegal: "發送的消息格式存在錯誤。詳見幫助文檔：https://sheep-realms.github.io/Echo-Live-Doc/message/",
                 resent: "已再次發送歷史消息。",
-                sent: "已發送純文本消息：{msg}",
+                sent: "已發送消息：{msg}",
                 sent_custom: "已發送自定義消息：{msg}",
                 sent_custom_multi: "已發送 {n} 條自定義消息，首條消息為：{msg}"
             },

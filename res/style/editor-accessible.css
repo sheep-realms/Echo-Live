@@ -163,6 +163,22 @@
     border: 1px solid var(--color-danger-dark);
 }
 
+.accessible-high-contrast .fh-input-label-type-after {
+    border: 1px solid var(--color-safe-dark);
+    border-inline-start: unset;
+}
+
+.accessible-high-contrast .fh-input-label-type-before {
+    border: 1px solid var(--color-safe-dark);
+    border-inline-end: unset;
+}
+
+.accessible-high-contrast .fh-input-label-type-after:not(.fh-input-label-only-icon),
+.accessible-high-contrast .fh-input-label-type-before:not(.fh-input-label-only-icon) {
+    padding-inline-start: 0.375em;
+    padding-inline-end: 0.375em;
+}
+
 .accessible-high-contrast textarea,
 .accessible-high-contrast input[type=number],
 .accessible-high-contrast input[type=text],

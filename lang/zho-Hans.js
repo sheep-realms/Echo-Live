@@ -783,7 +783,7 @@ const lang_zho_Hans = {
                 empty_messages: "发送的消息中没有消息队列，这是一个错误的消息格式。虽然这么操作似乎不会引发严重问题，但不建议这么操作。",
                 illegal: "发送的消息格式存在错误。详见帮助文档：https://sheep-realms.github.io/Echo-Live-Doc/message/",
                 resent: "已再次发送历史消息。",
-                sent: "已发送纯文本消息：{msg}",
+                sent: "已发送消息：{msg}",
                 sent_custom: "已发送自定义消息：{msg}",
                 sent_custom_multi: "已发送 {n} 条自定义消息，首条消息为：{msg}"
             },

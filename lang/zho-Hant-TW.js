@@ -783,7 +783,7 @@ const lang_zho_Hant_TW = {
                 empty_messages: "傳送的訊息中沒有訊息佇列，這是一個錯誤的訊息格式。雖然這麼操作似乎不會引發嚴重問題，但不建議這麼操作。",
                 illegal: "傳送的訊息格式存在錯誤。詳見幫助文件：https://sheep-realms.github.io/Echo-Live-Doc/message/",
                 resent: "已再次傳送歷史訊息。",
-                sent: "已傳送純文字訊息：{msg}",
+                sent: "已傳送訊息：{msg}",
                 sent_custom: "已傳送自定義訊息：{msg}",
                 sent_custom_multi: "已傳送 {n} 條自定義訊息，首條訊息為：{msg}"
             },

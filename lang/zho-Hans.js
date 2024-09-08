@@ -565,6 +565,10 @@ const lang_zho_Hans = {
                 allow_name_duplicate: {
                     _title: "允许识别名重复",
                     _description: "允许终端识别名出现重复，这可能会引发意料之外的情况。"
+                },
+                allow_send_duplicate_message: {
+                    _title: "允许发送重复消息",
+                    _description: "对话框收到重复消息时会再次打印而非忽略，这将会失去防抖机制。"
                 }
             },
             editor: {

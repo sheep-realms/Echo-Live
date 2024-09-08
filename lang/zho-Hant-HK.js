@@ -565,6 +565,10 @@ const lang_zho_Hant_HK = {
                 allow_name_duplicate: {
                     _title: "允許識別名重複",
                     _description: "允許終端識別名出現重複，這可能會引發意料之外的情況。"
+                },
+                allow_send_duplicate_message: {
+                    _title: "允許發送重複消息",
+                    _description: "對話框收到重複消息時會再次打印而非忽略，這將會失去防抖機制。"
                 }
             },
             editor: {

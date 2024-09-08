@@ -971,6 +971,11 @@ const db_config_define = [
         default: false,
         created: 2
     }, {
+        name: 'advanced.broadcast.allow_send_duplicate_message',
+        type: 'boolean',
+        default: false,
+        created: 8
+    }, {
         name: 'advanced.editor',
         type: 'object',
         created: 1

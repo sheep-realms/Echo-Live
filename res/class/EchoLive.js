@@ -291,7 +291,11 @@ class EchoLive {
             this.antiFlood  = false;
             return;
         }
-        if (typeof this.data === 'object' && JSON.stringify(data) === JSON.stringify(this.data)) return;
+        if (
+            !this.config.advanced.broadcast.allow_send_duplicate_message &&
+            typeof this.data === 'object' &&
+            JSON.stringify(data) === JSON.stringify(this.data)
+        ) return;
 
         if (this.echo.state != 'stop') this.echo.stop();
         if (this.idle) {

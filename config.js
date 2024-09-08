@@ -136,7 +136,8 @@ const config = {
     },
     "advanced": {
         "broadcast": {
-            "allow_name_duplicate": false
+            "allow_name_duplicate": false,
+            "allow_send_duplicate_message": false
         },
         "editor": {
             "forced_display_split_message": false,

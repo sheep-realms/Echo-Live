@@ -144,6 +144,7 @@ const config = {
         },
         "settings": {
             "display_config_key": false,
+            "display_hidden_option": false,
             "speech_synthesis_voices_maximum": 64
         }
     },

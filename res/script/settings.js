@@ -459,7 +459,7 @@ $(document).ready(function() {
 
     datalistLang = [];
     echoLiveSystem.registry.forEach('print_effect', e => {
-        datalistLang.push({
+        if (!e?.hidden || config.advanced.settings.display_hidden_option) datalistLang.push({
             title: $t(`effect.print.${ e.name }`),
             value: e.value
         });

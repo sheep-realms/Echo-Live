@@ -586,6 +586,10 @@ const lang_zho_Hant_TW = {
                     _title: "顯示配置項鍵名",
                     _description: "在配置項描述下方顯示鍵名。"
                 },
+                display_hidden_option: {
+                    _title: "顯示隱藏選項",
+                    _description: "顯示一些因特定條件下不可用的或實驗性的選項。"
+                },
                 speech_synthesis_voices_maximum: {
                     _title: "講述人語音資源列表最大顯示數量",
                     _description: "在某些作業系統中可能會列出大量專案從而影響渲染效能。<br>設為 -1 則不設上限。"

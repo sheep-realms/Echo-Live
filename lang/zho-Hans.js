@@ -586,6 +586,10 @@ const lang_zho_Hans = {
                     _title: "显示配置项键名",
                     _description: "在配置项描述下方显示键名。"
                 },
+                display_hidden_option: {
+                    _title: "显示隐藏选项",
+                    _description: "显示一些因特定条件下不可用的或实验性的选项。"
+                },
                 speech_synthesis_voices_maximum: {
                     _title: "讲述人语音资源列表最大显示数量",
                     _description: "在某些操作系统中可能会列出大量项目从而影响渲染性能。<br>设为 -1 则不设上限。"

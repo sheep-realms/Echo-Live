@@ -55,17 +55,6 @@ setCheckboxDefaultValue('#config-output-use-after', config.editor.form.ontput_af
 if (!config.editor.function.tabpage_config_enable) $('#tabpage-nav-config').addClass('hide');
 if (!config.editor.function.tabpage_output_enable) $('#tabpage-nav-output').addClass('hide');
 
-popupsCreate(Popups.palettePopups(echoLiveEditor.getPalettes()), '#popups-palette');
-$('#popups-palette .palette-page').eq(0).removeClass('hide');
-if (config.editor.color_picker.contrast_enable) $('#popups-palette').addClass('color-contrast-enable');
-$('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--bg-color', config.editor.color_picker.contrast_background_color)
-paletteColorContrastCheck('#000000');
-
-popupsCreate(Popups.emojiPopups(echoLiveEditor.getEmoji()), '#popups-emoji');
-$('#popups-emoji .emoji-page').eq(0).removeClass('hide');
-
-popupsCreate(Popups.imagePopups(), '#popups-image');
-
 if (!config.echolive.image.allow_data_url_and_relative_url) {
     $('#popups-image-nav .tabpage-nav-item[data-pageid="file"]').addClass('hide');
     $('#popups-image-nav .tabpage-nav-item[data-pageid="url"]').click();
@@ -97,6 +86,21 @@ let elb;
 
 $(document).ready(function() {
     $('.tabpage-panel[data-pageid="ptext"] .editor-controller').append(EditorForm.editorController('ptext-content'));
+    
+    translator.ready(() => {
+        $('#ptext-editor .editor-bottom-bar .length').text($t('editor.form.text_length', { n: 0 }));
+
+        popupsCreate(Popups.palettePopups(echoLiveEditor.getPalettes()), '#popups-palette');
+        $('#popups-palette .palette-page').eq(0).removeClass('hide');
+        if (config.editor.color_picker.contrast_enable) $('#popups-palette').addClass('color-contrast-enable');
+        $('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--bg-color', config.editor.color_picker.contrast_background_color)
+        paletteColorContrastCheck('#000000');
+
+        popupsCreate(Popups.emojiPopups(echoLiveEditor.getEmoji()), '#popups-emoji');
+        $('#popups-emoji .emoji-page').eq(0).removeClass('hide');
+
+        popupsCreate(Popups.imagePopups(), '#popups-image');
+    });
 
     if (config.echo.print_speed != 30) {
         $('.echo-editor-form-input-tip').text($t('editor.form.description.print_speed_custom', { value: config.echo.print_speed }));
@@ -135,8 +139,6 @@ $(document).ready(function() {
         commander.link.broadcast = elb;
 
         translator.ready(() => {
-            $('#ptext-editor .editor-bottom-bar .length').text($t('editor.form.text_length', { n: 0 }));
-
             checkNowDate();
             editorLogT('editor.log.broadcast_launch.done', { channel: config.echolive.broadcast.channel });
             editorLog('User Agent: ' + navigator.userAgent, 'dbug');

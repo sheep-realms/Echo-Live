@@ -2,6 +2,8 @@ class EchoLiveSystem {
     constructor() {
         this.mixer = undefined;
         this.registry = new EchoLiveRegistry();
+        this.device = new EchoLiveLocalDeviceManager();
+        this.config = config;
     }
 }
 
@@ -432,6 +434,29 @@ class EchoLiveRegistryUnit {
 
     setValue(key, value) {
         return this.registry.setRegistryValue(this.name, key, value);
+    }
+}
+
+class EchoLiveLocalDeviceManager {
+    constructor() {
+        this.vibrateMethod = {
+            success: 30,
+            error: [30, 50, 30]
+        }
+    }
+
+    vibrate(data) {
+        if (typeof navigator.vibrate !== 'function') return;
+        return navigator.vibrate(data);
+    }
+
+    /**
+     * 设备震动（自动设定）
+     * @param {'success'|'error'} name 震动方法
+     */
+    vibrateAuto(name) {
+        if (this.vibrateMethod[name] === undefined) return;
+        this.vibrate(this.vibrateMethod[name]);
     }
 }
 

@@ -6,6 +6,9 @@ class Translator {
         this.langIndex = langIndex;
         this.initialized = false;
         this.loaded = false;
+        this.event = {
+            ready: []
+        };
     }
 
     init(path = '') {
@@ -22,6 +25,29 @@ class Translator {
         });
         this.loadScript(path, mainLangData.url);
         if (this.lang !== mainLang) this.loadScript(path, selectedLangData.url);
+    }
+
+    /**
+     * 绑定事件
+     * @param {String} eventName 事件名称
+     * @param {Function} action 函数
+     * @returns {Function} 函数
+     */
+    on(eventName, action = function() {}) {
+        if (typeof action != 'function') return;
+        return this.event[eventName].push(action) - 1;
+    }
+
+    trigger(eventName, ...data) {
+        this.event[eventName].forEach(e => e(...data));
+    }
+
+    ready(action = function() {}) {
+        if (this.loaded) {
+            action();
+        } else {
+            this.on('ready', action);
+        }
     }
 
     loadScript(path = '', url = '') {
@@ -118,6 +144,7 @@ class Translator {
         this.i18n[i18nList.lang.code_iso_639_3] = i18nList;
         if (!this.loaded && i18nList.lang.code_iso_639_3 === this.lang) {
             this.loaded = true;
+            this.trigger('ready');
             $('html').attr('lang', $t('lang.code_ietf'));
         }
     }

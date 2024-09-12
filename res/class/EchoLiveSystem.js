@@ -1,7 +1,9 @@
 class EchoLiveSystem {
     constructor() {
-        this.mixer = undefined;
-        this.registry = new EchoLiveRegistry();
+        this.mixer      = undefined;
+        this.registry   = new EchoLiveRegistry();
+        this.device     = new EchoLiveLocalDeviceManager();
+        this.config     = config;
     }
 }
 
@@ -13,9 +15,9 @@ class EchoLiveData {
             type: 'string',
             regexp: /^[^:]+(:[^:]+)+$/,
             filter: {
-                pad_namespace: (v, unit, data) => unit.check() ? v : ( data?.namespace ? data.namespace : 'echolive:' ) + v,
-                get_namespace: (v, unit) => unit.check() ? v.split(':')[0] : '',
-                get_id: (v, unit) => unit.check() ? v.split(':').slice(1).join(':') : v
+                pad_namespace:  (v, unit, data) => unit.check() ? v : ( data?.namespace ? data.namespace : 'echolive:' ) + v,
+                get_namespace:  (v, unit)       => unit.check() ? v.split(':')[0] : '',
+                get_id:         (v, unit)       => unit.check() ? v.split(':').slice(1).join(':') : v
             }
         }
     };
@@ -432,6 +434,33 @@ class EchoLiveRegistryUnit {
 
     setValue(key, value) {
         return this.registry.setRegistryValue(this.name, key, value);
+    }
+}
+
+class EchoLiveLocalDeviceManager {
+    constructor() {
+        this.vibrateMethod = {
+            success: 30,
+            error: [30, 50, 30]
+        }
+    }
+
+    vibrate(data) {
+        if (typeof navigator.vibrate !== 'function') return;
+        try {
+            return navigator.vibrate(data);
+        } catch (error) {
+            this.vibrate = () => {};
+        }
+    }
+
+    /**
+     * 设备震动（自动设定）
+     * @param {'success'|'error'} name 震动方法
+     */
+    vibrateAuto(name) {
+        if (this.vibrateMethod[name] === undefined) return;
+        this.vibrate(this.vibrateMethod[name]);
     }
 }
 

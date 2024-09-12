@@ -57,7 +57,8 @@ echoLiveSystem.registry.init([
         unique_key: 'name',
         default_data: {
             name: undefined,
-            value: undefined
+            value: undefined,
+            hidden: false
         }
     }, {
         name: 'script',

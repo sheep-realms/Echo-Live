@@ -1,5 +1,5 @@
 const config = {
-    "data_version": 7,
+    "data_version": 8,
     "global": {
         "language": "zho-Hans",
         "theme": "vanilla",
@@ -136,7 +136,8 @@ const config = {
     },
     "advanced": {
         "broadcast": {
-            "allow_name_duplicate": false
+            "allow_name_duplicate": false,
+            "allow_send_duplicate_message": false
         },
         "editor": {
             "forced_display_split_message": false,
@@ -144,6 +145,7 @@ const config = {
         },
         "settings": {
             "display_config_key": false,
+            "display_hidden_option": false,
             "speech_synthesis_voices_maximum": 64
         }
     },

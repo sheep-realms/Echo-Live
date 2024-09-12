@@ -408,186 +408,188 @@ function outputTabUnsavePoint(state = true) {
 
 
 $(document).ready(function() {
-    $('#echo-settings-nav').html(SettingsPanel.nav(settingsNav));
+    translator.ready(() => {
+        $('#echo-settings-nav').html(SettingsPanel.nav(settingsNav));
 
-    // 载入数据
+        // 载入数据
 
-    let datalistLang = [];
+        let datalistLang = [];
 
-    function __setConfigDefineDatalist(key, data) {
-        let i = settingsManager.findIndexConfigDefine(key);
-        settingsManager.configDefine[i].attribute.datalist = data;
-    }
-
-    // lang_index.index.forEach(e => {
-    //     datalistLang.push({
-    //         value: e.code,
-    //         title: `<span lang="${ e.code_ietf }">${ e.title }</sapn>`
-    //     });
-    // });
-
-    echoLiveSystem.registry.forEach('language_index', e => {
-        datalistLang.push({
-            value: e.code,
-            title: `<span lang="${ e.code_ietf }">${ e.title }</sapn>`
-        });
-    });
-
-    __setConfigDefineDatalist('global.language', datalistLang);
-
-    datalistLang = [];
-    echoLiveSystem.registry.forEach('live_theme', e => {
-        datalistLang.push({
-            title: e.title,
-            value: e.name
-        });
-    });
-    __setConfigDefineDatalist('global.theme', datalistLang);
-    __setConfigDefineDatalist('echolive.style.live_theme', datalistLang);
-    __setConfigDefineDatalist('history.style.history_theme', datalistLang);
-
-    datalistLang = [];
-    echoLiveSystem.registry.forEach('sound', e => {
-        datalistLang.push({
-            title: $t(`sound.${ e.name }`),
-            value: e.name
-        });
-    });
-
-    __setConfigDefineDatalist('echolive.print_audio.name', datalistLang);
-    __setConfigDefineDatalist('echolive.next_audio.name', datalistLang);
-
-    datalistLang = [];
-    echoLiveSystem.registry.forEach('print_effect', e => {
-        datalistLang.push({
-            title: $t(`effect.print.${ e.name }`),
-            value: e.value
-        });
-    });
-    __setConfigDefineDatalist('echolive.print_effect.name', datalistLang);
-
-    datalistLang = [];
-    echoLiveSystem.registry.forEach('timing_function', e => {
-        datalistLang.push({
-            title: $t(`timing_function.${ e.name }`),
-            value: e.value
-        });
-    });
-    __setConfigDefineDatalist('echolive.print_effect.timing_function', datalistLang);
-
-    let voices = [];
-    try {
-        voices = speechSynthesis.getVoices();
-    } catch (error) {}
-    let voiceName = [];
-    for (let i = 0; i < voices.length; i++) {
-        if (
-            i >= config.advanced.settings.speech_synthesis_voices_maximum &&
-            config.advanced.settings.speech_synthesis_voices_maximum >= 0
-        ) break;
-        const e = voices[i];
-        voiceName.push({
-            value: e.name
-        });
-    }
-    __setConfigDefineDatalist('echolive.speech_synthesis.voice', voiceName);
-
-    datalistLang = [
-        { value: 'auto', title: $t('config.global.color_scheme._value.auto') },
-        { value: 'light', title: $t('config.global.color_scheme._value.light') },
-        { value: 'dark', title: $t('config.global.color_scheme._value.dark') }
-    ];
-    __setConfigDefineDatalist('global.color_scheme', datalistLang);
-
-    datalistLang = [];
-    echoLiveSystem.registry.forEach('border_style', e => {
-        datalistLang.push({
-            title: $t(`border_style.${ e.name }`),
-            value: e.value
-        });
-    });
-    __setConfigDefineDatalist('accessible.high_contrast_outline_style', datalistLang);
-
-    // 生成页面
-
-    settingsNav.forEach((e) => {
-        if (!e?.isCustom) {
-            let def = settingsManager.getConfigDefine(e.id);
-            let dom = '';
-            dom = SettingsPanel.setItems(def);
-            $('.settings-pages').append(SettingsPanel.page(e.id, dom));
+        function __setConfigDefineDatalist(key, data) {
+            let i = settingsManager.findIndexConfigDefine(key);
+            settingsManager.configDefine[i].attribute.datalist = data;
         }
-    });
 
-    $('.settings-item[data-id="echolive.speech_synthesis.voice"] .value').append(EditorForm.buttonGhost(
-        $t('ui.audition'),
-        {
-            id: 'btn-speech-voice-audition',
-            icon: Icon.accountVoice
+        // lang_index.index.forEach(e => {
+        //     datalistLang.push({
+        //         value: e.code,
+        //         title: `<span lang="${ e.code_ietf }">${ e.title }</sapn>`
+        //     });
+        // });
+
+        echoLiveSystem.registry.forEach('language_index', e => {
+            datalistLang.push({
+                value: e.code,
+                title: `<span lang="${ e.code_ietf }">${ e.title }</sapn>`
+            });
+        });
+
+        __setConfigDefineDatalist('global.language', datalistLang);
+
+        datalistLang = [];
+        echoLiveSystem.registry.forEach('live_theme', e => {
+            datalistLang.push({
+                title: e.title,
+                value: e.name
+            });
+        });
+        __setConfigDefineDatalist('global.theme', datalistLang);
+        __setConfigDefineDatalist('echolive.style.live_theme', datalistLang);
+        __setConfigDefineDatalist('history.style.history_theme', datalistLang);
+
+        datalistLang = [];
+        echoLiveSystem.registry.forEach('sound', e => {
+            datalistLang.push({
+                title: $t(`sound.${ e.name }`),
+                value: e.name
+            });
+        });
+
+        __setConfigDefineDatalist('echolive.print_audio.name', datalistLang);
+        __setConfigDefineDatalist('echolive.next_audio.name', datalistLang);
+
+        datalistLang = [];
+        echoLiveSystem.registry.forEach('print_effect', e => {
+            if (!e?.hidden || config.advanced.settings.display_hidden_option) datalistLang.push({
+                title: $t(`effect.print.${ e.name }`),
+                value: e.value
+            });
+        });
+        __setConfigDefineDatalist('echolive.print_effect.name', datalistLang);
+
+        datalistLang = [];
+        echoLiveSystem.registry.forEach('timing_function', e => {
+            datalistLang.push({
+                title: $t(`timing_function.${ e.name }`),
+                value: e.value
+            });
+        });
+        __setConfigDefineDatalist('echolive.print_effect.timing_function', datalistLang);
+
+        let voices = [];
+        try {
+            voices = speechSynthesis.getVoices();
+        } catch (error) {}
+        let voiceName = [];
+        for (let i = 0; i < voices.length; i++) {
+            if (
+                i >= config.advanced.settings.speech_synthesis_voices_maximum &&
+                config.advanced.settings.speech_synthesis_voices_maximum >= 0
+            ) break;
+            const e = voices[i];
+            voiceName.push({
+                value: e.name
+            });
         }
-    ));
+        __setConfigDefineDatalist('echolive.speech_synthesis.voice', voiceName);
 
-    if (config.data_version < db_config_version) {
-        settingsManager.updateConfig(db_config_version);
-    }
+        datalistLang = [
+            { value: 'auto', title: $t('config.global.color_scheme._value.auto') },
+            { value: 'light', title: $t('config.global.color_scheme._value.light') },
+            { value: 'dark', title: $t('config.global.color_scheme._value.dark') }
+        ];
+        __setConfigDefineDatalist('global.color_scheme', datalistLang);
 
-    configLoad();
+        datalistLang = [];
+        echoLiveSystem.registry.forEach('border_style', e => {
+            datalistLang.push({
+                title: $t(`border_style.${ e.name }`),
+                value: e.value
+            });
+        });
+        __setConfigDefineDatalist('accessible.high_contrast_outline_style', datalistLang);
 
-    aboutLinks.forEach(e => {
-        if (e?.isGroupTitle) {
-            $('.settings-about-content').append(SettingsPanel.linkBarGroupTitle($t('config.about.' + e.name), e));
-        } else {
-            $('.settings-about-content').append(SettingsPanel.linkBar(
-                $t('config.about.' + e.name),
-                e.href,
-                e?.icon,
-                e
-            ));
+        // 生成页面
+
+        settingsNav.forEach((e) => {
+            if (!e?.isCustom) {
+                let def = settingsManager.getConfigDefine(e.id);
+                let dom = '';
+                dom = SettingsPanel.setItems(def);
+                $('.settings-pages').append(SettingsPanel.page(e.id, dom));
+            }
+        });
+
+        $('.settings-item[data-id="echolive.speech_synthesis.voice"] .value').append(EditorForm.buttonGhost(
+            $t('ui.audition'),
+            {
+                id: 'btn-speech-voice-audition',
+                icon: Icon.accountVoice
+            }
+        ));
+
+        if (config.data_version < db_config_version) {
+            settingsManager.updateConfig(db_config_version);
         }
+
+        configLoad();
+
+        aboutLinks.forEach(e => {
+            if (e?.isGroupTitle) {
+                $('.settings-about-content').append(SettingsPanel.linkBarGroupTitle($t('config.about.' + e.name), e));
+            } else {
+                $('.settings-about-content').append(SettingsPanel.linkBar(
+                    $t('config.about.' + e.name),
+                    e.href,
+                    e?.icon,
+                    e
+                ));
+            }
+        });
+
+        $('.settings-nav-item').eq(0).click();
+
+        $('#settings-file-check-box').html(SettingsFileChecker.default());
+
+        
+        $('.settings-page[data-pageid="echo"]').prepend(SettingsPanel.msgBox(
+            $t('settings.msgbox.echo.title'),
+            $t('settings.msgbox.echo.description')
+        ));
+        $('.settings-page[data-pageid="accessible"]').prepend(
+            SettingsPanel.msgBoxBlack(
+                $t('config.about.accessibility'),
+                $t('settings.msgbox.accessibility'),
+                'wheelchairAccessibility'
+            ) +
+            `<div class="review-color-card" aria-label="${ $t('settings.label.accessibility_color_card') }">
+                <div class="general"><div class="fg">${ $t('settings.functional_color.general') }</div><div class="bg"></div></div>
+                <div class="safe"><div class="fg">${ $t('settings.functional_color.safe') }</div><div class="bg"></div></div>
+                <div class="warn"><div class="fg">${ $t('settings.functional_color.warn') }</div><div class="bg"></div></div>
+                <div class="danger"><div class="fg">${ $t('settings.functional_color.danger') }</div><div class="bg"></div></div>
+            </div>`
+        );
+        $('.settings-page[data-pageid="advanced"]').prepend(SettingsPanel.msgBoxWarn(
+            '',
+            $t('settings.msgbox.advanced_settings')
+        ));
+        $('.settings-page[data-pageid="extension"]').prepend(SettingsPanel.msgBox(
+            $t('settings.msgbox.extension.title'),
+            $t('settings.msgbox.extension.description'),
+            'help'
+        ));
+
+        let ua = navigator.userAgent.toLowerCase();
+        if (ua.search(/ chrome\//) == -1) {
+            showFileCheckDialog(SettingsFileChecker.dialogUseChrome());
+        } else if (ua.search(/ obs\//) != -1) {
+            showFileCheckDialogWarn('in_obs');
+        }
+
+        bodyClassCache = $('html').attr('class') ?? '';
+
+        $(window).resize();
     });
-
-    $('.settings-nav-item').eq(0).click();
-
-    $('#settings-file-check-box').html(SettingsFileChecker.default());
-
-    
-    $('.settings-page[data-pageid="echo"]').prepend(SettingsPanel.msgBox(
-        $t('settings.msgbox.echo.title'),
-        $t('settings.msgbox.echo.description')
-    ));
-    $('.settings-page[data-pageid="accessible"]').prepend(
-        SettingsPanel.msgBoxBlack(
-            $t('config.about.accessibility'),
-            $t('settings.msgbox.accessibility'),
-            'wheelchairAccessibility'
-        ) +
-        `<div class="review-color-card" aria-label="${ $t('settings.label.accessibility_color_card') }">
-            <div class="general"><div class="fg">${ $t('settings.functional_color.general') }</div><div class="bg"></div></div>
-            <div class="safe"><div class="fg">${ $t('settings.functional_color.safe') }</div><div class="bg"></div></div>
-            <div class="warn"><div class="fg">${ $t('settings.functional_color.warn') }</div><div class="bg"></div></div>
-            <div class="danger"><div class="fg">${ $t('settings.functional_color.danger') }</div><div class="bg"></div></div>
-        </div>`
-    );
-    $('.settings-page[data-pageid="advanced"]').prepend(SettingsPanel.msgBoxWarn(
-        '',
-        $t('settings.msgbox.advanced_settings')
-    ));
-    $('.settings-page[data-pageid="extension"]').prepend(SettingsPanel.msgBox(
-        $t('settings.msgbox.extension.title'),
-        $t('settings.msgbox.extension.description'),
-        'help'
-    ));
-
-    let ua = navigator.userAgent.toLowerCase();
-    if (ua.search(/ chrome\//) == -1) {
-        showFileCheckDialog(SettingsFileChecker.dialogUseChrome());
-    } else if (ua.search(/ obs\//) != -1) {
-        showFileCheckDialogWarn('in_obs');
-    }
-
-    bodyClassCache = $('html').attr('class') ?? '';
-
-    $(window).resize();
 
     // 调试信息
 

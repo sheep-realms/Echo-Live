@@ -565,6 +565,10 @@ const lang_zho_Hant_TW = {
                 allow_name_duplicate: {
                     _title: "允許識別名重複",
                     _description: "允許終端識別名出現重複，這可能會引發意料之外的情況。"
+                },
+                allow_send_duplicate_message: {
+                    _title: "允許傳送重複訊息",
+                    _description: "對話方塊收到重複訊息時會再次列印而非忽略，這將會失去防抖機制。"
                 }
             },
             editor: {
@@ -585,6 +589,10 @@ const lang_zho_Hant_TW = {
                 display_config_key: {
                     _title: "顯示配置項鍵名",
                     _description: "在配置項描述下方顯示鍵名。"
+                },
+                display_hidden_option: {
+                    _title: "顯示隱藏選項",
+                    _description: "顯示一些因特定條件下不可用的或實驗性的選項。"
                 },
                 speech_synthesis_voices_maximum: {
                     _title: "講述人語音資源列表最大顯示數量",

@@ -1,4 +1,4 @@
-const db_config_version = 7;
+const db_config_version = 8;
 
 const db_config_define = [
     {
@@ -971,6 +971,11 @@ const db_config_define = [
         default: false,
         created: 2
     }, {
+        name: 'advanced.broadcast.allow_send_duplicate_message',
+        type: 'boolean',
+        default: false,
+        created: 8
+    }, {
         name: 'advanced.editor',
         type: 'object',
         created: 1
@@ -996,6 +1001,11 @@ const db_config_define = [
         type: 'boolean',
         default: false,
         created: 6
+    }, {
+        name: 'advanced.settings.display_hidden_option',
+        type: 'boolean',
+        default: false,
+        created: 8
     }, {
         name: 'advanced.settings.speech_synthesis_voices_maximum',
         type: 'number',

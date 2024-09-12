@@ -55,17 +55,6 @@ setCheckboxDefaultValue('#config-output-use-after', config.editor.form.ontput_af
 if (!config.editor.function.tabpage_config_enable) $('#tabpage-nav-config').addClass('hide');
 if (!config.editor.function.tabpage_output_enable) $('#tabpage-nav-output').addClass('hide');
 
-popupsCreate(Popups.palettePopups(echoLiveEditor.getPalettes()), '#popups-palette');
-$('#popups-palette .palette-page').eq(0).removeClass('hide');
-if (config.editor.color_picker.contrast_enable) $('#popups-palette').addClass('color-contrast-enable');
-$('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--bg-color', config.editor.color_picker.contrast_background_color)
-paletteColorContrastCheck('#000000');
-
-popupsCreate(Popups.emojiPopups(echoLiveEditor.getEmoji()), '#popups-emoji');
-$('#popups-emoji .emoji-page').eq(0).removeClass('hide');
-
-popupsCreate(Popups.imagePopups(), '#popups-image');
-
 if (!config.echolive.image.allow_data_url_and_relative_url) {
     $('#popups-image-nav .tabpage-nav-item[data-pageid="file"]').addClass('hide');
     $('#popups-image-nav .tabpage-nav-item[data-pageid="url"]').click();
@@ -96,8 +85,22 @@ let commanderFnMode = false;
 let elb;
 
 $(document).ready(function() {
-    $('#ptext-editor .editor-bottom-bar .length').text($t('editor.form.text_length', { n: 0 }));
     $('.tabpage-panel[data-pageid="ptext"] .editor-controller').append(EditorForm.editorController('ptext-content'));
+    
+    translator.ready(() => {
+        $('#ptext-editor .editor-bottom-bar .length').text($t('editor.form.text_length', { n: 0 }));
+
+        popupsCreate(Popups.palettePopups(echoLiveEditor.getPalettes()), '#popups-palette');
+        $('#popups-palette .palette-page').eq(0).removeClass('hide');
+        if (config.editor.color_picker.contrast_enable) $('#popups-palette').addClass('color-contrast-enable');
+        $('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--bg-color', config.editor.color_picker.contrast_background_color)
+        paletteColorContrastCheck('#000000');
+
+        popupsCreate(Popups.emojiPopups(echoLiveEditor.getEmoji()), '#popups-emoji');
+        $('#popups-emoji .emoji-page').eq(0).removeClass('hide');
+
+        popupsCreate(Popups.imagePopups(), '#popups-image');
+    });
 
     if (config.echo.print_speed != 30) {
         $('.echo-editor-form-input-tip').text($t('editor.form.description.print_speed_custom', { value: config.echo.print_speed }));
@@ -135,18 +138,23 @@ $(document).ready(function() {
 
         commander.link.broadcast = elb;
 
-        checkNowDate();
-        editorLogT('editor.log.broadcast_launch.done', { channel: config.echolive.broadcast.channel });
-        editorLog('User Agent: ' + navigator.userAgent, 'dbug');
-        if (navigator.userAgent.toLowerCase().search(/ obs\//) != -1) {
-            editorLogT('editor.log.broadcast_launch.user_agent_check', {}, 'done');
-            inOBS = true;
-        } else {
-            editorLogT('editor.log.broadcast_launch.user_agent_error', {}, 'tips');
-        }
+        translator.ready(() => {
+            checkNowDate();
+            editorLogT('editor.log.broadcast_launch.done', { channel: config.echolive.broadcast.channel });
+            editorLog('User Agent: ' + navigator.userAgent, 'dbug');
+
+            if (navigator.userAgent.toLowerCase().search(/ obs\//) != -1) {
+                editorLogT('editor.log.broadcast_launch.user_agent_check', {}, 'done');
+                inOBS = true;
+            } else {
+                editorLogT('editor.log.broadcast_launch.user_agent_error', {}, 'tips');
+            }
+        });
     } else {
-        checkNowDate();
-        editorLogT('editor.log.broadcast_launch.disable');
+        translator.ready(() => {
+            checkNowDate();
+            editorLogT('editor.log.broadcast_launch.disable');
+        });
     }
 });
 
@@ -500,6 +508,8 @@ $('#ptext-btn-send').click(function() {
     if($('#ptext-chk-sent-clear').val() == 1) $('#ptext-content').val('');
 
     $('#ptext-content').focus();
+
+    echoLiveSystem.device.vibrateAuto('success');
 });
 
 // 输出页发送
@@ -511,7 +521,11 @@ $('#output-btn-send').click(function() {
         afterCheck  = centent.substring(centent.length - after.length, centent.length) == after,
         newCentent  = '';
     
-    if (centent.length == 0) return editorLogT('editor.log.message.empty', {}, 'erro');
+    if (centent.length == 0) {
+        editorLogT('editor.log.message.empty', {}, 'erro');
+        echoLiveSystem.device.vibrateAuto('error');
+        return;
+    }
     
     if (beforeCheck && afterCheck) {
         newCentent = centent.substring(before.length, centent.length - after.length);
@@ -523,15 +537,22 @@ $('#output-btn-send').click(function() {
 
     try {
         msg = JSON.parse(newCentent);
-        if (msg?.messages == undefined && msg?.username == undefined) return editorLogT('editor.log.message.empty_data', {}, 'erro');
+        if (msg?.messages == undefined && msg?.username == undefined) {
+            editorLogT('editor.log.message.empty_data', {}, 'erro');
+            echoLiveSystem.device.vibrateAuto('error');
+            return;
+        }
         elb.sendData(msg);
+        echoLiveSystem.device.vibrateAuto('success');
     } catch (error) {
         editorLogT('editor.log.message.illegal', {}, 'erro');
+        echoLiveSystem.device.vibrateAuto('error');
         return;
     }
 
     if (msg.messages == undefined) {
         editorLogT('editor.log.message.empty_messages', {}, 'warn');
+        echoLiveSystem.device.vibrateAuto('error');
         return;
     }
 
@@ -718,6 +739,7 @@ $(document).on('click', '.history-message-item-btn-send', function() {
     if (config.editor.function.history_resend_bubble) $('#history-message-list').prepend($item);
     
     elb.sendData(history[i].data);
+    echoLiveSystem.device.vibrateAuto('success');
     editorLogT('editor.log.message.resent');
 });
 

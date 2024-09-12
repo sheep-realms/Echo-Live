@@ -11,9 +11,11 @@ echoLiveSystem.registry.loadRegistry('print_effect', e => {
     }, {
         value: 'move-in-down'
     }, {
-        value: 'zoom-in-inside'
+        value: 'zoom-in-inside',
+        hidden: true
     }, {
-        value: 'zoom-in-outside'
+        value: 'zoom-in-outside',
+        hidden: true
     }, {
         value: 'blur-in'
     }

@@ -1,4 +1,4 @@
-$(document).ready(function() {
+function pageLoadedI18n() {
     let $i18n = $('*[data-i18n]');
     for (let i = 0; i < $i18n.length; i++) {
         const e = $i18n.eq(i);
@@ -17,4 +17,8 @@ $(document).ready(function() {
         const key = e.data('i18n-aria-label');
         e.attr('aria-label', $t(key));
     }
+}
+
+$(document).ready(function() {
+        translator.ready(pageLoadedI18n);
 });

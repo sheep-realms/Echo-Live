@@ -383,11 +383,14 @@ class EchoLiveTools {
     /**
      * 安全输出 HTML
      * @param {String} text 文本
+     * @param {Boolean} inAttribute 在属性值中
      * @returns {String} 过滤后的文本
      */
-    static safeHTML(text) {
+    static safeHTML(text, inAttribute = false) {
         if (typeof text != 'string') return text;
-        return text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        let txt = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        if (inAttribute) txt = text.replace(/"/g, '&quot;');
+        return txt;
     }
 
     /**

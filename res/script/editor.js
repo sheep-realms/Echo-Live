@@ -61,14 +61,6 @@ if (!config.echolive.image.allow_data_url_and_relative_url) {
     $('#popups-image-images-list').addClass('disable-not-absolute');
 }
 
-try {
-    selectedImageData = localStorageManager.getItem('images_cache');
-    if (!Array.isArray(selectedImageData)) selectedImageData = [];
-    $('#popups-image-images-list').html(Popups.imagesContent(selectedImageData));
-} catch (error) {
-    
-}
-
 
 
 let commander = new Commander();
@@ -86,7 +78,7 @@ let elb;
 
 $(document).ready(function() {
     $('.tabpage-panel[data-pageid="ptext"] .editor-controller').append(EditorForm.editorController('ptext-content'));
-    
+
     translator.ready(() => {
         $('#ptext-editor .editor-bottom-bar .length').text($t('editor.form.text_length', { n: 0 }));
 
@@ -100,6 +92,14 @@ $(document).ready(function() {
         $('#popups-emoji .emoji-page').eq(0).removeClass('hide');
 
         popupsCreate(Popups.imagePopups(), '#popups-image');
+
+        try {
+            selectedImageData = localStorageManager.getItem('images_cache');
+            if (!Array.isArray(selectedImageData)) selectedImageData = [];
+            $('#popups-image-images-list').html(Popups.imagesContent(selectedImageData));
+        } catch (error) {
+            
+        }
     });
 
     if (config.echo.print_speed != 30) {

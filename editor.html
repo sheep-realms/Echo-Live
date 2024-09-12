@@ -126,7 +126,7 @@
                     </div>
 
                     <label for="ptext-character" data-i18n="editor.form.label.character">说话人</label>
-                    <input type="text" name="character" id="ptext-character">
+                    <input type="text" name="character" id="ptext-character" autocomplete="off">
 
                     <div id="ptext-editor" class="editor-container">
                         <div class="editor-controller disabled"></div>
@@ -491,7 +491,7 @@
 
     <div id="commander-input-panel" class="hide">
         <div class="commander-input-left"></div>
-        <textarea id="commander-input" class="code" data-i18n-aria-label="editor.form.aria_label.commander" rows="1"></textarea>
+        <textarea id="commander-input" class="code" data-i18n-aria-label="editor.form.aria_label.commander" rows="1" enterkeyhint="send"></textarea>
         <div class="commander-input-right"></div>
         <div class="commander-function-mode-label" data-i18n="command.common.label.function_mode"></div>
     </div>

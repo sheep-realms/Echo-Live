@@ -1,9 +1,9 @@
 class EchoLiveSystem {
     constructor() {
-        this.mixer = undefined;
-        this.registry = new EchoLiveRegistry();
-        this.device = new EchoLiveLocalDeviceManager();
-        this.config = config;
+        this.mixer      = undefined;
+        this.registry   = new EchoLiveRegistry();
+        this.device     = new EchoLiveLocalDeviceManager();
+        this.config     = config;
     }
 }
 
@@ -15,9 +15,9 @@ class EchoLiveData {
             type: 'string',
             regexp: /^[^:]+(:[^:]+)+$/,
             filter: {
-                pad_namespace: (v, unit, data) => unit.check() ? v : ( data?.namespace ? data.namespace : 'echolive:' ) + v,
-                get_namespace: (v, unit) => unit.check() ? v.split(':')[0] : '',
-                get_id: (v, unit) => unit.check() ? v.split(':').slice(1).join(':') : v
+                pad_namespace:  (v, unit, data) => unit.check() ? v : ( data?.namespace ? data.namespace : 'echolive:' ) + v,
+                get_namespace:  (v, unit)       => unit.check() ? v.split(':')[0] : '',
+                get_id:         (v, unit)       => unit.check() ? v.split(':').slice(1).join(':') : v
             }
         }
     };
@@ -447,7 +447,11 @@ class EchoLiveLocalDeviceManager {
 
     vibrate(data) {
         if (typeof navigator.vibrate !== 'function') return;
-        return navigator.vibrate(data);
+        try {
+            return navigator.vibrate(data);
+        } catch (error) {
+            this.vibrate = () => {};
+        }
     }
 
     /**

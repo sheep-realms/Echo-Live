@@ -831,7 +831,7 @@ class Popups {
             data-value="${ Number(index) }"
             data-is-absolute="${ Boolean(isAbsolute) }"
         >
-            <img src="${ encodeURI(url) }" alt="${ $t('file.picker.image') }">
+            <img src="${ EchoLiveTools.safeHTML(url, true) }" alt="${ $t('file.picker.image') }">
         </button>`
     }
 }

@@ -285,6 +285,7 @@ class EchoLiveRegistry {
      * @param {*} value 注册表值
      * @param {Data} data 附加数据
      * @param {Boolean} data.fill 强制覆盖
+     * @param {Boolean} data.trigger_disable 禁用触发
      * @returns {*} 合并后的注册表值
      */
     setRegistryValue(table, key, value, data = {}) {
@@ -295,7 +296,8 @@ class EchoLiveRegistry {
 
         data = {
             fill: false,
-            trigger_disable: false
+            trigger_disable: false,
+            ...data
         }
 
         if (typeof value === 'object') value = JSON.parse(JSON.stringify(value));

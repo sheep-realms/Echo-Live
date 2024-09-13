@@ -925,7 +925,7 @@ $(document).on('click', '#link-open-settings', function(e) {
 // 彩蛋
 function getDateNumber() {
     let d = new Date();
-    return `${String(d.getMonth() + 1).padStart(2, 0)}${String(d.getDate() + 1).padStart(2, 0)}`;
+    return `${String(d.getMonth() + 1).padStart(2, 0)}${String(d.getDate()).padStart(2, 0)}`;
 }
 
 function checkNowDate() {

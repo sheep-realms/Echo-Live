@@ -31,6 +31,10 @@
     display: none;
 }
 
+.holy-fucking-shit {
+    display: none;
+}
+
 @media (prefers-color-scheme: dark) {
     :root:not(.prefers-color-scheme-light) {
         --text-primary: #BEC1C6;

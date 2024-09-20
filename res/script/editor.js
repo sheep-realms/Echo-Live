@@ -369,6 +369,7 @@ $('#ptext-btn-clear').click(function() {
     for (let i = 0; i < $sel.length; i++) {
         $sel.eq(i).val($sel.eq(i).data('default'));
     }
+    $('#ptext-content').trigger('input');
     $('#ptext-content').focus();
 });
 
@@ -708,12 +709,12 @@ $(document).on('click', '#popups-emoji .emoji-box', function() {
 
 // 纯文本编辑器字数统计
 $(document).on('input', '#ptext-content', function() {
-    let length  = $(this).val().length;
+    let length  = [...$(this).val()].length;
 
     $('#ptext-editor .editor-bottom-bar .length').text($t('editor.form.text_length', { n: length }));
 });
 $(document).on('change', '#ptext-content', function() {
-    let length  = $(this).val().length;
+    let length  = [...$(this).val()].length;
 
     $('#ptext-editor .editor-bottom-bar .length').text($t('editor.form.text_length', { n: length }));
 });

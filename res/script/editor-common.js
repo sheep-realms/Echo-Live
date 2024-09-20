@@ -121,7 +121,7 @@ function insertTextAtCursor(id, text, text2 = '', forceInputText2 = false, force
     }
     
     textarea.focus();
-    $('#' + id).change();
+    $('#' + id).trigger('input');
 }
 
 

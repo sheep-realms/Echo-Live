@@ -1115,8 +1115,7 @@ class SettingsPanel {
             FHUI.element(
                 'label',
                 {
-                    class: 'title',
-                    style: 'display: none;',
+                    class: 'settings-item-label',
                     for: id.replace(/\./g, '-')
                 },
                 title
@@ -1129,7 +1128,7 @@ class SettingsPanel {
         // value = String(value).replace(/"/g, '&quot;');
         return SettingsPanel.setItem(
             type, id, title, description,
-            `<label class="title" style="display: none;" for="${ id.replace(/\./g, '-') }">${ title }</label>`,
+            `<label class="settings-item-label" for="${ id.replace(/\./g, '-') }">${ title }</label>`,
             `<div class="content">
                 <textarea id="${ id.replace(/\./g, '-') }" class="settings-value code" aria-label="${ title }" data-default="${ encodeURIComponent(value) }">${ value }</textarea>
             </div>`
@@ -1142,8 +1141,7 @@ class SettingsPanel {
             FHUI.element(
                 'label',
                 {
-                    class: 'title',
-                    style: 'display: none;',
+                    class: 'settings-item-label',
                     for: id.replace(/\./g, '-')
                 },
                 title

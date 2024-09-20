@@ -504,7 +504,19 @@ $('#ptext-btn-send').click(function() {
     elb.sendData(d);
     sendHistoryMessage(d);
 
-    editorLogT('editor.log.message.sent', { msg: EchoLiveTools.getMessageSendLog(d.messages[0].message, d.username) });
+    let text = EchoLiveTools.getMessageSendLog(d.messages[0].message, d.username);
+    let textArray = [...text];
+    if (textArray.length > 128) {
+        text = textArray.splice(0, 128).join('');
+        text += '...'
+    }
+
+    editorLogT(
+        'editor.log.message.sent',
+        {
+            msg: text
+        }
+    );
 
     if($('#ptext-chk-sent-clear').val() == 1) $('#ptext-content').val('');
 

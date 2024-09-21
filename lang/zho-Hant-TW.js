@@ -1302,7 +1302,7 @@ const lang_zho_Hant_TW = {
     },
     notice: {
         config_re_output: "已重新匯出配置檔案內容！",
-        config_saved: "配置檔案已儲存！",
+        config_saved: "配置檔案已儲存！請注意重新整理所有頁面使新配置生效。",
         config_saving: "儲存中...",
         config_saving_fail: "未授權寫入，配置檔案未儲存。",
         browser_zoom: "如果您不小心調整了縮放率不知道怎麼復原，請按：<kbd>Ctrl</kbd> + <kbd>0</kbd>（數字鍵）",

@@ -1026,7 +1026,7 @@ $(document).keydown(function(e) {
 
 $(window).resize(function() {
     const tabHeight = $('#echo-editor-nav').height();
-    $('.settings-nav').css('top', `${tabHeight + 17}px`);
+    $('.settings-nav').css('top', `calc(var(--font-size-middle) + ${tabHeight + 1}px)`);
     $('html').css('--settings-group-title-stickt-top', `${tabHeight + 1}px`);
 
     // $('.settings-group-collapse').each(function() {
@@ -1086,6 +1086,7 @@ $(document).on('click', '.settings-item[data-id="global.touchscreen_layout"] .se
         } else {
             $('html').removeClass('touchscreen-layout');
         }
+        $(window).resize();
         const offsetTopNew = $('.settings-item[data-id="global.touchscreen_layout"] .settings-switch').offset().top;
         window.scrollTo({ top: scrollY + (offsetTopNew - offsetTop) });
     }, 12);

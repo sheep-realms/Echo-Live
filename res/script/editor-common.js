@@ -8,6 +8,7 @@ if (APP_META.isBeta) {
 }
 
 if (config.global.color_scheme != 'auto') $('html').addClass('prefers-color-scheme-' + config.global.color_scheme);
+if (config.global.touchscreen_layout) $('html').addClass('touchscreen-layout');
 if (config.global.controller_layout_reverse) $('html').addClass('controller-layout-reverse');
 if (config.accessible.high_contrast || window.matchMedia('(forced-colors: active)').matches) {
     $('html').addClass('accessible-high-contrast');

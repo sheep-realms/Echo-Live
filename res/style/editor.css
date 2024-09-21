@@ -98,6 +98,7 @@
 body {
     overflow-y: scroll;
     background-color: var(--page-bgcolor);
+    font-size: var(--font-size-middle);
 }
 
 main {
@@ -180,6 +181,7 @@ input.code {
     display: inline-block;
     color: var(--text-secondary);
     transition: color .3s, border .3s;
+    min-height: var(--height-top-nav);
 }
 
 .tabpage-nav-item[aria-selected="false"]:not(.disabled):hover {
@@ -251,6 +253,7 @@ input.code {
 
 .echo-editor-form label {
     padding: 0.25em 0;
+    font-size: var(--font-size-middle);
     color: var(--text-regular);
 }
 
@@ -317,7 +320,7 @@ input.code {
 .editor-controller.disabled {
     pointer-events: none;
     opacity: 0;
-    max-height: calc(var(--font-size-base) + 20px);
+    max-height: var(--height-component);
     visibility: hidden;
 }
 
@@ -385,6 +388,7 @@ input.code {
     align-items: center;
     color: var(--text-regular);
     width: 100%;
+    min-height: var(--height-component);
 }
 
 .checkbox .icon {
@@ -487,7 +491,7 @@ input[type=text] {
     outline: none;
     background-color: var(--input-bgcolor);
     transition: border-color .3s;
-    height: calc(var(--font-size-base) + 20px);
+    min-height: var(--height-component);
     color: var(--input-color);
 }
 
@@ -513,6 +517,7 @@ select {
     transition: border .3s;
     cursor: pointer;
     color: var(--input-color);
+    min-height: var(--height-component);
 }
 
 select:focus {
@@ -689,6 +694,7 @@ select:focus {
     display: flex;
     align-items: center;
     justify-content: center;
+    min-height: calc(var(--height-component) - 20px);
 }
 
 .echo-live-client-state-block.echo-state-play .client-info {
@@ -724,7 +730,7 @@ select:focus {
 .echo-live-client-state-block .state-color-block {
     height: 8px;
     box-sizing: border-box;
-    background-color: #EEEEEE;
+    background-color: var(--msgbox-bgcolor);
 }
 
 .echo-live-client-state-block.state-active .state-color-block {
@@ -1640,7 +1646,7 @@ select:focus {
     border-bottom: var(--border-color) 1px solid;
     background-color: var(--input-bgcolor);
     transition: border-color .3s;
-    height: calc(var(--font-size-base) + 20px);
+    height: var(--height-component);
     color: var(--label-color);
     display: flex;
     align-items: center;
@@ -1724,7 +1730,7 @@ select:focus {
     top: -1000px;
     left: -1000px;
     --select-list-width-auto: auto;
-    --select-option-height: calc(var(--font-size-base) + 20px);
+    --select-option-height: var(--height-component);
     position: absolute;
     box-shadow: var(--box-shadow);
     background-color: var(--input-bgcolor);
@@ -1766,7 +1772,7 @@ select:focus {
     min-height: var(--select-option-height);
     box-sizing: border-box;
     user-select: none;
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-middle);
     transition: background-color var(--animation-speed-button-switch);
     gap: 0.5em;
     scroll-snap-align: start;

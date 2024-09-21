@@ -1076,6 +1076,21 @@ $(document).on('click', '.settings-item[data-id="advanced.settings.display_confi
     }, 12);
 });
 
+$(document).on('click', '.settings-item[data-id="global.touchscreen_layout"] .settings-switch button', function() {
+    const scrollY = window.scrollY;
+    const offsetTop = $('.settings-item[data-id="global.touchscreen_layout"] .settings-switch').offset().top;
+    setTimeout(function() {
+        let value = getSettingsItemValue('global.touchscreen_layout');
+        if (value) {
+            $('html').addClass('touchscreen-layout');
+        } else {
+            $('html').removeClass('touchscreen-layout');
+        }
+        const offsetTopNew = $('.settings-item[data-id="global.touchscreen_layout"] .settings-switch').offset().top;
+        window.scrollTo({ top: scrollY + (offsetTopNew - offsetTop) });
+    }, 12);
+});
+
 
 
 $(document).on('click', '#tabpage-nav-edit:not(:disabled)', function() {

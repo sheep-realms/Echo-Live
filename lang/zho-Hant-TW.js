@@ -152,6 +152,10 @@ const lang_zho_Hant_TW = {
                     light: "淺色"
                 }
             },
+            touchscreen_layout: {
+                _title: "啟用觸屏佈局",
+                _description: "使用更大尺寸的佈局以方便觸屏操作。"
+            },
             controller_layout_reverse: {
                 _title: "反轉控制器按鈕佈局",
                 _description: "根據閱讀方向將重要按鈕放置於最先被閱讀的位置。"

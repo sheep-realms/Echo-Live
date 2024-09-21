@@ -43,7 +43,7 @@
 .markdown-body p,
 .markdown-body li,
 .markdown-body code {
-    line-height: calc(var(--font-size-base) + 4px);
+    line-height: calc(var(--font-size-middle) + 4px);
 }
 
 .markdown-body a {

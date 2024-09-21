@@ -5,6 +5,7 @@ const config = {
         "theme": "vanilla",
         "theme_script_enable": false,
         "color_scheme": "auto",
+        "touchscreen_layout": false,
         "controller_layout_reverse": false
     },
     "echo": {

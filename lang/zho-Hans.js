@@ -152,6 +152,10 @@ const lang_zho_Hans = {
                     light: "浅色"
                 }
             },
+            touchscreen_layout: {
+                _title: "启用触屏布局",
+                _description: "使用更大尺寸的布局以方便触屏操作。"
+            },
             controller_layout_reverse: {
                 _title: "反转控制器按钮布局",
                 _description: "根据阅读方向将重要按钮放置于最先被阅读的位置。"

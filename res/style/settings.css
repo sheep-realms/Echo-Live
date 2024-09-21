@@ -285,7 +285,7 @@
     cursor: pointer;
     display: flex;
     align-items: center;
-    min-height: 40px;
+    min-height: var(--height-menu-item);
     padding: 4px 0.5em;
     color: var(--text-regular);
     border: unset;
@@ -749,6 +749,7 @@
     flex: 1;
     color: var(--text-regular);
     min-width: 200px;
+    font-size: var(--font-size-middle);
 }
 
 .settings-controller-action {
@@ -789,7 +790,7 @@ a.settings-link-bar {
     align-items: center;
     color: var(--text-regular);
     border-bottom: var(--border-color) 1px solid;
-    min-height: 44px;
+    min-height: var(--height-component-large);
     padding: 0 8px;
     gap: 8px;
 }

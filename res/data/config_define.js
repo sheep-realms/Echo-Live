@@ -1,4 +1,4 @@
-const db_config_version = 8;
+const db_config_version = 9;
 
 const db_config_define = [
     {
@@ -34,6 +34,11 @@ const db_config_define = [
         attribute: {
             datalist: []
         }
+    }, {
+        name: 'global.touchscreen_layout',
+        type: 'boolean',
+        default: false,
+        created: 9
     }, {
         name: 'global.controller_layout_reverse',
         type: 'boolean',

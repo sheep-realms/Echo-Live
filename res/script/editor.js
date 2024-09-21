@@ -476,10 +476,13 @@ function ptextSubmit() {
     }
 
     if ($('#ptext-chk-more').val() == 1) {
+        let printSpeedValue = Number($('#ptext-ipt-print-speed').val());
+        if (Number.isNaN(printSpeedValue)) printSpeedValue = config.echo.print_speed;
+        if (printSpeedValue < 4) printSpeedValue = config.echo.print_speed;
         d.messages.forEach(e => {
             e.data = {
                 ...d.messages[0].data,
-                ...{printSpeed: Number($('#ptext-ipt-print-speed').val())}
+                ...{printSpeed: printSpeedValue}
             };
         });
     }

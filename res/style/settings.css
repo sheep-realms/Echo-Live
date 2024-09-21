@@ -468,6 +468,7 @@
     padding: 0 !important;
     margin: 0 !important;
     position: absolute !important;
+    pointer-events: none;
 }
 
 .settings-group:not(:last-child) .settings-item:last-child {

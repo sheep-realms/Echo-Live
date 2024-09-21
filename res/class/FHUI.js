@@ -228,8 +228,8 @@ class FHUIComponentInput {
 
                 list.css('left', inputCpt.offset().left + 'px');
 
-                if ((list.offset().left + list.width() + 24) > (window.scrollX + window.innerWidth)) {
-                    list.css('left', window.scrollX + window.innerWidth - list.width() - 24 + 'px');
+                if ((list.offset().left + list.width() + 16) > (window.scrollX + window.innerWidth)) {
+                    list.css('left', window.scrollX + window.innerWidth - list.width() - 16 + 'px');
                 }
 
                 if (setFocus) {

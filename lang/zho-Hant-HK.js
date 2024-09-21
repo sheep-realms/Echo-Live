@@ -389,7 +389,7 @@ const lang_zho_Hant_HK = {
                 },
                 client_state_panel_enable: {
                     _title: "顯示對話框狀態儀錶板",
-                    _description: "儀錶板可以顯示所有對話框的狀態，綠色為啟動，紅色為休眠，灰色則表示沒有對話框加入頻道。<br>如果您添加了多個對話框，建議您啟用此項。<br>如果您是紅綠色盲，請在無障礙設置中啟用紅綠色盲。<br>- 啟用後，藍色填充為啟動，藍色邊框為休眠。"
+                    _description: "儀錶板可以顯示所有對話框的狀態，綠色為啟動，紅色為休眠，灰色則表示沒有對話框加入頻道。<br>如果您添加了多個對話框，建議您啟用此項。<br>如果您是紅綠色盲，請在可訪問性設置中啟用紅綠色盲。<br>- 啟用後，藍色填充為啟動，藍色邊框為休眠。"
                 },
                 history_resend_bubble: {
                     _title: "歷史消息再發送時上浮",
@@ -524,8 +524,8 @@ const lang_zho_Hant_HK = {
             }
         },
         accessible: {
-            _title: "無障礙",
-            _description: "無障礙相關配置",
+            _title: "可訪問性",
+            _description: "可訪問性相關配置",
             high_contrast: {
                 _title: "啟用高對比度",
                 _description: "提高後台頁面的對比度，並對焦點元素顯示高亮邊框。"
@@ -1281,8 +1281,8 @@ const lang_zho_Hant_HK = {
                     description: "如果你不小心搞砸了，點擊這個按鈕即可重新導出配置文件內容。"
                 },
                 s17: {
-                    title: "無障礙訪問",
-                    description: "另外，如果您需要調整無障礙訪問相關配置，可以在這裏找到。<br>如有需要，您可以<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>點擊此處閱讀無障礙使用指南</a>。"
+                    title: "可訪問性",
+                    description: "另外，如果您需要調整可訪問性相關配置，可以在這裏找到。<br>如有需要，您可以<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>點擊此處閱讀無障礙使用指南</a>。"
                 },
                 s18: {
                     title: "新人引導結束",

@@ -389,7 +389,7 @@ const lang_zho_Hans = {
                 },
                 client_state_panel_enable: {
                     _title: "显示对话框状态仪表板",
-                    _description: "仪表板可以显示所有对话框的状态，绿色为激活，红色为休眠，灰色则表示没有对话框加入频道。<br>如果您添加了多个对话框，建议您启用此项。<br>如果您是红绿色盲，请在无障碍设置中启用红绿色盲。<br>- 启用后，蓝色填充为激活，蓝色边框为休眠。"
+                    _description: "仪表板可以显示所有对话框的状态，绿色为激活，红色为休眠，灰色则表示没有对话框加入频道。<br>如果您添加了多个对话框，建议您启用此项。<br>如果您是红绿色盲，请在可访问性设置中启用红绿色盲。<br>- 启用后，蓝色填充为激活，蓝色边框为休眠。"
                 },
                 history_resend_bubble: {
                     _title: "历史消息再发送时上浮",
@@ -524,8 +524,8 @@ const lang_zho_Hans = {
             }
         },
         accessible: {
-            _title: "无障碍",
-            _description: "无障碍相关配置",
+            _title: "可访问性",
+            _description: "可访问性相关配置",
             high_contrast: {
                 _title: "启用高对比度",
                 _description: "提高后台页面的对比度，并对焦点元素显示高亮边框。"
@@ -1281,8 +1281,8 @@ const lang_zho_Hans = {
                     description: "如果你不小心搞砸了，点击这个按钮即可重新导出配置文件内容。"
                 },
                 s17: {
-                    title: "无障碍访问",
-                    description: "另外，如果您需要调整无障碍访问相关配置，可以在这里找到。<br>如有需要，您可以<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>点击此处阅读无障碍使用指南</a>。"
+                    title: "可访问性",
+                    description: "另外，如果您需要调整可访问性相关配置，可以在这里找到。<br>如有需要，您可以<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>点击此处阅读无障碍使用指南</a>。"
                 },
                 s18: {
                     title: "新人引导结束",

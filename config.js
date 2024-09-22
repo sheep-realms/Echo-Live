@@ -126,6 +126,7 @@ const config = {
         }
     },
     "accessible": {
+        "font_size": 16,
         "high_contrast": false,
         "high_contrast_outline_color": "#00E9FF",
         "high_contrast_outline_size": "2px",

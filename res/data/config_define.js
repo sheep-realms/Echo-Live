@@ -888,6 +888,11 @@ const db_config_define = [
         type: 'object',
         created: 1
     }, {
+        name: 'accessible.font_size',
+        type: 'special.fontsize',
+        default: 16,
+        created: 9
+    }, {
         name: 'accessible.high_contrast',
         type: 'boolean',
         default: false,

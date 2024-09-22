@@ -301,7 +301,7 @@ function configChangeCheck() {
     }
 }
 
-function dangerConfigCheck(effect = false) {
+function dangerConfigCheck(effect = false, exportNow = false) {
     let value = Number(getSettingsItemValue('accessible.font_size'));
     let value2 = Number(getSettingsItemValue('accessible.font_size', true));
     if (value == value2) return true;
@@ -316,7 +316,7 @@ function dangerConfigCheck(effect = false) {
             },
             (v, unit) => {
                 unit.close();
-                if (v == 'confirm') configSaveAll(effect, true);
+                if (v == 'confirm') configSaveAll(effect, true, exportNow);
             }
         );
         return false;
@@ -337,9 +337,9 @@ function configUndoAll() {
     checkConfigCondition();
 }
 
-function configSaveAll(effect = false, skipCheck = false) {
+function configSaveAll(effect = false, skipCheck = false, exportNow = false) {
     if (!skipCheck) {
-        if (!dangerConfigCheck(effect)) return;
+        if (!dangerConfigCheck(effect, exportNow)) return;
     }
     let $sel = $('.settings-item.change');
     for (let i = 0; i < $sel.length; i++) {
@@ -353,7 +353,7 @@ function configSaveAll(effect = false, skipCheck = false) {
     configOutput(true);
     if (effect) effectFlicker('#tabpage-nav-export');
 
-    $('html').css('--font-size-base-review', `${ Number(getSettingsItemValue('accessible.font_size')) }px`);
+    $('html').css('--font-size-base', `${ Number(getSettingsItemValue('accessible.font_size')) }px`);
     $(window).resize();
     setTimeout(function() {
         let colorScheme = settingsManager.getConfig('global.color_scheme');
@@ -366,6 +366,8 @@ function configSaveAll(effect = false, skipCheck = false) {
         }
         bodyClassCache = $('html').attr('class') ?? '';
     }, 800)
+
+    if (exportNow) configExport('config.js');
 }
 
 function configOutput(setUnsave = false) {
@@ -1016,8 +1018,7 @@ $(document).on('click', '#edit-btn-save', function() {
 });
 
 $(document).on('click', '#edit-btn-save-output', function() {
-    configSaveAll();
-    configExport('config.js');
+    configSaveAll(false, false, true)
 });
 
 $(document).on('click', '#edit-btn-output', function() {

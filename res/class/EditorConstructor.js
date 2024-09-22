@@ -1009,7 +1009,8 @@ class SettingsPanel {
         }
 
         const funSpecial = {
-            all_or_array_string: 'setItemAllOrArrayString'
+            all_or_array_string: 'setItemAllOrArrayString',
+            fontsize: 'setItemFontSize'
         };
 
         let types = item.type.split('.');
@@ -1238,6 +1239,39 @@ class SettingsPanel {
                     <textarea id="${ id.replace(/\./g, '-') }-list" class="settings-value-list code" data-default="${ isAll ? '' : encodeURIComponent(listStr) }">${ listStr }</textarea>
                 </div>
             </div>`
+        );
+    }
+
+    static setItemFontSize(type = '', id = '', title = '', description = '', value = '') {
+        return SettingsPanel.setItem(
+            type, id, title, description,
+            FHUI.element(
+                'label',
+                {
+                    class: 'settings-item-label',
+                    for: id.replace(/\./g, '-')
+                }
+            ) +
+            FHUIComponentInput.range(
+                value,
+                {
+                    id: id.replace(/\./g, '-'),
+                    name: id.replace(/\./g, '-'),
+                    hasInput: true,
+                    inputClass: 'settings-value code',
+                    label: [
+                        { value: 8, label: $t('config.accessible.font_size.small') },
+                        { value: 16, label: $t('config.accessible.font_size.middle') },
+                        { value: 24, label: $t('config.accessible.font_size.large') },
+                        { value: 32, label: $t('config.accessible.font_size.extra_large') }
+                    ],
+                    attribute: {
+                        min:8,
+                        max: 32,
+                        step: 2
+                    }
+                }
+            )
         );
     }
 
@@ -1786,7 +1820,11 @@ class FHUIWindow {
         data = {
             class: 'fh-window-controller-button fh-window-controller-button-' + id,
             color: colorType,
-            attr: `data-controller-id="${ id }"`,
+            attribute: {
+                data: {
+                    'controller-id': id
+                }
+            },
             icon: icon,
             ...data
         }

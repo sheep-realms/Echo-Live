@@ -50,7 +50,7 @@ class UniverseWindow {
         $(document).on('click', '.fh-window-modal-bg.fh-window-modal-bg-closable', function(e) {
             if (e.target != this) return;
             that.closeWindow($(this).data('index'));
-            that.runCallback($(this).data('index'), $(this).data('controller-id'));
+            that.runCallback($(this).data('index'), null);
         });
 
         $(document).on('keydown', '.fh-window', function(e) {

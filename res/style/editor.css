@@ -1708,8 +1708,12 @@ select:focus {
     transition: fill .3s;
 }
 
+
+
+
 .fh-component-group-range-input {
     display: flex;
+    align-items: flex-start;
 }
 
 .fh-component-group-range-input .fh-input-component.fh-input-type-range {
@@ -1720,7 +1724,34 @@ select:focus {
     min-width: 4em;
     max-width: 6em;
     margin-inline-start: 16px;
+} 
+
+.fh-input-type-range.has-value-label {
+    padding-bottom: 1.5em;
 }
+
+.fh-input-type-range {
+    flex-direction: column;
+}
+
+.fh-range-value-label-list {
+    width: calc(100% - var(--font-size-base));
+    height: 0;
+    position: relative;
+}
+
+.fh-range-value-label {
+    position: absolute;
+    display: inline-block;
+    color: var(--text-secondary);
+    font-size: var(--font-size-small);
+    min-width: 4em;
+    text-align: center;
+    pointer-events: none;
+}
+
+
+
 
 .fh-input-select-component {
     width: 100%;

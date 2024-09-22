@@ -526,6 +526,16 @@ const lang_zho_Hans = {
         accessible: {
             _title: "可访问性",
             _description: "可访问性相关配置",
+            font_size: {
+                _title: "字体大小",
+                _description: "调整后台页面文本的字体大小。",
+                small: "小",
+                middle: "适中",
+                large: "大",
+                extra_large: "特大",
+                example_1: "你的爱还不够啊！",
+                example_2: "我对普通的人类没有兴趣！",
+            },
             high_contrast: {
                 _title: "启用高对比度",
                 _description: "提高后台页面的对比度，并对焦点元素显示高亮边框。"
@@ -1468,6 +1478,11 @@ const lang_zho_Hans = {
         ease_in_out_back: "回退缓入缓出"
     },
     window: {
+        config_font_size_overload: {
+            title: "您是认真的吗？",
+            message: "您确定要使用以下配置吗？",
+            font_size_review: "字体大小：{value}"
+        },
         clear_local_storage: {
             title: "清除本地存储数据",
             message: "您确定要清除本地存储数据吗？<br>这是一个不可逆的操作，您将会永久丢失这些数据。"

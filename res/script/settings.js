@@ -119,6 +119,11 @@ function getSettingsItemValue(name, isDefault = false) {
                     value = 'all';
                 }
                 break;
+
+            case 'fontsize':
+                value = Number($sel.find('.settings-value').eq(0).val());
+                if (isDefault) value = Number($sel.find('.settings-value').eq(0).data('default'));
+                break;
         
             default:
                 break;
@@ -182,6 +187,12 @@ function setSettingsItemValue(name, value, isDefault = false) {
                     }
                     $sel.find('.content').removeClass('hide');
                 }
+                break;
+
+            case 'fontsize':
+                $sel.find('.settings-value').eq(0).val(value);
+                if (isDefault) $sel.find('.settings-value').eq(0).data('default', value);
+                $sel.find('.settings-value').eq(0).trigger('input');
                 break;
         
             default:
@@ -290,6 +301,29 @@ function configChangeCheck() {
     }
 }
 
+function dangerConfigCheck(effect = false) {
+    let value = Number(getSettingsItemValue('accessible.font_size'));
+    let value2 = Number(getSettingsItemValue('accessible.font_size', true));
+    if (value == value2) return true;
+    if (value > 32 || value < 8) {
+        uniWindow.messageWindow(
+            `${ $t('window.config_font_size_overload.message') }<br><span style="color: var(--color-danger-dark);">${ $t('window.config_font_size_overload.font_size_review', { value: value }) }</span>`,
+            $t('window.config_font_size_overload.title'),
+            {
+                controller: ['cancel', 'confirm'],
+                autoFocusButton: 'cancel',
+                icon: 'alert'
+            },
+            (v, unit) => {
+                unit.close();
+                if (v == 'confirm') configSaveAll(effect, true);
+            }
+        );
+        return false;
+    }
+    return true;
+}
+
 function configUndoAll() {
     let $sel = $('.settings-item.change');
     for (let i = 0; i < $sel.length; i++) {
@@ -303,7 +337,10 @@ function configUndoAll() {
     checkConfigCondition();
 }
 
-function configSaveAll(effect = false) {
+function configSaveAll(effect = false, skipCheck = false) {
+    if (!skipCheck) {
+        if (!dangerConfigCheck(effect)) return;
+    }
     let $sel = $('.settings-item.change');
     for (let i = 0; i < $sel.length; i++) {
         let id = $sel.eq(i).data('id');
@@ -316,6 +353,8 @@ function configSaveAll(effect = false) {
     configOutput(true);
     if (effect) effectFlicker('#tabpage-nav-export');
 
+    $('html').css('--font-size-base-review', `${ Number(getSettingsItemValue('accessible.font_size')) }px`);
+    $(window).resize();
     setTimeout(function() {
         let colorScheme = settingsManager.getConfig('global.color_scheme');
         if (colorScheme != lastColorScheme) {
@@ -567,6 +606,10 @@ $(document).ready(function() {
                 <div class="safe"><div class="fg">${ $t('settings.functional_color.safe') }</div><div class="bg"></div></div>
                 <div class="warn"><div class="fg">${ $t('settings.functional_color.warn') }</div><div class="bg"></div></div>
                 <div class="danger"><div class="fg">${ $t('settings.functional_color.danger') }</div><div class="bg"></div></div>
+            </div>
+            <div class="review-font-size-card" aria-hidden="true" style="--font-size-base-review: ${config.accessible.font_size}px; font-size: var(--font-size-base);">
+                <div class="example-1">${ $t('config.accessible.font_size.example_1') }</div>
+                <div class="example-2">${ $t('config.accessible.font_size.example_2') }</div>
             </div>`
         );
         $('.settings-page[data-pageid="advanced"]').prepend(SettingsPanel.msgBoxWarn(
@@ -1090,6 +1133,10 @@ $(document).on('click', '.settings-item[data-id="global.touchscreen_layout"] .se
         const offsetTopNew = $('.settings-item[data-id="global.touchscreen_layout"] .settings-switch').offset().top;
         window.scrollTo({ top: scrollY + (offsetTopNew - offsetTop) });
     }, 12);
+});
+
+$(document).on('input', '.settings-item[data-id="accessible.font_size"] .settings-value', function() {
+    $('.review-font-size-card').css('--font-size-base-review', `${ $(this).val() }px`);
 });
 
 

@@ -628,6 +628,24 @@
     width: 100%;
 }
 
+.settings-item[data-type="special.fontsize"] {
+    flex-direction: column;
+}
+
+.settings-item[data-type="special.fontsize"] .meta {
+    flex: unset;
+    width: 100%;
+}
+
+.settings-item[data-type="special.fontsize"] .value {
+    justify-content: center;
+    width: 100%;
+}
+
+.settings-item[data-type="special.fontsize"] .value .fh-component-group-range-input {
+    width: 100%;
+}
+
 .settings-item input[type=number],
 .settings-item input[type=text],
 .settings-item .fh-input-component,
@@ -905,6 +923,33 @@ a.settings-link-bar:active {
     background-color: var(--color-danger-dark);
 }
 
+.review-font-size-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 128px;
+    background-color: var(--msgbox-bgcolor);
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.review-font-size-card .example-1 {
+    color: var(--text-primary);
+    font-size: var(--font-size-base-review, 16px);
+}
+
+.review-font-size-card .example-2 {
+    color: var(--text-secondary);
+    font-size: calc(var(--font-size-base-review, 16px) * 0.875);
+}
+
+.touchscreen-layout .review-font-size-card .example-1 {
+    font-size: calc(var(--font-size-base-review, 16px) * 1.125);
+}
+
+.touchscreen-layout .review-font-size-card .example-2 {
+    font-size: var(--font-size-base-review, 16px);
+}
 
 
 

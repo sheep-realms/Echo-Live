@@ -526,6 +526,16 @@ const lang_zho_Hant_TW = {
         accessible: {
             _title: "可訪問性",
             _description: "可訪問性相關配置",
+            font_size: {
+                _title: "字型大小",
+                _description: "調整後臺頁面文字的字型大小。",
+                small: "小",
+                middle: "適中",
+                large: "大",
+                extra_large: "特大",
+                example_1: "你的愛還不夠啊！",
+                example_2: "我對普通的人類沒有興趣！",
+            },
             high_contrast: {
                 _title: "啟用高對比度",
                 _description: "提高後臺頁面的對比度，並對焦點元素顯示高亮邊框。"
@@ -1468,6 +1478,11 @@ const lang_zho_Hant_TW = {
         ease_in_out_back: "回退緩入緩出"
     },
     window: {
+        config_font_size_overload: {
+            title: "您是認真的嗎？",
+            message: "您確定要使用以下配置嗎？",
+            font_size_review: "字型大小：{value}"
+        },
         clear_local_storage: {
             title: "清除本地儲存資料",
             message: "您確定要清除本地儲存資料嗎？<br>這是一個不可逆的操作，您將會永久丟失這些資料。"

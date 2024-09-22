@@ -719,12 +719,16 @@ class FHUIComponentInput {
 
     static __rangeLabel(label, attribute) {
         let dom = '';
+        let translateX = '-50%';
+        let align = 'center';
         label.forEach(e => {
             e = {
                 value: '0%',
                 label: 'missingno',
                 ...e
             }
+            translateX = '-50%';
+            align = 'center';
             if (typeof e.value === 'number') {
                 if (typeof attribute.max === 'undefined') {
                     e.value = '0%';
@@ -732,11 +736,19 @@ class FHUIComponentInput {
                     e.value = `${ (e.value - attribute.min) / (attribute.max - attribute.min) * 100 }%`
                 }
             }
+            if (e.value === '0%') {
+                translateX = 'calc(var(--font-size-base) / 2 * -1)';
+                align = 'left';
+            }
+            if (e.value === '100%') {
+                translateX = 'calc(-100% + var(--font-size-base) / 2)';
+                align = 'right';
+            }
             dom += FHUI.element(
                 'div',
                 {
                     class: 'fh-range-value-label',
-                    style: `left: ${e.value}; transform: translateX(-50%);`
+                    style: `left: ${ e.value }; transform: translateX(${ translateX }); text-align: ${ align };`
                 },
                 e.label
             );

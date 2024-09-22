@@ -931,6 +931,7 @@ a.settings-link-bar:active {
     background-color: var(--msgbox-bgcolor);
     flex-direction: column;
     overflow: hidden;
+    box-sizing: border-box;
 }
 
 .review-font-size-card .example-1 {

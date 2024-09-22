@@ -153,6 +153,10 @@
     fill: var(--page-bgcolor);
 }
 
+.accessible-high-contrast .review-font-size-card {
+    border: 1px solid var(--border-color);
+}
+
 
 
 .accessible-high-contrast .echo-live-client-state-block.state-active {

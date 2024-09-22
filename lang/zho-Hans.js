@@ -14,7 +14,7 @@ const lang_zho_Hans = {
         time_common: "{hh}:{mm}:{ss}",
     },
     ui: {
-        confirm: "确认",
+        confirm: "确定",
         cancel: "取消",
         ok: "好",
         yes: "是",

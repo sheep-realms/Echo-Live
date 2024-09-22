@@ -14,7 +14,7 @@ const lang_zho_Hant_HK = {
         time_common: "{hh}:{mm}:{ss}",
     },
     ui: {
-        confirm: "確認",
+        confirm: "確定",
         cancel: "取消",
         ok: "好",
         yes: "是",

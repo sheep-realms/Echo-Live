@@ -4,7 +4,7 @@
 
 .settings-panel {
     display: flex;
-    gap: 16px;
+    gap: var(--gap-middle);
     min-height: calc(100vh - 180px);
     align-items: flex-start;
 }
@@ -66,7 +66,7 @@
     justify-content: center;
     padding: 8px;
     box-sizing: border-box;
-    gap: 8px;
+    gap: var(--gap-small);
 }
 
 .file-check-box .empty-message {
@@ -78,7 +78,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: var(--gap-small);
 }
 
 .file-check-box .icon,
@@ -115,7 +115,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: var(--gap-small);
 }
 
 .file-check-box .state .icon,
@@ -187,7 +187,7 @@
 
 .file-check-dialog {
     border: var(--border-color) 1px solid;
-    gap: 16px;
+    gap: var(--gap-middle);
     justify-content: flex-start;
 }
 
@@ -227,7 +227,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: var(--gap-small);
     padding-top: 8px;
 }
 
@@ -286,14 +286,14 @@
     display: flex;
     align-items: center;
     min-height: var(--height-menu-item);
-    padding: 4px 0.5em;
+    padding: 0.25em 0.5em;
     color: var(--text-regular);
     border: unset;
     background-color: transparent;
     width: 100%;
     font-size: var(--font-size-middle);
     justify-content: space-between;
-    gap: 8px;
+    gap: var(--gap-small);
     box-sizing: border-box;
 }
 
@@ -456,8 +456,8 @@
 .settings-item {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 16px 0;
+    gap: var(--font-size-middle);
+    padding: var(--font-size-middle) 0;
     box-sizing: border-box;
 }
 
@@ -523,7 +523,7 @@
     word-break: break-word;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--gap-small);
 }
 
 .settings-item.settings-item-update .meta .title {
@@ -591,7 +591,7 @@
 }
 
 .settings-switch .btn-switch {
-    min-width: 88px;
+    min-width: calc(var(--font-size-base) * 5.5);
 }
 
 .settings-switch.state-on .btn-off {
@@ -655,7 +655,7 @@
 
 /* .settings-value-list-box {
     display: flex;
-    gap: 8px;
+    gap: var(--gap-small);
 }
 
 .settings-value-list {
@@ -673,7 +673,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    gap: 8px;
+    gap: var(--gap-small);
 }
 
 .settings-value-list-controller button {
@@ -693,7 +693,7 @@
     display: flex;
     padding: 8px;
     align-items: center;
-    gap: 8px;
+    gap: var(--gap-small);
     border-left: var(--msgbox-color) 4px solid;
     background-color: var(--msgbox-bgcolor);
 }
@@ -743,7 +743,7 @@
     position: sticky;
     bottom: 0;
     background-color: var(--page-bgcolor);
-    gap: 16px;
+    gap: var(--gap-middle);
     transition: bottom .3s ease-out, opacity .3s ease-out;
     opacity: 1;
     justify-content: center;
@@ -774,7 +774,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 16px;
+    gap: var(--gap-middle);
 }
 
 .settings-controller-action>button {
@@ -810,7 +810,7 @@ a.settings-link-bar {
     border-bottom: var(--border-color) 1px solid;
     min-height: var(--height-component-large);
     padding: 0 8px;
-    gap: 8px;
+    gap: var(--gap-small);
 }
 
 a.settings-link-bar:hover,
@@ -848,8 +848,8 @@ a.settings-link-bar:active {
 .settings-link-bar-group-title {
     color: var(--text-primary);
     font-weight: 500;
-    margin-top: 16px;
-    padding: 8px;
+    margin-top: var(--gap-middle);
+    padding: var(--gap-small);
     border-bottom: var(--border-color) 1px solid;
 }
 
@@ -886,7 +886,7 @@ a.settings-link-bar:active {
 
 .review-color-card>div>div {
     display: flex;
-    min-height: 32px;
+    min-height: calc(var(--font-size-base) * 2);
     align-items: center;
     justify-content: center;
 }

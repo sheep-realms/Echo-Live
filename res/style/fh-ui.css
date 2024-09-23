@@ -48,16 +48,24 @@
     --font-size-small: 0.875rem;
     --font-size-extra-small: 0.75rem;
 
-    --height-top-nav: calc(var(--font-size-base) + 28px);
-    --height-menu-item: calc(var(--font-size-base) + 24px);
-    --height-component: calc(var(--font-size-base) + 20px);
-    --height-component-large: calc(var(--font-size-base) + 28px);
-    --height-component-small: calc(var(--font-size-base) + 10px);
+    --height-top-nav: calc(var(--font-size-base) * 2.75);
+    --height-menu-item: calc(var(--font-size-base) * 2.5);
+    --height-component: calc(var(--font-size-base) * 2.25);
+    --height-component-large: calc(var(--font-size-base) * 2.75);
+    --height-component-small: calc(var(--font-size-base) * 1.625);
 
-    --icon-size-extra-large: calc(var(--font-size-base) + 16px);
-    --icon-size-large: calc(var(--font-size-base) + 12px);
-    --icon-size-middle: calc(var(--font-size-base) + 8px);
-    --icon-size-small: calc(var(--font-size-base) + 4px);
+    --gap-extra-large: calc(var(--font-size-base) * 3);
+    --gap-large: calc(var(--font-size-base) * 2);
+    --gap-demi-large: calc(var(--font-size-base) * 1.5);
+    --gap-middle: var(--font-size-base);
+    --gap-demi-small: calc(var(--font-size-base) * 0.75);
+    --gap-small: calc(var(--font-size-base) * 0.5);
+    --gap-extra-small: calc(var(--font-size-base) * 0.25);
+
+    --icon-size-extra-large: calc(var(--font-size-base) * 2);
+    --icon-size-large: calc(var(--font-size-base) * 1.75);
+    --icon-size-middle: calc(var(--font-size-base) * 1.5);
+    --icon-size-small: calc(var(--font-size-base) * 1.25);
     --icon-size-extra-small: var(--font-size-base);
 }
 
@@ -720,9 +728,9 @@ input[type=range]::-webkit-slider-thumb {
     appearance: none;
     -webkit-appearance: none;
     height: var(--height-component);
-    width: 16px;
+    width: var(--font-size-middle);
     background: var(--fh-color);
-    margin-top: -14px;
+    margin-top: calc((var(--font-size-base) - 2px) * -1);
     background-image: var(--corner-marker);
     transition: filter var(--animation-speed-button-switch), box-shadow var(--animation-speed-button-switch);
 }
@@ -773,14 +781,14 @@ input[type=range]:active:not(.fh-disabled, :disabled)::-moz-range-thumb {
 
 input[type=range]::-webkit-slider-runnable-track {
     width: 100%;
-    height: 8px;
+    height: calc(var(--font-size-base) / 2);
     background: transparent;
     box-shadow: inset 0 0 0 1px var(--fh-color);
 }
 
 input[type=range]::-moz-range-track {
     width: 100%;
-    height: 8px;
+    height: calc(var(--font-size-base) / 2);
     background: transparent;
     box-shadow: inset 0 0 0 1px var(--fh-color);
 }

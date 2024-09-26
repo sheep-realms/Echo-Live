@@ -520,6 +520,7 @@ $(document).ready(function() {
         let voices = [];
         try {
             voices = speechSynthesis.getVoices();
+            voices = voices.filter(e => e.localService == true);
         } catch (error) {}
         let voiceName = [];
         for (let i = 0; i < voices.length; i++) {

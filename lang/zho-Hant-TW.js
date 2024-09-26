@@ -20,12 +20,12 @@ const lang_zho_Hant_TW = {
         yes: "是",
         no: "否",
         save: "儲存",
-        save_as: "另存為",
+        save_as: "另存新檔",
         staging: "暫存",
         close: "關閉",
         off: "關閉",
         on: "開啟",
-        disable: "禁用",
+        disable: "停用",
         enable: "啟用",
         enable_all: "全部啟用",
         edit: "編輯",
@@ -137,7 +137,7 @@ const lang_zho_Hant_TW = {
             },
             theme: {
                 _title: "全域性主題",
-                _description: "控制對話方塊、歷史記錄等面向觀眾展示的介面主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>幫助文件</a>。<br>為了主題樣式的表現正常，請在 OBS 選中對話方塊（包括歷史記錄在內的其他前臺頁面），右鍵，在彈出選單中找到 “混合方式”，選擇 “關閉 sRGB”。"
+                _description: "控制對話方塊、歷史記錄等面向觀眾展示的介面主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>說明文件</a>。<br>為了主題樣式的表現正常，請在 OBS 選中對話方塊（包括歷史記錄在內的其他前臺頁面），右鍵，在彈出選單中找到 “混合方式”，選擇 “關閉 sRGB”。"
             },
             theme_script_enable: {
                 _title: "啟用全域性主題指令碼",
@@ -181,7 +181,7 @@ const lang_zho_Hant_TW = {
                 _description: "設定對話方塊的樣式",
                 live_theme: {
                     _title: "對話方塊主題",
-                    _description: "留空則使用全域性主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>幫助文件</a>。"
+                    _description: "留空則使用全域性主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>說明文件</a>。"
                 },
                 live_theme_script_enable: {
                     _title: "啟用對話方塊主題指令碼",
@@ -193,7 +193,7 @@ const lang_zho_Hant_TW = {
                 _description: "Echo-Live 的基本工作模式",
                 enable: {
                     _title: "啟用廣播",
-                    _description: "可透過編輯器直接傳送訊息，啟用此項將禁用訊息輪詢。"
+                    _description: "可透過編輯器直接傳送訊息，啟用此項將停用訊息輪詢。"
                 },
                 channel: {
                     _title: "廣播頻道",
@@ -201,7 +201,7 @@ const lang_zho_Hant_TW = {
                 },
                 websocket_enable: {
                     _title: "啟用 WebSocket",
-                    _description: "如果沒人要求您這麼做，請不要動它。<br>廣播模式下啟用 WebSocket 可連線至伺服器以從第三方軟體獲取訊息。<br>可從伺服器接收的訊息和廣播訊息一致，傳送的訊息須使用類似於 JSON.stringify 的方法序列化。<br>詳見<a href='https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/' target='_blank'>幫助文件</a>。"
+                    _description: "如果沒人要求您這麼做，請不要動它。<br>廣播模式下啟用 WebSocket 可連線至伺服器以從第三方軟體獲取訊息。<br>可從伺服器接收的訊息和廣播訊息一致，傳送的訊息須使用類似於 JSON.stringify 的方法序列化。<br>詳見<a href='https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/' target='_blank'>說明文件</a>。"
                 },
                 websocket_url: {
                     _title: "WebSocket 連線地址",
@@ -221,7 +221,7 @@ const lang_zho_Hant_TW = {
                 _description: "早期版本中廣播系統的替代",
                 enable: {
                     _title: "啟用訊息輪詢",
-                    _description: "定時監聽 start.js 的內容更改而無需手動重新整理，關閉則使用舊版手動操作。<br>啟用廣播將禁用此功能。"
+                    _description: "定時監聽 start.js 的內容更改而無需手動重新整理，關閉則使用舊版手動操作。<br>啟用廣播將停用此功能。"
                 },
                 tick: {
                     _title: "訊息輪詢間隔",
@@ -249,7 +249,7 @@ const lang_zho_Hant_TW = {
                 },
                 name: {
                     _title: "音效名稱",
-                    _description: "可用的音效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/#list' target='_blank'>幫助文件</a>。"
+                    _description: "可用的音效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/#list' target='_blank'>說明文件</a>。"
                 },
                 volume: {
                     _title: "音效音量",
@@ -269,7 +269,7 @@ const lang_zho_Hant_TW = {
                 },
                 name: {
                     _title: "音效名稱",
-                    _description: "可用的音效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/#list' target='_blank'>幫助文件</a>。"
+                    _description: "可用的音效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/#list' target='_blank'>說明文件</a>。"
                 },
                 volume: {
                     _title: "音效音量",
@@ -285,7 +285,7 @@ const lang_zho_Hant_TW = {
                 _description: "列印每個字元時所使用的動畫效果",
                 name: {
                     _title: "動效名稱",
-                    _description: "可用的音效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>幫助文件</a>。"
+                    _description: "可用的音效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>說明文件</a>。"
                 },
                 duration: {
                     _title: "動效用時",
@@ -313,7 +313,7 @@ const lang_zho_Hant_TW = {
                 },
                 long_text_compensation_rate: {
                     _title: "長文字等候時間補償率",
-                    _description: "當訊息文字過長時會額外補償一些等候時間，設為 0 則禁用。"
+                    _description: "當訊息文字過長時會額外補償一些等候時間，設為 0 則停用。"
                 },
                 hidden_time: {
                     _title: "隱去動畫用時",
@@ -365,7 +365,7 @@ const lang_zho_Hant_TW = {
                 },
                 allow_data_url_and_relative_url: {
                     _title: "允許 Data URL 和相對地址",
-                    _description: "允許使用 Data URL 格式傳輸圖片和使用相對地址。<br>禁用將無法在編輯器中透過匯入檔案設定圖片，且只能使用 http(s):// 和 file:/// 協議頭的地址。<br>特別提醒：不要匯入大得離譜的圖片！"
+                    _description: "允許使用 Data URL 格式傳輸圖片和使用相對地址。<br>停用將無法在編輯器中透過匯入檔案設定圖片，且只能使用 http(s):// 和 file:/// 協議頭的地址。<br>特別提醒：不要匯入大得離譜的圖片！"
                 },
                 default_max_size: {
                     _title: "預設最大圖片尺寸",
@@ -385,7 +385,7 @@ const lang_zho_Hant_TW = {
                 },
                 tabpage_output_enable: {
                     _title: "顯示輸出標籤頁",
-                    _description: "編輯器生成的程式碼會在此標籤頁匯出。輸出標籤頁在廣播模式下還可以傳送自定義訊息。"
+                    _description: "編輯器生成的程式碼會在此標籤頁匯出。輸出標籤頁在廣播模式下還可以傳送自訂訊息。"
                 },
                 client_state_panel_enable: {
                     _title: "顯示對話方塊狀態儀表板",
@@ -404,7 +404,7 @@ const lang_zho_Hant_TW = {
                     _description: "設為 -1 則不設上限。"
                 },
                 images_cache_maximum: {
-                    _title: "自定義訊息圖片快取數上限",
+                    _title: "自訂訊息圖片快取數上限",
                     _description: "設為 -1 則不設上限。"
                 }
             },
@@ -479,7 +479,7 @@ const lang_zho_Hant_TW = {
                 _description: "設定歷史記錄的樣式",
                 history_theme: {
                     _title: "歷史記錄主題",
-                    _description: "留空則使用全域性主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>幫助文件</a>。"
+                    _description: "留空則使用全域性主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>說明文件</a>。"
                 },
                 history_theme_script_enable: {
                     _title: "啟用歷史記錄主題指令碼",
@@ -561,12 +561,12 @@ const lang_zho_Hant_TW = {
                 _description: "為連結新增下劃線使其更醒目。"
             },
             animation_disable: {
-                _title: "禁用動畫",
-                _description: "禁用所有動畫和過渡效果。"
+                _title: "停用動畫",
+                _description: "停用所有動畫和過渡效果。"
             },
             power_saving_mode: {
-                _title: "禁用高開銷效果",
-                _description: "禁用後臺頁面所有高效能消耗的畫面效果。"
+                _title: "停用高開銷效果",
+                _description: "停用後臺頁面所有高效能消耗的畫面效果。"
             }
         },
         advanced: {
@@ -594,7 +594,7 @@ const lang_zho_Hant_TW = {
                 },
                 history_minimum_breaker_threshold: {
                     _title: "歷史記錄底部遊標熔斷閾值",
-                    _description: "設為 -1 可禁用此機制。"
+                    _description: "設為 -1 可停用此機制。"
                 }
             },
             settings: {
@@ -623,16 +623,16 @@ const lang_zho_Hant_TW = {
             _description: "軟體資訊",
             about_echolive: "關於 Echo-Live",
             accessibility: "無障礙使用指南",
-            bug_tracker: "漏洞追蹤",
+            bug_tracker: "錯誤追蹤",
             community: "社羣服務",
-            copyright: "授權協議與宣告",
-            document: "幫助文件",
-            feedback: "建議反饋",
+            copyright: "授權協議與聲明",
+            document: "說明文件",
+            feedback: "建議回饋",
             github: "GitHub 專案倉庫",
             license: "開源許可證",
             releases: "版本列表",
             security: "安全政策",
-            security_advisory_new: "報告安全漏洞",
+            security_advisory_new: "回報安全錯誤",
             social_media: "社交媒體",
             user_guide: "使用者指南",
             debug: {
@@ -755,7 +755,7 @@ const lang_zho_Hant_TW = {
         },
         log: {
             index: "日誌",
-            welcome: "歡迎使用 Echo-Live！如需查閱幫助文件，請見：https://sheep-realms.github.io/Echo-Live-Doc/",
+            welcome: "歡迎使用 Echo-Live！如需查閱說明文件，請見：https://sheep-realms.github.io/Echo-Live-Doc/",
             accessible: {
                 type: {
                     dbug: "除錯：",
@@ -803,11 +803,11 @@ const lang_zho_Hant_TW = {
                 empty: "未輸入內容，未傳送任何訊息。",
                 empty_data: "訊息內容無有效資料，未傳送任何訊息。",
                 empty_messages: "傳送的訊息中沒有訊息佇列，這是一個錯誤的訊息格式。雖然這麼操作似乎不會引發嚴重問題，但不建議這麼操作。",
-                illegal: "傳送的訊息格式存在錯誤。詳見幫助文件：https://sheep-realms.github.io/Echo-Live-Doc/message/",
+                illegal: "傳送的訊息格式存在錯誤。詳見說明文件：https://sheep-realms.github.io/Echo-Live-Doc/message/",
                 resent: "已再次傳送歷史訊息。",
                 sent: "已傳送訊息：{msg}",
-                sent_custom: "已傳送自定義訊息：{msg}",
-                sent_custom_multi: "已傳送 {n} 條自定義訊息，首條訊息為：{msg}"
+                sent_custom: "已傳送自訂訊息：{msg}",
+                sent_custom_multi: "已傳送 {n} 條自訂訊息，首條訊息為：{msg}"
             },
             tip: {
                 unknown_error: "看來您可能遇到了一些問題。如果您確實覺得有什麼不對勁，請複製此日誌內容反饋給開發者，並詳細描述復現過程。"
@@ -821,7 +821,7 @@ const lang_zho_Hant_TW = {
             empty: "臥槽？！你在幹什麼？我放在這裡那麼大一個調色盤呢？還好我技高一籌給你兜住了！",
             select: "色板庫",
             accessible: {
-                tip: "需要無障礙使用幫助嗎？"
+                tip: "需要無障礙使用説明嗎？"
             },
             diff_dashboard: {
                 index: "對比度測試面板",
@@ -1208,8 +1208,8 @@ const lang_zho_Hant_TW = {
                     description: "當您在編輯器中點選了輸出按鈕時，訊息的程式碼會輸出到此處。"
                 },
                 s17: {
-                    title: "自定義訊息",
-                    description: "如果您啟用了廣播模式，您可以在這裡直接傳送訊息，這意味著您可以傳送功能更豐富的自定義訊息。"
+                    title: "自訂訊息",
+                    description: "如果您啟用了廣播模式，您可以在這裡直接傳送訊息，這意味著您可以傳送功能更豐富的自訂訊息。"
                 },
                 s18: {
                     title: "日誌標籤頁",
@@ -1222,7 +1222,7 @@ const lang_zho_Hant_TW = {
                 },
                 s20: {
                     title: "新人引導結束",
-                    description: "再次感謝您使用 Echo-Live！如果您還有疑問，可以閱讀<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/' target='_blank'>幫助文件</a>或諮詢開發者。"
+                    description: "再次感謝您使用 Echo-Live！如果您還有疑問，可以閱讀<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/' target='_blank'>說明文件</a>或諮詢開發者。"
                 }
             },
             settings_overview: {
@@ -1284,7 +1284,7 @@ const lang_zho_Hant_TW = {
                 },
                 s15: {
                     title: "匯出內容",
-                    description: "其實剛剛我們已經提到過匯出檔案了，這裡只是為了檢視和編輯匯出內容，以及另存為。"
+                    description: "其實剛剛我們已經提到過匯出檔案了，這裡只是為了檢視和編輯匯出內容，以及另存新檔。"
                 },
                 s16: {
                     title: "重新匯出",
@@ -1296,7 +1296,7 @@ const lang_zho_Hant_TW = {
                 },
                 s18: {
                     title: "新人引導結束",
-                    description: "再次感謝您使用 Echo-Live！如果您還有疑問，可以閱讀<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/' target='_blank'>幫助文件</a>或諮詢開發者。"
+                    description: "再次感謝您使用 Echo-Live！如果您還有疑問，可以閱讀<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/' target='_blank'>說明文件</a>或諮詢開發者。"
                 }
             }
         }
@@ -1402,7 +1402,7 @@ const lang_zho_Hant_TW = {
             config_output: "匯出配置內容"
         },
         msgbox: {
-            accessibility: "Echo-Live 所有後臺頁面均支援鍵盤訪問。<br>更多有關無障礙使用的幫助請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>幫助文件</a>。",
+            accessibility: "Echo-Live 所有後臺頁面均支援鍵盤訪問。<br>更多有關無障礙使用的説明請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>說明文件</a>。",
             advanced_settings: "不要隨意更改這裡的配置，除非您知道您在做什麼。",
             echo: {
                 title: "關於 Echo",

@@ -863,9 +863,9 @@ a.settings-link-bar:active {
     background-color: var(--color-danger-dark);
     width: var(--font-size-extra-small);
     height: var(--font-size-extra-small);
-    border-radius: 6px;
+    border-radius: calc(var(--font-size-extra-small) / 2);
     display: inline-block;
-    margin-left: 4px;
+    margin-left: calc(var(--font-size-extra-small) / 3);
 }
 
 #export-unsave.hide {

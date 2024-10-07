@@ -159,6 +159,10 @@ const lang_zho_Hant_TW = {
             controller_layout_reverse: {
                 _title: "反轉控制器按鈕佈局",
                 _description: "根據閱讀方向將重要按鈕放置於最先被閱讀的位置。"
+            },
+            thin_scrollbar: {
+                _title: "啟用細捲軸",
+                _description: "使用較細的捲軸替換預設捲軸。"
             }
         },
         echo: {

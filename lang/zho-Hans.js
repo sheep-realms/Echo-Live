@@ -159,6 +159,10 @@ const lang_zho_Hans = {
             controller_layout_reverse: {
                 _title: "反转控制器按钮布局",
                 _description: "根据阅读方向将重要按钮放置于最先被阅读的位置。"
+            },
+            thin_scrollbar: {
+                _title: "启用细滚动条",
+                _description: "使用较细的滚动条替换默认滚动条。"
             }
         },
         echo: {

@@ -1104,6 +1104,7 @@ setSwitchButtonOnClickToChangeClassForArray([
     ['accessible.link_underline',               'accessible-link-underline'],
     ['accessible.animation_disable',            'accessible-animation-disable'],
     ['global.controller_layout_reverse',        'controller-layout-reverse'],
+    ['global.thin_scrollbar',                   'thin-scrollbar']
 ]);
 
 $(document).on('click', '.settings-item[data-id="advanced.settings.display_config_key"] .settings-switch button', function() {

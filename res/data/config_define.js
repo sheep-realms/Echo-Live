@@ -44,6 +44,11 @@ const db_config_define = [
         type: 'boolean',
         default: false,
         created: 6
+    }, {
+        name: 'global.thin_scrollbar',
+        type: 'boolean',
+        default: false,
+        created: 9
     },
     
 

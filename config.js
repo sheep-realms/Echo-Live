@@ -6,7 +6,8 @@ const config = {
         "theme_script_enable": false,
         "color_scheme": "auto",
         "touchscreen_layout": false,
-        "controller_layout_reverse": false
+        "controller_layout_reverse": false,
+        "thin_scrollbar": false
     },
     "echo": {
         "print_speed": 30,

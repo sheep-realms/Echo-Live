@@ -24,6 +24,7 @@
 
     --scrollbar-thumb-color: rgba(0, 0, 0, 0.15);
     --scrollbar-thumb-hover-color:rgba(0, 0, 0, 0.35);
+    --scrollbar-size: var(--gap-small);
 
     --checkbox-corner-marker-color: rgba(255, 255, 255, 0.5);
 
@@ -107,11 +108,11 @@
 
 
 .thin-scrollbar *::-webkit-scrollbar {
-    width: 8px;
+    width: var(--scrollbar-size);
 }
 
 .thin-scrollbar *::-webkit-scrollbar-thumb {
-    width: 8px;
+    width: var(--scrollbar-size);
     background-color: var(--scrollbar-thumb-color);
 }
 
@@ -1611,12 +1612,12 @@ select:focus {
 
 .fh-window-content::-webkit-scrollbar,
 .fh-msgbox-content::-webkit-scrollbar {
-    width: 8px;
+    width: var(--scrollbar-size);
 }
 
 .fh-window-content::-webkit-scrollbar-thumb,
 .fh-msgbox-content::-webkit-scrollbar-thumb {
-    width: 8px;
+    width: var(--scrollbar-size);
     background-color: var(--scrollbar-thumb-color);
 }
 

@@ -36,6 +36,20 @@ class Mixer {
         a.onended = function () {delete this};
         a.play();
     }
+
+    preload(name) {
+        let obj = this.find(name);
+        if (obj == undefined) return undefined;
+
+        if (!Array.isArray(obj.path)) obj.path = [obj.path];
+
+        let a;
+        obj.path.forEach(e => {
+            a = new Audio(e);
+            a.volume = 0;
+            a.play();
+        });
+    }
 }
 
 let mixer = new Mixer();

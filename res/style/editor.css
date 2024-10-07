@@ -22,6 +22,9 @@
     --commander-bgcolor: rgba(0, 0, 0, 0.75);
     --commander-color: #FFFFFF;
 
+    --scrollbar-thumb-color: rgba(0, 0, 0, 0.15);
+    --scrollbar-thumb-hover-color:rgba(0, 0, 0, 0.35);
+
     --checkbox-corner-marker-color: rgba(255, 255, 255, 0.5);
 
     font-size: var(--font-size-base);
@@ -54,6 +57,9 @@
         --commander-bgcolor: rgba(255, 255, 255, 0.85);
         --commander-color: #000000;
 
+        --scrollbar-thumb-color: rgba(255, 255, 255, 0.15);
+        --scrollbar-thumb-hover-color:rgba(255, 255, 255, 0.35);
+
         --checkbox-corner-marker-color: rgba(30, 33, 41, 0.5);
     }
 
@@ -84,6 +90,9 @@
     --commander-bgcolor: rgba(255, 255, 255, 0.85);
     --commander-color: #000000;
 
+    --scrollbar-thumb-color: rgba(255, 255, 255, 0.15);
+    --scrollbar-thumb-hover-color:rgba(255, 255, 255, 0.35);
+
     --checkbox-corner-marker-color: rgba(30, 33, 41, 0.5);
 }
 
@@ -94,6 +103,23 @@
 .prefers-color-scheme-dark .scheme-dark-only {
     display: block;
 }
+
+
+
+.thin-scrollbar *::-webkit-scrollbar {
+    width: 8px;
+}
+
+.thin-scrollbar *::-webkit-scrollbar-thumb {
+    width: 8px;
+    background-color: var(--scrollbar-thumb-color);
+}
+
+.thin-scrollbar *::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover-color);
+}
+
+
 
 body {
     overflow-y: scroll;
@@ -1582,6 +1608,22 @@ select:focus {
     position: relative;
     top: 1px;
 } */
+
+.fh-window-content::-webkit-scrollbar,
+.fh-msgbox-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.fh-window-content::-webkit-scrollbar-thumb,
+.fh-msgbox-content::-webkit-scrollbar-thumb {
+    width: 8px;
+    background-color: var(--scrollbar-thumb-color);
+}
+
+.fh-window-content::-webkit-scrollbar-thumb:hover,
+.fh-msgbox-content::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover-color);
+}
 
 @media screen and (max-width: 450px) {
     .fh-msgbox-controller .fh-button {

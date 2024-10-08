@@ -20,21 +20,8 @@ class UniverseWindow {
         $(document).on('animationend', '.fh-window.window-show .fh-window-content', function(e) {
             if (e.target != this) return;
             let $window = $(this).parents('.fh-window').eq(0);
-            $window.parents('.fh-window-modal-bg').eq(0).removeClass('window-show');
-            $window.removeClass('window-show');
-
             let index = $window.data('index');
-            let autoFocusButton = $window.data('auto-focus-button');
-
-            let $ctrlBtn = $(`.fh-window[data-index="${ index }"] .fh-window-controller-button:not(:disabled)`);
-            let $ctrlBtnSel = autoFocusButton ? $(`.fh-window[data-index="${ index }"] .fh-window-controller-button[data-controller-id="${ autoFocusButton }"]:not(:disabled)`) : undefined;
-            if ($ctrlBtn.length == 0) {
-                if (data.closable) $(`.fh-window[data-index="${ index }"] .fh-window-title .close`).focus();
-            } else if ($ctrlBtnSel == undefined || $ctrlBtnSel.length == 0) {
-                $ctrlBtn.eq(0).focus();
-            } else {
-                $ctrlBtnSel.eq(0).focus();
-            }
+            that.autoSetFocusButton(index);
         });
         
         $(document).on('animationend', '.fh-window.window-close', function(e) {
@@ -130,6 +117,9 @@ class UniverseWindow {
             closed: false,
             unit: new UniverseWindowUnit(this, index)
         };
+        if (config.accessible.animation_disable || $('html').hasClass('accessible-animation-disable')) {
+            this.autoSetFocusButton(index);
+        }
         return this.windowList[index];
     }
 
@@ -141,6 +131,7 @@ class UniverseWindow {
         if (this.windowList[index] == undefined ) return;
         if (this.windowList[index].closed == true) return;
         this.windowList[index].closed = true;
+        if (config.accessible.animation_disable || $('html').hasClass('accessible-animation-disable')) return this.killWindow(index);
         $(`.fh-window[data-index="${ index }"]`).addClass('window-close');
         $(`.fh-window[data-index="${ index }"] button`).attr('disabled', 'true');
         $(`.fh-window-modal-bg[data-index="${ index }"]`).addClass('window-close');
@@ -184,6 +175,24 @@ class UniverseWindow {
             value,
             this.windowList[index].unit
         );
+    }
+
+    autoSetFocusButton(index) {
+        let $window = $(`.fh-window[data-index="${index}"]`).eq(0);
+        $window.parents('.fh-window-modal-bg').eq(0).removeClass('window-show');
+        $window.removeClass('window-show');
+
+        let autoFocusButton = $window.data('auto-focus-button');
+
+        let $ctrlBtn = $(`.fh-window[data-index="${ index }"] .fh-window-controller-button:not(:disabled)`);
+        let $ctrlBtnSel = autoFocusButton ? $(`.fh-window[data-index="${ index }"] .fh-window-controller-button[data-controller-id="${ autoFocusButton }"]:not(:disabled)`) : undefined;
+        if ($ctrlBtn.length == 0) {
+            if (data.closable) $(`.fh-window[data-index="${ index }"] .fh-window-title .close`).focus();
+        } else if ($ctrlBtnSel == undefined || $ctrlBtnSel.length == 0) {
+            $ctrlBtn.eq(0).focus();
+        } else {
+            $ctrlBtnSel.eq(0).focus();
+        }
     }
 }
 

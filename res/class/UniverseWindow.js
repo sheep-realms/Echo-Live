@@ -62,7 +62,7 @@ class UniverseWindow {
      * @param {Boolean} data.modal 模态
      * @param {String} data.style 样式
      * @param {Function} callback 回调函数
-     * @returns {String} DOM
+     * @returns {Object} 窗口数据
      */
     window(content = '', title = '', data = {}, callback = undefined) {
         data = {
@@ -94,7 +94,7 @@ class UniverseWindow {
      * @param {Boolean} data.modal 模态
      * @param {String} data.style 样式
      * @param {Function} callback 回调函数
-     * @returns {String} DOM
+     * @returns {Object} 窗口数据
      */
     messageWindow(content = '', title = '', data = {}, callback = undefined) {
         return this.window(
@@ -177,6 +177,10 @@ class UniverseWindow {
         );
     }
 
+    /**
+     * 自动设置焦点按钮
+     * @param {Number} index 索引编号
+     */
     autoSetFocusButton(index) {
         let $window = $(`.fh-window[data-index="${index}"]`).eq(0);
         $window.parents('.fh-window-modal-bg').eq(0).removeClass('window-show');
@@ -211,25 +215,31 @@ class UniverseWindowUnit {
 
     /**
      * 关闭窗口
+     * @returns {UniverseWindowUnit} 自身
      */
     close() {
         this.parent.closeWindow(this.index);
+        return this;
     }
 
     /**
      * 设置窗口标题
      * @param {String} title 标题
+     * @returns {UniverseWindowUnit} 自身
      */
     setTitle(title = '') {
         this.parent.setWindowTitle(this.index, title);
+        return this;
     }
 
     /**
      * 设置消息框内容
      * @param {String} content 内容
+     * @returns {UniverseWindowUnit} 自身
      */
     setMsgboxContent(content = '') {
         this.parent.setMsgboxContent(this.index, content);
+        return this;
     }
 }
 

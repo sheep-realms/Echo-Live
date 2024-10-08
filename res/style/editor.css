@@ -1204,6 +1204,10 @@ select:focus {
     line-height: var(--gap-large);
 }
 
+.unlock-page-width #commander-input {
+    width: 100vw;
+}
+
 .commander-input-left,
 .commander-input-right {
     flex: 1;

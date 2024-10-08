@@ -21,6 +21,7 @@ if (config.accessible.drotanopia_and_deuteranopia) $('html').addClass('accessibl
 if (config.accessible.link_underline) $('html').addClass('accessible-link-underline');
 if (config.accessible.animation_disable) $('html').addClass('accessible-animation-disable');
 if (config.accessible.power_saving_mode) $('html').addClass('power-saving-mode');
+if (config.accessible.unlock_page_width) $('html').addClass('unlock-page-width');
 $('html').css('--font-size-base', `${ config.accessible.font_size }px`);
 
 

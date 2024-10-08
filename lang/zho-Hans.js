@@ -540,6 +540,10 @@ const lang_zho_Hans = {
                 example_1: "你的爱还不够啊！",
                 example_2: "我对普通的人类没有兴趣！",
             },
+            unlock_page_width: {
+                _title: "解锁页面宽度",
+                _description: "不再限制页面内容宽度，这可以优化在较大字体布局下的显示效果。"
+            },
             high_contrast: {
                 _title: "启用高对比度",
                 _description: "提高后台页面的对比度，并对焦点元素显示高亮边框。"

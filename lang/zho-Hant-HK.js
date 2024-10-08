@@ -540,6 +540,10 @@ const lang_zho_Hant_HK = {
                 example_1: "你的愛還不夠啊！",
                 example_2: "我對普通的人類沒有興趣！",
             },
+            unlock_page_width: {
+                _title: "解鎖頁面寬度",
+                _description: "不再限制頁面內容寬度，這可以優化在較大字體佈局下的顯示效果。"
+            },
             high_contrast: {
                 _title: "啟用高對比度",
                 _description: "提高後台頁面的對比度，並對焦點元素顯示高亮邊框。"

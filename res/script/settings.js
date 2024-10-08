@@ -1099,6 +1099,7 @@ function setSwitchButtonOnClickToChangeClassForArray(data = []) {
 }
 
 setSwitchButtonOnClickToChangeClassForArray([
+    ['accessible.unlock_page_width',            'unlock-page-width'],
     ['accessible.high_contrast',                'accessible-high-contrast'],
     ['accessible.drotanopia_and_deuteranopia',  'accessible-drotanopia-and-deuteranopia'],
     ['accessible.link_underline',               'accessible-link-underline'],

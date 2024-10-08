@@ -2,6 +2,10 @@
     --settings-group-title-stickt-top: 44px;
 }
 
+main {
+    transition: width .3s;
+}
+
 .settings-panel {
     display: flex;
     gap: var(--gap-middle);
@@ -27,6 +31,11 @@
     min-width: 280px;
     position: sticky;
     top: 60px;
+    transition: width .3s;
+}
+
+.unlock-page-width .settings-nav {
+    width: max(280px, 25vw);
 }
 
 .settings-content {
@@ -331,7 +340,8 @@
 }
 
 @media screen and (max-width: 760px) {
-    .settings-nav {
+    .settings-nav,
+    .unlock-page-width .settings-nav {
         width: auto;
         min-width: unset;
     }
@@ -492,7 +502,7 @@
 }
 
 .settings-group-content .settings-item:first-child {
-    padding-top: 16px;
+    padding-top: var(--font-size-middle);
 }
 
 .settings-item+.settings-item {

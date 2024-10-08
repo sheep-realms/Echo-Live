@@ -120,6 +120,10 @@
     background-color: var(--scrollbar-thumb-hover-color);
 }
 
+.unlock-page-width main {
+    width: calc(100vw - 32px);
+}
+
 
 
 body {
@@ -1265,13 +1269,13 @@ select:focus {
 }
 
 @media screen and (min-width: 1200px) {
-    .fh-notice-item {
+    :root:not(.unlock-page-width) .fh-notice-item {
         --fh-notice-left-padding: 16px;
     }
 }
 
 @media screen and (min-width: 1400px) {
-    .fh-notice-item {
+    :root:not(.unlock-page-width) .fh-notice-item {
         --fh-notice-left-padding: 20px;
     }
 }

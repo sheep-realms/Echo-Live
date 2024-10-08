@@ -898,6 +898,11 @@ const db_config_define = [
         default: 16,
         created: 9
     }, {
+        name: 'accessible.unlock_page_width',
+        type: 'boolean',
+        default: false,
+        created: 9
+    }, {
         name: 'accessible.high_contrast',
         type: 'boolean',
         default: false,

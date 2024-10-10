@@ -135,6 +135,8 @@ $(document).on('click', '.settings-search-result-item', function(e) {
 });
 
 function searchSettings(text = '') {
+    text = text.trim();
+    if (text.length == 0) return;
     let r = configSearchDataFilter.filter(text);
     $('.settings-search-result').html(SettingsPanel.searchResultList(r));
 }

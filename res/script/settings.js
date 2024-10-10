@@ -63,6 +63,33 @@ window.addEventListener('beforeunload', function (e) {
 
 
 
+/**
+ * 跳转至配置项
+ * @param {String} name 配置名
+ */
+function goToSettingsItem(name) {
+    const $sel = $(`.settings-item[data-id="${ name }"]`);
+    if ($sel.length == 0) return;
+    const $item = $sel.eq(0);
+    const $page = $item.parents('.settings-page').eq(0);
+    const pageId = $page.data('pageid');
+
+    $('#tabpage-nav-edit').trigger('click');
+    $(`.settings-nav-item[data-pageid="${ pageId }"]`).trigger('click');
+
+    const offsetTop = $item.offset().top;
+    setTimeout(() => {
+        window.scrollTo({ top: offsetTop - ( window.innerHeight / 2 - $item.height() / 2 ) });
+        $(`.settings-item[data-id="${ name }"] .settings-switch.state-on .btn-switch.btn-on, .settings-item[data-id="${ name }"] .settings-switch.state-off .btn-switch.btn-off, .settings-item[data-id="${ name }"] .settings-value`).eq(0).focus();
+    }, 4);
+}
+
+/**
+ * 获取配置值
+ * @param {String} name 配置名
+ * @param {Boolean} isDefault 是否为默认值
+ * @returns {*} 配置值
+ */
 function getSettingsItemValue(name, isDefault = false) {
     let $sel = $(`.settings-item[data-id="${ name }"]`),
         type = $sel.data('type'),
@@ -133,6 +160,12 @@ function getSettingsItemValue(name, isDefault = false) {
     return value;
 }
 
+/**
+ * 设置配置值
+ * @param {String} name 配置名
+ * @param {*} value 配置值
+ * @param {Boolean} isDefault 是否为默认值
+ */
 function setSettingsItemValue(name, value, isDefault = false) {
     const bt = [
         'state-off',
@@ -448,6 +481,7 @@ function outputTabUnsavePoint(state = true) {
 
 
 
+// READY ////////////////////////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function() {
     translator.ready(() => {
         $('#echo-settings-nav').html(SettingsPanel.nav(settingsNav));
@@ -647,6 +681,13 @@ $(document).ready(function() {
     $('.settings-about-footer-var-4').text(nowTime.getTime());
     $('.settings-about-footer-var-6').text(config.data_version);
     $('.settings-about-footer-var-7').text(`${ echoLiveSystem.registry.registryCount }, ${ echoLiveSystem.registry.itemCount }`);
+
+    // 获取 URL 参数中的跳转指令
+
+    let gotoName = EchoLiveTools.getUrlParam('goto');
+    if (gotoName !== null) {
+        goToSettingsItem(gotoName);
+    }
 });
 
 

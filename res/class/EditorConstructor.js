@@ -1340,6 +1340,22 @@ class SettingsPanel {
     static msgBoxBlack(title = '', content = '', icon = 'information') {
         return SettingsPanel.msgBox(title, content, icon, 'black');
     }
+
+    static searchResultList(data = []) {
+        let dom = '';
+        data.forEach(e => {
+            dom += SettingsPanel.searchResultItem(e);
+        });
+        return dom;
+    }
+
+    static searchResultItem(data = {}) {
+        return `<button class="settings-search-result-item" data-id="${ data.name }">
+            <div class="group-title">${ data.groupTitle }</div>
+            <div class="title">${ data.title }</div>
+            <div class="description">${ data.description }</div>
+        </button>`;
+    }
 }
 
 class SettingsFileChecker {

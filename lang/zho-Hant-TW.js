@@ -48,6 +48,7 @@ const lang_zho_Hant_TW = {
         move_right: "右移",
         audition: "試聽",
         download: "下載",
+        search: "搜尋",
         missingno: {
             no_author: "未署名",
             no_name: "未命名"
@@ -127,6 +128,13 @@ const lang_zho_Hant_TW = {
         data_version: {
             _title: "資料版本",
             _description: "配置檔案的資料版本。"
+        },
+        search: {
+            _title: "搜尋",
+            _description: "搜尋所有配置項",
+            label: {
+                search: "搜尋配置項"
+            }
         },
         global: {
             _title: "全域性",

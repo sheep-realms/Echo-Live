@@ -62,6 +62,84 @@ window.addEventListener('beforeunload', function (e) {
 });
 
 
+let configSearchDataFilter = new DataFilter(
+    '', 
+    [
+        {
+            name: 'in',
+            type: 'string',
+            map: {
+                value: 'in',
+                search: 'in'
+            }
+        }, {
+            name: 'type',
+            type: 'string',
+            map: {
+                value: 'type',
+                search: 'type'
+            }
+        }, {
+            name: 'main',
+            type: 'string',
+            map: {
+                value: [
+                    'name',
+                    'groupTitle',
+                    'title',
+                    'description'
+                ]
+            }
+        }
+    ],
+    [],
+    () => {
+        let configDef = settingsManager.getConfigDefine();
+        let data = [];
+        let nameSplit;
+        let groupTitle = '';
+        configDef.forEach(e => {
+            if (e.type !== 'object') {
+                nameSplit = e.name.split('.');
+                groupTitle = '';
+                if (nameSplit.length > 2) {
+                    groupTitle = $t(`config.${ nameSplit.slice(0, nameSplit.length - 1).join('.') }._title`);
+                }
+                data.push({
+                    name: e.name,
+                    title: $t(`config.${ e.name }._title`),
+                    description: $t(`config.${ e.name }._description`).replace(/(<\w+\b[^>]*>)|(<\/\w+>)/g, ''),
+                    type: e.type,
+                    in: nameSplit[0],
+                    groupTitle: groupTitle
+                });
+            }
+        });
+        return data;
+    }
+);
+
+$('#settings-search-btn').click(function() {
+    searchSettings($('#settings-search').val());
+});
+
+$('#settings-search').keydown(function(e) {
+    if (e.key === 'Enter') {
+        searchSettings($('#settings-search').val());
+    }
+})
+
+$(document).on('click', '.settings-search-result-item', function(e) {
+    e.preventDefault();
+    goToSettingsItem($(this).data('id'));
+});
+
+function searchSettings(text = '') {
+    let r = configSearchDataFilter.filter(text);
+    $('.settings-search-result').html(SettingsPanel.searchResultList(r));
+}
+
+
 
 /**
  * 跳转至配置项
@@ -623,7 +701,7 @@ $(document).ready(function() {
             }
         });
 
-        $('.settings-nav-item').eq(0).click();
+        $('.settings-nav-item').eq(1).click();
 
         $('#settings-file-check-box').html(SettingsFileChecker.default());
 

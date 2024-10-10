@@ -48,6 +48,7 @@ const lang_zho_Hant_HK = {
         move_right: "右移",
         audition: "試聽",
         download: "下載",
+        search: "搜索",
         missingno: {
             no_author: "未署名",
             no_name: "未命名"
@@ -127,6 +128,13 @@ const lang_zho_Hant_HK = {
         data_version: {
             _title: "數據版本",
             _description: "配置文件的數據版本。"
+        },
+        search: {
+            _title: "搜索",
+            _description: "搜索所有配置項",
+            label: {
+                search: "搜索配置項"
+            }
         },
         global: {
             _title: "全局",

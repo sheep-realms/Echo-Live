@@ -48,6 +48,7 @@ const lang_zho_Hans = {
         move_right: "右移",
         audition: "试听",
         download: "下载",
+        search: "搜索",
         missingno: {
             no_author: "未署名",
             no_name: "未命名"
@@ -127,6 +128,13 @@ const lang_zho_Hans = {
         data_version: {
             _title: "数据版本",
             _description: "配置文件的数据版本。"
+        },
+        search: {
+            _title: "搜索",
+            _description: "搜索所有配置项",
+            label: {
+                search: "搜索配置项"
+            }
         },
         global: {
             _title: "全局",

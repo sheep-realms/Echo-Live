@@ -5,13 +5,16 @@ class DataFilter {
      * @param {String} filterText 检索语句
      * @param {Object|DataFilterConditions} conditions 条件列表
      * @param {Array<Object>} data 检索数据
+     * @param {Function} dataUpdater 数据更新过程
      */
-    constructor(filterText = '', conditions = [], data = []) {
+    constructor(filterText = '', conditions = [], data = [], dataUpdater = undefined) {
         this.filterText = filterText;
         this.data = data;
+        this.dataUpdater = dataUpdater;
         this.conditions = conditions;
         this.keywords = [];
         this.filterMethod = 'auto';
+        this.updateRequired = true;
 
         if (!(this.conditions instanceof DataFilterConditions)) {
             this.conditions = new DataFilterConditions(conditions);
@@ -28,6 +31,12 @@ class DataFilter {
         });
     }
 
+    /**
+     * 比较数组权重
+     * @param {Array<Number>} a 数组
+     * @param {Array<Number>} b 数组
+     * @returns {Number} -1 ~ 1
+     */
     static compareArrays(a, b) {
         const len = Math.min(a.length, b.length);
         for (let i = 0; i < len; i++) {
@@ -48,11 +57,26 @@ class DataFilter {
     }
 
     /**
+     * 是否有数据更新器
+     */
+    get hasDataUpdater() {
+        if (typeof this.dataUpdater === 'function') return true;
+        return false;
+    }
+
+    /**
      * 检索数据
      * @param {String} filterText 检索语句
      * @returns {Array<*>} 结果
      */
     filter(filterText = this.filterText) {
+        if (this.updateRequired) {
+            this.updateRequired = false;
+            if (this.hasDataUpdater) {
+                this.data = this.dataUpdater(this.data);
+            }
+        }
+
         function __getHasSpaceKeyword(text) {
             return text.substring(1, text.length - 1).replace(DataFilter.REGEXP_QUOTATION_MARK, '"');
         }
@@ -398,6 +422,12 @@ class DataFilterConditions {
         return true;
     }
 
+    /**
+     * 关键词权重查询
+     * @param {String|Array<String>} text 待查询字符串
+     * @param {Array<String>} keywords 关键词列表
+     * @returns {Array<Number>} 结果
+     */
     searchIndexOf(text, keywords) {
         if (!Array.isArray(text)) text = [text];
 
@@ -406,12 +436,12 @@ class DataFilterConditions {
         });
         
         let r = [];
-        for (let i = 0; i < keywords.length; i++) {
-            const e = keywords[i];
+        for (let i = 0; i < text.length; i++) {
+            const e = text[i];
             r[i] = [];
-            for (let j = 0; j < text.length; j++) {
-                const e2 = text[j];
-                r[i][j] = e2.search(e);
+            for (let j = 0; j < keywords.length; j++) {
+                const e2 = keywords[j];
+                r[i][j] = e.search(e2);
                 if (r[i][j] < 0) r[i][j] = Infinity;
             }
             r[i] = Math.min(...r[i]);
@@ -424,46 +454,46 @@ class DataFilterConditions {
 
 
 
-const testData = [
-    { id: 0, username: 'sheep', type: 'open', message: 'test 1', message2: 'echo' },
-    { id: 1, username: 'sheep', type: 'closed', message: 'test 22 apple', message2: 'echo' },
-    { id: 2, username: 'echo', type: 'open', message: 'test 1 apple', message2: 'echo' },
-    { id: 3, username: 'echo', type: 'closed', message: 'test 2', message2: 'echo' },
-    { id: 4, username: 'test', type: 'open', message: 'test 1', message2: 'echo' },
-    { id: 5, username: 'test', type: 'closed', message: 'test 22 apple', message2: 'echo' },
-    { id: 6, username: 'echo', type: 'open', message: 'echo', message2: 'test apple' }
-];
+// const testData = [
+//     { id: 0, username: 'sheep', type: 'open', message: 'test 1', message2: 'echo' },
+//     { id: 1, username: 'sheep', type: 'closed', message: 'test 22 apple', message2: 'echo' },
+//     { id: 2, username: 'echo', type: 'open', message: 'test 1 apple', message2: 'echo' },
+//     { id: 3, username: 'echo', type: 'closed', message: 'test 2', message2: 'echo' },
+//     { id: 4, username: 'test', type: 'open', message: 'test 1', message2: 'echo' },
+//     { id: 5, username: 'test', type: 'closed', message: 'test 22 apple', message2: 'echo' },
+//     { id: 6, username: 'echo', type: 'open', message: 'echo', message2: 'test apple' }
+// ];
 
-let df = new DataFilter('', [
-    {
-        name: 'name',
-        type: 'string',
-        map: {
-            value: 'username',
-            search: 'name'
-        }
-    }, {
-        name: 'id',
-        type: 'number',
-        map: {
-            value: 'id',
-            search: 'id'
-        }
-    }, {
-        name: 'type',
-        type: 'string',
-        map: {
-            value: 'type',
-            search: 'type'
-        }
-    }, {
-        name: 'main',
-        type: 'string',
-        map: {
-            value: [
-                'message',
-                'message2'
-            ]
-        }
-    }
-], testData);
+// let df = new DataFilter('', [
+//     {
+//         name: 'name',
+//         type: 'string',
+//         map: {
+//             value: 'username',
+//             search: 'name'
+//         }
+//     }, {
+//         name: 'id',
+//         type: 'number',
+//         map: {
+//             value: 'id',
+//             search: 'id'
+//         }
+//     }, {
+//         name: 'type',
+//         type: 'string',
+//         map: {
+//             value: 'type',
+//             search: 'type'
+//         }
+//     }, {
+//         name: 'main',
+//         type: 'string',
+//         map: {
+//             value: [
+//                 'message',
+//                 'message2'
+//             ]
+//         }
+//     }
+// ], testData);

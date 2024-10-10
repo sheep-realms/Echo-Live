@@ -28,6 +28,25 @@ class DataFilter {
         });
     }
 
+    static compareArrays(a, b) {
+        const len = Math.min(a.length, b.length);
+        for (let i = 0; i < len; i++) {
+            if (a[i] > b[i]) {
+                return 1;  // A > B
+            } else if (a[i] < b[i]) {
+                return -1;   // A < B
+            }
+        }
+
+        if (a.length > b.length) {
+            return 1;      // A更长且前面都相等，则A > B
+        } else if (a.length < b.length) {
+            return -1;       // B更长且前面都相等，则A < B
+        }
+        
+        return 0;
+    }
+
     /**
      * 检索数据
      * @param {String} filterText 检索语句
@@ -116,8 +135,14 @@ class DataFilter {
             r = this.data;
             this.conditions.forEachConditions(e => {
                 if (e.name === 'main' && keywords.length > 0) {
+                    let value;
                     r = r.filter(e2 => {
-                        return this.conditions.search(this.conditions.mappingOfValue(e, e2), keywords);
+                        value = this.conditions.mappingOfValue(e, e2);
+                        if (this.conditions.search(value, keywords)) {
+                            e2.__index = this.conditions.searchIndexOf(value, keywords)
+                            return true;
+                        };
+                        return false;
                     });
                 } else if (this.conditions.checkSearchByName(e.name, search)) {
                     r = r.filter(e2 => {
@@ -126,6 +151,9 @@ class DataFilter {
                 }
             });
         }
+
+        if (r.length == 0) return r;
+        r.sort((a, b) => DataFilter.compareArrays(a.__index, b.__index));
 
         return r;
     }
@@ -182,13 +210,22 @@ class DataFilterConditions {
      * @returns {*} 数据
      */
     mapping(type = 'value', condition = {}, item = {}) {
-        if (typeof condition?.map[type] === 'string') {
+        if (typeof condition?.map[type] === 'string' || (type === 'value' && Array.isArray(condition.map.value))) {
             if (type === 'search') {
                 let r = item.filter(e => e.name === condition.map.search);
                 if (r.length == 0) return;
                 return r;
             } else {
-                return item[condition.map.value];
+                if (Array.isArray(condition.map.value)) {
+                    let vl = [];
+                    condition.map.value.forEach(e => {
+                        vl.push(item[e]);
+                    });
+                    return vl;
+                } else {
+                    return item[condition.map.value];
+                }
+                
             }
         } else if (typeof condition?.map[type] === 'function') {
             return condition.map[type](item);
@@ -235,7 +272,9 @@ class DataFilterConditions {
         for (let i = 0; i < this.conditions.length; i++) {
             const e = this.conditions[i];
             if (e.name === 'main' && keywords.length > 0) {
-                r = this.search(this.mappingOfValue(e, item), keywords);
+                let value = this.mappingOfValue(e, item);
+                r = this.search(value, keywords);
+                if (r) item.__index = this.searchIndexOf(value, keywords);
             } else {
                 r = this.checkForCondition(e, search, item);
             }
@@ -336,17 +375,48 @@ class DataFilterConditions {
 
     /**
      * 关键词搜索检查
-     * @param {String} text 待查询字符串
+     * @param {String|Array<String>} text 待查询字符串
      * @param {Array<String>} keywords 关键词列表
      * @returns {Boolean} 结果
      */
     search(text, keywords) {
-        text = String(text);
+        if (!Array.isArray(text)) text = [text];
+
+        text.forEach((e, i) => {
+            text[i] = String(e);
+        });
+
         for (let i = 0; i < keywords.length; i++) {
             const e = keywords[i];
-            if (text.search(e) == -1) return false;
+            let r = false;
+            for (let j = 0; j < text.length; j++) {
+                const e2 = text[j];
+                r = r || e2.search(e) >= 0;
+            }
+            if (!r) return false;
         }
         return true;
+    }
+
+    searchIndexOf(text, keywords) {
+        if (!Array.isArray(text)) text = [text];
+
+        text.forEach((e, i) => {
+            text[i] = String(e);
+        });
+        
+        let r = [];
+        for (let i = 0; i < keywords.length; i++) {
+            const e = keywords[i];
+            r[i] = [];
+            for (let j = 0; j < text.length; j++) {
+                const e2 = text[j];
+                r[i][j] = e2.search(e);
+                if (r[i][j] < 0) r[i][j] = Infinity;
+            }
+            r[i] = Math.min(...r[i]);
+        }
+        return r;
     }
 }
 
@@ -355,12 +425,13 @@ class DataFilterConditions {
 
 
 const testData = [
-    { id: 0, username: 'sheep', type: 'open', message: 'test 1' },
-    { id: 1, username: 'sheep', type: 'closed', message: 'test 2 apple' },
-    { id: 2, username: 'echo', type: 'open', message: 'test 1 apple' },
-    { id: 3, username: 'echo', type: 'closed', message: 'test 2' },
-    { id: 4, username: 'test', type: 'open', message: 'test 1' },
-    { id: 5, username: 'test', type: 'closed', message: 'test 2 apple' }
+    { id: 0, username: 'sheep', type: 'open', message: 'test 1', message2: 'echo' },
+    { id: 1, username: 'sheep', type: 'closed', message: 'test 22 apple', message2: 'echo' },
+    { id: 2, username: 'echo', type: 'open', message: 'test 1 apple', message2: 'echo' },
+    { id: 3, username: 'echo', type: 'closed', message: 'test 2', message2: 'echo' },
+    { id: 4, username: 'test', type: 'open', message: 'test 1', message2: 'echo' },
+    { id: 5, username: 'test', type: 'closed', message: 'test 22 apple', message2: 'echo' },
+    { id: 6, username: 'echo', type: 'open', message: 'echo', message2: 'test apple' }
 ];
 
 let df = new DataFilter('', [
@@ -389,7 +460,10 @@ let df = new DataFilter('', [
         name: 'main',
         type: 'string',
         map: {
-            value: 'message'
+            value: [
+                'message',
+                'message2'
+            ]
         }
     }
 ], testData);

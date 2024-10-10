@@ -1350,11 +1350,11 @@ class SettingsPanel {
     }
 
     static searchResultItem(data = {}) {
-        return `<button class="settings-search-result-item" data-id="${ data.name }">
+        return `<div class="settings-search-result-item" data-id="${ data.name }" role="link" tabindex="0">
             <div class="group-title">${ data.groupTitle }</div>
             <div class="title">${ data.title }</div>
             <div class="description">${ data.description }</div>
-        </button>`;
+        </div>`;
     }
 }
 

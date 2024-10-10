@@ -415,7 +415,7 @@ class DataFilterConditions {
             let r = false;
             for (let j = 0; j < text.length; j++) {
                 const e2 = text[j];
-                r = r || e2.search(e) >= 0;
+                r = r || e2.search(e.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) >= 0;
             }
             if (!r) return false;
         }
@@ -441,7 +441,7 @@ class DataFilterConditions {
             r[i] = [];
             for (let j = 0; j < keywords.length; j++) {
                 const e2 = keywords[j];
-                r[i][j] = e.search(e2);
+                r[i][j] = e.search(e2.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
                 if (r[i][j] < 0) r[i][j] = Infinity;
             }
             r[i] = Math.min(...r[i]);

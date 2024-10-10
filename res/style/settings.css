@@ -1015,6 +1015,10 @@ a.settings-link-bar:active {
     background-image: var(--corner-marker);
 }
 
+.settings-search-result-item:active {
+    filter: brightness(0.85);
+}
+
 .settings-search-result-item .title {
     color: var(--text-primary);
     font-size: var(--font-size-middle);

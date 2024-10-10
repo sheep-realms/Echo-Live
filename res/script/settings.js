@@ -130,6 +130,7 @@ $('#settings-search').keydown(function(e) {
 })
 
 $(document).on('click', '.settings-search-result-item', function(e) {
+    if (e.altKey) return;
     e.preventDefault();
     goToSettingsItem($(this).data('id'));
 });

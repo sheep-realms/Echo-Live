@@ -5,6 +5,7 @@ const lang_zho_Hant_HK = {
         title: "繁體中文（香港特別行政區）"
     },
     localization: {
+        bracket: "（{text}）",
         data_common: "{y}-{MM}-{dd}",
         data_time_common: "{y}-{MM}-{dd} {hh}:{mm}:{ss}",
         data: "{y} 年 {M} 月 {d} 日",

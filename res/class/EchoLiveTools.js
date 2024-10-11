@@ -78,14 +78,15 @@ class EchoLiveTools {
         if (typeof message == 'object' && !Array.isArray(message)) message = [message];
         if (!Array.isArray(message)) return;
 
+        let rubyText;
         message.forEach(e => {
-            if (typeof e == 'string') {
+            if (typeof e === 'string') {
                 str += e;
             } else {
-                if (e?.data?.image != undefined) {
+                if (e?.data?.image !== undefined) {
                     str += ` [${ $t('file.picker.image') }] `;
                 }
-                if (e?.data?.emoji != undefined && !noEmoji) {
+                if (e?.data?.emoji !== undefined && !noEmoji) {
                     try {
                         typeof emojiHako;
                         let emoji = emojiHako.getEmoji(e.data.emoji);
@@ -95,6 +96,12 @@ class EchoLiveTools {
                     }
                 }
                 str += e.text;
+                if (e?.ruby !== undefined) {
+                    rubyText = $t('localization.bracket', { text: e.ruby });
+                    if (rubyText === 'localization.bracket') rubyText = `(${ rubyText })`;
+                    str += rubyText;
+                    rubyText = undefined;
+                }
             }
         });
 

@@ -245,8 +245,11 @@ class FHUIComponentInput {
                         }
                     }, 0);
                 }
+
+                input.attr('aria-expanded', true);
             } else {
                 list.addClass('hide');
+                input.attr('aria-expanded', false);
             }
         }
 
@@ -323,6 +326,7 @@ class FHUIComponentInput {
             list.find('.fh-select-option').attr('aria-selected', false);
             list.find(`.fh-select-option[data-value="${ $(this).data('value') }"]`).attr('aria-selected', true);
             list.addClass('hide');
+            input.attr('aria-expanded', false);
             input.focus();
             input.trigger('input');
         });
@@ -343,10 +347,16 @@ class FHUIComponentInput {
 
         // 下拉菜单失焦
         $(document).on('mousedown', function(e) {
-            if ($(e.target).closest('.fh-select-option-list:not(.hide)').length == 0) $('.fh-select-option-list').addClass('hide');
+            if ($(e.target).closest('.fh-select-option-list:not(.hide)').length == 0) {
+                $('.fh-select-option-list').addClass('hide');
+                $('.fh-input.fh-select[aria-expanded="true"]').attr('aria-expanded', false);
+            }
         });
         $(document).on('focus', '*', function(e) {
-            if ($(e.target).closest('.fh-select-option-list:not(.hide)').length == 0) $('.fh-select-option-list').addClass('hide');
+            if ($(e.target).closest('.fh-select-option-list:not(.hide)').length == 0) {
+                $('.fh-select-option-list').addClass('hide');
+                $('.fh-input.fh-select[aria-expanded="true"]').attr('aria-expanded', false);
+            }
         });
     }
 
@@ -583,6 +593,9 @@ class FHUIComponentInput {
                     is_primary: true
                 },
                 attribute: {
+                    aria: {
+                        expanded: 'false'
+                    },
                     data: {
                         default: data.default_value
                     },

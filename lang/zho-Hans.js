@@ -134,6 +134,10 @@ const lang_zho_Hans = {
             _description: "搜索所有配置项",
             label: {
                 search: "搜索配置项"
+            },
+            aria_label: {
+                result: "搜索结果{index}：{title}",
+                result_has_group: "搜索结果{index}：{group}，{title}"
             }
         },
         global: {

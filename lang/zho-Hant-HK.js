@@ -134,6 +134,10 @@ const lang_zho_Hant_HK = {
             _description: "搜索所有配置項",
             label: {
                 search: "搜索配置項"
+            },
+            aria_label: {
+                result: "搜索結果{index}：{title}",
+                result_has_group: "搜索結果{index}：{group}，{title}"
             }
         },
         global: {

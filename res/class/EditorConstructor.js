@@ -1343,14 +1343,20 @@ class SettingsPanel {
 
     static searchResultList(data = []) {
         let dom = '';
-        data.forEach(e => {
-            dom += SettingsPanel.searchResultItem(e);
+        data.forEach((e, i) => {
+            dom += SettingsPanel.searchResultItem(e, i);
         });
         return dom;
     }
 
-    static searchResultItem(data = {}) {
-        return `<div class="settings-search-result-item" data-id="${ data.name }" role="link" tabindex="0">
+    static searchResultItem(data = {}, index) {
+        let ariaLabel = '';
+        if (data.groupTitle.length == 0 || data.groupTitle === undefined) {
+            ariaLabel = $t('config.search.aria_label.result', { index: index + 1, title: data.title });
+        } else {
+            ariaLabel = $t('config.search.aria_label.result_has_group', { index: index + 1, group: data.groupTitle, title: data.title });
+        }
+        return `<div class="settings-search-result-item" data-id="${ data.name }" role="link" aria-label="${ ariaLabel }" tabindex="0">
             <div class="group-title">${ data.groupTitle }</div>
             <div class="title">${ data.title }</div>
             <div class="description">${ data.description }</div>

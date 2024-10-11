@@ -154,6 +154,7 @@ function goToSettingsItem(name) {
     const $item = $sel.eq(0);
     const $page = $item.parents('.settings-page').eq(0);
     const pageId = $page.data('pageid');
+    $('.settings-highlight').removeClass('settings-highlight');
 
     $('#tabpage-nav-edit').trigger('click');
     $(`.settings-nav-item[data-pageid="${ pageId }"]`).trigger('click');
@@ -162,8 +163,13 @@ function goToSettingsItem(name) {
     setTimeout(() => {
         window.scrollTo({ top: offsetTop - ( window.innerHeight / 2 - $item.height() / 2 ) });
         $(`.settings-item[data-id="${ name }"] .settings-switch.state-on .btn-switch.btn-on, .settings-item[data-id="${ name }"] .settings-switch.state-off .btn-switch.btn-off, .settings-item[data-id="${ name }"] .settings-value`).eq(0).focus();
+        $item.addClass('settings-highlight');
     }, 4);
 }
+
+$(document).on('animationend', '.settings-highlight', function() {
+    $(this).removeClass('settings-highlight');
+});
 
 /**
  * 获取配置值
@@ -1031,6 +1037,7 @@ $(document).on('click', '.settings-nav-item', function() {
     $(`.settings-page`).addClass('hide');
     $(`.settings-page[data-pageid="${pageid}"]`).removeClass('hide');
     $(window).scrollTop(0);
+    $('.settings-highlight').removeClass('settings-highlight');
 });
 
 $(document).on('click', '.settings-switch', function() {

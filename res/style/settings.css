@@ -1038,3 +1038,14 @@ a.settings-link-bar:active {
     overflow: hidden;
     white-space: nowrap;
 }
+
+.settings-highlight {
+    animation: settings-highlight .7s ease-out 0s 1;
+}
+
+@keyframes settings-highlight {
+    0% { background-color: transparent; box-shadow: 0 0 0 0 transparent; }
+    10% { background-color: transparent; box-shadow: 0 0 0 0 transparent; }
+    10.01% { background-color: var(--color-general-glass); box-shadow: 0 0 0 0 var(--color-general-glass); }
+    100% { background-color: transparent; box-shadow: 0 0 0 var(--gap-middle) transparent; }
+}

@@ -145,8 +145,8 @@ const lang_zho_Hans = {
             _title: "全局",
             _description: "一些影响全局的设置",
             language: {
-                _title: "显示语言",
-                _description: "后台页面的显示语言。"
+                _title: "界面语言",
+                _description: "后台页面的界面语言。"
             },
             theme: {
                 _title: "全局主题",

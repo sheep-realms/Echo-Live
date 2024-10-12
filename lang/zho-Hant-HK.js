@@ -145,8 +145,8 @@ const lang_zho_Hant_HK = {
             _title: "全局",
             _description: "一些影響全局的設置",
             language: {
-                _title: "顯示語言",
-                _description: "後台頁面的顯示語言。"
+                _title: "界面語言",
+                _description: "後台頁面的界面語言。"
             },
             theme: {
                 _title: "全局主題",

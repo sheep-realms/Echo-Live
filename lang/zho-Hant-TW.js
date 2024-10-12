@@ -145,8 +145,8 @@ const lang_zho_Hant_TW = {
             _title: "全域性",
             _description: "一些影響全域性的設定",
             language: {
-                _title: "顯示語言",
-                _description: "後臺頁面的顯示語言。"
+                _title: "介面語言",
+                _description: "後臺頁面的介面語言。"
             },
             theme: {
                 _title: "全域性主題",

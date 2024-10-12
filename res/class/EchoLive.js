@@ -315,6 +315,10 @@ class EchoLive {
         if (typeof data?.username === 'string') {
             this.username = data.username;
             $('#echo-live .name').html(data.username.replace(/ /g, '&ensp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'));
+            $('#echo-live .name').removeClass('echo-text-rlo');
+            if (data.username.trim().search(/[\u0590-\u05FF\u0600-\u06FF\u0700-\u074F\u0750-\u077F\u07C0-\u07FF\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/) == 0) {
+                $('#echo-live .name').addClass('echo-text-rlo');
+            }
         }
         if (Array.isArray(data?.messages)) this.echo.sendList(JSON.parse(JSON.stringify(data.messages)));
     }

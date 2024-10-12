@@ -243,7 +243,7 @@
     flex: var(--echo-live-box-center-flex);
 }
 
-#echo-live .bottom-center {
+#echo-live .controller {
     font-size: var(--echo-live-bottom-font-size);
     text-align: right;
 }
@@ -260,16 +260,16 @@
     font-size: var(--echo-live-content-font-size);
     margin-bottom: 0.5em;
     position: relative;
-    left: -1em;
+    margin-inline-start: -1em;
     font-size: var(--echo-live-username-font-size, var(--echo-live-content-font-size));
     color: var(--echo-live-username-color, #000);
 }
 
-#echo-live .bottom-center {
-    padding: 0.25em 1em;
+#echo-live .controller {
+    padding: 0.125em 0.5em;
 }
 
-#echo-live .bottom-center span {
+#echo-live .controller span {
     display: inline-block;
     margin-right: 1em;
     color: var(--echo-live-bottom-color, #888);

@@ -205,6 +205,18 @@ const lang_zho_Hant_TW = {
                     _description: "此配置項需要啟用全域性主題指令碼才能生效。"
                 }
             },
+            layout: {
+                _title: "佈局",
+                _description: "對話方塊的內容佈局",
+                username_text_align_right: {
+                    _title: "說話人靠右對齊",
+                    _description: "將說話人一欄靠向對話方塊右側。"
+                },
+                diplay_controller: {
+                    _title: "顯示控制欄",
+                    _description: "顯示對話方塊底部的 “SAVE”、“LOAD” 等模擬按鈕。"
+                }
+            },
             broadcast: {
                 _title: "廣播",
                 _description: "Echo-Live 的基本工作模式",

@@ -205,6 +205,18 @@ const lang_zho_Hans = {
                     _description: "此配置项需要启用全局主题脚本才能生效。"
                 }
             },
+            layout: {
+                _title: "布局",
+                _description: "对话框的内容布局",
+                username_text_align_right: {
+                    _title: "说话人靠右对齐",
+                    _description: "将说话人一栏靠向对话框右侧。"
+                },
+                diplay_controller: {
+                    _title: "显示控制栏",
+                    _description: "显示对话框底部的 “SAVE”、“LOAD” 等模拟按钮。"
+                }
+            },
             broadcast: {
                 _title: "广播",
                 _description: "Echo-Live 的基本工作模式",

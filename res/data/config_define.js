@@ -105,6 +105,20 @@ const db_config_define = [
             }
         ]
     }, {
+        name: 'echolive.layout',
+        type: 'object',
+        created: 9
+    }, {
+        name: 'echolive.layout.username_text_align_right',
+        type: 'boolean',
+        default: false,
+        created: 9
+    }, {
+        name: 'echolive.layout.diplay_controller',
+        type: 'boolean',
+        default: true,
+        created: 9
+    }, {
         name: 'echolive.broadcast',
         type: 'object',
         created: 4

@@ -18,6 +18,10 @@ const config = {
             "live_theme": "",
             "live_theme_script_enable": false
         },
+        "layout": {
+            "username_text_align_right": false,
+            "diplay_controller": true
+        },
         "broadcast": {
             "enable": true,
             "channel": "sheep-realms:echolive",

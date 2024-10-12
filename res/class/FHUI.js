@@ -174,7 +174,9 @@ class FHUIComponentInput {
         $(document).on('input', '.fh-component-group-range-input .fh-input-component.fh-input-type-range .fh-range', function() {
             const cpt = $(this).parents('.fh-component-group-range-input').eq(0);
             const ipt = cpt.find('.fh-input-component.fh-input-type-number .fh-input').eq(0);
+            if (ipt.val() == $(this).val()) return;
             ipt.val($(this).val());
+            ipt.trigger('input');
         });
 
         // 输入框和范围滑块绑定
@@ -243,8 +245,11 @@ class FHUIComponentInput {
                         }
                     }, 0);
                 }
+
+                input.attr('aria-expanded', true);
             } else {
                 list.addClass('hide');
+                input.attr('aria-expanded', false);
             }
         }
 
@@ -321,6 +326,7 @@ class FHUIComponentInput {
             list.find('.fh-select-option').attr('aria-selected', false);
             list.find(`.fh-select-option[data-value="${ $(this).data('value') }"]`).attr('aria-selected', true);
             list.addClass('hide');
+            input.attr('aria-expanded', false);
             input.focus();
             input.trigger('input');
         });
@@ -341,10 +347,16 @@ class FHUIComponentInput {
 
         // 下拉菜单失焦
         $(document).on('mousedown', function(e) {
-            if ($(e.target).closest('.fh-select-option-list:not(.hide)').length == 0) $('.fh-select-option-list').addClass('hide');
+            if ($(e.target).closest('.fh-select-option-list:not(.hide)').length == 0) {
+                $('.fh-select-option-list').addClass('hide');
+                $('.fh-input.fh-select[aria-expanded="true"]').attr('aria-expanded', false);
+            }
         });
         $(document).on('focus', '*', function(e) {
-            if ($(e.target).closest('.fh-select-option-list:not(.hide)').length == 0) $('.fh-select-option-list').addClass('hide');
+            if ($(e.target).closest('.fh-select-option-list:not(.hide)').length == 0) {
+                $('.fh-select-option-list').addClass('hide');
+                $('.fh-input.fh-select[aria-expanded="true"]').attr('aria-expanded', false);
+            }
         });
     }
 
@@ -454,7 +466,9 @@ class FHUIComponentInput {
      * @param {Object} data 数据
      * @param {String} data.class 类
      * @param {String|Number} data.default_value 默认值
+     * @param {Array<Object>} data.label 标签列表
      * @param {String} data.id ID
+     * @param {Boolean} data.hasInput 有输入框
      * @param {String} data.name 名称
      * @param {String} data.style 样式
      * @param {Object} data.attribute 元素属性
@@ -467,7 +481,9 @@ class FHUIComponentInput {
         data = {
             class: undefined,
             default_value: undefined,
+            label: [],
             id: undefined,
+            inputClass: '',
             hasInput: false,
             name: undefined,
             style: undefined,
@@ -477,13 +493,6 @@ class FHUIComponentInput {
                 min: 0,
                 step: undefined,
                 ...data?.attribute
-            },
-            label: {
-                range: {
-                    max: undefined,
-                    middle: undefined,
-                    min: undefined
-                }
             }
         };
 
@@ -496,28 +505,32 @@ class FHUIComponentInput {
             {
                 class: [
                     'fh-input-component',
-                    'fh-input-type-range'
+                    'fh-input-type-range',
+                    data.label.length > 0 ? 'has-value-label' : undefined
                 ]
             },
-            FHUI.element(
-                'input',
-                {
-                    ...data.attribute,
-                    type: 'range',
-                    name: data.name,
-                    id: data.id,
-                    class: [
-                        'fh-range',
-                        data.class
-                    ],
-                    style: data.style,
-                    value: value,
-                    data: {
-                        default: data.default_value
-                    }
-                },
-                null
-            )
+            [
+                FHUI.element(
+                    'input',
+                    {
+                        ...data.attribute,
+                        type: 'range',
+                        name: data.name,
+                        id: data.id,
+                        class: [
+                            'fh-range',
+                            data.class
+                        ],
+                        style: data.style,
+                        value: value,
+                        data: {
+                            default: data.default_value
+                        }
+                    },
+                    null
+                ),
+                data.label.length > 0 ? FHUIComponentInput.__rangeLabel(data.label, data.attribute) : null
+            ]
         );
 
         if (data.hasInput) {
@@ -525,10 +538,14 @@ class FHUIComponentInput {
                 value,
                 'number',
                 {
-                    class: 'fh-range-input',
+                    class: 'fh-range-input ' + data.inputClass,
                     attribute: {
                         max: data.attribute.max,
-                        min: data.attribute.min
+                        min: data.attribute.min,
+                        step: data.attribute.step
+                    },
+                    data: {
+                        default: data.default_value
                     }
                 }
             );
@@ -576,6 +593,9 @@ class FHUIComponentInput {
                     is_primary: true
                 },
                 attribute: {
+                    aria: {
+                        expanded: 'false'
+                    },
                     data: {
                         default: data.default_value
                     },
@@ -710,9 +730,49 @@ class FHUIComponentInput {
         );
     }
 
-    static __rangeLabel() {
-        // TODO: 想个办法搞定这个
-        return '';
+    static __rangeLabel(label, attribute) {
+        let dom = '';
+        let translateX = '-50%';
+        let align = 'center';
+        label.forEach(e => {
+            e = {
+                value: '0%',
+                label: 'missingno',
+                ...e
+            }
+            translateX = '-50%';
+            align = 'center';
+            if (typeof e.value === 'number') {
+                if (typeof attribute.max === 'undefined') {
+                    e.value = '0%';
+                } else {
+                    e.value = `${ (e.value - attribute.min) / (attribute.max - attribute.min) * 100 }%`
+                }
+            }
+            if (e.value === '0%') {
+                translateX = 'calc(var(--font-size-base) / 2 * -1)';
+                align = 'left';
+            }
+            if (e.value === '100%') {
+                translateX = 'calc(-100% + var(--font-size-base) / 2)';
+                align = 'right';
+            }
+            dom += FHUI.element(
+                'div',
+                {
+                    class: 'fh-range-value-label',
+                    style: `left: ${ e.value }; transform: translateX(${ translateX }); text-align: ${ align };`
+                },
+                e.label
+            );
+        });
+        return FHUI.element(
+            'div',
+            {
+                class: 'fh-range-value-label-list'
+            },
+            dom
+        );
     }
 
     /**

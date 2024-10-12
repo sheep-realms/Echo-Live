@@ -1009,7 +1009,8 @@ class SettingsPanel {
         }
 
         const funSpecial = {
-            all_or_array_string: 'setItemAllOrArrayString'
+            all_or_array_string: 'setItemAllOrArrayString',
+            fontsize: 'setItemFontSize'
         };
 
         let types = item.type.split('.');
@@ -1115,8 +1116,7 @@ class SettingsPanel {
             FHUI.element(
                 'label',
                 {
-                    class: 'title',
-                    style: 'display: none;',
+                    class: 'settings-item-label',
                     for: id.replace(/\./g, '-')
                 },
                 title
@@ -1129,7 +1129,7 @@ class SettingsPanel {
         // value = String(value).replace(/"/g, '&quot;');
         return SettingsPanel.setItem(
             type, id, title, description,
-            `<label class="title" style="display: none;" for="${ id.replace(/\./g, '-') }">${ title }</label>`,
+            `<label class="settings-item-label" for="${ id.replace(/\./g, '-') }">${ title }</label>`,
             `<div class="content">
                 <textarea id="${ id.replace(/\./g, '-') }" class="settings-value code" aria-label="${ title }" data-default="${ encodeURIComponent(value) }">${ value }</textarea>
             </div>`
@@ -1142,8 +1142,7 @@ class SettingsPanel {
             FHUI.element(
                 'label',
                 {
-                    class: 'title',
-                    style: 'display: none;',
+                    class: 'settings-item-label',
                     for: id.replace(/\./g, '-')
                 },
                 title
@@ -1243,6 +1242,39 @@ class SettingsPanel {
         );
     }
 
+    static setItemFontSize(type = '', id = '', title = '', description = '', value = '') {
+        return SettingsPanel.setItem(
+            type, id, title, description,
+            FHUI.element(
+                'label',
+                {
+                    class: 'settings-item-label',
+                    for: id.replace(/\./g, '-')
+                }
+            ) +
+            FHUIComponentInput.range(
+                value,
+                {
+                    id: id.replace(/\./g, '-'),
+                    name: id.replace(/\./g, '-'),
+                    hasInput: true,
+                    inputClass: 'settings-value code',
+                    label: [
+                        { value: 8, label: $t('config.accessible.font_size.small') },
+                        { value: 16, label: $t('config.accessible.font_size.middle') },
+                        { value: 24, label: $t('config.accessible.font_size.large') },
+                        { value: 32, label: $t('config.accessible.font_size.extra_large') }
+                    ],
+                    attribute: {
+                        min:8,
+                        max: 32,
+                        step: 2
+                    }
+                }
+            )
+        );
+    }
+
     static linkBar(title = '', href = '', icon = undefined, data = {}) {
         data = {
             isDebug: false,
@@ -1307,6 +1339,28 @@ class SettingsPanel {
      */
     static msgBoxBlack(title = '', content = '', icon = 'information') {
         return SettingsPanel.msgBox(title, content, icon, 'black');
+    }
+
+    static searchResultList(data = []) {
+        let dom = '';
+        data.forEach((e, i) => {
+            dom += SettingsPanel.searchResultItem(e, i);
+        });
+        return dom;
+    }
+
+    static searchResultItem(data = {}, index) {
+        let ariaLabel = '';
+        if (data.groupTitle.length == 0 || data.groupTitle === undefined) {
+            ariaLabel = $t('config.search.aria_label.result', { index: index + 1, title: data.title });
+        } else {
+            ariaLabel = $t('config.search.aria_label.result_has_group', { index: index + 1, group: data.groupTitle, title: data.title });
+        }
+        return `<div class="settings-search-result-item" data-id="${ data.name }" role="link" aria-label="${ ariaLabel }" tabindex="0">
+            <div class="group-title">${ data.groupTitle }</div>
+            <div class="title">${ data.title }</div>
+            <div class="description">${ data.description }</div>
+        </div>`;
     }
 }
 
@@ -1788,7 +1842,11 @@ class FHUIWindow {
         data = {
             class: 'fh-window-controller-button fh-window-controller-button-' + id,
             color: colorType,
-            attr: `data-controller-id="${ id }"`,
+            attribute: {
+                data: {
+                    'controller-id': id
+                }
+            },
             icon: icon,
             ...data
         }

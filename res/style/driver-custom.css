@@ -2,7 +2,7 @@
     background-color: var(--input-bgcolor);
     border-radius: unset;
     box-shadow: var(--box-shadow);
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-middle);
     max-width: 500px;
 }
 

@@ -1,5 +1,9 @@
 echoLiveSystem.registry.setRegistryValue('settings_data', 'navigation', [
     {
+        id: 'search',
+        icon: 'magnify',
+        isCustom: true
+    }, {
         id: 'global',
         icon: 'earth'
     }, {

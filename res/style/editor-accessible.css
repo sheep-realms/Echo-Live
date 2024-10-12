@@ -39,6 +39,9 @@
     --msgbox-bgcolor: #FFFFFF;
     --commander-bgcolor: #000000;
     --commander-color: #FFFFFF;
+
+    --scrollbar-thumb-color: rgba(0, 0, 0, 1);
+    --scrollbar-thumb-hover-color:rgba(0, 0, 0, 1);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -84,6 +87,9 @@
         --commander-color: #000000;
 
         --checkbox-corner-marker-color: rgba(30, 33, 41, 0.5);
+
+        --scrollbar-thumb-color: rgba(255, 255, 255, 1);
+        --scrollbar-thumb-hover-color:rgba(255, 255, 255, 1);
     }
 
     :root:not(.prefers-color-scheme-light) * {
@@ -133,6 +139,9 @@
     --commander-color: #000000;
 
     --checkbox-corner-marker-color: rgba(30, 33, 41, 0.5);
+
+    --scrollbar-thumb-color: rgba(255, 255, 255, 1);
+    --scrollbar-thumb-hover-color:rgba(255, 255, 255, 1);
 }
 
 .prefers-color-scheme-dark * {
@@ -151,6 +160,10 @@
 .prefers-color-scheme-dark .accessible-high-contrast .settings-nav-item[aria-selected="true"] svg,
 .prefers-color-scheme-dark .accessible-high-contrast #popups-palette .popups-palette-color-contrast .diff-result-content.fail svg {
     fill: var(--page-bgcolor);
+}
+
+.accessible-high-contrast .review-font-size-card {
+    border: 1px solid var(--border-color);
 }
 
 

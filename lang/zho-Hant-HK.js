@@ -5,6 +5,7 @@ const lang_zho_Hant_HK = {
         title: "繁體中文（香港特別行政區）"
     },
     localization: {
+        bracket: "（{text}）",
         data_common: "{y}-{MM}-{dd}",
         data_time_common: "{y}-{MM}-{dd} {hh}:{mm}:{ss}",
         data: "{y} 年 {M} 月 {d} 日",
@@ -14,7 +15,7 @@ const lang_zho_Hant_HK = {
         time_common: "{hh}:{mm}:{ss}",
     },
     ui: {
-        confirm: "確認",
+        confirm: "確定",
         cancel: "取消",
         ok: "好",
         yes: "是",
@@ -48,6 +49,7 @@ const lang_zho_Hant_HK = {
         move_right: "右移",
         audition: "試聽",
         download: "下載",
+        search: "搜索",
         missingno: {
             no_author: "未署名",
             no_name: "未命名"
@@ -128,6 +130,17 @@ const lang_zho_Hant_HK = {
             _title: "數據版本",
             _description: "配置文件的數據版本。"
         },
+        search: {
+            _title: "搜索",
+            _description: "搜索所有配置項",
+            label: {
+                search: "搜索配置項"
+            },
+            aria_label: {
+                result: "搜索結果{index}：{title}",
+                result_has_group: "搜索結果{index}：{group}，{title}"
+            }
+        },
         global: {
             _title: "全局",
             _description: "一些影響全局的設置",
@@ -152,9 +165,17 @@ const lang_zho_Hant_HK = {
                     light: "淺色"
                 }
             },
+            touchscreen_layout: {
+                _title: "啟用觸控螢幕佈局",
+                _description: "使用更大尺寸的佈局以方便觸控螢幕操作。"
+            },
             controller_layout_reverse: {
                 _title: "反轉控制器按鈕佈局",
                 _description: "根據閱讀方向將重要按鈕放置於最先被閱讀的位置。"
+            },
+            thin_scrollbar: {
+                _title: "啟用細滾動條",
+                _description: "使用較細的滾動條替換默認滾動條。"
             }
         },
         echo: {
@@ -183,6 +204,18 @@ const lang_zho_Hant_HK = {
                     _title: "啟用對話框主題腳本",
                     _description: "此配置項需要啟用全局主題腳本才能生效。"
                 },
+            },
+            layout: {
+                _title: "佈局",
+                _description: "對話框的內容佈局",
+                username_text_align_right: {
+                    _title: "說話人靠右對齊",
+                    _description: "將說話人一欄靠向對話框右側。"
+                },
+                diplay_controller: {
+                    _title: "顯示控制欄",
+                    _description: "顯示對話框底部的 “SAVE”、“LOAD” 等模擬按鈕。"
+                }
             },
             broadcast: {
                 _title: "廣播",
@@ -329,7 +362,7 @@ const lang_zho_Hant_HK = {
                 },
                 voice: {
                     _title: "語音資源",
-                    _description: "在這裏選擇可用的語音資源，留空則使用系統默認值。<br>請注意：不同的瀏覽器會出現不同的值，一些瀏覽器會提供獨有的語音資源，例如 Chrome 的 Google 合成語音，這些語音資源不能在 OBS 中使用。語音資源能否正確使用最終取決於前台頁面所在的瀏覽器環境。<br>當所選擇的值不可用時，將使用系統默認值。"
+                    _description: "在這裏選擇可用的語音資源，留空則使用系統默認值。<br>如果沒有下拉列表，則說明沒有本地語音資源可用。<br>當所選擇的值不可用時，將使用系統默認值。"
                 },
                 pitch: {
                     _title: "音高",
@@ -385,7 +418,7 @@ const lang_zho_Hant_HK = {
                 },
                 client_state_panel_enable: {
                     _title: "顯示對話框狀態儀錶板",
-                    _description: "儀錶板可以顯示所有對話框的狀態，綠色為啟動，紅色為休眠，灰色則表示沒有對話框加入頻道。<br>如果您添加了多個對話框，建議您啟用此項。<br>如果您是紅綠色盲，請在無障礙設置中啟用紅綠色盲。<br>- 啟用後，藍色填充為啟動，藍色邊框為休眠。"
+                    _description: "儀錶板可以顯示所有對話框的狀態，綠色為啟動，紅色為休眠，灰色則表示沒有對話框加入頻道。<br>如果您添加了多個對話框，建議您啟用此項。<br>如果您是紅綠色盲，請在可訪問性設置中啟用紅綠色盲。<br>- 啟用後，藍色填充為啟動，藍色邊框為休眠。"
                 },
                 history_resend_bubble: {
                     _title: "歷史消息再發送時上浮",
@@ -520,8 +553,22 @@ const lang_zho_Hant_HK = {
             }
         },
         accessible: {
-            _title: "無障礙",
-            _description: "無障礙相關配置",
+            _title: "可訪問性",
+            _description: "可訪問性相關配置",
+            font_size: {
+                _title: "字體大小",
+                _description: "調整後台頁面文本的字體大小。",
+                small: "小",
+                middle: "適中",
+                large: "大",
+                extra_large: "特大",
+                example_1: "你的愛還不夠啊！",
+                example_2: "我對普通的人類沒有興趣！",
+            },
+            unlock_page_width: {
+                _title: "解鎖頁面寬度",
+                _description: "不再限制頁面內容寬度，這可以優化在較大字體佈局下的顯示效果。"
+            },
             high_contrast: {
                 _title: "啟用高對比度",
                 _description: "提高後台頁面的對比度，並對焦點元素顯示高亮邊框。"
@@ -1277,8 +1324,8 @@ const lang_zho_Hant_HK = {
                     description: "如果你不小心搞砸了，點擊這個按鈕即可重新導出配置文件內容。"
                 },
                 s17: {
-                    title: "無障礙訪問",
-                    description: "另外，如果您需要調整無障礙訪問相關配置，可以在這裏找到。<br>如有需要，您可以<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>點擊此處閱讀無障礙使用指南</a>。"
+                    title: "可訪問性",
+                    description: "另外，如果您需要調整可訪問性相關配置，可以在這裏找到。<br>如有需要，您可以<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>點擊此處閱讀無障礙使用指南</a>。"
                 },
                 s18: {
                     title: "新人引導結束",
@@ -1298,7 +1345,7 @@ const lang_zho_Hant_HK = {
     },
     notice: {
         config_re_output: "已重新導出配置文件內容！",
-        config_saved: "配置文件已保存！",
+        config_saved: "配置文件已保存！請注意刷新所有頁面使新配置生效。",
         config_saving: "保存中...",
         config_saving_fail: "未授權寫入，配置文件未保存。",
         browser_zoom: "如果您不小心調整了縮放率不知道怎麼復原，請按：<kbd>Ctrl</kbd> + <kbd>0</kbd>（數字鍵）",
@@ -1464,6 +1511,11 @@ const lang_zho_Hant_HK = {
         ease_in_out_back: "回退緩入緩出"
     },
     window: {
+        config_font_size_overload: {
+            title: "您是認真的嗎？",
+            message: "您確定要使用以下配置嗎？",
+            font_size_review: "字體大小：{value}"
+        },
         clear_local_storage: {
             title: "清除本地存儲數據",
             message: "您確定要清除本地存儲數據嗎？<br>這是一個不可逆的操作，您將會永久丟失這些數據。"

@@ -62,7 +62,121 @@ window.addEventListener('beforeunload', function (e) {
 });
 
 
+let configSearchDataFilter = new DataFilter(
+    '', 
+    [
+        {
+            name: 'in',
+            type: 'string',
+            map: {
+                value: 'in',
+                search: 'in'
+            }
+        }, {
+            name: 'type',
+            type: 'string',
+            map: {
+                value: 'type',
+                search: 'type'
+            }
+        }, {
+            name: 'main',
+            type: 'string',
+            map: {
+                value: [
+                    'name',
+                    'groupTitle',
+                    'title',
+                    'description'
+                ]
+            }
+        }
+    ],
+    [],
+    () => {
+        let configDef = settingsManager.getConfigDefine();
+        let data = [];
+        let nameSplit;
+        let groupTitle = '';
+        configDef.forEach(e => {
+            if (e.type !== 'object') {
+                nameSplit = e.name.split('.');
+                groupTitle = '';
+                if (nameSplit.length > 2) {
+                    groupTitle = $t(`config.${ nameSplit.slice(0, nameSplit.length - 1).join('.') }._title`);
+                }
+                data.push({
+                    name: e.name,
+                    title: $t(`config.${ e.name }._title`),
+                    description: $t(`config.${ e.name }._description`).replace(/(<\w+\b[^>]*>)|(<\/\w+>)/g, ''),
+                    type: e.type,
+                    in: nameSplit[0],
+                    groupTitle: groupTitle
+                });
+            }
+        });
+        return data;
+    }
+);
 
+$('#settings-search-btn').click(function() {
+    searchSettings($('#settings-search').val());
+});
+
+$('#settings-search').keydown(function(e) {
+    if (e.key === 'Enter') {
+        searchSettings($('#settings-search').val());
+    }
+})
+
+$(document).on('click', '.settings-search-result-item', function(e) {
+    if (e.altKey) return;
+    e.preventDefault();
+    goToSettingsItem($(this).data('id'));
+});
+
+function searchSettings(text = '') {
+    text = text.trim();
+    if (text.length == 0) return;
+    let r = configSearchDataFilter.filter(text);
+    $('.settings-search-result').html(SettingsPanel.searchResultList(r));
+}
+
+
+
+/**
+ * 跳转至配置项
+ * @param {String} name 配置名
+ */
+function goToSettingsItem(name) {
+    const $sel = $(`.settings-item[data-id="${ name }"]`);
+    if ($sel.length == 0) return;
+    const $item = $sel.eq(0);
+    const $page = $item.parents('.settings-page').eq(0);
+    const pageId = $page.data('pageid');
+    $('.settings-highlight').removeClass('settings-highlight');
+
+    $('#tabpage-nav-edit').trigger('click');
+    $(`.settings-nav-item[data-pageid="${ pageId }"]`).trigger('click');
+
+    const offsetTop = $item.offset().top;
+    setTimeout(() => {
+        window.scrollTo({ top: offsetTop - ( window.innerHeight / 2 - $item.height() / 2 ) });
+        $(`.settings-item[data-id="${ name }"] .settings-switch.state-on .btn-switch.btn-on, .settings-item[data-id="${ name }"] .settings-switch.state-off .btn-switch.btn-off, .settings-item[data-id="${ name }"] .settings-value`).eq(0).focus();
+        $item.addClass('settings-highlight');
+    }, 4);
+}
+
+$(document).on('animationend', '.settings-highlight', function() {
+    $(this).removeClass('settings-highlight');
+});
+
+/**
+ * 获取配置值
+ * @param {String} name 配置名
+ * @param {Boolean} isDefault 是否为默认值
+ * @returns {*} 配置值
+ */
 function getSettingsItemValue(name, isDefault = false) {
     let $sel = $(`.settings-item[data-id="${ name }"]`),
         type = $sel.data('type'),
@@ -119,6 +233,11 @@ function getSettingsItemValue(name, isDefault = false) {
                     value = 'all';
                 }
                 break;
+
+            case 'fontsize':
+                value = Number($sel.find('.settings-value').eq(0).val());
+                if (isDefault) value = Number($sel.find('.settings-value').eq(0).data('default'));
+                break;
         
             default:
                 break;
@@ -128,6 +247,12 @@ function getSettingsItemValue(name, isDefault = false) {
     return value;
 }
 
+/**
+ * 设置配置值
+ * @param {String} name 配置名
+ * @param {*} value 配置值
+ * @param {Boolean} isDefault 是否为默认值
+ */
 function setSettingsItemValue(name, value, isDefault = false) {
     const bt = [
         'state-off',
@@ -182,6 +307,12 @@ function setSettingsItemValue(name, value, isDefault = false) {
                     }
                     $sel.find('.content').removeClass('hide');
                 }
+                break;
+
+            case 'fontsize':
+                $sel.find('.settings-value').eq(0).val(value);
+                if (isDefault) $sel.find('.settings-value').eq(0).data('default', value);
+                $sel.find('.settings-value').eq(0).trigger('input');
                 break;
         
             default:
@@ -290,6 +421,29 @@ function configChangeCheck() {
     }
 }
 
+function dangerConfigCheck(effect = false, exportNow = false) {
+    let value = Number(getSettingsItemValue('accessible.font_size'));
+    let value2 = Number(getSettingsItemValue('accessible.font_size', true));
+    if (value == value2) return true;
+    if (value > 32 || value < 8) {
+        uniWindow.messageWindow(
+            `${ $t('window.config_font_size_overload.message') }<br><span style="color: var(--color-danger-dark);">${ $t('window.config_font_size_overload.font_size_review', { value: value }) }</span>`,
+            $t('window.config_font_size_overload.title'),
+            {
+                controller: ['cancel', 'confirm'],
+                autoFocusButton: 'cancel',
+                icon: 'alert'
+            },
+            (v, unit) => {
+                unit.close();
+                if (v == 'confirm') configSaveAll(effect, true, exportNow);
+            }
+        );
+        return false;
+    }
+    return true;
+}
+
 function configUndoAll() {
     let $sel = $('.settings-item.change');
     for (let i = 0; i < $sel.length; i++) {
@@ -303,7 +457,10 @@ function configUndoAll() {
     checkConfigCondition();
 }
 
-function configSaveAll(effect = false) {
+function configSaveAll(effect = false, skipCheck = false, exportNow = false) {
+    if (!skipCheck) {
+        if (!dangerConfigCheck(effect, exportNow)) return;
+    }
     let $sel = $('.settings-item.change');
     for (let i = 0; i < $sel.length; i++) {
         let id = $sel.eq(i).data('id');
@@ -316,6 +473,8 @@ function configSaveAll(effect = false) {
     configOutput(true);
     if (effect) effectFlicker('#tabpage-nav-export');
 
+    $('html').css('--font-size-base', `${ Number(getSettingsItemValue('accessible.font_size')) }px`);
+    $(window).resize();
     setTimeout(function() {
         let colorScheme = settingsManager.getConfig('global.color_scheme');
         if (colorScheme != lastColorScheme) {
@@ -327,6 +486,8 @@ function configSaveAll(effect = false) {
         }
         bodyClassCache = $('html').attr('class') ?? '';
     }, 800)
+
+    if (exportNow) configExport('config.js');
 }
 
 function configOutput(setUnsave = false) {
@@ -407,6 +568,7 @@ function outputTabUnsavePoint(state = true) {
 
 
 
+// READY ////////////////////////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function() {
     translator.ready(() => {
         $('#echo-settings-nav').html(SettingsPanel.nav(settingsNav));
@@ -479,6 +641,7 @@ $(document).ready(function() {
         let voices = [];
         try {
             voices = speechSynthesis.getVoices();
+            voices = voices.filter(e => e.localService == true);
         } catch (error) {}
         let voiceName = [];
         for (let i = 0; i < voices.length; i++) {
@@ -547,7 +710,7 @@ $(document).ready(function() {
             }
         });
 
-        $('.settings-nav-item').eq(0).click();
+        $('.settings-nav-item').eq(1).click();
 
         $('#settings-file-check-box').html(SettingsFileChecker.default());
 
@@ -567,6 +730,10 @@ $(document).ready(function() {
                 <div class="safe"><div class="fg">${ $t('settings.functional_color.safe') }</div><div class="bg"></div></div>
                 <div class="warn"><div class="fg">${ $t('settings.functional_color.warn') }</div><div class="bg"></div></div>
                 <div class="danger"><div class="fg">${ $t('settings.functional_color.danger') }</div><div class="bg"></div></div>
+            </div>
+            <div class="review-font-size-card" aria-hidden="true" style="--font-size-base-review: ${config.accessible.font_size}px; font-size: var(--font-size-base);">
+                <div class="example-1">${ $t('config.accessible.font_size.example_1') }</div>
+                <div class="example-2">${ $t('config.accessible.font_size.example_2') }</div>
             </div>`
         );
         $('.settings-page[data-pageid="advanced"]').prepend(SettingsPanel.msgBoxWarn(
@@ -601,6 +768,13 @@ $(document).ready(function() {
     $('.settings-about-footer-var-4').text(nowTime.getTime());
     $('.settings-about-footer-var-6').text(config.data_version);
     $('.settings-about-footer-var-7').text(`${ echoLiveSystem.registry.registryCount }, ${ echoLiveSystem.registry.itemCount }`);
+
+    // 获取 URL 参数中的跳转指令
+
+    let gotoName = EchoLiveTools.getUrlParam('goto');
+    if (gotoName !== null) {
+        goToSettingsItem(gotoName);
+    }
 });
 
 
@@ -863,6 +1037,7 @@ $(document).on('click', '.settings-nav-item', function() {
     $(`.settings-page`).addClass('hide');
     $(`.settings-page[data-pageid="${pageid}"]`).removeClass('hide');
     $(window).scrollTop(0);
+    $('.settings-highlight').removeClass('settings-highlight');
 });
 
 $(document).on('click', '.settings-switch', function() {
@@ -973,8 +1148,7 @@ $(document).on('click', '#edit-btn-save', function() {
 });
 
 $(document).on('click', '#edit-btn-save-output', function() {
-    configSaveAll();
-    configExport('config.js');
+    configSaveAll(false, false, true)
 });
 
 $(document).on('click', '#edit-btn-output', function() {
@@ -1026,7 +1200,7 @@ $(document).keydown(function(e) {
 
 $(window).resize(function() {
     const tabHeight = $('#echo-editor-nav').height();
-    $('.settings-nav').css('top', `${tabHeight + 17}px`);
+    $('.settings-nav').css('top', `calc(var(--font-size-middle) + ${tabHeight + 1}px)`);
     $('html').css('--settings-group-title-stickt-top', `${tabHeight + 1}px`);
 
     // $('.settings-group-collapse').each(function() {
@@ -1054,11 +1228,13 @@ function setSwitchButtonOnClickToChangeClassForArray(data = []) {
 }
 
 setSwitchButtonOnClickToChangeClassForArray([
+    ['accessible.unlock_page_width',            'unlock-page-width'],
     ['accessible.high_contrast',                'accessible-high-contrast'],
     ['accessible.drotanopia_and_deuteranopia',  'accessible-drotanopia-and-deuteranopia'],
     ['accessible.link_underline',               'accessible-link-underline'],
     ['accessible.animation_disable',            'accessible-animation-disable'],
     ['global.controller_layout_reverse',        'controller-layout-reverse'],
+    ['global.thin_scrollbar',                   'thin-scrollbar']
 ]);
 
 $(document).on('click', '.settings-item[data-id="advanced.settings.display_config_key"] .settings-switch button', function() {
@@ -1074,6 +1250,26 @@ $(document).on('click', '.settings-item[data-id="advanced.settings.display_confi
         const offsetTopNew = $('.settings-item[data-id="advanced.settings.display_config_key"] .settings-switch').offset().top;
         window.scrollTo({ top: scrollY + (offsetTopNew - offsetTop) });
     }, 12);
+});
+
+$(document).on('click', '.settings-item[data-id="global.touchscreen_layout"] .settings-switch button', function() {
+    const scrollY = window.scrollY;
+    const offsetTop = $('.settings-item[data-id="global.touchscreen_layout"] .settings-switch').offset().top;
+    setTimeout(function() {
+        let value = getSettingsItemValue('global.touchscreen_layout');
+        if (value) {
+            $('html').addClass('touchscreen-layout');
+        } else {
+            $('html').removeClass('touchscreen-layout');
+        }
+        $(window).resize();
+        const offsetTopNew = $('.settings-item[data-id="global.touchscreen_layout"] .settings-switch').offset().top;
+        window.scrollTo({ top: scrollY + (offsetTopNew - offsetTop) });
+    }, 12);
+});
+
+$(document).on('input', '.settings-item[data-id="accessible.font_size"] .settings-value', function() {
+    $('.review-font-size-card').css('--font-size-base-review', `${ $(this).val() }px`);
 });
 
 

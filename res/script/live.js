@@ -12,6 +12,18 @@ $('html').css('--char-effect-name', config.echolive.print_effect.name);
 $('html').css('--char-effect-speed', config.echolive.print_effect.duration + 'ms');
 $('html').css('--char-effect-scale', config.echolive.print_effect.scale);
 $('html').css('--char-effect-timing-function', config.echolive.print_effect.timing_function);
+if (config.echolive.layout.username_text_align_right) $('html').addClass('username-text-align-right');
+if (!config.echolive.layout.diplay_controller) $('html').addClass('controller-hidden');
+
+if (config.echolive.print_audio.enable) {
+    mixer.preload(config.echolive.print_audio.name);
+}
+if (config.echolive.next_audio.enable) {
+    if (config.echolive.next_audio.enable && config.echolive.print_audio.name === config.echolive.next_audio.name) {
+    } else {
+        mixer.preload(config.echolive.next_audio.name);
+    }
+}
 
 let data;
 

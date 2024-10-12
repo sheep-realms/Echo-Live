@@ -20,21 +20,8 @@ class UniverseWindow {
         $(document).on('animationend', '.fh-window.window-show .fh-window-content', function(e) {
             if (e.target != this) return;
             let $window = $(this).parents('.fh-window').eq(0);
-            $window.parents('.fh-window-modal-bg').eq(0).removeClass('window-show');
-            $window.removeClass('window-show');
-
             let index = $window.data('index');
-            let autoFocusButton = $window.data('auto-focus-button');
-
-            let $ctrlBtn = $(`.fh-window[data-index="${ index }"] .fh-window-controller-button:not(:disabled)`);
-            let $ctrlBtnSel = autoFocusButton ? $(`.fh-window[data-index="${ index }"] .fh-window-controller-button[data-controller-id="${ autoFocusButton }"]:not(:disabled)`) : undefined;
-            if ($ctrlBtn.length == 0) {
-                if (data.closable) $(`.fh-window[data-index="${ index }"] .fh-window-title .close`).focus();
-            } else if ($ctrlBtnSel == undefined || $ctrlBtnSel.length == 0) {
-                $ctrlBtn.eq(0).focus();
-            } else {
-                $ctrlBtnSel.eq(0).focus();
-            }
+            that.autoSetFocusButton(index);
         });
         
         $(document).on('animationend', '.fh-window.window-close', function(e) {
@@ -50,7 +37,7 @@ class UniverseWindow {
         $(document).on('click', '.fh-window-modal-bg.fh-window-modal-bg-closable', function(e) {
             if (e.target != this) return;
             that.closeWindow($(this).data('index'));
-            that.runCallback($(this).data('index'), $(this).data('controller-id'));
+            that.runCallback($(this).data('index'), null);
         });
 
         $(document).on('keydown', '.fh-window', function(e) {
@@ -75,7 +62,7 @@ class UniverseWindow {
      * @param {Boolean} data.modal 模态
      * @param {String} data.style 样式
      * @param {Function} callback 回调函数
-     * @returns {String} DOM
+     * @returns {Object} 窗口数据
      */
     window(content = '', title = '', data = {}, callback = undefined) {
         data = {
@@ -107,7 +94,7 @@ class UniverseWindow {
      * @param {Boolean} data.modal 模态
      * @param {String} data.style 样式
      * @param {Function} callback 回调函数
-     * @returns {String} DOM
+     * @returns {Object} 窗口数据
      */
     messageWindow(content = '', title = '', data = {}, callback = undefined) {
         return this.window(
@@ -130,6 +117,9 @@ class UniverseWindow {
             closed: false,
             unit: new UniverseWindowUnit(this, index)
         };
+        if (config.accessible.animation_disable || $('html').hasClass('accessible-animation-disable')) {
+            this.autoSetFocusButton(index);
+        }
         return this.windowList[index];
     }
 
@@ -141,6 +131,7 @@ class UniverseWindow {
         if (this.windowList[index] == undefined ) return;
         if (this.windowList[index].closed == true) return;
         this.windowList[index].closed = true;
+        if (config.accessible.animation_disable || $('html').hasClass('accessible-animation-disable')) return this.killWindow(index);
         $(`.fh-window[data-index="${ index }"]`).addClass('window-close');
         $(`.fh-window[data-index="${ index }"] button`).attr('disabled', 'true');
         $(`.fh-window-modal-bg[data-index="${ index }"]`).addClass('window-close');
@@ -185,6 +176,28 @@ class UniverseWindow {
             this.windowList[index].unit
         );
     }
+
+    /**
+     * 自动设置焦点按钮
+     * @param {Number} index 索引编号
+     */
+    autoSetFocusButton(index) {
+        let $window = $(`.fh-window[data-index="${index}"]`).eq(0);
+        $window.parents('.fh-window-modal-bg').eq(0).removeClass('window-show');
+        $window.removeClass('window-show');
+
+        let autoFocusButton = $window.data('auto-focus-button');
+
+        let $ctrlBtn = $(`.fh-window[data-index="${ index }"] .fh-window-controller-button:not(:disabled)`);
+        let $ctrlBtnSel = autoFocusButton ? $(`.fh-window[data-index="${ index }"] .fh-window-controller-button[data-controller-id="${ autoFocusButton }"]:not(:disabled)`) : undefined;
+        if ($ctrlBtn.length == 0) {
+            if (data.closable) $(`.fh-window[data-index="${ index }"] .fh-window-title .close`).focus();
+        } else if ($ctrlBtnSel == undefined || $ctrlBtnSel.length == 0) {
+            $ctrlBtn.eq(0).focus();
+        } else {
+            $ctrlBtnSel.eq(0).focus();
+        }
+    }
 }
 
 class UniverseWindowUnit {
@@ -202,25 +215,31 @@ class UniverseWindowUnit {
 
     /**
      * 关闭窗口
+     * @returns {UniverseWindowUnit} 自身
      */
     close() {
         this.parent.closeWindow(this.index);
+        return this;
     }
 
     /**
      * 设置窗口标题
      * @param {String} title 标题
+     * @returns {UniverseWindowUnit} 自身
      */
     setTitle(title = '') {
         this.parent.setWindowTitle(this.index, title);
+        return this;
     }
 
     /**
      * 设置消息框内容
      * @param {String} content 内容
+     * @returns {UniverseWindowUnit} 自身
      */
     setMsgboxContent(content = '') {
         this.parent.setMsgboxContent(this.index, content);
+        return this;
     }
 }
 

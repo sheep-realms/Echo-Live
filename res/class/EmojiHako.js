@@ -74,7 +74,7 @@ class EmojiHako {
                 }
             });
             
-            echoLiveSystem.registry.setRegistryValue('emoji', emojiPack.meta.name, emojiPack);
+            echoLiveSystem.registry.setRegistryValue('emoji', emojiPack.meta.name, emojiPack, { fill: true });
             echoLiveSystem.registry.setRegistryValue('emoji_namespace', emojiPack.meta.namespace, emojiPack.meta.name);
         });
 

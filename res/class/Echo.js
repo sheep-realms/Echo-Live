@@ -42,7 +42,7 @@ class Echo {
             stop: function() {},
             typewriteEnd: function() {}
         };
-        this.CJKAndFullWidthSymbolAndEmoji = /[\u2014-\u2015\u2018-\u2019\u201c-\u201d\u2e80-\u9fff\uac00-\ud7ff\uf900-\ufaff\ufe10-\ufe1f\ufe30-\ufe4f\uff01-\uff60\uffe0-\uffe7\u{17000}-\u{1b2ff}\u{20000}-\u{2fa1f}\u{30000}-\u{323af}\p{Emoji}]/u;
+        this.skipOnePrintLoopChar = /[\u2014-\u2015\u2018-\u2019\u201c-\u201d\u2e80-\u9fff\uac00-\ud7ff\uf900-\ufaff\ufe10-\ufe1f\ufe30-\ufe4f\uff01-\uff60\uffe0-\uffe7\u{17000}-\u{1b2ff}\u{20000}-\u{2fa1f}\u{30000}-\u{323af}]/u;
 
         if ($sel != '') {
             this.rd($sel);
@@ -208,8 +208,8 @@ class Echo {
         } else {
             if (typeof that.messageBuffer[0] == 'string') {
                 a = that.messageBuffer.shift();
-                // 中日韩字符及其他汉字文化圈字符和 Emoji 字符跳过一回合
-                if ((a.search(this.CJKAndFullWidthSymbolAndEmoji) != -1) && that.typewrite == 'none') {
+                // 中日韩字符及其他汉字文化圈字符跳过一回合
+                if ((a.search(that.skipOnePrintLoopChar) != -1) && that.typewrite == 'none') {
                     that.dbChrBuffer = a;
                     return;
                 }

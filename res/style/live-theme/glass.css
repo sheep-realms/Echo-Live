@@ -194,7 +194,7 @@
     flex: var(--echo-live-box-center-flex);
 }
 
-#echo-live .bottom-center {
+#echo-live .controller {
     font-size: var(--echo-live-bottom-font-size);
 }
 
@@ -212,21 +212,21 @@
     display: var(--echo-live-username-display);
     margin-bottom: 0.5em;
     position: relative;
-    left: -1em;
+    margin-inline-start: -1em;
     font-size: var(--echo-live-username-font-size, var(--echo-live-content-font-size));
     color: var(--echo-live-username-color, #FFF);
     text-shadow: 0 0 0.075em var(--echo-live-username-shadow-color), 0 0 0.075em var(--echo-live-username-shadow-color), 0 0 0.075em var(--echo-live-username-shadow-color), 0 0 0.075em var(--echo-live-username-shadow-color);
 }
 
-#echo-live .bottom-center {
+#echo-live .controller {
     display: flex;
-    padding: 0.25em 1em;
+    padding: 0.125em 0.5em;
     flex-wrap: wrap;
     justify-content: flex-end;
     align-items: center;
 }
 
-#echo-live .bottom-center span {
+#echo-live .controller span {
     display: inline-block;
     margin-right: 1em;
     color: var(--echo-live-bottom-color, #DDD);

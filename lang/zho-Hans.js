@@ -5,6 +5,7 @@ const lang_zho_Hans = {
         title: "简体中文"
     },
     localization: {
+        bracket: "（{text}）",
         data_common: "{y}-{MM}-{dd}",
         data_time_common: "{y}-{MM}-{dd} {hh}:{mm}:{ss}",
         data: "{y} 年 {M} 月 {d} 日",
@@ -14,7 +15,7 @@ const lang_zho_Hans = {
         time_common: "{hh}:{mm}:{ss}",
     },
     ui: {
-        confirm: "确认",
+        confirm: "确定",
         cancel: "取消",
         ok: "好",
         yes: "是",
@@ -48,6 +49,7 @@ const lang_zho_Hans = {
         move_right: "右移",
         audition: "试听",
         download: "下载",
+        search: "搜索",
         missingno: {
             no_author: "未署名",
             no_name: "未命名"
@@ -128,6 +130,17 @@ const lang_zho_Hans = {
             _title: "数据版本",
             _description: "配置文件的数据版本。"
         },
+        search: {
+            _title: "搜索",
+            _description: "搜索所有配置项",
+            label: {
+                search: "搜索配置项"
+            },
+            aria_label: {
+                result: "搜索结果{index}：{title}",
+                result_has_group: "搜索结果{index}：{group}，{title}"
+            }
+        },
         global: {
             _title: "全局",
             _description: "一些影响全局的设置",
@@ -152,9 +165,17 @@ const lang_zho_Hans = {
                     light: "浅色"
                 }
             },
+            touchscreen_layout: {
+                _title: "启用触屏布局",
+                _description: "使用更大尺寸的布局以方便触屏操作。"
+            },
             controller_layout_reverse: {
                 _title: "反转控制器按钮布局",
                 _description: "根据阅读方向将重要按钮放置于最先被阅读的位置。"
+            },
+            thin_scrollbar: {
+                _title: "启用细滚动条",
+                _description: "使用较细的滚动条替换默认滚动条。"
             }
         },
         echo: {
@@ -182,6 +203,18 @@ const lang_zho_Hans = {
                 live_theme_script_enable: {
                     _title: "启用对话框主题脚本",
                     _description: "此配置项需要启用全局主题脚本才能生效。"
+                }
+            },
+            layout: {
+                _title: "布局",
+                _description: "对话框的内容布局",
+                username_text_align_right: {
+                    _title: "说话人靠右对齐",
+                    _description: "将说话人一栏靠向对话框右侧。"
+                },
+                diplay_controller: {
+                    _title: "显示控制栏",
+                    _description: "显示对话框底部的 “SAVE”、“LOAD” 等模拟按钮。"
                 }
             },
             broadcast: {
@@ -329,7 +362,7 @@ const lang_zho_Hans = {
                 },
                 voice: {
                     _title: "语音资源",
-                    _description: "在这里选择可用的语音资源，留空则使用系统默认值。<br>请注意：不同的浏览器会出现不同的值，一些浏览器会提供独有的语音资源，例如 Chrome 的 Google 合成语音，这些语音资源不能在 OBS 中使用。语音资源能否正确使用最终取决于前台页面所在的浏览器环境。<br>当所选择的值不可用时，将使用系统默认值。"
+                    _description: "在这里选择可用的语音资源，留空则使用系统默认值。<br>如果没有下拉列表，则说明没有本地语音资源可用。<br>当所选择的值不可用时，将使用系统默认值。"
                 },
                 pitch: {
                     _title: "音高",
@@ -385,7 +418,7 @@ const lang_zho_Hans = {
                 },
                 client_state_panel_enable: {
                     _title: "显示对话框状态仪表板",
-                    _description: "仪表板可以显示所有对话框的状态，绿色为激活，红色为休眠，灰色则表示没有对话框加入频道。<br>如果您添加了多个对话框，建议您启用此项。<br>如果您是红绿色盲，请在无障碍设置中启用红绿色盲。<br>- 启用后，蓝色填充为激活，蓝色边框为休眠。"
+                    _description: "仪表板可以显示所有对话框的状态，绿色为激活，红色为休眠，灰色则表示没有对话框加入频道。<br>如果您添加了多个对话框，建议您启用此项。<br>如果您是红绿色盲，请在可访问性设置中启用红绿色盲。<br>- 启用后，蓝色填充为激活，蓝色边框为休眠。"
                 },
                 history_resend_bubble: {
                     _title: "历史消息再发送时上浮",
@@ -520,8 +553,22 @@ const lang_zho_Hans = {
             }
         },
         accessible: {
-            _title: "无障碍",
-            _description: "无障碍相关配置",
+            _title: "可访问性",
+            _description: "可访问性相关配置",
+            font_size: {
+                _title: "字体大小",
+                _description: "调整后台页面文本的字体大小。",
+                small: "小",
+                middle: "适中",
+                large: "大",
+                extra_large: "特大",
+                example_1: "你的爱还不够啊！",
+                example_2: "我对普通的人类没有兴趣！",
+            },
+            unlock_page_width: {
+                _title: "解锁页面宽度",
+                _description: "不再限制页面内容宽度，这可以优化在较大字体布局下的显示效果。"
+            },
             high_contrast: {
                 _title: "启用高对比度",
                 _description: "提高后台页面的对比度，并对焦点元素显示高亮边框。"
@@ -1277,8 +1324,8 @@ const lang_zho_Hans = {
                     description: "如果你不小心搞砸了，点击这个按钮即可重新导出配置文件内容。"
                 },
                 s17: {
-                    title: "无障碍访问",
-                    description: "另外，如果您需要调整无障碍访问相关配置，可以在这里找到。<br>如有需要，您可以<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>点击此处阅读无障碍使用指南</a>。"
+                    title: "可访问性",
+                    description: "另外，如果您需要调整可访问性相关配置，可以在这里找到。<br>如有需要，您可以<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>点击此处阅读无障碍使用指南</a>。"
                 },
                 s18: {
                     title: "新人引导结束",
@@ -1298,7 +1345,7 @@ const lang_zho_Hans = {
     },
     notice: {
         config_re_output: "已重新导出配置文件内容！",
-        config_saved: "配置文件已保存！",
+        config_saved: "配置文件已保存！请注意刷新所有页面使新配置生效。",
         config_saving: "保存中...",
         config_saving_fail: "未授权写入，配置文件未保存。",
         browser_zoom: "如果您不小心调整了缩放率不知道怎么复原，请按：<kbd>Ctrl</kbd> + <kbd>0</kbd>（数字键）",
@@ -1464,6 +1511,11 @@ const lang_zho_Hans = {
         ease_in_out_back: "回退缓入缓出"
     },
     window: {
+        config_font_size_overload: {
+            title: "您是认真的吗？",
+            message: "您确定要使用以下配置吗？",
+            font_size_review: "字体大小：{value}"
+        },
         clear_local_storage: {
             title: "清除本地存储数据",
             message: "您确定要清除本地存储数据吗？<br>这是一个不可逆的操作，您将会永久丢失这些数据。"

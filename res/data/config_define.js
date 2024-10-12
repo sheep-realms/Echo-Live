@@ -1,4 +1,4 @@
-const db_config_version = 8;
+const db_config_version = 9;
 
 const db_config_define = [
     {
@@ -35,10 +35,20 @@ const db_config_define = [
             datalist: []
         }
     }, {
+        name: 'global.touchscreen_layout',
+        type: 'boolean',
+        default: false,
+        created: 9
+    }, {
         name: 'global.controller_layout_reverse',
         type: 'boolean',
         default: false,
         created: 6
+    }, {
+        name: 'global.thin_scrollbar',
+        type: 'boolean',
+        default: false,
+        created: 9
     },
     
 
@@ -94,6 +104,20 @@ const db_config_define = [
                 value: true
             }
         ]
+    }, {
+        name: 'echolive.layout',
+        type: 'object',
+        created: 9
+    }, {
+        name: 'echolive.layout.username_text_align_right',
+        type: 'boolean',
+        default: false,
+        created: 9
+    }, {
+        name: 'echolive.layout.diplay_controller',
+        type: 'boolean',
+        default: true,
+        created: 9
     }, {
         name: 'echolive.broadcast',
         type: 'object',
@@ -882,6 +906,16 @@ const db_config_define = [
         name: 'accessible',
         type: 'object',
         created: 1
+    }, {
+        name: 'accessible.font_size',
+        type: 'special.fontsize',
+        default: 16,
+        created: 9
+    }, {
+        name: 'accessible.unlock_page_width',
+        type: 'boolean',
+        default: false,
+        created: 9
     }, {
         name: 'accessible.high_contrast',
         type: 'boolean',

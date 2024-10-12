@@ -48,10 +48,24 @@
     --font-size-small: 0.875rem;
     --font-size-extra-small: 0.75rem;
 
-    --icon-size-extra-large: calc(var(--font-size-base) + 16px);
-    --icon-size-large: calc(var(--font-size-base) + 12px);
-    --icon-size-middle: calc(var(--font-size-base) + 8px);
-    --icon-size-small: calc(var(--font-size-base) + 4px);
+    --height-top-nav: calc(var(--font-size-base) * 2.75);
+    --height-menu-item: calc(var(--font-size-base) * 2.5);
+    --height-component: calc(var(--font-size-base) * 2.25);
+    --height-component-large: calc(var(--font-size-base) * 2.75);
+    --height-component-small: calc(var(--font-size-base) * 1.625);
+
+    --gap-extra-large: calc(var(--font-size-base) * 3);
+    --gap-large: calc(var(--font-size-base) * 2);
+    --gap-demi-large: calc(var(--font-size-base) * 1.5);
+    --gap-middle: var(--font-size-base);
+    --gap-demi-small: calc(var(--font-size-base) * 0.75);
+    --gap-small: calc(var(--font-size-base) * 0.5);
+    --gap-extra-small: calc(var(--font-size-base) * 0.25);
+
+    --icon-size-extra-large: calc(var(--font-size-base) * 2);
+    --icon-size-large: calc(var(--font-size-base) * 1.75);
+    --icon-size-middle: calc(var(--font-size-base) * 1.5);
+    --icon-size-small: calc(var(--font-size-base) * 1.25);
     --icon-size-extra-small: var(--font-size-base);
 }
 
@@ -69,6 +83,26 @@
     --corner-marker-black: linear-gradient(-135deg, #747780 5px, transparent 5px);
 }
 
+.touchscreen-layout * {
+    --height-top-nav: calc(var(--font-size-base) + 36px);
+    --height-menu-item: calc(var(--font-size-base) + 28px);
+    --height-component: calc(var(--font-size-base) + 28px);
+    --height-component-large: calc(var(--font-size-base) + 36px);
+    --height-component-small: calc(var(--font-size-base) + 20px);
+
+    --font-size-title-1: 2rem;
+    --font-size-title-2: 1.75rem;
+    --font-size-title-3: 1.5rem;
+    --font-size-extra-large: 1.5rem;
+    --font-size-large: 1.25rem;
+    --font-size-middle: 1.125rem;
+    --font-size-small: 1rem;
+    --font-size-extra-small: 0.875rem;
+}
+
+.touchscreen-layout .accessible-key {
+    display: none;
+}
 
 
 body {
@@ -409,8 +443,8 @@ p .fh-loading {
 .fh-button {
     --fh-color: var(--color-general-dark);
     --fh-color-glass: var(--color-general-glass);
-    height: calc(var(--font-size-base) + 20px);
-    line-height: calc(var(--font-size-base) + 20px);
+    height: var(--height-component);
+    line-height: var(--height-component);
     padding: 0 0.75em;
     margin: 0 3px;
     font-size: var(--font-size-small);
@@ -484,8 +518,8 @@ p .fh-loading {
 
 
 .fh-button.fh-ghost {
-    height: calc(var(--font-size-base) + 20px);
-    line-height: calc(var(--font-size-base) + 18px);
+    height: var(--height-component);
+    line-height: calc(var(--height-component) - 2px);
     padding: 0 9px;
     color: var(--fh-color);
     --border-style: solid;
@@ -497,8 +531,8 @@ p .fh-loading {
 }
 
 .fh-button.fh-dashed {
-    height: 3calc(var(--font-size-base) + 20px);
-    line-height: calc(var(--font-size-base) + 18px);
+    height: var(--height-component);
+    line-height: calc(var(--height-component) - 2px);
     padding: 0 9px;
     color: var(--fh-color);
     --border-style: dashed;
@@ -510,8 +544,8 @@ p .fh-loading {
 }
 
 .fh-button.fh-air {
-    height: calc(var(--font-size-base) + 20px);
-    line-height: calc(var(--font-size-base) + 20px);
+    height: var(--height-component);
+    line-height: var(--height-component);
     padding: 0 10px;
     color: var(--fh-color);
     --border-style: dashed;
@@ -549,15 +583,15 @@ p .fh-loading {
 }
 
 .fh-button.fh-big {
-    height: calc(var(--font-size-base) + 28px);
-    line-height: calc(var(--font-size-base) + 26px);
+    height: var(--height-component-large);
+    line-height: calc(var(--height-component-large) - 2px);
     padding: 0 15px;
     font-size: var(--font-size-middle);
 }
 
 .fh-button.fh-small {
-    height: calc(var(--font-size-base) + 10px);
-    line-height: calc(var(--font-size-base) + 8px);
+    height: var(--height-component-small);
+    line-height: calc(var(--height-component-small) - 2px);
     padding: 0 8px;
 }
 
@@ -653,8 +687,8 @@ p .fh-loading {
 
 
 .fh-input-text {
-    height: calc(var(--font-size-base) + 20px);
-    line-height: calc(var(--font-size-base) + 20px);
+    height: var(--height-component);
+    line-height: var(--height-component);
     padding: 0 10px;
     margin: 0 3px;
     font-size: var(--font-size-small);
@@ -685,7 +719,7 @@ input[type=range] {
     -webkit-appearance: none;
     width: 100%;
     background: transparent;
-    height: calc(var(--font-size-base) + 20px);
+    height: var(--height-component);
     cursor: pointer;
     outline: none;
 }
@@ -693,10 +727,10 @@ input[type=range] {
 input[type=range]::-webkit-slider-thumb {
     appearance: none;
     -webkit-appearance: none;
-    height: calc(var(--font-size-base) + 20px);
-    width: 16px;
+    height: var(--height-component);
+    width: var(--font-size-middle);
     background: var(--fh-color);
-    margin-top: -14px;
+    margin-top: calc((var(--font-size-base) - 2px) * -1);
     background-image: var(--corner-marker);
     transition: filter var(--animation-speed-button-switch), box-shadow var(--animation-speed-button-switch);
 }
@@ -720,7 +754,7 @@ input[type=range]:active:not(.fh-disabled, :disabled)::-webkit-slider-thumb {
 input[type=range]::-moz-range-thumb {
     appearance: none;
     -webkit-appearance: none;
-    height: calc(var(--font-size-base) + 20px);
+    height: var(--height-component);
     width: var(--font-size-base);
     background: var(--fh-color);
     border-radius: 0;
@@ -747,14 +781,14 @@ input[type=range]:active:not(.fh-disabled, :disabled)::-moz-range-thumb {
 
 input[type=range]::-webkit-slider-runnable-track {
     width: 100%;
-    height: 8px;
+    height: calc(var(--font-size-base) / 2);
     background: transparent;
     box-shadow: inset 0 0 0 1px var(--fh-color);
 }
 
 input[type=range]::-moz-range-track {
     width: 100%;
-    height: 8px;
+    height: calc(var(--font-size-base) / 2);
     background: transparent;
     box-shadow: inset 0 0 0 1px var(--fh-color);
 }

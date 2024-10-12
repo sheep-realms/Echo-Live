@@ -29,6 +29,16 @@ body {
     word-break: break-word;
 }
 
+.username-text-align-right #echo-live .name {
+    text-align: right;
+    margin-inline-start: 0em;
+    margin-right: -1em;
+}
+
+.controller-hidden #echo-live .controller {
+    display: none !important;
+}
+
 #echo-live-history {
     height: 100vh;
     width: 100vw;

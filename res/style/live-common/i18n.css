@@ -8,7 +8,17 @@
 .echo-output[lang^="ar"],
 .echo-output[lang^="he"],
 .echo-output[lang^="fa"],
-.echo-output[lang^="ur"] {
+.echo-output[lang^="ur"],
+.name[data-before="\202e"],
+.name.echo-text-rlo,
+*[lang^="ar"] .name,
+*[lang^="he"] .name,
+*[lang^="fa"] .name,
+*[lang^="ur"] .name,
+.name[lang^="ar"],
+.name[lang^="he"],
+.name[lang^="fa"],
+.name[lang^="ur"] {
     text-align: right;
     direction: rtl;
     unicode-bidi: embed;

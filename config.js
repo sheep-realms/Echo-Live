@@ -1,11 +1,13 @@
 const config = {
-    "data_version": 8,
+    "data_version": 9,
     "global": {
         "language": "zho-Hans",
         "theme": "vanilla",
         "theme_script_enable": false,
         "color_scheme": "auto",
-        "controller_layout_reverse": false
+        "touchscreen_layout": false,
+        "controller_layout_reverse": false,
+        "thin_scrollbar": false
     },
     "echo": {
         "print_speed": 30,
@@ -15,6 +17,10 @@ const config = {
         "style": {
             "live_theme": "",
             "live_theme_script_enable": false
+        },
+        "layout": {
+            "username_text_align_right": false,
+            "diplay_controller": true
         },
         "broadcast": {
             "enable": true,
@@ -125,6 +131,8 @@ const config = {
         }
     },
     "accessible": {
+        "font_size": 16,
+        "unlock_page_width": false,
         "high_contrast": false,
         "high_contrast_outline_color": "#00E9FF",
         "high_contrast_outline_size": "2px",

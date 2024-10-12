@@ -8,7 +8,9 @@ if (APP_META.isBeta) {
 }
 
 if (config.global.color_scheme != 'auto') $('html').addClass('prefers-color-scheme-' + config.global.color_scheme);
+if (config.global.touchscreen_layout) $('html').addClass('touchscreen-layout');
 if (config.global.controller_layout_reverse) $('html').addClass('controller-layout-reverse');
+if (config.global.thin_scrollbar) $('html').addClass('thin-scrollbar');
 if (config.accessible.high_contrast || window.matchMedia('(forced-colors: active)').matches) {
     $('html').addClass('accessible-high-contrast');
     $('html').css('--accessible-outline-color', config.accessible.high_contrast_outline_color);
@@ -19,6 +21,8 @@ if (config.accessible.drotanopia_and_deuteranopia) $('html').addClass('accessibl
 if (config.accessible.link_underline) $('html').addClass('accessible-link-underline');
 if (config.accessible.animation_disable) $('html').addClass('accessible-animation-disable');
 if (config.accessible.power_saving_mode) $('html').addClass('power-saving-mode');
+if (config.accessible.unlock_page_width) $('html').addClass('unlock-page-width');
+$('html').css('--font-size-base', `${ config.accessible.font_size }px`);
 
 
 
@@ -121,7 +125,7 @@ function insertTextAtCursor(id, text, text2 = '', forceInputText2 = false, force
     }
     
     textarea.focus();
-    $('#' + id).change();
+    $('#' + id).trigger('input');
 }
 
 

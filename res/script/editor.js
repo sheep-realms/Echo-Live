@@ -369,6 +369,7 @@ $('#ptext-btn-clear').click(function() {
     for (let i = 0; i < $sel.length; i++) {
         $sel.eq(i).val($sel.eq(i).data('default'));
     }
+    $('#ptext-content').trigger('input');
     $('#ptext-content').focus();
 });
 
@@ -475,10 +476,13 @@ function ptextSubmit() {
     }
 
     if ($('#ptext-chk-more').val() == 1) {
+        let printSpeedValue = Number($('#ptext-ipt-print-speed').val());
+        if (Number.isNaN(printSpeedValue)) printSpeedValue = config.echo.print_speed;
+        if (printSpeedValue < 4) printSpeedValue = config.echo.print_speed;
         d.messages.forEach(e => {
             e.data = {
                 ...d.messages[0].data,
-                ...{printSpeed: Number($('#ptext-ipt-print-speed').val())}
+                ...{printSpeed: printSpeedValue}
             };
         });
     }
@@ -503,7 +507,19 @@ $('#ptext-btn-send').click(function() {
     elb.sendData(d);
     sendHistoryMessage(d);
 
-    editorLogT('editor.log.message.sent', { msg: EchoLiveTools.getMessageSendLog(d.messages[0].message, d.username) });
+    let text = EchoLiveTools.getMessageSendLog(d.messages[0].message, d.username);
+    let textArray = [...text];
+    if (textArray.length > 128) {
+        text = textArray.splice(0, 128).join('');
+        text += '...'
+    }
+
+    editorLogT(
+        'editor.log.message.sent',
+        {
+            msg: text
+        }
+    );
 
     if($('#ptext-chk-sent-clear').val() == 1) $('#ptext-content').val('');
 
@@ -708,12 +724,12 @@ $(document).on('click', '#popups-emoji .emoji-box', function() {
 
 // 纯文本编辑器字数统计
 $(document).on('input', '#ptext-content', function() {
-    let length  = $(this).val().length;
+    let length  = [...$(this).val()].length;
 
     $('#ptext-editor .editor-bottom-bar .length').text($t('editor.form.text_length', { n: length }));
 });
 $(document).on('change', '#ptext-content', function() {
-    let length  = $(this).val().length;
+    let length  = [...$(this).val()].length;
 
     $('#ptext-editor .editor-bottom-bar .length').text($t('editor.form.text_length', { n: length }));
 });
@@ -925,7 +941,7 @@ $(document).on('click', '#link-open-settings', function(e) {
 // 彩蛋
 function getDateNumber() {
     let d = new Date();
-    return `${String(d.getMonth() + 1).padStart(2, 0)}${String(d.getDate() + 1).padStart(2, 0)}`;
+    return `${String(d.getMonth() + 1).padStart(2, 0)}${String(d.getDate()).padStart(2, 0)}`;
 }
 
 function checkNowDate() {

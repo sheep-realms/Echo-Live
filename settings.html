@@ -49,9 +49,11 @@
     <script src="res/class/LocalStorageManager.js"></script>
     <script src="res/class/UniverseWindow.js"></script>
     <script src="res/class/Updater.js"></script>
+    <script src="res/class/DataFilter.js"></script>
     <script src="res/script/settings.js" defer></script>
 </head>
 <body>
+    <span class="holy-fucking-shit">如果你看到了这句话，要么就是你没解压，要么就是软件结构受到了破坏。<br>If you're seeing this, either you didn't unzip the file or the software structure is corrupted.</span>
     <main>
         <!-- 标签页标题 -->
         <nav id="echo-editor-nav" class="tabpage-nav" data-navid="main">
@@ -129,6 +131,18 @@
                         <div class="settings-content">
                             <div class="settings-pages">
                                 <!-- 设置内容 -->
+                                <div class="settings-page" data-pageid="search">
+                                    <div class="settings-search-header">
+                                        <label for="settings-search" data-i18n="config.search.label.search"></label>
+                                        <div class="settings-search-bar">
+                                            <input type="text" id="settings-search" autocomplete="off">
+                                            <button id="settings-search-btn" class="fh-button" data-i18n="ui.search"></button>
+                                        </div>
+                                    </div>
+                                    <div class="settings-search-content">
+                                        <div class="settings-search-result"></div>
+                                    </div>
+                                </div>
                                 <div class="settings-page" data-pageid="about">
                                     <div class="settings-about-banner">
                                         <img class="scheme-light-only" src="res/image/banner_alpha.png" alt="LOGO">

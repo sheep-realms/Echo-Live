@@ -512,7 +512,8 @@ input.code {
 }
 
 input[type=number],
-input[type=text] {
+input[type=text],
+input[type=search] {
     width: 100%;
     font-size: var(--font-size-middle);
     box-sizing: border-box;
@@ -527,12 +528,14 @@ input[type=text] {
 }
 
 input[type=number]:focus,
-input[type=text]:focus {
+input[type=text]:focus,
+input[type=search]:focus {
     border-bottom: var(--color-general) 1px solid;
 }
 
 input[type=number]:out-of-range,
-input[type=text]:out-of-range {
+input[type=text]:out-of-range,
+input[type=search]:out-of-range {
     border-bottom: var(--color-danger) 1px solid;
 }
 

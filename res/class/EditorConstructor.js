@@ -982,7 +982,7 @@ class SettingsPanel {
             </div>`;
         }
         return `<div class="settings-group-title">
-            <div class="title">${ title }</div>
+            <h3 class="title">${ title }</h3>
             <div class="description">${ description }</div>
         </div>`;
     }

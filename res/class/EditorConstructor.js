@@ -981,10 +981,10 @@ class SettingsPanel {
                 <div class="title">${ title }</div>
             </div>`;
         }
-        return `<div class="settings-group-title">
+        return `<hgroup class="settings-group-title">
             <h3 class="title">${ title }</h3>
             <div class="description">${ description }</div>
-        </div>`;
+        </hgroup>`;
     }
 
     static setItem(type = 'string', id = '', title = '', description = '', content = '', moreContent = '') {
@@ -1311,7 +1311,7 @@ class SettingsPanel {
      */
     static msgBox(title = '', content = '', icon = 'information', type = 'info') {
         return `<div class="msgbox state-${ type }">
-            <div class="icon">${ Icon[icon] }</div>
+            <div class="icon" aria-hidden="true">${ Icon[icon] }</div>
             <div class="text">
                 <div class="title">${ title }</div>
                 <div class="content">${ content }</div>

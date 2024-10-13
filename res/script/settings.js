@@ -422,8 +422,8 @@ function configChangeCheck() {
 }
 
 function dangerConfigCheck(effect = false, exportNow = false) {
-    let value = Number(getSettingsItemValue('accessible.font_size'));
-    let value2 = Number(getSettingsItemValue('accessible.font_size', true));
+    let value = Number(getSettingsItemValue('accessibility.font_size'));
+    let value2 = Number(getSettingsItemValue('accessibility.font_size', true));
     if (value == value2) return true;
     if (value > 32 || value < 8) {
         uniWindow.messageWindow(
@@ -473,7 +473,7 @@ function configSaveAll(effect = false, skipCheck = false, exportNow = false) {
     configOutput(true);
     if (effect) effectFlicker('#tabpage-nav-export');
 
-    $('html').css('--font-size-base', `${ Number(getSettingsItemValue('accessible.font_size')) }px`);
+    $('html').css('--font-size-base', `${ Number(getSettingsItemValue('accessibility.font_size')) }px`);
     $(window).resize();
     setTimeout(function() {
         let colorScheme = settingsManager.getConfig('global.color_scheme');
@@ -670,7 +670,7 @@ $(document).ready(function() {
                 value: e.value
             });
         });
-        __setConfigDefineDatalist('accessible.high_contrast_outline_style', datalistLang);
+        __setConfigDefineDatalist('accessibility.high_contrast_outline_style', datalistLang);
 
         // 生成页面
 
@@ -719,7 +719,7 @@ $(document).ready(function() {
             $t('settings.msgbox.echo.title'),
             $t('settings.msgbox.echo.description')
         ));
-        $('.settings-page[data-pageid="accessible"]').prepend(
+        $('.settings-page[data-pageid="accessibility"]').prepend(
             SettingsPanel.msgBoxBlack(
                 $t('config.about.accessibility'),
                 $t('settings.msgbox.accessibility'),
@@ -731,9 +731,9 @@ $(document).ready(function() {
                 <div class="warn"><div class="fg">${ $t('settings.functional_color.warn') }</div><div class="bg"></div></div>
                 <div class="danger"><div class="fg">${ $t('settings.functional_color.danger') }</div><div class="bg"></div></div>
             </div>
-            <div class="review-font-size-card" aria-hidden="true" style="--font-size-base-review: ${config.accessible.font_size}px; font-size: var(--font-size-base);">
-                <div class="example-1">${ $t('config.accessible.font_size.example_1') }</div>
-                <div class="example-2">${ $t('config.accessible.font_size.example_2') }</div>
+            <div class="review-font-size-card" aria-hidden="true" style="--font-size-base-review: ${config.accessibility.font_size}px; font-size: var(--font-size-base);">
+                <div class="example-1">${ $t('config.accessibility.font_size.example_1') }</div>
+                <div class="example-2">${ $t('config.accessibility.font_size.example_2') }</div>
             </div>`
         );
         $('.settings-page[data-pageid="advanced"]').prepend(SettingsPanel.msgBoxWarn(
@@ -1228,11 +1228,11 @@ function setSwitchButtonOnClickToChangeClassForArray(data = []) {
 }
 
 setSwitchButtonOnClickToChangeClassForArray([
-    ['accessible.unlock_page_width',            'unlock-page-width'],
-    ['accessible.high_contrast',                'accessible-high-contrast'],
-    ['accessible.drotanopia_and_deuteranopia',  'accessible-drotanopia-and-deuteranopia'],
-    ['accessible.link_underline',               'accessible-link-underline'],
-    ['accessible.animation_disable',            'accessible-animation-disable'],
+    ['accessibility.unlock_page_width',            'unlock-page-width'],
+    ['accessibility.high_contrast',                'accessibility-high-contrast'],
+    ['accessibility.drotanopia_and_deuteranopia',  'accessibility-drotanopia-and-deuteranopia'],
+    ['accessibility.link_underline',               'accessibility-link-underline'],
+    ['accessibility.animation_disable',            'accessibility-animation-disable'],
     ['global.controller_layout_reverse',        'controller-layout-reverse'],
     ['global.thin_scrollbar',                   'thin-scrollbar']
 ]);
@@ -1268,7 +1268,7 @@ $(document).on('click', '.settings-item[data-id="global.touchscreen_layout"] .se
     }, 12);
 });
 
-$(document).on('input', '.settings-item[data-id="accessible.font_size"] .settings-value', function() {
+$(document).on('input', '.settings-item[data-id="accessibility.font_size"] .settings-value', function() {
     $('.review-font-size-card').css('--font-size-base-review', `${ $(this).val() }px`);
 });
 

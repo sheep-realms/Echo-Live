@@ -432,7 +432,7 @@ class EchoLiveTools {
      */
     static generateDriverData(data = {}, steps = []) {
         return {
-            animate:        !config.accessible.animation_disable,
+            animate:        !config.accessibility.animation_disable,
             showProgress:   true,
             progressText:   $t('help.popover.progress'),
             nextBtnText:    $t('help.popover.next'),

@@ -473,11 +473,11 @@ class Popups {
             `<div class="popups-palette-header">
                 <label for="popups-palette-select" style="display: none;">${ $t('editor.palette.select') }</label>
                 <div class="popups-palette-select-content">
-                    <kbd class="accessible-key">Q</kbd>
+                    <kbd class="accessibility-key">Q</kbd>
                     <select name="popups-palette-select" id="popups-palette-select">
                         ${ Popups.paletteOptions(palette) }
                     </select>
-                    <kbd class="accessible-key">E</kbd>
+                    <kbd class="accessibility-key">E</kbd>
                 </div>
             </div>
             <div class="popups-palette-color-contrast" aria-label="${ $t('editor.palette.diff_dashboard.index') }">
@@ -486,13 +486,13 @@ class Popups {
             <div class="popups-palette-content">
                 ${ Popups.palettePage(palette) }
             </div>
-            <div class="popups-palette-accessible">
-                <span>${ $t('editor.palette.accessible.tip') }</span>
+            <div class="popups-palette-accessibility">
+                <span>${ $t('editor.palette.accessibility.tip') }</span>
                 ${
                     EditorForm.buttonAir(
                         $t('ui.more_info'),
                         {
-                            id: 'popups-palette-accessible-help-btn'
+                            id: 'popups-palette-accessibility-help-btn'
                         }
                     )
                 }
@@ -557,11 +557,11 @@ class Popups {
             `<div class="popups-emoji-header">
                 <label for="popups-emoji-select" style="display: none;">${ $t('editor.emoji.select') }</label>
                 <div class="popups-emoji-select-content">
-                    <kbd class="accessible-key">Q</kbd>
+                    <kbd class="accessibility-key">Q</kbd>
                     <select name="popups-emoji-select" id="popups-emoji-select">
                         ${ Popups.emojiOptions(emojiPacks) }
                     </select>
-                    <kbd class="accessible-key">E</kbd>
+                    <kbd class="accessibility-key">E</kbd>
                 </div>
             </div>
             <div class="popups-emoji-content">
@@ -1260,10 +1260,10 @@ class SettingsPanel {
                     hasInput: true,
                     inputClass: 'settings-value code',
                     label: [
-                        { value: 8, label: $t('config.accessible.font_size.small') },
-                        { value: 16, label: $t('config.accessible.font_size.middle') },
-                        { value: 24, label: $t('config.accessible.font_size.large') },
-                        { value: 32, label: $t('config.accessible.font_size.extra_large') }
+                        { value: 8, label: $t('config.accessibility.font_size.small') },
+                        { value: 16, label: $t('config.accessibility.font_size.middle') },
+                        { value: 24, label: $t('config.accessibility.font_size.large') },
+                        { value: 32, label: $t('config.accessibility.font_size.extra_large') }
                     ],
                     attribute: {
                         min:8,

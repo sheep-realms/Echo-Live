@@ -27,7 +27,7 @@ echoLiveSystem.registry.setRegistryValue('settings_data', 'about_link', [
         icon: 'helpBox'
     }, {
         name: 'accessibility',
-        href: 'https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/',
+        href: 'https://sheep-realms.github.io/Echo-Live-Doc/main/accessibility/',
         icon: 'wheelchairAccessibility'
     }, {
         name: 'releases',

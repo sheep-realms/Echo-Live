@@ -1,9 +1,9 @@
 /* 高对比度 */
-.accessible-high-contrast {
-    --accessible-outline-color: #00E9FF;
-    --accessible-outline-size: 2px;
-    --accessible-outline-style: solid;
-    --accessible-outline: var(--accessible-outline-color) var(--accessible-outline-size) var(--accessible-outline-style);
+.accessibility-high-contrast {
+    --accessibility-outline-color: #00E9FF;
+    --accessibility-outline-size: 2px;
+    --accessibility-outline-style: solid;
+    --accessibility-outline: var(--accessibility-outline-color) var(--accessibility-outline-size) var(--accessibility-outline-style);
 
     --color-main: rgb(44, 114, 154);
     --color-main-dark: gb(26, 90, 127);
@@ -45,7 +45,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-    :root:not(.prefers-color-scheme-light).accessible-high-contrast {
+    :root:not(.prefers-color-scheme-light).accessibility-high-contrast {
         --color-main: rgb(64, 173, 235);
         --color-main-dark: rgb(40, 144, 204);
     
@@ -98,7 +98,7 @@
     }
 }
 
-.prefers-color-scheme-dark.accessible-high-contrast {
+.prefers-color-scheme-dark.accessibility-high-contrast {
     --color-main: rgb(64, 173, 235);
     --color-main-dark: rgb(40, 144, 204);
     
@@ -149,171 +149,171 @@
     --fh-border-coler: #FFF;
 }
 
-.prefers-color-scheme-dark .accessible-high-contrast .fh-button:not(.fh-ghost, .fh-dashed, .fh-air),
-.prefers-color-scheme-dark .accessible-high-contrast .settings-nav-item[aria-selected="true"],
-.prefers-color-scheme-dark .accessible-high-contrast #log-message-mark,
-.prefers-color-scheme-dark .accessible-high-contrast #popups-palette .popups-palette-color-contrast .diff-result-content.fail {
+.prefers-color-scheme-dark .accessibility-high-contrast .fh-button:not(.fh-ghost, .fh-dashed, .fh-air),
+.prefers-color-scheme-dark .accessibility-high-contrast .settings-nav-item[aria-selected="true"],
+.prefers-color-scheme-dark .accessibility-high-contrast #log-message-mark,
+.prefers-color-scheme-dark .accessibility-high-contrast #popups-palette .popups-palette-color-contrast .diff-result-content.fail {
     color: var(--page-bgcolor);
 }
 
-.prefers-color-scheme-dark .accessible-high-contrast .fh-button:not(.fh-ghost, .fh-dashed, .fh-air) svg,
-.prefers-color-scheme-dark .accessible-high-contrast .settings-nav-item[aria-selected="true"] svg,
-.prefers-color-scheme-dark .accessible-high-contrast #popups-palette .popups-palette-color-contrast .diff-result-content.fail svg {
+.prefers-color-scheme-dark .accessibility-high-contrast .fh-button:not(.fh-ghost, .fh-dashed, .fh-air) svg,
+.prefers-color-scheme-dark .accessibility-high-contrast .settings-nav-item[aria-selected="true"] svg,
+.prefers-color-scheme-dark .accessibility-high-contrast #popups-palette .popups-palette-color-contrast .diff-result-content.fail svg {
     fill: var(--page-bgcolor);
 }
 
-.accessible-high-contrast .review-font-size-card {
+.accessibility-high-contrast .review-font-size-card {
     border: 1px solid var(--border-color);
 }
 
 
 
-.accessible-high-contrast .echo-live-client-state-block.state-active {
+.accessibility-high-contrast .echo-live-client-state-block.state-active {
     border: 1px solid var(--color-safe-dark);
 }
 
-.accessible-high-contrast .echo-live-client-state-block.state-sleep {
+.accessibility-high-contrast .echo-live-client-state-block.state-sleep {
     border: 1px solid var(--color-danger-dark);
 }
 
-.accessible-high-contrast .fh-input-label-type-after {
+.accessibility-high-contrast .fh-input-label-type-after {
     border: 1px solid var(--border-color);
     border-inline-start: unset;
 }
 
-.accessible-high-contrast .fh-input-label-type-before {
+.accessibility-high-contrast .fh-input-label-type-before {
     border: 1px solid var(--border-color);
     border-inline-end: unset;
 }
 
-.accessible-high-contrast .fh-input-label-type-after:not(.fh-input-label-only-icon),
-.accessible-high-contrast .fh-input-label-type-before:not(.fh-input-label-only-icon) {
+.accessibility-high-contrast .fh-input-label-type-after:not(.fh-input-label-only-icon),
+.accessibility-high-contrast .fh-input-label-type-before:not(.fh-input-label-only-icon) {
     padding-inline-start: 0.375em;
     padding-inline-end: 0.375em;
 }
 
-.accessible-high-contrast textarea,
-.accessible-high-contrast input[type=number],
-.accessible-high-contrast input[type=text],
-.accessible-high-contrast #editor-log,
-.accessible-high-contrast select,
-.accessible-high-contrast .echo-live-client-state-block {
+.accessibility-high-contrast textarea,
+.accessibility-high-contrast input[type=number],
+.accessibility-high-contrast input[type=text],
+.accessibility-high-contrast #editor-log,
+.accessibility-high-contrast select,
+.accessibility-high-contrast .echo-live-client-state-block {
     border: 1px solid var(--text-primary);
 }
 
-.accessible-high-contrast #popups-palette:not(:focus-within) .popups-palette-select-content kbd, 
-.accessible-high-contrast #popups-emoji:not(:focus-within) .popups-emoji-select-content kbd {
+.accessibility-high-contrast #popups-palette:not(:focus-within) .popups-palette-select-content kbd, 
+.accessibility-high-contrast #popups-emoji:not(:focus-within) .popups-emoji-select-content kbd {
     opacity: 0;
 }
 
-.accessible-high-contrast input[type=number]:focus,
-.accessible-high-contrast input[type=text]:focus,
-.accessible-high-contrast textarea:focus,
-.accessible-high-contrast select:focus,
-.accessible-high-contrast button:focus,
-.accessible-high-contrast a:focus {
-    outline: var(--accessible-outline) !important;
+.accessibility-high-contrast input[type=number]:focus,
+.accessibility-high-contrast input[type=text]:focus,
+.accessibility-high-contrast textarea:focus,
+.accessibility-high-contrast select:focus,
+.accessibility-high-contrast button:focus,
+.accessibility-high-contrast a:focus {
+    outline: var(--accessibility-outline) !important;
 }
 
-.accessible-high-contrast .echo-live-client-state-block.echo-state-play .client-info {
+.accessibility-high-contrast .echo-live-client-state-block.echo-state-play .client-info {
     background-image: unset;
     animation: unset;
 }
 
-.accessible-high-contrast .settings-panel a:not(.settings-link-bar),
-.accessible-high-contrast .fh-link,
-.accessible-link-underline .settings-panel a:not(.settings-link-bar),
-.accessible-link-underline .fh-link {
+.accessibility-high-contrast .settings-panel a:not(.settings-link-bar),
+.accessibility-high-contrast .fh-link,
+.accessibility-link-underline .settings-panel a:not(.settings-link-bar),
+.accessibility-link-underline .fh-link {
     border-bottom: var(--color-general-dark) 1px solid;
 }
 
-.accessible-link-underline #popups-emoji .emoji-meta a {
+.accessibility-link-underline #popups-emoji .emoji-meta a {
     border-bottom-width: 1px;
     border-bottom-style: solid;
 }
 
-.accessible-high-contrast .settings-item.settings-item-condition-test-fail>* {
+.accessibility-high-contrast .settings-item.settings-item-condition-test-fail>* {
     opacity: 1;
 }
 
-.accessible-high-contrast .settings-item.settings-item-condition-test-fail .title {
+.accessibility-high-contrast .settings-item.settings-item-condition-test-fail .title {
     font-style: italic;
     color: var(--text-secondary);
 }
 
-.accessible-high-contrast .settings-item.settings-item-condition-test-fail:hover>* {
+.accessibility-high-contrast .settings-item.settings-item-condition-test-fail:hover>* {
     opacity: 1;
 }
 
-.accessible-high-contrast .fh-notice-item.is-permanently .fh-notice-item-content-action,
-.accessible-high-contrast .fh-notice-item-container:hover .fh-notice-item-content-action {
+.accessibility-high-contrast .fh-notice-item.is-permanently .fh-notice-item-content-action,
+.accessibility-high-contrast .fh-notice-item-container:hover .fh-notice-item-content-action {
     opacity: 1;
 }
 
 
 /* 红绿色盲 */
-.accessible-drotanopia-and-deuteranopia {
+.accessibility-drotanopia-and-deuteranopia {
     --color-safe: var(--color-general);
     --color-safe-dark: var(--color-general-dark);
     --color-safe-glass: var(--color-general-glass);
 }
 
-.accessible-drotanopia-and-deuteranopia .echo-live-client-state-block.state-active .state-color-block {
+.accessibility-drotanopia-and-deuteranopia .echo-live-client-state-block.state-active .state-color-block {
     background-color: var(--color-general-dark);
 }
 
-.accessible-drotanopia-and-deuteranopia .echo-live-client-state-block.state-sleep .state-color-block {
+.accessibility-drotanopia-and-deuteranopia .echo-live-client-state-block.state-sleep .state-color-block {
     background-color: transparent;
     border: 1px solid var(--color-general-dark);
 }
 
-.accessible-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content {
+.accessibility-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content {
     color: var(--color-general-dark);
     fill: var(--color-general-dark);
     border: var(--color-general-dark) 1px solid;
 }
 
-.accessible-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content.fail {
+.accessibility-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content.fail {
     background-color: var(--color-danger-dark);
     border: var(--color-danger-dark) 1px solid;
     fill: #FFF;
     color: #FFF;
 }
 
-.prefers-color-scheme-dark .accessible-high-contrast.accessible-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content.fail {
+.prefers-color-scheme-dark .accessibility-high-contrast.accessibility-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content.fail {
     color: var(--page-bgcolor);
 }
 
-.prefers-color-scheme-dark .accessible-high-contrast.accessible-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content.fail svg {
+.prefers-color-scheme-dark .accessibility-high-contrast.accessibility-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content.fail svg {
     color: var(--page-bgcolor);
 }
 
 
 /* 禁用动画 */
-.accessible-animation-disable,
-.accessible-animation-disable * {
+.accessibility-animation-disable,
+.accessibility-animation-disable * {
     animation: unset !important;
     transition: unset !important;
 }
 
-.accessible-animation-disable::view-transition-old(root),
-.accessible-animation-disable::view-transition-new(root) {
+.accessibility-animation-disable::view-transition-old(root),
+.accessibility-animation-disable::view-transition-new(root) {
     animation-duration: 0s;
 }
 
 
 /* 通用 */
-.accessible-high-contrast #popups-palette,
-.accessible-drotanopia-and-deuteranopia #popups-palette {
+.accessibility-high-contrast #popups-palette,
+.accessibility-drotanopia-and-deuteranopia #popups-palette {
     --ex-height: 48px;
 }
 
-.accessible-high-contrast #popups-palette.color-contrast-enable,
-.accessible-drotanopia-and-deuteranopia #popups-palette.color-contrast-enable {
+.accessibility-high-contrast #popups-palette.color-contrast-enable,
+.accessibility-drotanopia-and-deuteranopia #popups-palette.color-contrast-enable {
     --ex-height: calc(48px + 60px);
 }
 
-.accessible-high-contrast #popups-palette .popups-palette-accessible,
-.accessible-drotanopia-and-deuteranopia #popups-palette .popups-palette-accessible {
+.accessibility-high-contrast #popups-palette .popups-palette-accessibility,
+.accessibility-drotanopia-and-deuteranopia #popups-palette .popups-palette-accessibility {
     display: flex;
 }

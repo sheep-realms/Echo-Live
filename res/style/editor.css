@@ -174,7 +174,7 @@ kbd {
     transition: opacity .15s;
 }
 
-kbd.accessible-key {
+kbd.accessibility-key {
     pointer-events: none;
 }
 
@@ -989,7 +989,7 @@ select:focus {
     background-color: var(--color);
 }
 
-#popups-palette .popups-palette-accessible {
+#popups-palette .popups-palette-accessibility {
     display: none;
     /* display: flex; */
     flex-direction: row;
@@ -1091,7 +1091,7 @@ select:focus {
     width: var(--size);
 }
 
-.popups-palette-accessible {
+.popups-palette-accessibility {
     color: var(--text-regular);
 }
 

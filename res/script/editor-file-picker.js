@@ -61,7 +61,7 @@ function checkImageFile(fileList) {
 
         showFileCheckDialog(SettingsFileChecker.dialogImageFileSelected(dropFile.name));
 
-        if (!config.accessible.power_saving_mode && !config.accessible.high_contrast) {
+        if (!config.accessibility.power_saving_mode && !config.accessibility.high_contrast) {
             $('#image-file-check-dialog').css('background-image', `url(${dropData})`);
         }
     };

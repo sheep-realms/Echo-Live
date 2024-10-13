@@ -15,12 +15,12 @@ class SystemNotice {
         // 关闭通知
         $(document).on('click', '.fh-notice-item-btn-close', function(e) {
             if (e.shiftKey) {
-                if (config.accessible.animation_disable || $('html').hasClass('accessible-animation-disable')) return $('.fh-notice-item').remove();
+                if (config.accessibility.animation_disable || $('html').hasClass('accessibility-animation-disable')) return $('.fh-notice-item').remove();
                 $('.fh-notice-item:not(.fh-notice-ani-in)').addClass('fh-notice-ani-out');
                 return;
             }
             const $item = $(this).parents('.fh-notice-item').eq(0);
-            if (config.accessible.animation_disable || $('html').hasClass('accessible-animation-disable')) return $item.remove();
+            if (config.accessibility.animation_disable || $('html').hasClass('accessibility-animation-disable')) return $item.remove();
             $item.addClass('fh-notice-ani-out');
             that.runCallback($item.data('index'), null);
         });
@@ -61,7 +61,7 @@ class SystemNotice {
             waitTime:   undefined,
             width:      undefined,
             ...data,
-            animation:  !config.accessible.animation_disable && !$('html').hasClass('accessible-animation-disable') && ( data?.animation ?? true ),
+            animation:  !config.accessibility.animation_disable && !$('html').hasClass('accessibility-animation-disable') && ( data?.animation ?? true ),
             index:      index,
             hasClick:   typeof callback === 'function'
         };
@@ -155,7 +155,7 @@ class SystemNotice {
      */
     kill(sel, now = false) {
         const $sel = $(`${ this.sel } .fh-notice-item${ sel }`)
-        if (now || config.accessible.animation_disable || $('html').hasClass('accessible-animation-disable')) {
+        if (now || config.accessibility.animation_disable || $('html').hasClass('accessibility-animation-disable')) {
             $sel.remove();
             return;
         }

@@ -1,4 +1,4 @@
-const db_config_version = 9;
+const db_config_version = 10;
 
 const db_config_define = [
     {
@@ -903,51 +903,57 @@ const db_config_define = [
 
 
     {
-        name: 'accessible',
+        name: 'accessibility',
         type: 'object',
-        created: 1
+        created: 10
     }, {
-        name: 'accessible.font_size',
+        name: 'accessibility.font_size',
         type: 'special.fontsize',
         default: 16,
-        created: 9
+        from: 'accessible.font_size',
+        created: 10
     }, {
-        name: 'accessible.unlock_page_width',
+        name: 'accessibility.unlock_page_width',
         type: 'boolean',
         default: false,
-        created: 9
+        from: 'accessible.unlock_page_width',
+        created: 10
     }, {
-        name: 'accessible.high_contrast',
+        name: 'accessibility.high_contrast',
         type: 'boolean',
         default: false,
-        created: 1
+        from: 'accessible.high_contrast',
+        created: 10
     }, {
-        name: 'accessible.high_contrast_outline_color',
+        name: 'accessibility.high_contrast_outline_color',
         type: 'string',
         default: '#00E9FF',
-        created: 2,
+        from: 'accessible.high_contrast_outline_color',
+        created: 10,
         conditions: [
             {
-                name: 'accessible.high_contrast',
+                name: 'accessibility.high_contrast',
                 value: true
             }
         ]
     }, {
-        name: 'accessible.high_contrast_outline_size',
+        name: 'accessibility.high_contrast_outline_size',
         type: 'string',
         default: '2px',
-        created: 2,
+        from: 'accessible.high_contrast_outline_size',
+        created: 10,
         conditions: [
             {
-                name: 'accessible.high_contrast',
+                name: 'accessibility.high_contrast',
                 value: true
             }
         ]
     }, {
-        name: 'accessible.high_contrast_outline_style',
+        name: 'accessibility.high_contrast_outline_style',
         type: 'string',
         default: 'solid',
-        created: 2,
+        from: 'accessible.high_contrast_outline_style',
+        created: 10,
         attribute: {
             datalist: [
                 {
@@ -963,30 +969,34 @@ const db_config_define = [
         },
         conditions: [
             {
-                name: 'accessible.high_contrast',
+                name: 'accessibility.high_contrast',
                 value: true
             }
         ]
     }, {
-        name: 'accessible.drotanopia_and_deuteranopia',
+        name: 'accessibility.drotanopia_and_deuteranopia',
         type: 'boolean',
         default: false,
-        created: 1
+        from: 'accessible.drotanopia_and_deuteranopia',
+        created: 10
     }, {
-        name: 'accessible.link_underline',
+        name: 'accessibility.link_underline',
         type: 'boolean',
         default: false,
-        created: 4
+        from: 'accessible.link_underline',
+        created: 10
     }, {
-        name: 'accessible.animation_disable',
+        name: 'accessibility.animation_disable',
         type: 'boolean',
         default: false,
-        created: 4
+        from: 'accessible.animation_disable',
+        created: 10
     }, {
-        name: 'accessible.power_saving_mode',
+        name: 'accessibility.power_saving_mode',
         type: 'boolean',
         default: false,
-        created: 4
+        from: 'accessible.power_saving_mode',
+        created: 10
     },
 
 
@@ -1076,5 +1086,11 @@ const db_config_define = [
         default: 0,
         created: -1,
         deleted: 7
+    }, {
+        name: 'accessible',
+        type: 'object',
+        default: 0,
+        created: 1,
+        deleted: 10
     }
 ];

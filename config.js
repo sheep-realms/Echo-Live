@@ -130,7 +130,7 @@ const config = {
             "live_display_hidden_latest_message_show": true
         }
     },
-    "accessible": {
+    "accessibility": {
         "font_size": 16,
         "unlock_page_width": false,
         "high_contrast": false,

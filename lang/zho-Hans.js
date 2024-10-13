@@ -552,7 +552,7 @@ const lang_zho_Hans = {
                 }
             }
         },
-        accessible: {
+        accessibility: {
             _title: "可访问性",
             _description: "可访问性相关配置",
             font_size: {
@@ -789,7 +789,7 @@ const lang_zho_Hans = {
         log: {
             index: "日志",
             welcome: "欢迎使用 Echo-Live！如需查阅帮助文档，请见：https://sheep-realms.github.io/Echo-Live-Doc/",
-            accessible: {
+            accessibility: {
                 type: {
                     dbug: "调试：",
                     done: "完成：",
@@ -853,7 +853,7 @@ const lang_zho_Hans = {
             index: "拾色器",
             empty: "卧槽？！你在干什么？我放在这里那么大一个调色板呢？还好我技高一筹给你兜住了！",
             select: "色板库",
-            accessible: {
+            accessibility: {
                 tip: "需要无障碍使用帮助吗？"
             },
             diff_dashboard: {
@@ -1325,7 +1325,7 @@ const lang_zho_Hans = {
                 },
                 s17: {
                     title: "可访问性",
-                    description: "另外，如果您需要调整可访问性相关配置，可以在这里找到。<br>如有需要，您可以<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>点击此处阅读无障碍使用指南</a>。"
+                    description: "另外，如果您需要调整可访问性相关配置，可以在这里找到。<br>如有需要，您可以<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessibility/' target='_blank'>点击此处阅读无障碍使用指南</a>。"
                 },
                 s18: {
                     title: "新人引导结束",
@@ -1435,7 +1435,7 @@ const lang_zho_Hans = {
             config_output: "导出配置内容"
         },
         msgbox: {
-            accessibility: "Echo-Live 所有后台页面均支持键盘访问。<br>更多有关无障碍使用的帮助请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>帮助文档</a>。",
+            accessibility: "Echo-Live 所有后台页面均支持键盘访问。<br>更多有关无障碍使用的帮助请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessibility/' target='_blank'>帮助文档</a>。",
             advanced_settings: "不要随意更改这里的配置，除非您知道您在做什么。",
             echo: {
                 title: "关于 Echo",

@@ -552,7 +552,7 @@ const lang_zho_Hant_TW = {
                 }
             }
         },
-        accessible: {
+        accessibility: {
             _title: "可訪問性",
             _description: "可訪問性相關配置",
             font_size: {
@@ -789,7 +789,7 @@ const lang_zho_Hant_TW = {
         log: {
             index: "日誌",
             welcome: "歡迎使用 Echo-Live！如需查閱說明文件，請見：https://sheep-realms.github.io/Echo-Live-Doc/",
-            accessible: {
+            accessibility: {
                 type: {
                     dbug: "除錯：",
                     done: "完成：",
@@ -853,7 +853,7 @@ const lang_zho_Hant_TW = {
             index: "拾色器",
             empty: "臥槽？！你在幹什麼？我放在這裡那麼大一個調色盤呢？還好我技高一籌給你兜住了！",
             select: "色板庫",
-            accessible: {
+            accessibility: {
                 tip: "需要無障礙使用説明嗎？"
             },
             diff_dashboard: {
@@ -1325,7 +1325,7 @@ const lang_zho_Hant_TW = {
                 },
                 s17: {
                     title: "可訪問性",
-                    description: "另外，如果您需要調整可訪問性相關配置，可以在這裡找到。<br>如有需要，您可以<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>點選此處閱讀無障礙使用指南</a>。"
+                    description: "另外，如果您需要調整可訪問性相關配置，可以在這裡找到。<br>如有需要，您可以<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessibility/' target='_blank'>點選此處閱讀無障礙使用指南</a>。"
                 },
                 s18: {
                     title: "新人引導結束",
@@ -1435,7 +1435,7 @@ const lang_zho_Hant_TW = {
             config_output: "匯出配置內容"
         },
         msgbox: {
-            accessibility: "Echo-Live 所有後臺頁面均支援鍵盤訪問。<br>更多有關無障礙使用的説明請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>說明文件</a>。",
+            accessibility: "Echo-Live 所有後臺頁面均支援鍵盤訪問。<br>更多有關無障礙使用的説明請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessibility/' target='_blank'>說明文件</a>。",
             advanced_settings: "不要隨意更改這裡的配置，除非您知道您在做什麼。",
             echo: {
                 title: "關於 Echo",

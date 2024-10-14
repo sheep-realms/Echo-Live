@@ -1,0 +1,7 @@
+.git/*
+.github/*
+.demo/*
+.gitignore
+.zipignore
+social-media.md
+template.html

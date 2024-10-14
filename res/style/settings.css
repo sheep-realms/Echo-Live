@@ -807,8 +807,13 @@ main {
 
 
 
+.settings-about-banner {
+    text-align: center;
+}
+
 .settings-about-banner>img {
-    width: 100%;
+    max-width: 100%;
+    max-height: 350px;
     height: auto;
     cursor: pointer;
 }

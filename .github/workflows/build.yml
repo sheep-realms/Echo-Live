@@ -1,0 +1,34 @@
+name: Echo-Live Build
+
+on:
+  workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Build Info
+      run: |
+        echo "Run ID: ${{ github.run_id }}" > build-info.txt
+        echo "Run Number: ${{ github.run_number }}" >> build-info.txt
+        echo "Commit SHA: ${{ github.sha }}" >> build-info.txt
+        echo "Repository: ${{ github.repository }} (${{ github.repository_id }})" >> build-info.txt
+        echo "Repository URL: ${{ github.repositoryUrl }}" >> build-info.txt
+        echo "Triggered by: ${{ github.actor }} (${{ github.actor_id }})" >> build-info.txt
+
+    - name: Install zip
+      run: sudo apt-get install zip
+
+    - name: Zip Files
+      run: |
+        zip -r echo-live-build-${{ github.run_number }}.zip . -x @.buildignore
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: echo-live-build-pack-${{ github.run_number }}
+        path: echo-live-build-${{ github.run_number }}.zip

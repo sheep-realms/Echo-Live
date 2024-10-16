@@ -333,7 +333,7 @@ class EchoLiveTools {
      * @param {String} formatKey 格式化键名
      * @returns {String} 格式化后的日期时间
      */
-    static formatDate(value = undefined, formatKey = 'data_time_common') {
+    static formatDate(value = undefined, formatKey = 'date_time_common') {
         let data = EchoLiveTools.formatDateToObject(value);
         
         return $t('localization.' + formatKey, data);

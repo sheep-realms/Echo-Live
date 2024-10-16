@@ -6,12 +6,12 @@ const lang_zho_Hant_TW = {
     },
     localization: {
         bracket: "（{text}）",
-        data_common: "{y}-{MM}-{dd}",
-        data_time_common: "{y}-{MM}-{dd} {hh}:{mm}:{ss}",
-        data: "{y} 年 {M} 月 {d} 日",
-        data_pad_zero: "{y} 年 {MM} 月 {dd} 日",
-        data_time: "{y} 年 {M} 月 {d} 日 {h}:{m}:{s}",
-        data_time_pad_zero: "{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}",
+        date_common: "{y}-{MM}-{dd}",
+        date_time_common: "{y}-{MM}-{dd} {hh}:{mm}:{ss}",
+        date: "{y} 年 {M} 月 {d} 日",
+        date_pad_zero: "{y} 年 {MM} 月 {dd} 日",
+        date_time: "{y} 年 {M} 月 {d} 日 {h}:{m}:{s}",
+        date_time_pad_zero: "{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}",
         time_common: "{hh}:{mm}:{ss}",
     },
     ui: {

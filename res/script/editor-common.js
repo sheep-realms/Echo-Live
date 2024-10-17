@@ -17,7 +17,7 @@ if (config.accessibility.high_contrast || window.matchMedia('(forced-colors: act
     $('html').css('--accessibility-outline-size', config.accessibility.high_contrast_outline_size);
     $('html').css('--accessibility-outline-style', config.accessibility.high_contrast_outline_style);
 }
-if (config.accessibility.drotanopia_and_deuteranopia) $('html').addClass('accessibility-drotanopia-and-deuteranopia');
+if (config.accessibility.protanopia_and_deuteranopia) $('html').addClass('accessibility-protanopia-and-deuteranopia');
 if (config.accessibility.link_underline) $('html').addClass('accessibility-link-underline');
 if (config.accessibility.animation_disable) $('html').addClass('accessibility-animation-disable');
 if (config.accessibility.power_saving_mode) $('html').addClass('power-saving-mode');

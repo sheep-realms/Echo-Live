@@ -585,7 +585,7 @@ const lang_zho_Hant_TW = {
                 _title: "焦點高亮邊框樣式",
                 _description: "焦點元素邊框的樣式。"
             },
-            drotanopia_and_deuteranopia: {
+            protanopia_and_deuteranopia: {
                 _title: "紅綠色盲",
                 _description: "綠色（安全）功能色會以藍色（通用）代替，以便和功能差異較大的黃色（警告）和紅色（危險）作出區分。"
             },

@@ -974,7 +974,7 @@ const db_config_define = [
             }
         ]
     }, {
-        name: 'accessibility.drotanopia_and_deuteranopia',
+        name: 'accessibility.protanopia_and_deuteranopia',
         type: 'boolean',
         default: false,
         from: 'accessible.drotanopia_and_deuteranopia',

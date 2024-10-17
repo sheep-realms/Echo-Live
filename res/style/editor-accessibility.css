@@ -252,39 +252,39 @@
 
 
 /* 红绿色盲 */
-.accessibility-drotanopia-and-deuteranopia {
+.accessibility-protanopia-and-deuteranopia {
     --color-safe: var(--color-general);
     --color-safe-dark: var(--color-general-dark);
     --color-safe-glass: var(--color-general-glass);
 }
 
-.accessibility-drotanopia-and-deuteranopia .echo-live-client-state-block.state-active .state-color-block {
+.accessibility-protanopia-and-deuteranopia .echo-live-client-state-block.state-active .state-color-block {
     background-color: var(--color-general-dark);
 }
 
-.accessibility-drotanopia-and-deuteranopia .echo-live-client-state-block.state-sleep .state-color-block {
+.accessibility-protanopia-and-deuteranopia .echo-live-client-state-block.state-sleep .state-color-block {
     background-color: transparent;
     border: 1px solid var(--color-general-dark);
 }
 
-.accessibility-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content {
+.accessibility-protanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content {
     color: var(--color-general-dark);
     fill: var(--color-general-dark);
     border: var(--color-general-dark) 1px solid;
 }
 
-.accessibility-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content.fail {
+.accessibility-protanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content.fail {
     background-color: var(--color-danger-dark);
     border: var(--color-danger-dark) 1px solid;
     fill: #FFF;
     color: #FFF;
 }
 
-.prefers-color-scheme-dark .accessibility-high-contrast.accessibility-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content.fail {
+.prefers-color-scheme-dark .accessibility-high-contrast.accessibility-protanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content.fail {
     color: var(--page-bgcolor);
 }
 
-.prefers-color-scheme-dark .accessibility-high-contrast.accessibility-drotanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content.fail svg {
+.prefers-color-scheme-dark .accessibility-high-contrast.accessibility-protanopia-and-deuteranopia #popups-palette .popups-palette-color-contrast .diff-result-content.fail svg {
     color: var(--page-bgcolor);
 }
 
@@ -304,16 +304,16 @@
 
 /* 通用 */
 .accessibility-high-contrast #popups-palette,
-.accessibility-drotanopia-and-deuteranopia #popups-palette {
+.accessibility-protanopia-and-deuteranopia #popups-palette {
     --ex-height: 48px;
 }
 
 .accessibility-high-contrast #popups-palette.color-contrast-enable,
-.accessibility-drotanopia-and-deuteranopia #popups-palette.color-contrast-enable {
+.accessibility-protanopia-and-deuteranopia #popups-palette.color-contrast-enable {
     --ex-height: calc(48px + 60px);
 }
 
 .accessibility-high-contrast #popups-palette .popups-palette-accessibility,
-.accessibility-drotanopia-and-deuteranopia #popups-palette .popups-palette-accessibility {
+.accessibility-protanopia-and-deuteranopia #popups-palette .popups-palette-accessibility {
     display: flex;
 }

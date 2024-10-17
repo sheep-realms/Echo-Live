@@ -137,7 +137,7 @@ const config = {
         "high_contrast_outline_color": "#00E9FF",
         "high_contrast_outline_size": "2px",
         "high_contrast_outline_style": "solid",
-        "drotanopia_and_deuteranopia": false,
+        "protanopia_and_deuteranopia": false,
         "link_underline": false,
         "animation_disable": false,
         "power_saving_mode": false

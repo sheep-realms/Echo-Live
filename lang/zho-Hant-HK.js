@@ -99,9 +99,9 @@ const lang_zho_Hant_HK = {
             success: {
                 broadcast_everyone: "已廣播 {action} 消息",
                 broadcast_target: "已發送 {action} 消息至 {name}",
-                function: "已執行函數中的 {count} 條命令",
+                function: "已執行函數中的 {n} 條命令",
                 function_fail_item: "- 第 {line} 行：{reason}",
-                function_has_fail: "已執行函數中的 {count} 條命令，失敗 {fail} 條，失敗原因為："
+                function_has_fail: "已執行函數中的 {n} 條命令，失敗 {fail} 條，失敗原因為："
             }
         },
         clearlocalstorage: {

@@ -878,7 +878,7 @@ function commanderRun() {
         logMessager.send($t(
             r.state.fail > 0 ? 'command.common.success.function_has_fail' : 'command.common.success.function',
             {
-                count: r.state.count,
+                n: r.state.count,
                 success: r.state.success,
                 fail: r.state.fail
             }

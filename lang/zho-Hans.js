@@ -99,9 +99,9 @@ const lang_zho_Hans = {
             success: {
                 broadcast_everyone: "已广播 {action} 消息",
                 broadcast_target: "已发送 {action} 消息至 {name}",
-                function: "已执行函数中的 {count} 条命令",
+                function: "已执行函数中的 {n} 条命令",
                 function_fail_item: "- 第 {line} 行：{reason}",
-                function_has_fail: "已执行函数中的 {count} 条命令，失败 {fail} 条，失败原因为："
+                function_has_fail: "已执行函数中的 {n} 条命令，失败 {fail} 条，失败原因为："
             }
         },
         clearlocalstorage: {

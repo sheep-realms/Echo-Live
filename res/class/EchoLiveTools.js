@@ -36,7 +36,7 @@ class EchoLiveTools {
                 typeof value === 'symbol'
             ) return;
 
-            if (styleData.isStyle) {
+            if (styleData.is_style) {
                 if (typeof data.style.style === 'undefined') return;
                 style += data.style.style;
                 return;
@@ -58,7 +58,15 @@ class EchoLiveTools {
             if (typeof styleData.style !== 'undefined') {
                 if (!Array.isArray(styleData.style)) styleData.style = [styleData.style];
                 styleData.style.forEach(e => {
-                    style += `${e}: ${value}; `;
+                    if (styleData.custom_style) {
+                        let v = value;
+                        if (typeof value !== 'object') v = { value: v }
+                        
+                        style += EchoLiveTools.replacePlaceholders(e, v);
+                        style += ' ';
+                    } else {
+                        style += `${e}: ${value}; `;
+                    }
                 });
             }
         }
@@ -532,11 +540,10 @@ class EchoLiveTools {
      * @returns {String} 替换后的字符串
      */
     static replacePlaceholders(str, data) {
-        return str.replace(/\{(.*?)\}/g, (match, key) => {
-            key = key.trim();
-            if (data.hasOwnProperty(key) && (typeof data[key] === 'string' || typeof data[key] === 'number')) {
-                return data[key];
-            }
+        return str.replace(/\{(.*?)\}/g, (match, content) => {
+            let [key, defaultValue] = content.split('|').map(part => part.trim());
+            if (data.hasOwnProperty(key) && (typeof data[key] === 'string' || typeof data[key] === 'number')) return data[key];
+            if (defaultValue) return defaultValue;
             return match;
         });
     }

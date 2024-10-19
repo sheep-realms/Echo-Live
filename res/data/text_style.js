@@ -39,7 +39,11 @@ echoLiveSystem.registry.loadRegistry('text_style', 'name', [
         name: 'emphasis',
         class: 'echo-text-emphasis'
     }, {
+        name: 'shadow',
+        custom_style: true,
+        style: 'text-shadow: {x|0} {y|0} {blur|0.25em} {color|#000000};'
+    }, {
         name: 'style',
-        isStyle: true
+        is_style: true
     }
 ]);

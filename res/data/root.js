@@ -92,7 +92,8 @@ echoLiveSystem.registry.init([
         unique_key: 'name',
         default_data: {
             name: undefined,
-            isStyle: false,
+            is_style: false,
+            custom_style: false,
             class: undefined,
             style: undefined
         }

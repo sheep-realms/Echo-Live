@@ -1058,6 +1058,23 @@ const db_config_define = [
         attribute: {
             min: -1
         }
+    }, {
+        name: 'advanced.performance',
+        type: 'object',
+        created: 10
+    }, {
+        name: 'advanced.performance.foreach_text_style_by_message_data',
+        type: 'boolean',
+        default: false,
+        created: 10
+    }, {
+        name: 'advanced.performance.row_search_threshold',
+        type: 'number',
+        default: 1,
+        created: 10,
+        attribute: {
+            min: 0
+        }
     },
 
 

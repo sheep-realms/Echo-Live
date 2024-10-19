@@ -151,7 +151,15 @@ class DataFilter {
 
         let r;
 
-        if (this.filterMethod === 'row' || (this.filterMethod === 'auto' && this.data.length / conditionLength <= 1)) {
+        if (
+            this.filterMethod === 'row' ||
+            (
+                this.filterMethod === 'auto' && this.data.length
+                / conditionLength <= (
+                    config.advanced.performance.row_search_threshold ?? 1
+                )
+            )
+        ) {
             r = this.data.filter(e => {
                 return this.conditions.check(search, keywords, e);
             });

@@ -70,11 +70,17 @@ class EchoLiveTools {
         let style = '';
         if (data?.typewrite) cls += 'echo-text-typewrite '
         if (data?.style) {
-            for (const key in data.style) {
-                if (Object.prototype.hasOwnProperty.call(data.style, key)) {
-                    let r = echoLiveSystem.registry.getRegistryValue('text_style', key);
-                    if (r === undefined) continue;
-                    __setClassAndStyle(r);
+            if (!config.advanced.performance.foreach_text_style_by_message_data) {
+                echoLiveSystem.registry.forEach('text_style', e => {
+                    __setClassAndStyle(e);
+                });
+            } else {
+                for (const key in data.style) {
+                    if (Object.prototype.hasOwnProperty.call(data.style, key)) {
+                        let r = echoLiveSystem.registry.getRegistryValue('text_style', key);
+                        if (r === undefined) continue;
+                        __setClassAndStyle(r);
+                    }
                 }
             }
             // if (data.style?.rock)               cls     += 'echo-text-rock-'            + data.style.rock           + ' ';

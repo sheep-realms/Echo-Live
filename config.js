@@ -155,6 +155,10 @@ const config = {
             "display_config_key": false,
             "display_hidden_option": false,
             "speech_synthesis_voices_maximum": 64
+        },
+        "performance": {
+            "foreach_text_style_by_message_data": true,
+            "row_search_threshold": 1
         }
     },
     "selector": {},

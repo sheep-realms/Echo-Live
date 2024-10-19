@@ -88,6 +88,15 @@ echoLiveSystem.registry.init([
     }, {
         name: 'system'
     }, {
+        name: 'text_style',
+        unique_key: 'name',
+        default_data: {
+            name: undefined,
+            isStyle: false,
+            class: undefined,
+            style: undefined
+        }
+    }, {
         name: 'timing_function',
         unique_key: 'name',
         default_data: {

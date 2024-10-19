@@ -27,6 +27,42 @@ class EchoLiveTools {
      * @returns {Object} 类与样式
      */
     static messageStyleGenerator(data) {
+        function __setClassAndStyle(styleData) {
+            const value = data.style[styleData.name];
+            if (
+                typeof value === 'undefined' ||
+                Array.isArray(value) ||
+                typeof value === 'function' ||
+                typeof value === 'symbol'
+            ) return;
+
+            if (styleData.isStyle) {
+                if (typeof data.style.style === 'undefined') return;
+                style += data.style.style;
+                return;
+            }
+
+            if (typeof value === 'boolean' && !value) return;
+
+            if (typeof styleData.class !== 'undefined') {
+                if (!Array.isArray(styleData.class)) styleData.class = [styleData.class];
+                styleData.class.forEach(e => {
+                    let v = value;
+                    if (typeof value !== 'object') v = { value: v }
+
+                    cls += EchoLiveTools.replacePlaceholders(e, v);
+                    cls += ' ';
+                });
+            }
+
+            if (typeof styleData.style !== 'undefined') {
+                if (!Array.isArray(styleData.style)) styleData.style = [styleData.style];
+                styleData.style.forEach(e => {
+                    style += `${e}: ${value}; `;
+                });
+            }
+        }
+
         let cls = '';
         if (data?.class) {
             cls = data.class + ' ';
@@ -34,20 +70,14 @@ class EchoLiveTools {
         let style = '';
         if (data?.typewrite) cls += 'echo-text-typewrite '
         if (data?.style) {
-            if (data.style?.color)              style   += `color: ${data.style.color}; --echo-span-color: ${data.style.color}; `;
-            if (data.style?.backgroundColor)    style   += `background-color: ${data.style.backgroundColor}; `;
-            if (data.style?.bold && data.style?.weight == undefined) 
-                                                cls     += 'echo-text-bold ';
-            if (data.style?.italic)             cls     += 'echo-text-italic ';
-            if (data.style?.underline)          cls     += 'echo-text-underline ';
-            if (data.style?.strikethrough)      cls     += 'echo-text-strikethrough ';
-            if (data.style?.size)               cls     += 'echo-text-size-'            + data.style.size           + ' ';
-            if (data.style?.weight)             cls     += 'echo-text-weight-'          + data.style.weight         + ' ';
-            if (data.style?.stretch)            cls     += 'echo-text-stretch-'         + data.style.stretch        + ' ';
-            if (data.style?.letterSpacing)      cls     += 'echo-text-letter-spacing-'  + data.style.letterSpacing  + ' ';
-            if (data.style?.emphasis)           cls     += 'echo-text-emphasis';
-            if (data.style?.rock)               cls     += 'echo-text-rock-'            + data.style.rock           + ' ';
-            if (data.style?.style)              style   += data.style.style;
+            for (const key in data.style) {
+                if (Object.prototype.hasOwnProperty.call(data.style, key)) {
+                    let r = echoLiveSystem.registry.getRegistryValue('text_style', key);
+                    if (r === undefined) continue;
+                    __setClassAndStyle(r);
+                }
+            }
+            // if (data.style?.rock)               cls     += 'echo-text-rock-'            + data.style.rock           + ' ';
         }
 
         return {
@@ -487,5 +517,21 @@ class EchoLiveTools {
                 });
             }
         }
+    }
+
+    /**
+     * 替换字符串占位符
+     * @param {String} str 源字符串
+     * @param {Object} data 变量集
+     * @returns {String} 替换后的字符串
+     */
+    static replacePlaceholders(str, data) {
+        return str.replace(/\{(.*?)\}/g, (match, key) => {
+            key = key.trim();
+            if (data.hasOwnProperty(key) && (typeof data[key] === 'string' || typeof data[key] === 'number')) {
+                return data[key];
+            }
+            return match;
+        });
     }
 }

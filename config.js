@@ -157,7 +157,7 @@ const config = {
             "speech_synthesis_voices_maximum": 64
         },
         "performance": {
-            "foreach_text_style_by_message_data": true,
+            "foreach_text_style_by_message_data": false,
             "row_search_threshold": 1
         }
     },

@@ -899,3 +899,75 @@ class FHUIComponentButton {
         return FHUIComponentButton.button(content, data);
     }
 }
+
+
+class FHUIComponentMenu {
+    constructor() {}
+
+    static menu(list = [], data = {}) {
+        data = {
+            ...data
+        };
+
+        return FHUI.element(
+            'div',
+            {
+                aria: {
+                    role: 'menu'
+                },
+                class: 'fh-menu'
+            },
+            FHUIComponentMenu.menuList(list)
+        );
+    }
+
+    static menuList(list = []) {
+        let dom = '';
+        list.forEach(e => {
+            dom += FHUIComponentMenu.menuItem(e);
+        });
+        return dom;
+    }
+
+    static menuItem(data = {}) {
+        data = {
+            content: '',
+            icon: undefined,
+            children: [],
+            ...data
+        };
+
+        return FHUI.element(
+            'a',
+            {
+                aria: {
+                    role: 'menuitem'
+                },
+                class: 'fh-menu-item'
+            },
+            [
+                FHUI.element(
+                    'div',
+                    {
+                        class: 'icon-start'
+                    },
+                    data.icon !== undefined ? Icon[data.icon] : null
+                ),
+                FHUI.element(
+                    'div',
+                    {
+                        class: 'content'
+                    },
+                    data.content
+                ),
+                FHUI.element(
+                    'div',
+                    {
+                        class: 'icon-end'
+                    },
+                    data.children.length > 0 ? Icon['chevronRight'] : null
+                )
+            ]
+        );
+    }
+}

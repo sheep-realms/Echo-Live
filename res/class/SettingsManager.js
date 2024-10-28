@@ -137,7 +137,7 @@ class SettingsManager {
      * @param {Number} ver 目标版本号
      * @returns {Object} 升级后的配置
      */
-    updateConfigFromUnknowVersion(ver) {
+    updateConfigFromUnknownVersion(ver) {
         this.config.data_version = ver;
 
         let cd = this.getConfigDefine('', 0, ver);

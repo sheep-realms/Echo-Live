@@ -3,7 +3,7 @@
 let sysNotice = new SystemNotice();
 
 window.addEventListener("error", (e) => {
-    sysNotice.sendThasTitle('notice.unknow_error', {}, 'fatal');
+    sysNotice.sendThasTitle('notice.unknown_error', {}, 'fatal');
 });
 
 if (config.advanced.settings.display_config_key) $('html').addClass('display-config-key');
@@ -902,7 +902,7 @@ function importConfigCheck() {
     let dataVer = settingsManager.getConfig('data_version');
     if (dataVer == undefined) {
         showFileChecker(dropFile, 'update');
-        showFileCheckDialog(SettingsFileChecker.dialogUpdateConfigFromUnknowVersion());
+        showFileCheckDialog(SettingsFileChecker.dialogUpdateConfigFromUnknownVersion());
     } else if (dataVer < db_config_version) {
         showFileChecker(dropFile, 'update');
         showFileCheckDialog(SettingsFileChecker.dialogUpdateConfig());
@@ -1008,8 +1008,8 @@ $(document).on('click', '#btn-flie-check-dialog-update-config', function() {
     effectFlicker('#tabpage-nav-edit');
 });
 
-$(document).on('click', '#btn-flie-check-dialog-update-config-from-unknow-version', function() {
-    settingsManager.updateConfigFromUnknowVersion(db_config_version);
+$(document).on('click', '#btn-flie-check-dialog-update-config-from-unknown-version', function() {
+    settingsManager.updateConfigFromUnknownVersion(db_config_version);
     configLoad();
     showFileChecker(dropFile, 'loaded');
     closeFileCheckDialog();

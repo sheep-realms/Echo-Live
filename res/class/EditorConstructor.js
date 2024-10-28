@@ -1021,7 +1021,7 @@ class SettingsPanel {
             run = funSpecial[types[1]];
         }
 
-        if (run == undefined) run = 'setItemUnknow';
+        if (run == undefined) run = 'setItemUnknown';
 
         const title = $t( 'config.' + item.name + '._title' );
         const description = $t( 'config.' + item.name + '._description' );
@@ -1068,10 +1068,10 @@ class SettingsPanel {
         return dom;
     }
 
-    static setItemUnknow(type = '', id = '', title = '', description = '', value = '') {
+    static setItemUnknown(type = '', id = '', title = '', description = '', value = '') {
         return SettingsPanel.setItem(
             type, id, title, description,
-            `<span class="settings-unknow-config-type">${ $t('settings.unknow_config_type') }</span>`
+            `<span class="settings-unknown-config-type">${ $t('settings.unknown_config_type') }</span>`
         );
     }
 
@@ -1382,16 +1382,16 @@ class SettingsFileChecker {
     /**
      * 文件信息和状态
      * @param {File} file 文件
-     * @param {'ok'|'warn'|'error'|'unknow'} state 状态
+     * @param {'ok'|'warn'|'error'|'unknown'} state 状态
      * @param {String} stateMessage 状态消息
      * @returns {String} DOM
      */
-    static fill(file, state = 'unknow', stateMessage = '') {
+    static fill(file, state = 'unknown', stateMessage = '') {
         const icons = {
             ok: 'check',
             warn: 'alert',
             error: 'close',
-            unknow: 'help',
+            unknown: 'help',
         };
         return `<div class="file-check-box">
             <div class="info">
@@ -1532,10 +1532,10 @@ class SettingsFileChecker {
         );
     }
 
-    static dialogUpdateConfigFromUnknowVersion() {
+    static dialogUpdateConfigFromUnknownVersion() {
         return SettingsFileChecker.dialogWarn(
-            $t('settings.config_input.update_config_from_unknow_version.title'),
-            $t('settings.config_input.update_config_from_unknow_version.description'),
+            $t('settings.config_input.update_config_from_unknown_version.title'),
+            $t('settings.config_input.update_config_from_unknown_version.description'),
             EditorForm.buttonGhost(
                 $t('ui.cancel'),
                 {
@@ -1545,9 +1545,9 @@ class SettingsFileChecker {
                 }
             ) +
             EditorForm.button(
-                $t('settings.config_input.update_config_from_unknow_version.update'),
+                $t('settings.config_input.update_config_from_unknown_version.update'),
                 {
-                    id: 'btn-flie-check-dialog-update-config-from-unknow-version',
+                    id: 'btn-flie-check-dialog-update-config-from-unknown-version',
                     class: 'btn-default',
                     icon: Icon.update,
                     color: 'warn'

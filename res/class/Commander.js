@@ -353,7 +353,7 @@ class Commander {
         } else {
             return this.__messageConstructor(
                 'common',
-                StateMessage.getFail('unknow_option'),
+                StateMessage.getFail('unknown_option'),
                 { name: value }
             );
         }

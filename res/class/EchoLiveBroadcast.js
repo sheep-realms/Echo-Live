@@ -6,7 +6,7 @@ class EchoLiveBroadcast {
      */
     constructor(channel = EchoLiveBroadcast.DEFAULT_CHANNEL, config = undefined) {
         this.uuid       = undefined;
-        this.type       = EchoLiveBroadcast.TYPE_UNKNOW;
+        this.type       = EchoLiveBroadcast.TYPE_UNKNOWN;
         this.custom     = {
             name:       undefined,
             color:      undefined,
@@ -36,7 +36,7 @@ class EchoLiveBroadcast {
             API_NAME_ECHO_PRINTING:         'echo_printing',
             API_NAME_ECHO_STATE_UPDATE:     'echo_state_update',
             API_NAME_ERROR:                 'error',
-            API_NAME_ERROR_UNKNOW:          'error_unknow',
+            API_NAME_ERROR_UNKNOWN:         'error_unknown',
             API_NAME_HELLO:                 'hello',
             API_NAME_HISTORY_CLEAR:         'history_clear',
             API_NAME_LIVE_DISPLAY_UPDATE:   'live_display_update',
@@ -59,7 +59,7 @@ class EchoLiveBroadcast {
             TYPE_HISTORY:   'history',
             TYPE_PORTAL:    'live',
             TYPE_SERVER:    'server',
-            TYPE_UNKNOW:    'unknow'
+            TYPE_UNKNOWN:   'unknown'
         });
     }
 
@@ -682,7 +682,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
             source:     source,
             line:       line,
             col:        col
-        }, EchoLiveBroadcast.API_NAME_ERROR_UNKNOW, target);
+        }, EchoLiveBroadcast.API_NAME_ERROR_UNKNOWN, target);
     }
 
     /**

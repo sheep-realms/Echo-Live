@@ -5,13 +5,13 @@
 
 let sysNotice = new SystemNotice();
 
-let unknowErrorListenerDown = false;
+let unknownErrorListenerDown = false;
 window.addEventListener("error", (e) => {
-    if (unknowErrorListenerDown) return;
-    sysNotice.sendThasTitle('notice.unknow_error', {}, 'fatal');
-    unknowErrorListenerDown = true;
+    if (unknownErrorListenerDown) return;
+    sysNotice.sendThasTitle('notice.unknown_error', {}, 'fatal');
+    unknownErrorListenerDown = true;
     setTimeout(() => {
-        unknowErrorListenerDown = false;
+        unknownErrorListenerDown = false;
     }, 10000)
 });
 
@@ -143,7 +143,7 @@ $(document).ready(function() {
             editorLogT('editor.log.broadcast_launch.done', { channel: config.echolive.broadcast.channel });
             editorLog('User Agent: ' + navigator.userAgent, 'dbug');
 
-            if (navigator.userAgent.toLowerCase().search(/ obs\//) != -1) {
+            if (navigator.userAgent.toLowerCase().search(/ obs\//) !== -1) {
                 editorLogT('editor.log.broadcast_launch.user_agent_check', {}, 'done');
                 inOBS = true;
             } else {
@@ -278,7 +278,7 @@ function getMessage(data) {
             );
             break;
 
-        case 'error_unknow':
+        case 'error_unknown':
             editorLogT(
                 'editor.log.error.unknown_error_in_client',
                 {

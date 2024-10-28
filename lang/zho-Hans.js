@@ -77,7 +77,7 @@ const lang_zho_Hans = {
                 editor: "Echo-Live Editor",
                 history: "Echo-Live History",
                 live: "Echo-Live",
-                unknow: "未知终端"
+                unknown: "未知终端"
             }
         }
     },
@@ -90,7 +90,7 @@ const lang_zho_Hans = {
                 invalid_key_name: "语法错误：'{name}' 不是一个有效的键名",
                 invalid_number: "语法错误：无效的数字",
                 missing_parameter: "语法错误：缺少必要参数",
-                unknow_option: "语法错误：不存在名为 '{name}' 的选项",
+                unknown_option: "语法错误：不存在名为 '{name}' 的选项",
                 not_broadcast: "运行失败：广播未启动"
             },
             label: {
@@ -1379,7 +1379,7 @@ const lang_zho_Hans = {
             message: "这很有可能是因为您当前使用的浏览器不支持此功能。您还可以尝试拖放文件，但还是建议您更换浏览器。"
         },
         open_settings_in_obs: "请在浏览器中打开 settings.html，而不是在 OBS 中！",
-        unknow_error: {
+        unknown_error: {
             title: "发生了未捕获的错误",
             message: "这应该不是什么意料之中的战术性报错，您可以将此问题反馈给开发者，并提供复现方法。"
         }
@@ -1391,7 +1391,7 @@ const lang_zho_Hans = {
         settings: "Echo Live 配置文件编辑器"
     },
     settings: {
-        unknow_config_type: "暂不支持修改此配置",
+        unknown_config_type: "暂不支持修改此配置",
         config_input: {
             config_from_future: {
                 title: "配置文件来自未来版本",
@@ -1428,7 +1428,7 @@ const lang_zho_Hans = {
                 description: "此配置文件来自于旧版的 Echo-Live，需要更新才能使用。",
                 update: "更新"
             },
-            update_config_from_unknow_version: {
+            update_config_from_unknown_version: {
                 title: "未知的配置文件版本",
                 description: "此配置文件没有版本号，可能来自于 1.2.7 之前的版本。<br>您可以强制升级此配置文件，但并不能保证其正常运作，不建议您继续使用此配置文件。",
                 update: "强制更新"

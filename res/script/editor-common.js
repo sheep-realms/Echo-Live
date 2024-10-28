@@ -360,7 +360,7 @@ $(document).on('mouseenter', '#popups-palette.color-contrast-enable .color-box',
 
 // 拾色器快捷键
 $(document).on('keydown', '#popups-palette', function(e) {
-    // console.log(e.keyCode);
+    // console.log(e.code);
 
     let psv = [];
     let now = '';
@@ -376,13 +376,13 @@ $(document).on('keydown', '#popups-palette', function(e) {
         nextIndex = nowIndex;
     }
 
-    switch (e.keyCode) {
-        case 27:
+    switch (e.code) {
+        case 'Escape':
             popupsDisplay('#popups-palette', false);
             $('#ptext-content').focus();
             break;
 
-        case 81:
+        case 'KeyQ':
             getPaletteSelectValue();
             nextIndex--;
             if (nextIndex < 0) nextIndex = psv.length - 1;
@@ -391,7 +391,7 @@ $(document).on('keydown', '#popups-palette', function(e) {
             $('#popups-palette-select').focus();
             break;
 
-        case 69:
+        case 'KeyE':
             getPaletteSelectValue();
             nextIndex = ++nextIndex % psv.length;
             $('#popups-palette-select').val(psv[nextIndex]);
@@ -406,7 +406,7 @@ $(document).on('keydown', '#popups-palette', function(e) {
 
 // 表情包捷键
 $(document).on('keydown', '#popups-emoji', function(e) {
-    // console.log(e.keyCode);
+    // console.log(e.code);
 
     let psv = [];
     let now = '';
@@ -422,13 +422,13 @@ $(document).on('keydown', '#popups-emoji', function(e) {
         nextIndex = nowIndex;
     }
 
-    switch (e.keyCode) {
-        case 27:
+    switch (e.code) {
+        case 'Escape':
             popupsDisplay('#popups-emoji', false);
             $('#ptext-content').focus();
             break;
 
-        case 81:
+        case 'KeyQ':
             getPaletteSelectValue();
             nextIndex--;
             if (nextIndex < 0) nextIndex = psv.length - 1;
@@ -437,7 +437,7 @@ $(document).on('keydown', '#popups-emoji', function(e) {
             $('#popups-emoji-select').focus();
             break;
 
-        case 69:
+        case 'KeyE':
             getPaletteSelectValue();
             nextIndex = ++nextIndex % psv.length;
             $('#popups-emoji-select').val(psv[nextIndex]);
@@ -459,9 +459,9 @@ $(document).on('keydown', '#popups-emoji', function(e) {
 
 // 图片选择器快捷键
 $(document).on('keydown', '#popups-image', function(e) {
-    // console.log(e.keyCode);
-    switch (e.keyCode) {
-        case 27:
+    // console.log(e.code);
+    switch (e.code) {
+        case 'Escape':
             popupsDisplay('#popups-image', false);
             $('#ptext-content').focus();
             break;

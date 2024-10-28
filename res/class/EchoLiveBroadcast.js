@@ -65,7 +65,7 @@ class EchoLiveBroadcast {
 
     // 是否有自定义识别信息
     get hasCustom() {
-        if (this.custom.name != undefined || this.custom.color != undefined || JSON.stringify(this.custom.data) !== '{}') return true;
+        if (this.custom.name !== undefined || this.custom.color !== undefined || JSON.stringify(this.custom.data) !== '{}') return true;
         return false;
     }
 
@@ -87,9 +87,10 @@ class EchoLiveBroadcast {
 
     /**
      * 设置侦听回调函数
+     * @param {Number} depth 调用深度
      * @param {Function} action 回调函数
      * @param {Object} listener 监听对象
-     * @returns 
+     * @returns
      */
     setListenCallback(depth = 0, listener = this, action = function() {}) {
         this.listenCallbackListener[depth] = listener;
@@ -99,10 +100,11 @@ class EchoLiveBroadcast {
     /**
      * 运行侦听回调函数
      * @param {Object} data 数据
+     * @param {EchoLiveBroadcast} listener 监听对象
      */
     runListenCallback(data, listener = this) {
         let func = this.listenCallback[++this.listenCallbackDepth];
-        if (func == undefined) return;
+        if (func === undefined) return;
         func(data, this.listenCallbackListener[listener.depth]);
     }
 
@@ -122,7 +124,7 @@ class EchoLiveBroadcast {
      * @returns {String} 识别名
      */
     getName() {
-        if (this.custom.name == undefined || this.custom.name == '') return this.uuid;
+        if (this.custom.name === undefined || this.custom.name === '') return this.uuid;
         return this.custom.name;
     }
 
@@ -132,7 +134,7 @@ class EchoLiveBroadcast {
      * @returns {String|undefined} 已设置的识别名
      */
     setName(value) {
-        if (typeof value != 'string' || value == '') return;
+        if (typeof value != 'string' || value === '') return;
         if (value.startsWith('__')) return;
         this.custom.name = value;
         return this.custom.name;
@@ -159,7 +161,7 @@ class EchoLiveBroadcast {
         };
 
         this.broadcast.postMessage(d);
-        if (target === EchoLiveBroadcast.TARGET_WEBSOCKET_SERVER && target === undefined && this.websocket != undefined) {
+        if (target === EchoLiveBroadcast.TARGET_WEBSOCKET_SERVER && target === undefined && this.websocket !== undefined) {
             try {
                 this.websocket.send(JSON.stringify(d));
             } catch (error) {
@@ -181,10 +183,10 @@ class EchoLiveBroadcast {
         if (typeof data.target == 'string' && data.target.startsWith('@')) {
             if (data.target.startsWith('__', 1)) {
                 if (!this.targetTypeCheck(data.target.substring(3))) return;
-            } else if (data.target.substring(1) != this.custom.name) return;
-        } else if (data.target != undefined && data.target != this.uuid) return;
+            } else if (data.target.substring(1) !== this.custom.name) return;
+        } else if (data.target !== undefined && data.target !== this.uuid) return;
 
-        if (data.action == EchoLiveBroadcast.API_NAME_ERROR) this.event.error(data);
+        if (data.action === EchoLiveBroadcast.API_NAME_ERROR) this.event.error(data);
 
         this.runListenCallback(data);
     }
@@ -233,6 +235,8 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
      * Echo-Live 广播服务器
      * @param {String} channel 频道名称
      * @param {Object} config 配置
+     * @param {Object} initData 初始化数据
+     * @param {Boolean} initData.noPing 不发送 ping 消息
      */
     constructor(channel = EchoLiveBroadcast.DEFAULT_CHANNEL, config = undefined, initData = {}) {
         super(channel, config);
@@ -305,9 +309,9 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
      */
     setClientHidden(uuid, value) {
         let i = this.clients.findIndex(function(e) {
-            return e.uuid == uuid;
+            return e.uuid === uuid;
         });
-        if (i == -1) return;
+        if (i === -1) return;
         let r = this.clients[i].hidden = value;
         this.event.clientsChange(this.clients);
         return r;
@@ -322,9 +326,9 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
      */
     setEchoState(uuid, echoState = 'stop', messagesCount = 0) {
         let i = this.clients.findIndex(function(e) {
-            return e.uuid == uuid;
+            return e.uuid === uuid;
         });
-        if (i == -1) return;
+        if (i === -1) return;
         let r = this.clients[i] = {
             ...this.clients[i],
             echoState:      echoState,
@@ -419,13 +423,13 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
      */
     addClient(uuid, name, type = undefined, hidden = false) {
         let i = this.clients.findIndex(function(e) {
-            return e.uuid == uuid;
+            return e.uuid === uuid;
         });
-        if (i != -1) return;
+        if (i !== -1) return;
         clearTimeout(this.timer.noClient);
 
         let f = this.clients.filter(function(e) {
-            return e.name == name || e.uuid == name;
+            return e.name === name || e.uuid === name;
         });
 
         if (!this.config.advanced.broadcast.allow_name_duplicate && f.length > 0) {
@@ -439,7 +443,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
             type:   type ? type : 'client',
             hidden: hidden
         };
-        if (r.type == 'live') r = {
+        if (r.type === 'live') r = {
             ...r,
             echoState:      'stop',
             messagesCount:  0
@@ -458,9 +462,9 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
     removeClient(uuid) {
         if (!this.isServer) return;
         let i = this.clients.findIndex(function(e) {
-            return e.uuid == uuid;
+            return e.uuid === uuid;
         });
-        if (i == -1) return;
+        if (i === -1) return;
         let r = this.clients.splice(i, 1);
         this.event.clientsChange(this.clients);
         return r;
@@ -472,8 +476,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
      * @returns {Boolean} 结果
      */
     targetTypeCheck(type) {
-        if (type != EchoLiveBroadcast.TYPE_SERVER) return false;
-        return true;
+        return type === EchoLiveBroadcast.TYPE_SERVER;
     }
 
     /**
@@ -762,9 +765,9 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
      * 对话框客户端初始化
      */
     initPortal() {
-        if (this.config == undefined) this.config = this.echolive.config;
+        if (this.config === undefined) this.config = this.echolive.config;
 
-        if (this.echolive.custom.name != undefined) this.setName(this.echolive.custom.name);
+        if (this.echolive.custom.name !== undefined) this.setName(this.echolive.custom.name);
 
         this.setListenCallback(2, this, this.getDataPortal);
 
@@ -902,7 +905,7 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
      * 历史记录客户端初始化
      */
     initHistory() {
-        if (this.config == undefined) this.config = this.echoLiveHistory.config;
+        if (this.config === undefined) this.config = this.echoLiveHistory.config;
 
         this.setListenCallback(2, this, this.getDataHistory);
 

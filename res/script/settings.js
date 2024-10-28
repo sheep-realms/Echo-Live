@@ -1181,14 +1181,14 @@ $(document).on('click', '.settings-group-collapse-title', function() {
 
 
 $(document).keydown(function(e) {
-    if (e.keyCode == 83 && e.ctrlKey) {
+    if (e.code === 'KeyS' && e.ctrlKey) {
         e.preventDefault();
     }
 
     if (
         $('#tabpage-nav-edit[aria-selected="true"]').length > 0 &&
         $('.settings-controller-bottom:not(.disabled)').length > 0 &&
-        e.keyCode == 83 && e.ctrlKey
+        e.code === 'KeyS' && e.ctrlKey
     ) {
         configSaveAll(true);
         configExport('config.js');

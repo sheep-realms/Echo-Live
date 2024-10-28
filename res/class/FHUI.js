@@ -191,9 +191,9 @@ class FHUIComponentInput {
             __fhSelectOptionShow(this);
         });
         $(document).on('keydown', '.fh-input-select-component .fh-input-component .fh-input', function(e) {
-            // console.log(e.keyCode);
-            switch (e.keyCode) {
-                case 13:
+            // console.log(e.code);
+            switch (e.code) {
+                case 'Enter':
                     __fhSelectOptionShow(this, true);
                     break;
             
@@ -261,14 +261,14 @@ class FHUIComponentInput {
             const length = list.data('length');
             let index = list.data('index');
 
-            switch (e.keyCode) {
-                case 38:
+            switch (e.code) {
+                case 'ArrowUp':
                     e.preventDefault();
                     index--;
                     if (index < 0) index = length - 1;
                     break;
 
-                case 40:
+                case 'ArrowDown':
                     e.preventDefault();
                     index = ++index % length;
                     if (Number.isNaN(index)) index = -1;
@@ -289,22 +289,22 @@ class FHUIComponentInput {
             const list = $(this).parents('.fh-select-option-list').eq(0);
             const length = list.data('length');
             let index = $(this).data('index');
-            switch (e.keyCode) {
-                case 27:
+            switch (e.code) {
+                case 'Escape':
                     input.focus();
                     list.addClass('hide');
                     break;
 
-                case 37:
-                case 38:
+                case 'ArrowLeft':
+                case 'ArrowUp':
                     e.preventDefault();
                     index--;
                     if (index < 0) index = length - 1;
                     list.find(`.fh-select-option[data-index="${ index }"]`).eq(0).focus();
                     break;
 
-                case 39:
-                case 40:
+                case 'ArrowRight':
+                case 'ArrowDown':
                     e.preventDefault();
                     index = ++index % length;
                     if (Number.isNaN(index)) index = -1;

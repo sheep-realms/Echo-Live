@@ -102,7 +102,7 @@ $(document).ready(function() {
         }
     });
 
-    if (config.echo.print_speed != 30) {
+    if (config.echo.print_speed !== 30) {
         $('.echo-editor-form-input-tip').text($t('editor.form.description.print_speed_custom', { value: config.echo.print_speed }));
     }
 
@@ -121,7 +121,7 @@ $(document).ready(function() {
 
         // 输出 - 内容 - 快捷键
         $('#output-content').keydown(function(e) {
-            if (e.keyCode == 13 && e.ctrlKey) {
+            if (e.code === 'Enter' && e.ctrlKey) {
                 $('#output-btn-send').click();
                 effectClick('#output-btn-send');
             }
@@ -176,7 +176,7 @@ function editorLog(message = '', type = 'info') {
     }
 
     // 通知重要消息
-    if ((type == 'warn' || type == 'erro') && $('#tabpage-nav-log').attr('aria-selected') == 'false') {
+    if ((type === 'warn' || type === 'erro') && $('#tabpage-nav-log').attr('aria-selected') == 'false') {
         logMsgMark++;
         $('#log-message-mark').text(logMsgMark);
         $('#log-message-mark').removeClass('hide');
@@ -213,9 +213,9 @@ function getMessage(data) {
             break;
             
         case 'hello':
-            if (data.target == undefined || data.target == elb.uuid) {
+            if (data.target === undefined || data.target === elb.uuid) {
                 let helloMsg1 = data.data.hidden ? '_hidden' : '';
-                let helloMsg2 = data.target == elb.uuid ? '_reply' : '';
+                let helloMsg2 = data.target === elb.uuid ? '_reply' : '';
                 editorLogT(
                     'editor.log.broadcast.hello' + helloMsg2 + helloMsg1,
                     {
@@ -223,7 +223,7 @@ function getMessage(data) {
                         name: data.from?.name
                     }
                 );
-            } else if (data.target == '@__server') {
+            } else if (data.target === '@__server') {
                 editorLogT(
                     'editor.log.broadcast.hello_to_server',
                     {
@@ -283,7 +283,7 @@ function getMessage(data) {
                 'editor.log.error.unknown_error_in_client',
                 {
                     client: $t('broadcast.client.type.' + data.from.type),
-                    msg: data.data.message.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>'),
+                    msg: data.data.message.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/ {2}/g, '&nbsp; ').replace(/\n/g, '<br>'),
                     source: EchoLiveTools.safeHTML(data.data.source),
                     line: data.data.line,
                     col: data.data.col,
@@ -299,8 +299,8 @@ function getMessage(data) {
 
         case 'shutdown':
             editorLogT(
-                'editor.log.broadcast.shutdown' + (data.data?.reason != undefined ? '_reason' : ''),
-                data.data?.reason != undefined ? { reason: data.data?.reason } : {}
+                'editor.log.broadcast.shutdown' + (data.data?.reason !== undefined ? '_reason' : ''),
+                data.data?.reason !== undefined ? { reason: data.data?.reason } : {}
             );
             break
 
@@ -801,37 +801,37 @@ $(document).on('click', '.echo-live-client-state-block', function(e) {
 
 // 纯文本 - 内容 - 快捷键
 $('#ptext-content').keydown(function(e) {
-    // console.log(e.keyCode);
+    // console.log(e.code);
     if (e.ctrlKey) {
-        if (e.keyCode == 13) {
+        if (e.code === 'Enter') {
             if (!config.echolive.broadcast.enable) return;
             $('#ptext-btn-send').click();
             effectClick('#ptext-btn-send');
-        } else if (e.keyCode == 83) {
+        } else if (e.code === 'KeyS') {
             e.preventDefault();
         } else {
             let code = {
-                '66':   'bold',
-                '73':   'italic',
-                '85':   'underline',
-                '68':   'strikethrough',
-                '67':   'color',
-                '69':   'emoji',
-                '38':   'font_size_increase',
-                '40':   'font_size_decrease',
-                '32':   'clear'
+                'KeyB':         'bold',
+                'KeyI':         'italic',
+                'KeyU':         'underline',
+                'KeyD':         'strikethrough',
+                'KeyC':         'color',
+                'KeyE':         'emoji',
+                'ArrowUp':      'font_size_increase',
+                'ArrowDown':    'font_size_decrease',
+                'Space':        'clear'
             };
-            if (code[e.keyCode] == undefined) return;
-            if (e.keyCode == 32 && !e.shiftKey) return;
-            if (e.keyCode == 67 && !e.shiftKey) return;
-            if (e.keyCode == 73 && e.shiftKey) {
+            if (code[e.code] === undefined) return;
+            if (e.code === 'Space' && !e.shiftKey) return;
+            if (e.code === 'KeyC' && !e.shiftKey) return;
+            if (e.code == 'KeyI' && e.shiftKey) {
                 e.preventDefault();
                 $(`#ptext-editor .editor-controller:not(.disabled) button[data-value="image"]`).click();
                 return;
             }
 
             e.preventDefault();
-            $(`#ptext-editor .editor-controller:not(.disabled) button[data-value="${code[e.keyCode]}"]`).click();
+            $(`#ptext-editor .editor-controller:not(.disabled) button[data-value="${code[e.code]}"]`).click();
         }
     }
 })
@@ -840,7 +840,7 @@ $('#ptext-content').keydown(function(e) {
 
 
 $(document).keydown(function(e) {
-    if (e.keyCode == 191 && e.ctrlKey) {
+    if (e.code === 'Slash' && e.ctrlKey) {
         if ($('#commander-input-panel').hasClass('hide')) {
             $('#commander-input-panel').removeClass('hide');
             $('#commander-input').focus();
@@ -903,14 +903,14 @@ function commanderEnter() {
 }
 
 $('#commander-input').keydown(function(e) {
-    if (e.keyCode == 13) {
+    if (e.code === 'Enter') {
         e.preventDefault();
         if (commanderFnMode ? !e.ctrlKey : e.ctrlKey) {
             commanderEnter();
         } else {
             commanderRun();
         }
-    } else if (e.keyCode == 27) {
+    } else if (e.code === 'Escape') {
         e.preventDefault();
         $('#commander-input-panel').addClass('hide');
         $('#commander-input').blur();

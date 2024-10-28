@@ -45,8 +45,8 @@ class EchoLiveHistory {
         if (this.config.echolive.broadcast.enable) {
             this.broadcast = new EchoLiveBroadcastHistory(this.config.echolive.broadcast.channel, this, this.config);
             window.addEventListener("error", (e) => {
-                const msg       = e.error       != null ? e.error.stack : e.message;
-                const filename  = e.filename    != ''   ? e.filename    : 'null';
+                const msg       = e.error       !== null ? e.error.stack : e.message;
+                const filename  = e.filename    !== ''   ? e.filename    : 'null';
                 this.broadcast.error(msg, filename, e.lineno, e.colno);
             });
             this.broadcast.on('shutdown', reason => this.shutdown(reason));
@@ -99,7 +99,7 @@ class EchoLiveHistory {
      * @param {String} url 样式文件地址
      */
     setThemeStyleUrl(url) {
-        if ($('#echo-live-theme').attr('href') == url) return url;
+        if ($('#echo-live-theme').attr('href') === url) return url;
         $('#echo-live-theme').attr('href', url);
         return url;
     }
@@ -110,7 +110,7 @@ class EchoLiveHistory {
      * @returns {Object} 主题数据
      */
     findTheme(name) {
-        return this.theme.find((e) => e.name == name);
+        return this.theme.find((e) => e.name === name);
     }
 
     /**
@@ -120,7 +120,7 @@ class EchoLiveHistory {
      */
     setTheme(name) {
         const theme = this.findTheme(name);
-        if (theme == undefined) return;
+        if (theme === undefined) return;
 
         this.event.themeScriptUnload()
         this.event.themeScriptLoad      = function() {};

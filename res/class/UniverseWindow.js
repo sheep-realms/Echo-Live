@@ -41,7 +41,7 @@ class UniverseWindow {
         });
 
         $(document).on('keydown', '.fh-window', function(e) {
-            if (e.keyCode == 27) {
+            if (e.code === 'Escape') {
                 $(this).find('.fh-window-title .close').eq(0).click();
             }
         });

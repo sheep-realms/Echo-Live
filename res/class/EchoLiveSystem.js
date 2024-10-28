@@ -163,20 +163,20 @@ class EchoLiveRegistry {
     /**
      * 获取注册表
      * @param {String} key 注册表名
-     * @returns {Map} 注册表
+     * @returns {Map|undefined} 注册表
      */
     getRegistry(key) {
         if (typeof key !== 'string') return;
         key = EchoLiveData.filter('namespace_id', 'pad_namespace', key);
         let reg = this.registry.get(key);
         if (reg !== undefined && reg instanceof Map) return reg;
-        return;
+        return undefined;
     }
 
     /**
      * 创建注册表
      * @param {String} key 注册表名
-     * @returns {Map} 注册表
+     * @returns {Map|undefined} 注册表
      */
     createRegistry(key) {
         key = EchoLiveData.filter('namespace_id', 'pad_namespace', key);
@@ -244,7 +244,7 @@ class EchoLiveRegistry {
         let array = [];
         this.registry.forEach((v, k) => {
             let name = EchoLiveData.filter('namespace_id', 'get_id', k);
-            if (name == table) {
+            if (name === table) {
                 let v2;
                 if (key !== undefined) {
                     v2 = this.getRegistryValue(k, key);
@@ -283,7 +283,7 @@ class EchoLiveRegistry {
      * @param {String} table 注册表名
      * @param {String} key 注册表键
      * @param {*} value 注册表值
-     * @param {Data} data 附加数据
+     * @param {Object} data 附加数据
      * @param {Boolean} data.fill 强制覆盖
      * @param {Boolean} data.trigger_disable 禁用触发
      * @returns {*} 合并后的注册表值

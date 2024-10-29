@@ -75,7 +75,8 @@ echoLiveSystem.registry.init([
         unique_key: 'name',
         default_data: {
             name: undefined,
-            path: undefined
+            path: undefined,
+            allow_duplicate: false
         }
     }, {
         name: 'stylesheet',

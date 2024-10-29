@@ -1474,6 +1474,7 @@ const lang_zho_Hans = {
         }
     },
     sound: {
+        pencil: "铅笔",
         typewriter: "打字机",
         typewriter_loop: "打字机（随机音效）",
         sys001: "清脆敲击",

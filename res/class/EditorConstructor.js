@@ -1728,7 +1728,6 @@ class FHUIWindow {
     static window(content = '', title = '', data = {}) {
         data = {
             attr: undefined,
-            autoFocusButton: undefined,
             autoFocusButton: false,
             closable: true,
             icon: undefined,

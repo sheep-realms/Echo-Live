@@ -177,6 +177,7 @@ class EchoLiveBroadcast {
     getData(data) {
         if (typeof data != 'object') return;
         this.listenCallbackDepth = 0;
+        if (data?.from?.uuid === this.uuid) return;
         this.event.message(data);
 
         if (typeof data.target == 'string' && data.target.startsWith('@')) {

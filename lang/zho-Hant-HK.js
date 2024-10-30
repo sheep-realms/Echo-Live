@@ -469,6 +469,22 @@ const lang_zho_Hant_HK = {
                     _description: "用於生成可執行的消息發送命令。"
                 }
             },
+            websocket: {
+                _title: "WebSocket",
+                _description: "將編輯器連接到 WebSocket 伺服器",
+                enable: {
+                    _title: "啟用 WebSocket",
+                    _description: "如果沒人要求您這麼做，請不要動它。<br>廣播模式下啟用 WebSocket 可連接至伺服器以從通過第三方軟件發送消息。<br>可從伺服器接收的消息和廣播消息一致，發送的消息須使用類似於 JSON.stringify 的方法序列化。<br>詳見<a href='https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/' target='_blank'>幫助文檔</a>。"
+                },
+                url: {
+                    _title: "WebSocket 連接地址",
+                    _description: "提供 WebSocket 連接的伺服器地址，使用 ws:// 或 wss:// 協議頭。"
+                },
+                reconnect_limit: {
+                    _title: "WebSocket 最大重連嘗試次數",
+                    _description: "連接關閉和連接失敗將會嘗試重連，一旦超過重連嘗試次數限制將不再嘗試重連。"
+                }
+            },
             color_picker: {
                 _title: "拾色器",
                 _description: "拾色器相關配置",
@@ -815,6 +831,11 @@ const lang_zho_Hant_HK = {
                 close: "{client} 離開廣播頻道，識別名：{name}",
                 echo_next: "收到來自其他服務端的命令：打印下一條消息。",
                 echo_next_from_self_to_target: "已命令 {name} 打印下一條消息。",
+                editor_websocket_connect_close: "編輯器與 WebSocket 伺服器 {url} 連接中斷。",
+                editor_websocket_connect_error: "編輯器與 WebSocket 伺服器 {url} 連接出錯，進行第 {n} 次重連。",
+                editor_websocket_connect_error_retry_failed: "編輯器與 WebSocket 伺服器 {url} 連接出錯，重連次數超出限制。",
+                editor_websocket_connect_open: "編輯器與 WebSocket 伺服器 {url} 連接成功，編輯器 UUID：{uuid}",
+                editor_websocket_message_error: "編輯器解析 Websocket 伺服器消息時出錯。",
                 hello: "{client} 進入廣播頻道，識別名：{name}",
                 hello_hidden: "{client} 進入廣播頻道，已休眠，識別名：{name}",
                 hello_reply: "{client} 響應了廣播，識別名：{name}",

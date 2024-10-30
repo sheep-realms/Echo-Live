@@ -757,6 +757,40 @@ const db_config_define = [
             }
         ]
     }, {
+        name: 'editor.websocket',
+        type: 'object',
+        created: 10
+    }, {
+        name: 'editor.websocket.enable',
+        type: 'boolean',
+        default: false,
+        created: 10,
+    }, {
+        name: 'editor.websocket.url',
+        type: 'string',
+        default: 'ws://127.0.0.1:3000',
+        created: 10,
+        conditions: [
+            {
+                name: 'editor.websocket.enable',
+                value: true
+            }
+        ]
+    }, {
+        name: 'editor.websocket.reconnect_limit',
+        type: 'number',
+        default: 5,
+        created: 10,
+        attribute: {
+            min: 0
+        },
+        conditions: [
+            {
+                name: 'editor.websocket.enable',
+                value: true
+            }
+        ]
+    }, {
         name: 'editor.color_picker',
         type: 'object',
         created: 4

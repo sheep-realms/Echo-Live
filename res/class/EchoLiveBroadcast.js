@@ -160,7 +160,10 @@ class EchoLiveBroadcast {
         };
 
         this.broadcast.postMessage(d);
-        if (target === EchoLiveBroadcast.TARGET_WEBSOCKET_SERVER && target === undefined && this.websocket !== undefined) {
+        if (
+            (target === EchoLiveBroadcast.TARGET_WEBSOCKET_SERVER && target === undefined && this.websocket !== undefined)
+            || (this.type === EchoLiveBroadcast.TYPE_SERVER && this.websocket !== undefined)
+        ) {
             try {
                 this.websocket.send(JSON.stringify(d));
             } catch (error) {
@@ -242,6 +245,9 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         super(channel, config);
         this.type       = EchoLiveBroadcast.TYPE_SERVER;
         this.isServer   = true;
+        this.websocket                  = undefined;
+        this.websocketReconnectCount    = 0;
+        this.websocketClosed            = false;
         this.clients    = [];
         this.timer      = {
             noClient:   -1
@@ -251,9 +257,13 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         };
         this.event      = {
             ...this.event,
-            clientsChange:  function() {},
-            nameDuplicate:  function() {},
-            noClient:       function() {}
+            clientsChange:          function() {},
+            nameDuplicate:          function() {},
+            noClient:               function() {},
+            websocketConnectClose:  function() {},
+            websocketConnectOpen:   function() {},
+            websocketConnectError:  function() {},
+            websocketMessageError:  function() {},
         };
         this.depth      = 1;
 
@@ -273,6 +283,98 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
 
         this.uuid = EchoLiveTools.getUUID();
         if (!data.noPing) this.ping();
+
+        if (this.config.editor.websocket.enable) {
+            this.websocketConnect();
+        }
+    }
+
+    __readWebsocketMessage(message) {
+        try {
+            this.getData(JSON.parse(message));
+        } catch (error) {
+            this.event.websocketMessageError();
+        }
+    }
+
+    /**
+     * 连接 WebSocket 服务器
+     */
+    websocketConnect() {
+        this.websocketClosed    = false;
+        this.websocket          = new WebSocket(this.config.editor.websocket.url);
+
+        this.websocket.addEventListener('open', (e) => {
+            this.websocket.addEventListener('close', (e) => {
+                this.websocket = undefined;
+                this.websocketReconnect();
+            });
+
+            this.websocketReconnectCount = 0;
+            this.event.websocketConnectOpen({
+                url: this.config.editor.websocket.url,
+                uuid: this.uuid
+            });
+            this.ping();
+        });
+
+        this.websocket.addEventListener('message', (e) => {
+            if (e.data instanceof Blob) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    this.__readWebsocketMessage(reader.result);
+                };
+                reader.readAsText(e.data);
+            } else {
+                this.__readWebsocketMessage(e.data);
+            }
+        });
+
+        this.websocket.addEventListener('error', (e) => {
+            this.websocket = undefined;
+            this.websocketReconnect();
+        });
+
+        return this.websocket;
+    }
+
+    /**
+     * 重新连接 WebSocket 服务器
+     */
+    websocketReconnect() {
+        if (this.websocketClosed) return;
+
+        if (this.websocketReconnectCount >= this.config.editor.websocket.reconnect_limit) {
+            this.event.websocketConnectError({
+                url:            this.config.editor.websocket.url,
+                tryReconnect:   false,
+                reconnectCount: this.websocketReconnectCount
+            });
+            return;
+        }
+
+        this.websocketReconnectCount++;
+
+        this.event.websocketConnectError({
+            url:            this.config.editor.websocket.url,
+            tryReconnect:   true,
+            reconnectCount: this.websocketReconnectCount
+        });
+        
+        this.websocketConnect();
+    }
+
+    /**
+     * 关闭 WebSocket 连接
+     */
+    websocketClose() {
+        if (this.websocket == undefined) return;
+        this.event.websocketConnectClose({
+            url: this.config.editor.websocket.url,
+        });
+        this.websocketClosed    = true;
+        this.websocket.close();
+        this.websocket          = undefined;
     }
 
     /**
@@ -559,6 +661,14 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
         }
     }
 
+    __readWebsocketMessage(message) {
+        try {
+            this.getData(JSON.parse(message));
+        } catch (error) {
+            this.sendError('websocket_message_error');
+        }
+    }
+
     /**
      * 连接 WebSocket 服务器
      */
@@ -578,10 +688,14 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
         });
 
         this.websocket.addEventListener('message', (e) => {
-            try {
-                this.getData(JSON.parse(e.data));
-            } catch (error) {
-                this.sendError('websocket_message_error');
+            if (e.data instanceof Blob) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    this.__readWebsocketMessage(reader.result);
+                };
+                reader.readAsText(e.data);
+            } else {
+                this.__readWebsocketMessage(e.data);
             }
         });
 

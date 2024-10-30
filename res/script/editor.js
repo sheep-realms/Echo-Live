@@ -135,6 +135,10 @@ $(document).ready(function() {
         elb.on('error', getError);
         elb.on('noClient', noClient);
         elb.on('nameDuplicate', nameDuplicate);
+        elb.on('websocketConnectOpen', websocketConnectOpen);
+        elb.on('websocketConnectClose', websocketConnectClose);
+        elb.on('websocketConnectError', websocketConnectError);
+        elb.on('websocketMessageError', websocketMessageError);
 
         commander.link.broadcast = elb;
 
@@ -360,6 +364,26 @@ function nameDuplicate(name, uuid) {
     editorLogT('editor.log.error.name_duplicate', { name: name, uuid: uuid}, 'erro');
 }
 
+function websocketConnectOpen(data) {
+    editorLogT('editor.log.broadcast.editor_websocket_connect_open', data);
+}
+
+function websocketConnectClose(data) {
+    editorLogT('editor.log.broadcast.editor_websocket_connect_close', data, 'erro');
+}
+
+function websocketConnectError(data) {
+    let key = 'editor.log.broadcast.editor_websocket_connect_error';
+    if (!data.tryReconnect) key = 'editor.log.broadcast.editor_websocket_connect_error_retry_failed';
+    editorLogT(key, {
+        url: data.url,
+        n: data.reconnectCount
+    }, 'erro');
+}
+
+function websocketMessageError() {
+    editorLogT('editor.log.broadcast.editor_websocket_message_error', {}, 'erro');
+}
 
 // 纯文本重置
 $('#ptext-btn-clear').click(function() {

@@ -103,6 +103,11 @@ const config = {
             "ontput_after_enable": 0,
             "output_after": ");"
         },
+        "websocket": {
+            "enable": false,
+            "url": "ws://127.0.0.1:3000",
+            "reconnect_limit": 5
+        },
         "color_picker": {
             "palette": "all",
             "contrast_enable": false,

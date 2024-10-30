@@ -147,7 +147,9 @@ $(document).ready(function() {
             editorLogT('editor.log.broadcast_launch.done', { channel: config.echolive.broadcast.channel });
             editorLog('User Agent: ' + navigator.userAgent, 'dbug');
 
-            if (navigator.userAgent.toLowerCase().search(/ obs\//) !== -1) {
+            if (config.editor.websocket.enable) {
+                editorLogT('editor.log.broadcast_launch.user_agent_check_websocket', {}, 'done');
+            } else if (navigator.userAgent.toLowerCase().search(/ obs\//) !== -1) {
                 editorLogT('editor.log.broadcast_launch.user_agent_check', {}, 'done');
                 inOBS = true;
             } else {

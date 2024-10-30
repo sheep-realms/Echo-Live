@@ -859,6 +859,7 @@ const lang_zho_Hant_HK = {
                 disable: "未開啟廣播模式，無日誌顯示。",
                 done: "廣播模式已開啟：{channel}",
                 user_agent_check: "編輯器已正確安裝在 OBS 中！",
+                user_agent_check_websocket: "編輯器已啟用 WebSocket 連接！",
                 user_agent_error: "您似乎並未正確在 OBS 中安裝此編輯器，詳見：https://sheep-realms.github.io/Echo-Live-Doc/main/how-to-use/",
             },
             error: {

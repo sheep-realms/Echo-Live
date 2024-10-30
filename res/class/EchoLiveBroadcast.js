@@ -160,10 +160,7 @@ class EchoLiveBroadcast {
         };
 
         this.broadcast.postMessage(d);
-        if (
-            (target === EchoLiveBroadcast.TARGET_WEBSOCKET_SERVER && target === undefined && this.websocket !== undefined)
-            || (this.type === EchoLiveBroadcast.TYPE_SERVER && this.websocket !== undefined)
-        ) {
+        if (this.websocket !== undefined) {
             try {
                 this.websocket.send(JSON.stringify(d));
             } catch (error) {
@@ -540,7 +537,11 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
             return e.name === name || e.uuid === name;
         });
 
-        if (!this.config.advanced.broadcast.allow_name_duplicate && f.length > 0) {
+        if (
+            !this.config.advanced.broadcast.allow_name_duplicate
+            && !this.config.editor.websocket.enable
+            && f.length > 0
+        ) {
             this.event.nameDuplicate(name, uuid);
             return this.sendBroadcastClose(uuid);
         }
@@ -690,7 +691,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
             });
 
             this.websocketReconnectCount = 0;
-            this.sendHello(EchoLiveBroadcast.TARGET_WEBSOCKET_SERVER);
+            this.sendHello();
         });
 
         this.websocket.addEventListener('message', (e) => {

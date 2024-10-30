@@ -859,6 +859,7 @@ const lang_zho_Hans = {
                 disable: "未开启广播模式，无日志显示。",
                 done: "广播模式已开启：{channel}",
                 user_agent_check: "编辑器已正确安装在 OBS 中！",
+                user_agent_check_websocket: "编辑器已启用 WebSocket 连接！",
                 user_agent_error: "您似乎并未正确在 OBS 中安装此编辑器，详见：https://sheep-realms.github.io/Echo-Live-Doc/main/how-to-use/",
             },
             error: {

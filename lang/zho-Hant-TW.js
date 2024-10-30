@@ -477,11 +477,15 @@ const lang_zho_Hant_TW = {
                     _description: "如果沒人要求您這麼做，請不要動它。<br>廣播模式下啟用 WebSocket 可連線至伺服器以從透過第三方軟體傳送訊息。<br>可從伺服器接收的訊息和廣播訊息一致，傳送的訊息須使用類似於 JSON.stringify 的方法序列化。<br>詳見<a href='https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/' target='_blank'>幫助文件</a>。"
                 },
                 url: {
-                    _title: "WebSocket 連線地址",
+                    _title: "連線地址",
                     _description: "提供 WebSocket 連線的伺服器地址，使用 ws:// 或 wss:// 協議頭。"
                 },
+                auto_url: {
+                    _title: "自動設定連線地址",
+                    _description: "透過 HTTP(S) 協議訪問編輯器時，直接使用訪問地址作為連線地址，無需手動設定。"
+                },
                 reconnect_limit: {
-                    _title: "WebSocket 最大重連嘗試次數",
+                    _title: "最大重連嘗試次數",
                     _description: "連線關閉和連線失敗將會嘗試重連，一旦超過重連嘗試次數限制將不再嘗試重連。"
                 }
             },

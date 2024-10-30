@@ -106,6 +106,7 @@ const config = {
         "websocket": {
             "enable": false,
             "url": "ws://127.0.0.1:3000",
+            "auto_url": true,
             "reconnect_limit": 5
         },
         "color_picker": {

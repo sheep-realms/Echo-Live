@@ -477,11 +477,15 @@ const lang_zho_Hans = {
                     _description: "如果没人要求您这么做，请不要动它。<br>广播模式下启用 WebSocket 可连接至服务器以从通过第三方软件发送消息。<br>可从服务器接收的消息和广播消息一致，发送的消息须使用类似于 JSON.stringify 的方法序列化。<br>详见<a href='https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/' target='_blank'>帮助文档</a>。"
                 },
                 url: {
-                    _title: "WebSocket 连接地址",
+                    _title: "连接地址",
                     _description: "提供 WebSocket 连接的服务器地址，使用 ws:// 或 wss:// 协议头。"
                 },
+                auto_url: {
+                    _title: "自动设置连接地址",
+                    _description: "通过 HTTP(S) 协议访问编辑器时，直接使用访问地址作为连接地址，无需手动设置。"
+                },
                 reconnect_limit: {
-                    _title: "WebSocket 最大重连尝试次数",
+                    _title: "最大重连尝试次数",
                     _description: "连接关闭和连接失败将会尝试重连，一旦超过重连尝试次数限制将不再尝试重连。"
                 }
             },

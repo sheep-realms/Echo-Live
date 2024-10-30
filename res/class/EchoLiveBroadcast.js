@@ -297,12 +297,18 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         }
     }
 
+    get websocketUrl() {
+        if (!this.config.editor.websocket.auto_url) return this.config.editor.websocket.url;
+        if (location.protocol !== 'http:' && location.protocol !== 'https:') return this.config.editor.websocket.url;
+        return 'ws://' + location.host;
+    }
+
     /**
      * 连接 WebSocket 服务器
      */
     websocketConnect() {
         this.websocketClosed    = false;
-        this.websocket          = new WebSocket(this.config.editor.websocket.url);
+        this.websocket          = new WebSocket(this.websocketUrl);
 
         this.websocket.addEventListener('open', (e) => {
             this.websocket.addEventListener('close', (e) => {
@@ -312,7 +318,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
 
             this.websocketReconnectCount = 0;
             this.event.websocketConnectOpen({
-                url: this.config.editor.websocket.url,
+                url: this.websocketUrl,
                 uuid: this.uuid
             });
             this.ping();
@@ -346,7 +352,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
 
         if (this.websocketReconnectCount >= this.config.editor.websocket.reconnect_limit) {
             this.event.websocketConnectError({
-                url:            this.config.editor.websocket.url,
+                url:            this.websocketUrl,
                 tryReconnect:   false,
                 reconnectCount: this.websocketReconnectCount
             });
@@ -356,7 +362,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         this.websocketReconnectCount++;
 
         this.event.websocketConnectError({
-            url:            this.config.editor.websocket.url,
+            url:            this.websocketUrl,
             tryReconnect:   true,
             reconnectCount: this.websocketReconnectCount
         });
@@ -370,7 +376,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
     websocketClose() {
         if (this.websocket == undefined) return;
         this.event.websocketConnectClose({
-            url: this.config.editor.websocket.url,
+            url: this.websocketUrl,
         });
         this.websocketClosed    = true;
         this.websocket.close();

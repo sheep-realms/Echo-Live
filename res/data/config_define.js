@@ -765,6 +765,12 @@ const db_config_define = [
         type: 'boolean',
         default: false,
         created: 10,
+        conditions: [
+            {
+                name: 'echolive.broadcast.enable',
+                value: true
+            }
+        ]
     }, {
         name: 'editor.websocket.url',
         type: 'string',
@@ -772,6 +778,23 @@ const db_config_define = [
         created: 10,
         conditions: [
             {
+                name: 'echolive.broadcast.enable',
+                value: true
+            }, {
+                name: 'editor.websocket.enable',
+                value: true
+            }
+        ]
+    }, {
+        name: 'editor.websocket.auto_url',
+        type: 'boolean',
+        default: true,
+        created: 10,
+        conditions: [
+            {
+                name: 'echolive.broadcast.enable',
+                value: true
+            }, {
                 name: 'editor.websocket.enable',
                 value: true
             }
@@ -786,6 +809,9 @@ const db_config_define = [
         },
         conditions: [
             {
+                name: 'echolive.broadcast.enable',
+                value: true
+            }, {
                 name: 'editor.websocket.enable',
                 value: true
             }

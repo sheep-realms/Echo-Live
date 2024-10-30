@@ -320,7 +320,7 @@ function getError(data) {
                 editorLogT(
                     'editor.log.error.websocket_error',
                     {
-                        client: $t('broadcast.client.type.live'),
+                        client: $t('broadcast.client.type.' + data?.from?.type),
                         url: data.data.url,
                         n: data.data.reconnectCount,
                         name: data.from.name
@@ -331,7 +331,7 @@ function getError(data) {
                 editorLogT(
                     'editor.log.error.websocket_error_retry_failed',
                     {
-                        client: $t('broadcast.client.type.live'),
+                        client: $t('broadcast.client.type.' + data?.from?.type),
                         url: data.data.url,
                         name: data.from.name
                     },

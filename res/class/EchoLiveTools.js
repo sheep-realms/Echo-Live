@@ -220,21 +220,22 @@ class EchoLiveTools {
         ];
         let fontSizeFindIndex;
 
-        function msgPush(msg = '', style = undefined, data = undefined) {
+        function msgPush(msg = '', style = undefined, data = undefined, domClass = undefined) {
             msg = msg.replace(/{{{sheep-realms:at}}}/g, '@');
             if (style === undefined) return message.push(msg);
             let output = {
                 text: msg
             };
-            if (Object.keys(style).length !== 0)    output.style    = style;
-            if (data    !== undefined)              output.data     = data;
+            if (Object.keys(style).length !== 0)            output.style    = style;
+            if (domClass !== undefined && domClass !== '')  output.class    = domClass.trim();
+            if (data !== undefined)                         output.data     = data;
             return message.push(output);
         }
 
         let replaced = text;
         replaced = replaced.replace(/\\@/g, '{{{sheep-realms:at}}}');
         replaced = replaced.replace(
-            /@(\[#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})\]|\{.*?\}|.?)/g,
+            /@(\[#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})\]|\{.*?\}|<.*?>|.?)/g,
             '{{{sheep-realms:split}}}@$1{{{sheep-realms:format}}}'
         );
 
@@ -245,6 +246,7 @@ class EchoLiveTools {
         }
 
         let styleCache = {};
+        let classCache = '';
 
         for (let i = 0; i < arrayMsg.length; i++) {
             const e = arrayMsg[i];
@@ -256,6 +258,7 @@ class EchoLiveTools {
             let style       = {};
             let imageKey    = '';
             let imageObj    = {};
+            let cls;
             switch (e[0]) {
                 case '@b':
                     style.bold = true;
@@ -293,16 +296,16 @@ class EchoLiveTools {
 
                 case '@r':
                     styleCache = {};
+                    classCache = '';
                     if (e[1] !== '') msgPush(e[1]);
                     continue;
             
                 default:
-                    if (e[0].search(/^@\[.*\]$/g) != -1) {
+                    if (e[0].search(/^@\[.*\]$/g) !== -1) {
                         style.color = e[0].substring(2, e[0].length - 1);
                         break;
-                    } else if (e[0].search(/^@\{.*\}$/g) != -1) {
+                    } else if (e[0].search(/^@\{.*\}$/g) !== -1) {
                         imageKey = e[0].substring(2, e[0].length - 1);
-
                         
                         if (imageKey.split(':')[0] === 'sys') {
                             // 插入图片
@@ -329,6 +332,14 @@ class EchoLiveTools {
                             );
                         }
                         continue;
+                    } else if (e[0].search(/^@<.*>$/g) !== -1) {
+                        cls = e[0].substring(2, e[0].length - 1);
+                        if (cls.startsWith(':')) {
+                            classCache += `${cls.substring(1)} `;
+                        } else {
+                            classCache += `echo-text-${cls} `;
+                        }
+                        break;
                     } else {
                         msgPush(e[0] + e[1]);
                         continue;
@@ -338,7 +349,7 @@ class EchoLiveTools {
 
             if (e[1] !== '') {
                 style = {...styleCache, ...style};
-                msgPush(e[1], style);
+                msgPush(e[1], style, undefined, classCache);
             }
         }
 

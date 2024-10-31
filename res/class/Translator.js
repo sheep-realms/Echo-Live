@@ -17,8 +17,8 @@ class Translator {
         const langIndex = echoLiveSystem.registry.getRegistryArray('language_index');
         this.langIndex = langIndex;
         this.langMain = mainLang;
-        const mainLangData = langIndex.filter(e => e.code == mainLang)[0];
-        const selectedLangData = langIndex.filter(e => e.code == this.lang)[0];
+        const mainLangData = langIndex.filter(e => e.code === mainLang)[0];
+        const selectedLangData = langIndex.filter(e => e.code === this.lang)[0];
         this.initialized = true;
         echoLiveSystem.registry.onSetRegistryValue('language', '*', data => {
             this.load(data.value);
@@ -73,15 +73,15 @@ class Translator {
         }
 
         // 配置排错
-        if (this.i18n[this.lang] == undefined) this.lang = this.langMain;
-        if (this.i18n[this.lang] == undefined) return key;
+        if (this.i18n[this.lang] === undefined) this.lang = this.langMain;
+        if (this.i18n[this.lang] === undefined) return key;
 
         // 提取翻译文本
         let keys = key.split('.');
         let objI18n = !__inPlanB ? this.i18n[this.lang] : this.i18n[this.langMain];
         for (const k of keys) {
-            if (objI18n[k] == undefined) {
-                if (!__inPlanB && this.lang != this.langMain) return this.output(key, variable, true);
+            if (objI18n[k] === undefined) {
+                if (!__inPlanB && this.lang !== this.langMain) return this.output(key, variable, true);
                 return key;
             }
             objI18n = objI18n[k];
@@ -90,7 +90,7 @@ class Translator {
 
         // 校验数据
         if (typeof t != 'string') {
-            if (!__inPlanB && this.lang != this.langMain) return this.output(key, variable, true);
+            if (!__inPlanB && this.lang !== this.langMain) return this.output(key, variable, true);
             return key;
         }
 
@@ -123,9 +123,9 @@ class Translator {
             ts[i] = ts[i].trim();
         }
         let n = variable?.n ? variable.n : 0;
-        if (ts.length == 1) {
+        if (ts.length === 1) {
             return t;
-        } else if (ts.length == 2) {
+        } else if (ts.length === 2) {
             if (n <= 1) {
                 return ts[0];
             } else {

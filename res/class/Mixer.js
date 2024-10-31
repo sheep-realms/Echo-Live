@@ -4,13 +4,24 @@ class Mixer {
         this.lastSoundRandomIndex = 0;
     }
 
+    /**
+     * 查找音效数据
+     * @param {String} name 音效名称
+     * @returns {Object} 音效数据
+     */
     find(name) {
         return echoLiveSystem.registry.getRegistryValue('sound', name);
     }
 
+    /**
+     * 播放音效
+     * @param {String} name 音效名称
+     * @param {Number} volume 音量
+     * @param {Number} rate 播放速度
+     */
     play(name, volume = undefined, rate = undefined) {
         let obj = this.find(name);
-        if (obj == undefined) return undefined;
+        if (obj === undefined) return undefined;
 
         let a;
         this.lastSoundName = name;
@@ -24,17 +35,17 @@ class Mixer {
             a = new Audio(obj.path);
         }
 
-        if (volume != undefined) {
+        if (volume !== undefined) {
             a.volume = volume
-        } else if (obj?.volume != undefined) {
+        } else if (obj?.volume !== undefined) {
             a.volume = obj.volume
         } else {
             a.volume = 1;
         };
 
-        if (rate != undefined) {
+        if (rate !== undefined) {
             a.playbackRate = rate
-        } else if (obj?.rate != undefined) {
+        } else if (obj?.rate !== undefined) {
             a.playbackRate = obj.rate
         } else {
             a.playbackRate = 1;
@@ -44,9 +55,13 @@ class Mixer {
         a.play();
     }
 
+    /**
+     * 预载音效
+     * @param {String} name 音效名称
+     */
     preload(name) {
         let obj = this.find(name);
-        if (obj == undefined) return undefined;
+        if (obj === undefined) return undefined;
 
         if (!Array.isArray(obj.path)) obj.path = [obj.path];
 

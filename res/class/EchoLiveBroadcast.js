@@ -371,7 +371,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
      * 关闭 WebSocket 连接
      */
     websocketClose() {
-        if (this.websocket == undefined) return;
+        if (this.websocket === undefined) return;
         this.event.websocketConnectClose({
             url: this.websocketUrl,
         });
@@ -744,7 +744,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      * 关闭 WebSocket 连接
      */
     websocketClose() {
-        if (this.websocket == undefined) return;
+        if (this.websocket === undefined) return;
         this.websocketClosed    = true;
         this.websocket.close();
         this.websocket          = undefined;
@@ -815,8 +815,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      * @returns {Boolean} 结果
      */
     targetTypeCheck(type) {
-        if (type != EchoLiveBroadcast.TYPE_CLIENT && type != this.type) return false;
-        return true;
+        return !(type !== EchoLiveBroadcast.TYPE_CLIENT && type !== this.type);
     }
 
     /**

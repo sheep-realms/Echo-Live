@@ -15,7 +15,7 @@ class FHUI {
                 let val = e;
                 if (typeof e === 'object') {
                     if (Array.isArray(e)) {
-                        val = e.filter(e2 => e2 != undefined && e2 != null).join(' ');
+                        val = e.filter(e2 => e2 !== undefined && e2 !== null).join(' ');
                     } else {
                         dom += FHUI.subAttributes(key, e) + ' ';
                         continue;
@@ -40,7 +40,7 @@ class FHUI {
                 const e = subAttr[key];
                 let val = e;
                 if (Array.isArray(e)) {
-                    val = e.filter(e2 => e2 != undefined && e2 != null).join(' ');
+                    val = e.filter(e2 => e2 !== undefined && e2 !== null).join(' ');
                 }
                 dom += `${ attrName }-${ key }="${ String(val).replace(/"/g, '&quot;') }" `
             }
@@ -624,13 +624,13 @@ class FHUIComponentInput {
             }
             if (!hasDescription && e.description !== undefined) hasDescription = true;
 
-            if (e.value == value) selectedIndex.push(i);
+            if (e.value === value) selectedIndex.push(i);
 
             optionsDOM += FHUI.element(
                 'button',
                 {
                     aria: {
-                        selected: e.value == value
+                        selected: e.value === value
                     },
                     class: 'fh-select-option',
                     data: {

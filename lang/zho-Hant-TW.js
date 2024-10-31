@@ -1162,7 +1162,7 @@ const lang_zho_Hant_TW = {
                 update: "舊版"
             }
         },
-        droper: {
+        dropper: {
             title: "檔案選擇器",
             drop_file_cancel: "不放算了，哼！",
             drop_file_cancel_many: "一位使用者反覆拖拽檔案，這是他的程式發生的變化",

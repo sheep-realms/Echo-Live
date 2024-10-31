@@ -12,7 +12,7 @@ class EchoLiveEditor {
         let output = [];
         palettes.forEach(e => {
             let p = echoLiveSystem.registry.getRegistryValue('palette', e);
-            if (p != undefined) output.push(p);
+            if (p !== undefined) output.push(p);
         });
 
         return output;
@@ -27,7 +27,7 @@ class EchoLiveEditor {
         let output = [];
         emojiConfig.forEach(e => {
             let emojiPack = this.emojiHako.getEmojiPack(e);
-            if (emojiPack != undefined) output.push(emojiPack);
+            if (emojiPack !== undefined) output.push(emojiPack);
         });
 
         return output;

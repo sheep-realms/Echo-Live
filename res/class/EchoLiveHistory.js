@@ -22,8 +22,7 @@ class EchoLiveHistory {
      * 主题脚本是否启用
      */
     get themeScriptEnable() {
-        if (this.config.history.style.history_theme_script_enable && this.config.global.theme_script_enable) return true;
-        return false;
+        return this.config.history.style.history_theme_script_enable && this.config.global.theme_script_enable;
     }
     
     /**
@@ -34,11 +33,7 @@ class EchoLiveHistory {
 
         if (this.config.echolive.sleep.enable) {
             document.addEventListener("visibilitychange", () => {
-                if (document.visibilityState === "visible") {
-                    this.hidden = false;
-                } else {
-                    this.hidden = true;
-                }
+                this.hidden = document.visibilityState !== "visible";
             });
         }
 

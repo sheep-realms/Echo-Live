@@ -8,7 +8,7 @@ let sysNotice = new SystemNotice();
 let unknownErrorListenerDown = false;
 window.addEventListener("error", (e) => {
     if (unknownErrorListenerDown) return;
-    sysNotice.sendThasTitle('notice.unknown_error', {}, 'fatal');
+    sysNotice.sendTHasTitle('notice.unknown_error', {}, 'fatal');
     unknownErrorListenerDown = true;
     setTimeout(() => {
         unknownErrorListenerDown = false;
@@ -168,7 +168,7 @@ $(document).ready(function() {
 let logMsgMark = 0;
 
 function editorLog(message = '', type = 'info') {
-    $('#editor-log').append(`<div role="listitem" class="log-item log-type-${type}" ${type == 'dbug' ? 'aria-hidden="true"' : ''}><span class="time" aria-hidden="true">${EchoLiveTools.formatDate(undefined, 'date_time_common')}</span> <span class="type" aria-label="${ $t('editor.log.accessibility.type.' + type) }">[${type.toUpperCase()}]</span> <span class="message" ${type == 'erro' || type == 'warn' ? ' role="alert"' : ''}>${message}</span></div>`);
+    $('#editor-log').append(`<div role="listitem" class="log-item log-type-${type}" ${type === 'dbug' ? 'aria-hidden="true"' : ''}><span class="time" aria-hidden="true">${EchoLiveTools.formatDate(undefined, 'date_time_common')}</span> <span class="type" aria-label="${ $t('editor.log.accessibility.type.' + type) }">[${type.toUpperCase()}]</span> <span class="message" ${type === 'erro' || type === 'warn' ? ' role="alert"' : ''}>${message}</span></div>`);
     $('#editor-log').scrollTop(4503599627370496);
 
     if ($('#tabpage-nav-log[aria-selected="true"]').length <= 0) {
@@ -1004,6 +1004,6 @@ $(window).resize(function() {
         sysNotice.sendT('notice.browser_zoom', {}, 'tips');
     } else if (devicePixelRatioChanged === 1 && initDevicePixelRatio == window.devicePixelRatio) {
         devicePixelRatioChanged = -1;
-        sysNotice.sendThasTitle('notice.browser_zoom_reset', {}, 'trophy');
+        sysNotice.sendTHasTitle('notice.browser_zoom_reset', {}, 'trophy');
     }
 });

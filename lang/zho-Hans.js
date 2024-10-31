@@ -1162,7 +1162,7 @@ const lang_zho_Hans = {
                 update: "旧版"
             }
         },
-        droper: {
+        dropper: {
             title: "文件选择器",
             drop_file_cancel: "不放算了，哼！",
             drop_file_cancel_many: "一位用户反复拖拽文件，这是他的程序发生的变化",

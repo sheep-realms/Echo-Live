@@ -111,10 +111,10 @@ class EchoLiveTools {
     static getMessagePlainText(message, HTMLFilter = false, noEmoji = false, regFilter = undefined) {
         let str = '';
 
-        if (typeof message == 'object' && message?.message != undefined) message = message.message;
+        if (typeof message == 'object' && message?.message !== undefined) message = message.message;
         if (typeof message == 'string') {
             str = message;
-            if (HTMLFilter) str = str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>');
+            if (HTMLFilter) str = str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/ {2}/g, '&nbsp; ').replace(/\n/g, '<br>');
             if (noEmoji)    str = str.replace(/\p{Emoji}/gu, '');
             if (regFilter instanceof RegExp) str = str.replace(regFilter, '');
             return str;
@@ -149,7 +149,7 @@ class EchoLiveTools {
             }
         });
 
-        if (HTMLFilter) str = str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>');
+        if (HTMLFilter) str = str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/ {2}/g, '&nbsp; ').replace(/\n/g, '<br>');
         if (noEmoji)    str = str.replace(/\p{Emoji}/gu, '');
         if (regFilter instanceof RegExp) str = str.replace(regFilter, '');
 
@@ -180,7 +180,7 @@ class EchoLiveTools {
 
         if (typeof u2 == 'string') u = u2;
 
-        if (HTMLFilter) u.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ');
+        if (HTMLFilter) u.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/ {2}/g, '&nbsp; ');
 
         return u;
     }
@@ -194,8 +194,8 @@ class EchoLiveTools {
     static getMessageSendLog(message, username = '') {
         username = EchoLiveTools.safeHTML(username);
         if (typeof message != 'string') message = EchoLiveTools.safeHTML(EchoLiveTools.getMessagePlainText(message));
-        if (message     == '') message  = `<i>${ $t( 'message_preview.empty_message' ) }</i>`;
-        if (username    == '') username = `<i>${ $t( 'message_preview.empty_username' ) }</i>`;
+        if (message     === '') message  = `<i>${ $t( 'message_preview.empty_message' ) }</i>`;
+        if (username    === '') username = `<i>${ $t( 'message_preview.empty_username' ) }</i>`;
 
         return `<${ username }> ${ message }`;
     }
@@ -222,12 +222,12 @@ class EchoLiveTools {
 
         function msgPush(msg = '', style = undefined, data = undefined) {
             msg = msg.replace(/{{{sheep-realms:at}}}/g, '@');
-            if (style == undefined) return message.push(msg);
+            if (style === undefined) return message.push(msg);
             let output = {
                 text: msg
             };
-            if (style   != undefined && Object.keys(style).length != 0) output.style    = style;
-            if (data    != undefined)                                   output.data     = data;
+            if (Object.keys(style).length !== 0)    output.style    = style;
+            if (data    !== undefined)              output.data     = data;
             return message.push(output);
         }
 
@@ -249,7 +249,7 @@ class EchoLiveTools {
         for (let i = 0; i < arrayMsg.length; i++) {
             const e = arrayMsg[i];
             if (e.length < 2) {
-                if (e[0] != '') msgPush(e[0]);
+                if (e[0] !== '') msgPush(e[0]);
                 continue;
             }
 
@@ -275,7 +275,7 @@ class EchoLiveTools {
 
                 case '@+':
                     style.size = 'large';
-                    if (styleCache?.size != undefined) {
+                    if (styleCache?.size !== undefined) {
                         fontSizeFindIndex   = fontSizeValue.indexOf(styleCache?.size);
                         fontSizeFindIndex   = Math.min(fontSizeFindIndex + 1, fontSizeValue.length - 1);
                         style.size          = fontSizeValue[fontSizeFindIndex];
@@ -284,7 +284,7 @@ class EchoLiveTools {
 
                 case '@-':
                     style.size = 'small';
-                    if (styleCache?.size != undefined) {
+                    if (styleCache?.size !== undefined) {
                         fontSizeFindIndex   = fontSizeValue.indexOf(styleCache?.size);
                         fontSizeFindIndex   = Math.max(fontSizeFindIndex - 1, 0);
                         style.size          = fontSizeValue[fontSizeFindIndex];
@@ -293,7 +293,7 @@ class EchoLiveTools {
 
                 case '@r':
                     styleCache = {};
-                    if (e[1] != '') msgPush(e[1]);
+                    if (e[1] !== '') msgPush(e[1]);
                     continue;
             
                 default:
@@ -306,7 +306,7 @@ class EchoLiveTools {
                         
                         if (imageKey.split(':')[0] === 'sys') {
                             // 插入图片
-                            if (imageKey.split(':')[1] === 'img' && data?.images != undefined) {
+                            if (imageKey.split(':')[1] === 'img' && data?.images !== undefined) {
                                 imageObj = data.images[imageKey.split(':')[2]];
                                 delete imageObj?.isAbsolute;
                                 delete imageObj?.isPixelated;
@@ -336,7 +336,7 @@ class EchoLiveTools {
             }
             styleCache = {...styleCache, ...style};
 
-            if (e[1] != '') {
+            if (e[1] !== '') {
                 style = {...styleCache, ...style};
                 msgPush(e[1], style);
             }
@@ -389,7 +389,7 @@ class EchoLiveTools {
      * @returns  {Object} 日期时间数据
      */
     static formatDateToObject(value = undefined) {
-        let date = value != undefined ? new Date(value) : new Date();
+        let date = value !== undefined ? new Date(value) : new Date();
         const padZero = (num, pad = 2) => num.toString().padStart(pad, '0');
     
         const y = date.getFullYear();
@@ -399,11 +399,11 @@ class EchoLiveTools {
         const m = date.getMinutes();
         const s = date.getSeconds();
         const ms = date.getMilliseconds();
-        const utcz = date.getTimezoneOffset() / 60
-        const utc = utcz < 0 ? utcz * -1 : utcz * 1
+        const utcz = date.getTimezoneOffset() / 60;
+        const utc = utcz < 0 ? utcz * -1 : utcz;
         const h12 = (h % 12) || 12;
         let utcs = '';
-        if (utc != 0) {
+        if (utc !== 0) {
             utcs = ( utc > 0 ? '+' : '-' ) + utc
         }
     
@@ -471,7 +471,7 @@ class EchoLiveTools {
     /**
      * 生成 driver.js 引导数据
      * @param {Object} data 附加数据
-     * @param {Array<Object>} step 步骤数据
+     * @param {Array<Object>} steps 步骤数据
      * @returns {Object} 引导数据
      */
     static generateDriverData(data = {}, steps = []) {

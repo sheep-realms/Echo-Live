@@ -48,20 +48,17 @@ class EchoLive {
 
     // 主题脚本是否启用
     get themeScriptEnable() {
-        if (this.config.echolive.style.live_theme_script_enable && this.config.global.theme_script_enable) return true;
-        return false;
+        return this.config.echolive.style.live_theme_script_enable && this.config.global.theme_script_enable;
     }
 
     // 是否有自定义识别信息
     get hasCustom() {
-        if (this.custom.name !== undefined || this.custom.color !== undefined || JSON.stringify(this.custom.data) !== '{}') return true;
-        return false;
+        return this.custom.name !== undefined || this.custom.color !== undefined || JSON.stringify(this.custom.data) !== '{}';
     }
 
     // 是否处于打印中
     get inPrinting() {
-        if (this.echo.state !== 'stop') return true;
-        return false;
+        return this.echo.state !== 'stop';
     }
 
     // 当前任务数

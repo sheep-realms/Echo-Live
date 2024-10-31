@@ -60,8 +60,7 @@ class DataFilter {
      * 是否有数据更新器
      */
     get hasDataUpdater() {
-        if (typeof this.dataUpdater === 'function') return true;
-        return false;
+        return typeof this.dataUpdater === 'function';
     }
 
     /**
@@ -173,7 +172,7 @@ class DataFilter {
                         if (this.conditions.search(value, keywords)) {
                             e2.__index = this.conditions.searchIndexOf(value, keywords)
                             return true;
-                        };
+                        }
                         return false;
                     });
                 } else if (this.conditions.checkSearchByName(e.name, search)) {
@@ -184,7 +183,7 @@ class DataFilter {
             });
         }
 
-        if (r.length == 0) return r;
+        if (r.length === 0) return r;
         r.sort((a, b) => DataFilter.compareArrays(a.__index, b.__index));
 
         return r;
@@ -230,7 +229,7 @@ class DataFilterConditions {
      */
     findCondition(name) {
         let r = this.conditions.filter(e => e.name === name);
-        if (r.length == 0) return;
+        if (r.length === 0) return;
         return r[0];
     }
 
@@ -245,7 +244,7 @@ class DataFilterConditions {
         if (typeof condition?.map[type] === 'string' || (type === 'value' && Array.isArray(condition.map.value))) {
             if (type === 'search') {
                 let r = item.filter(e => e.name === condition.map.search);
-                if (r.length == 0) return;
+                if (r.length === 0) return;
                 return r;
             } else {
                 if (Array.isArray(condition.map.value)) {
@@ -262,7 +261,6 @@ class DataFilterConditions {
         } else if (typeof condition?.map[type] === 'function') {
             return condition.map[type](item);
         }
-        return;
     }
 
     mappingByName(type = 'value', name, item = {}) {
@@ -295,7 +293,7 @@ class DataFilterConditions {
      * @returns {Boolean} 结果
      */
     check(search, keywords = [], item) {
-        if (search.length == 0) {
+        if (search.length === 0) {
             let mainCondition = this.findCondition('main');
             return this.search(this.mappingOfValue(mainCondition, item), keywords);
         }
@@ -330,7 +328,7 @@ class DataFilterConditions {
 
         function __checkNumberRange(search, value) {
             value = Number(value);
-            if (String(search).search('..') != -1) {
+            if (String(search).search('..') !== -1) {
                 let min = search.split('..')[0];
                 let max = search.split('..')[1];
                 min = Number(min === '' ? -Infinity : min);
@@ -346,7 +344,7 @@ class DataFilterConditions {
             value = new Date(value);
             if (Number.isNaN(value.getTime())) return false;
 
-            if (String(search).search('..') != -1) {
+            if (String(search).search('..') !== -1) {
                 let min = search.split('..')[0];
                 let max = search.split('..')[1];
                 min === '' ? min = new Date(0) : min = new Date(min);
@@ -397,8 +395,7 @@ class DataFilterConditions {
 
     checkSearchByName(name, searchData) {
         const search = this.mappingOfSearch(this.findCondition(name), searchData);
-        if (search === undefined) return false;
-        return true;
+        return search !== undefined;
     }
 
     checkForConditionByName(name, searchData, item) {

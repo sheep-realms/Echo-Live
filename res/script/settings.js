@@ -3,7 +3,7 @@
 let sysNotice = new SystemNotice();
 
 window.addEventListener("error", (e) => {
-    sysNotice.sendThasTitle('notice.unknown_error', {}, 'fatal');
+    sysNotice.sendTHasTitle('notice.unknown_error', {}, 'fatal');
 });
 
 if (config.advanced.settings.display_config_key) $('html').addClass('display-config-key');
@@ -838,7 +838,7 @@ async function filePicker() {
         if (error.name == 'AbortError') {
             sysNotice.sendT('notice.open_file_picker_cancel', {}, 'warn');
         } else {
-            sysNotice.sendThasTitle('notice.open_file_picker_fail', {}, 'error');
+            sysNotice.sendTHasTitle('notice.open_file_picker_fail', {}, 'error');
         }
     }
 }
@@ -920,11 +920,11 @@ $(document).on('dragover', '#settings-file-input-box', function(e) {
     e.preventDefault();
     if (!inFileDorp) {
         inFileDorp = true;
-        $('#settings-file-input-box .file-drop-box-message').text($t('file.droper.drop_file_now'));
+        $('#settings-file-input-box .file-drop-box-message').text($t('file.dropper.drop_file_now'));
         $('#settings-file-input-box').addClass('dragover');
         inFileDorpTimer = setTimeout(function() {
             inFileDorpLongTime = true;
-            $('#settings-file-input-box .file-drop-box-message').text($t('file.droper.drop_file_long_time'));
+            $('#settings-file-input-box .file-drop-box-message').text($t('file.dropper.drop_file_long_time'));
         }, 3000);
     }
 });
@@ -938,16 +938,16 @@ $(document).on('dragleave', '#settings-file-input-box', function(e) {
     if (inFileDorpLongTime) {
         dragleaveCount++;
         if (dragleaveCount >= 5) {
-            $('#settings-file-input-box .file-drop-box-message').text($t('file.droper.drop_file_cancel_many'));
+            $('#settings-file-input-box .file-drop-box-message').text($t('file.dropper.drop_file_cancel_many'));
             if (!easterEggDrop) {
                 easterEggDrop = true;
                 sysNotice.sendT('notice.drop_file_cancel_many', {}, 'trophy');
             }
         } else {
-            $('#settings-file-input-box .file-drop-box-message').text($t('file.droper.drop_file_cancel'));
+            $('#settings-file-input-box .file-drop-box-message').text($t('file.dropper.drop_file_cancel'));
         }
     } else {
-        $('#settings-file-input-box .file-drop-box-message').text($t('file.droper.please_drop_file'));
+        $('#settings-file-input-box .file-drop-box-message').text($t('file.dropper.please_drop_file'));
     }
     inFileDorpLongTime = false;
 });
@@ -957,7 +957,7 @@ $(document).on('drop', '#settings-file-input-box', function(e) {
     inFileDorp = false;
     inFileDorpLongTime = false;
     clearTimeout(inFileDorpTimer);
-    $('#settings-file-input-box .file-drop-box-message').text($t('file.droper.please_drop_file'));
+    $('#settings-file-input-box .file-drop-box-message').text($t('file.dropper.please_drop_file'));
     $('#settings-file-input-box').removeClass('dragover');
 
     const fileList = e.originalEvent.dataTransfer.files;
@@ -965,7 +965,7 @@ $(document).on('drop', '#settings-file-input-box', function(e) {
     checkConfigFile(fileList);
 });
 
-$(document).on('click', '#btn-flie-check-dialog-unsafe-load', function() {
+$(document).on('click', '#btn-file-check-dialog-unsafe-load', function() {
     try {
         eval('dropData = ' + configFileFiltered);
         importConfigCheck();
@@ -975,21 +975,21 @@ $(document).on('click', '#btn-flie-check-dialog-unsafe-load', function() {
     }
 });
 
-$(document).on('click', '#btn-flie-check-dialog-cancel', function() {
+$(document).on('click', '#btn-file-check-dialog-cancel', function() {
     closeFileCheckDialog(true);
 });
 
-$(document).on('click', '#btn-flie-check-dialog-cancel-rollback', function() {
+$(document).on('click', '#btn-file-check-dialog-cancel-rollback', function() {
     settingsManager.rollbackConfig();
     closeFileCheckDialog(true);
     $('#tabpage-nav-edit, #tabpage-nav-export').removeClass('disabled');
 });
 
-$(document).on('click', '#btn-flie-check-dialog-goto-chrome', function() {
+$(document).on('click', '#btn-file-check-dialog-goto-chrome', function() {
     window.open('https://www.google.cn/chrome/index.html', '_blank');
 });
 
-$(document).on('click', '#btn-flie-check-dialog-update-config', function() {
+$(document).on('click', '#btn-file-check-dialog-update-config', function() {
     const oldConfigVersion = settingsManager.getConfig('data_version');
     settingsManager.updateConfig(db_config_version);
     configLoad();
@@ -1008,7 +1008,7 @@ $(document).on('click', '#btn-flie-check-dialog-update-config', function() {
     effectFlicker('#tabpage-nav-edit');
 });
 
-$(document).on('click', '#btn-flie-check-dialog-update-config-from-unknown-version', function() {
+$(document).on('click', '#btn-file-check-dialog-update-config-from-unknown-version', function() {
     settingsManager.updateConfigFromUnknownVersion(db_config_version);
     configLoad();
     showFileChecker(dropFile, 'loaded');
@@ -1017,7 +1017,7 @@ $(document).on('click', '#btn-flie-check-dialog-update-config-from-unknown-versi
     effectFlicker('#tabpage-nav-edit');
 });
 
-$(document).on('click', '#btn-flie-check-dialog-config-from-future', function() {
+$(document).on('click', '#btn-file-check-dialog-config-from-future', function() {
     configLoad();
     showFileChecker(dropFile, 'loaded');
     closeFileCheckDialog();

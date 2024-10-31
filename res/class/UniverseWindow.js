@@ -291,7 +291,7 @@ class UpdateWindow {
                     case 'download':
                         this.selectAssets();
                         // if (this.updateData.latestReleasesData?.assets.length == 0) {
-                        //     sysNotice.sendThasTitle('notice.github_download_but_no_assets', {}, {}, {
+                        //     sysNotice.sendTHasTitle('notice.github_download_but_no_assets', {}, {}, {
                         //         icon: 'help'
                         //     });
                         // } else if (this.updateData.latestReleasesData?.assets.length == 1) {

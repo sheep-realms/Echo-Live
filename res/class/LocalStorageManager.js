@@ -27,7 +27,7 @@ class LocalStorageManager {
             return;
         }
 
-        if (key == undefined) return data;
+        if (key === undefined) return data;
 
         return data[key];
     }

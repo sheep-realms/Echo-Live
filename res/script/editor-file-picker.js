@@ -73,11 +73,11 @@ $(document).on('dragover', '#image-file-input-box', function(e) {
     e.preventDefault();
     if (!inFileDorp) {
         inFileDorp = true;
-        $('#image-file-input-box .file-drop-box-message').text($t('file.droper.drop_file_now'));
+        $('#image-file-input-box .file-drop-box-message').text($t('file.dropper.drop_file_now'));
         $('#image-file-input-box').addClass('dragover');
         inFileDorpTimer = setTimeout(function() {
             inFileDorpLongTime = true;
-            $('#image-file-input-box .file-drop-box-message').text($t('file.droper.drop_file_long_time'));
+            $('#image-file-input-box .file-drop-box-message').text($t('file.dropper.drop_file_long_time'));
         }, 3000);
     }
 });
@@ -91,12 +91,12 @@ $(document).on('dragleave', '#image-file-input-box', function(e) {
     if (inFileDorpLongTime) {
         dragleaveCount++;
         if (dragleaveCount >= 5) {
-            $('#image-file-input-box .file-drop-box-message').text($t('file.droper.drop_file_cancel_many'));
+            $('#image-file-input-box .file-drop-box-message').text($t('file.dropper.drop_file_cancel_many'));
         } else {
-            $('#image-file-input-box .file-drop-box-message').text($t('file.droper.drop_file_cancel'));
+            $('#image-file-input-box .file-drop-box-message').text($t('file.dropper.drop_file_cancel'));
         }
     } else {
-        $('#image-file-input-box .file-drop-box-message').text($t('file.droper.please_click'));
+        $('#image-file-input-box .file-drop-box-message').text($t('file.dropper.please_click'));
     }
     inFileDorpLongTime = false;
 });
@@ -106,7 +106,7 @@ $(document).on('drop', '#image-file-input-box', function(e) {
     inFileDorp = false;
     inFileDorpLongTime = false;
     clearTimeout(inFileDorpTimer);
-    $('#image-file-input-box .file-drop-box-message').text($t('file.droper.please_click'));
+    $('#image-file-input-box .file-drop-box-message').text($t('file.dropper.please_click'));
     $('#image-file-input-box').removeClass('dragover');
 
     const fileList = e.originalEvent.dataTransfer.files;
@@ -123,22 +123,22 @@ function showFileCheckDialog(content) {
 
 function showFileCheckDialogSuccess(key) {
     showFileCheckDialog(SettingsFileChecker.dialogSuccess(
-        $t('file.droper.dialog.' + key + '.title'),
-        $t('file.droper.dialog.' + key + '.description')
+        $t('file.dropper.dialog.' + key + '.title'),
+        $t('file.dropper.dialog.' + key + '.description')
     ));
 }
 
 function showFileCheckDialogWarn(key) {
     showFileCheckDialog(SettingsFileChecker.dialogWarn(
-        $t('file.droper.dialog.' + key + '.title'),
-        $t('file.droper.dialog.' + key + '.description')
+        $t('file.dropper.dialog.' + key + '.title'),
+        $t('file.dropper.dialog.' + key + '.description')
     ));
 }
 
 function showFileCheckDialogError(key) {
     showFileCheckDialog(SettingsFileChecker.dialogError(
-        $t('file.droper.dialog.' + key + '.title'),
-        $t('file.droper.dialog.' + key + '.description')
+        $t('file.dropper.dialog.' + key + '.title'),
+        $t('file.dropper.dialog.' + key + '.description')
     ));
 }
 
@@ -194,7 +194,7 @@ function outputImageCode(index) {
     popupsDisplay('#popups-image', false);
 }
 
-$(document).on('click', '#btn-flie-check-dialog-cancel', function() {
+$(document).on('click', '#btn-file-check-dialog-cancel', function() {
     closeFileCheckDialog(true);
 });
 
@@ -240,14 +240,14 @@ function addImageData(data, attr) {
 }
 
 
-$(document).on('click', '#btn-flie-check-dialog-import-image', function() {
+$(document).on('click', '#btn-file-check-dialog-import-image', function() {
     let i = 0;
     let imageAttr = getImageAttr();
     i = addImageData(dropData, imageAttr);
     outputImageCode(i);
 });
 
-$(document).on('click', '#btn-flie-check-dialog-import-image-url', function() {
+$(document).on('click', '#btn-file-check-dialog-import-image-url', function() {
     const imageURL = $('#image-url').val().trim();
     if (imageURL == '') {
         sysNotice.sendT('notice.import_image_url_empty', {}, 'error');

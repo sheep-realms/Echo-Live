@@ -613,11 +613,18 @@ $(document).ready(function() {
         echoLiveSystem.registry.forEach('sound', e => {
             datalistLang.push({
                 title: $t(`sound.${ e.name }`),
-                value: e.name
+                value: e.name,
+                __type: e.type
             });
         });
 
         __setConfigDefineDatalist('echolive.print_audio.name', datalistLang);
+        datalistLang = datalistLang.slice();
+        datalistLang.sort((a, b) => {
+            if (a.__type === b.type) return 0;
+            if (b.__type === 'next') return 1;
+            return -1;
+        });
         __setConfigDefineDatalist('echolive.next_audio.name', datalistLang);
 
         datalistLang = [];

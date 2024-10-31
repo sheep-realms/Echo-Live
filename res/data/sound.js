@@ -43,6 +43,11 @@ echoLiveSystem.registry.loadRegistry('sound', 'name', [
         path: 'res/audio/print/sys003.ogg'
     }, {
         name: 'enter',
+        type: 'next',
         path: 'res/audio/next/enter.ogg'
+    }, {
+        name: 'paper',
+        type: 'next',
+        path: 'res/audio/next/paper.ogg'
     }
 ]);

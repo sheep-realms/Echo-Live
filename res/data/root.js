@@ -72,6 +72,7 @@ echoLiveSystem.registry.init([
         name: 'settings_data'
     }, {
         name: 'sound',
+        type: 'print',
         unique_key: 'name',
         default_data: {
             name: undefined,

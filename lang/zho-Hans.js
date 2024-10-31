@@ -1506,7 +1506,8 @@ const lang_zho_Hans = {
         sys001: "清脆敲击",
         sys002: "嗡嗡",
         sys003: "冒泡",
-        enter: "打字机回车"
+        enter: "打字机回车",
+        paper: "翻页"
     },
     studio: {
         title: {

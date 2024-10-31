@@ -1506,7 +1506,8 @@ const lang_zho_Hant_TW = {
         sys001: "清脆敲擊",
         sys002: "嗡嗡",
         sys003: "冒泡",
-        enter: "打字機回車"
+        enter: "打字機回車",
+        paper: "翻頁"
     },
     studio: {
         title: {

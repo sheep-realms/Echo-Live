@@ -883,7 +883,12 @@ const lang_zho_Hans = {
                 resent: "已再次发送历史消息。",
                 sent: "已发送消息：{msg}",
                 sent_custom: "已发送自定义消息：{msg}",
-                sent_custom_multi: "已发送 {n} 条自定义消息，首条消息为：{msg}"
+                sent_custom_multi: "已发送 {n} 条自定义消息，首条消息为：{msg}",
+                target: {
+                    none: "[ ] 已取消标记：{name}",
+                    not: "[-] 已标记排除：{name}",
+                    yes: "[+] 已标记选中：{name}"
+                }
             },
             tip: {
                 unknown_error: "看来您可能遇到了一些问题。如果您确实觉得有什么不对劲，请复制此日志内容反馈给开发者，并详细描述复现过程。"

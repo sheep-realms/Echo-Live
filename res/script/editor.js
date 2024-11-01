@@ -849,6 +849,7 @@ $(document).on('contextmenu', '.echo-live-client-state-block', function(event) {
     let value = next[target];
     if (value === undefined) value = 'none';
     elb.setClientTarget(name, value);
+    editorLogT('editor.log.message.target.' + value, { name: name });
 });
 
 // 纯文本 - 内容 - 快捷键

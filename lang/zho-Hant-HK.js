@@ -883,7 +883,12 @@ const lang_zho_Hant_HK = {
                 resent: "已再次發送歷史消息。",
                 sent: "已發送消息：{msg}",
                 sent_custom: "已發送自定義消息：{msg}",
-                sent_custom_multi: "已發送 {n} 條自定義消息，首條消息為：{msg}"
+                sent_custom_multi: "已發送 {n} 條自定義消息，首條消息為：{msg}",
+                target: {
+                    none: "[ ] 已取消標記：{name}",
+                    not: "[-] 已標記排除：{name}",
+                    yes: "[+] 已標記選中：{name}"
+                }
             },
             tip: {
                 unknown_error: "看來您可能遇到了一些問題。如果您確實覺得有甚麼不對路，請複製此日誌內容反饋給開發者，並詳細描述復現過程。"

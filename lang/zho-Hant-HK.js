@@ -718,9 +718,14 @@ const lang_zho_Hant_HK = {
             none: "未加入",
             sleep: "休眠"
         },
+        client_target: {
+            none: "無",
+            not: "已排除",
+            yes: "已選中"
+        },
         client_state_panel: {
-            tip: "客戶端狀態：{client}，Echo 狀態：{echo}。",
-            tip_more_messages: "客戶端狀態：{client}，Echo 狀態：{echo}。點擊此處可打印下一條消息。"
+            tip: "客戶端狀態：{client}；\nEcho 狀態：{echo}；\n標記狀態：{target}；\n右鍵點擊此處可標記目標。",
+            tip_more_messages: "客戶端狀態：{client}；\nEcho 狀態：{echo}；\n標記狀態：{target}；\n點擊此處可打印下一條消息。"
         },
         echo_state: {
             play: "打印中",
@@ -1382,6 +1387,7 @@ const lang_zho_Hant_HK = {
         license: "授權協議：{ name }"
     },
     notice: {
+        client_target_but_no_client: "請不要虛空索敵！",
         config_re_output: "已重新導出配置文件內容！",
         config_saved: "配置文件已保存！請注意刷新所有頁面使新配置生效。",
         config_saving: "保存中...",

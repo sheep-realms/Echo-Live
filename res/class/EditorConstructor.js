@@ -840,7 +840,7 @@ class Popups {
 class EditorClientState {
     constructor() {}
 
-    static block(state, echoState = 'stop', messagesCount = 0, name = '') {
+    static block(state, echoState = 'stop', messagesCount = 0, name = '', target = 'none') {
         let name2 = name;
         let title = '';
         let titleKey = 'editor.client_state_panel.tip';
@@ -849,7 +849,8 @@ class EditorClientState {
             titleKey,
             {
                 client: $t('editor.client_state.' + state),
-                echo: $t('editor.echo_state.' + echoState)
+                echo: $t('editor.echo_state.' + echoState),
+                target: $t('editor.client_target.' + target)
             }
         );
         if (name.search(/^[a-f\d]{4}(?:[a-f\d]{4}-){4}[a-f\d]{12}$/i) != -1) name2 = '(' + name.split('-')[0] + ')';
@@ -862,9 +863,16 @@ class EditorClientState {
             "
             title="${title}"
             data-name="${name}"
+            data-target="${target}"
         >
             <div class="client-info">
-                <div class="client-icon client-icon-left"></div>
+                <div class="client-icon client-icon-left">
+                    ${
+                        target === 'yes' ? Icon.flag : (
+                            target === 'not' ? Icon.cancel : ''
+                        )
+                    }
+                </div>
                 <div class="client-name">${name2}</div>
                 <div class="client-icon client-icon-right">
                     ${ echoState === 'play' || echoState === 'ready' ? Icon.timerSand : ''}
@@ -877,9 +885,9 @@ class EditorClientState {
 
     static clientBlock(client) {
         if (client.hidden) {
-            return EditorClientState.block('sleep', client.echoState, client.messagesCount, client.name);
+            return EditorClientState.block('sleep', client.echoState, client.messagesCount, client.name, client.target);
         } else {
-            return EditorClientState.block('active', client.echoState, client.messagesCount, client.name);
+            return EditorClientState.block('active', client.echoState, client.messagesCount, client.name, client.target);
         }
     }
 

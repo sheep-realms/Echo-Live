@@ -718,9 +718,14 @@ const lang_zho_Hans = {
             none: "未加入",
             sleep: "休眠"
         },
+        client_target: {
+            none: "无",
+            not: "已排除",
+            yes: "已选中"
+        },
         client_state_panel: {
-            tip: "客户端状态：{client}，Echo 状态：{echo}。",
-            tip_more_messages: "客户端状态：{client}，Echo 状态：{echo}。点击此处可打印下一条消息。"
+            tip: "客户端状态：{client}；\nEcho 状态：{echo}；\n标记状态：{target}；\n右键点击此处可标记目标。",
+            tip_more_messages: "客户端状态：{client}；\nEcho 状态：{echo}；\n标记状态：{target}；\n点击此处可打印下一条消息。"
         },
         echo_state: {
             play: "打印中",
@@ -1382,6 +1387,7 @@ const lang_zho_Hans = {
         license: "授权协议：{ name }"
     },
     notice: {
+        client_target_but_no_client: "请不要虚空索敌！",
         config_re_output: "已重新导出配置文件内容！",
         config_saved: "配置文件已保存！请注意刷新所有页面使新配置生效。",
         config_saving: "保存中...",

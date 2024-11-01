@@ -18,8 +18,9 @@ class EchoLiveBroadcast {
         this.isServer   = false;
         this.timer      = {};
         this.event      = {
-            message:    function() {},
-            error:      function() {}
+            message:        function() {},
+            error:          function() {},
+            validMessage:   function() {}
         };
         this.listenCallbackDepth    = 0;
         this.listenCallback         = [];
@@ -159,6 +160,25 @@ class EchoLiveBroadcast {
             data:   data
         };
 
+        if (this.isServer && target === undefined) {
+            let r = this.clients.filter(e => e.target !== 'none');
+            if (r.length > 0) {
+                d.target = [];
+                r.forEach(e => {
+                    d.target.push(
+                        e.name === e.uuid
+                        ? `${
+                            e.target === 'not' ? '-' : ''
+                        }${ e.uuid }`
+                        : `${
+                            e.target === 'not' ? '-' : ''
+                        }@${ e.name }`
+                    );
+                });
+                if (d.target.length === 1) d.target = d.target[0];
+            }
+        }
+
         this.broadcast.postMessage(d);
         if (this.websocket !== undefined) {
             try {
@@ -170,6 +190,38 @@ class EchoLiveBroadcast {
         return d;
     }
 
+    checkTargetIsSelf(target) {
+        if (!Array.isArray(target)) target = [target];
+        let globalHasNOT = false;
+        let globalHasOther = false;
+        for (let i = 0; i < target.length; i++) {
+            let e = target[i];
+            let isNOT = false;
+            if (typeof e === 'string' && e.startsWith('-')) {
+                isNOT = true;
+                globalHasNOT = true;
+                e = e.substring(1);
+            }
+            if (typeof e === 'string' && e.startsWith('@')) {
+                if (e.startsWith('__', 1)) {
+                    if (!this.targetTypeCheck(e.substring(3))) {
+                        globalHasOther = !isNOT || globalHasOther;
+                        continue;
+                    }
+                } else if (e.substring(1) !== this.custom.name) {
+                    globalHasOther = !isNOT || globalHasOther;
+                    continue;
+                }
+            } else if (e !== undefined && e !== this.uuid) {
+                globalHasOther = !isNOT || globalHasOther;
+                continue;
+            }
+            return true && !isNOT;
+        }
+        if (globalHasNOT) return !globalHasOther;
+        return false;
+    }
+
     /**
      * 接收数据
      * @param {Object} data 数据
@@ -178,13 +230,10 @@ class EchoLiveBroadcast {
         if (typeof data != 'object') return;
         this.listenCallbackDepth = 0;
         if (data?.from?.uuid === this.uuid) return;
-        this.event.message(data);
 
-        if (typeof data.target == 'string' && data.target.startsWith('@')) {
-            if (data.target.startsWith('__', 1)) {
-                if (!this.targetTypeCheck(data.target.substring(3))) return;
-            } else if (data.target.substring(1) !== this.custom.name) return;
-        } else if (data.target !== undefined && data.target !== this.uuid) return;
+        this.event.message(data);
+        if (!this.checkTargetIsSelf(data.target)) return;
+        this.event.validMessage(data);
 
         if (data.action === EchoLiveBroadcast.API_NAME_ERROR) this.event.error(data);
 
@@ -550,7 +599,8 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
             uuid:   uuid,
             name:   name,
             type:   type ? type : 'client',
-            hidden: hidden
+            hidden: hidden,
+            target: 'none'
         };
         if (r.type === 'live') r = {
             ...r,
@@ -577,6 +627,31 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         let r = this.clients.splice(i, 1);
         this.event.clientsChange(this.clients);
         return r;
+    }
+
+    /**
+     * 设置投递客户端
+     * @param {String} name 客户端识别名
+     * @param {'none'|'yes'|'not'} value 状态
+     * @returns {Object} 客户端数据
+     */
+    setClientTarget(name, value = true) {
+        if (!this.isServer) return;
+        if (typeof value === 'boolean') {
+            if (value) {
+                value = 'yes';
+            } else {
+                value = 'none';
+            }
+        }
+        if (typeof value !== 'string') return;
+        let i = this.clients.findIndex(function(e) {
+            return e.name === name;
+        });
+        if (i === -1) return;
+        this.clients[i].target = value;
+        this.event.clientsChange(this.clients);
+        return this.clients[i];
     }
 
     /**

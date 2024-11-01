@@ -76,6 +76,9 @@ let commanderFnMode = false;
 
 let elb;
 
+// 彩蛋
+let clientTargetButNoClient = false;
+
 $(document).ready(function() {
     $('.tabpage-panel[data-pageid="ptext"] .editor-controller').append(EditorForm.editorController('ptext-content'));
 
@@ -809,7 +812,7 @@ $(document).on('click', '#history-btn-clear-cancel', function() {
 });
 
 // 仪表盘点击
-$(document).on('click', '.echo-live-client-state-block', function(e) {
+$(document).on('click', '.echo-live-client-state-block', function(event) {
     const name = $(this).data('name');
     if (name == '') return;
     const r = elb.clients.filter((e) => {
@@ -823,6 +826,29 @@ $(document).on('click', '.echo-live-client-state-block', function(e) {
         }
         editorLogT('editor.log.broadcast.echo_next_from_self_to_target', { name: name });
     }
+});
+
+// 仪表盘右键
+$(document).on('contextmenu', '.echo-live-client-state-block', function(event) {
+    event.preventDefault();
+    const name = $(this).data('name');
+    const target = $(this).data('target');
+    if (name === '') {
+        if (!clientTargetButNoClient) {
+            sysNotice.sendT('notice.client_target_but_no_client', {}, 'trophy');
+            clientTargetButNoClient = true;
+        }
+        return;
+    }
+
+    const next = {
+        'none': 'yes',
+        'yes': 'not',
+        'not': 'none'
+    }
+    let value = next[target];
+    if (value === undefined) value = 'none';
+    elb.setClientTarget(name, value);
 });
 
 // 纯文本 - 内容 - 快捷键

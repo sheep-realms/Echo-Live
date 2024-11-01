@@ -250,6 +250,11 @@
     opacity: 1;
 }
 
+.accessibility-high-contrast .echo-live-client-state-block.client-target-none.client-targeted .client-info .client-icon-left {
+    opacity: 1;
+    transform: rotate(90deg);
+}
+
 
 /* 红绿色盲 */
 .accessibility-protanopia-and-deuteranopia {

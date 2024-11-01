@@ -724,8 +724,9 @@ const lang_zho_Hans = {
             yes: "已选中"
         },
         client_state_panel: {
-            tip: "客户端状态：{client}；\nEcho 状态：{echo}；\n标记状态：{target}；\n右键点击此处可标记目标。",
-            tip_more_messages: "客户端状态：{client}；\nEcho 状态：{echo}；\n标记状态：{target}；\n点击此处可打印下一条消息。"
+            targeted: "（仅限定向）",
+            tip: "客户端状态：{client}；\nEcho 状态：{echo}；\n标记状态：{target}{targeted}；\n右键点击此处可标记目标。",
+            tip_more_messages: "客户端状态：{client}；\nEcho 状态：{echo}；\n标记状态：{target}{targeted}；\n点击此处可打印下一条消息。"
         },
         echo_state: {
             play: "打印中",

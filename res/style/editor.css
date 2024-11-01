@@ -775,6 +775,10 @@ select:focus {
     background-color: var(--color-danger-dark);
 }
 
+.echo-live-client-state-block.client-target-none.client-targeted .client-info .client-icon-left {
+    opacity: 0.35;
+}
+
 
 
 #history-message-list {

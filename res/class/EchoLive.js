@@ -14,6 +14,7 @@ class EchoLive {
         this.idle           = false;
         this.antiFlood      = false;
         this.theme          = [];
+        this.targeted       = false;
         this.username       = '';
         this.timer          = {
             displayHiddenWait:  EchoLive.NOT_ACTIVE_TIMER,
@@ -76,10 +77,12 @@ class EchoLive {
 
         let urlName     = EchoLiveTools.getUrlParam('name');
         let urlColor    = EchoLiveTools.getUrlParam('color');
-        if (urlName != null && urlName.search(/^[a-f\d]{4}(?:[a-f\d]{4}-){4}[a-f\d]{12}$/i) === -1) {
+        let urlTargeted = EchoLiveTools.getUrlParam('targeted');
+        if (urlName !== null && urlName.search(/^[a-f\d]{4}(?:[a-f\d]{4}-){4}[a-f\d]{12}$/i) === -1) {
             this.custom.name = urlName.replace(/</g, '').replace(/>/g, '');
         }
-        if (urlColor != null) this.custom.color = urlColor;
+        if (urlColor !== null) this.custom.color = urlColor;
+        if (urlTargeted !== null) this.targeted = true;
 
         if (this.config.echolive.sleep.enable) {
             this.checkVisibility();

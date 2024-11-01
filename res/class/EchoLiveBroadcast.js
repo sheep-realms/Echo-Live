@@ -14,6 +14,7 @@ class EchoLiveBroadcast {
         };
         this.broadcast  = new BroadcastChannel(channel);
         this.websocket  = undefined;
+        this.targeted   = false;
         this.config     = config;
         this.isServer   = false;
         this.timer      = {};
@@ -190,21 +191,29 @@ class EchoLiveBroadcast {
         return d;
     }
 
-    checkTargetIsSelf(target) {
+    checkTargetIsSelf(target, isTargeted = false) {
         if (!Array.isArray(target)) target = [target];
         let globalHasNOT = false;
         let globalHasOther = false;
         for (let i = 0; i < target.length; i++) {
             let e = target[i];
             let isNOT = false;
+            let inPublic = false;
             if (typeof e === 'string' && e.startsWith('-')) {
                 isNOT = true;
                 globalHasNOT = true;
                 e = e.substring(1);
             }
-            if (typeof e === 'string' && e.startsWith('@')) {
+            if (e === undefined || e === null) {
+                if (target.length > 1) {
+                    continue;
+                } else {
+                    return isTargeted ? false : true;
+                }
+            } else if (typeof e === 'string' && e.startsWith('@')) {
                 if (e.startsWith('__', 1)) {
                     if (!this.targetTypeCheck(e.substring(3))) {
+                        inPublic = true;
                         globalHasOther = !isNOT || globalHasOther;
                         continue;
                     }
@@ -216,8 +225,10 @@ class EchoLiveBroadcast {
                 globalHasOther = !isNOT || globalHasOther;
                 continue;
             }
+            if (inPublic && isTargeted) continue;
             return true && !isNOT;
         }
+        if (isTargeted) return false;
         if (globalHasNOT) return !globalHasOther;
         return false;
     }
@@ -232,7 +243,12 @@ class EchoLiveBroadcast {
         if (data?.from?.uuid === this.uuid) return;
 
         this.event.message(data);
-        if (!this.checkTargetIsSelf(data.target)) return;
+        if (
+            !this.checkTargetIsSelf(
+                data.target,
+                data.action === EchoLiveBroadcast.API_NAME_PING && !this.isServer ? false : this.targeted
+            )
+        ) return;
         this.event.validMessage(data);
 
         if (data.action === EchoLiveBroadcast.API_NAME_ERROR) this.event.error(data);
@@ -569,21 +585,35 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
 
     /**
      * 新增客户端
-     * @param {String} uuid UUID
-     * @param {String} name 识别名
-     * @param {String} type 客户端类型
-     * @param {Boolean} hidden 是否休眠中
+     * @param {Object} data 客户端数据
+     * @param {String} data.uuid UUID
+     * @param {String} data.name 识别名
+     * @param {String} data.type 客户端类型
+     * @param {Boolean} data.hidden 是否休眠中
+     * @param {Boolean} data.targeted 是否仅接收定向广播
      * @returns {Object} 登记的数据
      */
-    addClient(uuid, name, type = undefined, hidden = false) {
+    addClient(data) {
+        data = {
+            uuid: undefined,
+            name: undefined,
+            type: 'client',
+            hidden: false,
+            targeted: false,
+            ...data,
+            target: 'none'
+        }
+        if (data.uuid === undefined) return;
+        if (data.name === undefined) data.name = data.uuid;
+
         let i = this.clients.findIndex(function(e) {
-            return e.uuid === uuid;
+            return e.uuid === data.uuid;
         });
         if (i !== -1) return;
         clearTimeout(this.timer.noClient);
 
         let f = this.clients.filter(function(e) {
-            return e.name === name || e.uuid === name;
+            return e.name === data.name || e.uuid === data.name;
         });
 
         if (
@@ -591,26 +621,19 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
             && !this.config.editor.websocket.enable
             && f.length > 0
         ) {
-            this.event.nameDuplicate(name, uuid);
-            return this.sendBroadcastClose(uuid);
+            this.event.nameDuplicate(data.name, data.uuid);
+            return this.sendBroadcastClose(data.uuid);
         }
 
-        let r = {
-            uuid:   uuid,
-            name:   name,
-            type:   type ? type : 'client',
-            hidden: hidden,
-            target: 'none'
-        };
-        if (r.type === 'live') r = {
-            ...r,
+        if (data.type === 'live') data = {
+            ...data,
             echoState:      'stop',
             messagesCount:  0
         };
 
-        this.clients.push(r);
+        this.clients.push(data);
         this.event.clientsChange(this.clients);
-        return r; 
+        return data; 
     }
 
     /**
@@ -671,7 +694,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
     getDataServer(data, listener = this) {
         switch (data.action) {
             case EchoLiveBroadcast.API_NAME_HELLO:
-                listener.addClient(data.from?.uuid, data.from?.name, data.from?.type, data.data?.hidden);
+                listener.addClient({...data.from, ...data.data});
                 break;
 
             case EchoLiveBroadcast.API_NAME_ECHO_STATE_UPDATE:
@@ -832,7 +855,8 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      */
     sendHello(target = undefined) {
         return this.sendData({
-            hidden: this.echolive.hidden
+            hidden: this.echolive.hidden,
+            targeted: this.targeted
         }, EchoLiveBroadcast.API_NAME_HELLO, target);
     }
 
@@ -949,6 +973,7 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
         this.echolive   = echolive;
         this.uuid       = this.echolive.uuid;
         this.isServer   = false;
+        this.targeted   = echolive.targeted;
         this.timer      = {};
         // this.event = {};
         this.depth      = 2;

@@ -724,8 +724,9 @@ const lang_zho_Hant_TW = {
             yes: "已選中"
         },
         client_state_panel: {
-            tip: "客戶端狀態：{client}；\nEcho 狀態：{echo}；\n標記狀態：{target}；\n右鍵點選此處可標記目標。",
-            tip_more_messages: "客戶端狀態：{client}；\nEcho 狀態：{echo}；\n標記狀態：{target}；\n點選此處可列印下一條訊息。"
+            targeted: "（僅限定向）",
+            tip: "客戶端狀態：{client}；\nEcho 狀態：{echo}；\n標記狀態：{target}{targeted}；\n右鍵點選此處可標記目標。",
+            tip_more_messages: "客戶端狀態：{client}；\nEcho 狀態：{echo}；\n標記狀態：{target}{targeted}；\n點選此處可列印下一條訊息。"
         },
         echo_state: {
             play: "列印中",

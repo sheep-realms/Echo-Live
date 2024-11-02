@@ -500,3 +500,13 @@ function paletteColorContrastCheck(value) {
 
     $('#popups-palette .popups-palette-color-contrast .diff-result-contrast .title').text(r.contrastRatio.toFixed(1));
 }
+
+// const floatingElement = document.querySelector('.editor-controller-bottom');
+
+// function adjustForKeyboard() {
+//     const keyboardOffset = window.innerHeight - window.visualViewport.height;
+//     floatingElement.style.bottom = `${keyboardOffset}px`;
+//     // sysNotice.send(keyboardOffset);
+// }
+
+// window.visualViewport.addEventListener('resize', adjustForKeyboard);

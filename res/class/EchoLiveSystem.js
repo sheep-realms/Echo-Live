@@ -444,7 +444,9 @@ class EchoLiveLocalDeviceManager {
         this.enable = true;
         this.vibrateMethod = {
             success: 30,
-            error: [30, 50, 30]
+            error: [30, 50, 30],
+            switch_on: [20, 100, 60],
+            switch_off: [60, 100, 20]
         }
     }
 
@@ -460,7 +462,7 @@ class EchoLiveLocalDeviceManager {
 
     /**
      * 设备震动（自动设定）
-     * @param {'success'|'error'} name 震动方法
+     * @param {'success'|'error'|'switch_on'|'switch_off'} name 震动方法
      */
     vibrateAuto(name) {
         if (!this.enable) return;

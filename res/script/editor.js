@@ -825,6 +825,7 @@ $(document).on('click', '.echo-live-client-state-block', function(event) {
             elb.sendNext('@' + name);
         }
         editorLogT('editor.log.broadcast.echo_next_from_self_to_target', { name: name });
+        echoLiveSystem.device.vibrateAuto('success');
     }
 });
 
@@ -850,6 +851,11 @@ $(document).on('contextmenu', '.echo-live-client-state-block', function(event) {
     if (value === undefined) value = 'none';
     elb.setClientTarget(name, value);
     editorLogT('editor.log.message.target.' + value, { name: name });
+    if (value === 'none') {
+        echoLiveSystem.device.vibrateAuto('switch_off');
+    } else {
+        echoLiveSystem.device.vibrateAuto('switch_on');
+    }
 });
 
 // 纯文本 - 内容 - 快捷键

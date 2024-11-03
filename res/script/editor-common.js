@@ -349,7 +349,7 @@ $(document).on('change', '#popups-emoji-select', function() {
 
 // 拾色器无障碍提示按钮
 $(document).on('click', '#popups-palette-accessibility-help-btn', function() {
-    window.open('https://sheep-realms.github.io/Echo-Live-Doc/main/accessibility/#visual', '_blank');
+    window.open('https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/#visual', '_blank');
     popupsDisplay('#popups-palette', false);
 });
 

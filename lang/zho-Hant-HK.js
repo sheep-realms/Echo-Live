@@ -1382,7 +1382,7 @@ const lang_zho_Hant_HK = {
                 },
                 s17: {
                     title: "可訪問性",
-                    description: "另外，如果您需要調整可訪問性相關配置，可以在這裏找到。<br>如有需要，您可以<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessibility/' target='_blank'>點擊此處閱讀無障礙使用指南</a>。"
+                    description: "另外，如果您需要調整可訪問性相關配置，可以在這裏找到。<br>如有需要，您可以<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>點擊此處閱讀無障礙使用指南</a>。"
                 },
                 s18: {
                     title: "新人引導結束",
@@ -1493,7 +1493,7 @@ const lang_zho_Hant_HK = {
             config_output: "導出配置內容"
         },
         msgbox: {
-            accessibility: "Echo-Live 所有後台頁面均支持鍵盤訪問。<br>更多有關無障礙使用的幫助請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessibility/' target='_blank'>幫助文檔</a>。",
+            accessibility: "Echo-Live 所有後台頁面均支持鍵盤訪問。<br>更多有關無障礙使用的幫助請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>幫助文檔</a>。",
             advanced_settings: "不要隨意更改這裏的配置，除非您知道您在做甚麼。",
             echo: {
                 title: "關於 Echo",

@@ -572,11 +572,11 @@ $('#output-btn-send').click(function() {
         return;
     }
     
-    if (beforeCheck && afterCheck) {
-        newCentent = centent.substring(before.length, centent.length - after.length);
-    } else {
-        newCentent = centent;
-    }
+    newCentent = centent;
+
+    if (beforeCheck) newCentent = newCentent.substring(before.length)
+    if (afterCheck) newCentent = newCentent.substring(0, newCentent.length - after.length);
+    
 
     let msg;
 
@@ -590,8 +590,18 @@ $('#output-btn-send').click(function() {
         elb.sendData(msg);
         echoLiveSystem.device.vibrateAuto('success');
     } catch (error) {
-        editorLogT('editor.log.message.illegal', {}, 'erro');
-        echoLiveSystem.device.vibrateAuto('error');
+        if (centent === '/cmd') {
+            if ($('#commander-input-panel').hasClass('hide')) {
+                $('#commander-input-panel').removeClass('hide');
+                $('#commander-input').focus();
+            } else {
+                $('#commander-input-panel').addClass('hide');
+                $('#commander-input').blur();
+            }
+        } else {
+            editorLogT('editor.log.message.illegal', {}, 'erro');
+            echoLiveSystem.device.vibrateAuto('error');
+        }
         return;
     }
 
@@ -1040,3 +1050,18 @@ $(window).resize(function() {
         sysNotice.sendTHasTitle('notice.browser_zoom_reset', {}, 'trophy');
     }
 });
+
+// let keyboardOpen = false;
+
+// function adjustForKeyboard() {
+//     const keyboardOffset = window.innerHeight - window.visualViewport.height * window.visualViewport.scale;
+//     if (!keyboardOpen && keyboardOffset > 128) {
+//         keyboardOpen = true;
+//         sysNotice.send('keyboard_open');
+//     } else if (keyboardOpen && keyboardOffset <= 128 - 8) {
+//         keyboardOpen = false;
+//         sysNotice.send('keyboard_close');
+//     }
+// }
+
+// window.visualViewport.addEventListener('resize', adjustForKeyboard);

@@ -165,6 +165,9 @@ const config = {
         "performance": {
             "foreach_text_style_by_message_data": false,
             "row_search_threshold": 1
+        },
+        "device": {
+            "enable": true
         }
     },
     "selector": {},

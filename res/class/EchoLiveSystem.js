@@ -441,7 +441,7 @@ class EchoLiveRegistryUnit {
 
 class EchoLiveLocalDeviceManager {
     constructor() {
-        this.enable = true;
+        this.enable = config.advanced.device.enable;
         this.vibrateMethod = {
             success: 30,
             error: [30, 50, 30],

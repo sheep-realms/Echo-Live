@@ -1135,7 +1135,16 @@ const db_config_define = [
         attribute: {
             min: 0
         }
-    },
+    }, {
+        name: 'advanced.device',
+        type: 'object',
+        created: 10
+    }, {
+        name: 'advanced.device.enable',
+        type: 'boolean',
+        default: true,
+        created: 10
+    }, 
 
 
 

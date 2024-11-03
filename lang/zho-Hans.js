@@ -6,12 +6,12 @@ const lang_zho_Hans = {
     },
     localization: {
         bracket: "（{text}）",
-        data_common: "{y}-{MM}-{dd}",
-        data_time_common: "{y}-{MM}-{dd} {hh}:{mm}:{ss}",
-        data: "{y} 年 {M} 月 {d} 日",
-        data_pad_zero: "{y} 年 {MM} 月 {dd} 日",
-        data_time: "{y} 年 {M} 月 {d} 日 {h}:{m}:{s}",
-        data_time_pad_zero: "{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}",
+        date_common: "{y}-{MM}-{dd}",
+        date_time_common: "{y}-{MM}-{dd} {hh}:{mm}:{ss}",
+        date: "{y} 年 {M} 月 {d} 日",
+        date_pad_zero: "{y} 年 {MM} 月 {dd} 日",
+        date_time: "{y} 年 {M} 月 {d} 日 {h}:{m}:{s}",
+        date_time_pad_zero: "{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}",
         time_common: "{hh}:{mm}:{ss}",
     },
     ui: {
@@ -77,7 +77,7 @@ const lang_zho_Hans = {
                 editor: "Echo-Live Editor",
                 history: "Echo-Live History",
                 live: "Echo-Live",
-                unknow: "未知终端"
+                unknown: "未知终端"
             }
         }
     },
@@ -90,7 +90,7 @@ const lang_zho_Hans = {
                 invalid_key_name: "语法错误：'{name}' 不是一个有效的键名",
                 invalid_number: "语法错误：无效的数字",
                 missing_parameter: "语法错误：缺少必要参数",
-                unknow_option: "语法错误：不存在名为 '{name}' 的选项",
+                unknown_option: "语法错误：不存在名为 '{name}' 的选项",
                 not_broadcast: "运行失败：广播未启动"
             },
             label: {
@@ -99,9 +99,9 @@ const lang_zho_Hans = {
             success: {
                 broadcast_everyone: "已广播 {action} 消息",
                 broadcast_target: "已发送 {action} 消息至 {name}",
-                function: "已执行函数中的 {count} 条命令",
+                function: "已执行函数中的 {n} 条命令",
                 function_fail_item: "- 第 {line} 行：{reason}",
-                function_has_fail: "已执行函数中的 {count} 条命令，失败 {fail} 条，失败原因为："
+                function_has_fail: "已执行函数中的 {n} 条命令，失败 {fail} 条，失败原因为："
             }
         },
         clearlocalstorage: {
@@ -145,8 +145,8 @@ const lang_zho_Hans = {
             _title: "全局",
             _description: "一些影响全局的设置",
             language: {
-                _title: "显示语言",
-                _description: "后台页面的显示语言。"
+                _title: "界面语言",
+                _description: "后台页面的界面语言。"
             },
             theme: {
                 _title: "全局主题",
@@ -469,6 +469,26 @@ const lang_zho_Hans = {
                     _description: "用于生成可执行的消息发送命令。"
                 }
             },
+            websocket: {
+                _title: "WebSocket",
+                _description: "将编辑器连接到 WebSocket 服务器",
+                enable: {
+                    _title: "启用 WebSocket",
+                    _description: "如果没人要求您这么做，请不要动它。<br>广播模式下启用 WebSocket 可连接至服务器以从通过第三方软件发送消息。<br>可从服务器接收的消息和广播消息一致，发送的消息须使用类似于 JSON.stringify 的方法序列化。<br>详见<a href='https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/' target='_blank'>帮助文档</a>。"
+                },
+                url: {
+                    _title: "连接地址",
+                    _description: "提供 WebSocket 连接的服务器地址，使用 ws:// 或 wss:// 协议头。"
+                },
+                auto_url: {
+                    _title: "自动设置连接地址",
+                    _description: "通过 HTTP(S) 协议访问编辑器时，直接使用访问地址作为连接地址，无需手动设置。"
+                },
+                reconnect_limit: {
+                    _title: "最大重连尝试次数",
+                    _description: "连接关闭和连接失败将会尝试重连，一旦超过重连尝试次数限制将不再尝试重连。"
+                }
+            },
             color_picker: {
                 _title: "拾色器",
                 _description: "拾色器相关配置",
@@ -552,7 +572,7 @@ const lang_zho_Hans = {
                 }
             }
         },
-        accessible: {
+        accessibility: {
             _title: "可访问性",
             _description: "可访问性相关配置",
             font_size: {
@@ -585,7 +605,7 @@ const lang_zho_Hans = {
                 _title: "焦点高亮边框样式",
                 _description: "焦点元素边框的样式。"
             },
-            drotanopia_and_deuteranopia: {
+            protanopia_and_deuteranopia: {
                 _title: "红绿色盲",
                 _description: "绿色（安全）功能色会以蓝色（通用）代替，以便和功能差异较大的黄色（警告）和红色（危险）作出区分。"
             },
@@ -645,6 +665,26 @@ const lang_zho_Hans = {
                     _title: "讲述人语音资源列表最大显示数量",
                     _description: "在某些操作系统中可能会列出大量项目从而影响渲染性能。<br>设为 -1 则不设上限。"
                 }
+            },
+            performance: {
+                _title: "性能",
+                _description: "调整 Echo-Live 的性能优化细节",
+                foreach_text_style_by_message_data: {
+                    _title: "基于消息数据遍历文本样式",
+                    _description: "默认情况下 Echo-Live 会在解析消息格式时遍历整个文本样式注册表，这使得解析顺序是固定的而不会产生冲突。然而如果文本样式注册表中有大量注册数据，将会略微影响性能。<br>启用此配置项后，Echo-Live 会基于消息格式中已有的字段来遍历文本样式，但这会导致字段顺序变得敏感，靠后的字段会覆盖之前字段的效果。"
+                },
+                row_search_threshold: {
+                    _title: "横向搜索触发阈值",
+                    _description: "默认情况下数据检索算法采用垂直搜索，在条件较少时可以优化检索效率。但如果条件数量远高于数据量，检索效率将会降低。<br>当数据量和条件量的比值低于此阈值时，将会触发横向搜索，以降低大量条件带来的性能影响。<br>不过，您真的有这么做的需求吗？"
+                }
+            },
+            device: {
+                _title: "硬件设备",
+                _description: "配置 Echo-Live 调用的硬件设备",
+                enable: {
+                    _title: "启用硬件设备控制",
+                    _description: "允许 Echo-Live 调用一些硬件设备以提供更好的操作体验。例如震动马达，这将用于在移动设备上提供触觉反馈。"
+                }
             }
         },
         extension: {
@@ -686,9 +726,15 @@ const lang_zho_Hans = {
             none: "未加入",
             sleep: "休眠"
         },
+        client_target: {
+            none: "无",
+            not: "已排除",
+            yes: "已选中"
+        },
         client_state_panel: {
-            tip: "客户端状态：{client}，Echo 状态：{echo}。",
-            tip_more_messages: "客户端状态：{client}，Echo 状态：{echo}。点击此处可打印下一条消息。"
+            targeted: "（仅限定向）",
+            tip: "客户端状态：{client}；\nEcho 状态：{echo}；\n标记状态：{target}{targeted}；\n右键点击此处可标记目标。",
+            tip_more_messages: "客户端状态：{client}；\nEcho 状态：{echo}；\n标记状态：{target}{targeted}；\n点击此处可打印下一条消息。"
         },
         echo_state: {
             play: "打印中",
@@ -789,7 +835,7 @@ const lang_zho_Hans = {
         log: {
             index: "日志",
             welcome: "欢迎使用 Echo-Live！如需查阅帮助文档，请见：https://sheep-realms.github.io/Echo-Live-Doc/",
-            accessible: {
+            accessibility: {
                 type: {
                     dbug: "调试：",
                     done: "完成：",
@@ -803,6 +849,11 @@ const lang_zho_Hans = {
                 close: "{client} 离开广播频道，识别名：{name}",
                 echo_next: "收到来自其他服务端的命令：打印下一条消息。",
                 echo_next_from_self_to_target: "已命令 {name} 打印下一条消息。",
+                editor_websocket_connect_close: "编辑器与 WebSocket 服务器 {url} 连接中断。",
+                editor_websocket_connect_error: "编辑器与 WebSocket 服务器 {url} 连接出错，进行第 {n} 次重连。",
+                editor_websocket_connect_error_retry_failed: "编辑器与 WebSocket 服务器 {url} 连接出错，重连次数超出限制。",
+                editor_websocket_connect_open: "编辑器与 WebSocket 服务器 {url} 连接成功，编辑器 UUID：{uuid}",
+                editor_websocket_message_error: "编辑器解析 Websocket 服务器消息时出错。",
                 hello: "{client} 进入广播频道，识别名：{name}",
                 hello_hidden: "{client} 进入广播频道，已休眠，识别名：{name}",
                 hello_reply: "{client} 响应了广播，识别名：{name}",
@@ -822,6 +873,7 @@ const lang_zho_Hans = {
                 disable: "未开启广播模式，无日志显示。",
                 done: "广播模式已开启：{channel}",
                 user_agent_check: "编辑器已正确安装在 OBS 中！",
+                user_agent_check_websocket: "编辑器已启用 WebSocket 连接！",
                 user_agent_error: "您似乎并未正确在 OBS 中安装此编辑器，详见：https://sheep-realms.github.io/Echo-Live-Doc/main/how-to-use/",
             },
             error: {
@@ -840,7 +892,12 @@ const lang_zho_Hans = {
                 resent: "已再次发送历史消息。",
                 sent: "已发送消息：{msg}",
                 sent_custom: "已发送自定义消息：{msg}",
-                sent_custom_multi: "已发送 {n} 条自定义消息，首条消息为：{msg}"
+                sent_custom_multi: "已发送 {n} 条自定义消息，首条消息为：{msg}",
+                target: {
+                    none: "[ ] 已取消标记：{name}",
+                    not: "[-] 已标记排除：{name}",
+                    yes: "[+] 已标记选中：{name}"
+                }
             },
             tip: {
                 unknown_error: "看来您可能遇到了一些问题。如果您确实觉得有什么不对劲，请复制此日志内容反馈给开发者，并详细描述复现过程。"
@@ -853,7 +910,7 @@ const lang_zho_Hans = {
             index: "拾色器",
             empty: "卧槽？！你在干什么？我放在这里那么大一个调色板呢？还好我技高一筹给你兜住了！",
             select: "色板库",
-            accessible: {
+            accessibility: {
                 tip: "需要无障碍使用帮助吗？"
             },
             diff_dashboard: {
@@ -1124,7 +1181,7 @@ const lang_zho_Hans = {
                 update: "旧版"
             }
         },
-        droper: {
+        dropper: {
             title: "文件选择器",
             drop_file_cancel: "不放算了，哼！",
             drop_file_cancel_many: "一位用户反复拖拽文件，这是他的程序发生的变化",
@@ -1344,6 +1401,7 @@ const lang_zho_Hans = {
         license: "授权协议：{ name }"
     },
     notice: {
+        client_target_but_no_client: "请不要虚空索敌！",
         config_re_output: "已重新导出配置文件内容！",
         config_saved: "配置文件已保存！请注意刷新所有页面使新配置生效。",
         config_saving: "保存中...",
@@ -1367,7 +1425,7 @@ const lang_zho_Hans = {
             message: "这很有可能是因为您当前使用的浏览器不支持此功能。您还可以尝试拖放文件，但还是建议您更换浏览器。"
         },
         open_settings_in_obs: "请在浏览器中打开 settings.html，而不是在 OBS 中！",
-        unknow_error: {
+        unknown_error: {
             title: "发生了未捕获的错误",
             message: "这应该不是什么意料之中的战术性报错，您可以将此问题反馈给开发者，并提供复现方法。"
         }
@@ -1379,7 +1437,7 @@ const lang_zho_Hans = {
         settings: "Echo Live 配置文件编辑器"
     },
     settings: {
-        unknow_config_type: "暂不支持修改此配置",
+        unknown_config_type: "暂不支持修改此配置",
         config_input: {
             config_from_future: {
                 title: "配置文件来自未来版本",
@@ -1416,7 +1474,7 @@ const lang_zho_Hans = {
                 description: "此配置文件来自于旧版的 Echo-Live，需要更新才能使用。",
                 update: "更新"
             },
-            update_config_from_unknow_version: {
+            update_config_from_unknown_version: {
                 title: "未知的配置文件版本",
                 description: "此配置文件没有版本号，可能来自于 1.2.7 之前的版本。<br>您可以强制升级此配置文件，但并不能保证其正常运作，不建议您继续使用此配置文件。",
                 update: "强制更新"
@@ -1462,12 +1520,14 @@ const lang_zho_Hans = {
         }
     },
     sound: {
+        pencil: "铅笔",
         typewriter: "打字机",
         typewriter_loop: "打字机（随机音效）",
         sys001: "清脆敲击",
         sys002: "嗡嗡",
         sys003: "冒泡",
-        enter: "打字机回车"
+        enter: "打字机回车",
+        paper: "翻页"
     },
     studio: {
         title: {

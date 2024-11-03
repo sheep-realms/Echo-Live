@@ -11,18 +11,18 @@ if (config.global.color_scheme != 'auto') $('html').addClass('prefers-color-sche
 if (config.global.touchscreen_layout) $('html').addClass('touchscreen-layout');
 if (config.global.controller_layout_reverse) $('html').addClass('controller-layout-reverse');
 if (config.global.thin_scrollbar) $('html').addClass('thin-scrollbar');
-if (config.accessible.high_contrast || window.matchMedia('(forced-colors: active)').matches) {
-    $('html').addClass('accessible-high-contrast');
-    $('html').css('--accessible-outline-color', config.accessible.high_contrast_outline_color);
-    $('html').css('--accessible-outline-size', config.accessible.high_contrast_outline_size);
-    $('html').css('--accessible-outline-style', config.accessible.high_contrast_outline_style);
+if (config.accessibility.high_contrast || window.matchMedia('(forced-colors: active)').matches) {
+    $('html').addClass('accessibility-high-contrast');
+    $('html').css('--accessibility-outline-color', config.accessibility.high_contrast_outline_color);
+    $('html').css('--accessibility-outline-size', config.accessibility.high_contrast_outline_size);
+    $('html').css('--accessibility-outline-style', config.accessibility.high_contrast_outline_style);
 }
-if (config.accessible.drotanopia_and_deuteranopia) $('html').addClass('accessible-drotanopia-and-deuteranopia');
-if (config.accessible.link_underline) $('html').addClass('accessible-link-underline');
-if (config.accessible.animation_disable) $('html').addClass('accessible-animation-disable');
-if (config.accessible.power_saving_mode) $('html').addClass('power-saving-mode');
-if (config.accessible.unlock_page_width) $('html').addClass('unlock-page-width');
-$('html').css('--font-size-base', `${ config.accessible.font_size }px`);
+if (config.accessibility.protanopia_and_deuteranopia) $('html').addClass('accessibility-protanopia-and-deuteranopia');
+if (config.accessibility.link_underline) $('html').addClass('accessibility-link-underline');
+if (config.accessibility.animation_disable) $('html').addClass('accessibility-animation-disable');
+if (config.accessibility.power_saving_mode) $('html').addClass('power-saving-mode');
+if (config.accessibility.unlock_page_width) $('html').addClass('unlock-page-width');
+$('html').css('--font-size-base', `${ config.accessibility.font_size }px`);
 
 
 
@@ -348,7 +348,7 @@ $(document).on('change', '#popups-emoji-select', function() {
 });
 
 // 拾色器无障碍提示按钮
-$(document).on('click', '#popups-palette-accessible-help-btn', function() {
+$(document).on('click', '#popups-palette-accessibility-help-btn', function() {
     window.open('https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/#visual', '_blank');
     popupsDisplay('#popups-palette', false);
 });
@@ -360,7 +360,7 @@ $(document).on('mouseenter', '#popups-palette.color-contrast-enable .color-box',
 
 // 拾色器快捷键
 $(document).on('keydown', '#popups-palette', function(e) {
-    // console.log(e.keyCode);
+    // console.log(e.code);
 
     let psv = [];
     let now = '';
@@ -376,13 +376,13 @@ $(document).on('keydown', '#popups-palette', function(e) {
         nextIndex = nowIndex;
     }
 
-    switch (e.keyCode) {
-        case 27:
+    switch (e.code) {
+        case 'Escape':
             popupsDisplay('#popups-palette', false);
             $('#ptext-content').focus();
             break;
 
-        case 81:
+        case 'KeyQ':
             getPaletteSelectValue();
             nextIndex--;
             if (nextIndex < 0) nextIndex = psv.length - 1;
@@ -391,7 +391,7 @@ $(document).on('keydown', '#popups-palette', function(e) {
             $('#popups-palette-select').focus();
             break;
 
-        case 69:
+        case 'KeyE':
             getPaletteSelectValue();
             nextIndex = ++nextIndex % psv.length;
             $('#popups-palette-select').val(psv[nextIndex]);
@@ -406,7 +406,7 @@ $(document).on('keydown', '#popups-palette', function(e) {
 
 // 表情包捷键
 $(document).on('keydown', '#popups-emoji', function(e) {
-    // console.log(e.keyCode);
+    // console.log(e.code);
 
     let psv = [];
     let now = '';
@@ -422,13 +422,13 @@ $(document).on('keydown', '#popups-emoji', function(e) {
         nextIndex = nowIndex;
     }
 
-    switch (e.keyCode) {
-        case 27:
+    switch (e.code) {
+        case 'Escape':
             popupsDisplay('#popups-emoji', false);
             $('#ptext-content').focus();
             break;
 
-        case 81:
+        case 'KeyQ':
             getPaletteSelectValue();
             nextIndex--;
             if (nextIndex < 0) nextIndex = psv.length - 1;
@@ -437,7 +437,7 @@ $(document).on('keydown', '#popups-emoji', function(e) {
             $('#popups-emoji-select').focus();
             break;
 
-        case 69:
+        case 'KeyE':
             getPaletteSelectValue();
             nextIndex = ++nextIndex % psv.length;
             $('#popups-emoji-select').val(psv[nextIndex]);
@@ -459,9 +459,9 @@ $(document).on('keydown', '#popups-emoji', function(e) {
 
 // 图片选择器快捷键
 $(document).on('keydown', '#popups-image', function(e) {
-    // console.log(e.keyCode);
-    switch (e.keyCode) {
-        case 27:
+    // console.log(e.code);
+    switch (e.code) {
+        case 'Escape':
             popupsDisplay('#popups-image', false);
             $('#ptext-content').focus();
             break;

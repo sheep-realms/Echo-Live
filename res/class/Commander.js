@@ -114,10 +114,10 @@ class Commander {
 
         // 查找命令
         let targetCmd = this.commands.find(function(e) {
-            return e.name == cmds[0];
+            return e.name === cmds[0];
         });
         // 未找到命令
-        if (targetCmd == undefined) {
+        if (targetCmd === undefined) {
             return;
         }
 
@@ -127,30 +127,28 @@ class Commander {
 
         let pcobj = this.__parameterConstructor(targetCmd, cmds);
 
-        if (pcobj.state != 'success') {
+        if (pcobj.state !== 'success') {
             return pcobj;
         }
 
         cmds = pcobj.data.parameters;
 
-        let r = this[targetCmd.name](...cmds);
-
-        return r;
+        return this[targetCmd.name](...cmds);
     }
 
     consoleRun(command = '') {
-        if (typeof command != 'string' || command == '') return;
+        if (typeof command != 'string' || command === '') return;
 
         let r = this.run(command);
 
-        if (command.split(' ')[0] != 'say') this.link.messager.send(command, 'info', true);
+        if (command.split(' ')[0] !== 'say') this.link.messager.send(command, 'info', true);
 
-        if (r?.message == undefined) return r;
+        if (r?.message === undefined) return r;
         let msg = $t(
             r.message.key,
             r.message.variable
         );
-        if (r.state == 'success') {
+        if (r.state === 'success') {
             this.link.messager.send(msg);
         } else {
             this.link.messager.sendError(msg);
@@ -175,7 +173,7 @@ class Commander {
         for (let i = 0; i < commands.length; i++) {
             if (commands[i].startsWith('//') || commands[i].trim() === '') continue;
             let r = this.run(commands[i], true);
-            if (r.state == 'success') {
+            if (r.state === 'success') {
                 success++;
             } else {
                 fail++;
@@ -207,7 +205,7 @@ class Commander {
         for (let i = 0; i < targetCmd.parameters.length; i++) {
             let par = targetCmd.parameters[i];
 
-            if (inputCmds[0] == undefined || inputCmds[0] == '') {
+            if (inputCmds[0] === undefined || inputCmds[0] === '') {
                 if (par.required) {
                     return this.__messageConstructor(
                         'common',
@@ -218,7 +216,7 @@ class Commander {
                 }
             }
 
-            if (inputCmds[0].search(/^@[a-zA-Z_]\w{0,63}$/) != -1) {
+            if (inputCmds[0].search(/^@[a-zA-Z_]\w{0,63}$/) !== -1) {
                 inputCmds[0] = this.__getVar(inputCmds[0].substring(1));
             }
 
@@ -232,7 +230,7 @@ class Commander {
                 case 'number':
                     p = Number(inputCmds.shift());
                     pcheck = this.__parameterCheckNumber(p, par);
-                    if (pcheck.state != 'success') return pcheck;
+                    if (pcheck.state !== 'success') return pcheck;
                     newCmd.push(p);
                     break;
 
@@ -254,21 +252,21 @@ class Commander {
                 case 'value':
                     p = inputCmds.shift();
                     pcheck = this.__parameterCheckValueList(par.value, p);
-                    if (pcheck.state != 'success') return pcheck;
+                    if (pcheck.state !== 'success') return pcheck;
                     newCmd.push(p);
                     break;
 
                 case 'key':
                     p = inputCmds.shift();
                     pcheck = this.__parameterCheckKey(p);
-                    if (pcheck.state != 'success') return pcheck;
+                    if (pcheck.state !== 'success') return pcheck;
                     newCmd.push(p);
                     break;
 
                 case 'select':
                     p = inputCmds.shift();
                     pcheck = this.__parameterOption(par.value, p);
-                    if (pcheck.state != 'success') return pcheck;
+                    if (pcheck.state !== 'success') return pcheck;
                     newCmd.push(p);
                     break;
 
@@ -296,8 +294,8 @@ class Commander {
             );
         }
 
-        if (parameter?.value != undefined) {
-            if (parameter.value?.max != undefined) {
+        if (parameter?.value !== undefined) {
+            if (parameter.value?.max !== undefined) {
                 if (value > parameter.value.max) {
                     return this.__messageConstructor(
                         'common',
@@ -307,7 +305,7 @@ class Commander {
                 }
             }
 
-            if (parameter.value?.min != undefined) {
+            if (parameter.value?.min !== undefined) {
                 if (value < parameter.value.min) {
                     return this.__messageConstructor(
                         'common',
@@ -324,19 +322,19 @@ class Commander {
     __parameterCheckValueList(type, value) {
         let i = this.value[type].indexOf(value);
         
-        if (i == -1) {
+        if (i === -1) {
             return this.__messageConstructor(
                 'common',
                 StateMessage.getFail('invalid_' + type),
                 { value: value }
             );
-        };
+        }
 
         return StateMessage.getSuccess();
     }
 
     __parameterCheckKey(value) {
-        if (value.search(/^[a-zA-Z_]\w{0,63}$/) == 0) {
+        if (value.search(/^[a-zA-Z_]\w{0,63}$/) === 0) {
             return StateMessage.getSuccess();
         } else {
             return this.__messageConstructor(
@@ -348,19 +346,19 @@ class Commander {
     }
 
     __parameterOption(options, value) {
-        if (options.indexOf(value) != -1) {
+        if (options.indexOf(value) !== -1) {
             return StateMessage.getSuccess();
         } else {
             return this.__messageConstructor(
                 'common',
-                StateMessage.getFail('unknow_option'),
+                StateMessage.getFail('unknown_option'),
                 { name: value }
             );
         }
     }
 
     __messageConstructor(command, rt, variable = {}, after = undefined) {
-        if (rt.state == 'success') {
+        if (rt.state === 'success') {
             rt.message = {
                 key: `command.${command}.success${ after ? '.' + after : ''}`,
                 variable: variable
@@ -375,25 +373,25 @@ class Commander {
     }
 
     __setStack(key) {
-        if (key == 'global') return;
+        if (key === 'global') return;
         this.variable[key] = {};
         this.stack = key;
     }
 
     __clearStack() {
-        if (this.stack == 'global') return;
+        if (this.stack === 'global') return;
         delete this.variable[this.stack];
         this.stack = 'global';
     }
 
     __getVar(name, stack = this.stack) {
         let v = this.variable[stack][name];
-        if (v == undefined) v = this.variable['global'][name];
+        if (v === undefined) v = this.variable['global'][name];
         return v;
     }
 
     __setVar(name, value = undefined, stack = this.stack) {
-        if (Number.isNaN(Number(value)) != true) value = Number(value);
+        if (Number.isNaN(Number(value)) !== true) value = Number(value);
         this.variable[stack][name] = value;
     }
 
@@ -402,13 +400,13 @@ class Commander {
     }
 
     __getBroadcastTarget(target) {
-        if (target == undefined || typeof target != 'string') return;
-        if (target.search(/^[a-f\d]{4}(?:[a-f\d]{4}-){4}[a-f\d]{12}$/i) != -1) return target;
+        if (target === undefined || typeof target != 'string') return;
+        if (target.search(/^[a-f\d]{4}(?:[a-f\d]{4}-){4}[a-f\d]{12}$/i) !== -1) return target;
         return '@' + target;
     }
 
     __broadcastMessageConstructor(action, target = undefined) {
-        if (target != undefined) {
+        if (target !== undefined) {
             return this.__messageConstructor('common', StateMessage.getSuccess(), { action: action, name: target }, 'broadcast_target');
         } else {
             return this.__messageConstructor('common', StateMessage.getSuccess(), { action: action }, 'broadcast_everyone');
@@ -426,7 +424,7 @@ class Commander {
                 maskClosable: true
             },
             (value, unit) => {
-                if (value == 'confirm') {
+                if (value === 'confirm') {
                     this.link.localStorageManager.clear();
                     this.link.systemNotice.sendT('notice.local_storage_cleared', {}, 'success');
                 }
@@ -465,7 +463,7 @@ class Commander {
     }
 
     livedisplay(state, target) {
-        if (this.link.broadcast == undefined) return this.__messageConstructor('common', StateMessage.getFail('not_broadcast'));
+        if (this.link.broadcast === undefined) return this.__messageConstructor('common', StateMessage.getFail('not_broadcast'));
         target = this.__getBroadcastTarget(target);
         switch (state) {
             case 'hidden':
@@ -484,7 +482,7 @@ class Commander {
     }
 
     next(target) {
-        if (this.link.broadcast == undefined) return this.__messageConstructor('common', StateMessage.getFail('not_broadcast'));
+        if (this.link.broadcast === undefined) return this.__messageConstructor('common', StateMessage.getFail('not_broadcast'));
         target = this.__getBroadcastTarget(target);
         this.link.broadcast.sendNext(target);
 
@@ -492,7 +490,7 @@ class Commander {
     }
 
     ping(target) {
-        if (this.link.broadcast == undefined) return this.__messageConstructor('common', StateMessage.getFail('not_broadcast'));
+        if (this.link.broadcast === undefined) return this.__messageConstructor('common', StateMessage.getFail('not_broadcast'));
         target = this.__getBroadcastTarget(target);
         this.link.broadcast.ping(target);
 
@@ -505,23 +503,23 @@ class Commander {
     }
 
     shutdown(reason) {
-        if (this.link.broadcast == undefined) return this.__messageConstructor('common', StateMessage.getFail('not_broadcast'));
+        if (this.link.broadcast === undefined) return this.__messageConstructor('common', StateMessage.getFail('not_broadcast'));
         this.link.broadcast.sendShutdown(reason);
 
         return this.__broadcastMessageConstructor('shutdown');
     }
 
     theme(name, target) {
-        if (this.link.broadcast == undefined) return this.__messageConstructor('common', StateMessage.getFail('not_broadcast'));
+        if (this.link.broadcast === undefined) return this.__messageConstructor('common', StateMessage.getFail('not_broadcast'));
         this.link.broadcast.sendTheme(name, target);
 
         return this.__broadcastMessageConstructor('set_theme', target);
     }
 
     var(name, action = undefined, value = undefined, stack = this.stack) {
-        if (Number.isNaN(Number(value)) != true) value = Number(value);
+        if (Number.isNaN(Number(value)) !== true) value = Number(value);
 
-        if (action == 'get') {
+        if (action === 'get') {
             let v1 = this.__getVar(name, stack);
             return this.__messageConstructor(
                 'var',
@@ -543,7 +541,7 @@ class Commander {
             );
         }
 
-        if (action == '=' || action == undefined) {
+        if (action === '=' || action === undefined) {
             this.__setVar(name, value, stack);
             let v1 = this.__getVar(name, stack);
             return this.__messageConstructor(
@@ -566,7 +564,7 @@ class Commander {
             );
         }
 
-        if (action == 'return') {
+        if (action === 'return') {
             this.__setVar(name, this.run(value).value, stack);
             let v1 = this.__getVar(name, stack);
             return this.__messageConstructor(
@@ -589,7 +587,7 @@ class Commander {
             );
         }
 
-        if (this.__getVar(name, stack) == undefined && action != 'typeof') {
+        if (this.__getVar(name, stack) === undefined && action !== 'typeof') {
             return this.__messageConstructor(
                 'var',
                 StateMessage.getFail('var_undefined'),
@@ -677,7 +675,7 @@ class StateMessage {
     constructor() {}
 
     static getSuccess(data = {}, value = undefined, valueIsUndefined = false) {
-        if (value == undefined && !valueIsUndefined) value = 0;
+        if (value === undefined && !valueIsUndefined) value = 0;
         return {
             state: 'success',
             value: value,

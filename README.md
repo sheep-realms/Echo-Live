@@ -34,6 +34,7 @@
 ### 姊妹项目
 - [Echo](https://github.com/sheep-realms/Echo)
 - [Echo-Live-Doc](https://github.com/sheep-realms/Echo-Live-Doc)
+- [Echo-Live-WebSocket-Server](https://github.com/sheep-realms/Echo-Live-WebSocket-Server)
 
 ### 第三方项目
 - [Echo-Client](https://github.com/Rickyxrc/echo-client)

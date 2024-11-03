@@ -5,13 +5,13 @@
 
 let sysNotice = new SystemNotice();
 
-let unknowErrorListenerDown = false;
+let unknownErrorListenerDown = false;
 window.addEventListener("error", (e) => {
-    if (unknowErrorListenerDown) return;
-    sysNotice.sendThasTitle('notice.unknow_error', {}, 'fatal');
-    unknowErrorListenerDown = true;
+    if (unknownErrorListenerDown) return;
+    sysNotice.sendTHasTitle('notice.unknown_error', {}, 'fatal');
+    unknownErrorListenerDown = true;
     setTimeout(() => {
-        unknowErrorListenerDown = false;
+        unknownErrorListenerDown = false;
     }, 10000)
 });
 
@@ -76,6 +76,9 @@ let commanderFnMode = false;
 
 let elb;
 
+// 彩蛋
+let clientTargetButNoClient = false;
+
 $(document).ready(function() {
     $('.tabpage-panel[data-pageid="ptext"] .editor-controller').append(EditorForm.editorController('ptext-content'));
 
@@ -102,7 +105,7 @@ $(document).ready(function() {
         }
     });
 
-    if (config.echo.print_speed != 30) {
+    if (config.echo.print_speed !== 30) {
         $('.echo-editor-form-input-tip').text($t('editor.form.description.print_speed_custom', { value: config.echo.print_speed }));
     }
 
@@ -121,7 +124,7 @@ $(document).ready(function() {
 
         // 输出 - 内容 - 快捷键
         $('#output-content').keydown(function(e) {
-            if (e.keyCode == 13 && e.ctrlKey) {
+            if (e.code === 'Enter' && e.ctrlKey) {
                 $('#output-btn-send').click();
                 effectClick('#output-btn-send');
             }
@@ -135,6 +138,10 @@ $(document).ready(function() {
         elb.on('error', getError);
         elb.on('noClient', noClient);
         elb.on('nameDuplicate', nameDuplicate);
+        elb.on('websocketConnectOpen', websocketConnectOpen);
+        elb.on('websocketConnectClose', websocketConnectClose);
+        elb.on('websocketConnectError', websocketConnectError);
+        elb.on('websocketMessageError', websocketMessageError);
 
         commander.link.broadcast = elb;
 
@@ -143,7 +150,9 @@ $(document).ready(function() {
             editorLogT('editor.log.broadcast_launch.done', { channel: config.echolive.broadcast.channel });
             editorLog('User Agent: ' + navigator.userAgent, 'dbug');
 
-            if (navigator.userAgent.toLowerCase().search(/ obs\//) != -1) {
+            if (config.editor.websocket.enable) {
+                editorLogT('editor.log.broadcast_launch.user_agent_check_websocket', {}, 'done');
+            } else if (navigator.userAgent.toLowerCase().search(/ obs\//) !== -1) {
                 editorLogT('editor.log.broadcast_launch.user_agent_check', {}, 'done');
                 inOBS = true;
             } else {
@@ -162,7 +171,7 @@ $(document).ready(function() {
 let logMsgMark = 0;
 
 function editorLog(message = '', type = 'info') {
-    $('#editor-log').append(`<div role="listitem" class="log-item log-type-${type}" ${type == 'dbug' ? 'aria-hidden="true"' : ''}><span class="time" aria-hidden="true">${EchoLiveTools.formatDate(undefined, 'data_time_common')}</span> <span class="type" aria-label="${ $t('editor.log.accessible.type.' + type) }">[${type.toUpperCase()}]</span> <span class="message" ${type == 'erro' || type == 'warn' ? ' role="alert"' : ''}>${message}</span></div>`);
+    $('#editor-log').append(`<div role="listitem" class="log-item log-type-${type}" ${type === 'dbug' ? 'aria-hidden="true"' : ''}><span class="time" aria-hidden="true">${EchoLiveTools.formatDate(undefined, 'date_time_common')}</span> <span class="type" aria-label="${ $t('editor.log.accessibility.type.' + type) }">[${type.toUpperCase()}]</span> <span class="message" ${type === 'erro' || type === 'warn' ? ' role="alert"' : ''}>${message}</span></div>`);
     $('#editor-log').scrollTop(4503599627370496);
 
     if ($('#tabpage-nav-log[aria-selected="true"]').length <= 0) {
@@ -176,7 +185,7 @@ function editorLog(message = '', type = 'info') {
     }
 
     // 通知重要消息
-    if ((type == 'warn' || type == 'erro') && $('#tabpage-nav-log').attr('aria-selected') == 'false') {
+    if ((type === 'warn' || type === 'erro') && $('#tabpage-nav-log').attr('aria-selected') == 'false') {
         logMsgMark++;
         $('#log-message-mark').text(logMsgMark);
         $('#log-message-mark').removeClass('hide');
@@ -213,9 +222,9 @@ function getMessage(data) {
             break;
             
         case 'hello':
-            if (data.target == undefined || data.target == elb.uuid) {
+            if (data.target === undefined || data.target === elb.uuid) {
                 let helloMsg1 = data.data.hidden ? '_hidden' : '';
-                let helloMsg2 = data.target == elb.uuid ? '_reply' : '';
+                let helloMsg2 = data.target === elb.uuid ? '_reply' : '';
                 editorLogT(
                     'editor.log.broadcast.hello' + helloMsg2 + helloMsg1,
                     {
@@ -223,7 +232,7 @@ function getMessage(data) {
                         name: data.from?.name
                     }
                 );
-            } else if (data.target == '@__server') {
+            } else if (data.target === '@__server') {
                 editorLogT(
                     'editor.log.broadcast.hello_to_server',
                     {
@@ -278,12 +287,12 @@ function getMessage(data) {
             );
             break;
 
-        case 'error_unknow':
+        case 'error_unknown':
             editorLogT(
                 'editor.log.error.unknown_error_in_client',
                 {
                     client: $t('broadcast.client.type.' + data.from.type),
-                    msg: data.data.message.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>'),
+                    msg: data.data.message.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/ {2}/g, '&nbsp; ').replace(/\n/g, '<br>'),
                     source: EchoLiveTools.safeHTML(data.data.source),
                     line: data.data.line,
                     col: data.data.col,
@@ -299,8 +308,8 @@ function getMessage(data) {
 
         case 'shutdown':
             editorLogT(
-                'editor.log.broadcast.shutdown' + (data.data?.reason != undefined ? '_reason' : ''),
-                data.data?.reason != undefined ? { reason: data.data?.reason } : {}
+                'editor.log.broadcast.shutdown' + (data.data?.reason !== undefined ? '_reason' : ''),
+                data.data?.reason !== undefined ? { reason: data.data?.reason } : {}
             );
             break
 
@@ -316,7 +325,7 @@ function getError(data) {
                 editorLogT(
                     'editor.log.error.websocket_error',
                     {
-                        client: $t('broadcast.client.type.live'),
+                        client: $t('broadcast.client.type.' + data?.from?.type),
                         url: data.data.url,
                         n: data.data.reconnectCount,
                         name: data.from.name
@@ -327,7 +336,7 @@ function getError(data) {
                 editorLogT(
                     'editor.log.error.websocket_error_retry_failed',
                     {
-                        client: $t('broadcast.client.type.live'),
+                        client: $t('broadcast.client.type.' + data?.from?.type),
                         url: data.data.url,
                         name: data.from.name
                     },
@@ -360,6 +369,26 @@ function nameDuplicate(name, uuid) {
     editorLogT('editor.log.error.name_duplicate', { name: name, uuid: uuid}, 'erro');
 }
 
+function websocketConnectOpen(data) {
+    editorLogT('editor.log.broadcast.editor_websocket_connect_open', data);
+}
+
+function websocketConnectClose(data) {
+    editorLogT('editor.log.broadcast.editor_websocket_connect_close', data, 'erro');
+}
+
+function websocketConnectError(data) {
+    let key = 'editor.log.broadcast.editor_websocket_connect_error';
+    if (!data.tryReconnect) key = 'editor.log.broadcast.editor_websocket_connect_error_retry_failed';
+    editorLogT(key, {
+        url: data.url,
+        n: data.reconnectCount
+    }, 'erro');
+}
+
+function websocketMessageError() {
+    editorLogT('editor.log.broadcast.editor_websocket_message_error', {}, 'erro');
+}
 
 // 纯文本重置
 $('#ptext-btn-clear').click(function() {
@@ -543,11 +572,11 @@ $('#output-btn-send').click(function() {
         return;
     }
     
-    if (beforeCheck && afterCheck) {
-        newCentent = centent.substring(before.length, centent.length - after.length);
-    } else {
-        newCentent = centent;
-    }
+    newCentent = centent;
+
+    if (beforeCheck) newCentent = newCentent.substring(before.length)
+    if (afterCheck) newCentent = newCentent.substring(0, newCentent.length - after.length);
+    
 
     let msg;
 
@@ -561,8 +590,18 @@ $('#output-btn-send').click(function() {
         elb.sendData(msg);
         echoLiveSystem.device.vibrateAuto('success');
     } catch (error) {
-        editorLogT('editor.log.message.illegal', {}, 'erro');
-        echoLiveSystem.device.vibrateAuto('error');
+        if (centent === '/cmd') {
+            if ($('#commander-input-panel').hasClass('hide')) {
+                $('#commander-input-panel').removeClass('hide');
+                $('#commander-input').focus();
+            } else {
+                $('#commander-input-panel').addClass('hide');
+                $('#commander-input').blur();
+            }
+        } else {
+            editorLogT('editor.log.message.illegal', {}, 'erro');
+            echoLiveSystem.device.vibrateAuto('error');
+        }
         return;
     }
 
@@ -783,7 +822,7 @@ $(document).on('click', '#history-btn-clear-cancel', function() {
 });
 
 // 仪表盘点击
-$(document).on('click', '.echo-live-client-state-block', function(e) {
+$(document).on('click', '.echo-live-client-state-block', function(event) {
     const name = $(this).data('name');
     if (name == '') return;
     const r = elb.clients.filter((e) => {
@@ -796,42 +835,72 @@ $(document).on('click', '.echo-live-client-state-block', function(e) {
             elb.sendNext('@' + name);
         }
         editorLogT('editor.log.broadcast.echo_next_from_self_to_target', { name: name });
+        echoLiveSystem.device.vibrateAuto('success');
+    }
+});
+
+// 仪表盘右键
+$(document).on('contextmenu', '.echo-live-client-state-block', function(event) {
+    event.preventDefault();
+    const name = $(this).data('name');
+    const target = $(this).data('target');
+    if (name === '') {
+        if (!clientTargetButNoClient) {
+            sysNotice.sendT('notice.client_target_but_no_client', {}, 'trophy');
+            clientTargetButNoClient = true;
+        }
+        return;
+    }
+
+    const next = {
+        'none': 'yes',
+        'yes': 'not',
+        'not': 'none'
+    }
+    let value = next[target];
+    if (value === undefined) value = 'none';
+    elb.setClientTarget(name, value);
+    editorLogT('editor.log.message.target.' + value, { name: name });
+    if (value === 'none') {
+        echoLiveSystem.device.vibrateAuto('switch_off');
+    } else {
+        echoLiveSystem.device.vibrateAuto('switch_on');
     }
 });
 
 // 纯文本 - 内容 - 快捷键
 $('#ptext-content').keydown(function(e) {
-    // console.log(e.keyCode);
+    // console.log(e.code);
     if (e.ctrlKey) {
-        if (e.keyCode == 13) {
+        if (e.code === 'Enter') {
             if (!config.echolive.broadcast.enable) return;
             $('#ptext-btn-send').click();
             effectClick('#ptext-btn-send');
-        } else if (e.keyCode == 83) {
+        } else if (e.code === 'KeyS') {
             e.preventDefault();
         } else {
             let code = {
-                '66':   'bold',
-                '73':   'italic',
-                '85':   'underline',
-                '68':   'strikethrough',
-                '67':   'color',
-                '69':   'emoji',
-                '38':   'font_size_increase',
-                '40':   'font_size_decrease',
-                '32':   'clear'
+                'KeyB':         'bold',
+                'KeyI':         'italic',
+                'KeyU':         'underline',
+                'KeyD':         'strikethrough',
+                'KeyC':         'color',
+                'KeyE':         'emoji',
+                'ArrowUp':      'font_size_increase',
+                'ArrowDown':    'font_size_decrease',
+                'Space':        'clear'
             };
-            if (code[e.keyCode] == undefined) return;
-            if (e.keyCode == 32 && !e.shiftKey) return;
-            if (e.keyCode == 67 && !e.shiftKey) return;
-            if (e.keyCode == 73 && e.shiftKey) {
+            if (code[e.code] === undefined) return;
+            if (e.code === 'Space' && !e.shiftKey) return;
+            if (e.code === 'KeyC' && !e.shiftKey) return;
+            if (e.code == 'KeyI' && e.shiftKey) {
                 e.preventDefault();
                 $(`#ptext-editor .editor-controller:not(.disabled) button[data-value="image"]`).click();
                 return;
             }
 
             e.preventDefault();
-            $(`#ptext-editor .editor-controller:not(.disabled) button[data-value="${code[e.keyCode]}"]`).click();
+            $(`#ptext-editor .editor-controller:not(.disabled) button[data-value="${code[e.code]}"]`).click();
         }
     }
 })
@@ -840,7 +909,7 @@ $('#ptext-content').keydown(function(e) {
 
 
 $(document).keydown(function(e) {
-    if (e.keyCode == 191 && e.ctrlKey) {
+    if (e.code === 'Slash' && e.ctrlKey) {
         if ($('#commander-input-panel').hasClass('hide')) {
             $('#commander-input-panel').removeClass('hide');
             $('#commander-input').focus();
@@ -878,7 +947,7 @@ function commanderRun() {
         logMessager.send($t(
             r.state.fail > 0 ? 'command.common.success.function_has_fail' : 'command.common.success.function',
             {
-                count: r.state.count,
+                n: r.state.count,
                 success: r.state.success,
                 fail: r.state.fail
             }
@@ -903,14 +972,14 @@ function commanderEnter() {
 }
 
 $('#commander-input').keydown(function(e) {
-    if (e.keyCode == 13) {
+    if (e.code === 'Enter') {
         e.preventDefault();
         if (commanderFnMode ? !e.ctrlKey : e.ctrlKey) {
             commanderEnter();
         } else {
             commanderRun();
         }
-    } else if (e.keyCode == 27) {
+    } else if (e.code === 'Escape') {
         e.preventDefault();
         $('#commander-input-panel').addClass('hide');
         $('#commander-input').blur();
@@ -978,6 +1047,21 @@ $(window).resize(function() {
         sysNotice.sendT('notice.browser_zoom', {}, 'tips');
     } else if (devicePixelRatioChanged === 1 && initDevicePixelRatio == window.devicePixelRatio) {
         devicePixelRatioChanged = -1;
-        sysNotice.sendThasTitle('notice.browser_zoom_reset', {}, 'trophy');
+        sysNotice.sendTHasTitle('notice.browser_zoom_reset', {}, 'trophy');
     }
 });
+
+// let keyboardOpen = false;
+
+// function adjustForKeyboard() {
+//     const keyboardOffset = window.innerHeight - window.visualViewport.height * window.visualViewport.scale;
+//     if (!keyboardOpen && keyboardOffset > 128) {
+//         keyboardOpen = true;
+//         sysNotice.send('keyboard_open');
+//     } else if (keyboardOpen && keyboardOffset <= 128 - 8) {
+//         keyboardOpen = false;
+//         sysNotice.send('keyboard_close');
+//     }
+// }
+
+// window.visualViewport.addEventListener('resize', adjustForKeyboard);

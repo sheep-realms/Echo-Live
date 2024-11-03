@@ -3,7 +3,7 @@
 let sysNotice = new SystemNotice();
 
 window.addEventListener("error", (e) => {
-    sysNotice.sendThasTitle('notice.unknow_error', {}, 'fatal');
+    sysNotice.sendTHasTitle('notice.unknown_error', {}, 'fatal');
 });
 
 if (config.advanced.settings.display_config_key) $('html').addClass('display-config-key');
@@ -422,8 +422,8 @@ function configChangeCheck() {
 }
 
 function dangerConfigCheck(effect = false, exportNow = false) {
-    let value = Number(getSettingsItemValue('accessible.font_size'));
-    let value2 = Number(getSettingsItemValue('accessible.font_size', true));
+    let value = Number(getSettingsItemValue('accessibility.font_size'));
+    let value2 = Number(getSettingsItemValue('accessibility.font_size', true));
     if (value == value2) return true;
     if (value > 32 || value < 8) {
         uniWindow.messageWindow(
@@ -473,7 +473,7 @@ function configSaveAll(effect = false, skipCheck = false, exportNow = false) {
     configOutput(true);
     if (effect) effectFlicker('#tabpage-nav-export');
 
-    $('html').css('--font-size-base', `${ Number(getSettingsItemValue('accessible.font_size')) }px`);
+    $('html').css('--font-size-base', `${ Number(getSettingsItemValue('accessibility.font_size')) }px`);
     $(window).resize();
     setTimeout(function() {
         let colorScheme = settingsManager.getConfig('global.color_scheme');
@@ -613,11 +613,18 @@ $(document).ready(function() {
         echoLiveSystem.registry.forEach('sound', e => {
             datalistLang.push({
                 title: $t(`sound.${ e.name }`),
-                value: e.name
+                value: e.name,
+                __type: e.type
             });
         });
 
         __setConfigDefineDatalist('echolive.print_audio.name', datalistLang);
+        datalistLang = datalistLang.slice();
+        datalistLang.sort((a, b) => {
+            if (a.__type === b.type) return 0;
+            if (b.__type === 'next') return 1;
+            return -1;
+        });
         __setConfigDefineDatalist('echolive.next_audio.name', datalistLang);
 
         datalistLang = [];
@@ -670,7 +677,7 @@ $(document).ready(function() {
                 value: e.value
             });
         });
-        __setConfigDefineDatalist('accessible.high_contrast_outline_style', datalistLang);
+        __setConfigDefineDatalist('accessibility.high_contrast_outline_style', datalistLang);
 
         // 生成页面
 
@@ -719,7 +726,7 @@ $(document).ready(function() {
             $t('settings.msgbox.echo.title'),
             $t('settings.msgbox.echo.description')
         ));
-        $('.settings-page[data-pageid="accessible"]').prepend(
+        $('.settings-page[data-pageid="accessibility"]').prepend(
             SettingsPanel.msgBoxBlack(
                 $t('config.about.accessibility'),
                 $t('settings.msgbox.accessibility'),
@@ -731,9 +738,9 @@ $(document).ready(function() {
                 <div class="warn"><div class="fg">${ $t('settings.functional_color.warn') }</div><div class="bg"></div></div>
                 <div class="danger"><div class="fg">${ $t('settings.functional_color.danger') }</div><div class="bg"></div></div>
             </div>
-            <div class="review-font-size-card" aria-hidden="true" style="--font-size-base-review: ${config.accessible.font_size}px; font-size: var(--font-size-base);">
-                <div class="example-1">${ $t('config.accessible.font_size.example_1') }</div>
-                <div class="example-2">${ $t('config.accessible.font_size.example_2') }</div>
+            <div class="review-font-size-card" aria-hidden="true" style="--font-size-base-review: ${config.accessibility.font_size}px; font-size: var(--font-size-base);">
+                <div class="example-1">${ $t('config.accessibility.font_size.example_1') }</div>
+                <div class="example-2">${ $t('config.accessibility.font_size.example_2') }</div>
             </div>`
         );
         $('.settings-page[data-pageid="advanced"]').prepend(SettingsPanel.msgBoxWarn(
@@ -838,7 +845,7 @@ async function filePicker() {
         if (error.name == 'AbortError') {
             sysNotice.sendT('notice.open_file_picker_cancel', {}, 'warn');
         } else {
-            sysNotice.sendThasTitle('notice.open_file_picker_fail', {}, 'error');
+            sysNotice.sendTHasTitle('notice.open_file_picker_fail', {}, 'error');
         }
     }
 }
@@ -902,7 +909,7 @@ function importConfigCheck() {
     let dataVer = settingsManager.getConfig('data_version');
     if (dataVer == undefined) {
         showFileChecker(dropFile, 'update');
-        showFileCheckDialog(SettingsFileChecker.dialogUpdateConfigFromUnknowVersion());
+        showFileCheckDialog(SettingsFileChecker.dialogUpdateConfigFromUnknownVersion());
     } else if (dataVer < db_config_version) {
         showFileChecker(dropFile, 'update');
         showFileCheckDialog(SettingsFileChecker.dialogUpdateConfig());
@@ -920,11 +927,11 @@ $(document).on('dragover', '#settings-file-input-box', function(e) {
     e.preventDefault();
     if (!inFileDorp) {
         inFileDorp = true;
-        $('#settings-file-input-box .file-drop-box-message').text($t('file.droper.drop_file_now'));
+        $('#settings-file-input-box .file-drop-box-message').text($t('file.dropper.drop_file_now'));
         $('#settings-file-input-box').addClass('dragover');
         inFileDorpTimer = setTimeout(function() {
             inFileDorpLongTime = true;
-            $('#settings-file-input-box .file-drop-box-message').text($t('file.droper.drop_file_long_time'));
+            $('#settings-file-input-box .file-drop-box-message').text($t('file.dropper.drop_file_long_time'));
         }, 3000);
     }
 });
@@ -938,16 +945,16 @@ $(document).on('dragleave', '#settings-file-input-box', function(e) {
     if (inFileDorpLongTime) {
         dragleaveCount++;
         if (dragleaveCount >= 5) {
-            $('#settings-file-input-box .file-drop-box-message').text($t('file.droper.drop_file_cancel_many'));
+            $('#settings-file-input-box .file-drop-box-message').text($t('file.dropper.drop_file_cancel_many'));
             if (!easterEggDrop) {
                 easterEggDrop = true;
                 sysNotice.sendT('notice.drop_file_cancel_many', {}, 'trophy');
             }
         } else {
-            $('#settings-file-input-box .file-drop-box-message').text($t('file.droper.drop_file_cancel'));
+            $('#settings-file-input-box .file-drop-box-message').text($t('file.dropper.drop_file_cancel'));
         }
     } else {
-        $('#settings-file-input-box .file-drop-box-message').text($t('file.droper.please_drop_file'));
+        $('#settings-file-input-box .file-drop-box-message').text($t('file.dropper.please_drop_file'));
     }
     inFileDorpLongTime = false;
 });
@@ -957,7 +964,7 @@ $(document).on('drop', '#settings-file-input-box', function(e) {
     inFileDorp = false;
     inFileDorpLongTime = false;
     clearTimeout(inFileDorpTimer);
-    $('#settings-file-input-box .file-drop-box-message').text($t('file.droper.please_drop_file'));
+    $('#settings-file-input-box .file-drop-box-message').text($t('file.dropper.please_drop_file'));
     $('#settings-file-input-box').removeClass('dragover');
 
     const fileList = e.originalEvent.dataTransfer.files;
@@ -965,7 +972,7 @@ $(document).on('drop', '#settings-file-input-box', function(e) {
     checkConfigFile(fileList);
 });
 
-$(document).on('click', '#btn-flie-check-dialog-unsafe-load', function() {
+$(document).on('click', '#btn-file-check-dialog-unsafe-load', function() {
     try {
         eval('dropData = ' + configFileFiltered);
         importConfigCheck();
@@ -975,21 +982,21 @@ $(document).on('click', '#btn-flie-check-dialog-unsafe-load', function() {
     }
 });
 
-$(document).on('click', '#btn-flie-check-dialog-cancel', function() {
+$(document).on('click', '#btn-file-check-dialog-cancel', function() {
     closeFileCheckDialog(true);
 });
 
-$(document).on('click', '#btn-flie-check-dialog-cancel-rollback', function() {
+$(document).on('click', '#btn-file-check-dialog-cancel-rollback', function() {
     settingsManager.rollbackConfig();
     closeFileCheckDialog(true);
     $('#tabpage-nav-edit, #tabpage-nav-export').removeClass('disabled');
 });
 
-$(document).on('click', '#btn-flie-check-dialog-goto-chrome', function() {
+$(document).on('click', '#btn-file-check-dialog-goto-chrome', function() {
     window.open('https://www.google.cn/chrome/index.html', '_blank');
 });
 
-$(document).on('click', '#btn-flie-check-dialog-update-config', function() {
+$(document).on('click', '#btn-file-check-dialog-update-config', function() {
     const oldConfigVersion = settingsManager.getConfig('data_version');
     settingsManager.updateConfig(db_config_version);
     configLoad();
@@ -1008,8 +1015,8 @@ $(document).on('click', '#btn-flie-check-dialog-update-config', function() {
     effectFlicker('#tabpage-nav-edit');
 });
 
-$(document).on('click', '#btn-flie-check-dialog-update-config-from-unknow-version', function() {
-    settingsManager.updateConfigFromUnknowVersion(db_config_version);
+$(document).on('click', '#btn-file-check-dialog-update-config-from-unknown-version', function() {
+    settingsManager.updateConfigFromUnknownVersion(db_config_version);
     configLoad();
     showFileChecker(dropFile, 'loaded');
     closeFileCheckDialog();
@@ -1017,7 +1024,7 @@ $(document).on('click', '#btn-flie-check-dialog-update-config-from-unknow-versio
     effectFlicker('#tabpage-nav-edit');
 });
 
-$(document).on('click', '#btn-flie-check-dialog-config-from-future', function() {
+$(document).on('click', '#btn-file-check-dialog-config-from-future', function() {
     configLoad();
     showFileChecker(dropFile, 'loaded');
     closeFileCheckDialog();
@@ -1181,14 +1188,14 @@ $(document).on('click', '.settings-group-collapse-title', function() {
 
 
 $(document).keydown(function(e) {
-    if (e.keyCode == 83 && e.ctrlKey) {
+    if (e.code === 'KeyS' && e.ctrlKey) {
         e.preventDefault();
     }
 
     if (
         $('#tabpage-nav-edit[aria-selected="true"]').length > 0 &&
         $('.settings-controller-bottom:not(.disabled)').length > 0 &&
-        e.keyCode == 83 && e.ctrlKey
+        e.code === 'KeyS' && e.ctrlKey
     ) {
         configSaveAll(true);
         configExport('config.js');
@@ -1228,11 +1235,11 @@ function setSwitchButtonOnClickToChangeClassForArray(data = []) {
 }
 
 setSwitchButtonOnClickToChangeClassForArray([
-    ['accessible.unlock_page_width',            'unlock-page-width'],
-    ['accessible.high_contrast',                'accessible-high-contrast'],
-    ['accessible.drotanopia_and_deuteranopia',  'accessible-drotanopia-and-deuteranopia'],
-    ['accessible.link_underline',               'accessible-link-underline'],
-    ['accessible.animation_disable',            'accessible-animation-disable'],
+    ['accessibility.unlock_page_width',            'unlock-page-width'],
+    ['accessibility.high_contrast',                'accessibility-high-contrast'],
+    ['accessibility.protanopia_and_deuteranopia',  'accessibility-protanopia-and-deuteranopia'],
+    ['accessibility.link_underline',               'accessibility-link-underline'],
+    ['accessibility.animation_disable',            'accessibility-animation-disable'],
     ['global.controller_layout_reverse',        'controller-layout-reverse'],
     ['global.thin_scrollbar',                   'thin-scrollbar']
 ]);
@@ -1268,7 +1275,7 @@ $(document).on('click', '.settings-item[data-id="global.touchscreen_layout"] .se
     }, 12);
 });
 
-$(document).on('input', '.settings-item[data-id="accessible.font_size"] .settings-value', function() {
+$(document).on('input', '.settings-item[data-id="accessibility.font_size"] .settings-value', function() {
     $('.review-font-size-card').css('--font-size-base-review', `${ $(this).val() }px`);
 });
 

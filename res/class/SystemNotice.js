@@ -15,12 +15,12 @@ class SystemNotice {
         // 关闭通知
         $(document).on('click', '.fh-notice-item-btn-close', function(e) {
             if (e.shiftKey) {
-                if (config.accessible.animation_disable || $('html').hasClass('accessible-animation-disable')) return $('.fh-notice-item').remove();
+                if (config.accessibility.animation_disable || $('html').hasClass('accessibility-animation-disable')) return $('.fh-notice-item').remove();
                 $('.fh-notice-item:not(.fh-notice-ani-in)').addClass('fh-notice-ani-out');
                 return;
             }
             const $item = $(this).parents('.fh-notice-item').eq(0);
-            if (config.accessible.animation_disable || $('html').hasClass('accessible-animation-disable')) return $item.remove();
+            if (config.accessibility.animation_disable || $('html').hasClass('accessibility-animation-disable')) return $item.remove();
             $item.addClass('fh-notice-ani-out');
             that.runCallback($item.data('index'), null);
         });
@@ -61,12 +61,12 @@ class SystemNotice {
             waitTime:   undefined,
             width:      undefined,
             ...data,
-            animation:  !config.accessible.animation_disable && !$('html').hasClass('accessible-animation-disable') && ( data?.animation ?? true ),
+            animation:  !config.accessibility.animation_disable && !$('html').hasClass('accessibility-animation-disable') && ( data?.animation ?? true ),
             index:      index,
             hasClick:   typeof callback === 'function'
         };
 
-        if (data.id != undefined && $(`${ this.sel } .fh-notice-item[data-id="${ data.id }"]`).length > 0) {
+        if (data.id !== undefined && $(`${ this.sel } .fh-notice-item[data-id="${ data.id }"]`).length > 0) {
             this.killById(data.id, true);
         }
 
@@ -74,14 +74,14 @@ class SystemNotice {
 
         let messageLenB = new TextEncoder().encode((message + title).replace(/<\/?[\w\s="':;.-]*>/g, '')).length;
         let waitTime    = Math.max(5000, messageLenB * 1000 * 0.15 + 500);
-        if (data?.waitTime != undefined) waitTime = data.waitTime;
+        if (data?.waitTime !== undefined) waitTime = data.waitTime;
 
         let timer;
         if (waitTime >= 0) {
             timer = setTimeout(() => {
                 this.closeByIndex(index);
             }, waitTime)
-        };
+        }
         
         this.addNotice(index, data, callback, timer);
     }
@@ -120,12 +120,12 @@ class SystemNotice {
      * @param {String} title 自定义标题翻译键
      * @param {String} titleVars 标题翻译变量
      */
-    sendThasTitle(key = '', vars = {}, type = 'info', data = {}, title = '', titleVars = {}) {
+    sendTHasTitle(key = '', vars = {}, type = 'info', data = {}, title = '', titleVars = {}) {
         data = {
             id: key,
             ...data
         }
-        let titleKey = title == '' ? key + '.title' : title;
+        let titleKey = title === '' ? key + '.title' : title;
         return this.send($t(key + '.message', vars), $t(titleKey, titleVars), type, data);
     }
 
@@ -155,7 +155,7 @@ class SystemNotice {
      */
     kill(sel, now = false) {
         const $sel = $(`${ this.sel } .fh-notice-item${ sel }`)
-        if (now || config.accessible.animation_disable || $('html').hasClass('accessible-animation-disable')) {
+        if (now || config.accessibility.animation_disable || $('html').hasClass('accessibility-animation-disable')) {
             $sel.remove();
             return;
         }
@@ -168,7 +168,7 @@ class SystemNotice {
      * @param {Boolean} now 是否立即关闭
      */
     killByIndex(index, now = false) {
-        if (index == undefined) return;
+        if (index === undefined) return;
         this.kill(`[data-index="${ index }"]`, now);
         this.removeByIndex(index);
     }
@@ -179,13 +179,13 @@ class SystemNotice {
      * @param {Boolean} now 是否立即关闭
      */
     killById(id, now = false) {
-        if (id == undefined) return;
+        if (id === undefined) return;
         this.kill(`[data-id="${ id }"]`, now);
 
         for (const key in this.noticeList) {
             if (Object.prototype.hasOwnProperty.call(this.noticeList, key)) {
                 const e = this.noticeList[key];
-                if (e.id == id) this.removeByIndex(key);
+                if (e.id === id) this.removeByIndex(key);
             }
         }
     }
@@ -195,7 +195,7 @@ class SystemNotice {
      * @param {Number} index 索引
      */
     removeByIndex(index) {
-        if (index == undefined) return;
+        if (index === undefined) return;
         if (typeof this.noticeList[index]?.timer === 'number') clearTimeout(this.noticeList[index].timer);
         delete this.noticeList[index];
     }
@@ -215,7 +215,7 @@ class SystemNotice {
      * @param {String} title 标题
      */
     setTitle(index, title = '') {
-        if (index == undefined) return;
+        if (index === undefined) return;
         $(`${ this.sel } .fh-notice-item[data-index="${ index }"] .fh-notice-item-content-message .title`).html(title);
     }
 
@@ -225,7 +225,7 @@ class SystemNotice {
      * @param {String} message 内容
      */
     setMessage(index, message = '') {
-        if (index == undefined) return;
+        if (index === undefined) return;
         $(`${ this.sel } .fh-notice-item[data-index="${ index }"] .fh-notice-item-content-message .message`).html(message);
     }
 

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo Live 开发者工具：导出本地化文件</title>
+    <link rel="icon" href="../res/image/favicon.ico">
+    <link rel="stylesheet" href="../res/style/fh-ui.css">
+    <link rel="stylesheet" href="../res/style/editor.css">
+    <link rel="stylesheet" href="../res/style/editor-accessibility.css">
+    <script src="../lib/jquery-3.7.1.min.js"></script>
+    <script src="../res/script/config-load-fail.js"></script>
+    <script src="../config.js" onerror="configLoadFail()"></script>
+    <script src="../app.js"></script>
+    <script src="../res/class/EchoLiveSystem.js"></script>
+    <script src="../res/data/root.js"></script>
+    <script src="../lang/index.js"></script>
+    <script src="../res/class/Translator.js"></script>
+    <script>
+        const translator = new Translator(config.global.language);
+        const $t = function(...e) {
+            return translator.output(...e);
+        };
+        translator.init('../');
+    </script>
+    <script src="../res/class/Icon.js"></script>
+    <script src="../res/class/EchoLiveTools.js"></script>
+    <script src="../res/class/EditorConstructor.js"></script>
+    <script src="../res/class/SystemNotice.js"></script>
+    <style>
+        #output {
+            height: calc(100vh - var(--font-size-middle) - var(--gap-large));
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <!-- 标签页标题 -->
+        <!-- <nav id="echo-editor-nav" class="tabpage-nav" data-navid="main">
+            <button
+                id="tabpage-nav-edit"
+                class="tabpage-nav-item"
+                data-pageid="edit"
+                role="tab"
+                aria-selected="true"
+                accesskey="1"
+                data-i18n="studio.text_to_messages.tabpage.edit.title"
+                data-i18n-title="studio.text_to_messages.tabpage.edit.description"
+            >编辑</button>
+            <button
+                id="tabpage-nav-output"
+                class="tabpage-nav-item"
+                data-pageid="output"
+                role="tab"
+                aria-selected="false"
+                accesskey="2"
+                data-i18n="studio.text_to_messages.tabpage.output.title"
+                data-i18n-title="studio.text_to_messages.tabpage.output.description"
+            >输出</button>
+        </nav> -->
+
+        <!-- 标签页面板 -->
+        <div class="tabpage-centent" data-navid="main">
+            <!-- 输出标签页 -->
+            <section class="tabpage-panel" role="tabpanel" data-pageid="output">
+                <h2 class="tabpage-panel-title" data-i18n="studio.text_to_messages.tabpage.output.title"></h2>
+                <div class="echo-editor-form">
+                    <label for="output" data-i18n="editor.form.label.output_content"></label>
+                    <textarea id="output" class="code"></textarea>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div id="fh-notice" aria-live="polite"></div>
+
+    <script src="../res/script/i18n.js" defer></script>
+    <script src="../res/script/editor-common.js" defer></script>
+    <script>
+        $(document).ready(function() {
+            translator.ready(() => {
+                $('#output').val(JSON.stringify(lang_zho_Hans, null, 4));
+                $('#output').focus();
+                $('#output').select();
+            });
+        });
+    </script>
+</body>
+</html>

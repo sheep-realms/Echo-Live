@@ -2,6 +2,6 @@
 .github/*
 .demo/*
 .gitignore
-.zipignore
+.buildignore
 social-media.md
 template.html

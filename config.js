@@ -1,5 +1,5 @@
 const config = {
-    "data_version": 9,
+    "data_version": 10,
     "global": {
         "language": "zho-Hans",
         "theme": "vanilla",
@@ -103,6 +103,12 @@ const config = {
             "ontput_after_enable": 0,
             "output_after": ");"
         },
+        "websocket": {
+            "enable": false,
+            "url": "ws://127.0.0.1:3000",
+            "auto_url": true,
+            "reconnect_limit": 5
+        },
         "color_picker": {
             "palette": "all",
             "contrast_enable": false,
@@ -130,14 +136,14 @@ const config = {
             "live_display_hidden_latest_message_show": true
         }
     },
-    "accessible": {
+    "accessibility": {
         "font_size": 16,
         "unlock_page_width": false,
         "high_contrast": false,
         "high_contrast_outline_color": "#00E9FF",
         "high_contrast_outline_size": "2px",
         "high_contrast_outline_style": "solid",
-        "drotanopia_and_deuteranopia": false,
+        "protanopia_and_deuteranopia": false,
         "link_underline": false,
         "animation_disable": false,
         "power_saving_mode": false
@@ -155,6 +161,13 @@ const config = {
             "display_config_key": false,
             "display_hidden_option": false,
             "speech_synthesis_voices_maximum": 64
+        },
+        "performance": {
+            "foreach_text_style_by_message_data": false,
+            "row_search_threshold": 1
+        },
+        "device": {
+            "enable": true
         }
     },
     "selector": {},

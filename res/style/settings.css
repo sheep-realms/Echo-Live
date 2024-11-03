@@ -576,7 +576,7 @@ main {
     gap: 4px;
 }
 
-.settings-unknow-config-type {
+.settings-unknown-config-type {
     color: var(--text-secondary);
     font-size: var(--font-size-small);
 }
@@ -807,8 +807,13 @@ main {
 
 
 
+.settings-about-banner {
+    text-align: center;
+}
+
 .settings-about-banner>img {
-    width: 100%;
+    max-width: 100%;
+    max-height: 350px;
     height: auto;
     cursor: pointer;
 }

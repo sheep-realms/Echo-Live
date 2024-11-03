@@ -72,10 +72,12 @@ echoLiveSystem.registry.init([
         name: 'settings_data'
     }, {
         name: 'sound',
+        type: 'print',
         unique_key: 'name',
         default_data: {
             name: undefined,
-            path: undefined
+            path: undefined,
+            allow_duplicate: false
         }
     }, {
         name: 'stylesheet',
@@ -87,6 +89,16 @@ echoLiveSystem.registry.init([
         }
     }, {
         name: 'system'
+    }, {
+        name: 'text_style',
+        unique_key: 'name',
+        default_data: {
+            name: undefined,
+            is_style: false,
+            custom_style: false,
+            class: undefined,
+            style: undefined
+        }
     }, {
         name: 'timing_function',
         unique_key: 'name',

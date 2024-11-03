@@ -26,10 +26,10 @@ class EmojiHako {
                     ...e?.path
                 },
                 image: {
-                    isEmoji:        e?.image?.isEmoji != undefined ? e.image.isEmoji : false,
+                    isEmoji:        e?.image?.isEmoji !== undefined ? e.image.isEmoji : false,
                     rendering:      e?.image?.rendering ? e.image.rendering : 'auto',
                     review_size:    e?.image?.review_size ? e.image.review_size : 'middle',
-                    show_title:     e?.image?.show_title != undefined ? e.image.show_title : true,
+                    show_title:     e?.image?.show_title !== undefined ? e.image.show_title : true,
                     margin: {
                         left:       '0.5em',
                         right:      '0.5em',
@@ -53,7 +53,7 @@ class EmojiHako {
             }
 
             e.content.forEach(e2 => {
-                if (e2?.type == 'group') {
+                if (e2?.type === 'group') {
                     emojiPack.content.push({
                         type:   'group',
                         title:  $t('ui.missingno.no_name'),
@@ -83,7 +83,7 @@ class EmojiHako {
 
     getEmojiPack(namespace = '', name = undefined) {
         if (typeof namespace != 'string') return;
-        if (namespace === '' && name == undefined) {
+        if (namespace === '' && name === undefined) {
             return echoLiveSystem.registry.getRegistryArray('emoji');
         }
 
@@ -92,15 +92,15 @@ class EmojiHako {
             mp = value;
         });
 
-        if (mp == undefined) {
+        if (mp === undefined) {
             mp = echoLiveSystem.registry.getRegistryValue('emoji', namespace);
         }
 
-        if (mp == undefined && name != undefined) {
+        if (mp === undefined && name !== undefined) {
             mp = echoLiveSystem.registry.getRegistryValue('emoji', name);
         }
 
-        if (mp == undefined) return;
+        if (mp === undefined) return;
 
         return JSON.parse(JSON.stringify(mp));
     }
@@ -115,7 +115,7 @@ class EmojiHako {
         const mp = this.getEmojiPack(ns);
 
         let emoji = mp.content.find((e) => {
-            return e.name == emojiName && (e?.type == 'emoji' || e?.type == undefined);
+            return e.name === emojiName && (e?.type === 'emoji' || e?.type === undefined);
         });
 
         emoji = JSON.parse(JSON.stringify(emoji));

@@ -174,7 +174,7 @@ kbd {
     transition: opacity .15s;
 }
 
-kbd.accessible-key {
+kbd.accessibility-key {
     pointer-events: none;
 }
 
@@ -512,7 +512,8 @@ input.code {
 }
 
 input[type=number],
-input[type=text] {
+input[type=text],
+input[type=search] {
     width: 100%;
     font-size: var(--font-size-middle);
     box-sizing: border-box;
@@ -527,12 +528,14 @@ input[type=text] {
 }
 
 input[type=number]:focus,
-input[type=text]:focus {
+input[type=text]:focus,
+input[type=search]:focus {
     border-bottom: var(--color-general) 1px solid;
 }
 
 input[type=number]:out-of-range,
-input[type=text]:out-of-range {
+input[type=text]:out-of-range,
+input[type=search]:out-of-range {
     border-bottom: var(--color-danger) 1px solid;
 }
 
@@ -772,6 +775,10 @@ select:focus {
     background-color: var(--color-danger-dark);
 }
 
+.echo-live-client-state-block.client-target-none.client-targeted .client-info .client-icon-left {
+    opacity: 0.35;
+}
+
 
 
 #history-message-list {
@@ -989,7 +996,7 @@ select:focus {
     background-color: var(--color);
 }
 
-#popups-palette .popups-palette-accessible {
+#popups-palette .popups-palette-accessibility {
     display: none;
     /* display: flex; */
     flex-direction: row;
@@ -1091,7 +1098,7 @@ select:focus {
     width: var(--size);
 }
 
-.popups-palette-accessible {
+.popups-palette-accessibility {
     color: var(--text-regular);
 }
 

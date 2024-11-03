@@ -15,7 +15,7 @@ class FHUI {
                 let val = e;
                 if (typeof e === 'object') {
                     if (Array.isArray(e)) {
-                        val = e.filter(e2 => e2 != undefined && e2 != null).join(' ');
+                        val = e.filter(e2 => e2 !== undefined && e2 !== null).join(' ');
                     } else {
                         dom += FHUI.subAttributes(key, e) + ' ';
                         continue;
@@ -40,7 +40,7 @@ class FHUI {
                 const e = subAttr[key];
                 let val = e;
                 if (Array.isArray(e)) {
-                    val = e.filter(e2 => e2 != undefined && e2 != null).join(' ');
+                    val = e.filter(e2 => e2 !== undefined && e2 !== null).join(' ');
                 }
                 dom += `${ attrName }-${ key }="${ String(val).replace(/"/g, '&quot;') }" `
             }
@@ -191,9 +191,9 @@ class FHUIComponentInput {
             __fhSelectOptionShow(this);
         });
         $(document).on('keydown', '.fh-input-select-component .fh-input-component .fh-input', function(e) {
-            // console.log(e.keyCode);
-            switch (e.keyCode) {
-                case 13:
+            // console.log(e.code);
+            switch (e.code) {
+                case 'Enter':
                     __fhSelectOptionShow(this, true);
                     break;
             
@@ -261,14 +261,14 @@ class FHUIComponentInput {
             const length = list.data('length');
             let index = list.data('index');
 
-            switch (e.keyCode) {
-                case 38:
+            switch (e.code) {
+                case 'ArrowUp':
                     e.preventDefault();
                     index--;
                     if (index < 0) index = length - 1;
                     break;
 
-                case 40:
+                case 'ArrowDown':
                     e.preventDefault();
                     index = ++index % length;
                     if (Number.isNaN(index)) index = -1;
@@ -289,22 +289,22 @@ class FHUIComponentInput {
             const list = $(this).parents('.fh-select-option-list').eq(0);
             const length = list.data('length');
             let index = $(this).data('index');
-            switch (e.keyCode) {
-                case 27:
+            switch (e.code) {
+                case 'Escape':
                     input.focus();
                     list.addClass('hide');
                     break;
 
-                case 37:
-                case 38:
+                case 'ArrowLeft':
+                case 'ArrowUp':
                     e.preventDefault();
                     index--;
                     if (index < 0) index = length - 1;
                     list.find(`.fh-select-option[data-index="${ index }"]`).eq(0).focus();
                     break;
 
-                case 39:
-                case 40:
+                case 'ArrowRight':
+                case 'ArrowDown':
                     e.preventDefault();
                     index = ++index % length;
                     if (Number.isNaN(index)) index = -1;
@@ -624,13 +624,13 @@ class FHUIComponentInput {
             }
             if (!hasDescription && e.description !== undefined) hasDescription = true;
 
-            if (e.value == value) selectedIndex.push(i);
+            if (e.value === value) selectedIndex.push(i);
 
             optionsDOM += FHUI.element(
                 'button',
                 {
                     aria: {
-                        selected: e.value == value
+                        selected: e.value === value
                     },
                     class: 'fh-select-option',
                     data: {
@@ -897,5 +897,77 @@ class FHUIComponentButton {
             type: 'air'
         }
         return FHUIComponentButton.button(content, data);
+    }
+}
+
+
+class FHUIComponentMenu {
+    constructor() {}
+
+    static menu(list = [], data = {}) {
+        data = {
+            ...data
+        };
+
+        return FHUI.element(
+            'div',
+            {
+                aria: {
+                    role: 'menu'
+                },
+                class: 'fh-menu'
+            },
+            FHUIComponentMenu.menuList(list)
+        );
+    }
+
+    static menuList(list = []) {
+        let dom = '';
+        list.forEach(e => {
+            dom += FHUIComponentMenu.menuItem(e);
+        });
+        return dom;
+    }
+
+    static menuItem(data = {}) {
+        data = {
+            content: '',
+            icon: undefined,
+            children: [],
+            ...data
+        };
+
+        return FHUI.element(
+            'a',
+            {
+                aria: {
+                    role: 'menuitem'
+                },
+                class: 'fh-menu-item'
+            },
+            [
+                FHUI.element(
+                    'div',
+                    {
+                        class: 'icon-start'
+                    },
+                    data.icon !== undefined ? Icon[data.icon] : null
+                ),
+                FHUI.element(
+                    'div',
+                    {
+                        class: 'content'
+                    },
+                    data.content
+                ),
+                FHUI.element(
+                    'div',
+                    {
+                        class: 'icon-end'
+                    },
+                    data.children.length > 0 ? Icon['chevronRight'] : null
+                )
+            ]
+        );
     }
 }

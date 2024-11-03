@@ -6,11 +6,11 @@ class SettingsManager {
     }
 
     getConfigDefine(prefix = '', verMin = 0, verMax = 100000) {
-        if (prefix == '') return this.configDefine.filter((e) => {
+        if (prefix === '') return this.configDefine.filter((e) => {
             return e.created >= verMin && e.created <= verMax;
-        });;
+        });
         return this.configDefine.filter((e) => {
-            return e.name.search(new RegExp(prefix + '\\.')) == 0 && e.created >= verMin && e.created <= verMax;
+            return e.name.search(new RegExp(prefix + '\\.')) === 0 && e.created >= verMin && e.created <= verMax;
         });
     }
 
@@ -22,13 +22,13 @@ class SettingsManager {
 
     findConfigDefine(name) {
         return this.configDefine.find((e) => {
-            return e.name == name;
+            return e.name === name;
         });
     }
 
     findIndexConfigDefine(name) {
         return this.configDefine.findIndex((e) => {
-            return e.name == name;
+            return e.name === name;
         });
     }
 
@@ -39,7 +39,7 @@ class SettingsManager {
         if (conditionKey === '') return cd;
 
         return cd.filter((e) => {
-            return e.conditions.filter(e2 => e2.name == conditionKey).length > 0;
+            return e.conditions.filter(e2 => e2.name === conditionKey).length > 0;
         });
     }
 
@@ -51,7 +51,7 @@ class SettingsManager {
         let keys = key.split('.');
         let objConfig = this.config;
         for (const k of keys) {
-            if (objConfig[k] == undefined) {
+            if (objConfig[k] === undefined) {
                 return undefined;
             }
             objConfig = objConfig[k];
@@ -71,7 +71,7 @@ class SettingsManager {
             nestedObj = nestedObj[keys[i]];
         }
 
-        if (onlyUndefined && nestedObj[keys[keys.length - 1]] != undefined) return nestedObj[keys[keys.length - 1]];
+        if (onlyUndefined && nestedObj[keys[keys.length - 1]] !== undefined) return nestedObj[keys[keys.length - 1]];
         nestedObj[keys[keys.length - 1]] = value;
     }
 
@@ -116,7 +116,7 @@ class SettingsManager {
                 this.setConfig(e.name, e.default);
                 if (typeof e?.from == 'string') {
                     let v = this.getConfig(e.from);
-                    if (v != undefined) {
+                    if (v !== undefined) {
                         this.setConfig(e.name, v);
                         this.deleteConfig(e.from);
                     }
@@ -137,7 +137,7 @@ class SettingsManager {
      * @param {Number} ver 目标版本号
      * @returns {Object} 升级后的配置
      */
-    updateConfigFromUnknowVersion(ver) {
+    updateConfigFromUnknownVersion(ver) {
         this.config.data_version = ver;
 
         let cd = this.getConfigDefine('', 0, ver);

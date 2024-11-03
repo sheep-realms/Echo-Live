@@ -36,7 +36,7 @@ function driverShowOverview() {
         null,
         '.tabpage-panel[data-pageid="export"]',
         '#edit-btn-output',
-        '#echo-settings-nav .settings-nav-item[data-pageid="accessible"]'
+        '#echo-settings-nav .settings-nav-item[data-pageid="accessibility"]'
     ];
     let popoverData = [
         null,
@@ -105,7 +105,7 @@ function driverShowOverview() {
             side: 'top',
             onNextClick: () => {
                 $('#tabpage-nav-edit').click();
-                $('.settings-nav-item[data-pageid="accessible"]').click();
+                $('.settings-nav-item[data-pageid="accessibility"]').click();
                 driverObj.moveNext();
             }
         }, {

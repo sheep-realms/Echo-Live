@@ -14,6 +14,7 @@ class EchoLive {
         this.idle           = false;
         this.antiFlood      = false;
         this.theme          = [];
+        this.targeted       = false;
         this.username       = '';
         this.timer          = {
             displayHiddenWait:  EchoLive.NOT_ACTIVE_TIMER,
@@ -48,20 +49,17 @@ class EchoLive {
 
     // 主题脚本是否启用
     get themeScriptEnable() {
-        if (this.config.echolive.style.live_theme_script_enable && this.config.global.theme_script_enable) return true;
-        return false;
+        return this.config.echolive.style.live_theme_script_enable && this.config.global.theme_script_enable;
     }
 
     // 是否有自定义识别信息
     get hasCustom() {
-        if (this.custom.name != undefined || this.custom.color != undefined || JSON.stringify(this.custom.data) !== '{}') return true;
-        return false;
+        return this.custom.name !== undefined || this.custom.color !== undefined || JSON.stringify(this.custom.data) !== '{}';
     }
 
     // 是否处于打印中
     get inPrinting() {
-        if (this.echo.state !== 'stop') return true;
-        return false;
+        return this.echo.state !== 'stop';
     }
 
     // 当前任务数
@@ -79,10 +77,12 @@ class EchoLive {
 
         let urlName     = EchoLiveTools.getUrlParam('name');
         let urlColor    = EchoLiveTools.getUrlParam('color');
-        if (urlName != null && urlName.search(/^[a-f\d]{4}(?:[a-f\d]{4}-){4}[a-f\d]{12}$/i) == -1) {
+        let urlTargeted = EchoLiveTools.getUrlParam('targeted');
+        if (urlName !== null && urlName.search(/^[a-f\d]{4}(?:[a-f\d]{4}-){4}[a-f\d]{12}$/i) === -1) {
             this.custom.name = urlName.replace(/</g, '').replace(/>/g, '');
         }
-        if (urlColor != null) this.custom.color = urlColor;
+        if (urlColor !== null) this.custom.color = urlColor;
+        if (urlTargeted !== null) this.targeted = true;
 
         if (this.config.echolive.sleep.enable) {
             this.checkVisibility();
@@ -91,7 +91,7 @@ class EchoLive {
             });
         }
 
-        if (this.config.echo.print_speed != undefined) {
+        if (this.config.echo.print_speed !== undefined) {
             this.echo.printSpeed        = this.config.echo.print_speed;
             this.echo.printSpeedStart   = this.config.echo.print_speed;
             this.echo.printSpeedChange  = this.config.echo.print_speed;
@@ -100,8 +100,8 @@ class EchoLive {
         if (this.config.echolive.broadcast.enable) {
             this.broadcast = new EchoLiveBroadcastPortal(this.config.echolive.broadcast.channel, this, this.config);
             window.addEventListener("error", (e) => {
-                const msg       = e.error       != null ? e.error.stack : e.message;
-                const filename  = e.filename    != ''   ? e.filename    : 'null';
+                const msg       = e.error       !== null ? e.error.stack : e.message;
+                const filename  = e.filename    !== ''   ? e.filename    : 'null';
                 this.broadcast.error(msg, filename, e.lineno, e.colno);
             });
             this.broadcast.on('shutdown', reason => this.shutdown(reason));
@@ -129,16 +129,16 @@ class EchoLive {
     checkVisibility() {
         if (document.visibilityState === "visible") {
             this.hidden = false;
-            if (this.broadcast != undefined) this.broadcast.pageVisible();
-            if (this.timer.messagesPolling != EchoLive.NOT_ACTIVE_TIMER) {
+            if (this.broadcast !== undefined) this.broadcast.pageVisible();
+            if (this.timer.messagesPolling !== EchoLive.NOT_ACTIVE_TIMER) {
                 this.antiFlood = true;
                 this.start();
             }
         } else {
             this.hidden = true;
-            if (this.broadcast != undefined) this.broadcast.pageHidden();
-            if (this.timer.messagesPolling != EchoLive.NOT_ACTIVE_TIMER) this.stop();
-            if (this.echo.state != 'stop' && this.config.echolive.sleep.enable && this.config.echolive.sleep.during_printing_stop_print) {
+            if (this.broadcast !== undefined) this.broadcast.pageHidden();
+            if (this.timer.messagesPolling !== EchoLive.NOT_ACTIVE_TIMER) this.stop();
+            if (this.echo.state !== 'stop' && this.config.echolive.sleep.enable && this.config.echolive.sleep.during_printing_stop_print) {
                 this.echo.stop();
                 this.broadcast.echoStateUpdate('stop', this.echo.messageList.length);
             }
@@ -169,7 +169,7 @@ class EchoLive {
         if (this.debug.taskLog) console.log(`[+] ADD TASK: ${taskName} (ID: ${data.id})`);
 
         // 烂活，得改
-        if (taskName == 'display_show' && this.taskNow?.name == 'display_hidden') this.killTask();
+        if (taskName === 'display_show' && this.taskNow?.name === 'display_hidden') this.killTask();
         if (runNow && !this.taskRunning) this.runTask();
 
         return {
@@ -200,7 +200,7 @@ class EchoLive {
      * 运行任务
      */
     runTask() {
-        if (this.taskRunning || this.task.length == 0) return;
+        if (this.taskRunning || this.task.length === 0) return;
         this.taskNow        = this.task.shift();
         this.taskRunning    = true;
         if (this.debug.taskLog) console.log(`[>] RUN TASK: ${this.taskNow.name} (ID: ${this.taskNow.id})`);
@@ -250,13 +250,13 @@ class EchoLive {
         if (taskID <= EchoLive.INVALID_TASK_ID) return;
 
         // 检查所指定的任务ID与当前任务是否不匹配
-        if (taskID != EchoLive.NOW_TASK_ID && taskID != this.taskNow.id) {
+        if (taskID !== EchoLive.NOW_TASK_ID && taskID !== this.taskNow.id) {
             // 不是强制执行则退出
             if (!force) return;
 
             // 查找任务列表中对应的任务并删除
-            let i = this.task.findIndex(e => e?.id == taskID);
-            if (i == EchoLive.NOW_TASK_ID) return;
+            let i = this.task.findIndex(e => e?.id === taskID);
+            if (i === EchoLive.NOW_TASK_ID) return;
             if (this.debug.taskLog) console.log(`[-] KILL TASK: ${this.task[i].name} (ID: ${taskID})`);
             this.task.splice(i, 1);
             return;
@@ -297,7 +297,7 @@ class EchoLive {
             JSON.stringify(data) === JSON.stringify(this.data)
         ) return;
 
-        if (this.echo.state != 'stop') this.echo.stop();
+        if (this.echo.state !== 'stop') this.echo.stop();
         if (this.idle) {
             this.addTaskList([
                 'display_show',
@@ -316,7 +316,7 @@ class EchoLive {
             this.username = data.username;
             $('#echo-live .name').html(data.username.replace(/ /g, '&ensp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'));
             $('#echo-live .name').removeClass('echo-text-rlo');
-            if (data.username.trim().search(/[\u0590-\u05FF\u0600-\u06FF\u0700-\u074F\u0750-\u077F\u07C0-\u07FF\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/) == 0) {
+            if (data.username.trim().search(/[\u0590-\u05FF\u0600-\u06FF\u0700-\u074F\u0750-\u077F\u07C0-\u07FF\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/) === 0) {
                 $('#echo-live .name').addClass('echo-text-rlo');
             }
         }
@@ -328,7 +328,7 @@ class EchoLive {
      */
     next() {
         if (this.hidden) return;
-        if (this.echo.state != 'stop') this.echo.stop();
+        if (this.echo.state !== 'stop') this.echo.stop();
         if (this.idle) {
             this.addTaskList([
                 'display_show',
@@ -374,7 +374,7 @@ class EchoLive {
      * @param {String} url 样式文件地址
      */
     setThemeStyleUrl(url) {
-        if ($('#echo-live-theme').attr('href') == url) return url;
+        if ($('#echo-live-theme').attr('href') === url) return url;
         $('#echo-live-theme').attr('href', url);
         return url;
     }
@@ -385,7 +385,7 @@ class EchoLive {
      * @returns {Object} 主题数据
      */
     findTheme(name) {
-        return this.theme.find((e) => e.name == name);
+        return this.theme.find((e) => e.name === name);
     }
 
     /**
@@ -395,7 +395,7 @@ class EchoLive {
      */
     setTheme(name) {
         const theme = this.findTheme(name);
-        if (theme == undefined) return;
+        if (theme === undefined) return;
 
         this.event.themeScriptUnload();
         this.event.themeScriptLoad      = function() {};
@@ -448,7 +448,6 @@ class EchoLive {
 
     /**
      * 立即隐藏对话框
-     * @param {Number} taskID 任务ID
      */
     displayHiddenNow() {
         this.idle = true;

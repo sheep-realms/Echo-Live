@@ -11,12 +11,12 @@ class Updater {
         EchoLiveTools.defineObjectPropertyReadOnly(Updater, {
             GITHUB_OWNER:       'sheep-realms',
             GITHUB_REPO:        'Echo-Live',
-            GITHUB_API_DOMIAN:  'api.github.com',
+            GITHUB_API_DOMAIN:  'api.github.com',
             GITHUB_API_VERSION: '2022-11-28'
         });
 
         EchoLiveTools.defineObjectPropertyReadOnly(Updater, {
-            GITHUB_REST_API_REPOS_PREFIX: `https://${Updater.GITHUB_API_DOMIAN}/repos/${Updater.GITHUB_OWNER}/${Updater.GITHUB_REPO}`
+            GITHUB_REST_API_REPOS_PREFIX: `https://${Updater.GITHUB_API_DOMAIN}/repos/${Updater.GITHUB_OWNER}/${Updater.GITHUB_REPO}`
         });
 
         EchoLiveTools.defineObjectPropertyReadOnly(Updater, {
@@ -63,16 +63,16 @@ class Updater {
         if (!Array.isArray(data)) return;
         let notPreReleases = data.filter(e => {
             // 不要相信别人的东西
-            if (e?.prerelease == undefined) return true;
+            if (e?.prerelease === undefined) return true;
             return !e.prerelease;
         });
-        if (notPreReleases.length == 0) return;
+        if (notPreReleases.length === 0) return;
 
         let lsData = this.getLocalStorageData();
         lsData.lastUpdateCheck = new Date().getTime();
         lsData.latestReleasesData = notPreReleases[0];
 
-        if (this.compareVersions(notPreReleases[0]?.tag_name) == 1) {
+        if (this.compareVersions(notPreReleases[0]?.tag_name) === 1) {
             lsData.hasNewReleases = true;
             lsData.newReleasesTag = notPreReleases[0]?.tag_name;
         } else {
@@ -105,7 +105,7 @@ class Updater {
 
     getLocalStorageData() {
         let data = this.localStorageManager.getItem('updater');
-        if (data == undefined) data = this.initLocalStorageData();
+        if (data === undefined) data = this.initLocalStorageData();
         return data;
     }
 

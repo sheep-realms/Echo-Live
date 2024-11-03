@@ -6,12 +6,12 @@ const lang_zho_Hant_HK = {
     },
     localization: {
         bracket: "（{text}）",
-        data_common: "{y}-{MM}-{dd}",
-        data_time_common: "{y}-{MM}-{dd} {hh}:{mm}:{ss}",
-        data: "{y} 年 {M} 月 {d} 日",
-        data_pad_zero: "{y} 年 {MM} 月 {dd} 日",
-        data_time: "{y} 年 {M} 月 {d} 日 {h}:{m}:{s}",
-        data_time_pad_zero: "{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}",
+        date_common: "{y}-{MM}-{dd}",
+        date_time_common: "{y}-{MM}-{dd} {hh}:{mm}:{ss}",
+        date: "{y} 年 {M} 月 {d} 日",
+        date_pad_zero: "{y} 年 {MM} 月 {dd} 日",
+        date_time: "{y} 年 {M} 月 {d} 日 {h}:{m}:{s}",
+        date_time_pad_zero: "{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}",
         time_common: "{hh}:{mm}:{ss}",
     },
     ui: {
@@ -77,7 +77,7 @@ const lang_zho_Hant_HK = {
                 editor: "Echo-Live Editor",
                 history: "Echo-Live History",
                 live: "Echo-Live",
-                unknow: "未知終端"
+                unknown: "未知終端"
             }
         }
     },
@@ -90,7 +90,7 @@ const lang_zho_Hant_HK = {
                 invalid_key_name: "語法錯誤：'{name}' 不是一個有效的鍵名",
                 invalid_number: "語法錯誤：無效的數字",
                 missing_parameter: "語法錯誤：缺少必要參數",
-                unknow_option: "語法錯誤：不存在名為 '{name}' 的選項",
+                unknown_option: "語法錯誤：不存在名為 '{name}' 的選項",
                 not_broadcast: "運行失敗：廣播未啟動"
             },
             label: {
@@ -99,9 +99,9 @@ const lang_zho_Hant_HK = {
             success: {
                 broadcast_everyone: "已廣播 {action} 消息",
                 broadcast_target: "已發送 {action} 消息至 {name}",
-                function: "已執行函數中的 {count} 條命令",
+                function: "已執行函數中的 {n} 條命令",
                 function_fail_item: "- 第 {line} 行：{reason}",
-                function_has_fail: "已執行函數中的 {count} 條命令，失敗 {fail} 條，失敗原因為："
+                function_has_fail: "已執行函數中的 {n} 條命令，失敗 {fail} 條，失敗原因為："
             }
         },
         clearlocalstorage: {
@@ -145,8 +145,8 @@ const lang_zho_Hant_HK = {
             _title: "全局",
             _description: "一些影響全局的設置",
             language: {
-                _title: "顯示語言",
-                _description: "後台頁面的顯示語言。"
+                _title: "界面語言",
+                _description: "後台頁面的界面語言。"
             },
             theme: {
                 _title: "全局主題",
@@ -469,6 +469,26 @@ const lang_zho_Hant_HK = {
                     _description: "用於生成可執行的消息發送命令。"
                 }
             },
+            websocket: {
+                _title: "WebSocket",
+                _description: "將編輯器連接到 WebSocket 伺服器",
+                enable: {
+                    _title: "啟用 WebSocket",
+                    _description: "如果沒人要求您這麼做，請不要動它。<br>廣播模式下啟用 WebSocket 可連接至伺服器以從通過第三方軟件發送消息。<br>可從伺服器接收的消息和廣播消息一致，發送的消息須使用類似於 JSON.stringify 的方法序列化。<br>詳見<a href='https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/' target='_blank'>幫助文檔</a>。"
+                },
+                url: {
+                    _title: "連接地址",
+                    _description: "提供 WebSocket 連接的伺服器地址，使用 ws:// 或 wss:// 協議頭。"
+                },
+                auto_url: {
+                    _title: "自動設置連接地址",
+                    _description: "通過 HTTP(S) 協議訪問編輯器時，直接使用訪問地址作為連接地址，無需手動設置。"
+                },
+                reconnect_limit: {
+                    _title: "最大重連嘗試次數",
+                    _description: "連接關閉和連接失敗將會嘗試重連，一旦超過重連嘗試次數限制將不再嘗試重連。"
+                }
+            },
             color_picker: {
                 _title: "拾色器",
                 _description: "拾色器相關配置",
@@ -552,7 +572,7 @@ const lang_zho_Hant_HK = {
                 }
             }
         },
-        accessible: {
+        accessibility: {
             _title: "可訪問性",
             _description: "可訪問性相關配置",
             font_size: {
@@ -585,7 +605,7 @@ const lang_zho_Hant_HK = {
                 _title: "焦點高亮邊框樣式",
                 _description: "焦點元素邊框的樣式。"
             },
-            drotanopia_and_deuteranopia: {
+            protanopia_and_deuteranopia: {
                 _title: "紅綠色盲",
                 _description: "綠色（安全）功能色會以藍色（通用）代替，以便和功能差異較大的黃色（警告）和紅色（危險）作出區分。"
             },
@@ -645,6 +665,26 @@ const lang_zho_Hant_HK = {
                     _title: "講述人語音資源列表最大顯示數量",
                     _description: "在某些操作系統中可能會列出大量項目從而影響渲染性能。<br>設為 -1 則不設上限。"
                 }
+            },
+            performance: {
+                _title: "性能",
+                _description: "調整 Echo-Live 的性能優化細節",
+                foreach_text_style_by_message_data: {
+                    _title: "基於消息數據遍歷文本樣式",
+                    _description: "默認情況下 Echo-Live 會在解析消息格式時遍歷整個文本樣式註冊表，這使得解析順序是固定的而不會產生衝突。然而如果文本樣式註冊表中有大量註冊數據，將會略微影響性能。<br>啟用此配置項後，Echo-Live 會基於消息格式中已有的字段來遍歷文本樣式，但這會導致字段順序變得敏感，靠後的字段會覆蓋之前字段的效果。"
+                },
+                row_search_threshold: {
+                    _title: "橫向搜索觸發閾值",
+                    _description: "默認情況下數據檢索算法採用垂直搜索，在條件較少時可以優化檢索效率。但如果條件數量遠高於數據量，檢索效率將會降低。<br>當數據量和條件量的比值低於此閾值時，將會觸發橫向搜索，以降低大量條件帶來的性能影響。<br>不過，您真的有這麼做的需求嗎？"
+                }
+            },
+            device: {
+                _title: "硬件設備",
+                _description: "配置 Echo-Live 調用的硬件設備",
+                enable: {
+                    _title: "啟用硬件設備控制",
+                    _description: "允許 Echo-Live 調用一些硬件設備以提供更好的操作體驗。例如震動馬達，這將用於在移動設備上提供觸覺反饋。"
+                }
             }
         },
         extension: {
@@ -686,9 +726,15 @@ const lang_zho_Hant_HK = {
             none: "未加入",
             sleep: "休眠"
         },
+        client_target: {
+            none: "無",
+            not: "已排除",
+            yes: "已選中"
+        },
         client_state_panel: {
-            tip: "客戶端狀態：{client}，Echo 狀態：{echo}。",
-            tip_more_messages: "客戶端狀態：{client}，Echo 狀態：{echo}。點擊此處可打印下一條消息。"
+            targeted: "（僅限定向）",
+            tip: "客戶端狀態：{client}；\nEcho 狀態：{echo}；\n標記狀態：{target}{targeted}；\n右鍵點擊此處可標記目標。",
+            tip_more_messages: "客戶端狀態：{client}；\nEcho 狀態：{echo}；\n標記狀態：{target}{targeted}；\n點擊此處可打印下一條消息。"
         },
         echo_state: {
             play: "打印中",
@@ -789,7 +835,7 @@ const lang_zho_Hant_HK = {
         log: {
             index: "日誌",
             welcome: "歡迎使用 Echo-Live！如需查閱幫助文檔，請見：https://sheep-realms.github.io/Echo-Live-Doc/",
-            accessible: {
+            accessibility: {
                 type: {
                     dbug: "調試：",
                     done: "完成：",
@@ -803,6 +849,11 @@ const lang_zho_Hant_HK = {
                 close: "{client} 離開廣播頻道，識別名：{name}",
                 echo_next: "收到來自其他服務端的命令：打印下一條消息。",
                 echo_next_from_self_to_target: "已命令 {name} 打印下一條消息。",
+                editor_websocket_connect_close: "編輯器與 WebSocket 伺服器 {url} 連接中斷。",
+                editor_websocket_connect_error: "編輯器與 WebSocket 伺服器 {url} 連接出錯，進行第 {n} 次重連。",
+                editor_websocket_connect_error_retry_failed: "編輯器與 WebSocket 伺服器 {url} 連接出錯，重連次數超出限制。",
+                editor_websocket_connect_open: "編輯器與 WebSocket 伺服器 {url} 連接成功，編輯器 UUID：{uuid}",
+                editor_websocket_message_error: "編輯器解析 Websocket 伺服器消息時出錯。",
                 hello: "{client} 進入廣播頻道，識別名：{name}",
                 hello_hidden: "{client} 進入廣播頻道，已休眠，識別名：{name}",
                 hello_reply: "{client} 響應了廣播，識別名：{name}",
@@ -822,6 +873,7 @@ const lang_zho_Hant_HK = {
                 disable: "未開啟廣播模式，無日誌顯示。",
                 done: "廣播模式已開啟：{channel}",
                 user_agent_check: "編輯器已正確安裝在 OBS 中！",
+                user_agent_check_websocket: "編輯器已啟用 WebSocket 連接！",
                 user_agent_error: "您似乎並未正確在 OBS 中安裝此編輯器，詳見：https://sheep-realms.github.io/Echo-Live-Doc/main/how-to-use/",
             },
             error: {
@@ -840,7 +892,12 @@ const lang_zho_Hant_HK = {
                 resent: "已再次發送歷史消息。",
                 sent: "已發送消息：{msg}",
                 sent_custom: "已發送自定義消息：{msg}",
-                sent_custom_multi: "已發送 {n} 條自定義消息，首條消息為：{msg}"
+                sent_custom_multi: "已發送 {n} 條自定義消息，首條消息為：{msg}",
+                target: {
+                    none: "[ ] 已取消標記：{name}",
+                    not: "[-] 已標記排除：{name}",
+                    yes: "[+] 已標記選中：{name}"
+                }
             },
             tip: {
                 unknown_error: "看來您可能遇到了一些問題。如果您確實覺得有甚麼不對路，請複製此日誌內容反饋給開發者，並詳細描述復現過程。"
@@ -853,7 +910,7 @@ const lang_zho_Hant_HK = {
             index: "拾色器",
             empty: "我操？！你在幹甚麼？我放在這裏那麼大一個調色板呢？還好我技高一籌給你兜住了！",
             select: "色板庫",
-            accessible: {
+            accessibility: {
                 tip: "需要無障礙使用幫助嗎？"
             },
             diff_dashboard: {
@@ -1124,7 +1181,7 @@ const lang_zho_Hant_HK = {
                 update: "舊版"
             }
         },
-        droper: {
+        dropper: {
             title: "文件選擇器",
             drop_file_cancel: "不放算了，哼！",
             drop_file_cancel_many: "一位用戶反覆拖拽文件，這是他的程序發生的變化",
@@ -1344,6 +1401,7 @@ const lang_zho_Hant_HK = {
         license: "授權協議：{ name }"
     },
     notice: {
+        client_target_but_no_client: "請不要虛空索敵！",
         config_re_output: "已重新導出配置文件內容！",
         config_saved: "配置文件已保存！請注意刷新所有頁面使新配置生效。",
         config_saving: "保存中...",
@@ -1367,7 +1425,7 @@ const lang_zho_Hant_HK = {
             message: "這很有可能是因為您當前使用的瀏覽器不支持此功能。您還可以嘗試拖放文件，但還是建議您更換瀏覽器。"
         },
         open_settings_in_obs: "請在瀏覽器中打開 settings.html，而不是在 OBS 中！",
-        unknow_error: {
+        unknown_error: {
             title: "發生了未捕獲的錯誤",
             message: "這應該不是甚麼意料之中的戰術性報錯，您可以將此問題反饋給開發者，並提供復現方法。"
         }
@@ -1379,7 +1437,7 @@ const lang_zho_Hant_HK = {
         settings: "Echo Live 配置文件編輯器"
     },
     settings: {
-        unknow_config_type: "暫不支持修改此配置",
+        unknown_config_type: "暫不支持修改此配置",
         config_input: {
             config_from_future: {
                 title: "配置文件來自未來版本",
@@ -1416,7 +1474,7 @@ const lang_zho_Hant_HK = {
                 description: "此配置文件來自於舊版的 Echo-Live，需要更新才能使用。",
                 update: "更新"
             },
-            update_config_from_unknow_version: {
+            update_config_from_unknown_version: {
                 title: "未知的配置文件版本",
                 description: "此配置文件沒有版本號，可能來自於 1.2.7 之前的版本。<br>您可以強制升級此配置文件，但並不能保證其正常運作，不建議您繼續使用此配置文件。",
                 update: "強制更新"
@@ -1462,12 +1520,14 @@ const lang_zho_Hant_HK = {
         }
     },
     sound: {
+        pencil: "鉛筆",
         typewriter: "打字機",
         typewriter_loop: "打字機（隨機音效）",
         sys001: "清脆敲擊",
         sys002: "嗡嗡",
         sys003: "冒泡",
-        enter: "打字機回車"
+        enter: "打字機回車",
+        paper: "翻頁"
     },
     studio: {
         title: {

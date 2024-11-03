@@ -320,7 +320,7 @@ class Popups {
         if (palette.colors.length <= 0) return '';
         let dom = '<div class="palette-list">';
         let firstGruop = false;
-        if (palette.colors[0]?.type == 'group') {
+        if (palette.colors[0]?.type === 'group') {
             dom = '';
             firstGruop = true;
         }
@@ -473,11 +473,11 @@ class Popups {
             `<div class="popups-palette-header">
                 <label for="popups-palette-select" style="display: none;">${ $t('editor.palette.select') }</label>
                 <div class="popups-palette-select-content">
-                    <kbd class="accessible-key">Q</kbd>
+                    <kbd class="accessibility-key">Q</kbd>
                     <select name="popups-palette-select" id="popups-palette-select">
                         ${ Popups.paletteOptions(palette) }
                     </select>
-                    <kbd class="accessible-key">E</kbd>
+                    <kbd class="accessibility-key">E</kbd>
                 </div>
             </div>
             <div class="popups-palette-color-contrast" aria-label="${ $t('editor.palette.diff_dashboard.index') }">
@@ -486,13 +486,13 @@ class Popups {
             <div class="popups-palette-content">
                 ${ Popups.palettePage(palette) }
             </div>
-            <div class="popups-palette-accessible">
-                <span>${ $t('editor.palette.accessible.tip') }</span>
+            <div class="popups-palette-accessibility">
+                <span>${ $t('editor.palette.accessibility.tip') }</span>
                 ${
                     EditorForm.buttonAir(
                         $t('ui.more_info'),
                         {
-                            id: 'popups-palette-accessible-help-btn'
+                            id: 'popups-palette-accessibility-help-btn'
                         }
                     )
                 }
@@ -557,11 +557,11 @@ class Popups {
             `<div class="popups-emoji-header">
                 <label for="popups-emoji-select" style="display: none;">${ $t('editor.emoji.select') }</label>
                 <div class="popups-emoji-select-content">
-                    <kbd class="accessible-key">Q</kbd>
+                    <kbd class="accessibility-key">Q</kbd>
                     <select name="popups-emoji-select" id="popups-emoji-select">
                         ${ Popups.emojiOptions(emojiPacks) }
                     </select>
-                    <kbd class="accessible-key">E</kbd>
+                    <kbd class="accessibility-key">E</kbd>
                 </div>
             </div>
             <div class="popups-emoji-content">
@@ -611,7 +611,7 @@ class Popups {
         if (emojiPack.content.length <= 0) return '';
         let dom = '<div class="emoji-list">';
         let firstGruop = false;
-        if (emojiPack.content[0]?.type == 'group') {
+        if (emojiPack.content[0]?.type === 'group') {
             dom = '';
             firstGruop = true;
         }
@@ -621,21 +621,21 @@ class Popups {
             if (e?.type === 'emoji' || e?.type === undefined) {
                 if (emojiPack.image.show_title) {
                     title = e.title;
-                    if (e.title_i18n != undefined) title = $t( 'emoji.' + emojiPack.path.i18n + 'emoji.' + e.title_i18n );
+                    if (e.title_i18n !== undefined) title = $t( 'emoji.' + emojiPack.path.i18n + 'emoji.' + e.title_i18n );
                 }
 
                 if (emojiPack.image.isEmoji) {
                     if (typeof e == 'string') {
                         dom += `<button class="emoji-box is-true-emoji" data-value="${ e }">${ e }</button>`;
                     } else if (typeof e == 'object') {
-                        dom += `<button class="emoji-box is-true-emoji" ${ title != undefined ? `title="${ title }"` : '' } data-value="${ e.name }">${ e.name }</button>`;
+                        dom += `<button class="emoji-box is-true-emoji" ${ title !== undefined ? `title="${ title }"` : '' } data-value="${ e.name }">${ e.name }</button>`;
                     }
                 } else {
-                    dom += `<button class="emoji-box" ${ title != undefined ? `title="${ title }"` : '' } data-value="${ emojiPack.meta.namespace + ':' + e.name }"><img src="${ emojiPack.path.images + e.path }" alt="${ title }"></button>`;
+                    dom += `<button class="emoji-box" ${ title !== undefined ? `title="${ title }"` : '' } data-value="${ emojiPack.meta.namespace + ':' + e.name }"><img src="${ emojiPack.path.images + e.path }" alt="${ title }"></button>`;
                 }
             } else if (e?.type === 'group') {
                 title = e.title;
-                if (e.title_i18n != undefined) title = $t( 'emoji.' + emojiPack.path.i18n + 'group.' + e.title_i18n );
+                if (e.title_i18n !== undefined) title = $t( 'emoji.' + emojiPack.path.i18n + 'group.' + e.title_i18n );
 
                 dom += `${ firstGruop ? '' : '</div>' }<div class="emoji-group">${ title }</div><div class="emoji-list">`;
             }
@@ -644,14 +644,14 @@ class Popups {
         if (!firstGruop) dom += '</div>'
 
         dom += '<div class="emoji-meta">';
-        if (emojiPack.meta?.author != undefined && emojiPack.meta?.author != '') {
+        if (emojiPack.meta?.author !== undefined && emojiPack.meta?.author !== '') {
             dom += `<div>${ $t('meta_info.author', { name: emojiPack.meta.author }) }</div>`
         }
-        if (emojiPack.meta?.license != undefined && emojiPack.meta.license?.title != undefined) {
+        if (emojiPack.meta?.license !== undefined && emojiPack.meta.license?.title !== undefined) {
             dom += `<div>
                 ${ $t('meta_info.license', {
                     name:
-                        emojiPack.meta.license?.url != undefined
+                        emojiPack.meta.license?.url !== undefined
                         ? `<a href="${ emojiPack.meta.license.url }" target="_blank">${ emojiPack.meta.license.title }</a>`
                         : emojiPack.meta.license.title
                 }) }
@@ -708,9 +708,9 @@ class Popups {
                 <section class="tabpage-panel" role="tabpanel" data-pageid="file">
                     <div class="popups-image-file-panel">
                         <div class="file-input">
-                            <button id="image-file-input-box" class="file-drop-box" aria-label="${ $t('file.droper.title') }">
-                                <span class="file-drop-box-message">${ $t('file.droper.please_click') }</span>
-                                <span class="file-drop-box-message-keyboard">${ $t('file.droper.please_drop_file_keyboard') }</span>
+                            <button id="image-file-input-box" class="file-drop-box" aria-label="${ $t('file.dropper.title') }">
+                                <span class="file-drop-box-message">${ $t('file.dropper.please_click') }</span>
+                                <span class="file-drop-box-message-keyboard">${ $t('file.dropper.please_drop_file_keyboard') }</span>
                             </button>
                             <div id="image-file-check-dialog" class="hide"></div>
                         </div>
@@ -723,9 +723,9 @@ class Popups {
                         <div class="image-url-action">
                             <div class="image-url-message"></div>
                             ${ EditorForm.button(
-                                $t('file.droper.dialog.selected.import_image'),
+                                $t('file.dropper.dialog.selected.import_image'),
                                 {
-                                    id: 'btn-flie-check-dialog-import-image-url',
+                                    id: 'btn-file-check-dialog-import-image-url',
                                     icon: Icon.check
                                 }
                             ) }
@@ -840,7 +840,7 @@ class Popups {
 class EditorClientState {
     constructor() {}
 
-    static block(state, echoState = 'stop', messagesCount = 0, name = '') {
+    static block(state, echoState = 'stop', messagesCount = 0, name = '', target = 'none', targeted = false) {
         let name2 = name;
         let title = '';
         let titleKey = 'editor.client_state_panel.tip';
@@ -849,7 +849,9 @@ class EditorClientState {
             titleKey,
             {
                 client: $t('editor.client_state.' + state),
-                echo: $t('editor.echo_state.' + echoState)
+                echo: $t('editor.echo_state.' + echoState),
+                target: $t('editor.client_target.' + target),
+                targeted: targeted ? $t('editor.client_state_panel.targeted') : ''
             }
         );
         if (name.search(/^[a-f\d]{4}(?:[a-f\d]{4}-){4}[a-f\d]{12}$/i) != -1) name2 = '(' + name.split('-')[0] + ')';
@@ -859,16 +861,27 @@ class EditorClientState {
                 state-${state}
                 echo-state-${echoState}
                 ${ messagesCount > 0 ? 'echo-messages-next' : '' }
+                client-target-${target}
+                ${ targeted ? 'client-targeted' : '' }
             "
             title="${title}"
             data-name="${name}"
+            data-target="${target}"
         >
             <div class="client-info">
-                <div class="client-icon client-icon-left"></div>
+                <div class="client-icon client-icon-left">
+                    ${
+                        target === 'yes' ? Icon.flag : (
+                            target === 'not' ? Icon.cancel : (
+                                targeted ? Icon.cancel : ''
+                            )
+                        )
+                    }
+                </div>
                 <div class="client-name">${name2}</div>
                 <div class="client-icon client-icon-right">
-                    ${ echoState == 'play' || echoState == 'ready' ? Icon.timerSand : ''}
-                    ${ messagesCount > 0 && echoState == 'stop' ? Icon.messageProcessing : '' }
+                    ${ echoState === 'play' || echoState === 'ready' ? Icon.timerSand : ''}
+                    ${ messagesCount > 0 && echoState === 'stop' ? Icon.messageProcessing : '' }
                 </div>
             </div>
             <div class="state-color-block"></div>
@@ -877,9 +890,9 @@ class EditorClientState {
 
     static clientBlock(client) {
         if (client.hidden) {
-            return EditorClientState.block('sleep', client.echoState, client.messagesCount, client.name);
+            return EditorClientState.block('sleep', client.echoState, client.messagesCount, client.name, client.target, client.targeted);
         } else {
-            return EditorClientState.block('active', client.echoState, client.messagesCount, client.name);
+            return EditorClientState.block('active', client.echoState, client.messagesCount, client.name, client.target, client.targeted);
         }
     }
 
@@ -894,7 +907,7 @@ class EditorClientState {
 
     static statePanel(clients = []) {
         const c = clients.filter((e) => {
-            return e.type == 'live';
+            return e.type === 'live';
         });
         return `<div class="echo-live-client-state-panel">${EditorClientState.clientList(c)}</div>`;
     }
@@ -948,7 +961,7 @@ class SettingsPanel {
             aria-selected="false"
             title="${ $t( 'config.' + item.id + '._description' ) }"
         >
-            <span class="icon left" aria-hidden="true">${ item.icon != undefined ? Icon[item.icon] : ''}</span>
+            <span class="icon left" aria-hidden="true">${ item.icon !== undefined ? Icon[item.icon] : ''}</span>
             <span class="title">${ $t( 'config.' + item.id + '._title' ) }</span>
             <span class="icon right" aria-hidden="true"></span>
         </button>`;
@@ -981,10 +994,10 @@ class SettingsPanel {
                 <div class="title">${ title }</div>
             </div>`;
         }
-        return `<div class="settings-group-title">
-            <div class="title">${ title }</div>
+        return `<hgroup class="settings-group-title">
+            <h3 class="title">${ title }</h3>
             <div class="description">${ description }</div>
-        </div>`;
+        </hgroup>`;
     }
 
     static setItem(type = 'string', id = '', title = '', description = '', content = '', moreContent = '') {
@@ -997,7 +1010,7 @@ class SettingsPanel {
             <div class="value">
                 ${ content }
             </div>
-            ${ moreContent != '' ? moreContent : '' }
+            ${ moreContent !== '' ? moreContent : '' }
         </div>`;
     }
 
@@ -1017,17 +1030,17 @@ class SettingsPanel {
 
         let run = fun[types[0]];
 
-        if (types[0] == 'special') {
+        if (types[0] === 'special') {
             run = funSpecial[types[1]];
         }
 
-        if (run == undefined) run = 'setItemUnknow';
+        if (run === undefined) run = 'setItemUnknown';
 
         const title = $t( 'config.' + item.name + '._title' );
         const description = $t( 'config.' + item.name + '._description' );
 
-        if (item.type == 'object') return SettingsPanel.setGroupTitle(title, description, item?.depth);
-        if (item.type == 'boolean.bit') return SettingsPanel.setItemBoolean(item.type, item.name, title, description, item.default, item?.attribute, true);
+        if (item.type === 'object') return SettingsPanel.setGroupTitle(title, description, item?.depth);
+        if (item.type === 'boolean.bit') return SettingsPanel.setItemBoolean(item.type, item.name, title, description, item.default, item?.attribute, true);
 
         return SettingsPanel[run](item.type, item.name, title, description, item.default, item?.attribute, item?.unit);
     }
@@ -1037,12 +1050,12 @@ class SettingsPanel {
         let inGroup = false;
         let inCollapse = false;
         items.forEach(e => {
-            if (e.type == 'object' && (e?.depth == undefined || e?.depth <= 1)) {
+            if (e.type === 'object' && (e?.depth === undefined || e?.depth <= 1)) {
                 if (inCollapse) {
                     dom += '</div></div>';
                     inCollapse = false;
                 }
-                if (inGroup && (e?.depth == undefined || e?.depth <= 0)) {
+                if (inGroup && (e?.depth === undefined || e?.depth <= 0)) {
                     dom += '</div></div>';
                     inGroup = false;
                 }
@@ -1054,7 +1067,7 @@ class SettingsPanel {
                 }
             }
             dom += SettingsPanel.setItemAuto(e);
-            if (e.type == 'object' && (e?.depth == undefined || e?.depth <= 1)) {
+            if (e.type === 'object' && (e?.depth === undefined || e?.depth <= 1)) {
                 if (e?.depth > 0) {
                     dom += (inCollapse ? '</div>' : '') + `<div class="settings-group-collapse-content">`;
                     inCollapse = true;
@@ -1068,10 +1081,10 @@ class SettingsPanel {
         return dom;
     }
 
-    static setItemUnknow(type = '', id = '', title = '', description = '', value = '') {
+    static setItemUnknown(type = '', id = '', title = '', description = '', value = '') {
         return SettingsPanel.setItem(
             type, id, title, description,
-            `<span class="settings-unknow-config-type">${ $t('settings.unknow_config_type') }</span>`
+            `<span class="settings-unknown-config-type">${ $t('settings.unknown_config_type') }</span>`
         );
     }
 
@@ -1079,7 +1092,7 @@ class SettingsPanel {
         if (type === 'string.multiline') return SettingsPanel.setItemStringMultiLine(type, id, title, description, value);
 
         let inputDOM = '';
-        if (attribute?.datalist === undefined || attribute.datalist.length == 0) {
+        if (attribute?.datalist === undefined || attribute.datalist.length === 0) {
             inputDOM = FHUIComponentInput.input(
                 value,
                 'text',
@@ -1260,10 +1273,10 @@ class SettingsPanel {
                     hasInput: true,
                     inputClass: 'settings-value code',
                     label: [
-                        { value: 8, label: $t('config.accessible.font_size.small') },
-                        { value: 16, label: $t('config.accessible.font_size.middle') },
-                        { value: 24, label: $t('config.accessible.font_size.large') },
-                        { value: 32, label: $t('config.accessible.font_size.extra_large') }
+                        { value: 8, label: $t('config.accessibility.font_size.small') },
+                        { value: 16, label: $t('config.accessibility.font_size.middle') },
+                        { value: 24, label: $t('config.accessibility.font_size.large') },
+                        { value: 32, label: $t('config.accessibility.font_size.extra_large') }
                     ],
                     attribute: {
                         min:8,
@@ -1311,7 +1324,7 @@ class SettingsPanel {
      */
     static msgBox(title = '', content = '', icon = 'information', type = 'info') {
         return `<div class="msgbox state-${ type }">
-            <div class="icon">${ Icon[icon] }</div>
+            <div class="icon" aria-hidden="true">${ Icon[icon] }</div>
             <div class="text">
                 <div class="title">${ title }</div>
                 <div class="content">${ content }</div>
@@ -1351,7 +1364,7 @@ class SettingsPanel {
 
     static searchResultItem(data = {}, index) {
         let ariaLabel = '';
-        if (data.groupTitle.length == 0 || data.groupTitle === undefined) {
+        if (data.groupTitle.length === 0 || data.groupTitle === undefined) {
             ariaLabel = $t('config.search.aria_label.result', { index: index + 1, title: data.title });
         } else {
             ariaLabel = $t('config.search.aria_label.result_has_group', { index: index + 1, group: data.groupTitle, title: data.title });
@@ -1382,16 +1395,16 @@ class SettingsFileChecker {
     /**
      * 文件信息和状态
      * @param {File} file 文件
-     * @param {'ok'|'warn'|'error'|'unknow'} state 状态
+     * @param {'ok'|'warn'|'error'|'unknown'} state 状态
      * @param {String} stateMessage 状态消息
      * @returns {String} DOM
      */
-    static fill(file, state = 'unknow', stateMessage = '') {
+    static fill(file, state = 'unknown', stateMessage = '') {
         const icons = {
             ok: 'check',
             warn: 'alert',
             error: 'close',
-            unknow: 'help',
+            unknown: 'help',
         };
         return `<div class="file-check-box">
             <div class="info">
@@ -1419,11 +1432,11 @@ class SettingsFileChecker {
     }
 
     static dialogSuccess(title = '', description = '', controller = '') {
-        if (controller == '') {
+        if (controller === '') {
             controller = EditorForm.button(
                 $t('ui.ok'),
                 {
-                    id: 'btn-flie-check-dialog-cancel',
+                    id: 'btn-file-check-dialog-cancel',
                     class: 'btn-default',
                     icon: Icon.check
                 }
@@ -1433,11 +1446,11 @@ class SettingsFileChecker {
     }
 
     static dialogWarn(title = '', description = '', controller = '') {
-        if (controller == '') {
+        if (controller === '') {
             controller = EditorForm.button(
                 $t('ui.close'),
                 {
-                    id: 'btn-flie-check-dialog-cancel',
+                    id: 'btn-file-check-dialog-cancel',
                     class: 'btn-default',
                     icon: Icon.close,
                     color: 'danger'
@@ -1448,11 +1461,11 @@ class SettingsFileChecker {
     }
 
     static dialogError(title = '', description = '', controller = '') {
-        if (controller == '') {
+        if (controller === '') {
             controller = EditorForm.button(
                 $t('ui.close'),
                 {
-                    id: 'btn-flie-check-dialog-cancel',
+                    id: 'btn-file-check-dialog-cancel',
                     class: 'btn-default',
                     icon: Icon.close,
                     color: 'danger'
@@ -1469,7 +1482,7 @@ class SettingsFileChecker {
             EditorForm.buttonGhost(
                 $t('ui.cancel'),
                 {
-                    id: 'btn-flie-check-dialog-cancel',
+                    id: 'btn-file-check-dialog-cancel',
                     icon: Icon.close,
                     color: 'danger'
                 }
@@ -1477,7 +1490,7 @@ class SettingsFileChecker {
             EditorForm.button(
                 $t('settings.config_input.json_parse_fail.unsafe_load'),
                 {
-                    id: 'btn-flie-check-dialog-unsafe-load',
+                    id: 'btn-file-check-dialog-unsafe-load',
                     class: 'btn-default',
                     icon: Icon.shieldOff,
                     color: 'warn'
@@ -1488,20 +1501,20 @@ class SettingsFileChecker {
 
     static dialogUseChrome() {
         return SettingsFileChecker.dialogWarn(
-            $t('file.droper.dialog.use_chrome.title'),
-            $t('file.droper.dialog.use_chrome.description'),
+            $t('file.dropper.dialog.use_chrome.title'),
+            $t('file.dropper.dialog.use_chrome.description'),
             EditorForm.buttonGhost(
                 $t('ui.close'),
                 {
-                    id: 'btn-flie-check-dialog-cancel',
+                    id: 'btn-file-check-dialog-cancel',
                     icon: Icon.close,
                     color: 'danger'
                 }
             ) +
             EditorForm.button(
-                $t('file.droper.dialog.use_chrome.goto'),
+                $t('file.dropper.dialog.use_chrome.goto'),
                 {
-                    id: 'btn-flie-check-dialog-goto-chrome',
+                    id: 'btn-file-check-dialog-goto-chrome',
                     class: 'btn-default',
                     icon: Icon.openInNew
                 }
@@ -1516,7 +1529,7 @@ class SettingsFileChecker {
             EditorForm.buttonGhost(
                 $t('ui.cancel'),
                 {
-                    id: 'btn-flie-check-dialog-cancel-rollback',
+                    id: 'btn-file-check-dialog-cancel-rollback',
                     icon: Icon.close,
                     color: 'danger'
                 }
@@ -1524,7 +1537,7 @@ class SettingsFileChecker {
             EditorForm.button(
                 $t('settings.config_input.update_config.update'),
                 {
-                    id: 'btn-flie-check-dialog-update-config',
+                    id: 'btn-file-check-dialog-update-config',
                     class: 'btn-default',
                     icon: Icon.update
                 }
@@ -1532,22 +1545,22 @@ class SettingsFileChecker {
         );
     }
 
-    static dialogUpdateConfigFromUnknowVersion() {
+    static dialogUpdateConfigFromUnknownVersion() {
         return SettingsFileChecker.dialogWarn(
-            $t('settings.config_input.update_config_from_unknow_version.title'),
-            $t('settings.config_input.update_config_from_unknow_version.description'),
+            $t('settings.config_input.update_config_from_unknown_version.title'),
+            $t('settings.config_input.update_config_from_unknown_version.description'),
             EditorForm.buttonGhost(
                 $t('ui.cancel'),
                 {
-                    id: 'btn-flie-check-dialog-cancel-rollback',
+                    id: 'btn-file-check-dialog-cancel-rollback',
                     icon: Icon.close,
                     color: 'danger'
                 }
             ) +
             EditorForm.button(
-                $t('settings.config_input.update_config_from_unknow_version.update'),
+                $t('settings.config_input.update_config_from_unknown_version.update'),
                 {
-                    id: 'btn-flie-check-dialog-update-config-from-unknow-version',
+                    id: 'btn-file-check-dialog-update-config-from-unknown-version',
                     class: 'btn-default',
                     icon: Icon.update,
                     color: 'warn'
@@ -1563,7 +1576,7 @@ class SettingsFileChecker {
             EditorForm.buttonGhost(
                 $t('ui.cancel'),
                 {
-                    id: 'btn-flie-check-dialog-cancel-rollback',
+                    id: 'btn-file-check-dialog-cancel-rollback',
                     icon: Icon.close,
                     color: 'danger'
                 }
@@ -1571,7 +1584,7 @@ class SettingsFileChecker {
             EditorForm.button(
                 $t('settings.config_input.config_from_future.load'),
                 {
-                    id: 'btn-flie-check-dialog-config-from-future',
+                    id: 'btn-file-check-dialog-config-from-future',
                     class: 'btn-default',
                     icon: Icon.arrowRight,
                     color: 'warn'
@@ -1582,20 +1595,20 @@ class SettingsFileChecker {
 
     static dialogImageFileSelected(filename = '') {
         return SettingsFileChecker.dialogSuccess(
-            $t('file.droper.dialog.selected.title'),
-            $t('file.droper.dialog.selected.description', { name: filename }),
+            $t('file.dropper.dialog.selected.title'),
+            $t('file.dropper.dialog.selected.description', { name: filename }),
             EditorForm.buttonGhost(
                 $t('ui.cancel'),
                 {
-                    id: 'btn-flie-check-dialog-cancel',
+                    id: 'btn-file-check-dialog-cancel',
                     icon: Icon.close,
                     color: 'danger'
                 }
             ) +
             EditorForm.button(
-                $t('file.droper.dialog.selected.import_image'),
+                $t('file.dropper.dialog.selected.import_image'),
                 {
-                    id: 'btn-flie-check-dialog-import-image',
+                    id: 'btn-file-check-dialog-import-image',
                     class: 'btn-default',
                     icon: Icon.check
                 }
@@ -1650,7 +1663,7 @@ class FHUINotice {
             }
         };
         let theme = themes[type];
-        if (theme == undefined) {
+        if (theme === undefined) {
             theme = {
                 icon: 'information',
                 color: 'general'
@@ -1667,7 +1680,7 @@ class FHUINotice {
             width: undefined,
             ...data
         };
-        let iconDOM = Icon[data.icon] != undefined ? Icon[data.icon] : Icon.information;
+        let iconDOM = Icon[data.icon] !== undefined ? Icon[data.icon] : Icon.information;
 
         return `<div
                 class="
@@ -1679,7 +1692,7 @@ class FHUINotice {
                 "
                 data-index="${ data.index }"
                 ${ data.id ? `data-id="${ data.id }"` : '' }
-                style="${ data?.width != undefined ? `--fh-notice-width-custom: ${ data.width };` : '' }"
+                style="${ data?.width !== undefined ? `--fh-notice-width-custom: ${ data.width };` : '' }"
             >
             <div class="fh-notice-item-container">
                 <div class="fh-notice-item-content">
@@ -1687,7 +1700,7 @@ class FHUINotice {
                         ${ iconDOM }
                     </div>
                     <div class="fh-notice-item-content-message">
-                        ${ title != '' ? `<div class="title">${ title }</div>` : '' }
+                        ${ title !== '' ? `<div class="title">${ title }</div>` : '' }
                         <div class="message">${ message }</div>
                     </div>
                     <div class="fh-notice-item-content-action">
@@ -1728,7 +1741,6 @@ class FHUIWindow {
     static window(content = '', title = '', data = {}) {
         data = {
             attr: undefined,
-            autoFocusButton: undefined,
             autoFocusButton: false,
             closable: true,
             icon: undefined,
@@ -1746,7 +1758,7 @@ class FHUIWindow {
         }
 
         let iconDom = '';
-        if (data.icon != undefined && Icon[data.icon] != undefined) {
+        if (data.icon !== undefined && Icon[data.icon] !== undefined) {
             iconDom = Icon[data.icon];
         } else {
             iconDom = Icon.information
@@ -1754,7 +1766,7 @@ class FHUIWindow {
 
         let dom = `<div
             role="dialog"
-            ${ data.id != undefined ? `id="${ data.id }"` : '' }
+            ${ data.id !== undefined ? `id="${ data.id }"` : '' }
             class="fh-window window-show"
             style="
                 --width: min(${ data.size.width }, calc(100vw - 32px));
@@ -1762,7 +1774,7 @@ class FHUIWindow {
                 ${ data.style ?? '' }
             "
             data-index="${ data.index }"
-            ${ data.autoFocusButton != undefined ? `data-auto-focus-button="${ data.autoFocusButton }"` : '' }
+            ${ data.autoFocusButton !== undefined ? `data-auto-focus-button="${ data.autoFocusButton }"` : '' }
             ${ data.attr ?? '' }
         >
             <div class="fh-window-title">
@@ -1806,7 +1818,7 @@ class FHUIWindow {
             if (typeof e === 'object' && !Array.isArray(e)) {
                 dom += FHUIWindow.controllerButton(e?.id, e?.content, e?.data, autoIconButton);
             } else if (typeof e === 'string') {
-                if (e === 'no' && data.indexOf('cancel') != -1) {
+                if (e === 'no' && data.indexOf('cancel') !== -1) {
                     dom += FHUIWindow.controllerButton(e, undefined, {
                         color: 'warn'
                     }, autoIconButton);
@@ -1838,7 +1850,7 @@ class FHUIWindow {
 
         let colorType = btnColorType[id];
         let icon = autoIconButton ? btnIcon[id] : undefined;
-        if (content == undefined) content = $t('ui.' + id);
+        if (content === undefined) content = $t('ui.' + id);
         data = {
             class: 'fh-window-controller-button fh-window-controller-button-' + id,
             color: colorType,
@@ -1852,7 +1864,6 @@ class FHUIWindow {
         }
 
         return FHUIComponentButton.button(content, data);
-        return EditorForm.button(content, data);
     }
 
     static releasesView(releasesData) {

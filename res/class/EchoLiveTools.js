@@ -27,6 +27,50 @@ class EchoLiveTools {
      * @returns {Object} 类与样式
      */
     static messageStyleGenerator(data) {
+        function __setClassAndStyle(styleData) {
+            const value = data.style[styleData.name];
+            if (
+                typeof value === 'undefined' ||
+                Array.isArray(value) ||
+                typeof value === 'function' ||
+                typeof value === 'symbol'
+            ) return;
+
+            if (styleData.is_style) {
+                if (typeof data.style.style === 'undefined') return;
+                style += data.style.style;
+                return;
+            }
+
+            if (typeof value === 'boolean' && !value) return;
+
+            if (typeof styleData.class !== 'undefined') {
+                if (!Array.isArray(styleData.class)) styleData.class = [styleData.class];
+                styleData.class.forEach(e => {
+                    let v = value;
+                    if (typeof value !== 'object') v = { value: v }
+
+                    cls += EchoLiveTools.replacePlaceholders(e, v);
+                    cls += ' ';
+                });
+            }
+
+            if (typeof styleData.style !== 'undefined') {
+                if (!Array.isArray(styleData.style)) styleData.style = [styleData.style];
+                styleData.style.forEach(e => {
+                    if (styleData.custom_style) {
+                        let v = value;
+                        if (typeof value !== 'object') v = { value: v }
+                        
+                        style += EchoLiveTools.replacePlaceholders(e, v);
+                        style += ' ';
+                    } else {
+                        style += `${e}: ${value}; `;
+                    }
+                });
+            }
+        }
+
         let cls = '';
         if (data?.class) {
             cls = data.class + ' ';
@@ -34,20 +78,20 @@ class EchoLiveTools {
         let style = '';
         if (data?.typewrite) cls += 'echo-text-typewrite '
         if (data?.style) {
-            if (data.style?.color)              style   += `color: ${data.style.color}; --echo-span-color: ${data.style.color}; `;
-            if (data.style?.backgroundColor)    style   += `background-color: ${data.style.backgroundColor}; `;
-            if (data.style?.bold && data.style?.weight == undefined) 
-                                                cls     += 'echo-text-bold ';
-            if (data.style?.italic)             cls     += 'echo-text-italic ';
-            if (data.style?.underline)          cls     += 'echo-text-underline ';
-            if (data.style?.strikethrough)      cls     += 'echo-text-strikethrough ';
-            if (data.style?.size)               cls     += 'echo-text-size-'            + data.style.size           + ' ';
-            if (data.style?.weight)             cls     += 'echo-text-weight-'          + data.style.weight         + ' ';
-            if (data.style?.stretch)            cls     += 'echo-text-stretch-'         + data.style.stretch        + ' ';
-            if (data.style?.letterSpacing)      cls     += 'echo-text-letter-spacing-'  + data.style.letterSpacing  + ' ';
-            if (data.style?.emphasis)           cls     += 'echo-text-emphasis';
-            if (data.style?.rock)               cls     += 'echo-text-rock-'            + data.style.rock           + ' ';
-            if (data.style?.style)              style   += data.style.style;
+            if (!config.advanced.performance.foreach_text_style_by_message_data) {
+                echoLiveSystem.registry.forEach('text_style', e => {
+                    __setClassAndStyle(e);
+                });
+            } else {
+                for (const key in data.style) {
+                    if (Object.prototype.hasOwnProperty.call(data.style, key)) {
+                        let r = echoLiveSystem.registry.getRegistryValue('text_style', key);
+                        if (r === undefined) continue;
+                        __setClassAndStyle(r);
+                    }
+                }
+            }
+            // if (data.style?.rock)               cls     += 'echo-text-rock-'            + data.style.rock           + ' ';
         }
 
         return {
@@ -67,10 +111,10 @@ class EchoLiveTools {
     static getMessagePlainText(message, HTMLFilter = false, noEmoji = false, regFilter = undefined) {
         let str = '';
 
-        if (typeof message == 'object' && message?.message != undefined) message = message.message;
+        if (typeof message == 'object' && message?.message !== undefined) message = message.message;
         if (typeof message == 'string') {
             str = message;
-            if (HTMLFilter) str = str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>');
+            if (HTMLFilter) str = str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/ {2}/g, '&nbsp; ').replace(/\n/g, '<br>');
             if (noEmoji)    str = str.replace(/\p{Emoji}/gu, '');
             if (regFilter instanceof RegExp) str = str.replace(regFilter, '');
             return str;
@@ -105,7 +149,7 @@ class EchoLiveTools {
             }
         });
 
-        if (HTMLFilter) str = str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ').replace(/\n/g, '<br>');
+        if (HTMLFilter) str = str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/ {2}/g, '&nbsp; ').replace(/\n/g, '<br>');
         if (noEmoji)    str = str.replace(/\p{Emoji}/gu, '');
         if (regFilter instanceof RegExp) str = str.replace(regFilter, '');
 
@@ -136,7 +180,7 @@ class EchoLiveTools {
 
         if (typeof u2 == 'string') u = u2;
 
-        if (HTMLFilter) u.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/  /g, '&nbsp; ');
+        if (HTMLFilter) u.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/ {2}/g, '&nbsp; ');
 
         return u;
     }
@@ -150,8 +194,8 @@ class EchoLiveTools {
     static getMessageSendLog(message, username = '') {
         username = EchoLiveTools.safeHTML(username);
         if (typeof message != 'string') message = EchoLiveTools.safeHTML(EchoLiveTools.getMessagePlainText(message));
-        if (message     == '') message  = `<i>${ $t( 'message_preview.empty_message' ) }</i>`;
-        if (username    == '') username = `<i>${ $t( 'message_preview.empty_username' ) }</i>`;
+        if (message     === '') message  = `<i>${ $t( 'message_preview.empty_message' ) }</i>`;
+        if (username    === '') username = `<i>${ $t( 'message_preview.empty_username' ) }</i>`;
 
         return `<${ username }> ${ message }`;
     }
@@ -176,21 +220,22 @@ class EchoLiveTools {
         ];
         let fontSizeFindIndex;
 
-        function msgPush(msg = '', style = undefined, data = undefined) {
+        function msgPush(msg = '', style = undefined, data = undefined, domClass = undefined) {
             msg = msg.replace(/{{{sheep-realms:at}}}/g, '@');
-            if (style == undefined) return message.push(msg);
+            if (style === undefined) return message.push(msg);
             let output = {
                 text: msg
             };
-            if (style   != undefined && Object.keys(style).length != 0) output.style    = style;
-            if (data    != undefined)                                   output.data     = data;
+            if (Object.keys(style).length !== 0)            output.style    = style;
+            if (domClass !== undefined && domClass !== '')  output.class    = domClass.trim();
+            if (data !== undefined)                         output.data     = data;
             return message.push(output);
         }
 
         let replaced = text;
         replaced = replaced.replace(/\\@/g, '{{{sheep-realms:at}}}');
         replaced = replaced.replace(
-            /@(\[#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})\]|\{.*?\}|.?)/g,
+            /@(\[#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})\]|\{.*?\}|<.*?>|.?)/g,
             '{{{sheep-realms:split}}}@$1{{{sheep-realms:format}}}'
         );
 
@@ -201,17 +246,19 @@ class EchoLiveTools {
         }
 
         let styleCache = {};
+        let classCache = '';
 
         for (let i = 0; i < arrayMsg.length; i++) {
             const e = arrayMsg[i];
             if (e.length < 2) {
-                if (e[0] != '') msgPush(e[0]);
+                if (e[0] !== '') msgPush(e[0]);
                 continue;
             }
 
             let style       = {};
             let imageKey    = '';
             let imageObj    = {};
+            let cls;
             switch (e[0]) {
                 case '@b':
                     style.bold = true;
@@ -231,7 +278,7 @@ class EchoLiveTools {
 
                 case '@+':
                     style.size = 'large';
-                    if (styleCache?.size != undefined) {
+                    if (styleCache?.size !== undefined) {
                         fontSizeFindIndex   = fontSizeValue.indexOf(styleCache?.size);
                         fontSizeFindIndex   = Math.min(fontSizeFindIndex + 1, fontSizeValue.length - 1);
                         style.size          = fontSizeValue[fontSizeFindIndex];
@@ -240,7 +287,7 @@ class EchoLiveTools {
 
                 case '@-':
                     style.size = 'small';
-                    if (styleCache?.size != undefined) {
+                    if (styleCache?.size !== undefined) {
                         fontSizeFindIndex   = fontSizeValue.indexOf(styleCache?.size);
                         fontSizeFindIndex   = Math.max(fontSizeFindIndex - 1, 0);
                         style.size          = fontSizeValue[fontSizeFindIndex];
@@ -249,20 +296,20 @@ class EchoLiveTools {
 
                 case '@r':
                     styleCache = {};
-                    if (e[1] != '') msgPush(e[1]);
+                    classCache = '';
+                    if (e[1] !== '') msgPush(e[1]);
                     continue;
             
                 default:
-                    if (e[0].search(/^@\[.*\]$/g) != -1) {
+                    if (e[0].search(/^@\[.*\]$/g) !== -1) {
                         style.color = e[0].substring(2, e[0].length - 1);
                         break;
-                    } else if (e[0].search(/^@\{.*\}$/g) != -1) {
+                    } else if (e[0].search(/^@\{.*\}$/g) !== -1) {
                         imageKey = e[0].substring(2, e[0].length - 1);
-
                         
                         if (imageKey.split(':')[0] === 'sys') {
                             // 插入图片
-                            if (imageKey.split(':')[1] === 'img' && data?.images != undefined) {
+                            if (imageKey.split(':')[1] === 'img' && data?.images !== undefined) {
                                 imageObj = data.images[imageKey.split(':')[2]];
                                 delete imageObj?.isAbsolute;
                                 delete imageObj?.isPixelated;
@@ -285,6 +332,14 @@ class EchoLiveTools {
                             );
                         }
                         continue;
+                    } else if (e[0].search(/^@<.*>$/g) !== -1) {
+                        cls = e[0].substring(2, e[0].length - 1);
+                        if (cls.startsWith(':')) {
+                            classCache += `${cls.substring(1)} `;
+                        } else {
+                            classCache += `echo-text-${cls} `;
+                        }
+                        break;
                     } else {
                         msgPush(e[0] + e[1]);
                         continue;
@@ -292,9 +347,9 @@ class EchoLiveTools {
             }
             styleCache = {...styleCache, ...style};
 
-            if (e[1] != '') {
+            if (e[1] !== '') {
                 style = {...styleCache, ...style};
-                msgPush(e[1], style);
+                msgPush(e[1], style, undefined, classCache);
             }
         }
 
@@ -333,7 +388,7 @@ class EchoLiveTools {
      * @param {String} formatKey 格式化键名
      * @returns {String} 格式化后的日期时间
      */
-    static formatDate(value = undefined, formatKey = 'data_time_common') {
+    static formatDate(value = undefined, formatKey = 'date_time_common') {
         let data = EchoLiveTools.formatDateToObject(value);
         
         return $t('localization.' + formatKey, data);
@@ -345,7 +400,7 @@ class EchoLiveTools {
      * @returns  {Object} 日期时间数据
      */
     static formatDateToObject(value = undefined) {
-        let date = value != undefined ? new Date(value) : new Date();
+        let date = value !== undefined ? new Date(value) : new Date();
         const padZero = (num, pad = 2) => num.toString().padStart(pad, '0');
     
         const y = date.getFullYear();
@@ -355,11 +410,11 @@ class EchoLiveTools {
         const m = date.getMinutes();
         const s = date.getSeconds();
         const ms = date.getMilliseconds();
-        const utcz = date.getTimezoneOffset() / 60
-        const utc = utcz < 0 ? utcz * -1 : utcz * 1
+        const utcz = date.getTimezoneOffset() / 60;
+        const utc = utcz < 0 ? utcz * -1 : utcz;
         const h12 = (h % 12) || 12;
         let utcs = '';
-        if (utc != 0) {
+        if (utc !== 0) {
             utcs = ( utc > 0 ? '+' : '-' ) + utc
         }
     
@@ -427,12 +482,12 @@ class EchoLiveTools {
     /**
      * 生成 driver.js 引导数据
      * @param {Object} data 附加数据
-     * @param {Array<Object>} step 步骤数据
+     * @param {Array<Object>} steps 步骤数据
      * @returns {Object} 引导数据
      */
     static generateDriverData(data = {}, steps = []) {
         return {
-            animate:        !config.accessible.animation_disable,
+            animate:        !config.accessibility.animation_disable,
             showProgress:   true,
             progressText:   $t('help.popover.progress'),
             nextBtnText:    $t('help.popover.next'),
@@ -487,5 +542,20 @@ class EchoLiveTools {
                 });
             }
         }
+    }
+
+    /**
+     * 替换字符串占位符
+     * @param {String} str 源字符串
+     * @param {Object} data 变量集
+     * @returns {String} 替换后的字符串
+     */
+    static replacePlaceholders(str, data) {
+        return str.replace(/\{(.*?)\}/g, (match, content) => {
+            let [key, defaultValue] = content.split('|').map(part => part.trim());
+            if (data.hasOwnProperty(key) && (typeof data[key] === 'string' || typeof data[key] === 'number')) return data[key];
+            if (defaultValue) return defaultValue;
+            return match;
+        });
     }
 }

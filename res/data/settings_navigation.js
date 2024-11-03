@@ -19,7 +19,7 @@ echoLiveSystem.registry.setRegistryValue('settings_data', 'navigation', [
         id: 'history',
         icon: 'history'
     }, {
-        id: 'accessible',
+        id: 'accessibility',
         icon: 'wheelchairAccessibility'
     }, {
         id: 'advanced',

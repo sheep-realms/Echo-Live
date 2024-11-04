@@ -38,8 +38,13 @@
 
 ### 第三方项目
 - [Echo-Client](https://github.com/Rickyxrc/echo-client)
+- [Echo-Live-Rev](https://github.com/YouxingClub/Echo-Live-Rev)
 - [Echo-Live-Tauri](https://github.com/LuiScreaMed/Echo-Live-Tauri)
 - [Echo-Live-Typetool](https://github.com/RaySky-Rt/Echo-Live-Typetool)
+
+### 其他项目
+
+- 如果您想要一个具有语音转文字功能的对话框，不妨来看看 [curses](https://github.com/mmpneo/curses)（语言选项包含中文）。
 
 ## 相关资源
 建议您安装可免费商用字体以规避版权纠纷，Echo-Live 默认使用思源黑体。

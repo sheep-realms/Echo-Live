@@ -1098,12 +1098,7 @@ class SettingsPanel {
                 'text',
                 {
                     id: id.replace(/\./g, '-'),
-                    class: 'settings-value code',
-                    attribute: {
-                        aria: {
-                            label: title
-                        }
-                    }
+                    class: 'settings-value code'
                 }
             );
         } else {
@@ -1114,12 +1109,7 @@ class SettingsPanel {
                     id: id.replace(/\./g, '-'),
                     class: 'settings-value code',
                     option_description_fill_value: true,
-                    option_width: attribute?.option_width,
-                    attribute: {
-                        aria: {
-                            label: title
-                        }
-                    }
+                    option_width: attribute?.option_width
                 }
             );
         }
@@ -1170,9 +1160,6 @@ class SettingsPanel {
                         label: unit ? $t('unit.' + unit) : undefined
                     },
                     attribute: {
-                        aria: {
-                            label: title
-                        },
                         max: attribute?.max !== undefined ? attribute.max : undefined,
                         min: attribute?.min !== undefined ? attribute.min : undefined,
                         step: attribute?.step !== undefined ? attribute.step : undefined

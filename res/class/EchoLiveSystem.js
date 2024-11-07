@@ -3,7 +3,12 @@ class EchoLiveSystem {
         this.mixer      = undefined;
         this.registry   = new EchoLiveRegistry();
         this.device     = new EchoLiveLocalDeviceManager();
+        this.hook       = new EchoLiveHook();
         this.config     = config;
+
+        this.hook.trigger('system_init', {
+            unit: this
+        });
     }
 }
 
@@ -468,6 +473,134 @@ class EchoLiveLocalDeviceManager {
         if (!this.enable) return;
         if (this.vibrateMethod[name] === undefined) return;
         this.vibrate(this.vibrateMethod[name]);
+    }
+}
+
+
+
+class EchoLiveHook {
+    constructor() {
+        this.hooks = [];
+        this.lastHookID = -1;
+        this.debug = {
+            log_trigger: false
+        };
+    }
+
+    /**
+     * 创建 Hook
+     * @param {String} name 事件名称
+     * @param {Function} method 方法
+     * @returns {Number} Hook ID
+     */
+    create(name, method = () => {}) {
+        this.hooks.push({
+            name: name,
+            id: ++this.lastHookID,
+            method: method
+        });
+        return this.lastHookID;
+    }
+
+    /**
+     * 查找 Hook
+     * @param {Number} id Hook ID
+     * @returns {Object} Hook 数据
+     */
+    find(id) {
+        return this.hooks.find(e => e.id === id);
+    }
+
+    /**
+     * 查找 Hook 索引
+     * @param {Number} id Hook ID
+     * @returns {Number} Hook 索引
+     */
+    findIndex(id) {
+        return this.hooks.findIndex(e => e.id === id);
+    }
+
+    /**
+     * 查找 Hook 在事件中的索引
+     * @param {String} name 事件名称
+     * @param {Number} id Hook ID
+     * @returns {Number} Hook 索引
+     */
+    findIndexByName(name, id) {
+        return this.filter(name).findIndex(e => e.id === id);
+    }
+
+    /**
+     * 过滤 Hook
+     * @param {String} name 事件名称
+     * @returns {Object} Hook 数据
+     */
+    filter(name) {
+        return this.hooks.filter(e => e.name === name);
+    }
+
+    /**
+     * 移除 Hook
+     * @param {Number} id Hook ID
+     */
+    remove(id) {
+        const index = this.findIndex(id);
+        if (index === -1) return;
+        this.hooks.splice(index, 1);
+    }
+
+    /**
+     * 清空 Hook
+     * @param {String|undefined} name 事件名称
+     */
+    clear(name) {
+        if (name === undefined) {
+            this.hooks = [];
+        }
+
+        this.hooks = this.hooks.filter(e => e.name !== e.name);
+    }
+
+    /**
+     * 触发 Hook
+     * @param {String} name 事件名称
+     * @param {*} data 数据 
+     */
+    trigger(name, data) {
+        if (this.debug.log_trigger) console.log('Hook: ' + name, data);
+
+        let r = this.filter(name);
+        r.forEach(e => {
+            e.method({
+                ...data,
+                hook: new EchoLiveHookUnit(e.id, e.name)
+            });
+        });
+    }
+}
+
+
+
+class EchoLiveHookUnit {
+    constructor(id, name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    get parent() {
+        return echoLiveSystem.hook;
+    }
+
+    get index() {
+        return this.parent.findIndex(this.id);
+    }
+
+    get indexByName() {
+        return this.parent.findIndexByName(this.name, this.id);
+    }
+
+    remove() {
+        this.parent.remove(this.id);
     }
 }
 

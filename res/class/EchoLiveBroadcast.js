@@ -75,6 +75,9 @@ class EchoLiveBroadcast {
      */
     init() {
         this.listen();
+        echoLiveSystem.hook.trigger('broadcast_terminal_init', {
+            unit: this
+        });
     }
 
     /**
@@ -180,6 +183,11 @@ class EchoLiveBroadcast {
             }
         }
 
+        echoLiveSystem.hook.trigger('broadcast_terminal_post_message', {
+            data: d,
+            unit: this
+        });
+
         this.broadcast.postMessage(d);
         if (this.websocket !== undefined) {
             try {
@@ -246,6 +254,10 @@ class EchoLiveBroadcast {
     getData(data) {
         if (typeof data != 'object') return;
         this.listenCallbackDepth = 0;
+        echoLiveSystem.hook.trigger('broadcast_terminal_get_message', {
+            data: data,
+            unit: this
+        });
         if (data?.from?.uuid === this.uuid) return;
 
         this.event.message(data);
@@ -255,6 +267,10 @@ class EchoLiveBroadcast {
                 data.action === EchoLiveBroadcast.API_NAME_PING && !this.isServer ? false : this.targeted
             )
         ) return;
+        echoLiveSystem.hook.trigger('broadcast_terminal_get_message_valid', {
+            data: data,
+            unit: this
+        });
         this.event.validMessage(data);
 
         if (data.action === EchoLiveBroadcast.API_NAME_ERROR) this.event.error(data);
@@ -350,6 +366,12 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         this.setListenCallback(1, this, this.getDataServer);
 
         this.uuid = EchoLiveTools.getUUID();
+
+        echoLiveSystem.hook.trigger('broadcast_server_init', {
+            unit: this,
+            data: data
+        });
+        
         if (!data.noPing) this.ping();
 
         if (this.config.editor.websocket.enable) {
@@ -698,6 +720,10 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
      * @param {EchoLiveBroadcast} listener 监听对象
      */
     getDataServer(data, listener = this) {
+        echoLiveSystem.hook.trigger('broadcast_server_get_message_valid', {
+            data: data,
+            unit: listener
+        });
         switch (data.action) {
             case EchoLiveBroadcast.API_NAME_HELLO:
                 listener.addClient({...data.from, ...data.data});
@@ -770,6 +796,10 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
         if (this.config.echolive.broadcast.websocket_enable) {
             this.websocketConnect();
         }
+
+        echoLiveSystem.hook.trigger('broadcast_client_init', {
+            unit: this
+        });
     }
 
     __readWebsocketMessage(message) {
@@ -941,6 +971,10 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      * @param {EchoLiveBroadcast} listener 监听对象
      */
     getDataClient(data, listener = this) {
+        echoLiveSystem.hook.trigger('broadcast_client_get_message_valid', {
+            data: data,
+            unit: listener
+        });
         switch (data.action) {
             case EchoLiveBroadcast.API_NAME_PING:
                 listener.sendHello(data.from?.uuid);
@@ -996,6 +1030,10 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
         if (this.echolive.custom.name !== undefined) this.setName(this.echolive.custom.name);
 
         this.setListenCallback(2, this, this.getDataPortal);
+
+        echoLiveSystem.hook.trigger('broadcast_live_init', {
+            unit: this
+        });
 
         this.sendHello();
     }
@@ -1075,6 +1113,10 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
      * @param {EchoLiveBroadcast} listener 监听对象
      */
     getDataPortal(data, listener = this) {
+        echoLiveSystem.hook.trigger('broadcast_live_get_message_valid', {
+            data: data,
+            unit: listener
+        });
         switch (data.action) {
             case EchoLiveBroadcast.API_NAME_MESSAGE_DATA:
                 listener.echolive.send(data.data);
@@ -1135,6 +1177,10 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
 
         this.setListenCallback(2, this, this.getDataHistory);
 
+        echoLiveSystem.hook.trigger('broadcast_history_init', {
+            unit: this
+        });
+
         this.sendHello();
     }
 
@@ -1155,6 +1201,10 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
      * @param {EchoLiveBroadcast} listener 监听对象
      */
     getDataHistory(data, listener = this) {
+        echoLiveSystem.hook.trigger('broadcast_history_get_message_valid', {
+            data: data,
+            unit: listener
+        });
         switch (data.action) {
             case EchoLiveBroadcast.API_NAME_ECHO_PRINTING:
                 listener.echoLiveHistory.send({

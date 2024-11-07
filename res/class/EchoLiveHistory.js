@@ -46,6 +46,10 @@ class EchoLiveHistory {
             });
             this.broadcast.on('shutdown', reason => this.shutdown(reason));
         }
+
+        echoLiveSystem.hook.trigger('echolive_history_init', {
+            unit: this
+        });
     }
 
     /**

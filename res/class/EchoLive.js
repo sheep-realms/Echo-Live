@@ -110,6 +110,10 @@ class EchoLive {
         }
 
         if (this.config.echolive.display.auto) this.setDisplayHiddenWaitTimer();
+
+        echoLiveSystem.hook.trigger('echolive_portal_init', {
+            unit: this
+        });
     }
 
     /**

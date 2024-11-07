@@ -191,6 +191,12 @@ class EchoLiveBroadcast {
         return d;
     }
 
+    /**
+     * 检查是否应该收到消息
+     * @param {String|Array<String>} target 投递目标
+     * @param {Boolean} isTargeted 是否仅接收定向广播
+     * @returns {Boolean} 结果
+     */
     checkTargetIsSelf(target, isTargeted = false) {
         if (!Array.isArray(target)) target = [target];
         let globalHasNOT = false;

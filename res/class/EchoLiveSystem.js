@@ -491,7 +491,7 @@ class EchoLiveHook {
      * 创建 Hook
      * @param {String} name 事件名称
      * @param {Function} method 方法
-     * @returns {Number} Hook ID
+     * @returns {EchoLiveHookUnit} Hook Unit
      */
     create(name, method = () => {}) {
         this.hooks.push({
@@ -499,7 +499,7 @@ class EchoLiveHook {
             id: ++this.lastHookID,
             method: method
         });
-        return this.lastHookID;
+        return new EchoLiveHookUnit(this.lastHookID, name);
     }
 
     /**

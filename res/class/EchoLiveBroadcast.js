@@ -57,6 +57,7 @@ class EchoLiveBroadcast {
             TARGET_SERVER:              '@__server',
             TARGET_WEBSOCKET_SERVER:    '@__ws_server',
 
+            TYPE_CHARACTER: 'character',
             TYPE_CLIENT:    'client',
             TYPE_HISTORY:   'history',
             TYPE_PORTAL:    'live',
@@ -1227,5 +1228,59 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
             default:
                 break;
         }
+    }
+}
+
+
+
+class EchoLiveBroadcastCharacter extends EchoLiveBroadcastClient {
+    /**
+     * Echo-Live 广播客户端：形象播放器
+     * @param {String} channel 频道名称
+     * @param {EchoLiveHistory} echoLiveHistory Echo-Live 形象播放器实例
+     * @param {Object} config 配置
+     */
+    constructor(channel = EchoLiveBroadcast.DEFAULT_CHANNEL, echoLiveCharacter = undefined, config = {}) {
+        super(channel, EchoLiveBroadcast.TYPE_CHARACTER, config);
+        this.echoLiveCharacter = echoLiveCharacter;
+        this.uuid       = this.echoLiveCharacter.uuid;
+        this.isServer   = false;
+        this.timer      = {};
+        this.event      = {
+            ...this.event
+        };
+        this.depth      = 2;
+
+        this.initCharacter();
+    }
+
+    initCharacter() {
+        if (this.config === undefined) this.config = this.echoLiveHistory.config;
+
+        this.setListenCallback(2, this, this.getDataCharacter);
+
+        echoLiveSystem.hook.trigger('broadcast_character_init', {
+            unit: this
+        });
+
+        this.sendHello();
+    }
+    
+    /**
+     * 发送 HELLO 消息
+     * @param {String} target 发送目标
+     * @returns {Object} 发送的消息
+     */
+    sendHello(target = undefined) {
+        return this.sendData({
+            hidden: undefined
+        }, EchoLiveBroadcast.API_NAME_HELLO, target);
+    }
+
+    getDataCharacter() {
+        echoLiveSystem.hook.trigger('broadcast_character_get_message_valid', {
+            data: data,
+            unit: listener
+        });
     }
 }

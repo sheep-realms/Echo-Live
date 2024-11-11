@@ -1237,7 +1237,7 @@ class EchoLiveBroadcastCharacter extends EchoLiveBroadcastClient {
     /**
      * Echo-Live 广播客户端：形象播放器
      * @param {String} channel 频道名称
-     * @param {EchoLiveHistory} echoLiveHistory Echo-Live 形象播放器实例
+     * @param {EchoLiveCharacter} echoLiveCharacter Echo-Live 形象播放器实例
      * @param {Object} config 配置
      */
     constructor(channel = EchoLiveBroadcast.DEFAULT_CHANNEL, echoLiveCharacter = undefined, config = {}) {

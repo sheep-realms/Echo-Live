@@ -4,7 +4,11 @@ class EchoLiveCharacter {
         this.broadcast      = undefined;
         this.uuid           = EchoLiveTools.getUUID();
         this.hidden         = false;
-        this.event          = {};
+        this.lastImage      = undefined;
+        this.event          = {
+            layerUpdate:    function() {},
+            imageChange:    function() {}
+        };
 
         this.init();
     }
@@ -43,6 +47,17 @@ class EchoLiveCharacter {
     on(eventName, action = function() {}) {
         if (typeof action != 'function') return;
         return this.event[eventName] = action;
+    }
+
+    setImage(url) {
+        if (this.lastImage !== undefined) this.event.imageChange(this.lastImage, 'before');
+        this.event.imageChange(url, 'main');
+        this.lastImage = url;
+        this.updateLayer();
+    }
+
+    updateLayer() {
+        this.event.layerUpdate();
     }
 
     /**

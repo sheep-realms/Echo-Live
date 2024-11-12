@@ -1431,6 +1431,7 @@ const lang_zho_Hans = {
         }
     },
     page_title: {
+        character: "Echo Live 形象播放器",
         editor: "Echo Live 编辑器",
         history: "Echo Live 历史记录",
         live: "Echo Live",

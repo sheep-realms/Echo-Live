@@ -1431,6 +1431,7 @@ const lang_zho_Hant_HK = {
         }
     },
     page_title: {
+        character: "Echo Live 形象播放器",
         editor: "Echo Live 編輯器",
         history: "Echo Live 歷史記錄",
         live: "Echo Live",

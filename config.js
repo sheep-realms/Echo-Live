@@ -1,5 +1,5 @@
 const config = {
-    "data_version": 10,
+    "data_version": 11,
     "global": {
         "language": "zho-Hans",
         "theme": "vanilla",
@@ -136,6 +136,18 @@ const config = {
             "live_display_hidden_latest_message_show": true
         }
     },
+    "character": {
+        "avatar": {
+            "name": "echo_otone",
+            "action": "default"
+        },
+        "avatar_switch_effect": {
+            "name": "none",
+            "duration": 250,
+            "scale": 1,
+            "timing_function": "ease-out"
+        }
+    },
     "accessibility": {
         "font_size": 16,
         "unlock_page_width": false,
@@ -170,6 +182,5 @@ const config = {
             "enable": true
         }
     },
-    "selector": {},
-    "character": {}
+    "selector": {}
 }

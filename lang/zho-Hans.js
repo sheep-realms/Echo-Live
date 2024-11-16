@@ -573,6 +573,42 @@ const lang_zho_Hans = {
                 }
             }
         },
+        character: {
+            _title: "形象播放器",
+            _description: "用于展示立绘或头像的播放器",
+            avatar: {
+                _title: "默认形象",
+                _description: "默认所使用的形象与动作",
+                name: {
+                    _title: "形象名称",
+                    _description: "可用的形象名称请见<a href='#' target='_blank'>帮助文档（这里的链接记得改）</a>。"
+                },
+                action: {
+                    _title: "动作名称",
+                    _description: "默认所使用的动作名称。<br>不同的形象会有不同的动作可选，请根据您选择的形象来选择动作。<br>可用的动作名称请见<a href='#' target='_blank'>帮助文档（这里的链接记得改）</a>。"
+                }
+            },
+            avatar_switch_effect: {
+                _title: "形象切换动效",
+                _description: "切换形象或动作时默认所使用的动画效果",
+                name: {
+                    _title: "动效名称",
+                    _description: "可用的音效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>帮助文档（这里的链接记得改）</a>。"
+                },
+                duration: {
+                    _title: "动效用时",
+                    _description: "播放动画所需时间。"
+                },
+                scale: {
+                    _title: "动效规模乘数",
+                    _description: "动画的运动幅度乘数。"
+                },
+                timing_function: {
+                    _title: "动效时间曲线",
+                    _description: "动画在不同时间段的运动速度。"
+                }
+            },
+        },
         accessibility: {
             _title: "可访问性",
             _description: "可访问性相关配置",

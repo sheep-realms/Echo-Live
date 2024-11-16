@@ -573,6 +573,42 @@ const lang_zho_Hant_TW = {
                 }
             }
         },
+        character: {
+            _title: "形象播放器",
+            _description: "用於展示立繪或頭像的播放器",
+            avatar: {
+                _title: "預設形象",
+                _description: "預設所使用的形象與動作",
+                name: {
+                    _title: "形象名稱",
+                    _description: "可用的形象名稱請見<a href='#' target='_blank'>幫助文件（這裡的連結記得改）</a>。"
+                },
+                action: {
+                    _title: "動作名稱",
+                    _description: "預設所使用的動作名稱。<br>不同的形象會有不同的動作可選，請根據您選擇的形象來選擇動作。<br>可用的動作名稱請見<a href='#' target='_blank'>幫助文件（這裡的連結記得改）</a>。"
+                }
+            },
+            avatar_switch_effect: {
+                _title: "形象切換動效",
+                _description: "切換形象或動作時預設所使用的動畫效果",
+                name: {
+                    _title: "動效名稱",
+                    _description: "可用的音效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>幫助文件（這裡的連結記得改）</a>。"
+                },
+                duration: {
+                    _title: "動效用時",
+                    _description: "播放動畫所需時間。"
+                },
+                scale: {
+                    _title: "動效規模乘數",
+                    _description: "動畫的運動幅度乘數。"
+                },
+                timing_function: {
+                    _title: "動效時間曲線",
+                    _description: "動畫在不同時間段的運動速度。"
+                }
+            },
+        },
         accessibility: {
             _title: "可訪問性",
             _description: "可訪問性相關配置",

@@ -15,7 +15,11 @@ echoLiveCharacter.on('imageChange', (url, layer) => {
     $(`${SEL_CHARACTER_LAYER} .layer[data-layer="${layer}"]`).css('background-image', `url(${url})`);
 });
 
-echoLiveCharacter.on('layerUpdate', () => {
-    $(SEL_CHARACTER_LAYER_MAIN).css('--layer-effect-name', 'fade-in');
-    $(SEL_CHARACTER_LAYER_BEFORE).css('--layer-effect-name', 'fade-out');
+echoLiveCharacter.on('layerUpdate', (effect) => {
+    if (effect.name === undefined) {
+        // TODO: 处理默认情况
+    } else {
+        $(SEL_CHARACTER_LAYER_MAIN).css('--layer-effect-name', `${effect.name}-main`);
+        $(SEL_CHARACTER_LAYER_BEFORE).css('--layer-effect-name', `${effect.name}-before`);
+    }
 });

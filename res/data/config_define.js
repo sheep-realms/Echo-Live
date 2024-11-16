@@ -1,4 +1,4 @@
-const db_config_version = 10;
+const db_config_version = 11;
 
 const db_config_define = [
     {
@@ -963,6 +963,73 @@ const db_config_define = [
 
 
     {
+        name: 'echo',
+        type: 'character',
+        created: 11
+    }, {
+        name: 'character.avatar',
+        type: 'object',
+        created: 11
+    }, {
+        name: 'character.avatar.name',
+        type: 'string',
+        default: 'echo_otone',
+        created: 11,
+        attribute: {
+            datalist: []
+        }
+    }, {
+        name: 'character.avatar.action',
+        type: 'string',
+        default: 'default',
+        created: 11,
+        attribute: {
+            datalist: []
+        }
+    }, {
+        name: 'character.avatar_switch_effect',
+        type: 'object',
+        created: 11
+    }, {
+        name: 'character.avatar_switch_effect.name',
+        type: 'string',
+        default: 'none',
+        created: 11,
+        attribute: {
+            datalist: []
+        }
+    }, {
+        name: 'character.avatar_switch_effect.duration',
+        type: 'number',
+        default: 250,
+        created: 11,
+        unit: 'ms',
+        attribute: {
+            min: 0,
+            step: 250
+        }
+    }, {
+        name: 'character.avatar_switch_effect.scale',
+        type: 'number',
+        default: 1,
+        created: 11,
+        attribute: {
+            min: 0,
+            step: 0.25
+        }
+    }, {
+        name: 'character.avatar_switch_effect.timing_function',
+        type: 'string',
+        default: 'ease-out',
+        created: 11,
+        attribute: {
+            datalist: []
+        }
+    },
+
+
+
+    {
         name: 'accessibility',
         type: 'object',
         created: 10
@@ -1150,10 +1217,6 @@ const db_config_define = [
 
     {
         name: 'selector',
-        type: 'object',
-        created: -1
-    }, {
-        name: 'character',
         type: 'object',
         created: -1
     },

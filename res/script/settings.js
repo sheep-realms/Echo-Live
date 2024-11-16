@@ -644,6 +644,7 @@ $(document).ready(function() {
             });
         });
         __setConfigDefineDatalist('echolive.print_effect.timing_function', datalistLang);
+        __setConfigDefineDatalist('character.avatar_switch_effect.timing_function', datalistLang);
 
         let voices = [];
         try {

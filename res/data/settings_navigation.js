@@ -19,6 +19,9 @@ echoLiveSystem.registry.setRegistryValue('settings_data', 'navigation', [
         id: 'history',
         icon: 'history'
     }, {
+        id: 'character',
+        icon: 'accountBox'
+    }, {
         id: 'accessibility',
         icon: 'wheelchairAccessibility'
     }, {

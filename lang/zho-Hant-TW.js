@@ -73,6 +73,7 @@ const lang_zho_Hant_TW = {
     broadcast: {
         client: {
             type: {
+                character: "Echo Live Character",
                 client: "未知客戶端",
                 editor: "Echo-Live Editor",
                 history: "Echo-Live History",

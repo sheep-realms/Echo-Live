@@ -73,6 +73,7 @@ const lang_zho_Hans = {
     broadcast: {
         client: {
             type: {
+                character: "Echo Live Character",
                 client: "未知客户端",
                 editor: "Echo-Live Editor",
                 history: "Echo-Live History",

@@ -63,7 +63,7 @@ class EchoLiveCharacter {
      * @param {String} data.image.repeat 重复填充方式
      * @param {Object} data.effect 切换动效
      * @param {String} data.effect.name 动效名称
-     * @param {String} data.effect.speed 动效用时
+     * @param {String} data.effect.duration 动效用时
      * @param {String} data.effect.scale 动效规模乘数
      * @param {String} data.effect.timingFunction 动效时间曲线
      */
@@ -80,7 +80,7 @@ class EchoLiveCharacter {
             },
             effect: {
                 name: undefined,
-                speed: undefined,
+                duration: undefined,
                 scale: undefined,
                 timingFunction: undefined,
                 ...data?.effect

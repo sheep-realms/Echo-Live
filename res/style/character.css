@@ -4,6 +4,7 @@
     --layer-effect-scale: 1;
     --layer-effect-scale-calc: max(var(--layer-effect-scale), 0);
     --layer-effect-timing-function: ease-out;
+    --layer-padding: 0px;
 }
 
 * {
@@ -29,13 +30,14 @@ body {
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-}
+    padding: var(--layer-padding);
 
-.echo-live-character-layer .layer {
     background-image: unset;
     background-position: center center;
     background-size: contain;
     background-repeat: no-repeat;
+    background-origin: content-box;
+
     animation-name: var(--layer-effect-name);
     animation-duration: var(--layer-effect-speed);
     animation-timing-function: var(--layer-effect-timing-function);

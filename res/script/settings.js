@@ -119,6 +119,131 @@ let configSearchDataFilter = new DataFilter(
     }
 );
 
+const configDataList = [
+    {
+        data: arr => {
+            echoLiveSystem.registry.forEach('language_index', e => {
+                arr.push({
+                    value: e.code,
+                    title: `<span lang="${ e.code_ietf }">${ e.title }</sapn>`
+                });
+            });
+        },
+        key: 'global.language'
+    }, {
+        data: arr => {
+            echoLiveSystem.registry.forEach('live_theme', e => {
+                arr.push({
+                    title: e.title,
+                    value: e.name
+                });
+            });
+        },
+        key: [
+            'global.theme',
+            'echolive.style.live_theme',
+            'history.style.history_theme'
+        ]
+    }, {
+        data: [
+            { value: 'auto', title: $t('config.global.color_scheme._value.auto') },
+            { value: 'light', title: $t('config.global.color_scheme._value.light') },
+            { value: 'dark', title: $t('config.global.color_scheme._value.dark') }
+        ],
+        key: 'global.color_scheme'
+    }, {
+        data: arr => {
+            echoLiveSystem.registry.forEach('sound', e => {
+                arr.push({
+                    title: $t(`sound.${ e.name }`),
+                    value: e.name
+                });
+            });
+        },
+        key: 'echolive.print_audio.name'
+    }, {
+        data: arr => {
+            echoLiveSystem.registry.forEach('sound', e => {
+                arr.push({
+                    title: $t(`sound.${ e.name }`),
+                    value: e.name,
+                    __type: e.type
+                });
+                arr.sort((a, b) => {
+                    if (a.__type === b.type) return 0;
+                    if (b.__type === 'next') return 1;
+                    return -1;
+                });
+            });
+        },
+        key: 'echolive.next_audio.name'
+    }, {
+        data: arr => {
+            echoLiveSystem.registry.forEach('print_effect', e => {
+                if (!e?.hidden || config.advanced.settings.display_hidden_option) arr.push({
+                    title: $t(`effect.print.${ e.name }`),
+                    value: e.value
+                });
+            });
+        },
+        key: 'echolive.print_effect.name'
+    }, {
+        data: arr => {
+            echoLiveSystem.registry.forEach('timing_function', e => {
+                arr.push({
+                    title: $t(`timing_function.${ e.name }`),
+                    value: e.value
+                });
+            });
+        },
+        key: [
+            'echolive.print_effect.timing_function',
+            'character.avatar_switch_effect.timing_function'
+        ]
+    }, {
+        data: arr => {
+            let voices = [];
+            try {
+                voices = speechSynthesis.getVoices();
+                voices = voices.filter(e => e.localService == true);
+            } catch (error) {}
+            for (let i = 0; i < voices.length; i++) {
+                if (
+                    i >= config.advanced.settings.speech_synthesis_voices_maximum &&
+                    config.advanced.settings.speech_synthesis_voices_maximum >= 0
+                ) break;
+                const e = voices[i];
+                arr.push({
+                    value: e.name
+                });
+            }
+        },
+        key: 'echolive.speech_synthesis.voice'
+    }, {
+        data: arr => {
+            echoLiveSystem.registry.forEach('avatar', e => {
+                arr.push({
+                    title: e.meta.title_i18n ? $t(`avatar.${ e.meta.title_i18n }`) : e.meta.title,
+                    value: e.meta.name
+                });
+            });
+        },
+        key: 'character.avatar.name'
+    }, {
+        data: arr => {
+            echoLiveSystem.registry.forEach('border_style', e => {
+                arr.push({
+                    title: $t(`border_style.${ e.name }`),
+                    value: e.value
+                });
+            });
+        },
+        key: 'accessibility.high_contrast_outline_style'
+    }
+];
+
+
+
 $('#settings-search-btn').click(function() {
     searchSettings($('#settings-search').val());
 });
@@ -575,110 +700,29 @@ $(document).ready(function() {
 
         // 载入数据
 
-        let datalistLang = [];
-
         function __setConfigDefineDatalist(key, data) {
             let i = settingsManager.findIndexConfigDefine(key);
             settingsManager.configDefine[i].attribute.datalist = data;
         }
 
-        // lang_index.index.forEach(e => {
-        //     datalistLang.push({
-        //         value: e.code,
-        //         title: `<span lang="${ e.code_ietf }">${ e.title }</sapn>`
-        //     });
-        // });
-
-        echoLiveSystem.registry.forEach('language_index', e => {
-            datalistLang.push({
-                value: e.code,
-                title: `<span lang="${ e.code_ietf }">${ e.title }</sapn>`
-            });
-        });
-
-        __setConfigDefineDatalist('global.language', datalistLang);
-
-        datalistLang = [];
-        echoLiveSystem.registry.forEach('live_theme', e => {
-            datalistLang.push({
-                title: e.title,
-                value: e.name
-            });
-        });
-        __setConfigDefineDatalist('global.theme', datalistLang);
-        __setConfigDefineDatalist('echolive.style.live_theme', datalistLang);
-        __setConfigDefineDatalist('history.style.history_theme', datalistLang);
-
-        datalistLang = [];
-        echoLiveSystem.registry.forEach('sound', e => {
-            datalistLang.push({
-                title: $t(`sound.${ e.name }`),
-                value: e.name,
-                __type: e.type
-            });
-        });
-
-        __setConfigDefineDatalist('echolive.print_audio.name', datalistLang);
-        datalistLang = datalistLang.slice();
-        datalistLang.sort((a, b) => {
-            if (a.__type === b.type) return 0;
-            if (b.__type === 'next') return 1;
-            return -1;
-        });
-        __setConfigDefineDatalist('echolive.next_audio.name', datalistLang);
-
-        datalistLang = [];
-        echoLiveSystem.registry.forEach('print_effect', e => {
-            if (!e?.hidden || config.advanced.settings.display_hidden_option) datalistLang.push({
-                title: $t(`effect.print.${ e.name }`),
-                value: e.value
-            });
-        });
-        __setConfigDefineDatalist('echolive.print_effect.name', datalistLang);
-
-        datalistLang = [];
-        echoLiveSystem.registry.forEach('timing_function', e => {
-            datalistLang.push({
-                title: $t(`timing_function.${ e.name }`),
-                value: e.value
-            });
-        });
-        __setConfigDefineDatalist('echolive.print_effect.timing_function', datalistLang);
-        __setConfigDefineDatalist('character.avatar_switch_effect.timing_function', datalistLang);
-
-        let voices = [];
-        try {
-            voices = speechSynthesis.getVoices();
-            voices = voices.filter(e => e.localService == true);
-        } catch (error) {}
-        let voiceName = [];
-        for (let i = 0; i < voices.length; i++) {
-            if (
-                i >= config.advanced.settings.speech_synthesis_voices_maximum &&
-                config.advanced.settings.speech_synthesis_voices_maximum >= 0
-            ) break;
-            const e = voices[i];
-            voiceName.push({
-                value: e.name
+        function __setConfigDataList() {
+            configDataList.forEach(e => {
+                let valueList = [];
+                if (typeof e.data === 'function') {
+                    e.data(valueList);
+                } else {
+                    valueList = e.data;
+                }
+                
+                let keyList = e.key;
+                if (!Array.isArray(keyList)) keyList = [keyList];
+                keyList.forEach(e2 => {
+                    __setConfigDefineDatalist(e2, valueList);
+                });
             });
         }
-        __setConfigDefineDatalist('echolive.speech_synthesis.voice', voiceName);
 
-        datalistLang = [
-            { value: 'auto', title: $t('config.global.color_scheme._value.auto') },
-            { value: 'light', title: $t('config.global.color_scheme._value.light') },
-            { value: 'dark', title: $t('config.global.color_scheme._value.dark') }
-        ];
-        __setConfigDefineDatalist('global.color_scheme', datalistLang);
-
-        datalistLang = [];
-        echoLiveSystem.registry.forEach('border_style', e => {
-            datalistLang.push({
-                title: $t(`border_style.${ e.name }`),
-                value: e.value
-            });
-        });
-        __setConfigDefineDatalist('accessibility.high_contrast_outline_style', datalistLang);
+        __setConfigDataList();
 
         // 生成页面
 

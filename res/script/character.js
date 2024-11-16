@@ -10,9 +10,9 @@ $(document).on('animationend', `${SEL_CHARACTER_LAYER} .layer`, function() {
     if ($(this).data('layer') !== 'main') $(this).addClass('hidden');
 });
 
-echoLiveCharacter.on('imageChange', (url, layer) => {
+echoLiveCharacter.on('imageChange', (image, layer) => {
     $(`${SEL_CHARACTER_LAYER} .layer[data-layer="${layer}"]`).removeClass('hidden');
-    $(`${SEL_CHARACTER_LAYER} .layer[data-layer="${layer}"]`).css('background-image', `url(${url})`);
+    $(`${SEL_CHARACTER_LAYER} .layer[data-layer="${layer}"]`).css('background-image', `url(${image.url})`);
 });
 
 echoLiveCharacter.on('layerUpdate', (effect) => {

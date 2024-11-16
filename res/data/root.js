@@ -1,5 +1,25 @@
 echoLiveSystem.registry.init([
     {
+        name: 'avatar',
+        unique_key: 'meta.name',
+        default_data: {
+            meta: {
+                name: 'missingno',
+                title: 'missingno',
+                title_i18n: '',
+                author: 'missingno'
+            },
+            path: {
+                i18n: '',
+                images: ''
+            },
+            default_action: {
+                idle: undefined,
+                unknown: undefined
+            },
+            action: []
+        }
+    }, {
         name: 'border_style',
         unique_key: 'name',
         default_data: {

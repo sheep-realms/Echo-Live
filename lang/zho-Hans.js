@@ -59,6 +59,11 @@ const lang_zho_Hans = {
         ms: "毫秒",
         sec: "秒"
     },
+    avatar: {
+        echo_otone: {
+            name: "Echo 追音"
+        }
+    },
     border_style: {
         none: "无",
         solid: "实线",
@@ -315,7 +320,7 @@ const lang_zho_Hans = {
                 _description: "打印每个字符时所使用的动画效果",
                 name: {
                     _title: "动效名称",
-                    _description: "可用的音效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>帮助文档</a>。"
+                    _description: "可用的动效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>帮助文档</a>。"
                 },
                 duration: {
                     _title: "动效用时",
@@ -585,7 +590,7 @@ const lang_zho_Hans = {
                 },
                 action: {
                     _title: "动作名称",
-                    _description: "默认所使用的动作名称。<br>不同的形象会有不同的动作可选，请根据您选择的形象来选择动作。<br>可用的动作名称请见<a href='#' target='_blank'>帮助文档（这里的链接记得改）</a>。"
+                    _description: "默认所使用的动作名称，留空则使用默认值。<br>不同的形象会有不同的动作可选，请根据您选择的形象来选择动作。<br>可用的动作名称请见<a href='#' target='_blank'>帮助文档（这里的链接记得改）</a>。"
                 }
             },
             avatar_switch_effect: {
@@ -593,7 +598,7 @@ const lang_zho_Hans = {
                 _description: "切换形象或动作时默认所使用的动画效果",
                 name: {
                     _title: "动效名称",
-                    _description: "可用的音效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>帮助文档（这里的链接记得改）</a>。"
+                    _description: "可用的动效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>帮助文档（这里的链接记得改）</a>。"
                 },
                 duration: {
                     _title: "动效用时",

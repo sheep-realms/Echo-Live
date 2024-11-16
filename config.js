@@ -139,7 +139,7 @@ const config = {
     "character": {
         "avatar": {
             "name": "echo_otone",
-            "action": "default"
+            "action": ""
         },
         "avatar_switch_effect": {
             "name": "none",

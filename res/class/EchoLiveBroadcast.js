@@ -1277,7 +1277,7 @@ class EchoLiveBroadcastCharacter extends EchoLiveBroadcastClient {
         }, EchoLiveBroadcast.API_NAME_HELLO, target);
     }
 
-    getDataCharacter() {
+    getDataCharacter(data, listener = this) {
         echoLiveSystem.hook.trigger('broadcast_character_get_message_valid', {
             data: data,
             unit: listener

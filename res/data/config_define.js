@@ -981,7 +981,7 @@ const db_config_define = [
     }, {
         name: 'character.avatar.action',
         type: 'string',
-        default: 'default',
+        default: '',
         created: 11,
         attribute: {
             datalist: []

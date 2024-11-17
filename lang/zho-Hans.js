@@ -60,6 +60,30 @@ const lang_zho_Hans = {
         sec: "秒"
     },
     avatar: {
+        common: {
+            action: {
+                angry: "愤怒",
+                awkward: "尴尬",
+                cry: "哭",
+                doubt: "疑惑",
+                laugh: "笑",
+                idle: "闲置",
+                missingno: "动作丢失",
+                panic: "惊恐",
+                screaming: "大叫",
+                shaded: "黑脸",
+                shy: "害羞",
+                smile: "微笑"
+            },
+            scene: {
+                bust: "半身",
+                face: "头像",
+                full: "全身",
+                heel: "足上",
+                knee: "膝上",
+                long: "远景"
+            }
+        },
         echo_otone: {
             name: "Echo 追音"
         }

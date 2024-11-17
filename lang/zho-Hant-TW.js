@@ -60,6 +60,30 @@ const lang_zho_Hant_TW = {
         sec: "秒"
     },
     avatar: {
+        common: {
+            action: {
+                angry: "憤怒",
+                awkward: "尷尬",
+                cry: "哭",
+                doubt: "疑惑",
+                laugh: "笑",
+                idle: "閒置",
+                missingno: "動作丟失",
+                panic: "驚恐",
+                screaming: "大叫",
+                shaded: "黑臉",
+                shy: "害羞",
+                smile: "微笑"
+            },
+            scene: {
+                bust: "半身",
+                face: "頭像",
+                full: "全身",
+                heel: "足上",
+                knee: "膝上",
+                long: "遠景"
+            }
+        },
         echo_otone: {
             name: "Echo 追音"
         }

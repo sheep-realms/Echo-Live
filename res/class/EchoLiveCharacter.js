@@ -132,11 +132,11 @@ class EchoLiveCharacter {
             };
 
             const avatarData = this.getAvatar(data.avatar.name);
-            if (avatarData === undefined) return;
+            if (avatarData === undefined || avatarData.action.length === 0) return;
             const actionData = this.getAvatarAction(data.avatar.name, data.avatar.action);
             if (actionData === undefined) return;
 
-            data.image.url = avatarData.path?.images + actionData.path;
+            data.image.url = actionData.custom_i18n === true ? actionData.path : (avatarData.path?.images + actionData.path);
         }
 
         this.setImage(data.image);

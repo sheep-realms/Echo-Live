@@ -13,6 +13,9 @@ $(document).on('animationend', `${SEL_CHARACTER_LAYER} .layer`, function() {
 echoLiveCharacter.on('imageChange', (image, layer) => {
     $(`${SEL_CHARACTER_LAYER} .layer[data-layer="${layer}"]`).removeClass('hidden');
     $(`${SEL_CHARACTER_LAYER} .layer[data-layer="${layer}"]`).css('background-image', `url(${image.url})`);
+    if (image.position !== undefined) $(`${SEL_CHARACTER_LAYER} .layer[data-layer="${layer}"]`).css('background-position', image.position);
+    if (image.size !== undefined) $(`${SEL_CHARACTER_LAYER} .layer[data-layer="${layer}"]`).css('background-size', image.size);
+    if (image.repeat !== undefined) $(`${SEL_CHARACTER_LAYER} .layer[data-layer="${layer}"]`).css('background-repeat', image.repeat);
 });
 
 echoLiveCharacter.on('layerUpdate', (effect) => {

@@ -240,6 +240,9 @@ echo.on('customData', function(e) {
     if (e?.action !== undefined && e?.action?.printEnd !== undefined) {
         messageActions.printEnd = e.action.printEnd;
     }
+    if (e?.character !== undefined) {
+        echolive.broadcast.sendAvatar(e.character);
+    }
 });
 
 echo.on('customSequence', function(e) {

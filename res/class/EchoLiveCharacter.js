@@ -60,25 +60,28 @@ class EchoLiveCharacter {
     }
 
     /**
-     * 获取形象动作数据
-     * @param {String} avatarName 形象名称
-     * @param {String} actionName 动作名称
-     * @returns {Object|undefined} 动作数据
+     * 获取形象内容数据
+     * @param {String|Object} avatar 形象名称或形象数据
+     * @param {'action'|'scene'} type 数据类型
+     * @param {String|undefined} name 内容名称
+     * @returns {Object|undefined} 内容数据
      */
-    getAvatarAction(avatarName, actionName) {
-        const avatarData = this.getAvatar(avatarName);
+    getAvatarContent(avatar, type, name) {
+        if (type !== 'action' && type !== 'scene') return;
+        const avatarData = typeof avatar === 'object' ? avatar : this.getAvatar(avatar);
         if (avatarData === undefined) return;
-        if (actionName === undefined) {
-            if (avatarData.default_action?.idle === undefined) return;
-            actionName = avatarData.default_action.idle;
+        if (name === undefined) {
+            if (avatarData.default_value[type]?.idle === undefined) return;
+            name = avatarData.default_value[type].idle;
         }
 
-        let r = avatarData.action.find(e => e.name === actionName);
+        if (!Array.isArray(avatarData[type])) return;
+        let r = avatarData[type].find(e => e.name === name);
         if (r === undefined) {
-            if (this.config.character.avatar.action !== '' && this.config.character.avatar.action !== undefined) {
-                r = avatarData.action.find(e => e.name === this.config.character.avatar.action);
-            } else if (avatarData.default_action?.unknown !== undefined) {
-                r = avatarData.action.find(e => e.name === avatarData.default_action.unknown);
+            if (this.config.character.avatar[type] !== '' && this.config.character.avatar[type] !== undefined) {
+                r = avatarData.action.find(e => e.name === this.config.character.avatar[type]);
+            } else if (avatarData.default_value[type]?.unknown !== undefined) {
+                r = avatarData.action.find(e => e.name === avatarData.default_value[type].unknown);
             }
         }
         return r;
@@ -133,10 +136,16 @@ class EchoLiveCharacter {
 
             const avatarData = this.getAvatar(data.avatar.name);
             if (avatarData === undefined || avatarData.action.length === 0) return;
-            const actionData = this.getAvatarAction(data.avatar.name, data.avatar.action);
+            const actionData = this.getAvatarContent(avatarData, 'action', data.avatar.action);
             if (actionData === undefined) return;
+            const sceneData = this.getAvatarContent(avatarData, 'scene', data.avatar.scene);
 
             data.image.url = actionData.custom_i18n === true ? actionData.path : (avatarData.path?.images + actionData.path);
+            if (sceneData !== undefined) {
+                data.image.position = sceneData.position    ?? data.image.position;
+                data.image.size     = sceneData.size        ?? data.image.size;
+                data.image.repeat   = sceneData.repeat      ?? data.image.repeat;
+            }
         }
 
         this.setImage(data.image);

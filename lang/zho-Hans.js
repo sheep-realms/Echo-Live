@@ -50,6 +50,7 @@ const lang_zho_Hans = {
         audition: "试听",
         download: "下载",
         search: "搜索",
+        empty: "（空）",
         missingno: {
             no_author: "未署名",
             no_name: "未命名"
@@ -78,6 +79,7 @@ const lang_zho_Hans = {
             scene: {
                 bust: "半身",
                 face: "头像",
+                face_cu: "脸部特写",
                 full: "全身",
                 heel: "足上",
                 knee: "膝上",
@@ -607,7 +609,7 @@ const lang_zho_Hans = {
             _description: "用于展示立绘或头像的播放器",
             avatar: {
                 _title: "默认形象",
-                _description: "默认所使用的形象与动作",
+                _description: "设置默认所使用的形象及其参数",
                 name: {
                     _title: "形象名称",
                     _description: "可用的形象名称请见<a href='#' target='_blank'>帮助文档（这里的链接记得改）</a>。"
@@ -615,6 +617,10 @@ const lang_zho_Hans = {
                 action: {
                     _title: "动作名称",
                     _description: "默认所使用的动作名称，留空则使用默认值。<br>不同的形象会有不同的动作可选，请根据您选择的形象来选择动作。<br>可用的动作名称请见<a href='#' target='_blank'>帮助文档（这里的链接记得改）</a>。"
+                },
+                scene: {
+                    _title: "镜头名称",
+                    _description: "默认所使用的镜头名称，留空则使用默认值。<br>不同的形象会有不同的镜头可选，请根据您选择的形象来选择镜头。<br>可用的镜头名称请见<a href='#' target='_blank'>帮助文档（这里的链接记得改）</a>。"
                 }
             },
             avatar_switch_effect: {

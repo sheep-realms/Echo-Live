@@ -10,14 +10,22 @@ echoLiveSystem.registry.init([
                 author: 'missingno'
             },
             path: {
-                i18n: '',
+                action_i18n: 'common.action.',
+                scene_i18n: 'common.scene.',
                 images: ''
             },
-            default_action: {
-                idle: undefined,
-                unknown: undefined
+            default_value: {
+                action: {
+                    idle: undefined,
+                    unknown: undefined
+                },
+                scene: {
+                    idle: undefined,
+                    unknown: undefined
+                }
             },
-            action: []
+            action: [],
+            scene: []
         }
     }, {
         name: 'border_style',

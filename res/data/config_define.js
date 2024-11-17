@@ -987,6 +987,14 @@ const db_config_define = [
             datalist: []
         }
     }, {
+        name: 'character.avatar.scene',
+        type: 'string',
+        default: '',
+        created: 11,
+        attribute: {
+            datalist: []
+        }
+    }, {
         name: 'character.avatar_switch_effect',
         type: 'object',
         created: 11

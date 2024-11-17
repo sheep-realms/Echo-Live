@@ -50,6 +50,7 @@ const lang_zho_Hant_TW = {
         audition: "試聽",
         download: "下載",
         search: "搜尋",
+        empty: "（空）",
         missingno: {
             no_author: "未署名",
             no_name: "未命名"
@@ -78,6 +79,7 @@ const lang_zho_Hant_TW = {
             scene: {
                 bust: "半身",
                 face: "頭像",
+                face_cu: "臉部特寫",
                 full: "全身",
                 heel: "足上",
                 knee: "膝上",
@@ -607,7 +609,7 @@ const lang_zho_Hant_TW = {
             _description: "用於展示立繪或頭像的播放器",
             avatar: {
                 _title: "預設形象",
-                _description: "預設所使用的形象與動作",
+                _description: "設定預設所使用的形象及其引數",
                 name: {
                     _title: "形象名稱",
                     _description: "可用的形象名稱請見<a href='#' target='_blank'>幫助文件（這裡的連結記得改）</a>。"
@@ -615,6 +617,10 @@ const lang_zho_Hant_TW = {
                 action: {
                     _title: "動作名稱",
                     _description: "預設所使用的動作名稱，留空則使用預設值。<br>不同的形象會有不同的動作可選，請根據您選擇的形象來選擇動作。<br>可用的動作名稱請見<a href='#' target='_blank'>幫助文件（這裡的連結記得改）</a>。"
+                },
+                scene: {
+                    _title: "鏡頭名稱",
+                    _description: "預設所使用的鏡頭名稱，留空則使用預設值。<br>不同的形象會有不同的鏡頭可選，請根據您選擇的形象來選擇鏡頭。<br>可用的鏡頭名稱請見<a href='#' target='_blank'>幫助文件（這裡的連結記得改）</a>。"
                 }
             },
             avatar_switch_effect: {

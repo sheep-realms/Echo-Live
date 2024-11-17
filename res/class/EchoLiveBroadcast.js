@@ -46,6 +46,7 @@ class EchoLiveBroadcast {
             API_NAME_PAGE_HIDDEN:           'page_hidden',
             API_NAME_PAGE_VISIBLE:          'page_visible',
             API_NAME_PING:                  'ping',
+            API_NAME_SET_AVATAR:            'set_avatar',
             API_NAME_SET_LIVE_DISPLAY:      'set_live_display',
             API_NAME_SET_THEME:             'set_theme',
             API_NAME_SET_THEME_STYLE_URL:   'set_theme_style_url',
@@ -1087,9 +1088,9 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
 
     /**
      * Echo 打印内容广播
-     * @param {String} username 
-     * @param {String|Object|Array} message 
-     * @param {String} target 发送的消息
+     * @param {String} username 说话人
+     * @param {String|Object|Array} message 单条消息
+     * @param {String} target 发送目标
      * @returns 
      */
     echoPrinting(username, message, target = undefined) {
@@ -1097,6 +1098,16 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
             username:   username,
             message:    message
         }, EchoLiveBroadcast.API_NAME_ECHO_PRINTING, target);
+    }
+
+    /**
+     * 发送形象
+     * @param {Object} avatar 形象数据
+     * @param {String} target 发送目标
+     * @returns 
+     */
+    sendAvatar(avatar, target = undefined) {
+        return this.sendData(avatar, EchoLiveBroadcast.API_NAME_SET_AVATAR, target);
     }
 
     /**
@@ -1282,5 +1293,13 @@ class EchoLiveBroadcastCharacter extends EchoLiveBroadcastClient {
             data: data,
             unit: listener
         });
+        switch (data.action) {
+            case EchoLiveBroadcast.API_NAME_SET_AVATAR:
+                listener.echoLiveCharacter.setAvatar(data.data);
+                break;
+        
+            default:
+                break;
+        }
     }
 }

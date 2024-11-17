@@ -10,11 +10,18 @@ echoLiveSystem.registry.loadRegistry('avatar', e => {
         },
         path: {
             action_i18n: 'common.action.',
+            scene_i18n: 'common.scene.',
             images: 'res/image/avatar/echo_otone/'
         },
-        default_action: {
-            idle: 'idle',
-            unknown: 'missingno'
+        default_value: {
+            action: {
+                idle: 'idle',
+                unknown: 'missingno'
+            },
+            scene: {
+                idle: 'full',
+                unknown: 'full'
+            }
         },
         action: [
             {
@@ -37,6 +44,11 @@ echoLiveSystem.registry.loadRegistry('avatar', e => {
         ],
         scene: [
             {
+                name: 'face_cu',
+                title_i18n: 'face_cu',
+                position: 'center top -15vh',
+                size: '160vh'
+            }, {
                 name: 'face',
                 title_i18n: 'face',
                 position: 'center top',

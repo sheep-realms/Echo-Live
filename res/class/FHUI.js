@@ -329,6 +329,7 @@ class FHUIComponentInput {
             input.attr('aria-expanded', false);
             input.focus();
             input.trigger('input');
+            input.trigger('change');
         });
 
         // 输入框绑定下拉菜单选中状态
@@ -576,8 +577,6 @@ class FHUIComponentInput {
             }
         }
 
-        let hasDescription = false;
-
         data.name               = data.name             || data.id;
         data.default_value      = data.default_value    || value;
 
@@ -604,8 +603,26 @@ class FHUIComponentInput {
             }
         );
 
+        let optionsDOM = FHUIComponentInput.selectMenu(value, options, data);
+
+        return FHUI.element(
+            'div',
+            {
+                ...data.attribute,
+                class: 'fh-input-select-component',
+                style: data.style
+            },
+            [
+                inputDOM,
+                optionsDOM
+            ]
+        );
+    }
+
+    static selectMenu(value = undefined, options = [], data = {}) {
         let optionsDOM = '';
         let selectedIndex = [];
+        let hasDescription = false;
 
         options.forEach((e, i) => {
             e = {
@@ -695,18 +712,7 @@ class FHUIComponentInput {
             optionsDOM
         );
 
-        return FHUI.element(
-            'div',
-            {
-                ...data.attribute,
-                class: 'fh-input-select-component',
-                style: data.style
-            },
-            [
-                inputDOM,
-                optionsDOM
-            ]
-        );
+        return optionsDOM;
     }
 
     /**

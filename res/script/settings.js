@@ -223,12 +223,35 @@ const configDataList = [
         data: arr => {
             echoLiveSystem.registry.forEach('avatar', e => {
                 arr.push({
-                    title: e.meta.title_i18n ? $t(`avatar.${ e.meta.title_i18n }`) : e.meta.title,
+                    title: 
+                        e.meta.title_i18n
+                        ? (
+                            $t(`avatar.${ e.meta.title_i18n }`) !== `avatar.${ e.meta.title_i18n }`
+                            ? $t(`avatar.${ e.meta.title_i18n }`)
+                            : e.meta.title
+                        )
+                        : e.meta.title,
                     value: e.meta.name
                 });
             });
         },
         key: 'character.avatar.name'
+    }, {
+        data: [
+            {
+                value: '',
+                title: $t('ui.empty')
+            }
+        ],
+        key: 'character.avatar.action'
+    }, {
+        data: [
+            {
+                value: '',
+                title: $t('ui.empty')
+            }
+        ],
+        key: 'character.avatar.scene'
     }, {
         data: arr => {
             echoLiveSystem.registry.forEach('border_style', e => {
@@ -265,6 +288,34 @@ function searchSettings(text = '') {
     if (text.length == 0) return;
     let r = configSearchDataFilter.filter(text);
     $('.settings-search-result').html(SettingsPanel.searchResultList(r));
+}
+
+
+
+/**
+ * 设置配置项数据列表
+ * @param {String} name 配置名
+ * @param {Array} dataList 数据列表
+ */
+function setSettingsSelect(name, dataList) {
+    const $sel = $(`.settings-item[data-id="${ name }"]`);
+    if ($sel.length == 0) return;
+    const $item = $sel.eq(0);
+    const $select = $item.find('.fh-input-select-component').eq(0);
+    const value = getSettingsItemValue(name);
+
+    let selectMenuDOM = FHUIComponentInput.selectMenu(
+        value,
+        dataList,
+        {
+            id: name.replace(/\./g, '-'),
+            class: 'settings-value code',
+            option_description_fill_value: true
+        }
+    );
+
+    $select.find('.fh-select-option-list').remove();
+    $select.append(selectMenuDOM);
 }
 
 
@@ -389,6 +440,7 @@ function setSettingsItemValue(name, value, isDefault = false) {
     
     if (type.split('.')[0] != 'special') {
         $sel.find('.settings-value').eq(0).val(value);
+        $sel.find('.settings-value').eq(0).trigger('change');
         if (isDefault) {
             if (type === 'string.multiline') {
                 $sel.find('.settings-value').eq(0).data('default', encodeURIComponent(value));
@@ -1322,6 +1374,54 @@ $(document).on('click', '.settings-item[data-id="global.touchscreen_layout"] .se
 
 $(document).on('input', '.settings-item[data-id="accessibility.font_size"] .settings-value', function() {
     $('.review-font-size-card').css('--font-size-base-review', `${ $(this).val() }px`);
+});
+
+$(document).on('change', '.settings-item[data-id="character.avatar.name"] .settings-value', function() {
+    const avatarName = getSettingsItemValue('character.avatar.name');
+    const avatarData = echoLiveSystem.registry.getRegistryValue('avatar', avatarName);
+    const empty = [
+        {
+            value: '',
+            title: $t('ui.empty')
+        }
+    ];
+
+    if (avatarData === undefined) {
+        setSettingsSelect('character.avatar.action', empty);
+        setSettingsSelect('character.avatar.scene', empty);
+        return;
+    }
+
+    
+
+    function __loadDataList(type) {
+        let datalist = [];
+        avatarData[type].forEach(e => {
+            let title = e.title ?? 'missingno';
+            if (e.title_i18n !== undefined) {
+                let i18nKey = e.custom_i18n ? `avatar.${ e.title_i18n }` : `avatar.${ avatarData.path[type + '_i18n'] }${ e.title_i18n }`;
+                title = $t(i18nKey);
+                if (title === i18nKey && e.title !== undefined) title = e.title;
+            }
+            datalist.push({
+                value: e.name,
+                title: title,
+            });
+        });
+        setSettingsSelect('character.avatar.' + type, datalist);
+    }
+    
+    if (!Array.isArray(avatarData.action) || avatarData.action.length === 0) {
+        setSettingsSelect('character.avatar.action', empty);
+    } else {
+        __loadDataList('action');
+    }
+
+    if (!Array.isArray(avatarData.scene) || avatarData.scene.length === 0) {
+        setSettingsSelect('character.avatar.scene', empty);
+    } else {
+        __loadDataList('scene');
+    }
 });
 
 

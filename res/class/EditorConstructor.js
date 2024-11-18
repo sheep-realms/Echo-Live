@@ -1124,7 +1124,8 @@ class SettingsPanel {
                 },
                 title
             ) +
-            inputDOM
+            inputDOM,
+            `<div class="content hide"></div>`
         );
     }
 
@@ -1872,5 +1873,96 @@ class FHUIWindow {
             dom += `<div class="assets-item"><a class="fh-link" href="${ e?.browser_download_url }" target="_blank">${ EchoLiveTools.safeHTML(e?.name) }</a></div>`;
         });
         return `<div class="assets-list">${ dom }</div>`;
+    }
+}
+
+
+class MetaInfo {
+    constructor() {}
+
+    static linkList(data, translateFallback, translateData = {}) {
+        if (data === undefined) return $t('ui.empty');
+        if (!Array.isArray(data)) data = [data];
+        let isFirst = true;
+        let dom = '';
+        const comma = $t('localization.comma');
+
+        data.forEach(e => {
+            if (typeof e === 'string') e = { name: e };
+            e = {
+                name: undefined,
+                url: undefined,
+                ...e
+            };
+            if (e.name === undefined) e.name = $t(translateFallback);
+            if (isFirst) {
+                isFirst = false;
+            } else {
+                dom += comma;
+            }
+            dom += FHUI.element(
+                'a',
+                {
+                    target: '_blank',
+                    href: e.url,
+                    referrerpolicy: 'no-referrer'
+                },
+                EchoLiveTools.safeHTML($tc(e.name, translateData))
+            );
+        });
+
+        return dom;
+    }
+}
+
+
+class AvatarReviewPanel {
+    constructor() {}
+
+    static panel(meta, data = {}) {
+        return `<div class="avatar-review-panel">
+            <div class="avatar-review-image"></div>
+            <div class="avatar-review-info">
+                ${ AvatarReviewPanel.info(meta, data) }
+            </div>
+        </div>`;
+    }
+
+    static info(meta, data = {}) {
+        if (meta === undefined) return '';
+
+        data = {
+            translateData: undefined,
+            ...data
+        };
+
+        return `<div class="title">${ EchoLiveTools.safeHTML($tc(meta?.title, { before: 'avatar.' })) }</div>
+        <div class="description">${ EchoLiveTools.safeHTML($tc(meta?.description, { before: 'avatar.' })) }</div>
+        <div class="footer">
+            <div class="author">${
+                $t(
+                    'meta_info.author',
+                    {
+                        name: MetaInfo.linkList(
+                            meta?.author,
+                            'ui.missingno.no_author',
+                            data.translateData
+                        )
+                    }
+                )
+            }</div>
+            <div class="license">${
+                $t(
+                    'meta_info.license',
+                    {
+                        name: MetaInfo.linkList(
+                            meta?.license,
+                            'ui.missingno.no_name',
+                            data.translateData
+                        )
+                    }
+                )
+            }</div>
+        </div>`;
     }
 }

@@ -27,6 +27,9 @@
         const $t = function(...e) {
             return translator.output(...e);
         };
+        const $tc = function(...e) {
+            return translator.outputByTextComponent(...e);
+        };
         translator.init();
     </script>
     <script src="res/data/sound.js"></script>
@@ -51,6 +54,7 @@
     <script src="res/class/UniverseWindow.js"></script>
     <script src="res/class/Updater.js"></script>
     <script src="res/class/DataFilter.js"></script>
+    <script src="res/class/EchoLiveCharacter.js"></script>
     <script src="res/script/settings.js" defer></script>
 </head>
 <body>

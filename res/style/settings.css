@@ -469,6 +469,7 @@ main {
     gap: var(--font-size-middle);
     padding: var(--font-size-middle) 0;
     box-sizing: border-box;
+    flex-wrap: wrap;
 }
 
 .settings-item-label {
@@ -621,7 +622,7 @@ main {
     flex: unset;
 }
 
-.settings-item[data-type="special.all_or_array_string"] .content {
+.settings-item .content {
     width: 100%;
 }
 
@@ -1053,4 +1054,49 @@ a.settings-link-bar:active {
     10% { background-color: transparent; box-shadow: 0 0 0 0 transparent; }
     10.01% { background-color: var(--color-general-glass); box-shadow: 0 0 0 0 var(--color-general-glass); }
     100% { background-color: transparent; box-shadow: 0 0 0 var(--gap-middle) transparent; }
+}
+
+
+
+.avatar-review-panel {
+    display: flex;
+    align-items: stretch;
+    gap: var(--gap-middle);
+}
+
+.avatar-review-image {
+    background-color: var(--msgbox-bgcolor);
+    width: 155px;
+    height: 250px;
+    box-sizing: border-box;
+    background-image: unset;
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-origin: content-box;
+}
+
+.avatar-review-info {
+    flex: 1;
+    color: var(--text-secondary);
+    font-size: var(--font-size-small);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-small);
+}
+
+.avatar-review-info .title {
+    font-size: var(--font-size-large);
+    color: var(--text-primary);
+}
+
+.avatar-review-info .description {
+    flex: 1;
+}
+
+@media screen and (max-width: 760px) {
+    .avatar-review-panel {
+        align-items: center;
+        flex-direction: column;
+    }
 }

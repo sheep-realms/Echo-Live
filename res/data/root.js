@@ -6,13 +6,14 @@ echoLiveSystem.registry.init([
             meta: {
                 name: 'missingno',
                 title: 'missingno',
-                title_i18n: '',
-                author: 'missingno'
+                description: undefined,
+                author: undefined,
+                license: undefined
             },
             path: {
-                action_i18n: 'common.action.',
-                scene_i18n: 'common.scene.',
-                images: ''
+                action_translate: 'common.action.',
+                scene_translate: 'common.scene.',
+                image: ''
             },
             default_value: {
                 action: {
@@ -22,6 +23,14 @@ echoLiveSystem.registry.init([
                 scene: {
                     idle: undefined,
                     unknown: undefined
+                }
+            },
+            preview: {
+                action: undefined,
+                scene: {
+                    position: undefined,
+                    size: undefined,
+                    repeat: undefined
                 }
             },
             action: [],

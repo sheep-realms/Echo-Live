@@ -7,7 +7,8 @@ class EchoLiveCharacter {
         this.lastImage      = undefined;
         this.event          = {
             layerUpdate:    function() {},
-            imageChange:    function() {}
+            imageChange:    function() {},
+            imageClear:     function() {}
         };
 
         this.init();
@@ -23,7 +24,7 @@ class EchoLiveCharacter {
             });
         }
 
-        if (this.config.echolive.broadcast.enable) {
+        if (this.config.echolive.broadcast.enable && this.config.__demo_mode !== true) {
             this.broadcast = new EchoLiveBroadcastCharacter(this.config.echolive.broadcast.channel, this, this.config);
             window.addEventListener("error", (e) => {
                 const msg       = e.error       !== null ? e.error.stack : e.message;
@@ -70,14 +71,20 @@ class EchoLiveCharacter {
         if (type !== 'action' && type !== 'scene') return;
         const avatarData = typeof avatar === 'object' ? avatar : this.getAvatar(avatar);
         if (avatarData === undefined) return;
+
+        // 处理未指定内容的情况
         if (name === undefined) {
             if (avatarData.default_value[type]?.idle === undefined) return;
             name = avatarData.default_value[type].idle;
         }
 
+        // 内容数据为空
         if (!Array.isArray(avatarData[type])) return;
+
         let r = avatarData[type].find(e => e.name === name);
-        if (r === undefined) {
+
+        // 查询结果为空
+        if (r === undefined && this.config.__demo_mode !== true) {
             if (this.config.character.avatar[type] !== '' && this.config.character.avatar[type] !== undefined) {
                 r = avatarData.action.find(e => e.name === this.config.character.avatar[type]);
             } else if (avatarData.default_value[type]?.unknown !== undefined) {
@@ -136,20 +143,25 @@ class EchoLiveCharacter {
 
             const avatarData = this.getAvatar(data.avatar.name);
             if (avatarData === undefined || avatarData.action.length === 0) return;
-            const actionData = this.getAvatarContent(avatarData, 'action', data.avatar.action);
+            const actionData = this.getAvatarContent(
+                avatarData,
+                'action',
+                this.config.__demo_mode && data.avatar.action === undefined
+                    ? avatarData.preview.action
+                    : data.avatar.action
+            );
             if (actionData === undefined) return;
-            const sceneData = this.getAvatarContent(avatarData, 'scene', data.avatar.scene);
+            const sceneData = !this.config.__demo_mode ? this.getAvatarContent(avatarData, 'scene', data.avatar.scene) : avatarData.preview.scene;
 
-            data.image.url = actionData.custom_i18n === true ? actionData.path : (avatarData.path?.images + actionData.path);
+            data.image.url = actionData.custom_i18n === true ? actionData.path : (avatarData.path?.image + actionData.path);
             if (sceneData !== undefined) {
-                data.image.position = sceneData.position    ?? data.image.position;
-                data.image.size     = sceneData.size        ?? data.image.size;
-                data.image.repeat   = sceneData.repeat      ?? data.image.repeat;
+                data.image.position = data.image.position   ?? sceneData.position;
+                data.image.size     = data.image.size       ?? sceneData.size;
+                data.image.repeat   = data.image.repeat     ?? sceneData.repeat;
             }
         }
 
-        this.setImage(data.image);
-        this.updateLayer(data.effect);
+        if (this.setImage(data.image)) this.updateLayer(data.effect);
     }
 
     /**
@@ -159,6 +171,7 @@ class EchoLiveCharacter {
      * @param {String} image.position 位置
      * @param {String} image.size 尺寸
      * @param {String} image.repeat 重复填充方式
+     * @returns {Boolean} 是否设置成功
      */
     setImage(image) {
         image = {
@@ -168,9 +181,19 @@ class EchoLiveCharacter {
             repeat: undefined,
             ...image
         }
+
+        if (
+            this.lastImage !== undefined
+            && this.lastImage.url === image.url
+            && this.lastImage.position === image.position
+            && this.lastImage.size === image.size
+            && this.lastImage.repeat === image.repeat
+        ) return false;
+        
         if (this.lastImage !== undefined) this.event.imageChange(this.lastImage, 'before');
         this.event.imageChange(image, 'main');
         this.lastImage = image;
+        return true
     }
 
     /**
@@ -190,6 +213,11 @@ class EchoLiveCharacter {
             ...effect
         };
         this.event.layerUpdate(effect);
+    }
+
+    clearImage() {
+        this.lastImage = undefined;
+        this.event.imageClear();
     }
 
     /**

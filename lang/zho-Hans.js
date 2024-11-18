@@ -6,6 +6,7 @@ const lang_zho_Hans = {
     },
     localization: {
         bracket: "（{text}）",
+        comma: "，",
         date_common: "{y}-{MM}-{dd}",
         date_time_common: "{y}-{MM}-{dd} {hh}:{mm}:{ss}",
         date: "{y} 年 {M} 月 {d} 日",
@@ -87,7 +88,9 @@ const lang_zho_Hans = {
             }
         },
         echo_otone: {
-            name: "Echo 追音"
+            name: "Echo 追音",
+            description: "Echo 追音是一位活泼可爱的少女，乐于倾听各种声音，解读各种文字，帮助人们建立沟通的桥梁，并以自己喜欢的方式传播自己的所见所闻。",
+            license: "Echo-Live 虚拟形象 “Echo 追音” 授权协议"
         }
     },
     border_style: {

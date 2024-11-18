@@ -50,6 +50,10 @@ updater.localStorageManager = localStorageManager;
 
 let uniWindow = new UniverseWindow();
 
+let elcConfig = config;
+elcConfig.__demo_mode = true;
+let echoLiveCharacter = new EchoLiveCharacter(elcConfig);
+
 
 
 let hasUnsavedConfig = false;
@@ -231,14 +235,7 @@ const configDataList = [
         data: arr => {
             echoLiveSystem.registry.forEach('avatar', e => {
                 arr.push({
-                    title: 
-                        e.meta.title_i18n
-                        ? (
-                            $t(`avatar.${ e.meta.title_i18n }`) !== `avatar.${ e.meta.title_i18n }`
-                            ? $t(`avatar.${ e.meta.title_i18n }`)
-                            : e.meta.title
-                        )
-                        : e.meta.title,
+                    title: $tc(e.meta.title, { before: 'avatar.' }),
                     value: e.meta.name
                 });
             });
@@ -809,6 +806,7 @@ $(document).ready(function() {
 
         configLoad();
 
+        // 关于页面链接
         aboutLinks.forEach(e => {
             if (e?.isGroupTitle) {
                 $('.settings-about-content').append(SettingsPanel.linkBarGroupTitle($t('config.about.' + e.name), e));
@@ -822,6 +820,7 @@ $(document).ready(function() {
             }
         });
 
+        // 最后的页面构建
         $('.settings-nav-item').eq(1).click();
 
         $('#settings-file-check-box').html(SettingsFileChecker.default());
@@ -857,6 +856,48 @@ $(document).ready(function() {
             $t('settings.msgbox.extension.description'),
             'help'
         ));
+
+        $('.settings-item[data-id="character.avatar.name"]>.content').html(AvatarReviewPanel.panel());
+        $('.settings-item[data-id="character.avatar.name"]>.content').removeClass('hide');
+
+        echoLiveCharacter.on('imageChange', (image) => {
+            $('.avatar-review-image').attr('style', '');
+            $('.avatar-review-image').css('background-image', `url(${image.url})`);
+            if (image.position !== undefined) $('.avatar-review-image').css('background-position', image.position);
+            if (image.size !== undefined) $('.avatar-review-image').css('background-size', image.size);
+            if (image.repeat !== undefined) $('.avatar-review-image').css('background-repeat', image.repeat);
+        });
+
+        $(document).on('change', '.settings-item[data-id="character.avatar.name"] .settings-value, .settings-item[data-id="character.avatar.action"] .settings-value', function() {
+            const avatarName = getSettingsItemValue('character.avatar.name');
+            const actionName = getSettingsItemValue('character.avatar.action');
+            const avatarData = echoLiveSystem.registry.getRegistryValue('avatar', avatarName);
+
+            if (avatarData === undefined) {
+                echoLiveCharacter.clearImage();
+                $('.avatar-review-image').attr('style', '');
+            } else {
+                echoLiveCharacter.setAvatar({
+                    avatar: {
+                        name: avatarName,
+                        action: actionName !== '' ? actionName : undefined
+                    }
+                });
+            }
+
+            $('.avatar-review-info').html(
+                AvatarReviewPanel.info(
+                    avatarData?.meta,
+                    {
+                        translateData: {
+                            before: 'avatar.'
+                        }
+                    }
+                )
+            );
+        });
+
+        $('.settings-item[data-id="character.avatar.name"] .settings-value').trigger('change');
 
         let ua = navigator.userAgent.toLowerCase();
         if (ua.search(/ chrome\//) == -1) {
@@ -1405,15 +1446,11 @@ $(document).on('change', '.settings-item[data-id="character.avatar.name"] .setti
     function __loadDataList(type) {
         let datalist = [];
         avatarData[type].forEach(e => {
-            let title = e.title ?? 'missingno';
-            if (e.title_i18n !== undefined) {
-                let i18nKey = e.custom_i18n ? `avatar.${ e.title_i18n }` : `avatar.${ avatarData.path[type + '_i18n'] }${ e.title_i18n }`;
-                title = $t(i18nKey);
-                if (title === i18nKey && e.title !== undefined) title = e.title;
-            }
+            let before = 'avatar.';
+            if (!e.custom_translate) before += avatarData.path[type + '_translate'];
             datalist.push({
                 value: e.name,
-                title: title,
+                title: $tc(e.title, { before: before }),
             });
         });
         setSettingsSelect('character.avatar.' + type, datalist);

@@ -4,14 +4,31 @@ echoLiveSystem.registry.loadRegistry('avatar', e => {
     {
         meta: {
             name: 'echo_otone',
-            title: 'Echo 追音',
-            title_i18n: 'echo_otone.name',
-            author: 'Sheep-realms'
+            title: {
+                text: 'Echo 追音',
+                translate: 'echo_otone.name'
+            },
+            description: {
+                translate: 'echo_otone.description'
+            },
+            author: [
+                {
+                    name: 'Sheep-realms',
+                    url: 'https://github.com/sheep-realms'
+                }
+            ],
+            license: {
+                name: {
+                    text: 'Echo-Live 虚拟形象 “Echo 追音” 授权协议',
+                    translate: 'echo_otone.license'
+                },
+                url: 'docs/License-Echo-Otone.txt'
+            }
         },
         path: {
-            action_i18n: 'common.action.',
-            scene_i18n: 'common.scene.',
-            images: 'res/image/avatar/echo_otone/'
+            action_translate: 'common.action.',
+            scene_translate: 'common.scene.',
+            image: 'res/image/avatar/echo_otone/'
         },
         default_value: {
             action: {
@@ -23,59 +40,66 @@ echoLiveSystem.registry.loadRegistry('avatar', e => {
                 unknown: 'full'
             }
         },
+        preview: {
+            action: 'idle',
+            scene: {
+                position: 'center top',
+                size: '100%'
+            }
+        },
         action: [
             {
                 name: 'idle',
-                title_i18n: 'idle',
+                title: { translate: 'idle' },
                 path: 'idle.png'
             }, {
                 name: 'missingno',
-                title_i18n: 'missingno',
+                title: { translate: 'missingno' },
                 path: 'missingno.png'
             }, {
                 name: 'screaming',
-                title_i18n: 'screaming',
+                title: { translate: 'screaming' },
                 path: 'screaming.png'
             }, {
                 name: 'shaded',
-                title_i18n: 'shaded',
+                title: { translate: 'shaded' },
                 path: 'shaded.png'
             }
         ],
         scene: [
             {
                 name: 'face_cu',
-                title_i18n: 'face_cu',
+                title: { translate: 'face_cu' },
                 position: 'center top -15vh',
                 size: '160vh'
             }, {
                 name: 'face',
-                title_i18n: 'face',
+                title: { translate: 'face' },
                 position: 'center top',
                 size: '115vh'
             }, {
                 name: 'bust',
-                title_i18n: 'bust',
+                title: { translate: 'bust' },
                 position: 'center top',
                 size: '86vh'
             }, {
                 name: 'knee',
-                title_i18n: 'knee',
+                title: { translate: 'knee' },
                 position: 'center top',
                 size: '65vh'
             }, {
                 name: 'heel',
-                title_i18n: 'heel',
+                title: { translate: 'heel' },
                 position: 'center top',
                 size: '50vh'
             }, {
                 name: 'full',
-                title_i18n: 'full',
+                title: { translate: 'full' },
                 position: 'center center',
                 size: 'contain'
             }, {
                 name: 'long',
-                title_i18n: 'long',
+                title: { translate: 'long' },
                 position: 'center center',
                 size: '35vh'
             }

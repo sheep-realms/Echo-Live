@@ -140,6 +140,32 @@ class Translator {
         return t;
     }
 
+    outputByTextComponent(text, data = {}) {
+        if (typeof text === 'string') return text;
+
+        text = {
+            text: undefined,
+            translate: undefined,
+            ...text
+        };
+
+        data = {
+            before: '',
+            ...data
+        };
+
+        const translateKey = data.before + text.translate;
+        
+
+        let output = text.text;
+        if (text.translate !== undefined) {
+            output = this.output(translateKey);
+            if (output === translateKey && text.text !== undefined) output = text.text;
+        }
+
+        return output;
+    }
+
     load(i18nList) {
         this.i18n[i18nList.lang.code_iso_639_3] = i18nList;
         if (!this.loaded && i18nList.lang.code_iso_639_3 === this.lang) {

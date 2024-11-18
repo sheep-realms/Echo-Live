@@ -461,24 +461,32 @@ class EchoLiveTools {
      * @returns {String} 过滤后的文本
      */
     static sanitizeHTML(text) {
-        return text.replace(/<[^>]*>?/g, (tag) => {
-            // 正则匹配 HTML 标签
-            const match = tag.match(/^<\/?(span|br)([^>]*)>/i);
+        return text.replace(/<\/?[^>]*>/g, (tag) => {
+            // 匹配合法的 HTML 标签
+            const match = tag.match(/^<\/?(span|br|a)([^>]*)>/i);
             if (match) {
                 const tagName = match[1].toLowerCase();
-                const attributes = match[2] || '';
+                const isClosingTag = tag.startsWith('</');
     
-                // 处理 span 和 br 标签的属性
+                // 处理 span 标签，仅保留 lang 属性
                 if (tagName === 'span') {
-                    const langAttr = attributes.match(/lang\s*=\s*(['"])[a-z\-]+?\1/i);
+                    if (isClosingTag) return `</${tagName}>`;
+                    const langAttr = match[2]?.match(/lang\s*=\s*(['"])[a-z\-]+?\1/i);
                     return `<${tagName}${langAttr ? ' ' + langAttr[0] : ''}>`;
                 }
     
-                // br 标签无属性直接返回
+                // 处理 a 标签，保留 href 属性并添加 target="_blank"
+                if (tagName === 'a') {
+                    if (isClosingTag) return `</${tagName}>`;
+                    const hrefAttr = match[2]?.match(/href\s*=\s*(['"])[^'"]*?\1/i);
+                    return `<${tagName}${hrefAttr ? ' ' + hrefAttr[0] : ''} target="_blank" referrerpolicy="no-referrer">`;
+                }
+    
+                // br 标签直接返回（没有属性）
                 return `<${tagName}>`;
             }
     
-            // 其他标签转义尖括号
+            // 其他非法标签转义尖括号
             return tag
                 .replace(/</g, '&lt;')
                 .replace(/>/g, '&gt;');

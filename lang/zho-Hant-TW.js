@@ -89,7 +89,7 @@ const lang_zho_Hant_TW = {
         },
         echo_otone: {
             name: "Echo 追音",
-            description: "Echo 追音是一位活潑可愛的少女，樂於傾聽各種聲音，解讀各種文字，幫助人們建立溝通的橋樑，並以自己喜歡的方式傳播自己的所見所聞。",
+            description: "Echo 追音（<span lang='ja'>エコー追音</span>）是一位活潑可愛的少女，樂於傾聽各種聲音，解讀各種文字，幫助人們建立溝通的橋樑，並以自己喜歡的方式傳播自己的所見所聞。",
             license: "Echo-Live 虛擬形象 “Echo 追音” 授權協議"
         }
     },

@@ -456,6 +456,36 @@ class EchoLiveTools {
     }
 
     /**
+     * 清理不必要的 HTML 标签
+     * @param {String} text 文本
+     * @returns {String} 过滤后的文本
+     */
+    static sanitizeHTML(text) {
+        return text.replace(/<[^>]*>?/g, (tag) => {
+            // 正则匹配 HTML 标签
+            const match = tag.match(/^<\/?(span|br)([^>]*)>/i);
+            if (match) {
+                const tagName = match[1].toLowerCase();
+                const attributes = match[2] || '';
+    
+                // 处理 span 和 br 标签的属性
+                if (tagName === 'span') {
+                    const langAttr = attributes.match(/lang\s*=\s*(['"])[a-z\-]+?\1/i);
+                    return `<${tagName}${langAttr ? ' ' + langAttr[0] : ''}>`;
+                }
+    
+                // br 标签无属性直接返回
+                return `<${tagName}>`;
+            }
+    
+            // 其他标签转义尖括号
+            return tag
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        });
+    }
+
+    /**
      * 使用 ViewTransition API 更新视图
      * @param {Function} action 过程
      */

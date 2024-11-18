@@ -1937,7 +1937,7 @@ class AvatarReviewPanel {
         };
 
         return `<div class="title">${ EchoLiveTools.safeHTML($tc(meta?.title, { before: 'avatar.' })) }</div>
-        <div class="description">${ EchoLiveTools.safeHTML($tc(meta?.description, { before: 'avatar.' })) }</div>
+        <div class="description">${ EchoLiveTools.sanitizeHTML($tc(meta?.description, { before: 'avatar.' })) }</div>
         <div class="footer">
             <div class="author">${
                 $t(

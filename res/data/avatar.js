@@ -53,10 +53,6 @@ echoLiveSystem.registry.loadRegistry('avatar', e => {
                 title: { translate: 'idle' },
                 path: 'idle.png'
             }, {
-                name: 'missingno',
-                title: { translate: 'missingno' },
-                path: 'missingno.png'
-            }, {
                 name: 'screaming',
                 title: { translate: 'screaming' },
                 path: 'screaming.png'
@@ -64,6 +60,10 @@ echoLiveSystem.registry.loadRegistry('avatar', e => {
                 name: 'shaded',
                 title: { translate: 'shaded' },
                 path: 'shaded.png'
+            }, {
+                name: 'missingno',
+                title: { translate: 'missingno' },
+                path: 'missingno.png'
             }
         ],
         scene: [

@@ -80,6 +80,13 @@ let configSearchDataFilter = new DataFilter(
                 search: 'type'
             }
         }, {
+            name: 'created',
+            type: 'number',
+            map: {
+                value: 'created',
+                search: 'created'
+            }
+        }, {
             name: 'main',
             type: 'string',
             map: {
@@ -111,6 +118,7 @@ let configSearchDataFilter = new DataFilter(
                     description: $t(`config.${ e.name }._description`).replace(/(<\w+\b[^>]*>)|(<\/\w+>)/g, ''),
                     type: e.type,
                     in: nameSplit[0],
+                    created: e.created,
                     groupTitle: groupTitle
                 });
             }

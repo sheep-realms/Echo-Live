@@ -963,8 +963,8 @@ const db_config_define = [
 
 
     {
-        name: 'echo',
-        type: 'character',
+        name: 'character',
+        type: 'object',
         created: 11
     }, {
         name: 'character.avatar',

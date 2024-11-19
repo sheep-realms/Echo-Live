@@ -44,7 +44,7 @@ echoLiveSystem.registry.loadRegistry('avatar', e => {
             action: 'idle',
             scene: {
                 position: 'center top',
-                size: '100%'
+                size: '65%'
             }
         },
         action: [

@@ -1065,9 +1065,10 @@ a.settings-link-bar:active {
 }
 
 .avatar-review-image {
+    --image-size: 200px;
     background-color: var(--msgbox-bgcolor);
-    width: 155px;
-    height: 250px;
+    width: var(--image-size);
+    height: var(--image-size);
     box-sizing: border-box;
     background-image: unset;
     background-position: center center;

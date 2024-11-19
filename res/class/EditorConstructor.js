@@ -580,11 +580,7 @@ class Popups {
     static emojiOptions(emojiPacks = []) {
         let dom = '';
         emojiPacks.forEach(e => {
-            let title = e.meta.title;
-            if (typeof e?.meta?.title_i18n == 'string') {
-                title = $t('emoji.' + e.meta.title_i18n);
-            }
-            dom += `<option value="${ e.meta.name }">${ title }</option>`
+            dom += `<option value="${ e.meta.name }">${ $tc(e.meta.title) }</option>`
         });
         return dom;
     }
@@ -620,8 +616,7 @@ class Popups {
             let title;
             if (e?.type === 'emoji' || e?.type === undefined) {
                 if (emojiPack.image.show_title) {
-                    title = e.title;
-                    if (e.title_i18n !== undefined) title = $t( 'emoji.' + emojiPack.path.i18n + 'emoji.' + e.title_i18n );
+                    title = $tc(e.title, { before: 'emoji.' + emojiPack.path.translate + 'emoji.' });
                 }
 
                 if (emojiPack.image.isEmoji) {
@@ -634,30 +629,41 @@ class Popups {
                     dom += `<button class="emoji-box" ${ title !== undefined ? `title="${ title }"` : '' } data-value="${ emojiPack.meta.namespace + ':' + e.name }"><img src="${ emojiPack.path.images + e.path }" alt="${ title }"></button>`;
                 }
             } else if (e?.type === 'group') {
-                title = e.title;
-                if (e.title_i18n !== undefined) title = $t( 'emoji.' + emojiPack.path.i18n + 'group.' + e.title_i18n );
-
+                title = $tc(e.title, { before: 'emoji.' + emojiPack.path.translate + 'group.' });
                 dom += `${ firstGruop ? '' : '</div>' }<div class="emoji-group">${ title }</div><div class="emoji-list">`;
             }
             firstGruop = false;
         });
-        if (!firstGruop) dom += '</div>'
+        if (!firstGruop) dom += '</div>';
 
         dom += '<div class="emoji-meta">';
+        let authorDOM = '';
         if (emojiPack.meta?.author !== undefined && emojiPack.meta?.author !== '') {
-            dom += `<div>${ $t('meta_info.author', { name: emojiPack.meta.author }) }</div>`
+            authorDOM = MetaInfo.linkList(
+                emojiPack.meta.author,
+                'ui.missingno.no_author',
+                {
+                    translateData: {
+                        before: emojiPack.path.translate
+                    }
+                }
+            );
+            dom += `<div>${ $t('meta_info.author', { name: $tc( authorDOM ) }) }</div>`;
         }
-        if (emojiPack.meta?.license !== undefined && emojiPack.meta.license?.title !== undefined) {
-            dom += `<div>
-                ${ $t('meta_info.license', {
-                    name:
-                        emojiPack.meta.license?.url !== undefined
-                        ? `<a href="${ emojiPack.meta.license.url }" target="_blank">${ emojiPack.meta.license.title }</a>`
-                        : emojiPack.meta.license.title
-                }) }
-            </div>`
+        let licenseDOM = '';
+        if (emojiPack.meta?.license !== undefined) {
+            licenseDOM = MetaInfo.linkList(
+                emojiPack.meta.license,
+                'ui.missingno.no_name',
+                {
+                    translateData: {
+                        before: emojiPack.path.translate
+                    }
+                }
+            );
+            dom += `<div>${ $t('meta_info.license', { name: $tc( licenseDOM ) }) }</div>`;
         }
-        dom += '</div>'
+        dom += '</div>';
         return dom;
     }
 
@@ -1889,6 +1895,7 @@ class MetaInfo {
 
         data.forEach(e => {
             if (typeof e === 'string') e = { name: e };
+            
             e = {
                 name: undefined,
                 url: undefined,
@@ -1900,15 +1907,24 @@ class MetaInfo {
             } else {
                 dom += comma;
             }
-            dom += FHUI.element(
-                'a',
-                {
-                    target: '_blank',
-                    href: e.url,
-                    referrerpolicy: 'no-referrer'
-                },
-                EchoLiveTools.safeHTML($tc(e.name, translateData))
-            );
+            if (e.url !== undefined) {
+                dom += FHUI.element(
+                    'a',
+                    {
+                        target: '_blank',
+                        href: e.url,
+                        referrerpolicy: 'no-referrer'
+                    },
+                    EchoLiveTools.safeHTML($tc(e.name, translateData))
+                );
+            } else {
+                dom += FHUI.element(
+                    'span',
+                    {},
+                    EchoLiveTools.safeHTML($tc(e.name, translateData))
+                );
+            }
+            
         });
 
         return dom;

@@ -134,7 +134,7 @@ class EchoLiveTools {
                     try {
                         typeof emojiHako;
                         let emoji = emojiHako.getEmoji(e.data.emoji);
-                        str += ` [${ $t( 'emoji.' + emoji?.title_i18n ) }] `;
+                        str += ` [${ $tc( emoji?.title, { before: 'emoji.' } ) }] `;
                     } catch (error) {
                         str += ` [${ e.data.emoji }] `;
                     }

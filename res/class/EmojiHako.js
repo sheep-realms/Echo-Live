@@ -143,7 +143,9 @@ class EmojiHako {
         };
 
         emoji.path          = mp.path.images + emoji.path;
-        emoji.title_i18n    = mp.path.i18n + 'emoji.' + emoji.title_i18n;
+        if (emoji.title?.translate !== undefined) {
+            emoji.title.translate = mp.path.translate + 'emoji.' + emoji.title.translate;
+        }
 
         return emoji;
     }

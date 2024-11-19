@@ -3,12 +3,14 @@ echoLiveSystem.registry.loadRegistry('emoji', e => e.meta.name, [
         meta: {
             name: 'emoji',
             namespace: 'emoji',
-            title: 'Emoji',
-            title_i18n: 'emoji.title',
+            title: {
+                text: 'Emoji',
+                translate: 'emoji.title'
+            },
             author: ''
         },
         path: {
-            i18n: 'emoji.',
+            translate: 'emoji.',
             images: ''
         },
         image: {
@@ -16,7 +18,7 @@ echoLiveSystem.registry.loadRegistry('emoji', e => e.meta.name, [
             show_title: false
         },
         content: [
-            { type: 'group', title_i18n: 'emotion' },
+            { type: 'group', title: { translate: 'emotion' } },
             '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '🙂',
             '🙃', '😉', '😍', '🥰', '😘', '😋', '😝', '🤪',
             '🤨', '🤓', '😎', '🥳', '😏', '😒', '😞', '🙁',
@@ -26,13 +28,13 @@ echoLiveSystem.registry.loadRegistry('emoji', e => e.meta.name, [
             '😴', '🤤', '😪', '😵', '🤐', '🥴', '🤢', '🤮',
             '😷', '🤕', '🤑', '😈', '👿', '🤡', '👻', '💀',
 
-            { type: 'group', title_i18n: 'gesture' },
+            { type: 'group', title: { translate: 'gesture' } },
             '👍', '👎', '👌', '👊', '✊', '🤛', '🤜', '🖕',
             '🤝', '👏', '🙌', '🤲', '👐', '✋', '🤚', '✌',
             '👈', '👉', '👆', '👇', '🤞', '👋', '🖐', '🤙',
             '🙏', '💪', '✍', '🤟', '🤘',
 
-            { type: 'group', title_i18n: 'animal' },
+            { type: 'group', title: { translate: 'animal' } },
             '🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼',
             '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐵', '🐒',
             '🐔', '🐧', '🐦', '🐤', '🦆', '🦅', '🦉', '🦇',
@@ -40,12 +42,12 @@ echoLiveSystem.registry.loadRegistry('emoji', e => e.meta.name, [
             '🐞', '🐜', '🦟', '🦗', '🐢', '🐍', '🦎', '🐙', 
             '🦑', '🦐', '🦀', '🐠', '🐟', '🐬', '🐋', '🦈',
 
-            { type: 'group', title_i18n: 'nature' },
+            { type: 'group', title: { translate: 'nature' } },
             '🔥', '⚡', '⭐', '🌟', '✨', '💥', '🌈', '🌏',
             '💧', '⛄', '🌲', '🌴', '🎄', '🍀', '🍄', '🌷',
             '💐', '🌹', '🥀', '🌺', '🌸', '🌼', '🌻', '🌙',
 
-            { type: 'group', title_i18n: 'food' },
+            { type: 'group', title: { translate: 'food' } },
             '🍏', '🍎', '🍐', '🍊', '🍋', '🍌', '🍉', '🍇',
             '🍓', '🍒', '🍑', '🥭', '🍍', '🥥', '🥝', '🍅',
             '🍆', '🥒', '🌽', '🥕', '🥔', '🍠', '🍞', '🥖',
@@ -61,16 +63,21 @@ echoLiveSystem.registry.loadRegistry('emoji', e => e.meta.name, [
         meta: {
             name: 'sheep-realms:pixel-head',
             namespace: 'sp',
-            title: '绵羊的像素头像',
-            title_i18n: 'sheep_realms.pixel_head.title',
-            author: 'Sheep-realms',
+            title: {
+                text: '绵羊的像素头像',
+                translate: 'sheep_realms.pixel_head.title'
+            },
+            author: {
+                name: 'Sheep-realms',
+                url: 'https://github.com/sheep-realms'
+            },
             license: {
-                title: 'CC BY-NC-SA 4.0',
+                name: 'CC BY-NC-SA 4.0',
                 url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/'
             }
         },
         path: {
-            i18n: 'sheep_realms.pixel_head.',
+            translate: 'sheep_realms.pixel_head.',
             images: 'res/image/emoji/sheep-realms/pixel-head/'
         },
         image: {
@@ -96,175 +103,175 @@ echoLiveSystem.registry.loadRegistry('emoji', e => e.meta.name, [
         content: [
             {
                 name: 'default',
-                title_i18n: 'default',
+                title: { translate: 'default' },
                 path: '000_default.png'
             }, {
                 name: 'fear',
-                title_i18n: 'fear',
+                title: { translate: 'fear' },
                 path: '001_fear.png'
             }, {
                 name: 'happy',
-                title_i18n: 'happy',
+                title: { translate: 'happy' },
                 path: '002_happy.png'
             }, {
                 name: 'cry',
-                title_i18n: 'cry',
+                title: { translate: 'cry' },
                 path: '003_cry.png'
             }, {
                 name: 'heart',
-                title_i18n: 'heart',
+                title: { translate: 'heart' },
                 path: '004_heart.png'
             }, {
                 name: 'shock',
-                title_i18n: 'shock',
+                title: { translate: 'shock' },
                 path: '005_shock.png'
             }, {
                 name: 'doubt',
-                title_i18n: 'doubt',
+                title: { translate: 'doubt' },
                 path: '006_doubt.png'
             }, {
                 name: 'close_eyes',
-                title_i18n: 'close_eyes',
+                title: { translate: 'close_eyes' },
                 path: '007_close_eyes.png'
             }, {
                 name: 'sleep',
-                title_i18n: 'sleep',
+                title: { translate: 'sleep' },
                 path: '008_sleep.png'
             }, {
                 name: 'no',
-                title_i18n: 'no',
+                title: { translate: 'no' },
                 path: '009_no.png'
             }, {
                 name: 'yes',
-                title_i18n: 'yes',
+                title: { translate: 'yes' },
                 path: '010_yes.png'
             }, {
                 name: 'loading',
-                title_i18n: 'loading',
+                title: { translate: 'loading' },
                 path: '011_loading.png'
             }, {
                 name: 'hehe',
-                title_i18n: 'hehe',
+                title: { translate: 'hehe' },
                 path: '012_hehe.png'
             }, {
                 name: 'missingno',
-                title_i18n: 'missingno',
+                title: { translate: 'missingno' },
                 path: '013_missingno.png'
             }, {
                 name: 'angry',
-                title_i18n: 'angry',
+                title: { translate: 'angry' },
                 path: '014_angry.png'
             }, {
                 name: 'sunglasses',
-                title_i18n: 'sunglasses',
+                title: { translate: 'sunglasses' },
                 path: '015_sunglasses.png'
             }, {
                 name: 'elec',
-                title_i18n: 'elec',
+                title: { translate: 'elec' },
                 path: '016_elec.png'
             }, {
                 name: 'elec2',
-                title_i18n: 'elec2',
+                title: { translate: 'elec2' },
                 path: '017_elec2.png'
             }, {
                 name: 'shy',
-                title_i18n: 'shy',
+                title: { translate: 'shy' },
                 path: '018_shy.png'
             }, {
                 name: 'sex',
-                title_i18n: 'sex',
+                title: { translate: 'sex' },
                 path: '019_sex.png'
             }, {
                 name: 'chaos',
-                title_i18n: 'chaos',
+                title: { translate: 'chaos' },
                 path: '020_chaos.png'
             }, {
                 name: 'respirator',
-                title_i18n: 'respirator',
+                title: { translate: 'respirator' },
                 path: '021_respirator.png'
             }, {
                 name: 'water',
-                title_i18n: 'water',
+                title: { translate: 'water' },
                 path: '023_water.png'
             }, {
                 name: 'waterfall',
-                title_i18n: 'waterfall',
+                title: { translate: 'waterfall' },
                 path: '024_waterfall.png'
             }, {
                 name: 'vomit',
-                title_i18n: 'vomit',
+                title: { translate: 'vomit' },
                 path: '025_vomit.png'
             }, {
                 name: 'watermelon',
-                title_i18n: 'watermelon',
+                title: { translate: 'watermelon' },
                 path: '026_watermelon.png'
             }, {
                 name: 'click',
-                title_i18n: 'click',
+                title: { translate: 'click' },
                 path: '031_click.png'
             }, {
                 name: 'pot_me',
-                title_i18n: 'pot_me',
+                title: { translate: 'pot_me' },
                 path: '032_pot_me.png'
             }, {
                 name: 'box_gear',
-                title_i18n: 'box_gear',
+                title: { translate: 'box_gear' },
                 path: '033_box_gear.png'
             }, {
                 name: 'pants',
-                title_i18n: 'pants',
+                title: { translate: 'pants' },
                 path: '034_pants.png'
             }, {
                 name: 'black_stripe',
-                title_i18n: 'black_stripe',
+                title: { translate: 'black_stripe' },
                 path: '038_black_stripe.png'
             }, {
                 name: 'waterfall_start',
-                title_i18n: 'waterfall_start',
+                title: { translate: 'waterfall_start' },
                 path: '039_waterfall_start.png'
             }, {
                 name: 'waterfall_end',
-                title_i18n: 'waterfall_end',
+                title: { translate: 'waterfall_end' },
                 path: '040_waterfall_end.png'
             }, {
                 name: 'hammer',
-                title_i18n: 'hammer',
+                title: { translate: 'hammer' },
                 path: '041_hammer.png'
             }, {
                 name: 'bathe',
-                title_i18n: 'bathe',
+                title: { translate: 'bathe' },
                 path: '042_bathe.png'
             }, {
                 name: 'unwelcome',
-                title_i18n: 'unwelcome',
+                title: { translate: 'unwelcome' },
                 path: '043_unwelcome.png'
             }, {
                 name: 'stone',
-                title_i18n: 'stone',
+                title: { translate: 'stone' },
                 path: '044_stone.png'
             }, {
                 name: 'magnifier',
-                title_i18n: 'magnifier',
+                title: { translate: 'magnifier' },
                 path: '045_magnifier.png'
             }, {
                 name: 'ciallo',
-                title_i18n: 'ciallo',
+                title: { translate: 'ciallo' },
                 path: '046_ciallo.png'
             }, {
                 name: 'glowing_glasses',
-                title_i18n: 'glowing_glasses',
+                title: { translate: 'glowing_glasses' },
                 path: '047_glowing_glasses.png'
             }, {
                 name: 'wall',
-                title_i18n: 'wall',
+                title: { translate: 'wall' },
                 path: '050_wall.png'
             }, {
                 name: 'phone',
-                title_i18n: 'phone',
+                title: { translate: 'phone' },
                 path: '051_phone.png'
             }, {
                 name: 'exciting',
-                title_i18n: 'exciting',
+                title: { translate: 'exciting' },
                 path: '052_exciting.png'
             }
         ]
@@ -272,16 +279,21 @@ echoLiveSystem.registry.loadRegistry('emoji', e => e.meta.name, [
         meta: {
             name: 'sheep-realms:other',
             namespace: 'so',
-            title: '绵羊的大表情',
-            title_i18n: 'sheep_realms.other.title',
-            author: 'Sheep-realms',
+            title: {
+                text: '绵羊的大表情',
+                translate: 'sheep_realms.other.title'
+            },
+            author: {
+                name: 'Sheep-realms',
+                url: 'https://github.com/sheep-realms'
+            },
             license: {
-                title: 'CC BY-NC-SA 4.0',
+                name: 'CC BY-NC-SA 4.0',
                 url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/'
             }
         },
         path: {
-            i18n: 'sheep_realms.other.',
+            translate: 'sheep_realms.other.',
             images: 'res/image/emoji/sheep-realms/other/'
         },
         image: {
@@ -306,35 +318,35 @@ echoLiveSystem.registry.loadRegistry('emoji', e => e.meta.name, [
         content: [
             {
                 name: 'ahwu',
-                title_i18n: 'ahwu',
+                title: { translate: 'ahwu' },
                 path: 'ahwu.png'
             }, {
                 name: 'ze',
-                title_i18n: 'ze',
+                title: { translate: 'ze' },
                 path: 'ze.png'
             }, {
                 name: 'dame',
-                title_i18n: 'dame',
+                title: { translate: 'dame' },
                 path: 'dame.png'
             }, {
                 name: 'sofa',
-                title_i18n: 'sofa',
+                title: { translate: 'sofa' },
                 path: 'sofa.png'
             }, {
                 name: 'eating',
-                title_i18n: 'eating_potato_chips',
+                title: { translate: 'eating_potato_chips' },
                 path: 'eating_potato_chips.png'
             }, {
                 name: 'orz',
-                title_i18n: 'orz',
+                title: { translate: 'orz' },
                 path: 'orz.png'
             }, {
                 name: 'danger',
-                title_i18n: 'danger',
+                title: { translate: 'danger' },
                 path: 'danger.png'
             }, {
                 name: 'nani',
-                title_i18n: 'nani',
+                title: { translate: 'nani' },
                 path: 'nani.png'
             }
         ]

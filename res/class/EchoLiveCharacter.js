@@ -153,7 +153,7 @@ class EchoLiveCharacter {
             if (actionData === undefined) return;
             const sceneData = !this.config.__demo_mode ? this.getAvatarContent(avatarData, 'scene', data.avatar.scene) : avatarData.preview.scene;
 
-            data.image.url = actionData.custom_i18n === true ? actionData.path : (avatarData.path?.image + actionData.path);
+            data.image.url = actionData.custom_translate === true ? actionData.path : (avatarData.path?.image + actionData.path);
             if (sceneData !== undefined) {
                 data.image.position = data.image.position   ?? sceneData.position;
                 data.image.size     = data.image.size       ?? sceneData.size;

@@ -146,6 +146,9 @@ class Translator {
         text = {
             text: undefined,
             translate: undefined,
+            with: {
+                ...text?.with
+            },
             ...text
         };
 
@@ -159,7 +162,7 @@ class Translator {
 
         let output = text.text;
         if (text.translate !== undefined) {
-            output = this.output(translateKey);
+            output = this.output(translateKey, text.with);
             if (output === translateKey && text.text !== undefined) output = text.text;
         }
 

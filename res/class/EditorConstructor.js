@@ -302,11 +302,7 @@ class Popups {
     static paletteOptions(palette = []) {
         let dom = '';
         palette.forEach(e => {
-            let title = e.meta.title;
-            if (typeof e?.meta?.i18n == 'string') {
-                title = $t('editor.palette.label.' + e.meta.i18n);
-            }
-            dom += `<option value="${ e.meta.name }">${ title }</option>`
+            dom += `<option value="${ e.meta.name }">${ $tc( e.meta.title, { before: 'editor.palette.label.' } ) }</option>`
         });
         return dom;
     }
@@ -330,10 +326,10 @@ class Popups {
             if (e?.type === undefined || e?.type === 'color') {
                 title = e.title;
 
-                if (typeof e?.i18n == 'string') {
+                if (typeof e?.title?.translate === 'string') {
                     tv = { n: 0 };
-                    if (typeof e?.i18n_var == 'object') tv = {...tv, ...e.i18n_var, ...{ n: 2 }};
-                    title = $t('editor.palette.label.' + e.i18n, tv);
+                    if (typeof e?.title?.with === 'object') tv = {...tv, ...e.title.with, ...{ n: 2 }};
+                    title = $t('editor.palette.label.' + e.title.translate, tv);
                 }
 
                 if (typeof e?.after == 'string') {
@@ -347,10 +343,10 @@ class Popups {
             } else if (e?.type === 'group') {
                 title = e.value;
 
-                if (typeof e?.i18n == 'string') {
+                if (typeof e?.value?.translate === 'string') {
                     tv = { n: 0 };
-                    if (typeof e?.i18n_var == 'object') tv = {...tv, ...e.i18n_var, ...{ n: 2 }};
-                    title = $t('editor.palette.label.' + e.i18n, tv);
+                    if (typeof e?.value?.with === 'object') tv = {...tv, ...e.value.with, ...{ n: 2 }};
+                    title = $t('editor.palette.label.' + e.value.translate, tv);
                 }
 
                 dom += `${ firstGruop ? '' : '</div>' }<div class="palette-group">${ EchoLiveTools.safeHTML(title) }</div><div class="palette-list">`;

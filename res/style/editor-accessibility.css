@@ -39,6 +39,7 @@
     --msgbox-bgcolor: #FFFFFF;
     --commander-bgcolor: #000000;
     --commander-color: #FFFFFF;
+    --commander-placeholder-color: #CCCCCC;
 
     --scrollbar-thumb-color: rgba(0, 0, 0, 1);
     --scrollbar-thumb-hover-color:rgba(0, 0, 0, 1);
@@ -85,6 +86,7 @@
         --msgbox-bgcolor: #0D111A;
         --commander-bgcolor: #FFFFFF;
         --commander-color: #000000;
+        --commander-placeholder-color: #444444;
 
         --checkbox-corner-marker-color: rgba(30, 33, 41, 0.5);
 
@@ -137,6 +139,7 @@
     --msgbox-bgcolor: #0D111A;
     --commander-bgcolor: #FFFFFF;
     --commander-color: #000000;
+    --commander-placeholder-color: #444444;
 
     --checkbox-corner-marker-color: rgba(30, 33, 41, 0.5);
 

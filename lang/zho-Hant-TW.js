@@ -822,10 +822,7 @@ const lang_zho_Hant_TW = {
         form: {
             text_length: "{n} 字元",
             aria_label: {
-                commander: "控制檯",
-                content_plain_text: "純文字內容編輯框",
-                log_box: "這裡是日誌列表，如果您聽到了這句話，請注意，這裡的閱讀體驗可能會很差。",
-                output_content: "輸出內容編輯框"
+                log_box: "這裡是日誌列表，如果您聽到了這句話，請注意，這裡的閱讀體驗可能會很差。"
             },
             description: {
                 formatting_code_example_1: "@b - 粗體，@i - 斜體，@u - 下劃線，@s - 刪除線，@r - 清除格式",
@@ -855,6 +852,9 @@ const lang_zho_Hant_TW = {
                 split_message: "多行文字分割為訊息佇列",
                 startup_parameter: "啟動引數",
                 use_formatting_code: "使用快速格式化程式碼"
+            },
+            placeholder: {
+                commander: "命令控制檯"
             }
         },
         format: {
@@ -1477,6 +1477,7 @@ const lang_zho_Hant_TW = {
     },
     notice: {
         client_target_but_no_client: "請不要虛空索敵！",
+        commander_tips: "您已開啟命令控制檯，點選此處可查閱關於命令的幫助。如果您只是誤操作，請將游標置於控制檯中並按 <kbd>Esc</kbd> 鍵退出。",
         config_re_output: "已重新匯出配置檔案內容！",
         config_saved: "配置檔案已儲存！請注意重新整理所有頁面使新配置生效。",
         config_saving: "儲存中...",

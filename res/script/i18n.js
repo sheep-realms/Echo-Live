@@ -17,6 +17,12 @@ function pageLoadedI18n() {
         const key = e.data('i18n-aria-label');
         e.attr('aria-label', $t(key));
     }
+    $i18n = $('*[data-i18n-placeholder]');
+    for (let i = 0; i < $i18n.length; i++) {
+        const e = $i18n.eq(i);
+        const key = e.data('i18n-placeholder');
+        e.attr('placeholder', $t(key));
+    }
 }
 
 $(document).ready(function() {

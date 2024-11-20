@@ -822,10 +822,7 @@ const lang_zho_Hans = {
         form: {
             text_length: "{n} 字符",
             aria_label: {
-                commander: "控制台",
-                content_plain_text: "纯文本内容编辑框",
-                log_box: "这里是日志列表，如果您听到了这句话，请注意，这里的阅读体验可能会很差。",
-                output_content: "输出内容编辑框"
+                log_box: "这里是日志列表，如果您听到了这句话，请注意，这里的阅读体验可能会很差。"
             },
             description: {
                 formatting_code_example_1: "@b - 粗体，@i - 斜体，@u - 下划线，@s - 删除线，@r - 清除格式",
@@ -855,6 +852,9 @@ const lang_zho_Hans = {
                 split_message: "多行文本分割为消息队列",
                 startup_parameter: "启动参数",
                 use_formatting_code: "使用快速格式化代码"
+            },
+            placeholder: {
+                commander: "命令控制台"
             }
         },
         format: {
@@ -1477,6 +1477,7 @@ const lang_zho_Hans = {
     },
     notice: {
         client_target_but_no_client: "请不要虚空索敌！",
+        commander_tips: "您已打开命令控制台，点击此处可查阅关于命令的帮助。如果您只是误操作，请将光标置于控制台中并按 <kbd>Esc</kbd> 键退出。",
         config_re_output: "已重新导出配置文件内容！",
         config_saved: "配置文件已保存！请注意刷新所有页面使新配置生效。",
         config_saving: "保存中...",

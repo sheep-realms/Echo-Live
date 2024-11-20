@@ -21,6 +21,7 @@
     --msgbox-bgcolor: #EDEEF0;
     --commander-bgcolor: rgba(0, 0, 0, 0.75);
     --commander-color: #FFFFFF;
+    --commander-placeholder-color: #AAAAAA;
 
     --scrollbar-thumb-color: rgba(0, 0, 0, 0.15);
     --scrollbar-thumb-hover-color:rgba(0, 0, 0, 0.35);
@@ -57,6 +58,7 @@
         --msgbox-bgcolor: #454952;
         --commander-bgcolor: rgba(255, 255, 255, 0.85);
         --commander-color: #000000;
+        --commander-placeholder-color: #666666;
 
         --scrollbar-thumb-color: rgba(255, 255, 255, 0.15);
         --scrollbar-thumb-hover-color:rgba(255, 255, 255, 0.35);
@@ -90,6 +92,7 @@
     --msgbox-bgcolor: #454952;
     --commander-bgcolor: rgba(255, 255, 255, 0.85);
     --commander-color: #000000;
+    --commander-placeholder-color: #666666;
 
     --scrollbar-thumb-color: rgba(255, 255, 255, 0.15);
     --scrollbar-thumb-hover-color:rgba(255, 255, 255, 0.35);
@@ -211,13 +214,24 @@ input.code {
     cursor: pointer;
     display: inline-block;
     color: var(--text-secondary);
-    transition: color .3s, border .3s;
+    transition: color .3s, border .3s, background-color .3s;
     min-height: var(--height-top-nav);
 }
 
 .tabpage-nav-item[aria-selected="false"]:not(.disabled):hover {
-    /* border-bottom: var(--color-general-glass) 4px solid; */
+    /* border-bottom: var(--color-general-glass) min(var(--gap-extra-small), 4px) solid; */
     color: var(--text-primary);
+    
+}
+
+.tabpage-nav-item:focus-visible {
+    color: var(--text-primary);
+    background-color: var(--color-general-glass);
+    outline: none;
+}
+
+.tabpage-nav-item[aria-selected="false"]:focus-visible {
+    border-bottom: var(--color-general-glass) min(var(--gap-extra-small), 4px) solid;
 }
 
 .tabpage-nav-item.disabled {
@@ -438,7 +452,8 @@ input.code {
     top: -0.05em;
 }
 
-.checkbox:hover .icon {
+.checkbox:hover .icon,
+.checkbox:focus-visible .icon {
     background-color: var(--color-general-glass);
 }
 
@@ -1209,6 +1224,10 @@ select:focus {
     border: unset;
     font-size: var(--font-size-middle);
     line-height: var(--gap-large);
+}
+
+#commander-input::placeholder {
+    color: var(--commander-placeholder-color);
 }
 
 .unlock-page-width #commander-input {

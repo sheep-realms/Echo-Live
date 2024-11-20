@@ -908,11 +908,21 @@ $('#ptext-content').keydown(function(e) {
 
 
 
+let commanderInit = false;
+
 $(document).keydown(function(e) {
     if (e.code === 'Slash' && e.ctrlKey) {
         if ($('#commander-input-panel').hasClass('hide')) {
             $('#commander-input-panel').removeClass('hide');
             $('#commander-input').focus();
+            if (!commanderInit) {
+                commanderInit = true;
+                sysNotice.sendT('notice.commander_tips', {}, 'tips', {}, (e, unit) => {
+                    if (e !== 'click') return;
+                    window.open('https://sheep-realms.github.io/Echo-Live-Doc/dev/command/', '_blank');
+                    unit.close();
+                });
+            }
         } else {
             $('#commander-input-panel').addClass('hide');
             $('#commander-input').blur();

@@ -6,6 +6,8 @@ class EchoLiveTools {
      * @returns {String} UUID
      */
     static getUUID() {
+        if (window.crypto !== undefined) return window.crypto.randomUUID();
+        
         let timestamp = new Date().getTime();
         let perforNow = (typeof performance !== 'undefined' && performance.now && performance.now() * 1000) || 0;
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {

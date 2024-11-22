@@ -606,4 +606,43 @@ class EchoLiveHookUnit {
 
 
 
+// class EchoLiveLog {
+//     constructor() {
+//         this.logs = [];
+//     }
+
+//     /**
+//      * 添加日志
+//      * @param {'debug'|'info'|'warn'|'error'} type 日志类型
+//      * @param {String} key 日志键名
+//      * @param {*} data 日志数据
+//      */
+//     log(type, key, data) {
+//         this.logs.push({
+//             time: new Date().getTime(),
+//             type: type,
+//             key: key,
+//             data: data
+//         });
+//     }
+
+//     debug(key, data) {
+//         return this.log('debug', key, data);
+//     }
+
+//     info(key, data) {
+//         return this.log('info', key, data);
+//     }
+
+//     warn(key, data) {
+//         return this.log('warn', key, data);
+//     }
+
+//     error(key, data) {
+//         return this.log('error', key, data);
+//     }
+// }
+
+
+
 let echoLiveSystem = new EchoLiveSystem();

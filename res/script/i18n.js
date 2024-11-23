@@ -1,3 +1,5 @@
+"use strict";
+
 function pageLoadedI18n() {
     let $i18n = $('*[data-i18n]');
     for (let i = 0; i < $i18n.length; i++) {

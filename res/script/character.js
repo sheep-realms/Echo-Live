@@ -1,3 +1,5 @@
+"use strict";
+
 let echoLiveCharacter = new EchoLiveCharacter(config);
 
 const SEL_CHARACTER = '#echo-live-character';

@@ -1,3 +1,5 @@
+"use strict";
+
 let extensionManager = new ExtensionManager();
 try {
     extensionManager.mixer = mixer;

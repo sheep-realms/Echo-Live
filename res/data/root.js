@@ -37,6 +37,14 @@ echoLiveSystem.registry.init([
             scene: []
         }
     }, {
+        name: 'avatar_switch_effect',
+        unique_key: 'name',
+        default_data: {
+            name: undefined,
+            value: undefined,
+            hidden: false
+        }
+    }, {
         name: 'border_style',
         unique_key: 'name',
         default_data: {

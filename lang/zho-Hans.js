@@ -116,6 +116,12 @@ const lang_zho_Hans = {
             }
         }
     },
+    character: {
+        avatar_switch_effect: {
+            none: "无",
+            fade_in: "淡入"
+        }
+    },
     command: {
         common: {
             fail: {

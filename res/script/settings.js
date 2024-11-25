@@ -259,6 +259,16 @@ const configDataList = [
         key: 'character.avatar.scene'
     }, {
         data: arr => {
+            echoLiveSystem.registry.forEach('avatar_switch_effect', e => {
+                if (!e?.hidden || config.advanced.settings.display_hidden_option) arr.push({
+                    title: $t(`character.avatar_switch_effect.${ e.name }`),
+                    value: e.value
+                });
+            });
+        },
+        key: 'character.avatar_switch_effect.name'
+    }, {
+        data: arr => {
             echoLiveSystem.registry.forEach('border_style', e => {
                 arr.push({
                     title: $t(`border_style.${ e.name }`),
@@ -759,6 +769,8 @@ $(document).ready(function() {
 
         function __setConfigDefineDatalist(key, data) {
             let i = settingsManager.findIndexConfigDefine(key);
+            if (!Array.isArray(data) || data.length === 0) return;
+            
             settingsManager.configDefine[i].attribute.datalist = data;
         }
 

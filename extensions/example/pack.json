@@ -1,8 +1,7 @@
 {
     "meta": {
         "title": "example",
-        "title_i18n": "",
-        "namespace": "example"
+        "name": "example"
     },
     "register": [
         {

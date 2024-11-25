@@ -5,31 +5,25 @@ class ExtensionManager {
     }
 
     load(data = {}) {
-        if (data?.meta == undefined) return;
+        if (data?.meta === undefined || data?.meta?.name === undefined) return;
 
-        if (data?.addon != undefined) {
-            if (typeof data.addon?.audio == 'object' && this.mixer != undefined) {
-                data.addon.audio.forEach(e => {
-                    e.name = data.meta.namespace + ':' + e.name;
-                    e.path = `extensions/${data.meta.namespace}/${e.path}`;
-                    this.mixer.audioDB.push(e);
-                });
-            }
+        echoLiveSystem.registry.setRegistryValue('extension', data.meta.name, data.meta);
 
-            // 出现了！新的屎山代码！
-            if (typeof data.addon?.theme == 'object') {
-                data.addon.theme.forEach(e => {
-                    e.name = data.meta.namespace + ':' + e.name;
-                    e.style = `extensions/${data.meta.namespace}/${e2}`;
-                    let script = [];
-                    e.script.forEach(e2 => {
-                        script.push(`extensions/${data.meta.namespace}/${e2}`);
-                    });
-                    e.script = script;
-                    this.theme.push(e);
-                });
+        if (!Array.isArray(data?.registry)) return;
+        
+        const root = `${data.meta.name}:root`;
+        data.register.forEach(e => {
+            if (e.registry === root && !echoLiveSystem.registry.hasRegistry(root)) {
+                echoLiveSystem.registry.createRootRegistry(data.meta, e.value);
+            } else {
+                for (const key in e.value) {
+                    if (Object.prototype.hasOwnProperty.call(e.value, key)) {
+                        const e2 = e.value[key];
+                        echoLiveSystem.registry.setRegistryValue(e.registry, key, e2);
+                    }
+                }
             }
-        }
+        });
     }
 
     launch(extList = []) {

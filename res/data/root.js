@@ -58,6 +58,16 @@ echoLiveSystem.registry.init([
     }, {
         name: 'emoji_namespace'
     }, {
+        name: 'extension',
+        unique_key: 'name',
+        default_data: {
+            title: 'missingno',
+            description: '',
+            namespace: undefined,
+            author: undefined,
+            license: undefined
+        }
+    }, {
         name: 'language',
         unique_key: 'lang.code_iso_639_3',
         default_data: {

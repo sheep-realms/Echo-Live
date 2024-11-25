@@ -166,6 +166,18 @@ class EchoLiveRegistry {
     }
 
     /**
+     * 是否有指定注册表
+     * @param {String} key 注册表名
+     * @returns {Boolean} 结果
+     */
+    hasRegistry(key) {
+        if (typeof key !== 'string') return;
+        key = EchoLiveData.filter('namespace_id', 'pad_namespace', key);
+        let reg = this.registry.get(key);
+        return reg !== undefined;
+    }
+
+    /**
      * 获取注册表
      * @param {String} key 注册表名
      * @returns {Map|undefined} 注册表
@@ -188,6 +200,23 @@ class EchoLiveRegistry {
         if (!EchoLiveData.check('namespace_id', key)) return;
         if (this.registry.get(key) !== undefined) return;
         return this.registry.set(key, new Map());
+    }
+
+    /**
+     * 创建根注册表
+     * @param {String} namespace 命名空间
+     * @param {Object} map 注册表内容
+     */
+    createRootRegistry(namespace, map = {}) {
+        this.createRegistry(`${namespace}:root`);
+
+        for (const key in map) {
+            if (Object.prototype.hasOwnProperty.call(map, key)) {
+                const e = map[key];
+                this.setRegistryValue(`${namespace}:root`, key, e);
+                this.createRegistry(key);
+            }
+        }
     }
 
     /**

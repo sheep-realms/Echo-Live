@@ -55,8 +55,9 @@ class EchoLiveBroadcast {
 
             DEFAULT_CHANNEL: 'sheep-realms:echolive',
 
-            TARGET_SERVER:              '@__server',
-            TARGET_WEBSOCKET_SERVER:    '@__ws_server',
+            TARGET_SERVER:                      '@__server',
+            TARGET_WEBSOCKET_SERVER:            '@__ws_server',
+            TARGET_WEBSOCKET_SERVER_FORWARD:    '@__ws_server_forward',
 
             TYPE_CHARACTER: 'character',
             TYPE_CLIENT:    'client',
@@ -190,7 +191,12 @@ class EchoLiveBroadcast {
             unit: this
         });
 
-        this.broadcast.postMessage(d);
+        if (d.target === EchoLiveBroadcast.TARGET_WEBSOCKET_SERVER_FORWARD) {
+            d.target = undefined;
+        } else {
+            this.broadcast.postMessage(d);
+        }
+
         if (this.websocket !== undefined) {
             try {
                 this.websocket.send(JSON.stringify(d));
@@ -827,7 +833,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
             });
 
             this.websocketReconnectCount = 0;
-            this.sendHello();
+            this.sendHello(EchoLiveBroadcast.TARGET_WEBSOCKET_SERVER_FORWARD);
         });
 
         this.websocket.addEventListener('message', (e) => {

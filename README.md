@@ -37,8 +37,8 @@
 - [Echo-Live-WebSocket-Server](https://github.com/sheep-realms/Echo-Live-WebSocket-Server)
 
 ### 第三方项目
+- [AphoniaLiveHelper](https://github.com/YouxingClub/AphoniaLiveHelper)
 - [Echo-Client](https://github.com/Rickyxrc/echo-client)
-- [Echo-Live-Rev](https://github.com/YouxingClub/Echo-Live-Rev)
 - [Echo-Live-Tauri](https://github.com/LuiScreaMed/Echo-Live-Tauri)
 - [Echo-Live-Typetool](https://github.com/RaySky-Rt/Echo-Live-Typetool)
 

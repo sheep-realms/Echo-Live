@@ -24,7 +24,12 @@ echoLiveCharacter.on('layerUpdate', (effect) => {
     if (effect.name === undefined) {
         // TODO: 处理默认情况
     } else {
-        $(SEL_CHARACTER_LAYER_MAIN).css('--layer-effect-name', `${effect.name}-main`);
-        $(SEL_CHARACTER_LAYER_BEFORE).css('--layer-effect-name', `${effect.name}-before`);
+        if (effect.name === 'none' || effect.name === 'unset') {
+            $(SEL_CHARACTER_LAYER_MAIN).css('--layer-effect-name', effect.name);
+            $(SEL_CHARACTER_LAYER_BEFORE).css('--layer-effect-name', effect.name);
+        } else {
+            $(SEL_CHARACTER_LAYER_MAIN).css('--layer-effect-name', `${effect.name}-main`);
+            $(SEL_CHARACTER_LAYER_BEFORE).css('--layer-effect-name', `${effect.name}-before`);
+        }
     }
 });

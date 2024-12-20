@@ -114,7 +114,7 @@
     /* 历史记录发送时间字体颜色 */
     --echo-live-history-color-time: #888;
     /* 历史记录背景颜色，如果要设为透明请使用 transparent */
-    --echo-live-history-bg-color: #EEEEEE;
+    --echo-live-history-bg-color: #EDEEF0;
     /* 历史记录标题背景颜色 */
     --echo-live-history-bg-color-title: #FFFFFF;
     /* 历史记录标题的上、右、下、左内边距 */

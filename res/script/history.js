@@ -1,3 +1,11 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+ */
+
+
 "use strict";
 
 if (config.history.layout.message_list_reverse) $('html').addClass('echo-live-history-message-list-reverse');

@@ -1,3 +1,11 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+**/
+
+
 /* 匹配从右向左书写的文字 */
 .echo-output[data-before="\202e"],
 .echo-output.echo-text-rlo,

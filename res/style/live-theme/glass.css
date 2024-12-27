@@ -1,6 +1,14 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+**/
+
+
 /**
  * 这里是 Echo Live 的样式文件
- */
+**/
 
 /* 导入：基本样式 */
 @import url("../live-common/base.css");

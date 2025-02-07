@@ -8,6 +8,9 @@
 
 "use strict";
 
+// 兜底，双重保障
+$('.settings-about-footer-var-1').text(navigator.userAgent);
+
 let sysNotice = new SystemNotice();
 
 window.addEventListener("error", (e) => {

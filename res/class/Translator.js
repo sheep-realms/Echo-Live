@@ -67,7 +67,7 @@ class Translator {
                 document.head.appendChild(s);
     }
 
-    output(key, variable={}, __inPlanB = false) {
+    output(key, variable={}, backText = undefined, __inPlanB = false) {
         function __extractVariableNames(inputString) {
             const regI18nVar = /\{\s*@([A-Za-z0-9_\.]+)\s*\}/g;
             const matches = [];
@@ -89,8 +89,8 @@ class Translator {
         let objI18n = !__inPlanB ? this.i18n[this.lang] : this.i18n[this.langMain];
         for (const k of keys) {
             if (objI18n[k] === undefined) {
-                if (!__inPlanB && this.lang !== this.langMain) return this.output(key, variable, true);
-                return key;
+                if (!__inPlanB && this.lang !== this.langMain) return this.output(key, variable, backText, true);
+                return backText ?? key;
             }
             objI18n = objI18n[k];
         }
@@ -98,8 +98,8 @@ class Translator {
 
         // 校验数据
         if (typeof t != 'string') {
-            if (!__inPlanB && this.lang !== this.langMain) return this.output(key, variable, true);
-            return key;
+            if (!__inPlanB && this.lang !== this.langMain) return this.output(key, variable, backText, true);
+            return backText ?? key;
         }
 
         // 本地化变量赋值

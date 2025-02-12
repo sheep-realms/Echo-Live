@@ -106,8 +106,9 @@ function effectFlicker($sel) {
  * @param {Boolean} forceRepeatAfter 右侧有相同字符串时强制插入字符串
  * @param {Boolean} firstClear 当起始光标在左侧时清除左侧插入字符
  * @param {Function} selectedTextFilter 选中文本过滤器
+ * @param {Boolean} setFocus 设置焦点
  */
-function insertTextAtCursor(id, text, text2 = '', forceInputText2 = false, forceRepeatBefore = false, forceRepeatAfter = false, firstClear = false, selectedTextFilter = undefined) {
+function insertTextAtCursor(id, text, text2 = '', forceInputText2 = false, forceRepeatBefore = false, forceRepeatAfter = false, firstClear = false, selectedTextFilter = undefined, setFocus = true) {
     let textarea       = document.getElementById(id);
 
     let selectionStart = textarea.selectionStart,
@@ -132,8 +133,24 @@ function insertTextAtCursor(id, text, text2 = '', forceInputText2 = false, force
         textarea.setSelectionRange(selectionStart + text.length, selectionStart + text.length + selectedText.length);
     }
     
-    textarea.focus();
+    if (setFocus) textarea.focus();
     $('#' + id).trigger('input');
+}
+
+function insertTextAtCursorForObject(value = {}) {
+    value = {
+        id: undefined,
+        text: undefined,
+        text2: '',
+        forceInputText2: false,
+        forceRepeatBefore: false,
+        forceRepeatAfter: false,
+        firstClear: false,
+        selectedTextFilter: undefined,
+        setFocus: true,
+        ...value
+    }
+    return insertTextAtCursor(value.id, value.text, value.text2, value.forceInputText2, value.forceRepeatBefore, value.forceRepeatAfter, value.firstClear, value.selectedTextFilter, value.setFocus);
 }
 
 

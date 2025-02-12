@@ -761,11 +761,16 @@ $(document).on('click', '#popups-palette .color-box', function() {
 });
 
 // 表情包点击
-$(document).on('click', '#popups-emoji .emoji-box', function() {
+$(document).on('click', '#popups-emoji .emoji-box', function(event) {
     let value = $(this).data('value');
     let str = `@{${ value }}`;
     if ($(this).hasClass('is-true-emoji')) str = value;
-    insertTextAtCursor('ptext-content', str, '', false, true);
+    // TODO: 这个问题暂时搞不定
+    insertTextAtCursorForObject({
+        id: 'ptext-content',
+        text: str,
+        forceRepeatBefore: true
+    });
     popupsDisplay('#popups-emoji', false);
 });
 

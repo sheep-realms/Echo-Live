@@ -13,6 +13,9 @@ class LocalStorageManager {
         this.init();
     }
 
+    /**
+     * 初始化
+     */
     init() {
         const s = localStorage.getItem(this.name);
         if (s == null) {
@@ -21,10 +24,18 @@ class LocalStorageManager {
         }
     }
 
+    /**
+     * 清空存储
+     */
     clear() {
         localStorage.removeItem(this.name);
     }
 
+    /**
+     * 获取存储项
+     * @param {String} key 键名
+     * @returns {*} 值
+     */
     getItem(key) {
         const s = localStorage.getItem(this.name);
         if (s == null) return;
@@ -40,6 +51,12 @@ class LocalStorageManager {
         return data[key];
     }
 
+    /**
+     * 写入存储项
+     * @param {String} key 键名
+     * @param {*} value 值
+     * @returns {*} 存储内容
+     */
     setItem(key, value) {
         let data = this.getItem();
         if (typeof data != 'object') return;

@@ -68,6 +68,13 @@ echoLiveSystem.registry.init([
             license: undefined
         }
     }, {
+        name: 'font_weight',
+        unique_key: 'name',
+        default_data: {
+            name: undefined,
+            value: undefined
+        }
+    }, {
         name: 'language',
         unique_key: 'lang.code_iso_639_3',
         default_data: {

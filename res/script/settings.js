@@ -282,12 +282,22 @@ const configDataList = [
         data: arr => {
             echoLiveSystem.registry.forEach('border_style', e => {
                 arr.push({
-                    title: $t(`border_style.${ e.name }`),
+                    title: $t(`border_style.${ e.name }`, {}, ''),
                     value: e.value
                 });
             });
         },
         key: 'accessibility.high_contrast_outline_style'
+    }, {
+        data: arr => {
+            echoLiveSystem.registry.forEach('font_weight', e => {
+                arr.push({
+                    title: $t(`font_weight.${ e.name }`, {}, ''),
+                    value: e.value
+                });
+            });
+        },
+        key: 'global.live_font_weight'
     }
 ];
 

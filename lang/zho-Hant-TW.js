@@ -217,6 +217,10 @@ const lang_zho_Hant_TW = {
             thin_scrollbar: {
                 _title: "啟用細捲軸",
                 _description: "使用較細的捲軸替換預設捲軸。"
+            },
+            live_font_weight: {
+                _title: "前臺預設字重",
+                _description: "前臺頁面的預設字重，可被主題的樣式設定或訊息格式覆蓋。"
             }
         },
         echo: {
@@ -1296,6 +1300,22 @@ const lang_zho_Hant_TW = {
             config: "配置檔案",
             image: "圖片"
         }
+    },
+    font_weight: {
+        bold: "粗體",
+        inherit: "繼承預設值",
+        normal: "適中",
+        "100": "淡體",
+        "200": "特細",
+        "300": "細體",
+        "350": "次細",
+        "400": "標準",
+        "500": "適中",
+        "600": "次粗",
+        "700": "粗體",
+        "800": "特粗",
+        "900": "濃體",
+        "950": "特濃"
     },
     help: {
         easter_egg: {

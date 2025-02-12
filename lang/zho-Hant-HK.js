@@ -217,6 +217,10 @@ const lang_zho_Hant_HK = {
             thin_scrollbar: {
                 _title: "啟用細滾動條",
                 _description: "使用較細的滾動條替換默認滾動條。"
+            },
+            live_font_weight: {
+                _title: "前台默認字重",
+                _description: "前台頁面的默認字重，可被主題的樣式設置或消息格式覆蓋。"
             }
         },
         echo: {
@@ -1296,6 +1300,22 @@ const lang_zho_Hant_HK = {
             config: "配置文件",
             image: "圖片"
         }
+    },
+    font_weight: {
+        bold: "粗體",
+        inherit: "繼承默認值",
+        normal: "適中",
+        "100": "淡體",
+        "200": "特細",
+        "300": "細體",
+        "350": "次細",
+        "400": "標準",
+        "500": "適中",
+        "600": "次粗",
+        "700": "粗體",
+        "800": "特粗",
+        "900": "濃體",
+        "950": "特濃"
     },
     help: {
         easter_egg: {

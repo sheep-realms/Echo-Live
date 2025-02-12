@@ -49,6 +49,14 @@ const db_config_define = [
         type: 'boolean',
         default: false,
         created: 9
+    }, {
+        name: 'global.live_font_weight',
+        type: 'string',
+        default: 'inherit',
+        created: 11,
+        attribute: {
+            datalist: []
+        }
     },
     
 

@@ -217,6 +217,10 @@ const lang_zho_Hans = {
             thin_scrollbar: {
                 _title: "启用细滚动条",
                 _description: "使用较细的滚动条替换默认滚动条。"
+            },
+            live_font_weight: {
+                _title: "前台默认字重",
+                _description: "前台页面的默认字重，可被主题的样式设置或消息格式覆盖。"
             }
         },
         echo: {
@@ -1296,6 +1300,22 @@ const lang_zho_Hans = {
             config: "配置文件",
             image: "图片"
         }
+    },
+    font_weight: {
+        bold: "粗体",
+        inherit: "继承默认值",
+        normal: "适中",
+        "100": "淡体",
+        "200": "特细",
+        "300": "细体",
+        "350": "次细",
+        "400": "标准",
+        "500": "适中",
+        "600": "次粗",
+        "700": "粗体",
+        "800": "特粗",
+        "900": "浓体",
+        "950": "特浓"
     },
     help: {
         easter_egg: {

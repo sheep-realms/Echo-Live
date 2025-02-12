@@ -13,6 +13,7 @@ if (config.history.layout.message_item_reverse) $('html').addClass('echo-live-hi
 if (!config.history.layout.display_username) $('html').addClass('echo-live-history-disable-username');
 if (!config.history.layout.display_time) $('html').addClass('echo-live-history-disable-time');
 if (config.history.message.latest_message_hide) $('html').addClass('echo-live-history-latest-message-hide');
+$('html').css('font-weight', config.global.live_font_weight);
 
 let echoLiveHistory = new EchoLiveHistory(config);
 let urlTheme = EchoLiveTools.getUrlParam('theme');

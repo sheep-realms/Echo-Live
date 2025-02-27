@@ -74,6 +74,7 @@ class EchoLiveRegistry {
         this.registry = new Map();
         this.initialized = false;
         this.event = {
+            loadedRegistry: [],
             setRegistryValue: []
         };
         this.lastTriggerID = 0;
@@ -130,6 +131,17 @@ class EchoLiveRegistry {
         return target;
     }
 
+    onLoadedRegistry(table = '*', action = () => {}) {
+        if (table !== '*') table = EchoLiveData.filter('namespace_id', 'pad_namespace', table);
+        const id = this.lastTriggerID++;
+        this.event.loadedRegistry.push({
+            id: id,
+            table: table,
+            action: action
+        });
+        return id;
+    }
+
     /**
      * 绑定设置注册表值触发
      * @param {String} table 注册表名
@@ -158,6 +170,15 @@ class EchoLiveRegistry {
      */
     trigger(event, table, key, data = {}) {
         if (this.event[event] === undefined) return;
+        if (event === 'loadedRegistry') {
+            if (table !== '*') table = EchoLiveData.filter('namespace_id', 'pad_namespace', table);
+            this.event[event]
+                .filter(e => e.table === table || e.table === '*')
+                .forEach(
+                    e => e.action(table, data)
+                );
+            return;
+        }
         table = EchoLiveData.filter('namespace_id', 'pad_namespace', table);
         this.event[event].filter(e => e.table === table && (e.key === key || e.key === '*')).forEach(e => e.action(data));
     }
@@ -393,6 +414,7 @@ class EchoLiveRegistry {
             }
             this.setRegistryValue(table, key, e);
         });
+        this.trigger('loadedRegistry', table, undefined, { value: data });
         return this.getRegistry(table);
     }
 

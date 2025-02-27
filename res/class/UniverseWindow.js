@@ -29,7 +29,14 @@ class UniverseWindow {
             if (e.target != this) return;
             let $window = $(this).parents('.fh-window').eq(0);
             let index = $window.data('index');
-            that.autoSetFocusButton(index);
+            let focusFormItem = $window.data('auto-focus-form-item');
+            if (focusFormItem) {
+                $window.find(`[name="${ focusFormItem }"]`).eq(0).focus();
+            } else {
+                that.autoSetFocusButton(index);
+            }
+            $window.parents('.fh-window-modal-bg').eq(0).removeClass('window-show');
+            $window.removeClass('window-show');
         });
         
         $(document).on('animationend', '.fh-window.window-close', function(e) {
@@ -39,7 +46,11 @@ class UniverseWindow {
 
         $(document).on('click', '.fh-window:not(.window-close) .fh-window-controller-button:not(:disabled)', function() {
             let $window = $(this).parents('.fh-window').eq(0);
-            that.runCallback($window.data('index'), $(this).data('controller-id'));
+            if ($window.hasClass('fh-window-has-input')) {
+                that.runCallback($window.data('index'), $window.find('.fh-window-output').eq(0).val());
+            } else {
+                that.runCallback($window.data('index'), $(this).data('controller-id'));
+            }
         });
 
         $(document).on('click', '.fh-window-modal-bg.fh-window-modal-bg-closable', function(e) {
@@ -62,7 +73,9 @@ class UniverseWindow {
      * @param {Object} data 数据
      * @param {String} data.attr 自定义属性
      * @param {String} data.autoFocusButton 自动获得焦点的按钮
+     * @param {String} data.autoFocusFormItem 自动获得焦点的表单项
      * @param {Boolean} data.closable 可关闭
+     * @param {Boolean} data.hasInput 是否有输入框
      * @param {String} data.icon 标题栏图标
      * @param {String} data.id ID
      * @param {Array<String|Object>} data.controller 控制器按钮
@@ -94,6 +107,7 @@ class UniverseWindow {
      * @param {Object} data 数据
      * @param {String} data.attr 自定义属性
      * @param {String} data.autoFocusButton 自动获得焦点的按钮
+     * @param {String} data.autoFocusFormItem 自动获得焦点的表单项
      * @param {Boolean} data.closable 可关闭
      * @param {String} data.icon 标题栏图标
      * @param {String} data.id ID
@@ -107,6 +121,65 @@ class UniverseWindow {
     messageWindow(content = '', title = '', data = {}, callback = undefined) {
         return this.window(
             `<div class="fh-msgbox-content-message">${ content }</div>`,
+            title, data, callback
+        );
+    }
+
+    /**
+     * 创建文本域对话窗口
+     * @param {String} content 内容
+     * @param {String} title 标题
+     * @param {Object} data 数据
+     * @param {String} data.attr 自定义属性
+     * @param {String} data.autoFocusButton 自动获得焦点的按钮
+     * @param {String} data.autoFocusFormItem 自动获得焦点的表单项
+     * @param {Boolean} data.closable 可关闭
+     * @param {String} data.icon 标题栏图标
+     * @param {String} data.id ID
+     * @param {Array<String|Object>} data.controller 控制器按钮
+     * @param {Boolean} data.maskClosable 点击蒙层可关闭
+     * @param {Boolean} data.modal 模态
+     * @param {Boolean} data.readonly 只读
+     * @param {String} data.style 样式
+     * @param {Object} data.textarea 文本域
+     * @param {Boolean} data.textarea.class 类
+     * @param {Boolean} data.textarea.readOnly 只读
+     * @param {Function} callback 回调函数
+     * @returns {Object} 窗口数据
+     */
+    textareaWindow(content = '',title = '', data = {}, callback = undefined) {
+        data = {
+            textarea: {
+                class: '',
+                readOnly: false,
+            },
+            ...data,
+            autoFocusFormItem: 'fh-window-textarea',
+            hasInput: true
+        }
+        return this.window(
+            FHUI.element(
+                'div',
+                {
+                    class: [
+                        'fh-window-textarea-form',
+                        'echo-editor-form'
+                    ]
+                },
+                FHUI.element(
+                    'textarea',
+                    {
+                        class: [
+                            'fh-window-textarea',
+                            'fh-window-output',
+                            data.textarea.class
+                        ],
+                        name: 'fh-window-textarea',
+                        readonly: data.textarea.readOnly ? '' : undefined
+                    },
+                    content
+                )
+            ),
             title, data, callback
         );
     }
@@ -191,8 +264,6 @@ class UniverseWindow {
      */
     autoSetFocusButton(index) {
         let $window = $(`.fh-window[data-index="${index}"]`).eq(0);
-        $window.parents('.fh-window-modal-bg').eq(0).removeClass('window-show');
-        $window.removeClass('window-show');
 
         let autoFocusButton = $window.data('auto-focus-button');
 

@@ -1725,8 +1725,10 @@ class FHUIWindow {
      * @param {Object} data 数据
      * @param {String} data.attr 自定义属性
      * @param {String} data.autoFocusButton 自动获得焦点的按钮
+     * @param {String} data.autoFocusFormItem 自动获得焦点的表单项
      * @param {Boolean} data.autoIconButton 自动设置按钮图标
      * @param {Boolean} data.closable 可关闭
+     * @param {Boolean} data.hasInput 是否有输入框
      * @param {String} data.icon 标题栏图标
      * @param {String} data.id ID
      * @param {Number} data.index 索引编号
@@ -1739,7 +1741,8 @@ class FHUIWindow {
     static window(content = '', title = '', data = {}) {
         data = {
             attr: undefined,
-            autoFocusButton: false,
+            autoFocusButton: undefined,
+            autoFocusFormItem: undefined,
             closable: true,
             icon: undefined,
             id: undefined,
@@ -1765,7 +1768,7 @@ class FHUIWindow {
         let dom = `<div
             role="dialog"
             ${ data.id !== undefined ? `id="${ data.id }"` : '' }
-            class="fh-window window-show"
+            class="fh-window window-show ${ data.hasInput ? 'fh-window-has-input' : '' }"
             style="
                 --width: min(${ data.size.width }, calc(100vw - 32px));
                 --height: min(${ data.size.height }, calc(100vh - 32px));
@@ -1773,6 +1776,7 @@ class FHUIWindow {
             "
             data-index="${ data.index }"
             ${ data.autoFocusButton !== undefined ? `data-auto-focus-button="${ data.autoFocusButton }"` : '' }
+            ${ data.autoFocusFormItem !== undefined ? `data-auto-focus-form-item="${ data.autoFocusFormItem }"` : '' }
             ${ data.attr ?? '' }
         >
             <div class="fh-window-title">

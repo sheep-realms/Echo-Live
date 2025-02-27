@@ -1681,6 +1681,21 @@ select:focus {
 
 
 
+.fh-window-textarea-form {
+    width: calc(100% - var(--gap-middle) * 2);
+    height: calc(100% - var(--gap-middle) * 4);
+    display: flex;
+    flex-direction: column;
+}
+
+.fh-window-textarea {
+    resize: none !important;
+    height: auto !important;
+    flex: 1;
+}
+
+
+
 .releases-view {
     width: 100%;
     height: 100%;

@@ -34,7 +34,8 @@ class SystemNotice {
         });
 
         // 点击通知
-        $(document).on('click', '.fh-notice-item', function() {
+        $(document).on('click', '.fh-notice-item', function(e) {
+            if ($(e.target).closest('.fh-notice-item-btn-close').length > 0) return;
             that.runCallback($(this).data('index'), 'click');
         });
 

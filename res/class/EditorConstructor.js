@@ -1410,7 +1410,7 @@ class SettingsFileChecker {
                 <div class="meta">
                     <div class="name" title="${ $t('file.name') }">${ file.name }</div>
                     <div class="size" title="${ $t('file.size') }">${ EchoLiveTools.formatFileSize(file.size) }</div>
-                    <div class="last-modified-date" title="${ $t('file.last_modified_date') }">${ EchoLiveTools.formatDate(file.lastModifiedDate || file.lastModified, 'data_time') }</div>
+                    <div class="last-modified-date" title="${ $t('file.last_modified_date') }">${ EchoLiveTools.formatDate(file.lastModifiedDate || file.lastModified, 'date_time') }</div>
                 </div>
             </div>
             <div class="state state-${ state }">

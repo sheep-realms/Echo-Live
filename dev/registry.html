@@ -86,8 +86,7 @@
         #registry-list .registry-list-item,
         #registry-item .registry-item-key {
             appearance: none;
-            display: flex;
-            align-items: center;
+            display: block;
             width: 100%;
             height: calc(var(--font-size-middle) * 1.5);
             font-size: var(--font-size-middle);
@@ -97,6 +96,7 @@
             outline: none;
             cursor: pointer;
             padding: 0 var(--gap-small);
+            overflow: hidden;
             text-overflow: ellipsis;
             color: var(--input-color);
         }
@@ -111,6 +111,12 @@
         #registry-list .registry-list-item.selected {
             background-color: var(--color-general-dark);
             color: #FFF;
+        }
+
+        @media screen and (max-width: 760px) {
+            #registry-view {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -144,16 +150,16 @@
             <section class="tabpage-panel" role="tabpanel" data-pageid="log">
                 <h2 class="tabpage-panel-title" data-i18n="editor.tabpage.log.title"></h2>
                 <div class="echo-editor-form">
-                    <div id="log"></div>
+                    <div id="log" class="font-code"></div>
                 </div>
             </section>
-            <!-- 输出标签页 -->
+            <!-- 注册表标签页 -->
             <section class="tabpage-panel hide" role="tabpanel" data-pageid="registry">
                 <h2 class="tabpage-panel-title" data-i18n="studio.text_to_messages.tabpage.output.title"></h2>
                 <div class="echo-editor-form">
                     <div id="registry-view">
-                        <div id="registry-list"></div>
-                        <div id="registry-item"></div>
+                        <div id="registry-list" class="font-code"></div>
+                        <div id="registry-item" class="font-code"></div>
                     </div>
                     
                 </div>

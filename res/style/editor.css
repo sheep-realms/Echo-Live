@@ -194,6 +194,10 @@ input.code {
     font-family: Monaco, Consolas,'Lucida Console', 'Courier New', serif;
 }
 
+.font-code, .font-code * {
+    font-family: Monaco, Consolas,'Lucida Console', 'Courier New', serif !important;
+}
+
 .tabpage-nav {
     border-bottom: var(--border-color) 1px solid;
     display: flex;
@@ -1571,6 +1575,8 @@ select:focus {
     font-size: var(--font-size-large);
     font-weight: 500;
     color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 @media (prefers-color-scheme: dark) {

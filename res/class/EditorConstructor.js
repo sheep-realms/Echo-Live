@@ -186,61 +186,61 @@ class EditorForm {
     static editorController(editorID) {
         return DOMConstructor.join([
             EditorForm.buttonAir('', {
-                icon: Icon.formatBold,
+                icon: Icon.getIcon('material:format-bold'),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="bold"`,
                 title: $t('editor.format.bold') + ' [Ctrl+B]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.formatItalic,
+                icon: Icon.getIcon('material:format-italic'),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="italic"`,
                 title: $t('editor.format.italic') + ' [Ctrl+I]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.formatUnderline,
+                icon: Icon.getIcon('material:format-underline'),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="underline"`,
                 title: $t('editor.format.underline') + ' [Ctrl+U]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.formatStrikethroughVariant,
+                icon: Icon.getIcon('material:format-strikethrough-variant'),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="strikethrough"`,
                 title: $t('editor.format.strikethrough') + ' [Ctrl+D]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.palette,
+                icon: Icon.getIcon('material:palette'),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="color"`,
                 title: $t('editor.format.color') + ' [Ctrl+Shift+C]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.emoticonHappy,
+                icon: Icon.getIcon('material:emoticon-happy'),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="emoji"`,
                 title: $t('editor.format.emoji') + ' [Ctrl+E]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.image,
+                icon: Icon.getIcon('material:image'),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="image"`,
                 title: $t('editor.format.image') + ' [Ctrl+Shift+I]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.formatFontSizeIncrease,
+                icon: Icon.getIcon('material:format-font-size-increase'),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="font_size_increase"`,
                 title: $t('editor.format.font_size_increase') + ' [Ctrl+↑]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.formatFontSizeDecrease,
+                icon: Icon.getIcon('material:format-font-size-decrease'),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="font_size_decrease"`,
                 title: $t('editor.format.font_size_decrease') + ' [Ctrl+↓]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.formatClear,
+                icon: Icon.getIcon('material:format-clear'),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="clear"`,
                 title: $t('editor.format.clear') + ' [Ctrl+Shift+Space]'
@@ -391,13 +391,13 @@ class Popups {
             <div class="diff-result-content ok" title="${ $t('editor.palette.diff_dashboard.state.ok', { name: title }) }">
                 <div class="title">${ value }</div>
                 <div class="icon">
-                    ${ Icon.check }
+                    ${ Icon.getIcon('material:check') }
                 </div>
             </div>
             <div class="diff-result-content fail" title="${ $t('editor.palette.diff_dashboard.state.fail', { name: title }) }">
                 <div class="title">${ value }</div>
                 <div class="icon">
-                    ${ Icon.close }
+                    ${ Icon.getIcon('material:close') }
                 </div>
             </div>
         </div>`;
@@ -736,7 +736,7 @@ class Popups {
                                 $t('file.dropper.dialog.selected.import_image'),
                                 {
                                     id: 'btn-file-check-dialog-import-image-url',
-                                    icon: Icon.check
+                                    icon: Icon.getIcon('material:check')
                                 }
                             ) }
                         </div>
@@ -795,7 +795,7 @@ class Popups {
             $t('ui.delete'),
             {
                 class: 'btn-image-cache-delete',
-                icon: Icon.toggleSwitchOffOutline,
+                icon: Icon.getIcon('material:toggle-switch-off-outline'),
                 color: 'danger',
                 size: "small"
             }
@@ -804,7 +804,7 @@ class Popups {
             $t('ui.delete'),
             {
                 class: 'btn-image-cache-delete-stop',
-                icon: Icon.toggleSwitch,
+                icon: Icon.getIcon('material:toggle-switch'),
                 color: 'danger',
                 size: "small"
             }
@@ -813,7 +813,7 @@ class Popups {
             $t('editor.image_popups.button.delete_all_images'),
             {
                 class: 'btn-image-cache-delete-all',
-                icon: Icon.delete,
+                icon: Icon.getIcon('material:delete'),
                 color: 'danger',
                 size: "small"
             }
@@ -881,17 +881,17 @@ class EditorClientState {
             <div class="client-info">
                 <div class="client-icon client-icon-left">
                     ${
-                        target === 'yes' ? Icon.flag : (
-                            target === 'not' ? Icon.cancel : (
-                                targeted ? Icon.cancel : ''
+                        target === 'yes' ? Icon.getIcon('material:flag') : (
+                            target === 'not' ? Icon.getIcon('material:cancel') : (
+                                targeted ? Icon.getIcon('material:cancel') : ''
                             )
                         )
                     }
                 </div>
                 <div class="client-name">${name2}</div>
                 <div class="client-icon client-icon-right">
-                    ${ echoState === 'play' || echoState === 'ready' ? Icon.timerSand : ''}
-                    ${ messagesCount > 0 && echoState === 'stop' ? Icon.messageProcessing : '' }
+                    ${ echoState === 'play' || echoState === 'ready' ? Icon.getIcon('material:timer-sand') : ''}
+                    ${ messagesCount > 0 && echoState === 'stop' ? Icon.getIcon('material:message-processing') : '' }
                 </div>
             </div>
             <div class="state-color-block"></div>
@@ -943,12 +943,12 @@ class HistoryMessage {
             </div>
             <div class="action">
                 ${EditorForm.buttonGhost($t('ui.edit'), {
-                    icon: Icon.pencil,
+                    icon: Icon.getIcon('material:pencil'),
                     class: 'history-message-item-btn-edit',
                     attr: `data-index="${index}"`
                 })}
                 ${EditorForm.buttonGhost($t('ui.send'), {
-                    icon: Icon.send,
+                    icon: Icon.getIcon('material:send'),
                     class: 'history-message-item-btn-send',
                     attr: `data-index="${index}"`
                 })}
@@ -971,7 +971,7 @@ class SettingsPanel {
             aria-selected="false"
             title="${ $t( 'config.' + item.id + '._description' ) }"
         >
-            <span class="icon left" aria-hidden="true">${ item.icon !== undefined ? Icon[item.icon] : ''}</span>
+            <span class="icon left" aria-hidden="true">${ item.icon !== undefined ? Icon.getIcon(item.icon) : ''}</span>
             <span class="title">${ $t( 'config.' + item.id + '._title' ) }</span>
             <span class="icon right" aria-hidden="true"></span>
         </button>`;
@@ -995,8 +995,8 @@ class SettingsPanel {
             return `<button class="settings-group-collapse-title">
                 <div class="title">${ title }</div>
                 <div class="icon">
-                    <span class="open">${ Icon.chevronDown }</span>
-                    <span class="close">${ Icon.chevronUp }</span>
+                    <span class="open">${ Icon.getIcon('material:chevron-down') }</span>
+                    <span class="close">${ Icon.getIcon('material:chevron-up') }</span>
                 </div>
             </button>`;
         } else if (depth > 1) {
@@ -1189,7 +1189,7 @@ class SettingsPanel {
                     FHUIComponentButton.buttonGhost(
                         $t('ui.off'),
                         {
-                            icon: 'toggleSwitchOffOutline',
+                            icon: 'material:toggle-switch-off-outline',
                             class: 'btn-switch btn-off'
                         }
                     )
@@ -1198,7 +1198,7 @@ class SettingsPanel {
                     FHUIComponentButton.button(
                         $t('ui.on'),
                         {
-                            icon: 'toggleSwitch',
+                            icon: 'material:toggle-switch',
                             class: 'btn-switch btn-on'
                         }
                     )
@@ -1229,7 +1229,7 @@ class SettingsPanel {
                     FHUIComponentButton.buttonGhost(
                         $t('ui.enable_all'),
                         {
-                            icon: 'toggleSwitchOffOutline',
+                            icon: 'material:toggle-switch-off-outline',
                             class: 'btn-switch btn-off'
                         }
                     )
@@ -1238,7 +1238,7 @@ class SettingsPanel {
                     FHUIComponentButton.button(
                         $t('ui.enable_all'),
                         {
-                            icon: 'toggleSwitch',
+                            icon: 'material:toggle-switch',
                             class: 'btn-switch btn-on'
                         }
                     )
@@ -1298,9 +1298,9 @@ class SettingsPanel {
             ${ !data.isDebug ? 'target="_blank"' : '' }
             ${ data.isDebug ? `data-debug="${ data.debug }"` : '' }
         >
-            <div class="icon left">${ icon != undefined ? Icon[icon] : '' }</div>
+            <div class="icon left">${ icon != undefined ? Icon.getIcon(icon) : '' }</div>
             <div class="title">${ title }</div>
-            <div class="icon right">${ !data?.isDebug ? Icon.openInNew : '' }</div>
+            <div class="icon right">${ !data?.isDebug ? Icon.getIcon('material:open-in-new') : '' }</div>
         </a>`;
     }
 
@@ -1320,9 +1320,9 @@ class SettingsPanel {
      * @param {'info'|'warn'|'error'|'black'} type 类型
      * @returns {String} DOM
      */
-    static msgBox(title = '', content = '', icon = 'information', type = 'info') {
+    static msgBox(title = '', content = '', icon = 'material:information', type = 'info') {
         return `<div class="msgbox state-${ type }">
-            <div class="icon" aria-hidden="true">${ Icon[icon] }</div>
+            <div class="icon" aria-hidden="true">${ Icon.getIcon(icon) }</div>
             <div class="text">
                 <div class="title">${ title }</div>
                 <div class="content">${ content }</div>
@@ -1337,7 +1337,7 @@ class SettingsPanel {
      * @param {String} icon 图标名称
      * @returns {String} DOM
      */
-    static msgBoxWarn(title = '', content = '', icon = 'alert') {
+    static msgBoxWarn(title = '', content = '', icon = 'material:alert') {
         return SettingsPanel.msgBox(title, content, icon, 'warn');
     }
 
@@ -1399,14 +1399,14 @@ class SettingsFileChecker {
      */
     static fill(file, state = 'unknown', stateMessage = '') {
         const icons = {
-            ok: 'check',
-            warn: 'alert',
-            error: 'close',
-            unknown: 'help',
+            ok: 'material:check',
+            warn: 'material:alert',
+            error: 'material:close',
+            unknown: 'material:help',
         };
         return `<div class="file-check-box">
             <div class="info">
-                <div class="icon">${ Icon.fileCodeOutline }</div>
+                <div class="icon">${ Icon.getIcon('material:file-code-outline') }</div>
                 <div class="meta">
                     <div class="name" title="${ $t('file.name') }">${ file.name }</div>
                     <div class="size" title="${ $t('file.size') }">${ EchoLiveTools.formatFileSize(file.size) }</div>
@@ -1414,7 +1414,7 @@ class SettingsFileChecker {
                 </div>
             </div>
             <div class="state state-${ state }">
-                <div class="icon">${ Icon[icons[state]] }</div>
+                <div class="icon">${ Icon.getIcon(icons[state]) }</div>
                 <div class="message">${ stateMessage }</div>
             </div>
         </div>`;
@@ -1422,7 +1422,7 @@ class SettingsFileChecker {
 
     static dialog(title = '', description = '', controller = '', icon = undefined, domClass = '') {
         return `<div class="file-check-dialog ${ domClass }">
-            <div class="icon">${ icon != undefined ? Icon[icon] : ''}</div>
+            <div class="icon">${ icon != undefined ? Icon.getIcon(icon) : ''}</div>
             <div class="title">${ title }</div>
             <div class="description">${ description }</div>
             <div class="controller">${ controller }</div>
@@ -1436,11 +1436,11 @@ class SettingsFileChecker {
                 {
                     id: 'btn-file-check-dialog-cancel',
                     class: 'btn-default',
-                    icon: Icon.check
+                    icon: Icon.getIcon('material:check')
                 }
             );
         }
-        return SettingsFileChecker.dialog(title, description, controller, 'check', 'state-success');
+        return SettingsFileChecker.dialog(title, description, controller, 'material:check', 'state-success');
     }
 
     static dialogWarn(title = '', description = '', controller = '') {
@@ -1450,12 +1450,12 @@ class SettingsFileChecker {
                 {
                     id: 'btn-file-check-dialog-cancel',
                     class: 'btn-default',
-                    icon: Icon.close,
+                    icon: Icon.getIcon('material:close'),
                     color: 'danger'
                 }
             );
         }
-        return SettingsFileChecker.dialog(title, description, controller, 'alert', 'state-warn');
+        return SettingsFileChecker.dialog(title, description, controller, 'material:alert', 'state-warn');
     }
 
     static dialogError(title = '', description = '', controller = '') {
@@ -1465,12 +1465,12 @@ class SettingsFileChecker {
                 {
                     id: 'btn-file-check-dialog-cancel',
                     class: 'btn-default',
-                    icon: Icon.close,
+                    icon: Icon.getIcon('material:close'),
                     color: 'danger'
                 }
             );
         }
-        return SettingsFileChecker.dialog(title, description, controller, 'close', 'state-error');
+        return SettingsFileChecker.dialog(title, description, controller, 'material:close', 'state-error');
     }
 
     static dialogJSONParseFail() {
@@ -1481,7 +1481,7 @@ class SettingsFileChecker {
                 $t('ui.cancel'),
                 {
                     id: 'btn-file-check-dialog-cancel',
-                    icon: Icon.close,
+                    icon: Icon.getIcon('material:close'),
                     color: 'danger'
                 }
             ) +
@@ -1490,7 +1490,7 @@ class SettingsFileChecker {
                 {
                     id: 'btn-file-check-dialog-unsafe-load',
                     class: 'btn-default',
-                    icon: Icon.shieldOff,
+                    icon: Icon.getIcon('material:shield-off'),
                     color: 'warn'
                 }
             )
@@ -1505,7 +1505,7 @@ class SettingsFileChecker {
                 $t('ui.close'),
                 {
                     id: 'btn-file-check-dialog-cancel',
-                    icon: Icon.close,
+                    icon: Icon.getIcon('material:close'),
                     color: 'danger'
                 }
             ) +
@@ -1514,7 +1514,7 @@ class SettingsFileChecker {
                 {
                     id: 'btn-file-check-dialog-goto-chrome',
                     class: 'btn-default',
-                    icon: Icon.openInNew
+                    icon: Icon.getIcon('material:open-in-new')
                 }
             )
         );
@@ -1528,7 +1528,7 @@ class SettingsFileChecker {
                 $t('ui.cancel'),
                 {
                     id: 'btn-file-check-dialog-cancel-rollback',
-                    icon: Icon.close,
+                    icon: Icon.getIcon('material:close'),
                     color: 'danger'
                 }
             ) +
@@ -1537,7 +1537,7 @@ class SettingsFileChecker {
                 {
                     id: 'btn-file-check-dialog-update-config',
                     class: 'btn-default',
-                    icon: Icon.update
+                    icon: Icon.getIcon('material:update')
                 }
             )
         );
@@ -1551,7 +1551,7 @@ class SettingsFileChecker {
                 $t('ui.cancel'),
                 {
                     id: 'btn-file-check-dialog-cancel-rollback',
-                    icon: Icon.close,
+                    icon: Icon.getIcon('material:close'),
                     color: 'danger'
                 }
             ) +
@@ -1560,7 +1560,7 @@ class SettingsFileChecker {
                 {
                     id: 'btn-file-check-dialog-update-config-from-unknown-version',
                     class: 'btn-default',
-                    icon: Icon.update,
+                    icon: Icon.getIcon('material:update'),
                     color: 'warn'
                 }
             )
@@ -1575,7 +1575,7 @@ class SettingsFileChecker {
                 $t('ui.cancel'),
                 {
                     id: 'btn-file-check-dialog-cancel-rollback',
-                    icon: Icon.close,
+                    icon: Icon.getIcon('material:close'),
                     color: 'danger'
                 }
             ) +
@@ -1584,7 +1584,7 @@ class SettingsFileChecker {
                 {
                     id: 'btn-file-check-dialog-config-from-future',
                     class: 'btn-default',
-                    icon: Icon.arrowRight,
+                    icon: Icon.getIcon('material:arrow-right'),
                     color: 'warn'
                 }
             )
@@ -1599,7 +1599,7 @@ class SettingsFileChecker {
                 $t('ui.cancel'),
                 {
                     id: 'btn-file-check-dialog-cancel',
-                    icon: Icon.close,
+                    icon: Icon.getIcon('material:close'),
                     color: 'danger'
                 }
             ) +
@@ -1608,7 +1608,7 @@ class SettingsFileChecker {
                 {
                     id: 'btn-file-check-dialog-import-image',
                     class: 'btn-default',
-                    icon: Icon.check
+                    icon: Icon.getIcon('material:check')
                 }
             )
         );
@@ -1624,46 +1624,46 @@ class FHUINotice {
     static notice(message = '', title = '', type = 'info', data = {}) {
         const themes = {
             info: {
-                icon: 'information',
+                icon: 'material:information',
                 color: 'general'
             },
             success: {
-                icon: 'check',
+                icon: 'material:check',
                 color: 'safe'
             },
             alert: {
-                icon: 'alert',
+                icon: 'material:alert',
                 color: 'warn'
             },
             warn: {
-                icon: 'alert',
+                icon: 'material:alert',
                 color: 'warn'
             },
             error: {
-                icon: 'close',
+                icon: 'material:close',
                 color: 'danger'
             },
             fatal: {
-                icon: 'alertOctagon',
+                icon: 'material:alert-octagon',
                 color: 'danger'
             },
             experimental: {
-                icon: 'testTube',
+                icon: 'material:test-tube',
                 color: 'special'
             },
             trophy: {
-                icon: 'trophy',
+                icon: 'material:trophy',
                 color: 'general'
             },
             tips: {
-                icon: 'lightbulbOn',
+                icon: 'material:lightbulb-on',
                 color: 'general'
             }
         };
         let theme = themes[type];
         if (theme === undefined) {
             theme = {
-                icon: 'information',
+                icon: 'material:information',
                 color: 'general'
             };
         }
@@ -1678,7 +1678,7 @@ class FHUINotice {
             width: undefined,
             ...data
         };
-        let iconDOM = Icon[data.icon] !== undefined ? Icon[data.icon] : Icon.information;
+        let iconDOM = Icon.getIcon(data.icon) !== undefined ? Icon.getIcon(data.icon) : Icon.getIcon('material:information');
 
         return `<div
                 class="
@@ -1704,7 +1704,7 @@ class FHUINotice {
                     <div class="fh-notice-item-content-action">
                         ${ EditorForm.buttonAir('', {
                             class: 'fh-notice-item-btn-close',
-                            icon: Icon.close,
+                            icon: Icon.getIcon('material:close'),
                             color: 'danger'
                         }) }
                     </div>
@@ -1759,10 +1759,10 @@ class FHUIWindow {
         }
 
         let iconDom = '';
-        if (data.icon !== undefined && Icon[data.icon] !== undefined) {
-            iconDom = Icon[data.icon];
+        if (data.icon !== undefined && Icon.getIcon(data.icon) !== undefined) {
+            iconDom = Icon.getIcon(data.icon);
         } else {
-            iconDom = Icon.information
+            iconDom = Icon.getIcon('material:information');
         }
 
         let dom = `<div
@@ -1787,7 +1787,7 @@ class FHUIWindow {
                     ${ title }
                 </span>
                 <button class="close" ${ !data.closable ? 'disabled' : '' }>
-                    ${ Icon.close }
+                    ${ Icon.getIcon('material:close') }
                 </button>
             </div>
             <div class="fh-window-content">
@@ -1842,12 +1842,12 @@ class FHUIWindow {
             reset: 'danger'
         };
         const btnIcon = {
-            cancel: 'close',
-            close: 'close',
-            confirm: 'check',
-            download: 'download',
-            no: 'close',
-            yes: 'check',
+            cancel: 'material:close',
+            close: 'material:close',
+            confirm: 'material:check',
+            download: 'material:download',
+            no: 'material:close',
+            yes: 'material:check',
         }
 
         let colorType = btnColorType[id];

@@ -339,12 +339,12 @@ class UpdateWindow {
             {
                 autoIconButton: true,
                 controller: [
-                    'close',
+                    'material:close',
                     {
                         id: 'open',
                         content: 'GitHub',
                         data: {
-                            icon: Icon.openInNew,
+                            icon: Icon.getIcon('material:open-in-new'),
                             type: 'ghost'
                         }
                     },
@@ -371,7 +371,7 @@ class UpdateWindow {
                         this.selectAssets();
                         // if (this.updateData.latestReleasesData?.assets.length == 0) {
                         //     sysNotice.sendTHasTitle('notice.github_download_but_no_assets', {}, {}, {
-                        //         icon: 'help'
+                        //         icon: 'material:help'
                         //     });
                         // } else if (this.updateData.latestReleasesData?.assets.length == 1) {
                         //     window.open(this.updateData.latestReleasesData?.assets[0]?.browser_download_url, '_blank');
@@ -395,7 +395,7 @@ class UpdateWindow {
             {
                 autoIconButton: true,
                 controller: ['close'],
-                icon: 'download',
+                icon: 'material:download',
                 maskClosable: true
             },
             (v, e) => {

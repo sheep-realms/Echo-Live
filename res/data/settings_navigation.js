@@ -1,38 +1,38 @@
 echoLiveSystem.registry.setRegistryValue('settings_data', 'navigation', [
     {
         id: 'search',
-        icon: 'magnify',
+        icon: 'material:magnify',
         isCustom: true
     }, {
         id: 'global',
-        icon: 'earth'
+        icon: 'material:earth'
     }, {
         id: 'echo',
-        icon: 'codeBracesBox'
+        icon: 'material:code-braces-box'
     }, {
         id: 'echolive',
-        icon: 'messageText'
+        icon: 'material:message-text'
     }, {
         id: 'editor',
-        icon: 'pencilCircle'
+        icon: 'material:pencil-circle'
     }, {
         id: 'history',
-        icon: 'history'
+        icon: 'material:history'
     }, {
         id: 'character',
-        icon: 'accountBox'
+        icon: 'material:account-box'
     }, {
         id: 'accessibility',
-        icon: 'wheelchairAccessibility'
+        icon: 'material:wheelchair-accessibility'
     }, {
         id: 'advanced',
-        icon: 'cog'
+        icon: 'material:cog'
     }, {
         id: 'extension',
-        icon: 'puzzle'
+        icon: 'material:puzzle'
     }, {
         id: 'about',
-        icon: 'information',
+        icon: 'material:information',
         isCustom: true
     }
 ]);

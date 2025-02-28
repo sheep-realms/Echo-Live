@@ -75,6 +75,13 @@ echoLiveSystem.registry.init([
             value: undefined
         }
     }, {
+        name: 'icon',
+        unique_key: 'name',
+        default_data: {
+            name: 'missingno',
+            content: ''
+        }
+    }, {
         name: 'language',
         unique_key: 'lang.code_iso_639_3',
         default_data: {

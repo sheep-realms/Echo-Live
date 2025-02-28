@@ -428,7 +428,7 @@ class Commander {
             {
                 autoFocusButton: 'cancel',
                 controller: ['cancel', 'confirm'],
-                icon: 'alert',
+                icon: 'material:alert',
                 maskClosable: true
             },
             (value, unit) => {

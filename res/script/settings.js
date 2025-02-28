@@ -645,7 +645,7 @@ function dangerConfigCheck(effect = false, exportNow = false) {
             {
                 controller: ['cancel', 'confirm'],
                 autoFocusButton: 'cancel',
-                icon: 'alert'
+                icon: 'material:alert'
             },
             (v, unit) => {
                 unit.close();
@@ -724,7 +724,7 @@ async function saveConfigFile(content, fileName = 'config.js', saveAs = false) {
 
     timerSaving = setTimeout(function() {
         sysNotice.sendT('notice.config_saving', {}, 'info', {
-            icon: 'timerSand'
+            icon: 'material:timer-sand'
         });
     }, 1000);
 
@@ -736,12 +736,12 @@ async function saveConfigFile(content, fileName = 'config.js', saveAs = false) {
         outputTabUnsavePoint(false);
         clearTimeout(timerSaving);
         sysNotice.sendT('notice.config_saved', {}, 'success', {
-            icon: 'contentSave'
+            icon: 'material:content-save'
         });
     } catch (error) {
         clearTimeout(timerSaving);
         sysNotice.sendT('notice.config_saving_fail', {}, 'error', {
-            icon: 'contentSaveAlert'
+            icon: 'material:content-save-alert'
         });
     }
 }
@@ -829,7 +829,7 @@ $(document).ready(function() {
             $t('ui.audition'),
             {
                 id: 'btn-speech-voice-audition',
-                icon: Icon.accountVoice
+                icon: Icon.getIcon('material:account-voice')
             }
         ));
 
@@ -867,7 +867,7 @@ $(document).ready(function() {
             SettingsPanel.msgBoxBlack(
                 $t('config.about.accessibility'),
                 $t('settings.msgbox.accessibility'),
-                'wheelchairAccessibility'
+                'material:wheelchair-accessibility'
             ) +
             `<div class="review-color-card" aria-label="${ $t('settings.label.accessibility_color_card') }">
                 <div class="general"><div class="fg">${ $t('settings.functional_color.general') }</div><div class="bg"></div></div>
@@ -887,7 +887,7 @@ $(document).ready(function() {
         $('.settings-page[data-pageid="extension"]').prepend(SettingsPanel.msgBox(
             $t('settings.msgbox.extension.title'),
             $t('settings.msgbox.extension.description'),
-            'help'
+            'material:help'
         ));
 
         $('.settings-item[data-id="character.avatar.name"]>.content').html(AvatarReviewPanel.panel());

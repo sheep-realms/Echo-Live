@@ -136,8 +136,8 @@ class FHUIComponentLabel {
 
         let dom = '';
         let iconDOM = undefined;
-        if (data?.icon !== undefined && Icon[data.icon] !== undefined) {
-            iconDOM = Icon[data.icon];
+        if (data?.icon !== undefined && Icon.getIcon(data.icon) !== undefined) {
+            iconDOM = Icon.getIcon(data.icon);
             dom += FHUI.element(
                 'span',
                 {
@@ -596,7 +596,7 @@ class FHUIComponentInput {
                 name: data.name,
                 class: 'fh-select ' + data.class,
                 after: {
-                    icon: 'chevronDown',
+                    icon: 'material:chevron-down',
                     is_primary: true
                 },
                 attribute: {
@@ -673,7 +673,7 @@ class FHUIComponentInput {
                                 hidden: true
                             }
                         },
-                        Icon.check
+                        Icon.getIcon('material:check')
                     ),
                     FHUI.element(
                         'div',
@@ -965,7 +965,7 @@ class FHUIComponentMenu {
                     {
                         class: 'icon-start'
                     },
-                    data.icon !== undefined ? Icon[data.icon] : null
+                    data.icon !== undefined ? Icon.getIcon(data.icon) : null
                 ),
                 FHUI.element(
                     'div',
@@ -979,7 +979,7 @@ class FHUIComponentMenu {
                     {
                         class: 'icon-end'
                     },
-                    data.children.length > 0 ? Icon['chevronRight'] : null
+                    data.children.length > 0 ? Icon.getIcon('material:chevron-right') : null
                 )
             ]
         );

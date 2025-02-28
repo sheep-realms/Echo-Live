@@ -2,6 +2,21 @@
 class Icon {
     constructor() {}
 
+    /**
+     * 获取图标
+     * @param {String} name 图标名称
+     * @returns {String} 图标内容
+     */
+    static getIcon(name) {
+        name = EchoLiveData.filter('namespace_id', 'pad_namespace', name, { namespace: 'material' });
+        const icon = echoLiveSystem.registry.getRegistryValue('icon', name);
+        if (icon !== undefined) {
+            return icon?.content;
+        } else {
+            return '';
+        }
+    }
+
     // 非 MDI
     static FHLoading = `<svg class="fh-svg-loading-diamond" xmlns='http://www.w3.org/2000/svg' viewBox="0 0 8 8"><polygon points='4,0 6,2 4,4 2,2' fill='black' /><polygon points='6,2 8,4 6,6 4,4' fill='transparent' /><polygon points='4,4 6,6 4,8 2,6' fill='transparent' /><polygon points='2,2 4,4 2,6 0,4' fill='transparent' /></svg>`;
 

@@ -232,7 +232,7 @@ echo.on('customEvent', function(e) {
 });
 
 echo.on('customData', function(e) {
-    if (e?.username) setUsername(e.username);
+    if (e?.username !== undefined) setUsername(e.username);
     if (e?.emoji) {
         echo.insertSequence({
             type: 'emoji',

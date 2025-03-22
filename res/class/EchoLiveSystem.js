@@ -298,6 +298,28 @@ class EchoLiveRegistry {
     }
 
     /**
+     * 分页查询数据表值
+     * @param {String} key 注册表名
+     * @param {Number} page 页数
+     * @param {Number} count 每页条目数
+     * @returns {Array} 注册表值数组
+     */
+    getRegistryValueForPage(key, page = 1, count = 20) {
+        let reg = this.getRegistry(key);
+        if (reg === undefined) return;
+        const values = Array.from(reg.values());
+        const start = (page - 1) * count;
+        const end = start + count;
+        return {
+            total: values.length,
+            totalPage: Math.ceil(values.length / count),
+            page: page,
+            count: count,
+            values: values.slice(start, end)
+        };
+    }
+
+    /**
      * 在所有命名空间中获取注册表值
      * @param {String} table 注册表名
      * @param {String} key 注册表键

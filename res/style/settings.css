@@ -1016,7 +1016,7 @@ a.settings-link-bar:active {
     border-bottom: 1px var(--border-color) solid;
     cursor: pointer;
     outline: none;
-    text-align: left;
+    text-align: start;
 }
 
 .settings-search-result-item>* {

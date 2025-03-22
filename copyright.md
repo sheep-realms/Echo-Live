@@ -16,6 +16,7 @@ Echo-Live 包含有并非以 GNU 公众授权协议共享的美术、音频资�
 | 名称 | 授权协议 |
 | - | - |
 | [driver.js](https://github.com/kamranahmedse/driver.js) | [MIT License](https://opensource.org/license/mit) |
+| [Echo](https://github.com/sheep-realms/Echo) | [GPL-3.0 License](https://www.gnu.org/licenses/gpl-3.0.html) |
 | [marked](https://github.com/markedjs/marked) | [MIT License](https://opensource.org/license/mit) |
 | [jquery](https://github.com/jquery/jquery) | [MIT License](https://opensource.org/license/mit) |
 

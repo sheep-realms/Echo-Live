@@ -96,8 +96,8 @@ class EmojiHako {
         }
 
         let mp;
-        echoLiveSystem.registry.registryRedirect('emoji_namespace', 'emoji', namespace, value => {
-            mp = value;
+        echoLiveSystem.registry.registryRedirect('emoji_namespace', 'emoji', namespace, (isSuccess, value) => {
+            if (isSuccess) mp = value;
         });
 
         if (mp === undefined) {

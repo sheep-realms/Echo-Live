@@ -2,6 +2,7 @@ echoLiveSystem.registry.init([
     {
         name: 'avatar',
         unique_key: 'meta.name',
+        sync: true,
         default_data: {
             meta: {
                 name: 'missingno',
@@ -39,6 +40,7 @@ echoLiveSystem.registry.init([
     }, {
         name: 'avatar_switch_effect',
         unique_key: 'name',
+        sync: true,
         default_data: {
             name: undefined,
             value: undefined,
@@ -54,12 +56,14 @@ echoLiveSystem.registry.init([
     }, {
         name: 'emoji',
         unique_key: 'meta.name',
+        sync: true,
         default_data: {}
     }, {
         name: 'emoji_namespace'
     }, {
         name: 'extension',
         unique_key: 'name',
+        sync: true,
         default_data: {
             title: 'missingno',
             description: '',
@@ -124,6 +128,7 @@ echoLiveSystem.registry.init([
     }, {
         name: 'print_effect',
         unique_key: 'name',
+        sync: true,
         default_data: {
             name: undefined,
             value: undefined,
@@ -142,6 +147,7 @@ echoLiveSystem.registry.init([
     }, {
         name: 'sound',
         unique_key: 'name',
+        sync: true,
         default_data: {
             name: undefined,
             path: undefined,
@@ -161,6 +167,7 @@ echoLiveSystem.registry.init([
     }, {
         name: 'text_style',
         unique_key: 'name',
+        sync: true,
         default_data: {
             name: undefined,
             is_style: false,
@@ -171,6 +178,7 @@ echoLiveSystem.registry.init([
     }, {
         name: 'timing_function',
         unique_key: 'name',
+        sync: true,
         default_data: {
             name: undefined,
             value: undefined

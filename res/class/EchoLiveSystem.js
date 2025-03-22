@@ -18,6 +18,15 @@ class EchoLiveSystem {
             unit: this
         });
     }
+
+    static async getHash(content) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(content);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+        return hashHex;
+    }
 }
 
 class EchoLiveData {
@@ -72,6 +81,8 @@ class EchoLiveDataUnit {
 class EchoLiveRegistry {
     constructor() {
         this.registry = new Map();
+        this.registryHashCache = new Map();
+        this.syncRegistryHashCache = undefined;
         this.initialized = false;
         this.event = {
             loadedRegistry: [],
@@ -220,6 +231,64 @@ class EchoLiveRegistry {
     }
 
     /**
+     * 获取注册表键值对
+     * @param {String} key 注册表名
+     * @returns {Object|undefined} 注册表键值对
+     */
+    getRegistryKeysAndValues(key) {
+        let reg = this.getRegistry(key);
+        if (reg === undefined) return;
+        const keys = Array.from(reg.keys());
+        const values = Array.from(reg.values());
+        return { keys, values };
+    }
+
+    /**
+     * 获取所有同步注册表名
+     * @returns {Array<String>} 所有同步注册表名
+     */
+    getAllSyncRegistry() {
+        let keys = [];
+        this.getRegistry('root').forEach((v, k) => {
+            if (v.sync) keys.push(k);
+        });
+        return keys;
+    }
+
+    /**
+     * 获取注册表哈希值
+     * @param {String} key 注册表名
+     * @returns {String|undefined} 注册表哈希值
+     */
+    async getRegistryHash(key) {
+        if (this.registryHashCache.has(key)) return this.registryHashCache.get(key);
+        let reg = this.getRegistry(key);
+        if (reg === undefined) return;
+        const json = JSON.stringify(this.getRegistryKeysAndValues(key));
+        const hash = await EchoLiveSystem.getHash(json).then(h => {
+            this.registryHashCache.set(key, h);
+            return h;
+        });
+        return hash;
+    }
+
+    /**
+     * 获取同步注册表哈希值
+     * @returns {Object} 同步注册表哈希值
+     */
+    async getSyncRegistryHash() {
+        if (this.syncRegistryHashCache !== undefined) return this.syncRegistryHashCache;
+        const keys = this.getAllSyncRegistry();
+        const hash = await Promise.all(keys.map(e => this.getRegistryHash(e)));
+        const totalHash = await EchoLiveSystem.getHash(hash.join(''));;
+        this.syncRegistryHashCache = totalHash;
+        return {
+            hash: totalHash,
+            registry: { keys, hash }
+        };
+    }
+
+    /**
      * 创建注册表
      * @param {String} key 注册表名
      * @returns {Map|undefined} 注册表
@@ -228,6 +297,7 @@ class EchoLiveRegistry {
         key = EchoLiveData.filter('namespace_id', 'pad_namespace', key);
         if (!EchoLiveData.check('namespace_id', key)) return;
         if (this.registry.get(key) !== undefined) return;
+        this.registryHashCache.delete(key);
         return this.registry.set(key, new Map());
     }
 
@@ -238,6 +308,7 @@ class EchoLiveRegistry {
      */
     createRootRegistry(namespace, map = {}) {
         this.createRegistry(`${namespace}:root`);
+        this.registryHashCache.delete(`${namespace}:root`);
 
         for (const key in map) {
             if (Object.prototype.hasOwnProperty.call(map, key)) {
@@ -385,6 +456,8 @@ class EchoLiveRegistry {
             ...data
         }
 
+        this.registryHashCache.delete(table);
+
         if (typeof value === 'object') value = JSON.parse(JSON.stringify(value));
         const defaultData = this.getRegistryDefaultValue(table);
 
@@ -426,6 +499,7 @@ class EchoLiveRegistry {
         let reg = this.getRegistry(table);
         if (reg === undefined) return;
         if (typeof data !== 'object') return;
+        this.registryHashCache.delete(table);
         if (!Array.isArray(data)) data = [data];
         data.forEach(e => {
             let key;
@@ -455,16 +529,15 @@ class EchoLiveRegistry {
      * @param {String} table 源注册表名
      * @param {String} table2 目标注册表名
      * @param {String} key 源注册表键
-     * @param {Function} success 成功回调
-     * @param {Function} fail 失败回调
+     * @param {Function} handler 回调
      * @returns {*} 回调返回值
      */
-    registryRedirect(table, table2, key, success = () => {}, fail = () => {}) {
+    registryRedirect(table, table2, key, handler = () => {}) {
         let value = this.getRegistryValue(table, key);
-        if (value === undefined || (typeof value !== 'string' && typeof value !== 'number')) return fail(value);
+        if (value === undefined || (typeof value !== 'string' && typeof value !== 'number')) return handler(false, undefined, value);
         let regValue = this.getRegistryValue(table2, value);
-        if (value === undefined) return fail(value);
-        return success(regValue, value);
+        if (value === undefined) return handler(false, undefined, value);
+        return handler(true, regValue, value);
     }
 
     /**

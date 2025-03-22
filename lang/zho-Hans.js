@@ -532,6 +532,10 @@ const lang_zho_Hans = {
                 reconnect_limit: {
                     _title: "最大重连尝试次数",
                     _description: "连接关闭和连接失败将会尝试重连，一旦超过重连尝试次数限制将不再尝试重连。"
+                },
+                disable_broadcast: {
+                    _title: "启用 WebSocket 时禁用广播频道",
+                    _description: "当编辑器和客户端处于同一浏览器环境时，同时启用 WebSocket 和广播会导致客户端收到重复指令。"
                 }
             },
             color_picker: {

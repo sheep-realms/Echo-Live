@@ -532,6 +532,10 @@ const lang_zho_Hant_TW = {
                 reconnect_limit: {
                     _title: "最大重連嘗試次數",
                     _description: "連線關閉和連線失敗將會嘗試重連，一旦超過重連嘗試次數限制將不再嘗試重連。"
+                },
+                disable_broadcast: {
+                    _title: "啟用 WebSocket 時禁用廣播頻道",
+                    _description: "當編輯器和客戶端處於同一瀏覽器環境時，同時啟用 WebSocket 和廣播會導致客戶端收到重複指令。"
                 }
             },
             color_picker: {

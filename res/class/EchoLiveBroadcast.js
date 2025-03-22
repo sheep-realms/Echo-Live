@@ -202,7 +202,9 @@ class EchoLiveBroadcast {
         if (d.target === EchoLiveBroadcast.TARGET_WEBSOCKET_SERVER_FORWARD) {
             d.target = undefined;
         } else {
-            this.broadcast.postMessage(d);
+            if (!this.config.editor.websocket.disable_broadcast) {
+                this.broadcast.postMessage(d);
+            }
         }
 
         if (this.websocket !== undefined) {

@@ -825,6 +825,20 @@ const db_config_define = [
             }
         ]
     }, {
+        name: 'editor.websocket.disable_broadcast',
+        type: 'boolean',
+        default: false,
+        created: 11,
+        conditions: [
+            {
+                name: 'echolive.broadcast.enable',
+                value: true
+            }, {
+                name: 'editor.websocket.enable',
+                value: true
+            }
+        ]
+    }, {
         name: 'editor.color_picker',
         type: 'object',
         created: 4

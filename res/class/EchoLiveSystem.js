@@ -529,15 +529,15 @@ class EchoLiveRegistry {
      * @param {String} table 源注册表名
      * @param {String} table2 目标注册表名
      * @param {String} key 源注册表键
-     * @param {Function} handler 回调
+     * @param {Function} callback 回调
      * @returns {*} 回调返回值
      */
-    registryRedirect(table, table2, key, handler = () => {}) {
+    registryRedirect(table, table2, key, callback = () => {}) {
         let value = this.getRegistryValue(table, key);
-        if (value === undefined || (typeof value !== 'string' && typeof value !== 'number')) return handler(false, undefined, value);
+        if (value === undefined || (typeof value !== 'string' && typeof value !== 'number')) return callback(false, undefined, value);
         let regValue = this.getRegistryValue(table2, value);
-        if (value === undefined) return handler(false, undefined, value);
-        return handler(true, regValue, value);
+        if (value === undefined) return callback(false, undefined, value);
+        return callback(true, regValue, value);
     }
 
     /**
@@ -609,7 +609,11 @@ class EchoLiveLocalDeviceManager {
         }
     }
 
-    vibrate(data) {
+    /**
+     * 设备震动
+     * @param {Array<Number>} data 震动参数
+     */
+    vibrate(data = []) {
         if (!this.enable) return;
         if (typeof navigator.vibrate !== 'function') return;
         try {

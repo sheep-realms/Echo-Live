@@ -596,10 +596,17 @@ class EchoLiveTools {
      * 替换字符串占位符
      * @param {String} str 源字符串
      * @param {Object} data 变量集
+     * @param {'single'|'double'|'triple'} type 替换类型
      * @returns {String} 替换后的字符串
      */
-    static replacePlaceholders(str, data) {
-        return str.replace(/\{(.*?)\}/g, (match, content) => {
+    static replacePlaceholders(str, data, type = 'single') {
+        const regex = {
+            single: /\{(.*?)\}/g,
+            double: /\{\{(.*?)\}\}/g,
+            triple: /\{\{\{(.*?)\}\}\}/g
+        };
+        if (regex[type] === undefined) return str;
+        return str.replace(regex[type], (match, content) => {
             let [key, defaultValue] = content.split('|').map(part => part.trim());
             if (data.hasOwnProperty(key) && (typeof data[key] === 'string' || typeof data[key] === 'number')) return data[key];
             if (defaultValue) return defaultValue;

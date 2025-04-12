@@ -128,11 +128,11 @@ class Translator {
         // 复数判断
         let ts = t.split(/(?<!\\)\|/);
         for(let i = 0; i < ts.length; i++) {
-            ts[i] = ts[i].trim();
+            ts[i] = ts[i].trim().replace(/\\\|/g, '|');
         }
         let n = variable?.n ? variable.n : 0;
         if (ts.length === 1) {
-            return t;
+            return t.replace(/\\\|/g, '|');
         } else if (ts.length === 2) {
             if (n <= 1) {
                 return ts[0];

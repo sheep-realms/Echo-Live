@@ -35,6 +35,7 @@
 - [Echo](https://github.com/sheep-realms/Echo)
 - [Echo-Live-Doc](https://github.com/sheep-realms/Echo-Live-Doc)
 - [Echo-Live-WebSocket-Server](https://github.com/sheep-realms/Echo-Live-WebSocket-Server)
+- [Echo-MoJi](https://github.com/sheep-realms/Echo-MoJi)
 
 ### 第三方项目
 - [AphoniaLiveHelper](https://github.com/YouxingClub/AphoniaLiveHelper)

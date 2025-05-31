@@ -9,8 +9,6 @@
 class EchoLive {
     constructor(echo, config) {
         this.echo           = echo;
-        this.echoList       = [];
-        this.echoCount      = 0;
         this.config         = config;
         this.data           = undefined;
         this.broadcast      = undefined;
@@ -31,13 +29,12 @@ class EchoLive {
             messagesPolling:    EchoLive.NOT_ACTIVE_TIMER
         };
         this.event          = {
-            displayHidden:      () => {},
-            displayHiddenNow:   () => {},
-            displayShow:        () => {},
-            echoNext:           () => {},
-            shutdown:           () => {},
-            themeScriptLoad:    () => {},
-            themeScriptUnload:  () => {}
+            displayHidden:      function() {},
+            displayHiddenNow:   function() {},
+            displayShow:        function() {},
+            shutdown:           function() {},
+            themeScriptLoad:    function() {},
+            themeScriptUnload:  function() {}
         };
         this.task           = [];
         this.taskNow        = {};
@@ -136,31 +133,6 @@ class EchoLive {
     on(eventName, action = function() {}) {
         if (typeof action != 'function') return;
         return this.event[eventName] = action;
-    }
-
-    createEcho() {
-        let data = {
-            core: new Echo(),
-            index: this.echoCount++,
-            attribute: {
-                inPrintEnd: false,
-                messageLenB: 0
-            }
-        }
-
-        data.core.on('next', msg => {
-            this.username = EchoLiveTools.getMessageUsername(echolive.username, msg);
-            if(this.config.echolive.broadcast.enable)
-                this.broadcast.echoPrinting(this.username, EchoLiveTools.getMessagePlainText(msg));
-
-            if(this.config.echolive.broadcast.enable) this.broadcast.echoStateUpdate('ready', data.core.messageList.length);
-
-            data.core.attribute.messageLenB = new TextEncoder().encode(EchoLiveTools.getMessagePlainText(msg.message)).length;
-
-            this.event.echoNext(msg, data.core, this);
-        });
-
-        this.echoList.push(data);
     }
 
     /**

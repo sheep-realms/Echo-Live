@@ -956,7 +956,7 @@ const lang_zho_Hans = {
                 set_theme: "收到来自其他服务端的命令：设置主题为 {name}",
                 shutdown: "收到来自其他服务端的命令：立即停止。",
                 shutdown_reason: "收到来自其他服务端的命令：立即停止。原因为：${reason}",
-                websocket_close: "收到来自其他服务端的命令：关闭 Websocket 连接。此命令将阻止尝试重连。"
+                websocket_close: "收到来自其他服务端的命令：关闭 Websocket 连接。此命令将阻止 {client} 尝试重连。"
             },
             broadcast_launch: {
                 disable: "未开启广播模式，无日志显示。",

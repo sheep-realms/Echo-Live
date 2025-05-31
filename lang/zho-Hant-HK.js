@@ -956,7 +956,7 @@ const lang_zho_Hant_HK = {
                 set_theme: "收到來自其他服務端的命令：設置主題為 {name}",
                 shutdown: "收到來自其他服務端的命令：立即停止。",
                 shutdown_reason: "收到來自其他服務端的命令：立即停止。原因為：${reason}",
-                websocket_close: "收到來自其他服務端的命令：關閉 Websocket 連接。此命令將阻止嘗試重連。"
+                websocket_close: "收到來自其他服務端的命令：關閉 Websocket 連接。此命令將阻止 {client} 嘗試重連。"
             },
             broadcast_launch: {
                 disable: "未開啟廣播模式，無日誌顯示。",

@@ -350,6 +350,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         this.websocket                  = undefined;
         this.websocketReconnectCount    = 0;
         this.websocketClosed            = false;
+        this.websocketStopped           = false;
         this.clients    = [];
         this.timer      = {
             noClient:   -1
@@ -416,6 +417,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
      */
     websocketConnect() {
         this.websocketClosed    = false;
+        this.websocketStopped   = false;
         this.websocket          = new WebSocket(this.websocketUrl);
 
         this.websocket.addEventListener('open', (e) => {
@@ -446,6 +448,8 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
 
         this.websocket.addEventListener('error', (e) => {
             this.websocket = undefined;
+            this.websocketClosed = true;
+            if (this.websocketStopped) return;
             this.websocketReconnect();
         });
 
@@ -487,6 +491,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
             url: this.websocketUrl,
         });
         this.websocketClosed    = true;
+        this.websocketStopped   = true;
         this.websocket.close();
         this.websocket          = undefined;
     }

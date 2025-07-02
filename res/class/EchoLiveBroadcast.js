@@ -336,7 +336,9 @@ class EchoLiveBroadcast {
         const __getBackoff = () => {
             if (this.uuid === undefined) return 0;
             try {
-                return parseInt(this.uuid.slice(-3), 16) * this.config.advanced.broadcast.websocket_heartbeat_backoff_scale;
+                let n = parseInt(this.uuid.slice(-3), 16) * this.config.advanced.broadcast.websocket_heartbeat_backoff_scale;
+                if (typeof n !== 'number' || Number.isNaN(n)) return 0;
+                return n;
             } catch (_) {
                 return 0;
             }

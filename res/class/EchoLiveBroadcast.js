@@ -22,10 +22,15 @@ class EchoLiveBroadcast {
         };
         this.broadcast  = new BroadcastChannel(channel);
         this.websocket  = undefined;
+        this.websocketHeartbeatBackoff  = undefined;
+        this.websocketHeartbeatDuration = config.advanced.broadcast.websocket_heartbeat_duration;
         this.targeted   = false;
         this.config     = config;
         this.isServer   = false;
-        this.timer      = {};
+        this.timer      = {
+            websocketHeartbeat: -1,
+            websocketHeartbeatBackoff: -1
+        };
         this.event      = {
             message:        function() {},
             error:          function() {},
@@ -60,6 +65,7 @@ class EchoLiveBroadcast {
             API_NAME_SET_THEME_STYLE_URL:   'set_theme_style_url',
             API_NAME_SHUTDOWN:              'shutdown',
             API_NAME_WEBSOCKET_CLOSE:       'websocket_close',
+            API_NAME_WEBSOCKET_HEARTBEAT:   'websocket_heartbeat',
 
             DEFAULT_CHANNEL: 'sheep-realms:echolive',
 
@@ -311,6 +317,51 @@ class EchoLiveBroadcast {
     }
 
     /**
+     * 发送 WebSocket 心跳包
+     */
+    sendWebsocketHeartbeat() {
+        return this.sendData(
+            {},
+            EchoLiveBroadcast.API_NAME_WEBSOCKET_HEARTBEAT,
+            EchoLiveBroadcast.TARGET_WEBSOCKET_SERVER
+        );
+    }
+
+    /**
+     * 启动 WebSocket 心跳包循环
+     */
+    startWebsocketHeartbeatLoop() {
+        if (typeof this.websocketHeartbeatDuration !== 'number' || this.websocketHeartbeatDuration <= 0) return;
+
+        const __getBackoff = () => {
+            if (this.uuid === undefined) return 0;
+            try {
+                return parseInt(this.uuid.slice(-3), 16) * this.config.advanced.broadcast.websocket_heartbeat_backoff_scale;
+            } catch (_) {
+                return 0;
+            }
+        }
+
+        if (this.websocketHeartbeatBackoff === undefined) this.websocketHeartbeatBackoff = __getBackoff();
+
+        this.timer.websocketHeartbeatBackoff = setTimeout(() => {
+            this.timer.websocketHeartbeat = setInterval(() => {
+                this.sendWebsocketHeartbeat();
+            }, this.websocketHeartbeatDuration);
+        }, this.websocketHeartbeatBackoff);
+    }
+
+    /**
+     * 终止 WebSocket 心跳包循环
+     */
+    stopWebsocketHeartbeatLoop() {
+        clearInterval(this.timer.websocketHeartbeat);
+        clearInterval(this.timer.websocketHeartbeatBackoff);
+        this.timer.websocketHeartbeat = -1;
+        this.timer.websocketHeartbeatBackoff = -1;
+    }
+
+    /**
      * 目标类型检查
      * @param {String} type 终端类型
      * @returns {Boolean} 结果
@@ -353,6 +404,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         this.websocketStopped           = false;
         this.clients    = [];
         this.timer      = {
+            ...this.timer,
             noClient:   -1
         }
         this.stateFlag  = {
@@ -423,6 +475,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         this.websocket.addEventListener('open', (e) => {
             this.websocket.addEventListener('close', (e) => {
                 this.websocket = undefined;
+                this.stopWebsocketHeartbeatLoop();
                 this.websocketReconnect();
             });
 
@@ -432,6 +485,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
                 uuid: this.uuid
             });
             this.ping();
+            this.startWebsocketHeartbeatLoop();
         });
 
         this.websocket.addEventListener('message', (e) => {
@@ -494,6 +548,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         this.websocketStopped   = true;
         this.websocket.close();
         this.websocket          = undefined;
+        this.stopWebsocketHeartbeatLoop();
     }
 
     /**
@@ -791,7 +846,9 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
         this.websocket                  = undefined;
         this.websocketReconnectCount    = 0;
         this.websocketClosed            = false;
-        this.timer      = {};
+        this.timer      = {
+            ...this.timer
+        };
         this.stateFlag  = {
             onWindowClose: false
         };
@@ -843,12 +900,14 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
         this.websocket.addEventListener('open', (e) => {
             this.websocket.addEventListener('close', (e) => {
                 this.websocket = undefined;
+                this.stopWebsocketHeartbeatLoop();
                 this.event.websocketClose(e);
                 this.websocketReconnect();
             });
 
             this.websocketReconnectCount = 0;
             this.sendHello(EchoLiveBroadcast.TARGET_WEBSOCKET_SERVER_FORWARD);
+            this.startWebsocketHeartbeatLoop();
         });
 
         this.websocket.addEventListener('message', (e) => {
@@ -905,6 +964,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
         this.websocketClosed    = true;
         this.websocket.close();
         this.websocket          = undefined;
+        this.stopWebsocketHeartbeatLoop();
     }
 
     /**
@@ -1037,7 +1097,9 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
         this.uuid       = this.echolive.uuid;
         this.isServer   = false;
         this.targeted   = echolive.targeted;
-        this.timer      = {};
+        this.timer      = {
+            ...this.timer
+        };
         // this.event = {};
         this.depth      = 2;
 
@@ -1191,7 +1253,9 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
         this.echoLiveHistory = echoLiveHistory;
         this.uuid       = this.echoLiveHistory.uuid;
         this.isServer   = false;
-        this.timer      = {};
+        this.timer      = {
+            ...this.timer
+        };
         // this.event = {};
         this.event      = {
             ...this.event,
@@ -1277,7 +1341,9 @@ class EchoLiveBroadcastCharacter extends EchoLiveBroadcastClient {
         this.echoLiveCharacter = echoLiveCharacter;
         this.uuid       = this.echoLiveCharacter.uuid;
         this.isServer   = false;
-        this.timer      = {};
+        this.timer      = {
+            ...this.timer
+        };
         this.event      = {
             ...this.event
         };

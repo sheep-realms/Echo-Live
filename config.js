@@ -166,7 +166,9 @@ const config = {
     "advanced": {
         "broadcast": {
             "allow_name_duplicate": false,
-            "allow_send_duplicate_message": false
+            "allow_send_duplicate_message": false,
+            "websocket_heartbeat_backoff_scale": 1,
+            "websocket_heartbeat_duration": 20000
         },
         "editor": {
             "forced_display_split_message": false,

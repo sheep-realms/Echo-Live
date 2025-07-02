@@ -1177,6 +1177,24 @@ const db_config_define = [
         default: false,
         created: 8
     }, {
+        name: 'advanced.broadcast.websocket_heartbeat_backoff_scale',
+        type: 'number',
+        default: 1,
+        created: 11,
+        attribute: {
+            min: 0
+        }
+    }, {
+        name: 'advanced.broadcast.websocket_heartbeat_duration',
+        type: 'number',
+        default: 20000,
+        created: 11,
+        unit: 'ms',
+        attribute: {
+            min: 0,
+            step: 250
+        }
+    }, {
         name: 'advanced.editor',
         type: 'object',
         created: 1

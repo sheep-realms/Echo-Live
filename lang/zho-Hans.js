@@ -725,6 +725,14 @@ const lang_zho_Hans = {
                 allow_send_duplicate_message: {
                     _title: "允许发送重复消息",
                     _description: "对话框收到重复消息时会再次打印而非忽略，这将会失去防抖机制。"
+                },
+                websocket_heartbeat_backoff_scale: {
+                    _title: "WebSocket 心跳包并发退避比率",
+                    _description: "为了减轻 WebSocket 服务器同时连接多个客户端时的心跳包并发压力，心跳包会以 UUID 为种子随机延迟 0 ~ 4095 毫秒发送。<br>调整比率可改变延迟长度。设为 0 可禁用并发退避。<br>默认的随机范围已足以应对常规使用场景，除非您试图组建一个大型网络。"
+                },
+                websocket_heartbeat_duration: {
+                    _title: "WebSocket 心跳包间隔",
+                    _description: "每一个 WebSocket 心跳包之间的间隔。并发退避不会影响间隔，只会影响偏移量。<br>设为 0 可禁用心跳包。"
                 }
             },
             editor: {

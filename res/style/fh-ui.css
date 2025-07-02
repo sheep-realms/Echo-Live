@@ -41,7 +41,7 @@
 
     --color-msgbox-background: #EEE;
 
-    --fh-border-coler: #AAAAAA;
+    --fh-border-color: #AAAAAA;
 
     --animation-speed: 0.5s;
     --animation-speed-button-switch: 0.1s;
@@ -80,14 +80,14 @@
 @media (prefers-color-scheme: dark) {
     :root:not(.prefers-color-scheme-light) * {
         --corner-marker-color: rgba(30, 33, 41, 0.5);
-        --fh-border-coler: #666666;
+        --fh-border-color: #666666;
         --corner-marker-black: linear-gradient(-135deg, #747780 5px, transparent 5px);
     }
 }
 
 .prefers-color-scheme-dark * {
     --corner-marker-color: rgba(30, 33, 41, 0.5);
-    --fh-border-coler: #666666;
+    --fh-border-color: #666666;
     --corner-marker-black: linear-gradient(-135deg, #747780 5px, transparent 5px);
 }
 
@@ -701,8 +701,8 @@ p .fh-loading {
     margin: 0 3px;
     font-size: var(--font-size-small);
     color: var(--input-bgcolor);
-    border: var(--fh-border-coler) 1px solid;
-    --corner-marker-color: var(--fh-border-coler);
+    border: var(--fh-border-color) 1px solid;
+    --corner-marker-color: var(--fh-border-color);
     --corner-marker-angle: var(--corner-marker-angle-reverse);
     vertical-align: baseline;
     outline: none;

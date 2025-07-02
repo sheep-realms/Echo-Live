@@ -19,15 +19,19 @@ class Translator {
         };
     }
 
+    /**
+     * 初始化
+     * @param {String} path 脚本根路径
+     */
     init(path = '') {
         if (this.initialized) return;
-        const mainLang = echoLiveSystem.registry.getRegistryValue('system', 'main_language');
-        const langIndex = echoLiveSystem.registry.getRegistryArray('language_index');
-        this.langIndex = langIndex;
-        this.langMain = mainLang;
-        const mainLangData = langIndex.filter(e => e.code === mainLang)[0];
-        const selectedLangData = langIndex.filter(e => e.code === this.lang)[0];
-        this.initialized = true;
+        const mainLang          = echoLiveSystem.registry.getRegistryValue('system', 'main_language');
+        const langIndex         = echoLiveSystem.registry.getRegistryArray('language_index');
+        this.langIndex          = langIndex;
+        this.langMain           = mainLang;
+        const mainLangData      = langIndex.filter(e => e.code === mainLang)[0];
+        const selectedLangData  = langIndex.filter(e => e.code === this.lang)[0];
+        this.initialized        = true;
         echoLiveSystem.registry.onSetRegistryValue('language', '*', data => {
             this.load(data.value);
         });

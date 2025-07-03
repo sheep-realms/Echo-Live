@@ -1014,6 +1014,7 @@ const lang_zho_Hans = {
                 index: "对比度测试面板",
                 background_color: "背景色",
                 foreground_color: "前景色",
+                not_applicable: "不适用",
                 result: {
                     contrast: "对比度参考阈值",
                     wcag_aa: "WCAG AA",

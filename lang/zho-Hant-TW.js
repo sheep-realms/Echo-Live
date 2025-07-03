@@ -1014,6 +1014,7 @@ const lang_zho_Hant_TW = {
                 index: "對比度測試面板",
                 background_color: "背景色",
                 foreground_color: "前景色",
+                not_applicable: "不適用",
                 result: {
                     contrast: "對比度參考閾值",
                     wcag_aa: "WCAG AA",

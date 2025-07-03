@@ -395,15 +395,15 @@ echoLiveSystem.registry.loadRegistry('palette', e => e.meta.name, [
             },
             {
                 type: 'class',
-                value: 'gradient-winter-neva',
-                title: { name: '冰天雪地', translate: 'custom_class.style.gradient_winter_neva' },
-                preview_class: 'gradient-winter-neva'
-            },
-            {
-                type: 'class',
                 value: 'gradient-night-fade',
                 title: { name: '暮色银河', translate: 'custom_class.style.gradient_night_fade' },
                 preview_class: 'gradient-night-fade'
+            },
+            {
+                type: 'class',
+                value: 'gradient-winter-neva',
+                title: { name: '冰天雪地', translate: 'custom_class.style.gradient_winter_neva' },
+                preview_class: 'gradient-winter-neva'
             },
             {
                 type: 'class',

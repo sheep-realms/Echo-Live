@@ -379,7 +379,7 @@ $(document).on('click', '#popups-palette-accessibility-help-btn', function() {
 });
 
 // 拾色器色块鼠标进入
-$(document).on('mouseenter', '#popups-palette.color-contrast-enable .color-box', function() {
+$(document).on('mouseenter', '#popups-palette.color-contrast-enable .color-box:not(.color-box-custom-class)', function() {
     paletteColorContrastCheck($(this).data('value'));
 });
 

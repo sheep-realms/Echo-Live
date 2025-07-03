@@ -998,13 +998,16 @@ select:focus {
     width: 32px;
     height: 32px;
     box-sizing: border-box;
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAGklEQVQImQXBAQEAAAgCIPt/TTcRHGxL2oIHemcNxGayu3QAAAAASUVORK5CYII=");
     image-rendering: pixelated;
     background-size: 100%;
     border: var(--border-color) 1px solid;
     cursor: pointer;
     transition: transform .15s;
     outline: none;
+}
+
+#popups-palette .color-box:not(.color-box-custom-class) {
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAGklEQVQImQXBAQEAAAgCIPt/TTcRHGxL2oIHemcNxGayu3QAAAAASUVORK5CYII=");
 }
 
 #popups-palette .color-box:hover,

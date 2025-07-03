@@ -1121,6 +1121,23 @@ const lang_zho_Hant_HK = {
                         yellow: "Sunrise Yellow / 日出"
                     }
                 },
+                custom_class: {
+                    title: "高級樣式",
+                    style: {
+                        gradient_dusty_grass: "固沙草原",
+                        gradient_night_fade: "暮色銀河",
+                        gradient_spring_warmth: "暖陽春日",
+                        gradient_sunny_morning: "明媚早晨",
+                        gradient_winter_neva: "冰天雪地",
+                        jitter: "抖動",
+                        rainbow: "彩虹",
+                        roll_down: "旋轉倒置"
+                    },
+                    group: {
+                        colorful: "多彩漸變",
+                        funny: "搞笑搞怪"
+                    }
+                },
                 material: {
                     title: "Material Design"
                 },

@@ -365,5 +365,66 @@ echoLiveSystem.registry.loadRegistry('palette', e => e.meta.name, [
             { value: '#ffff55', title: { name: 'Yellow', translate: 'common.color.yellow' } },
             { value: '#ffffff', title: { name: 'White', translate: 'common.color.white' } },
         ]
+    }, {
+        meta: {
+            name: 'custom_class',
+            title: {
+                name: '高级样式',
+                translate: 'custom_class.title'
+            }
+        },
+        colors: [
+            { type: 'group', value: { name: '多彩渐变', translate: 'custom_class.group.colorful' } },
+            {
+                type: 'class',
+                value: 'rainbow',
+                title: { name: '彩虹', translate: 'custom_class.style.rainbow' },
+                preview_class: 'rainbow'
+            },
+            {
+                type: 'class',
+                value: 'gradient-sunny-morning',
+                title: { name: '明媚早晨', translate: 'custom_class.style.gradient_sunny_morning' },
+                preview_class: 'gradient-sunny-morning'
+            },
+            {
+                type: 'class',
+                value: 'gradient-dusty-grass',
+                title: { name: '固沙草原', translate: 'custom_class.style.gradient_dusty_grass' },
+                preview_class: 'gradient-dusty-grass'
+            },
+            {
+                type: 'class',
+                value: 'gradient-winter-neva',
+                title: { name: '冰天雪地', translate: 'custom_class.style.gradient_winter_neva' },
+                preview_class: 'gradient-winter-neva'
+            },
+            {
+                type: 'class',
+                value: 'gradient-night-fade',
+                title: { name: '暮色银河', translate: 'custom_class.style.gradient_night_fade' },
+                preview_class: 'gradient-night-fade'
+            },
+            {
+                type: 'class',
+                value: 'gradient-spring-warmth',
+                title: { name: '暖阳春日', translate: 'custom_class.style.gradient_spring_warmth' },
+                preview_class: 'gradient-spring-warmth'
+            },
+
+            { type: 'group', value: { name: '搞笑搞怪', translate: 'custom_class.group.funny' } },
+            {
+                type: 'class',
+                value: 'jitter',
+                title: { name: '抖动', translate: 'custom_class.style.jitter' },
+                image: 'res/image/editor/palette/jitter.png'
+            },
+            {
+                type: 'class',
+                value: 'roll-down',
+                title: { name: '旋转倒置', translate: 'custom_class.style.roll_down' },
+                image: 'res/image/editor/palette/roll_down.png'
+            },
+        ]
     }
 ]);

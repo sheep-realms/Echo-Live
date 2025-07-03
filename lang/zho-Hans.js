@@ -1121,6 +1121,23 @@ const lang_zho_Hans = {
                         yellow: "Sunrise Yellow / 日出"
                     }
                 },
+                custom_class: {
+                    title: "高级样式",
+                    style: {
+                        gradient_dusty_grass: "固沙草原",
+                        gradient_night_fade: "暮色银河",
+                        gradient_spring_warmth: "暖阳春日",
+                        gradient_sunny_morning: "明媚早晨",
+                        gradient_winter_neva: "冰天雪地",
+                        jitter: "抖动",
+                        rainbow: "彩虹",
+                        roll_down: "旋转倒置"
+                    },
+                    group: {
+                        colorful: "多彩渐变",
+                        funny: "搞笑搞怪"
+                    }
+                },
                 material: {
                     title: "Material Design"
                 },

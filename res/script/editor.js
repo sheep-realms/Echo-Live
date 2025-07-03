@@ -754,9 +754,15 @@ $(document).on('click', '.editor-format-btn', function() {
 });
 
 // 拾色器色块点击
-$(document).on('click', '#popups-palette .color-box', function() {
+$(document).on('click', '#popups-palette .color-box:not(.color-box-custom-class)', function() {
     let value = $(this).data('value');
     insertTextAtCursor('ptext-content', `@[${ value }]`, '@r');
+    popupsDisplay('#popups-palette', false);
+});
+
+$(document).on('click', '#popups-palette .color-box-custom-class', function() {
+    let value = $(this).data('value');
+    insertTextAtCursor('ptext-content', `@<${ value }>`, '@r');
     popupsDisplay('#popups-palette', false);
 });
 

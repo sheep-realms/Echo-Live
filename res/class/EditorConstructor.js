@@ -344,7 +344,7 @@ class Popups {
                     title = $t('editor.palette.label.title_after', {
                         title: title,
                         after: $t('editor.palette.label.common.after.' + e.after)
-                    });
+                    }, e.title?.name);
                 }
 
                 dom += `<button class="color-box" title="${ title.replace(/"/g, '&quot;') }" data-value="${ e.value.replace(/"/g, '') }" style="--color: ${ e.value.replace(/"/g, '') };"><div class="color"></div></button>`;
@@ -354,10 +354,27 @@ class Popups {
                 if (typeof e?.value?.translate === 'string') {
                     tv = { n: 0 };
                     if (typeof e?.value?.with === 'object') tv = {...tv, ...e.value.with, ...{ n: 2 }};
-                    title = $t('editor.palette.label.' + e.value.translate, tv);
+                    title = $t('editor.palette.label.' + e.value.translate, tv, e.title?.name);
                 }
 
                 dom += `${ firstGruop ? '' : '</div>' }<div class="palette-group">${ EchoLiveTools.safeHTML(title) }</div><div class="palette-list">`;
+            } else if (e?.type === 'class') {
+                title = e.title;
+
+                if (typeof e?.title?.translate === 'string') {
+                    tv = { n: 0 };
+                    if (typeof e?.title?.with === 'object') tv = {...tv, ...e.title.with, ...{ n: 2 }};
+                    title = $t('editor.palette.label.' + e.title.translate, tv, e.title?.name);
+                }
+
+                dom += `<button
+                    class="color-box color-box-custom-class ${ e?.preview_class ? 'echo-text-preview-' + e.preview_class : '' }"
+                    title="${ title.replace(/"/g, '&quot;') }"
+                    data-value="${ e.value.replace(/"/g, '') }"
+                    style="${ e?.image ? `background-image: url(${ e.image });` : '' } ${ e?.style ?? '' }"
+                >
+                    <div class="color"></div>
+                </button>`;
             }
             firstGruop = false;
         });

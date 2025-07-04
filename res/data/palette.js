@@ -374,44 +374,6 @@ echoLiveSystem.registry.loadRegistry('palette', e => e.meta.name, [
             }
         },
         colors: [
-            { type: 'group', value: { name: '多彩渐变', translate: 'custom_class.group.colorful' } },
-            {
-                type: 'class',
-                value: 'rainbow',
-                title: { name: '彩虹', translate: 'custom_class.style.rainbow' },
-                preview_class: 'rainbow'
-            },
-            {
-                type: 'class',
-                value: 'gradient-sunny-morning',
-                title: { name: '明媚早晨', translate: 'custom_class.style.gradient_sunny_morning' },
-                preview_class: 'gradient-sunny-morning'
-            },
-            {
-                type: 'class',
-                value: 'gradient-dusty-grass',
-                title: { name: '固沙草原', translate: 'custom_class.style.gradient_dusty_grass' },
-                preview_class: 'gradient-dusty-grass'
-            },
-            {
-                type: 'class',
-                value: 'gradient-night-fade',
-                title: { name: '暮色银河', translate: 'custom_class.style.gradient_night_fade' },
-                preview_class: 'gradient-night-fade'
-            },
-            {
-                type: 'class',
-                value: 'gradient-winter-neva',
-                title: { name: '冰天雪地', translate: 'custom_class.style.gradient_winter_neva' },
-                preview_class: 'gradient-winter-neva'
-            },
-            {
-                type: 'class',
-                value: 'gradient-spring-warmth',
-                title: { name: '暖阳春日', translate: 'custom_class.style.gradient_spring_warmth' },
-                preview_class: 'gradient-spring-warmth'
-            },
-
             { type: 'group', value: { name: '搞笑搞怪', translate: 'custom_class.group.funny' } },
             {
                 type: 'class',
@@ -421,9 +383,119 @@ echoLiveSystem.registry.loadRegistry('palette', e => e.meta.name, [
             },
             {
                 type: 'class',
+                value: 'wave-1',
+                title: { name: '', translate: 'custom_class.style.wave_1' },
+                image: 'res/image/editor/palette/wave_1.png'
+            },
+            {
+                type: 'class',
+                value: 'wave-2',
+                title: { name: '', translate: 'custom_class.style.wave_2' },
+                image: 'res/image/editor/palette/wave_2.png'
+            },
+            {
+                type: 'class',
+                value: 'wave-3',
+                title: { name: '', translate: 'custom_class.style.wave_3' },
+                image: 'res/image/editor/palette/wave_3.png'
+            },
+            {
+                type: 'class',
                 value: 'roll-down',
                 title: { name: '旋转倒置', translate: 'custom_class.style.roll_down' },
                 image: 'res/image/editor/palette/roll_down.png'
+            },
+
+            { type: 'group', value: { name: '多彩渐变', translate: 'custom_class.group.colorful' } },
+            {
+                type: 'class',
+                value: 'rainbow',
+                title: { name: '彩虹', translate: 'custom_class.style.rainbow' },
+                preview_class: 'rainbow'
+            },
+            {
+                type: 'class',
+                value: 'gradient-salt-mountain',
+                title: { name: '地中之盐', translate: 'custom_class.style.gradient_salt_mountain' },
+                preview_class: 'gradient-salt-mountain'
+            },
+            {
+                type: 'class',
+                value: 'gradient-heavy-rain',
+                title: { name: '倾盆大雨', translate: 'custom_class.style.gradient_heavy_rain' },
+                preview_class: 'gradient-heavy-rain'
+            },
+            {
+                type: 'class',
+                value: 'gradient-mountain-rock',
+                title: { name: '筑山之岩', translate: 'custom_class.style.gradient_mountain_rock' },
+                preview_class: 'gradient-mountain-rock'
+            },
+            {
+                type: 'class',
+                value: 'gradient-premium-dark',
+                title: { name: '高级深灰', translate: 'custom_class.style.gradient_premium_dark' },
+                preview_class: 'gradient-premium-dark'
+            },
+            {
+                type: 'class',
+                value: 'gradient-sunny-morning',
+                title: { name: '明媚早晨', translate: 'custom_class.style.gradient_sunny_morning' },
+                preview_class: 'gradient-sunny-morning'
+            },
+            {
+                type: 'class',
+                value: 'gradient-juicy-peach',
+                title: { name: '多汁蜜桃', translate: 'custom_class.style.gradient_juicy_peach' },
+                preview_class: 'gradient-juicy-peach'
+            },
+            {
+                type: 'class',
+                value: 'gradient-dusty-grass',
+                title: { name: '固沙草原', translate: 'custom_class.style.gradient_dusty_grass' },
+                preview_class: 'gradient-dusty-grass'
+            },
+            {
+                type: 'class',
+                value: 'gradient-aqua-splash',
+                title: { name: '海洋巨星', translate: 'custom_class.style.gradient_aqua_splash' },
+                preview_class: 'gradient-aqua-splash'
+            },
+            {
+                type: 'class',
+                value: 'gradient-night-fade',
+                title: { name: '暮色银河', translate: 'custom_class.style.gradient_night_fade' },
+                preview_class: 'gradient-night-fade'
+            },
+            {
+                type: 'class',
+                value: 'gradient-red-salvation',
+                title: { name: '碎空远星', translate: 'custom_class.style.gradient_red_salvation' },
+                preview_class: 'gradient-red-salvation'
+            },
+            {
+                type: 'class',
+                value: 'gradient-winter-neva',
+                title: { name: '冰天雪地', translate: 'custom_class.style.gradient_winter_neva' },
+                preview_class: 'gradient-winter-neva'
+            },
+            {
+                type: 'class',
+                value: 'gradient-fly-high',
+                title: { name: '冰天雪地', translate: 'custom_class.style.gradient_fly_high' },
+                preview_class: 'gradient-fly-high'
+            },
+            {
+                type: 'class',
+                value: 'gradient-perfect-blue',
+                title: { name: '宇宙之眼', translate: 'custom_class.style.gradient_perfect_blue' },
+                preview_class: 'gradient-perfect-blue'
+            },
+            {
+                type: 'class',
+                value: 'gradient-spring-warmth',
+                title: { name: '暖阳春日', translate: 'custom_class.style.gradient_spring_warmth' },
+                preview_class: 'gradient-spring-warmth'
             },
         ]
     }

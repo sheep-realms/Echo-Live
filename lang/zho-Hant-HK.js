@@ -359,7 +359,7 @@ const lang_zho_Hant_HK = {
                 _description: "打印每個字符時所使用的動畫效果",
                 name: {
                     _title: "動效名稱",
-                    _description: "可用的動效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>幫助文檔</a>。"
+                    _description: "可用的動效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>幫助文檔</a>。<br>請注意：消息格式中的一些高級動效可能會覆蓋字符打印動效。如果您需要使用這些高級動效，建議您關閉字符打印動效。"
                 },
                 duration: {
                     _title: "動效用時",
@@ -1125,14 +1125,26 @@ const lang_zho_Hant_HK = {
                 custom_class: {
                     title: "高級樣式",
                     style: {
+                        gradient_aqua_splash: "海洋巨星",
+                        gradient_perfect_blue: "宇宙之眼",
                         gradient_dusty_grass: "固沙草原",
+                        gradient_fly_high: "掙脫引力",
+                        gradient_heavy_rain: "傾盆大雨",
+                        gradient_juicy_peach: "多汁蜜桃",
+                        gradient_mountain_rock: "築山之岩",
                         gradient_night_fade: "暮色銀河",
+                        gradient_premium_dark: "高級深灰",
+                        gradient_red_salvation: "碎空遠星",
+                        gradient_salt_mountain: "地中之鹽",
                         gradient_spring_warmth: "暖陽春日",
                         gradient_sunny_morning: "明媚早晨",
                         gradient_winter_neva: "冰天雪地",
                         jitter: "抖動",
                         rainbow: "彩虹",
-                        roll_down: "旋轉倒置"
+                        roll_down: "旋轉倒置",
+                        wave_1: "微波起伏",
+                        wave_2: "波濤洶湧",
+                        wave_3: "驚濤駭浪"
                     },
                     group: {
                         colorful: "多彩漸變",

@@ -27,6 +27,12 @@ class EchoLiveSystem {
         const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
         return hashHex;
     }
+
+    experimentalFlagCheck(name = '') {
+        if (this.config?.experimental_flag === undefined) return false;
+        if (typeof this.config.experimental_flag[name] !== 'boolean') return false;
+        return this.config.experimental_flag[name];
+    }
 }
 
 class EchoLiveData {

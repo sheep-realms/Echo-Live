@@ -543,7 +543,7 @@ const lang_zho_Hans = {
                 _description: "拾色器相关配置",
                 palette: {
                     _title: "启用的色板",
-                    _description: "拾色器中有多种色板可供挑选。<br>预制的色板有 material、tailwindcss、ant_design 和 minecraft。<br>若要挑选启用的色板或调整排序，请反选 “全部启用”，并在下方文本框中输入色板名称，一&#65279;行一&#65279;个。",
+                    _description: "拾色器中有多种色板可供挑选。<br>若要挑选启用的色板或调整排序，请反选 “全部启用”，并在下方文本框中输入色板名称，一&#65279;行一&#65279;个。",
                     all_selected: "全部启用"
                 },
                 contrast_enable: {

@@ -26,7 +26,7 @@
         };
         translator.init('../');
     </script>
-    <script src="res/data/icon.js"></script>
+    <script src="../res/data/icon.js"></script>
     <script src="../res/class/Icon.js"></script>
     <script src="../res/class/EchoLiveTools.js"></script>
     <script src="../res/class/EditorConstructor.js"></script>
@@ -102,7 +102,9 @@
         $(document).ready(function() {
             let sysNotice = new SystemNotice();
 
-            $('#character-split').val($t('studio.text_to_messages.colon'))
+            translator.ready(() => {
+                $('#character-split').val($t('studio.text_to_messages.colon'));
+            });
 
             $(document).on('click', '#btn-clear', function() {
                 $('#text-edit').val('');

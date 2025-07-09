@@ -1023,7 +1023,7 @@ const db_config_define = [
     }, {
         name: 'character.avatar_switch_effect.name',
         type: 'string',
-        default: 'none',
+        default: 'fade-in',
         created: 11,
         attribute: {
             datalist: []

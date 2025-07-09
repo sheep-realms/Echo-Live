@@ -20,24 +20,35 @@ $(document).on('animationend', `${SEL_CHARACTER_LAYER} .layer`, function() {
     if ($(this).data('layer') !== 'main') $(this).addClass('hidden');
 });
 
-echoLiveCharacter.on('imageChange', (image, layer) => {
+const changeImage = (image, layer) => {
     $(`${SEL_CHARACTER_LAYER} .layer[data-layer="${layer}"]`).removeClass('hidden');
     $(`${SEL_CHARACTER_LAYER} .layer[data-layer="${layer}"]`).css('background-image', `url(${image.url})`);
     if (image.position !== undefined) $(`${SEL_CHARACTER_LAYER} .layer[data-layer="${layer}"]`).css('background-position', image.position);
     if (image.size !== undefined) $(`${SEL_CHARACTER_LAYER} .layer[data-layer="${layer}"]`).css('background-size', image.size);
     if (image.repeat !== undefined) $(`${SEL_CHARACTER_LAYER} .layer[data-layer="${layer}"]`).css('background-repeat', image.repeat);
-});
+};
 
-echoLiveCharacter.on('layerUpdate', (effect) => {
-    if (effect.name === undefined) {
-        // TODO: 处理默认情况
-    } else {
-        if (effect.name === 'none' || effect.name === 'unset') {
-            $(SEL_CHARACTER_LAYER_MAIN).css('--layer-effect-name', effect.name);
-            $(SEL_CHARACTER_LAYER_BEFORE).css('--layer-effect-name', effect.name);
-        } else {
-            $(SEL_CHARACTER_LAYER_MAIN).css('--layer-effect-name', `${effect.name}-main`);
-            $(SEL_CHARACTER_LAYER_BEFORE).css('--layer-effect-name', `${effect.name}-before`);
-        }
+const updateLayer = (effect = {}) => {
+    if (effect?.name === undefined) {
+        effect.name = config.character.avatar_switch_effect.name || 'none';
     }
-});
+    
+    if (effect.name === 'none' || effect.name === 'unset') {
+        $(SEL_CHARACTER_LAYER_MAIN).css('--layer-effect-name', effect.name);
+        $(SEL_CHARACTER_LAYER_BEFORE).css('--layer-effect-name', effect.name);
+    } else {
+        $(SEL_CHARACTER_LAYER_MAIN).css('--layer-effect-name', `${effect.name}-main`);
+        $(SEL_CHARACTER_LAYER_BEFORE).css('--layer-effect-name', `${effect.name}-before`);
+    }
+};
+
+const clearImage = () => {
+    $(SEL_CHARACTER_LAYER_MAIN).removeClass('hidden');
+    $(SEL_CHARACTER_LAYER_MAIN).css('background-image', 'unset');
+    updateLayer();
+};
+
+
+echoLiveCharacter.on('imageChange', changeImage);
+echoLiveCharacter.on('layerUpdate', updateLayer);
+echoLiveCharacter.on('imageClear', clearImage);

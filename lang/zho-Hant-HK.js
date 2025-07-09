@@ -1640,6 +1640,7 @@ const lang_zho_Hant_HK = {
         msgbox: {
             accessibility: "Echo-Live 所有後台頁面均支持鍵盤訪問。<br>更多有關無障礙使用的幫助請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>幫助文檔</a>。",
             advanced_settings: "不要隨意更改這裏的配置，除非您知道您在做甚麼。",
+            character_settings: "形象播放器仍是一項實驗性功能，可能存在較多問題，未來有可能會發生重大更改，請勿過度依賴。",
             echo: {
                 title: "關於 Echo",
                 description: "Echo 是 Echo-Live 的內核，提供了文本滾動輸出功能。<br>它是一個工具庫，任何人都可以使用 Echo 創建自己的文本展示項目。<br>如果您有興趣了解 Echo，請見其 <a href='https://github.com/sheep-realms/Echo' target='_blank'>GitHub 倉庫</a>。"

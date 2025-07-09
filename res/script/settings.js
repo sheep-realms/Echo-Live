@@ -880,6 +880,11 @@ $(document).ready(function() {
                 <div class="example-2">${ $t('config.accessibility.font_size.example_2') }</div>
             </div>`
         );
+
+        $('.settings-page[data-pageid="character"]').prepend(SettingsPanel.msgBox(
+            '',
+            $t('settings.msgbox.character_settings')
+        ));
         $('.settings-page[data-pageid="advanced"]').prepend(SettingsPanel.msgBoxWarn(
             '',
             $t('settings.msgbox.advanced_settings')

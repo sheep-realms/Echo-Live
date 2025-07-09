@@ -145,7 +145,7 @@ const config = {
             "scene": ""
         },
         "avatar_switch_effect": {
-            "name": "none",
+            "name": "fade-in",
             "duration": 250,
             "scale": 1,
             "timing_function": "ease-out"

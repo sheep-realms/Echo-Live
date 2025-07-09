@@ -18,6 +18,12 @@ class EchoLiveCharacter {
             imageChange:    function() {},
             imageClear:     function() {}
         };
+        this.eventBindState = {
+            layerUpdate: false,
+            imageChange: false,
+            imageClear: false
+        }
+        this.initActive     = false;
 
         this.init();
     }
@@ -55,6 +61,16 @@ class EchoLiveCharacter {
      */
     on(eventName, action = function() {}) {
         if (typeof action != 'function') return;
+        this.eventBindState[eventName] = true;
+        if (!this.initActive && this.eventBindState.imageChange && this.eventBindState.layerUpdate) {
+            this.initActive = true;
+            this.setAvatar({
+                avatar: {
+                    name: this.config.character.avatar.name || undefined,
+                    action: this.config.character.avatar.action || undefined
+                }
+            });
+        }
         return this.event[eventName] = action;
     }
 
@@ -145,12 +161,14 @@ class EchoLiveCharacter {
                 avatar: {
                     name: undefined,
                     action: undefined,
+                    scene: undefined,
                     ...data?.avatar
                 }
             };
 
             const avatarData = this.getAvatar(data.avatar.name);
             if (avatarData === undefined || avatarData.action.length === 0) return;
+
             const actionData = this.getAvatarContent(
                 avatarData,
                 'action',
@@ -159,8 +177,13 @@ class EchoLiveCharacter {
                     : data.avatar.action
             );
             if (actionData === undefined) return;
-            const sceneData = !this.config.__demo_mode ? this.getAvatarContent(avatarData, 'scene', data.avatar.scene) : avatarData.preview.scene;
 
+            const sceneData = !this.config.__demo_mode ? this.getAvatarContent(
+                avatarData,
+                'scene',
+                data.avatar.scene || this.config.character.avatar.scene || undefined
+            ) : avatarData.preview.scene;
+            
             data.image.url = actionData.custom_translate === true ? actionData.path : (avatarData.path?.image + actionData.path);
             if (sceneData !== undefined) {
                 data.image.position = data.image.position   ?? sceneData.position;
@@ -225,6 +248,7 @@ class EchoLiveCharacter {
 
     clearImage() {
         this.lastImage = undefined;
+        debugger
         this.event.imageClear();
     }
 

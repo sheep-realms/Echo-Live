@@ -1,5 +1,52 @@
 echoLiveSystem.registry.init([
     {
+        name: 'avatar',
+        unique_key: 'meta.name',
+        sync: true,
+        default_data: {
+            meta: {
+                name: 'missingno',
+                title: 'missingno',
+                description: undefined,
+                author: undefined,
+                license: undefined
+            },
+            path: {
+                action_translate: 'common.action.',
+                scene_translate: 'common.scene.',
+                image: ''
+            },
+            default_value: {
+                action: {
+                    idle: undefined,
+                    unknown: undefined
+                },
+                scene: {
+                    idle: undefined,
+                    unknown: undefined
+                }
+            },
+            preview: {
+                action: undefined,
+                scene: {
+                    position: undefined,
+                    size: undefined,
+                    repeat: undefined
+                }
+            },
+            action: [],
+            scene: []
+        }
+    }, {
+        name: 'avatar_switch_effect',
+        unique_key: 'name',
+        sync: true,
+        default_data: {
+            name: undefined,
+            value: undefined,
+            hidden: false
+        }
+    }, {
         name: 'border_style',
         unique_key: 'name',
         default_data: {
@@ -9,9 +56,35 @@ echoLiveSystem.registry.init([
     }, {
         name: 'emoji',
         unique_key: 'meta.name',
+        sync: true,
         default_data: {}
     }, {
         name: 'emoji_namespace'
+    }, {
+        name: 'extension',
+        unique_key: 'name',
+        sync: true,
+        default_data: {
+            title: 'missingno',
+            description: '',
+            namespace: undefined,
+            author: undefined,
+            license: undefined
+        }
+    }, {
+        name: 'font_weight',
+        unique_key: 'name',
+        default_data: {
+            name: undefined,
+            value: undefined
+        }
+    }, {
+        name: 'icon',
+        unique_key: 'name',
+        default_data: {
+            name: 'missingno',
+            content: ''
+        }
     }, {
         name: 'language',
         unique_key: 'lang.code_iso_639_3',
@@ -55,6 +128,7 @@ echoLiveSystem.registry.init([
     }, {
         name: 'print_effect',
         unique_key: 'name',
+        sync: true,
         default_data: {
             name: undefined,
             value: undefined,
@@ -73,6 +147,7 @@ echoLiveSystem.registry.init([
     }, {
         name: 'sound',
         unique_key: 'name',
+        sync: true,
         default_data: {
             name: undefined,
             path: undefined,
@@ -92,6 +167,7 @@ echoLiveSystem.registry.init([
     }, {
         name: 'text_style',
         unique_key: 'name',
+        sync: true,
         default_data: {
             name: undefined,
             is_style: false,
@@ -102,6 +178,7 @@ echoLiveSystem.registry.init([
     }, {
         name: 'timing_function',
         unique_key: 'name',
+        sync: true,
         default_data: {
             name: undefined,
             value: undefined

@@ -1,3 +1,11 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+ */
+
+
 class EchoLiveBroadcast {
     /**
      * Echo-Live 广播
@@ -14,10 +22,15 @@ class EchoLiveBroadcast {
         };
         this.broadcast  = new BroadcastChannel(channel);
         this.websocket  = undefined;
+        this.websocketHeartbeatBackoff  = undefined;
+        this.websocketHeartbeatDuration = config.advanced.broadcast.websocket_heartbeat_duration;
         this.targeted   = false;
         this.config     = config;
         this.isServer   = false;
-        this.timer      = {};
+        this.timer      = {
+            websocketHeartbeat: -1,
+            websocketHeartbeatBackoff: -1
+        };
         this.event      = {
             message:        function() {},
             error:          function() {},
@@ -46,17 +59,21 @@ class EchoLiveBroadcast {
             API_NAME_PAGE_HIDDEN:           'page_hidden',
             API_NAME_PAGE_VISIBLE:          'page_visible',
             API_NAME_PING:                  'ping',
+            API_NAME_SET_AVATAR:            'set_avatar',
             API_NAME_SET_LIVE_DISPLAY:      'set_live_display',
             API_NAME_SET_THEME:             'set_theme',
             API_NAME_SET_THEME_STYLE_URL:   'set_theme_style_url',
             API_NAME_SHUTDOWN:              'shutdown',
             API_NAME_WEBSOCKET_CLOSE:       'websocket_close',
+            API_NAME_WEBSOCKET_HEARTBEAT:   'websocket_heartbeat',
 
             DEFAULT_CHANNEL: 'sheep-realms:echolive',
 
-            TARGET_SERVER:              '@__server',
-            TARGET_WEBSOCKET_SERVER:    '@__ws_server',
+            TARGET_SERVER:                      '@__server',
+            TARGET_WEBSOCKET_SERVER:            '@__ws_server',
+            TARGET_WEBSOCKET_SERVER_FORWARD:    '@__ws_server_forward',
 
+            TYPE_CHARACTER: 'character',
             TYPE_CLIENT:    'client',
             TYPE_HISTORY:   'history',
             TYPE_PORTAL:    'live',
@@ -75,6 +92,9 @@ class EchoLiveBroadcast {
      */
     init() {
         this.listen();
+        echoLiveSystem.hook.trigger('broadcast_terminal_init', {
+            unit: this
+        });
     }
 
     /**
@@ -180,7 +200,19 @@ class EchoLiveBroadcast {
             }
         }
 
-        this.broadcast.postMessage(d);
+        echoLiveSystem.hook.trigger('broadcast_terminal_post_message', {
+            data: d,
+            unit: this
+        });
+
+        if (d.target === EchoLiveBroadcast.TARGET_WEBSOCKET_SERVER_FORWARD) {
+            d.target = undefined;
+        } else {
+            if (!this.config.editor.websocket.disable_broadcast) {
+                this.broadcast.postMessage(d);
+            }
+        }
+
         if (this.websocket !== undefined) {
             try {
                 this.websocket.send(JSON.stringify(d));
@@ -191,6 +223,12 @@ class EchoLiveBroadcast {
         return d;
     }
 
+    /**
+     * 检查是否应该收到消息
+     * @param {String|Array<String>} target 投递目标
+     * @param {Boolean} isTargeted 是否仅接收定向广播
+     * @returns {Boolean} 结果
+     */
     checkTargetIsSelf(target, isTargeted = false) {
         if (!Array.isArray(target)) target = [target];
         let globalHasNOT = false;
@@ -240,6 +278,10 @@ class EchoLiveBroadcast {
     getData(data) {
         if (typeof data != 'object') return;
         this.listenCallbackDepth = 0;
+        echoLiveSystem.hook.trigger('broadcast_terminal_get_message', {
+            data: data,
+            unit: this
+        });
         if (data?.from?.uuid === this.uuid) return;
 
         this.event.message(data);
@@ -249,6 +291,10 @@ class EchoLiveBroadcast {
                 data.action === EchoLiveBroadcast.API_NAME_PING && !this.isServer ? false : this.targeted
             )
         ) return;
+        echoLiveSystem.hook.trigger('broadcast_terminal_get_message_valid', {
+            data: data,
+            unit: this
+        });
         this.event.validMessage(data);
 
         if (data.action === EchoLiveBroadcast.API_NAME_ERROR) this.event.error(data);
@@ -268,6 +314,53 @@ class EchoLiveBroadcast {
             name: name,
             ...data
         }, EchoLiveBroadcast.API_NAME_ERROR, target);
+    }
+
+    /**
+     * 发送 WebSocket 心跳包
+     */
+    sendWebsocketHeartbeat() {
+        return this.sendData(
+            {},
+            EchoLiveBroadcast.API_NAME_WEBSOCKET_HEARTBEAT,
+            EchoLiveBroadcast.TARGET_WEBSOCKET_SERVER
+        );
+    }
+
+    /**
+     * 启动 WebSocket 心跳包循环
+     */
+    startWebsocketHeartbeatLoop() {
+        if (typeof this.websocketHeartbeatDuration !== 'number' || this.websocketHeartbeatDuration <= 0) return;
+
+        const __getBackoff = () => {
+            if (this.uuid === undefined) return 0;
+            try {
+                let n = parseInt(this.uuid.slice(-3), 16) * this.config.advanced.broadcast.websocket_heartbeat_backoff_scale;
+                if (typeof n !== 'number' || Number.isNaN(n)) return 0;
+                return n;
+            } catch (_) {
+                return 0;
+            }
+        }
+
+        if (this.websocketHeartbeatBackoff === undefined) this.websocketHeartbeatBackoff = __getBackoff();
+
+        this.timer.websocketHeartbeatBackoff = setTimeout(() => {
+            this.timer.websocketHeartbeat = setInterval(() => {
+                this.sendWebsocketHeartbeat();
+            }, this.websocketHeartbeatDuration);
+        }, this.websocketHeartbeatBackoff);
+    }
+
+    /**
+     * 终止 WebSocket 心跳包循环
+     */
+    stopWebsocketHeartbeatLoop() {
+        clearInterval(this.timer.websocketHeartbeat);
+        clearInterval(this.timer.websocketHeartbeatBackoff);
+        this.timer.websocketHeartbeat = -1;
+        this.timer.websocketHeartbeatBackoff = -1;
     }
 
     /**
@@ -310,8 +403,10 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         this.websocket                  = undefined;
         this.websocketReconnectCount    = 0;
         this.websocketClosed            = false;
+        this.websocketStopped           = false;
         this.clients    = [];
         this.timer      = {
+            ...this.timer,
             noClient:   -1
         }
         this.stateFlag  = {
@@ -344,6 +439,12 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         this.setListenCallback(1, this, this.getDataServer);
 
         this.uuid = EchoLiveTools.getUUID();
+
+        echoLiveSystem.hook.trigger('broadcast_server_init', {
+            unit: this,
+            data: data
+        });
+        
         if (!data.noPing) this.ping();
 
         if (this.config.editor.websocket.enable) {
@@ -370,11 +471,13 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
      */
     websocketConnect() {
         this.websocketClosed    = false;
+        this.websocketStopped   = false;
         this.websocket          = new WebSocket(this.websocketUrl);
 
         this.websocket.addEventListener('open', (e) => {
             this.websocket.addEventListener('close', (e) => {
                 this.websocket = undefined;
+                this.stopWebsocketHeartbeatLoop();
                 this.websocketReconnect();
             });
 
@@ -384,6 +487,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
                 uuid: this.uuid
             });
             this.ping();
+            this.startWebsocketHeartbeatLoop();
         });
 
         this.websocket.addEventListener('message', (e) => {
@@ -400,6 +504,8 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
 
         this.websocket.addEventListener('error', (e) => {
             this.websocket = undefined;
+            this.websocketClosed = true;
+            if (this.websocketStopped) return;
             this.websocketReconnect();
         });
 
@@ -441,8 +547,10 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
             url: this.websocketUrl,
         });
         this.websocketClosed    = true;
+        this.websocketStopped   = true;
         this.websocket.close();
         this.websocket          = undefined;
+        this.stopWebsocketHeartbeatLoop();
     }
 
     /**
@@ -692,6 +800,10 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
      * @param {EchoLiveBroadcast} listener 监听对象
      */
     getDataServer(data, listener = this) {
+        echoLiveSystem.hook.trigger('broadcast_server_get_message_valid', {
+            data: data,
+            unit: listener
+        });
         switch (data.action) {
             case EchoLiveBroadcast.API_NAME_HELLO:
                 listener.addClient({...data.from, ...data.data});
@@ -736,7 +848,9 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
         this.websocket                  = undefined;
         this.websocketReconnectCount    = 0;
         this.websocketClosed            = false;
-        this.timer      = {};
+        this.timer      = {
+            ...this.timer
+        };
         this.stateFlag  = {
             onWindowClose: false
         };
@@ -764,6 +878,10 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
         if (this.config.echolive.broadcast.websocket_enable) {
             this.websocketConnect();
         }
+
+        echoLiveSystem.hook.trigger('broadcast_client_init', {
+            unit: this
+        });
     }
 
     __readWebsocketMessage(message) {
@@ -784,12 +902,14 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
         this.websocket.addEventListener('open', (e) => {
             this.websocket.addEventListener('close', (e) => {
                 this.websocket = undefined;
+                this.stopWebsocketHeartbeatLoop();
                 this.event.websocketClose(e);
                 this.websocketReconnect();
             });
 
             this.websocketReconnectCount = 0;
-            this.sendHello();
+            this.sendHello(EchoLiveBroadcast.TARGET_WEBSOCKET_SERVER_FORWARD);
+            this.startWebsocketHeartbeatLoop();
         });
 
         this.websocket.addEventListener('message', (e) => {
@@ -846,6 +966,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
         this.websocketClosed    = true;
         this.websocket.close();
         this.websocket          = undefined;
+        this.stopWebsocketHeartbeatLoop();
     }
 
     /**
@@ -935,6 +1056,10 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      * @param {EchoLiveBroadcast} listener 监听对象
      */
     getDataClient(data, listener = this) {
+        echoLiveSystem.hook.trigger('broadcast_client_get_message_valid', {
+            data: data,
+            unit: listener
+        });
         switch (data.action) {
             case EchoLiveBroadcast.API_NAME_PING:
                 listener.sendHello(data.from?.uuid);
@@ -974,7 +1099,9 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
         this.uuid       = this.echolive.uuid;
         this.isServer   = false;
         this.targeted   = echolive.targeted;
-        this.timer      = {};
+        this.timer      = {
+            ...this.timer
+        };
         // this.event = {};
         this.depth      = 2;
 
@@ -990,6 +1117,10 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
         if (this.echolive.custom.name !== undefined) this.setName(this.echolive.custom.name);
 
         this.setListenCallback(2, this, this.getDataPortal);
+
+        echoLiveSystem.hook.trigger('broadcast_live_init', {
+            unit: this
+        });
 
         this.sendHello();
     }
@@ -1042,9 +1173,9 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
 
     /**
      * Echo 打印内容广播
-     * @param {String} username 
-     * @param {String|Object|Array} message 
-     * @param {String} target 发送的消息
+     * @param {String} username 说话人
+     * @param {String|Object|Array} message 单条消息
+     * @param {String} target 发送目标
      * @returns 
      */
     echoPrinting(username, message, target = undefined) {
@@ -1052,6 +1183,16 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
             username:   username,
             message:    message
         }, EchoLiveBroadcast.API_NAME_ECHO_PRINTING, target);
+    }
+
+    /**
+     * 发送形象
+     * @param {Object} avatar 形象数据
+     * @param {String} target 发送目标
+     * @returns 
+     */
+    sendAvatar(avatar, target = undefined) {
+        return this.sendData(avatar, EchoLiveBroadcast.API_NAME_SET_AVATAR, target);
     }
 
     /**
@@ -1069,6 +1210,10 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
      * @param {EchoLiveBroadcast} listener 监听对象
      */
     getDataPortal(data, listener = this) {
+        echoLiveSystem.hook.trigger('broadcast_live_get_message_valid', {
+            data: data,
+            unit: listener
+        });
         switch (data.action) {
             case EchoLiveBroadcast.API_NAME_MESSAGE_DATA:
                 listener.echolive.send(data.data);
@@ -1110,7 +1255,9 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
         this.echoLiveHistory = echoLiveHistory;
         this.uuid       = this.echoLiveHistory.uuid;
         this.isServer   = false;
-        this.timer      = {};
+        this.timer      = {
+            ...this.timer
+        };
         // this.event = {};
         this.event      = {
             ...this.event,
@@ -1128,6 +1275,10 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
         if (this.config === undefined) this.config = this.echoLiveHistory.config;
 
         this.setListenCallback(2, this, this.getDataHistory);
+
+        echoLiveSystem.hook.trigger('broadcast_history_init', {
+            unit: this
+        });
 
         this.sendHello();
     }
@@ -1149,6 +1300,10 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
      * @param {EchoLiveBroadcast} listener 监听对象
      */
     getDataHistory(data, listener = this) {
+        echoLiveSystem.hook.trigger('broadcast_history_get_message_valid', {
+            data: data,
+            unit: listener
+        });
         switch (data.action) {
             case EchoLiveBroadcast.API_NAME_ECHO_PRINTING:
                 listener.echoLiveHistory.send({
@@ -1166,6 +1321,70 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
                     listener.config.history.message.live_display_hidden_latest_message_show &&
                     !data.data?.display
                 ) listener.echoLiveHistory.changeLatestHistoryDisplay(true);
+                break;
+        
+            default:
+                break;
+        }
+    }
+}
+
+
+
+class EchoLiveBroadcastCharacter extends EchoLiveBroadcastClient {
+    /**
+     * Echo-Live 广播客户端：形象播放器
+     * @param {String} channel 频道名称
+     * @param {EchoLiveCharacter} echoLiveCharacter Echo-Live 形象播放器实例
+     * @param {Object} config 配置
+     */
+    constructor(channel = EchoLiveBroadcast.DEFAULT_CHANNEL, echoLiveCharacter = undefined, config = {}) {
+        super(channel, EchoLiveBroadcast.TYPE_CHARACTER, config);
+        this.echoLiveCharacter = echoLiveCharacter;
+        this.uuid       = this.echoLiveCharacter.uuid;
+        this.isServer   = false;
+        this.timer      = {
+            ...this.timer
+        };
+        this.event      = {
+            ...this.event
+        };
+        this.depth      = 2;
+
+        this.initCharacter();
+    }
+
+    initCharacter() {
+        if (this.config === undefined) this.config = this.echoLiveHistory.config;
+
+        this.setListenCallback(2, this, this.getDataCharacter);
+
+        echoLiveSystem.hook.trigger('broadcast_character_init', {
+            unit: this
+        });
+
+        this.sendHello();
+    }
+    
+    /**
+     * 发送 HELLO 消息
+     * @param {String} target 发送目标
+     * @returns {Object} 发送的消息
+     */
+    sendHello(target = undefined) {
+        return this.sendData({
+            hidden: undefined
+        }, EchoLiveBroadcast.API_NAME_HELLO, target);
+    }
+
+    getDataCharacter(data, listener = this) {
+        echoLiveSystem.hook.trigger('broadcast_character_get_message_valid', {
+            data: data,
+            unit: listener
+        });
+        switch (data.action) {
+            case EchoLiveBroadcast.API_NAME_SET_AVATAR:
+                listener.echoLiveCharacter.setAvatar(data.data);
                 break;
         
             default:

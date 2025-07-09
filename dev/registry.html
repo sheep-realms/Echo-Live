@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo Live 开发者工具：注册表查看器</title>
+    <link rel="icon" href="../res/image/favicon.ico">
+    <link rel="stylesheet" href="../res/style/fh-ui.css">
+    <link rel="stylesheet" href="../res/style/editor.css">
+    <link rel="stylesheet" href="../res/style/editor-accessibility.css">
+    <script src="../lib/jquery-3.7.1.min.js"></script>
+    <script src="../res/script/config-load-fail.js"></script>
+    <script src="../config.js" onerror="configLoadFail()"></script>
+    <script src="../app.js"></script>
+    <script src="../res/class/EchoLiveSystem.js"></script>
+    <script>
+        let regLogList = [];
+
+        function reglog(message = '') {
+            regLogList.push(message);
+        }
+
+        echoLiveSystem.registry.onLoadedRegistry('*', (table, data) => {
+            reglog(`Loaded ${table} (${data.value.length})`);
+        });
+    </script>
+    <script src="../res/data/root.js"></script>
+    <script src="../lang/index.js"></script>
+    <script src="../res/class/Translator.js"></script>
+    <script>
+        const translator = new Translator(config.global.language);
+        const $t = function(...e) {
+            return translator.output(...e);
+        };
+        const $tc = function(...e) {
+            return translator.outputByTextComponent(...e);
+        };
+        translator.init('../');
+    </script>
+    <script src="../res/data/avatar.js"></script>
+    <script src="../res/data/avatar_switch_effect.js"></script>
+    <script src="../res/data/border_style.js"></script>
+    <script src="../res/data/emoji.js"></script>
+    <script src="../res/data/font_weight.js"></script>
+    <script src="../res/data/icon.js"></script>
+    <script src="../res/data/live_theme.js"></script>
+    <script src="../res/data/palette.js"></script>
+    <script src="../res/data/print_effect.js"></script>
+    <script src="../res/data/settings_about_link.js"></script>
+    <script src="../res/data/settings_navigation.js"></script>
+    <script src="../res/data/sound.js"></script>
+    <script src="../res/data/text_style.js"></script>
+    <script src="../res/data/timing_function.js"></script>
+    <script src="../res/class/Icon.js"></script>
+    <script src="../res/class/EchoLiveTools.js"></script>
+    <script src="../res/class/FHUI.js"></script>
+    <script src="../res/class/EditorConstructor.js"></script>
+    <script src="../res/class/UniverseWindow.js"></script>
+    <script src="../res/class/SystemNotice.js"></script>
+    <script>
+        reglog('Init...');
+    </script>
+    <script src="../res/class/EmojiHako.js" defer></script>
+    <style>
+        #registry-view {
+            display: flex;
+            flex-direction: row;
+            gap: var(--gap-middle);
+            height: calc(100vh - var(--height-top-nav) - var(--gap-large));
+        }
+
+        #registry-list {
+            flex: 1;
+            background-color: var(--input-bgcolor);
+            color: var(--input-color);
+            overflow-y: auto;
+        }
+
+        #registry-item {
+            flex: 2;
+            background-color: var(--input-bgcolor);
+            color: var(--input-color);
+            overflow-y: auto;
+        }
+
+        #registry-list .registry-list-item,
+        #registry-item .registry-item-key {
+            appearance: none;
+            display: block;
+            width: 100%;
+            height: calc(var(--font-size-middle) * 1.5);
+            font-size: var(--font-size-middle);
+            text-align: left;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 0 var(--gap-small);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--input-color);
+        }
+
+        #registry-list .registry-list-item:hover,
+        #registry-item .registry-item-key:hover,
+        #registry-list .registry-list-item:focus,
+        #registry-item .registry-item-key:focus {
+            background-color: var(--color-general-glass);
+        }
+
+        #registry-list .registry-list-item.selected {
+            background-color: var(--color-general-dark);
+            color: #FFF;
+        }
+
+        @media screen and (max-width: 760px) {
+            #registry-view {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <!-- 标签页标题 -->
+        <nav id="echo-editor-nav" class="tabpage-nav" data-navid="main">
+            <button
+                id="tabpage-nav-log"
+                class="tabpage-nav-item"
+                data-pageid="log"
+                role="tab"
+                aria-selected="true"
+                accesskey="1"
+                data-i18n="editor.tabpage.log.title"
+                data-i18n-title="editor.tabpage.log.description"
+            >日志</button>
+            <button
+                id="tabpage-nav-registry"
+                class="tabpage-nav-item"
+                data-pageid="registry"
+                role="tab"
+                aria-selected="false"
+                accesskey="2"
+            >注册表</button>
+        </nav>
+
+        <!-- 标签页面板 -->
+        <div class="tabpage-centent" data-navid="main">
+            <!-- 日志标签页 -->
+            <section class="tabpage-panel" role="tabpanel" data-pageid="log">
+                <h2 class="tabpage-panel-title" data-i18n="editor.tabpage.log.title"></h2>
+                <div class="echo-editor-form">
+                    <div id="log" class="font-code"></div>
+                </div>
+            </section>
+            <!-- 注册表标签页 -->
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="registry">
+                <h2 class="tabpage-panel-title" data-i18n="studio.text_to_messages.tabpage.output.title"></h2>
+                <div class="echo-editor-form">
+                    <div id="registry-view">
+                        <div id="registry-list" class="font-code"></div>
+                        <div id="registry-item" class="font-code"></div>
+                    </div>
+                    
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div id="fh-notice" aria-live="polite"></div>
+
+    <script src="../res/script/i18n.js" defer></script>
+    <script src="../res/script/editor-common.js" defer></script>
+    <script>
+        uniWindow = new UniverseWindow();
+
+        $(document).ready(function() {
+            reglog('Ready');
+
+            regLogList.forEach((log) => {
+                $('#log').append(`<p>${log}</p>`);
+            });
+
+            echoLiveSystem.registry.registry.forEach((data, table) => {
+                $('#registry-list').append(`<button class="registry-list-item" data-table="${table}">${table}</button>`);
+            });
+
+            $(document).on('click', '.registry-list-item', function() {
+                const table = $(this).data('table');
+                const data = echoLiveSystem.registry.getRegistry(table);
+                $(this).addClass('selected').siblings().removeClass('selected');
+                $('#registry-item').html('');
+                data.forEach((value, key) => {
+                    $('#registry-item').append(`<button class="registry-item-key" data-table="${table}" data-key="${key}">${key}</button>`);
+                });
+            });
+
+            $(document).on('click', '.registry-item-key', function() {
+                const table = String($(this).data('table'));
+                const key = String($(this).data('key'));
+                const data = echoLiveSystem.registry.getRegistryValue(table, key);
+                uniWindow.textareaWindow(
+                    JSON.stringify(data, null, 4),
+                    table + ' / ' + key,
+                    {
+                        size: {
+                            width: 'min(calc(100vw - var(--gap-middle) * 4), 640px)',
+                            height: 'min(calc(100vh - var(--gap-middle) * 4), 640px)'
+                        },
+                        maskClosable: true,
+                        textarea: {
+                            class: 'code',
+                            readOnly: true
+                        }
+                    }
+                );
+            });
+        });
+    </script>
+</body>
+</html>

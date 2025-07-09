@@ -1,3 +1,11 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+ */
+
+
 // 警告：这是一坨屎山
 
 // 为了防止再出现逆天的建立在bug上运行的程序加入了严格模式
@@ -746,18 +754,29 @@ $(document).on('click', '.editor-format-btn', function() {
 });
 
 // 拾色器色块点击
-$(document).on('click', '#popups-palette .color-box', function() {
+$(document).on('click', '#popups-palette .color-box:not(.color-box-custom-class)', function() {
     let value = $(this).data('value');
     insertTextAtCursor('ptext-content', `@[${ value }]`, '@r');
     popupsDisplay('#popups-palette', false);
 });
 
+$(document).on('click', '#popups-palette .color-box-custom-class', function() {
+    let value = $(this).data('value');
+    insertTextAtCursor('ptext-content', `@<${ value }>`, '@r');
+    popupsDisplay('#popups-palette', false);
+});
+
 // 表情包点击
-$(document).on('click', '#popups-emoji .emoji-box', function() {
+$(document).on('click', '#popups-emoji .emoji-box', function(event) {
     let value = $(this).data('value');
     let str = `@{${ value }}`;
     if ($(this).hasClass('is-true-emoji')) str = value;
-    insertTextAtCursor('ptext-content', str, '', false, true);
+    // TODO: 这个问题暂时搞不定
+    insertTextAtCursorForObject({
+        id: 'ptext-content',
+        text: str,
+        forceRepeatBefore: true
+    });
     popupsDisplay('#popups-emoji', false);
 });
 
@@ -908,11 +927,21 @@ $('#ptext-content').keydown(function(e) {
 
 
 
+let commanderInit = false;
+
 $(document).keydown(function(e) {
     if (e.code === 'Slash' && e.ctrlKey) {
         if ($('#commander-input-panel').hasClass('hide')) {
             $('#commander-input-panel').removeClass('hide');
             $('#commander-input').focus();
+            if (!commanderInit) {
+                commanderInit = true;
+                sysNotice.sendT('notice.commander_tips', {}, 'tips', {}, (e, unit) => {
+                    if (e !== 'click') return;
+                    window.open('https://sheep-realms.github.io/Echo-Live-Doc/dev/command/', '_blank');
+                    unit.close();
+                });
+            }
         } else {
             $('#commander-input-panel').addClass('hide');
             $('#commander-input').blur();

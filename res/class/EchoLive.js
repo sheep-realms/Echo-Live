@@ -1,3 +1,11 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+ */
+
+
 class EchoLive {
     constructor(echo, config) {
         this.echo           = echo;
@@ -110,6 +118,10 @@ class EchoLive {
         }
 
         if (this.config.echolive.display.auto) this.setDisplayHiddenWaitTimer();
+
+        echoLiveSystem.hook.trigger('echolive_portal_init', {
+            unit: this
+        });
     }
 
     /**

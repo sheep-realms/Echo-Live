@@ -1,4 +1,4 @@
-const db_config_version = 10;
+const db_config_version = 11;
 
 const db_config_define = [
     {
@@ -49,6 +49,14 @@ const db_config_define = [
         type: 'boolean',
         default: false,
         created: 9
+    }, {
+        name: 'global.live_font_weight',
+        type: 'string',
+        default: 'inherit',
+        created: 11,
+        attribute: {
+            datalist: []
+        }
     },
     
 
@@ -817,6 +825,20 @@ const db_config_define = [
             }
         ]
     }, {
+        name: 'editor.websocket.disable_broadcast',
+        type: 'boolean',
+        default: false,
+        created: 11,
+        conditions: [
+            {
+                name: 'echolive.broadcast.enable',
+                value: true
+            }, {
+                name: 'editor.websocket.enable',
+                value: true
+            }
+        ]
+    }, {
         name: 'editor.color_picker',
         type: 'object',
         created: 4
@@ -963,6 +985,81 @@ const db_config_define = [
 
 
     {
+        name: 'character',
+        type: 'object',
+        created: 11
+    }, {
+        name: 'character.avatar',
+        type: 'object',
+        created: 11
+    }, {
+        name: 'character.avatar.name',
+        type: 'string',
+        default: 'echo_otone',
+        created: 11,
+        attribute: {
+            datalist: []
+        }
+    }, {
+        name: 'character.avatar.action',
+        type: 'string',
+        default: '',
+        created: 11,
+        attribute: {
+            datalist: []
+        }
+    }, {
+        name: 'character.avatar.scene',
+        type: 'string',
+        default: '',
+        created: 11,
+        attribute: {
+            datalist: []
+        }
+    }, {
+        name: 'character.avatar_switch_effect',
+        type: 'object',
+        created: 11
+    }, {
+        name: 'character.avatar_switch_effect.name',
+        type: 'string',
+        default: 'fade-in',
+        created: 11,
+        attribute: {
+            datalist: []
+        }
+    }, {
+        name: 'character.avatar_switch_effect.duration',
+        type: 'number',
+        default: 250,
+        created: 11,
+        unit: 'ms',
+        attribute: {
+            min: 0,
+            step: 250
+        }
+    }, {
+        name: 'character.avatar_switch_effect.scale',
+        type: 'number',
+        default: 1,
+        created: 11,
+        attribute: {
+            min: 0,
+            step: 0.25
+        }
+    }, {
+        name: 'character.avatar_switch_effect.timing_function',
+        type: 'string',
+        default: 'ease-out',
+        created: 11,
+        attribute: {
+            datalist: []
+        }
+    },
+
+
+
+    {
         name: 'accessibility',
         type: 'object',
         created: 10
@@ -1080,6 +1177,24 @@ const db_config_define = [
         default: false,
         created: 8
     }, {
+        name: 'advanced.broadcast.websocket_heartbeat_backoff_scale',
+        type: 'number',
+        default: 1,
+        created: 11,
+        attribute: {
+            min: 0
+        }
+    }, {
+        name: 'advanced.broadcast.websocket_heartbeat_duration',
+        type: 'number',
+        default: 20000,
+        created: 11,
+        unit: 'ms',
+        attribute: {
+            min: 0,
+            step: 250
+        }
+    }, {
         name: 'advanced.editor',
         type: 'object',
         created: 1
@@ -1150,10 +1265,6 @@ const db_config_define = [
 
     {
         name: 'selector',
-        type: 'object',
-        created: -1
-    }, {
-        name: 'character',
         type: 'object',
         created: -1
     },

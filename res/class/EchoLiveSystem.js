@@ -1,9 +1,37 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+ */
+
+
 class EchoLiveSystem {
     constructor() {
         this.mixer      = undefined;
         this.registry   = new EchoLiveRegistry();
         this.device     = new EchoLiveLocalDeviceManager();
+        this.hook       = new EchoLiveHook();
         this.config     = config;
+
+        this.hook.trigger('system_init', {
+            unit: this
+        });
+    }
+
+    static async getHash(content) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(content);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+        return hashHex;
+    }
+
+    experimentalFlagCheck(name = '') {
+        if (this.config?.experimental_flag === undefined) return false;
+        if (typeof this.config.experimental_flag[name] !== 'boolean') return false;
+        return this.config.experimental_flag[name];
     }
 }
 
@@ -15,7 +43,7 @@ class EchoLiveData {
             type: 'string',
             regexp: /^[^:]+(:[^:]+)+$/,
             filter: {
-                pad_namespace:  (v, unit, data) => unit.check() ? v : ( data?.namespace ? data.namespace : 'echolive:' ) + v,
+                pad_namespace:  (v, unit, data) => unit.check() ? v : ( data?.namespace ? data.namespace : 'echolive' ) + ':' + v,
                 get_namespace:  (v, unit)       => unit.check() ? v.split(':')[0] : '',
                 get_id:         (v, unit)       => unit.check() ? v.split(':').slice(1).join(':') : v
             }
@@ -59,8 +87,11 @@ class EchoLiveDataUnit {
 class EchoLiveRegistry {
     constructor() {
         this.registry = new Map();
+        this.registryHashCache = new Map();
+        this.syncRegistryHashCache = undefined;
         this.initialized = false;
         this.event = {
+            loadedRegistry: [],
             setRegistryValue: []
         };
         this.lastTriggerID = 0;
@@ -117,6 +148,17 @@ class EchoLiveRegistry {
         return target;
     }
 
+    onLoadedRegistry(table = '*', action = () => {}) {
+        if (table !== '*') table = EchoLiveData.filter('namespace_id', 'pad_namespace', table);
+        const id = this.lastTriggerID++;
+        this.event.loadedRegistry.push({
+            id: id,
+            table: table,
+            action: action
+        });
+        return id;
+    }
+
     /**
      * 绑定设置注册表值触发
      * @param {String} table 注册表名
@@ -145,6 +187,15 @@ class EchoLiveRegistry {
      */
     trigger(event, table, key, data = {}) {
         if (this.event[event] === undefined) return;
+        if (event === 'loadedRegistry') {
+            if (table !== '*') table = EchoLiveData.filter('namespace_id', 'pad_namespace', table);
+            this.event[event]
+                .filter(e => e.table === table || e.table === '*')
+                .forEach(
+                    e => e.action(table, data)
+                );
+            return;
+        }
         table = EchoLiveData.filter('namespace_id', 'pad_namespace', table);
         this.event[event].filter(e => e.table === table && (e.key === key || e.key === '*')).forEach(e => e.action(data));
     }
@@ -161,6 +212,18 @@ class EchoLiveRegistry {
     }
 
     /**
+     * 是否有指定注册表
+     * @param {String} key 注册表名
+     * @returns {Boolean} 结果
+     */
+    hasRegistry(key) {
+        if (typeof key !== 'string') return;
+        key = EchoLiveData.filter('namespace_id', 'pad_namespace', key);
+        let reg = this.registry.get(key);
+        return reg !== undefined;
+    }
+
+    /**
      * 获取注册表
      * @param {String} key 注册表名
      * @returns {Map|undefined} 注册表
@@ -174,6 +237,64 @@ class EchoLiveRegistry {
     }
 
     /**
+     * 获取注册表键值对
+     * @param {String} key 注册表名
+     * @returns {Object|undefined} 注册表键值对
+     */
+    getRegistryKeysAndValues(key) {
+        let reg = this.getRegistry(key);
+        if (reg === undefined) return;
+        const keys = Array.from(reg.keys());
+        const values = Array.from(reg.values());
+        return { keys, values };
+    }
+
+    /**
+     * 获取所有同步注册表名
+     * @returns {Array<String>} 所有同步注册表名
+     */
+    getAllSyncRegistry() {
+        let keys = [];
+        this.getRegistry('root').forEach((v, k) => {
+            if (v.sync) keys.push(k);
+        });
+        return keys;
+    }
+
+    /**
+     * 获取注册表哈希值
+     * @param {String} key 注册表名
+     * @returns {String|undefined} 注册表哈希值
+     */
+    async getRegistryHash(key) {
+        if (this.registryHashCache.has(key)) return this.registryHashCache.get(key);
+        let reg = this.getRegistry(key);
+        if (reg === undefined) return;
+        const json = JSON.stringify(this.getRegistryKeysAndValues(key));
+        const hash = await EchoLiveSystem.getHash(json).then(h => {
+            this.registryHashCache.set(key, h);
+            return h;
+        });
+        return hash;
+    }
+
+    /**
+     * 获取同步注册表哈希值
+     * @returns {Object} 同步注册表哈希值
+     */
+    async getSyncRegistryHash() {
+        if (this.syncRegistryHashCache !== undefined) return this.syncRegistryHashCache;
+        const keys = this.getAllSyncRegistry();
+        const hash = await Promise.all(keys.map(e => this.getRegistryHash(e)));
+        const totalHash = await EchoLiveSystem.getHash(hash.join(''));;
+        this.syncRegistryHashCache = totalHash;
+        return {
+            hash: totalHash,
+            registry: { keys, hash }
+        };
+    }
+
+    /**
      * 创建注册表
      * @param {String} key 注册表名
      * @returns {Map|undefined} 注册表
@@ -182,7 +303,26 @@ class EchoLiveRegistry {
         key = EchoLiveData.filter('namespace_id', 'pad_namespace', key);
         if (!EchoLiveData.check('namespace_id', key)) return;
         if (this.registry.get(key) !== undefined) return;
+        this.registryHashCache.delete(key);
         return this.registry.set(key, new Map());
+    }
+
+    /**
+     * 创建根注册表
+     * @param {String} namespace 命名空间
+     * @param {Object} map 注册表内容
+     */
+    createRootRegistry(namespace, map = {}) {
+        this.createRegistry(`${namespace}:root`);
+        this.registryHashCache.delete(`${namespace}:root`);
+
+        for (const key in map) {
+            if (Object.prototype.hasOwnProperty.call(map, key)) {
+                const e = map[key];
+                this.setRegistryValue(`${namespace}:root`, key, e);
+                this.createRegistry(key);
+            }
+        }
     }
 
     /**
@@ -232,6 +372,28 @@ class EchoLiveRegistry {
         let value = reg.get(key);
         if (typeof value === 'object') return JSON.parse(JSON.stringify(value));
         return reg.get(key);
+    }
+
+    /**
+     * 分页查询数据表值
+     * @param {String} key 注册表名
+     * @param {Number} page 页数
+     * @param {Number} count 每页条目数
+     * @returns {Array} 注册表值数组
+     */
+    getRegistryValueForPage(key, page = 1, count = 20) {
+        let reg = this.getRegistry(key);
+        if (reg === undefined) return;
+        const values = Array.from(reg.values());
+        const start = (page - 1) * count;
+        const end = start + count;
+        return {
+            total: values.length,
+            totalPage: Math.ceil(values.length / count),
+            page: page,
+            count: count,
+            values: values.slice(start, end)
+        };
     }
 
     /**
@@ -300,6 +462,8 @@ class EchoLiveRegistry {
             ...data
         }
 
+        this.registryHashCache.delete(table);
+
         if (typeof value === 'object') value = JSON.parse(JSON.stringify(value));
         const defaultData = this.getRegistryDefaultValue(table);
 
@@ -341,6 +505,7 @@ class EchoLiveRegistry {
         let reg = this.getRegistry(table);
         if (reg === undefined) return;
         if (typeof data !== 'object') return;
+        this.registryHashCache.delete(table);
         if (!Array.isArray(data)) data = [data];
         data.forEach(e => {
             let key;
@@ -351,6 +516,7 @@ class EchoLiveRegistry {
             }
             this.setRegistryValue(table, key, e);
         });
+        this.trigger('loadedRegistry', table, undefined, { value: data });
         return this.getRegistry(table);
     }
 
@@ -369,16 +535,15 @@ class EchoLiveRegistry {
      * @param {String} table 源注册表名
      * @param {String} table2 目标注册表名
      * @param {String} key 源注册表键
-     * @param {Function} success 成功回调
-     * @param {Function} fail 失败回调
+     * @param {Function} callback 回调
      * @returns {*} 回调返回值
      */
-    registryRedirect(table, table2, key, success = () => {}, fail = () => {}) {
+    registryRedirect(table, table2, key, callback = () => {}) {
         let value = this.getRegistryValue(table, key);
-        if (value === undefined || (typeof value !== 'string' && typeof value !== 'number')) return fail(value);
+        if (value === undefined || (typeof value !== 'string' && typeof value !== 'number')) return callback(false, undefined, value);
         let regValue = this.getRegistryValue(table2, value);
-        if (value === undefined) return fail(value);
-        return success(regValue, value);
+        if (value === undefined) return callback(false, undefined, value);
+        return callback(true, regValue, value);
     }
 
     /**
@@ -450,7 +615,11 @@ class EchoLiveLocalDeviceManager {
         }
     }
 
-    vibrate(data) {
+    /**
+     * 设备震动
+     * @param {Array<Number>} data 震动参数
+     */
+    vibrate(data = []) {
         if (!this.enable) return;
         if (typeof navigator.vibrate !== 'function') return;
         try {
@@ -470,6 +639,173 @@ class EchoLiveLocalDeviceManager {
         this.vibrate(this.vibrateMethod[name]);
     }
 }
+
+
+
+class EchoLiveHook {
+    constructor() {
+        this.hooks = [];
+        this.lastHookID = -1;
+        this.debug = {
+            log_trigger: false
+        };
+    }
+
+    /**
+     * 创建 Hook
+     * @param {String} name 事件名称
+     * @param {Function} method 方法
+     * @returns {EchoLiveHookUnit} Hook Unit
+     */
+    create(name, method = () => {}) {
+        this.hooks.push({
+            name: name,
+            id: ++this.lastHookID,
+            method: method
+        });
+        return new EchoLiveHookUnit(this.lastHookID, name);
+    }
+
+    /**
+     * 查找 Hook
+     * @param {Number} id Hook ID
+     * @returns {Object} Hook 数据
+     */
+    find(id) {
+        return this.hooks.find(e => e.id === id);
+    }
+
+    /**
+     * 查找 Hook 索引
+     * @param {Number} id Hook ID
+     * @returns {Number} Hook 索引
+     */
+    findIndex(id) {
+        return this.hooks.findIndex(e => e.id === id);
+    }
+
+    /**
+     * 查找 Hook 在事件中的索引
+     * @param {String} name 事件名称
+     * @param {Number} id Hook ID
+     * @returns {Number} Hook 索引
+     */
+    findIndexByName(name, id) {
+        return this.filter(name).findIndex(e => e.id === id);
+    }
+
+    /**
+     * 过滤 Hook
+     * @param {String} name 事件名称
+     * @returns {Object} Hook 数据
+     */
+    filter(name) {
+        return this.hooks.filter(e => e.name === name);
+    }
+
+    /**
+     * 移除 Hook
+     * @param {Number} id Hook ID
+     */
+    remove(id) {
+        const index = this.findIndex(id);
+        if (index === -1) return;
+        this.hooks.splice(index, 1);
+    }
+
+    /**
+     * 清空 Hook
+     * @param {String|undefined} name 事件名称
+     */
+    clear(name) {
+        if (name === undefined) {
+            this.hooks = [];
+        }
+
+        this.hooks = this.hooks.filter(e => e.name !== e.name);
+    }
+
+    /**
+     * 触发 Hook
+     * @param {String} name 事件名称
+     * @param {*} data 数据 
+     */
+    trigger(name, data) {
+        if (this.debug.log_trigger) console.log('Hook: ' + name, data);
+
+        let r = this.filter(name);
+        r.forEach(e => {
+            e.method({
+                ...data,
+                hook: new EchoLiveHookUnit(e.id, e.name)
+            });
+        });
+    }
+}
+
+
+
+class EchoLiveHookUnit {
+    constructor(id, name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    get parent() {
+        return echoLiveSystem.hook;
+    }
+
+    get index() {
+        return this.parent.findIndex(this.id);
+    }
+
+    get indexByName() {
+        return this.parent.findIndexByName(this.name, this.id);
+    }
+
+    remove() {
+        this.parent.remove(this.id);
+    }
+}
+
+
+
+// class EchoLiveLog {
+//     constructor() {
+//         this.logs = [];
+//     }
+
+//     /**
+//      * 添加日志
+//      * @param {'debug'|'info'|'warn'|'error'} type 日志类型
+//      * @param {String} key 日志键名
+//      * @param {*} data 日志数据
+//      */
+//     log(type, key, data) {
+//         this.logs.push({
+//             time: new Date().getTime(),
+//             type: type,
+//             key: key,
+//             data: data
+//         });
+//     }
+
+//     debug(key, data) {
+//         return this.log('debug', key, data);
+//     }
+
+//     info(key, data) {
+//         return this.log('info', key, data);
+//     }
+
+//     warn(key, data) {
+//         return this.log('warn', key, data);
+//     }
+
+//     error(key, data) {
+//         return this.log('error', key, data);
+//     }
+// }
 
 
 

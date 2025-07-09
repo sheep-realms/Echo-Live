@@ -1,3 +1,11 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+ */
+
+
 class DOMConstructor {
     constructor() {}
 
@@ -178,61 +186,61 @@ class EditorForm {
     static editorController(editorID) {
         return DOMConstructor.join([
             EditorForm.buttonAir('', {
-                icon: Icon.formatBold,
+                icon: Icon.getIcon('material:format-bold'),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="bold"`,
                 title: $t('editor.format.bold') + ' [Ctrl+B]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.formatItalic,
+                icon: Icon.getIcon('material:format-italic'),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="italic"`,
                 title: $t('editor.format.italic') + ' [Ctrl+I]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.formatUnderline,
+                icon: Icon.getIcon('material:format-underline'),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="underline"`,
                 title: $t('editor.format.underline') + ' [Ctrl+U]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.formatStrikethroughVariant,
+                icon: Icon.getIcon('material:format-strikethrough-variant'),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="strikethrough"`,
                 title: $t('editor.format.strikethrough') + ' [Ctrl+D]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.palette,
+                icon: Icon.getIcon('material:palette'),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="color"`,
                 title: $t('editor.format.color') + ' [Ctrl+Shift+C]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.emoticonHappy,
+                icon: Icon.getIcon('material:emoticon-happy'),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="emoji"`,
                 title: $t('editor.format.emoji') + ' [Ctrl+E]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.image,
+                icon: Icon.getIcon('material:image'),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="image"`,
                 title: $t('editor.format.image') + ' [Ctrl+Shift+I]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.formatFontSizeIncrease,
+                icon: Icon.getIcon('material:format-font-size-increase'),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="font_size_increase"`,
                 title: $t('editor.format.font_size_increase') + ' [Ctrl+↑]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.formatFontSizeDecrease,
+                icon: Icon.getIcon('material:format-font-size-decrease'),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="font_size_decrease"`,
                 title: $t('editor.format.font_size_decrease') + ' [Ctrl+↓]'
             }),
             EditorForm.buttonAir('', {
-                icon: Icon.formatClear,
+                icon: Icon.getIcon('material:format-clear'),
                 class: 'editor-format-btn',
                 attr: `data-editorid="${editorID}" data-value="clear"`,
                 title: $t('editor.format.clear') + ' [Ctrl+Shift+Space]'
@@ -302,11 +310,7 @@ class Popups {
     static paletteOptions(palette = []) {
         let dom = '';
         palette.forEach(e => {
-            let title = e.meta.title;
-            if (typeof e?.meta?.i18n == 'string') {
-                title = $t('editor.palette.label.' + e.meta.i18n);
-            }
-            dom += `<option value="${ e.meta.name }">${ title }</option>`
+            dom += `<option value="${ e.meta.name }">${ $tc( e.meta.title, { before: 'editor.palette.label.' } ) }</option>`
         });
         return dom;
     }
@@ -330,30 +334,47 @@ class Popups {
             if (e?.type === undefined || e?.type === 'color') {
                 title = e.title;
 
-                if (typeof e?.i18n == 'string') {
+                if (typeof e?.title?.translate === 'string') {
                     tv = { n: 0 };
-                    if (typeof e?.i18n_var == 'object') tv = {...tv, ...e.i18n_var, ...{ n: 2 }};
-                    title = $t('editor.palette.label.' + e.i18n, tv);
+                    if (typeof e?.title?.with === 'object') tv = {...tv, ...e.title.with, ...{ n: 2 }};
+                    title = $t('editor.palette.label.' + e.title.translate, tv);
                 }
 
                 if (typeof e?.after == 'string') {
                     title = $t('editor.palette.label.title_after', {
                         title: title,
                         after: $t('editor.palette.label.common.after.' + e.after)
-                    });
+                    }, e.title?.name);
                 }
 
                 dom += `<button class="color-box" title="${ title.replace(/"/g, '&quot;') }" data-value="${ e.value.replace(/"/g, '') }" style="--color: ${ e.value.replace(/"/g, '') };"><div class="color"></div></button>`;
             } else if (e?.type === 'group') {
                 title = e.value;
 
-                if (typeof e?.i18n == 'string') {
+                if (typeof e?.value?.translate === 'string') {
                     tv = { n: 0 };
-                    if (typeof e?.i18n_var == 'object') tv = {...tv, ...e.i18n_var, ...{ n: 2 }};
-                    title = $t('editor.palette.label.' + e.i18n, tv);
+                    if (typeof e?.value?.with === 'object') tv = {...tv, ...e.value.with, ...{ n: 2 }};
+                    title = $t('editor.palette.label.' + e.value.translate, tv, e.title?.name);
                 }
 
                 dom += `${ firstGruop ? '' : '</div>' }<div class="palette-group">${ EchoLiveTools.safeHTML(title) }</div><div class="palette-list">`;
+            } else if (e?.type === 'class') {
+                title = e.title;
+
+                if (typeof e?.title?.translate === 'string') {
+                    tv = { n: 0 };
+                    if (typeof e?.title?.with === 'object') tv = {...tv, ...e.title.with, ...{ n: 2 }};
+                    title = $t('editor.palette.label.' + e.title.translate, tv, e.title?.name);
+                }
+
+                dom += `<button
+                    class="color-box color-box-custom-class ${ e?.preview_class ? 'echo-text-preview-' + e.preview_class : '' }"
+                    title="${ title.replace(/"/g, '&quot;') }"
+                    data-value="${ e.value.replace(/"/g, '') }"
+                    style="${ e?.image ? `background-image: url(${ e.image });` : '' } ${ e?.style ?? '' }"
+                >
+                    <div class="color"></div>
+                </button>`;
             }
             firstGruop = false;
         });
@@ -387,13 +408,13 @@ class Popups {
             <div class="diff-result-content ok" title="${ $t('editor.palette.diff_dashboard.state.ok', { name: title }) }">
                 <div class="title">${ value }</div>
                 <div class="icon">
-                    ${ Icon.check }
+                    ${ Icon.getIcon('material:check') }
                 </div>
             </div>
             <div class="diff-result-content fail" title="${ $t('editor.palette.diff_dashboard.state.fail', { name: title }) }">
                 <div class="title">${ value }</div>
                 <div class="icon">
-                    ${ Icon.close }
+                    ${ Icon.getIcon('material:close') }
                 </div>
             </div>
         </div>`;
@@ -580,11 +601,7 @@ class Popups {
     static emojiOptions(emojiPacks = []) {
         let dom = '';
         emojiPacks.forEach(e => {
-            let title = e.meta.title;
-            if (typeof e?.meta?.title_i18n == 'string') {
-                title = $t('emoji.' + e.meta.title_i18n);
-            }
-            dom += `<option value="${ e.meta.name }">${ title }</option>`
+            dom += `<option value="${ e.meta.name }">${ $tc(e.meta.title) }</option>`
         });
         return dom;
     }
@@ -620,8 +637,7 @@ class Popups {
             let title;
             if (e?.type === 'emoji' || e?.type === undefined) {
                 if (emojiPack.image.show_title) {
-                    title = e.title;
-                    if (e.title_i18n !== undefined) title = $t( 'emoji.' + emojiPack.path.i18n + 'emoji.' + e.title_i18n );
+                    title = $tc(e.title, { before: 'emoji.' + emojiPack.path.translate + 'emoji.' });
                 }
 
                 if (emojiPack.image.isEmoji) {
@@ -634,30 +650,41 @@ class Popups {
                     dom += `<button class="emoji-box" ${ title !== undefined ? `title="${ title }"` : '' } data-value="${ emojiPack.meta.namespace + ':' + e.name }"><img src="${ emojiPack.path.images + e.path }" alt="${ title }"></button>`;
                 }
             } else if (e?.type === 'group') {
-                title = e.title;
-                if (e.title_i18n !== undefined) title = $t( 'emoji.' + emojiPack.path.i18n + 'group.' + e.title_i18n );
-
+                title = $tc(e.title, { before: 'emoji.' + emojiPack.path.translate + 'group.' });
                 dom += `${ firstGruop ? '' : '</div>' }<div class="emoji-group">${ title }</div><div class="emoji-list">`;
             }
             firstGruop = false;
         });
-        if (!firstGruop) dom += '</div>'
+        if (!firstGruop) dom += '</div>';
 
         dom += '<div class="emoji-meta">';
+        let authorDOM = '';
         if (emojiPack.meta?.author !== undefined && emojiPack.meta?.author !== '') {
-            dom += `<div>${ $t('meta_info.author', { name: emojiPack.meta.author }) }</div>`
+            authorDOM = MetaInfo.linkList(
+                emojiPack.meta.author,
+                'ui.missingno.no_author',
+                {
+                    translateData: {
+                        before: emojiPack.path.translate
+                    }
+                }
+            );
+            dom += `<div>${ $t('meta_info.author', { name: $tc( authorDOM ) }) }</div>`;
         }
-        if (emojiPack.meta?.license !== undefined && emojiPack.meta.license?.title !== undefined) {
-            dom += `<div>
-                ${ $t('meta_info.license', {
-                    name:
-                        emojiPack.meta.license?.url !== undefined
-                        ? `<a href="${ emojiPack.meta.license.url }" target="_blank">${ emojiPack.meta.license.title }</a>`
-                        : emojiPack.meta.license.title
-                }) }
-            </div>`
+        let licenseDOM = '';
+        if (emojiPack.meta?.license !== undefined) {
+            licenseDOM = MetaInfo.linkList(
+                emojiPack.meta.license,
+                'ui.missingno.no_name',
+                {
+                    translateData: {
+                        before: emojiPack.path.translate
+                    }
+                }
+            );
+            dom += `<div>${ $t('meta_info.license', { name: $tc( licenseDOM ) }) }</div>`;
         }
-        dom += '</div>'
+        dom += '</div>';
         return dom;
     }
 
@@ -726,7 +753,7 @@ class Popups {
                                 $t('file.dropper.dialog.selected.import_image'),
                                 {
                                     id: 'btn-file-check-dialog-import-image-url',
-                                    icon: Icon.check
+                                    icon: Icon.getIcon('material:check')
                                 }
                             ) }
                         </div>
@@ -785,7 +812,7 @@ class Popups {
             $t('ui.delete'),
             {
                 class: 'btn-image-cache-delete',
-                icon: Icon.toggleSwitchOffOutline,
+                icon: Icon.getIcon('material:toggle-switch-off-outline'),
                 color: 'danger',
                 size: "small"
             }
@@ -794,7 +821,7 @@ class Popups {
             $t('ui.delete'),
             {
                 class: 'btn-image-cache-delete-stop',
-                icon: Icon.toggleSwitch,
+                icon: Icon.getIcon('material:toggle-switch'),
                 color: 'danger',
                 size: "small"
             }
@@ -803,7 +830,7 @@ class Popups {
             $t('editor.image_popups.button.delete_all_images'),
             {
                 class: 'btn-image-cache-delete-all',
-                icon: Icon.delete,
+                icon: Icon.getIcon('material:delete'),
                 color: 'danger',
                 size: "small"
             }
@@ -871,17 +898,17 @@ class EditorClientState {
             <div class="client-info">
                 <div class="client-icon client-icon-left">
                     ${
-                        target === 'yes' ? Icon.flag : (
-                            target === 'not' ? Icon.cancel : (
-                                targeted ? Icon.cancel : ''
+                        target === 'yes' ? Icon.getIcon('material:flag') : (
+                            target === 'not' ? Icon.getIcon('material:cancel') : (
+                                targeted ? Icon.getIcon('material:cancel') : ''
                             )
                         )
                     }
                 </div>
                 <div class="client-name">${name2}</div>
                 <div class="client-icon client-icon-right">
-                    ${ echoState === 'play' || echoState === 'ready' ? Icon.timerSand : ''}
-                    ${ messagesCount > 0 && echoState === 'stop' ? Icon.messageProcessing : '' }
+                    ${ echoState === 'play' || echoState === 'ready' ? Icon.getIcon('material:timer-sand') : ''}
+                    ${ messagesCount > 0 && echoState === 'stop' ? Icon.getIcon('material:message-processing') : '' }
                 </div>
             </div>
             <div class="state-color-block"></div>
@@ -933,12 +960,12 @@ class HistoryMessage {
             </div>
             <div class="action">
                 ${EditorForm.buttonGhost($t('ui.edit'), {
-                    icon: Icon.pencil,
+                    icon: Icon.getIcon('material:pencil'),
                     class: 'history-message-item-btn-edit',
                     attr: `data-index="${index}"`
                 })}
                 ${EditorForm.buttonGhost($t('ui.send'), {
-                    icon: Icon.send,
+                    icon: Icon.getIcon('material:send'),
                     class: 'history-message-item-btn-send',
                     attr: `data-index="${index}"`
                 })}
@@ -961,7 +988,7 @@ class SettingsPanel {
             aria-selected="false"
             title="${ $t( 'config.' + item.id + '._description' ) }"
         >
-            <span class="icon left" aria-hidden="true">${ item.icon !== undefined ? Icon[item.icon] : ''}</span>
+            <span class="icon left" aria-hidden="true">${ item.icon !== undefined ? Icon.getIcon(item.icon) : ''}</span>
             <span class="title">${ $t( 'config.' + item.id + '._title' ) }</span>
             <span class="icon right" aria-hidden="true"></span>
         </button>`;
@@ -985,8 +1012,8 @@ class SettingsPanel {
             return `<button class="settings-group-collapse-title">
                 <div class="title">${ title }</div>
                 <div class="icon">
-                    <span class="open">${ Icon.chevronDown }</span>
-                    <span class="close">${ Icon.chevronUp }</span>
+                    <span class="open">${ Icon.getIcon('material:chevron-down') }</span>
+                    <span class="close">${ Icon.getIcon('material:chevron-up') }</span>
                 </div>
             </button>`;
         } else if (depth > 1) {
@@ -1098,12 +1125,7 @@ class SettingsPanel {
                 'text',
                 {
                     id: id.replace(/\./g, '-'),
-                    class: 'settings-value code',
-                    attribute: {
-                        aria: {
-                            label: title
-                        }
-                    }
+                    class: 'settings-value code'
                 }
             );
         } else {
@@ -1114,12 +1136,7 @@ class SettingsPanel {
                     id: id.replace(/\./g, '-'),
                     class: 'settings-value code',
                     option_description_fill_value: true,
-                    option_width: attribute?.option_width,
-                    attribute: {
-                        aria: {
-                            label: title
-                        }
-                    }
+                    option_width: attribute?.option_width
                 }
             );
         }
@@ -1134,7 +1151,8 @@ class SettingsPanel {
                 },
                 title
             ) +
-            inputDOM
+            inputDOM,
+            `<div class="content hide"></div>`
         );
     }
 
@@ -1170,9 +1188,6 @@ class SettingsPanel {
                         label: unit ? $t('unit.' + unit) : undefined
                     },
                     attribute: {
-                        aria: {
-                            label: title
-                        },
                         max: attribute?.max !== undefined ? attribute.max : undefined,
                         min: attribute?.min !== undefined ? attribute.min : undefined,
                         step: attribute?.step !== undefined ? attribute.step : undefined
@@ -1191,7 +1206,7 @@ class SettingsPanel {
                     FHUIComponentButton.buttonGhost(
                         $t('ui.off'),
                         {
-                            icon: 'toggleSwitchOffOutline',
+                            icon: 'material:toggle-switch-off-outline',
                             class: 'btn-switch btn-off'
                         }
                     )
@@ -1200,7 +1215,7 @@ class SettingsPanel {
                     FHUIComponentButton.button(
                         $t('ui.on'),
                         {
-                            icon: 'toggleSwitch',
+                            icon: 'material:toggle-switch',
                             class: 'btn-switch btn-on'
                         }
                     )
@@ -1231,7 +1246,7 @@ class SettingsPanel {
                     FHUIComponentButton.buttonGhost(
                         $t('ui.enable_all'),
                         {
-                            icon: 'toggleSwitchOffOutline',
+                            icon: 'material:toggle-switch-off-outline',
                             class: 'btn-switch btn-off'
                         }
                     )
@@ -1240,7 +1255,7 @@ class SettingsPanel {
                     FHUIComponentButton.button(
                         $t('ui.enable_all'),
                         {
-                            icon: 'toggleSwitch',
+                            icon: 'material:toggle-switch',
                             class: 'btn-switch btn-on'
                         }
                     )
@@ -1300,9 +1315,9 @@ class SettingsPanel {
             ${ !data.isDebug ? 'target="_blank"' : '' }
             ${ data.isDebug ? `data-debug="${ data.debug }"` : '' }
         >
-            <div class="icon left">${ icon != undefined ? Icon[icon] : '' }</div>
+            <div class="icon left">${ icon != undefined ? Icon.getIcon(icon) : '' }</div>
             <div class="title">${ title }</div>
-            <div class="icon right">${ !data?.isDebug ? Icon.openInNew : '' }</div>
+            <div class="icon right">${ !data?.isDebug ? Icon.getIcon('material:open-in-new') : '' }</div>
         </a>`;
     }
 
@@ -1322,9 +1337,9 @@ class SettingsPanel {
      * @param {'info'|'warn'|'error'|'black'} type 类型
      * @returns {String} DOM
      */
-    static msgBox(title = '', content = '', icon = 'information', type = 'info') {
+    static msgBox(title = '', content = '', icon = 'material:information', type = 'info') {
         return `<div class="msgbox state-${ type }">
-            <div class="icon" aria-hidden="true">${ Icon[icon] }</div>
+            <div class="icon" aria-hidden="true">${ Icon.getIcon(icon) }</div>
             <div class="text">
                 <div class="title">${ title }</div>
                 <div class="content">${ content }</div>
@@ -1339,7 +1354,7 @@ class SettingsPanel {
      * @param {String} icon 图标名称
      * @returns {String} DOM
      */
-    static msgBoxWarn(title = '', content = '', icon = 'alert') {
+    static msgBoxWarn(title = '', content = '', icon = 'material:alert') {
         return SettingsPanel.msgBox(title, content, icon, 'warn');
     }
 
@@ -1401,22 +1416,22 @@ class SettingsFileChecker {
      */
     static fill(file, state = 'unknown', stateMessage = '') {
         const icons = {
-            ok: 'check',
-            warn: 'alert',
-            error: 'close',
-            unknown: 'help',
+            ok: 'material:check',
+            warn: 'material:alert',
+            error: 'material:close',
+            unknown: 'material:help',
         };
         return `<div class="file-check-box">
             <div class="info">
-                <div class="icon">${ Icon.fileCodeOutline }</div>
+                <div class="icon">${ Icon.getIcon('material:file-code-outline') }</div>
                 <div class="meta">
                     <div class="name" title="${ $t('file.name') }">${ file.name }</div>
                     <div class="size" title="${ $t('file.size') }">${ EchoLiveTools.formatFileSize(file.size) }</div>
-                    <div class="last-modified-date" title="${ $t('file.last_modified_date') }">${ EchoLiveTools.formatDate(file.lastModifiedDate || file.lastModified, 'data_time') }</div>
+                    <div class="last-modified-date" title="${ $t('file.last_modified_date') }">${ EchoLiveTools.formatDate(file.lastModifiedDate || file.lastModified, 'date_time') }</div>
                 </div>
             </div>
             <div class="state state-${ state }">
-                <div class="icon">${ Icon[icons[state]] }</div>
+                <div class="icon">${ Icon.getIcon(icons[state]) }</div>
                 <div class="message">${ stateMessage }</div>
             </div>
         </div>`;
@@ -1424,7 +1439,7 @@ class SettingsFileChecker {
 
     static dialog(title = '', description = '', controller = '', icon = undefined, domClass = '') {
         return `<div class="file-check-dialog ${ domClass }">
-            <div class="icon">${ icon != undefined ? Icon[icon] : ''}</div>
+            <div class="icon">${ icon != undefined ? Icon.getIcon(icon) : ''}</div>
             <div class="title">${ title }</div>
             <div class="description">${ description }</div>
             <div class="controller">${ controller }</div>
@@ -1438,11 +1453,11 @@ class SettingsFileChecker {
                 {
                     id: 'btn-file-check-dialog-cancel',
                     class: 'btn-default',
-                    icon: Icon.check
+                    icon: Icon.getIcon('material:check')
                 }
             );
         }
-        return SettingsFileChecker.dialog(title, description, controller, 'check', 'state-success');
+        return SettingsFileChecker.dialog(title, description, controller, 'material:check', 'state-success');
     }
 
     static dialogWarn(title = '', description = '', controller = '') {
@@ -1452,12 +1467,12 @@ class SettingsFileChecker {
                 {
                     id: 'btn-file-check-dialog-cancel',
                     class: 'btn-default',
-                    icon: Icon.close,
+                    icon: Icon.getIcon('material:close'),
                     color: 'danger'
                 }
             );
         }
-        return SettingsFileChecker.dialog(title, description, controller, 'alert', 'state-warn');
+        return SettingsFileChecker.dialog(title, description, controller, 'material:alert', 'state-warn');
     }
 
     static dialogError(title = '', description = '', controller = '') {
@@ -1467,12 +1482,12 @@ class SettingsFileChecker {
                 {
                     id: 'btn-file-check-dialog-cancel',
                     class: 'btn-default',
-                    icon: Icon.close,
+                    icon: Icon.getIcon('material:close'),
                     color: 'danger'
                 }
             );
         }
-        return SettingsFileChecker.dialog(title, description, controller, 'close', 'state-error');
+        return SettingsFileChecker.dialog(title, description, controller, 'material:close', 'state-error');
     }
 
     static dialogJSONParseFail() {
@@ -1483,7 +1498,7 @@ class SettingsFileChecker {
                 $t('ui.cancel'),
                 {
                     id: 'btn-file-check-dialog-cancel',
-                    icon: Icon.close,
+                    icon: Icon.getIcon('material:close'),
                     color: 'danger'
                 }
             ) +
@@ -1492,7 +1507,7 @@ class SettingsFileChecker {
                 {
                     id: 'btn-file-check-dialog-unsafe-load',
                     class: 'btn-default',
-                    icon: Icon.shieldOff,
+                    icon: Icon.getIcon('material:shield-off'),
                     color: 'warn'
                 }
             )
@@ -1507,7 +1522,7 @@ class SettingsFileChecker {
                 $t('ui.close'),
                 {
                     id: 'btn-file-check-dialog-cancel',
-                    icon: Icon.close,
+                    icon: Icon.getIcon('material:close'),
                     color: 'danger'
                 }
             ) +
@@ -1516,7 +1531,7 @@ class SettingsFileChecker {
                 {
                     id: 'btn-file-check-dialog-goto-chrome',
                     class: 'btn-default',
-                    icon: Icon.openInNew
+                    icon: Icon.getIcon('material:open-in-new')
                 }
             )
         );
@@ -1530,7 +1545,7 @@ class SettingsFileChecker {
                 $t('ui.cancel'),
                 {
                     id: 'btn-file-check-dialog-cancel-rollback',
-                    icon: Icon.close,
+                    icon: Icon.getIcon('material:close'),
                     color: 'danger'
                 }
             ) +
@@ -1539,7 +1554,7 @@ class SettingsFileChecker {
                 {
                     id: 'btn-file-check-dialog-update-config',
                     class: 'btn-default',
-                    icon: Icon.update
+                    icon: Icon.getIcon('material:update')
                 }
             )
         );
@@ -1553,7 +1568,7 @@ class SettingsFileChecker {
                 $t('ui.cancel'),
                 {
                     id: 'btn-file-check-dialog-cancel-rollback',
-                    icon: Icon.close,
+                    icon: Icon.getIcon('material:close'),
                     color: 'danger'
                 }
             ) +
@@ -1562,7 +1577,7 @@ class SettingsFileChecker {
                 {
                     id: 'btn-file-check-dialog-update-config-from-unknown-version',
                     class: 'btn-default',
-                    icon: Icon.update,
+                    icon: Icon.getIcon('material:update'),
                     color: 'warn'
                 }
             )
@@ -1577,7 +1592,7 @@ class SettingsFileChecker {
                 $t('ui.cancel'),
                 {
                     id: 'btn-file-check-dialog-cancel-rollback',
-                    icon: Icon.close,
+                    icon: Icon.getIcon('material:close'),
                     color: 'danger'
                 }
             ) +
@@ -1586,7 +1601,7 @@ class SettingsFileChecker {
                 {
                     id: 'btn-file-check-dialog-config-from-future',
                     class: 'btn-default',
-                    icon: Icon.arrowRight,
+                    icon: Icon.getIcon('material:arrow-right'),
                     color: 'warn'
                 }
             )
@@ -1601,7 +1616,7 @@ class SettingsFileChecker {
                 $t('ui.cancel'),
                 {
                     id: 'btn-file-check-dialog-cancel',
-                    icon: Icon.close,
+                    icon: Icon.getIcon('material:close'),
                     color: 'danger'
                 }
             ) +
@@ -1610,7 +1625,7 @@ class SettingsFileChecker {
                 {
                     id: 'btn-file-check-dialog-import-image',
                     class: 'btn-default',
-                    icon: Icon.check
+                    icon: Icon.getIcon('material:check')
                 }
             )
         );
@@ -1626,46 +1641,46 @@ class FHUINotice {
     static notice(message = '', title = '', type = 'info', data = {}) {
         const themes = {
             info: {
-                icon: 'information',
+                icon: 'material:information',
                 color: 'general'
             },
             success: {
-                icon: 'check',
+                icon: 'material:check',
                 color: 'safe'
             },
             alert: {
-                icon: 'alert',
+                icon: 'material:alert',
                 color: 'warn'
             },
             warn: {
-                icon: 'alert',
+                icon: 'material:alert',
                 color: 'warn'
             },
             error: {
-                icon: 'close',
+                icon: 'material:close',
                 color: 'danger'
             },
             fatal: {
-                icon: 'alertOctagon',
+                icon: 'material:alert-octagon',
                 color: 'danger'
             },
             experimental: {
-                icon: 'testTube',
+                icon: 'material:test-tube',
                 color: 'special'
             },
             trophy: {
-                icon: 'trophy',
+                icon: 'material:trophy',
                 color: 'general'
             },
             tips: {
-                icon: 'lightbulbOn',
+                icon: 'material:lightbulb-on',
                 color: 'general'
             }
         };
         let theme = themes[type];
         if (theme === undefined) {
             theme = {
-                icon: 'information',
+                icon: 'material:information',
                 color: 'general'
             };
         }
@@ -1680,7 +1695,7 @@ class FHUINotice {
             width: undefined,
             ...data
         };
-        let iconDOM = Icon[data.icon] !== undefined ? Icon[data.icon] : Icon.information;
+        let iconDOM = Icon.getIcon(data.icon) !== undefined ? Icon.getIcon(data.icon) : Icon.getIcon('material:information');
 
         return `<div
                 class="
@@ -1706,7 +1721,7 @@ class FHUINotice {
                     <div class="fh-notice-item-content-action">
                         ${ EditorForm.buttonAir('', {
                             class: 'fh-notice-item-btn-close',
-                            icon: Icon.close,
+                            icon: Icon.getIcon('material:close'),
                             color: 'danger'
                         }) }
                     </div>
@@ -1727,8 +1742,10 @@ class FHUIWindow {
      * @param {Object} data 数据
      * @param {String} data.attr 自定义属性
      * @param {String} data.autoFocusButton 自动获得焦点的按钮
+     * @param {String} data.autoFocusFormItem 自动获得焦点的表单项
      * @param {Boolean} data.autoIconButton 自动设置按钮图标
      * @param {Boolean} data.closable 可关闭
+     * @param {Boolean} data.hasInput 是否有输入框
      * @param {String} data.icon 标题栏图标
      * @param {String} data.id ID
      * @param {Number} data.index 索引编号
@@ -1741,7 +1758,8 @@ class FHUIWindow {
     static window(content = '', title = '', data = {}) {
         data = {
             attr: undefined,
-            autoFocusButton: false,
+            autoFocusButton: undefined,
+            autoFocusFormItem: undefined,
             closable: true,
             icon: undefined,
             id: undefined,
@@ -1758,16 +1776,16 @@ class FHUIWindow {
         }
 
         let iconDom = '';
-        if (data.icon !== undefined && Icon[data.icon] !== undefined) {
-            iconDom = Icon[data.icon];
+        if (data.icon !== undefined && Icon.getIcon(data.icon) !== undefined) {
+            iconDom = Icon.getIcon(data.icon);
         } else {
-            iconDom = Icon.information
+            iconDom = Icon.getIcon('material:information');
         }
 
         let dom = `<div
             role="dialog"
             ${ data.id !== undefined ? `id="${ data.id }"` : '' }
-            class="fh-window window-show"
+            class="fh-window window-show ${ data.hasInput ? 'fh-window-has-input' : '' }"
             style="
                 --width: min(${ data.size.width }, calc(100vw - 32px));
                 --height: min(${ data.size.height }, calc(100vh - 32px));
@@ -1775,6 +1793,7 @@ class FHUIWindow {
             "
             data-index="${ data.index }"
             ${ data.autoFocusButton !== undefined ? `data-auto-focus-button="${ data.autoFocusButton }"` : '' }
+            ${ data.autoFocusFormItem !== undefined ? `data-auto-focus-form-item="${ data.autoFocusFormItem }"` : '' }
             ${ data.attr ?? '' }
         >
             <div class="fh-window-title">
@@ -1785,7 +1804,7 @@ class FHUIWindow {
                     ${ title }
                 </span>
                 <button class="close" ${ !data.closable ? 'disabled' : '' }>
-                    ${ Icon.close }
+                    ${ Icon.getIcon('material:close') }
                 </button>
             </div>
             <div class="fh-window-content">
@@ -1840,12 +1859,12 @@ class FHUIWindow {
             reset: 'danger'
         };
         const btnIcon = {
-            cancel: 'close',
-            close: 'close',
-            confirm: 'check',
-            download: 'download',
-            no: 'close',
-            yes: 'check',
+            cancel: 'material:close',
+            close: 'material:close',
+            confirm: 'material:check',
+            download: 'material:download',
+            no: 'material:close',
+            yes: 'material:check',
         }
 
         let colorType = btnColorType[id];
@@ -1885,5 +1904,106 @@ class FHUIWindow {
             dom += `<div class="assets-item"><a class="fh-link" href="${ e?.browser_download_url }" target="_blank">${ EchoLiveTools.safeHTML(e?.name) }</a></div>`;
         });
         return `<div class="assets-list">${ dom }</div>`;
+    }
+}
+
+
+class MetaInfo {
+    constructor() {}
+
+    static linkList(data, translateFallback, translateData = {}) {
+        if (data === undefined) return $t('ui.empty');
+        if (!Array.isArray(data)) data = [data];
+        let isFirst = true;
+        let dom = '';
+        const comma = $t('localization.comma');
+
+        data.forEach(e => {
+            if (typeof e === 'string') e = { name: e };
+            
+            e = {
+                name: undefined,
+                url: undefined,
+                ...e
+            };
+            if (e.name === undefined) e.name = $t(translateFallback);
+            if (isFirst) {
+                isFirst = false;
+            } else {
+                dom += comma;
+            }
+            if (e.url !== undefined) {
+                dom += FHUI.element(
+                    'a',
+                    {
+                        target: '_blank',
+                        href: e.url,
+                        referrerpolicy: 'no-referrer'
+                    },
+                    EchoLiveTools.safeHTML($tc(e.name, translateData))
+                );
+            } else {
+                dom += FHUI.element(
+                    'span',
+                    {},
+                    EchoLiveTools.safeHTML($tc(e.name, translateData))
+                );
+            }
+            
+        });
+
+        return dom;
+    }
+}
+
+
+class AvatarReviewPanel {
+    constructor() {}
+
+    static panel(meta, data = {}) {
+        return `<div class="avatar-review-panel">
+            <div class="avatar-review-image"></div>
+            <div class="avatar-review-info">
+                ${ AvatarReviewPanel.info(meta, data) }
+            </div>
+        </div>`;
+    }
+
+    static info(meta, data = {}) {
+        if (meta === undefined) return '';
+
+        data = {
+            translateData: undefined,
+            ...data
+        };
+
+        return `<div class="title">${ EchoLiveTools.safeHTML($tc(meta?.title, { before: 'avatar.' })) }</div>
+        <div class="description">${ EchoLiveTools.sanitizeHTML($tc(meta?.description, { before: 'avatar.' })) }</div>
+        <div class="footer">
+            <div class="author">${
+                $t(
+                    'meta_info.author',
+                    {
+                        name: MetaInfo.linkList(
+                            meta?.author,
+                            'ui.missingno.no_author',
+                            data.translateData
+                        )
+                    }
+                )
+            }</div>
+            <div class="license">${
+                $t(
+                    'meta_info.license',
+                    {
+                        name: MetaInfo.linkList(
+                            meta?.license,
+                            'ui.missingno.no_name',
+                            data.translateData
+                        )
+                    }
+                )
+            }</div>
+        </div>`;
     }
 }

@@ -27,17 +27,24 @@
         const $t = function(...e) {
             return translator.output(...e);
         };
+        const $tc = function(...e) {
+            return translator.outputByTextComponent(...e);
+        };
         translator.init();
     </script>
     <script src="res/data/sound.js"></script>
     <script src="res/data/settings_navigation.js"></script>
     <script src="res/data/settings_about_link.js"></script>
     <script src="res/data/print_effect.js"></script>
+    <script src="res/data/avatar_switch_effect.js"></script>
     <script src="res/data/live_theme.js"></script>
     <script src="res/data/timing_function.js"></script>
     <script src="res/data/border_style.js"></script>
+    <script src="res/data/font_weight.js"></script>
     <script src="res/data/palette.js"></script>
+    <script src="res/data/avatar.js"></script>
     <script src="res/data/emoji.js"></script>
+    <script src="res/data/icon.js"></script>
     <script src="res/class/Mixer.js"></script>
     <script src="res/class/Icon.js"></script>
     <script src="res/class/EchoLiveTools.js"></script>
@@ -50,6 +57,7 @@
     <script src="res/class/UniverseWindow.js"></script>
     <script src="res/class/Updater.js"></script>
     <script src="res/class/DataFilter.js"></script>
+    <script src="res/class/EchoLiveCharacter.js"></script>
     <script src="res/script/settings.js" defer></script>
 </head>
 <body>

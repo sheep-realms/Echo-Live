@@ -1,3 +1,11 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+ */
+
+
 class EchoLiveHistory {
     constructor(config) {
         this.config         = config;
@@ -46,6 +54,10 @@ class EchoLiveHistory {
             });
             this.broadcast.on('shutdown', reason => this.shutdown(reason));
         }
+
+        echoLiveSystem.hook.trigger('echolive_history_init', {
+            unit: this
+        });
     }
 
     /**

@@ -1,3 +1,11 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+ */
+
+
 "use strict";
 
 if (config.history.layout.message_list_reverse) $('html').addClass('echo-live-history-message-list-reverse');
@@ -5,6 +13,7 @@ if (config.history.layout.message_item_reverse) $('html').addClass('echo-live-hi
 if (!config.history.layout.display_username) $('html').addClass('echo-live-history-disable-username');
 if (!config.history.layout.display_time) $('html').addClass('echo-live-history-disable-time');
 if (config.history.message.latest_message_hide) $('html').addClass('echo-live-history-latest-message-hide');
+$('html').css('font-weight', config.global.live_font_weight);
 
 let echoLiveHistory = new EchoLiveHistory(config);
 let urlTheme = EchoLiveTools.getUrlParam('theme');
@@ -31,6 +40,11 @@ echoLiveHistory.on('shutdown', function(reason) {
 echoLiveHistory.on('latestHistoryDisplayChange', function(e) {
     if (e) {
         $('html').addClass('echo-live-history-latest-message-show');
+        if (config.history.message_list_reverse) {
+            $('#echo-live-history-message-list').scrollTop(-4503599627370496);
+        } else {
+            $('#echo-live-history-message-list').scrollTop(4503599627370496);
+        }
     } else {
         $('html').removeClass('echo-live-history-latest-message-show');
     }

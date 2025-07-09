@@ -1,3 +1,11 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+**/
+
+
 * {
     margin: 0;
     padding: 0;
@@ -21,6 +29,7 @@
     --msgbox-bgcolor: #EDEEF0;
     --commander-bgcolor: rgba(0, 0, 0, 0.75);
     --commander-color: #FFFFFF;
+    --commander-placeholder-color: #AAAAAA;
 
     --scrollbar-thumb-color: rgba(0, 0, 0, 0.15);
     --scrollbar-thumb-hover-color:rgba(0, 0, 0, 0.35);
@@ -57,6 +66,7 @@
         --msgbox-bgcolor: #454952;
         --commander-bgcolor: rgba(255, 255, 255, 0.85);
         --commander-color: #000000;
+        --commander-placeholder-color: #666666;
 
         --scrollbar-thumb-color: rgba(255, 255, 255, 0.15);
         --scrollbar-thumb-hover-color:rgba(255, 255, 255, 0.35);
@@ -90,6 +100,7 @@
     --msgbox-bgcolor: #454952;
     --commander-bgcolor: rgba(255, 255, 255, 0.85);
     --commander-color: #000000;
+    --commander-placeholder-color: #666666;
 
     --scrollbar-thumb-color: rgba(255, 255, 255, 0.15);
     --scrollbar-thumb-hover-color:rgba(255, 255, 255, 0.35);
@@ -183,6 +194,10 @@ input.code {
     font-family: Monaco, Consolas,'Lucida Console', 'Courier New', serif;
 }
 
+.font-code, .font-code * {
+    font-family: Monaco, Consolas,'Lucida Console', 'Courier New', serif !important;
+}
+
 .tabpage-nav {
     border-bottom: var(--border-color) 1px solid;
     display: flex;
@@ -211,13 +226,24 @@ input.code {
     cursor: pointer;
     display: inline-block;
     color: var(--text-secondary);
-    transition: color .3s, border .3s;
+    transition: color .3s, border .3s, background-color .3s;
     min-height: var(--height-top-nav);
 }
 
 .tabpage-nav-item[aria-selected="false"]:not(.disabled):hover {
-    /* border-bottom: var(--color-general-glass) 4px solid; */
+    /* border-bottom: var(--color-general-glass) min(var(--gap-extra-small), 4px) solid; */
     color: var(--text-primary);
+    
+}
+
+.tabpage-nav-item:focus-visible {
+    color: var(--text-primary);
+    background-color: var(--color-general-glass);
+    outline: none;
+}
+
+.tabpage-nav-item[aria-selected="false"]:focus-visible {
+    border-bottom: var(--color-general-glass) min(var(--gap-extra-small), 4px) solid;
 }
 
 .tabpage-nav-item.disabled {
@@ -438,7 +464,8 @@ input.code {
     top: -0.05em;
 }
 
-.checkbox:hover .icon {
+.checkbox:hover .icon,
+.checkbox:focus-visible .icon {
     background-color: var(--color-general-glass);
 }
 
@@ -971,13 +998,16 @@ select:focus {
     width: 32px;
     height: 32px;
     box-sizing: border-box;
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAGklEQVQImQXBAQEAAAgCIPt/TTcRHGxL2oIHemcNxGayu3QAAAAASUVORK5CYII=");
     image-rendering: pixelated;
     background-size: 100%;
     border: var(--border-color) 1px solid;
     cursor: pointer;
     transition: transform .15s;
     outline: none;
+}
+
+#popups-palette .color-box:not(.color-box-custom-class) {
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAGklEQVQImQXBAQEAAAgCIPt/TTcRHGxL2oIHemcNxGayu3QAAAAASUVORK5CYII=");
 }
 
 #popups-palette .color-box:hover,
@@ -1209,6 +1239,10 @@ select:focus {
     border: unset;
     font-size: var(--font-size-middle);
     line-height: var(--gap-large);
+}
+
+#commander-input::placeholder {
+    color: var(--commander-placeholder-color);
 }
 
 .unlock-page-width #commander-input {
@@ -1544,6 +1578,8 @@ select:focus {
     font-size: var(--font-size-large);
     font-weight: 500;
     color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -1650,6 +1686,21 @@ select:focus {
 
 .fh-msgbox-content-message {
     padding: 32px;
+}
+
+
+
+.fh-window-textarea-form {
+    width: calc(100% - var(--gap-middle) * 2);
+    height: calc(100% - var(--gap-middle) * 4);
+    display: flex;
+    flex-direction: column;
+}
+
+.fh-window-textarea {
+    resize: none !important;
+    height: auto !important;
+    flex: 1;
 }
 
 

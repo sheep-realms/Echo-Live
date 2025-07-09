@@ -1,0 +1,69 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+**/
+
+
+:root {
+    --layer-effect-speed: 500ms;
+    --layer-effect-name: none;
+    --layer-effect-scale: 1;
+    --layer-effect-scale-calc: max(var(--layer-effect-scale), 0);
+    --layer-effect-timing-function: ease-out;
+    --layer-padding: 0px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: transparent;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.echo-live-character-layer .layer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: var(--layer-padding);
+
+    background-image: unset;
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-origin: content-box;
+
+    animation-name: var(--layer-effect-name);
+    animation-duration: var(--layer-effect-speed);
+    animation-timing-function: var(--layer-effect-timing-function);
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+.echo-live-character-layer .layer.hidden {
+    display: none;
+}
+
+@keyframes fade-in-main {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes fade-in-before {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}

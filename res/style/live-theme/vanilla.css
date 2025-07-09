@@ -1,6 +1,14 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+**/
+
+
 /**
  * 这里是 Echo Live 的样式文件
- */
+**/
 
 /* 导入：基本样式 */
 @import url("../live-common/base.css");
@@ -114,7 +122,7 @@
     /* 历史记录发送时间字体颜色 */
     --echo-live-history-color-time: #888;
     /* 历史记录背景颜色，如果要设为透明请使用 transparent */
-    --echo-live-history-bg-color: #EEEEEE;
+    --echo-live-history-bg-color: #EDEEF0;
     /* 历史记录标题背景颜色 */
     --echo-live-history-bg-color-title: #FFFFFF;
     /* 历史记录标题的上、右、下、左内边距 */

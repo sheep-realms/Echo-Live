@@ -1,3 +1,11 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+ */
+
+
 class Translator {
     constructor(lang='zho-Hans', langIndex = {}) {
         this.lang = lang;
@@ -11,15 +19,19 @@ class Translator {
         };
     }
 
+    /**
+     * 初始化
+     * @param {String} path 脚本根路径
+     */
     init(path = '') {
         if (this.initialized) return;
-        const mainLang = echoLiveSystem.registry.getRegistryValue('system', 'main_language');
-        const langIndex = echoLiveSystem.registry.getRegistryArray('language_index');
-        this.langIndex = langIndex;
-        this.langMain = mainLang;
-        const mainLangData = langIndex.filter(e => e.code === mainLang)[0];
-        const selectedLangData = langIndex.filter(e => e.code === this.lang)[0];
-        this.initialized = true;
+        const mainLang          = echoLiveSystem.registry.getRegistryValue('system', 'main_language');
+        const langIndex         = echoLiveSystem.registry.getRegistryArray('language_index');
+        this.langIndex          = langIndex;
+        this.langMain           = mainLang;
+        const mainLangData      = langIndex.filter(e => e.code === mainLang)[0];
+        const selectedLangData  = langIndex.filter(e => e.code === this.lang)[0];
+        this.initialized        = true;
         echoLiveSystem.registry.onSetRegistryValue('language', '*', data => {
             this.load(data.value);
         });
@@ -59,7 +71,7 @@ class Translator {
                 document.head.appendChild(s);
     }
 
-    output(key, variable={}, __inPlanB = false) {
+    output(key, variable={}, backText = undefined, __inPlanB = false) {
         function __extractVariableNames(inputString) {
             const regI18nVar = /\{\s*@([A-Za-z0-9_\.]+)\s*\}/g;
             const matches = [];
@@ -81,8 +93,8 @@ class Translator {
         let objI18n = !__inPlanB ? this.i18n[this.lang] : this.i18n[this.langMain];
         for (const k of keys) {
             if (objI18n[k] === undefined) {
-                if (!__inPlanB && this.lang !== this.langMain) return this.output(key, variable, true);
-                return key;
+                if (!__inPlanB && this.lang !== this.langMain) return this.output(key, variable, backText, true);
+                return backText ?? key;
             }
             objI18n = objI18n[k];
         }
@@ -90,8 +102,8 @@ class Translator {
 
         // 校验数据
         if (typeof t != 'string') {
-            if (!__inPlanB && this.lang !== this.langMain) return this.output(key, variable, true);
-            return key;
+            if (!__inPlanB && this.lang !== this.langMain) return this.output(key, variable, backText, true);
+            return backText ?? key;
         }
 
         // 本地化变量赋值
@@ -120,11 +132,11 @@ class Translator {
         // 复数判断
         let ts = t.split(/(?<!\\)\|/);
         for(let i = 0; i < ts.length; i++) {
-            ts[i] = ts[i].trim();
+            ts[i] = ts[i].trim().replace(/\\\|/g, '|');
         }
         let n = variable?.n ? variable.n : 0;
         if (ts.length === 1) {
-            return t;
+            return t.replace(/\\\|/g, '|');
         } else if (ts.length === 2) {
             if (n <= 1) {
                 return ts[0];
@@ -138,6 +150,35 @@ class Translator {
         }
 
         return t;
+    }
+
+    outputByTextComponent(text, data = {}) {
+        if (typeof text === 'string') return text;
+
+        text = {
+            text: undefined,
+            translate: undefined,
+            with: {
+                ...text?.with
+            },
+            ...text
+        };
+
+        data = {
+            before: '',
+            ...data
+        };
+
+        const translateKey = data.before + text.translate;
+        
+
+        let output = text.text;
+        if (text.translate !== undefined) {
+            output = this.output(translateKey, text.with);
+            if (output === translateKey && text.text !== undefined) output = text.text;
+        }
+
+        return output;
     }
 
     load(i18nList) {

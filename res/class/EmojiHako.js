@@ -1,3 +1,11 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+ */
+
+
 class EmojiHako {
     constructor() {
         this.init();
@@ -88,8 +96,8 @@ class EmojiHako {
         }
 
         let mp;
-        echoLiveSystem.registry.registryRedirect('emoji_namespace', 'emoji', namespace, value => {
-            mp = value;
+        echoLiveSystem.registry.registryRedirect('emoji_namespace', 'emoji', namespace, (isSuccess, value) => {
+            if (isSuccess) mp = value;
         });
 
         if (mp === undefined) {
@@ -143,7 +151,9 @@ class EmojiHako {
         };
 
         emoji.path          = mp.path.images + emoji.path;
-        emoji.title_i18n    = mp.path.i18n + 'emoji.' + emoji.title_i18n;
+        if (emoji.title?.translate !== undefined) {
+            emoji.title.translate = mp.path.translate + 'emoji.' + emoji.title.translate;
+        }
 
         return emoji;
     }

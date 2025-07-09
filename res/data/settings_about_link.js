@@ -5,53 +5,53 @@ echoLiveSystem.registry.setRegistryValue('settings_data', 'about_link', [
     }, {
         name: 'github',
         href: 'https://github.com/sheep-realms/Echo-Live',
-        icon: 'github'
+        icon: 'material:github'
     }, {
         name: 'copyright',
         href: 'https://github.com/sheep-realms/Echo-Live/blob/master/copyright.md',
-        icon: 'copyright'
+        icon: 'material:copyright'
     }, {
         name: 'license',
         href: 'https://www.gnu.org/licenses/gpl-3.0.html',
-        icon: 'license'
+        icon: 'material:license'
     }, {
         name: 'security',
         href: 'https://github.com/sheep-realms/Echo-Live/security/policy',
-        icon: 'security'
+        icon: 'material:security'
     }, {
         name: 'user_guide',
         isGroupTitle: true
     }, {
         name: 'document',
         href: 'https://sheep-realms.github.io/Echo-Live-Doc/',
-        icon: 'helpBox'
+        icon: 'material:help-box'
     }, {
         name: 'accessibility',
         href: 'https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/',
-        icon: 'wheelchairAccessibility'
+        icon: 'material:wheelchair-accessibility'
     }, {
         name: 'releases',
         href: 'https://github.com/sheep-realms/Echo-Live/releases',
-        icon: 'sourceCommit'
+        icon: 'material:source-commit'
     }, {
         name: 'feedback',
         href: 'https://github.com/sheep-realms/Echo-Live/issues',
-        icon: 'chatAlert'
+        icon: 'material:chat-alert'
     }, {
         name: 'bug_tracker',
         href: 'https://github.com/users/sheep-realms/projects/3/views/1',
-        icon: 'bug'
+        icon: 'material:bug'
     }, {
         name: 'security_advisory_new',
         href: 'https://github.com/sheep-realms/Echo-Live/security/advisories/new',
-        icon: 'alarmLight'
+        icon: 'material:alarm-light'
     }, {
         name: 'community',
         isGroupTitle: true
     }, {
         name: 'social_media',
         href: 'https://github.com/sheep-realms/Echo-Live/blob/master/social-media.md',
-        icon: 'forum'
+        icon: 'material:forum'
     }, {
         name: 'debug.title',
         isGroupTitle: true,
@@ -59,13 +59,13 @@ echoLiveSystem.registry.setRegistryValue('settings_data', 'about_link', [
     }, {
         name: 'debug.console_local_storage',
         href: 'javascript:;',
-        icon: 'consoleLine',
+        icon: 'material:console-line',
         isDebug: true,
         debug: 'local_storage'
     }, {
         name: 'debug.console_registry',
         href: 'javascript:;',
-        icon: 'consoleLine',
+        icon: 'material:console-line',
         isDebug: true,
         debug: 'registry'
     }

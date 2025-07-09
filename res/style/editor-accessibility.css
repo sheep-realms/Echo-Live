@@ -1,3 +1,11 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+**/
+
+
 /* 高对比度 */
 .accessibility-high-contrast {
     --accessibility-outline-color: #00E9FF;
@@ -39,6 +47,7 @@
     --msgbox-bgcolor: #FFFFFF;
     --commander-bgcolor: #000000;
     --commander-color: #FFFFFF;
+    --commander-placeholder-color: #CCCCCC;
 
     --scrollbar-thumb-color: rgba(0, 0, 0, 1);
     --scrollbar-thumb-hover-color:rgba(0, 0, 0, 1);
@@ -67,7 +76,7 @@
         --color-danger-glass: rgba(230, 82, 89, 0.05);
         --color-special-glass: rgba(147, 61, 178, 0.05);
     
-        --fh-border-coler: #AAAAAA;
+        --fh-border-color: #AAAAAA;
         --text-primary: #FFF;
         --text-regular: #DDD;
         --text-secondary: #BBB;
@@ -85,6 +94,7 @@
         --msgbox-bgcolor: #0D111A;
         --commander-bgcolor: #FFFFFF;
         --commander-color: #000000;
+        --commander-placeholder-color: #444444;
 
         --checkbox-corner-marker-color: rgba(30, 33, 41, 0.5);
 
@@ -94,7 +104,7 @@
 
     :root:not(.prefers-color-scheme-light) * {
         --corner-marker-color: rgba(30, 33, 41, 0.5);
-        --fh-border-coler: #FFF;
+        --fh-border-color: #FFF;
     }
 }
 
@@ -137,6 +147,7 @@
     --msgbox-bgcolor: #0D111A;
     --commander-bgcolor: #FFFFFF;
     --commander-color: #000000;
+    --commander-placeholder-color: #444444;
 
     --checkbox-corner-marker-color: rgba(30, 33, 41, 0.5);
 
@@ -146,7 +157,7 @@
 
 .prefers-color-scheme-dark * {
     --corner-marker-color: rgba(30, 33, 41, 0.5);
-    --fh-border-coler: #FFF;
+    --fh-border-color: #FFF;
 }
 
 .prefers-color-scheme-dark .accessibility-high-contrast .fh-button:not(.fh-ghost, .fh-dashed, .fh-air),

@@ -1,3 +1,11 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+ */
+
+
 "use strict";
 
 if (APP_META.isBeta) {
@@ -98,8 +106,9 @@ function effectFlicker($sel) {
  * @param {Boolean} forceRepeatAfter 右侧有相同字符串时强制插入字符串
  * @param {Boolean} firstClear 当起始光标在左侧时清除左侧插入字符
  * @param {Function} selectedTextFilter 选中文本过滤器
+ * @param {Boolean} setFocus 设置焦点
  */
-function insertTextAtCursor(id, text, text2 = '', forceInputText2 = false, forceRepeatBefore = false, forceRepeatAfter = false, firstClear = false, selectedTextFilter = undefined) {
+function insertTextAtCursor(id, text, text2 = '', forceInputText2 = false, forceRepeatBefore = false, forceRepeatAfter = false, firstClear = false, selectedTextFilter = undefined, setFocus = true) {
     let textarea       = document.getElementById(id);
 
     let selectionStart = textarea.selectionStart,
@@ -124,8 +133,24 @@ function insertTextAtCursor(id, text, text2 = '', forceInputText2 = false, force
         textarea.setSelectionRange(selectionStart + text.length, selectionStart + text.length + selectedText.length);
     }
     
-    textarea.focus();
+    if (setFocus) textarea.focus();
     $('#' + id).trigger('input');
+}
+
+function insertTextAtCursorForObject(value = {}) {
+    value = {
+        id: undefined,
+        text: undefined,
+        text2: '',
+        forceInputText2: false,
+        forceRepeatBefore: false,
+        forceRepeatAfter: false,
+        firstClear: false,
+        selectedTextFilter: undefined,
+        setFocus: true,
+        ...value
+    }
+    return insertTextAtCursor(value.id, value.text, value.text2, value.forceInputText2, value.forceRepeatBefore, value.forceRepeatAfter, value.firstClear, value.selectedTextFilter, value.setFocus);
 }
 
 
@@ -354,8 +379,12 @@ $(document).on('click', '#popups-palette-accessibility-help-btn', function() {
 });
 
 // 拾色器色块鼠标进入
-$(document).on('mouseenter', '#popups-palette.color-contrast-enable .color-box', function() {
+$(document).on('mouseenter', '#popups-palette.color-contrast-enable .color-box:not(.color-box-custom-class)', function() {
     paletteColorContrastCheck($(this).data('value'));
+});
+
+$(document).on('mouseenter', '#popups-palette.color-contrast-enable .color-box-custom-class', function() {
+    paletteColorContrastUnset();
 });
 
 // 拾色器快捷键
@@ -472,8 +501,8 @@ $(document).on('keydown', '#popups-image', function(e) {
 });
 
 function paletteColorContrastCheck(value) {
-    let bg = config.editor.color_picker.contrast_background_color;
-    let threshold = config.editor.color_picker.contrast_threshold;
+    const bg = config.editor.color_picker.contrast_background_color;
+    const threshold = config.editor.color_picker.contrast_threshold;
 
     $('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--bg-color', bg);
     $('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--fg-color', value);
@@ -499,4 +528,18 @@ function paletteColorContrastCheck(value) {
     }
 
     $('#popups-palette .popups-palette-color-contrast .diff-result-contrast .title').text(r.contrastRatio.toFixed(1));
+}
+
+function paletteColorContrastUnset() {
+    const bg = config.editor.color_picker.contrast_background_color;
+    $('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--bg-color', bg);
+    $('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--fg-color', '#000000');
+    $('#popups-palette .popups-palette-color-contrast .diff-dashboard .diff-fg-text').text(
+        $t('editor.palette.diff_dashboard.not_applicable')
+    );
+    $('#popups-palette .popups-palette-color-contrast .diff-result-box').removeClass('state-ok state-fail');
+    $(
+        '#popups-palette .popups-palette-color-contrast .diff-result-aa, #popups-palette .popups-palette-color-contrast .diff-result-aaa, #popups-palette .popups-palette-color-contrast .diff-result-contrast'
+    ).addClass('state-fail');
+    $('#popups-palette .popups-palette-color-contrast .diff-result-contrast .title').text('N/A');
 }

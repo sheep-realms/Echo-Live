@@ -6,6 +6,7 @@ const lang_zho_Hant_TW = {
     },
     localization: {
         bracket: "（{text}）",
+        comma: "，",
         date_common: "{y}-{MM}-{dd}",
         date_time_common: "{y}-{MM}-{dd} {hh}:{mm}:{ss}",
         date: "{y} 年 {M} 月 {d} 日",
@@ -50,6 +51,7 @@ const lang_zho_Hant_TW = {
         audition: "試聽",
         download: "下載",
         search: "搜尋",
+        empty: "（空）",
         missingno: {
             no_author: "未署名",
             no_name: "未命名"
@@ -58,6 +60,38 @@ const lang_zho_Hant_TW = {
     unit: {
         ms: "毫秒",
         sec: "秒"
+    },
+    avatar: {
+        common: {
+            action: {
+                angry: "憤怒",
+                awkward: "尷尬",
+                cry: "哭",
+                doubt: "疑惑",
+                laugh: "笑",
+                idle: "閒置",
+                missingno: "動作丟失",
+                panic: "驚恐",
+                screaming: "大叫",
+                shaded: "黑臉",
+                shy: "害羞",
+                smile: "微笑"
+            },
+            scene: {
+                bust: "半身",
+                face: "頭像",
+                face_cu: "臉部特寫",
+                full: "全身",
+                heel: "足上",
+                knee: "膝上",
+                long: "遠景"
+            }
+        },
+        echo_otone: {
+            name: "Echo 追音",
+            description: "Echo 追音（<span lang='ja'>エコー追音</span>）是一位活潑可愛的少女，樂於傾聽各種聲音，解讀各種文字，幫助人們建立溝通的橋樑，並以自己喜歡的方式傳播自己的所見所聞。",
+            license: "Echo-Live 虛擬形象 “Echo 追音” 授權協議"
+        }
     },
     border_style: {
         none: "無",
@@ -73,12 +107,19 @@ const lang_zho_Hant_TW = {
     broadcast: {
         client: {
             type: {
+                character: "Echo Live Character",
                 client: "未知客戶端",
                 editor: "Echo-Live Editor",
                 history: "Echo-Live History",
                 live: "Echo-Live",
                 unknown: "未知終端"
             }
+        }
+    },
+    character: {
+        avatar_switch_effect: {
+            none: "無",
+            fade_in: "淡入"
         }
     },
     command: {
@@ -176,6 +217,10 @@ const lang_zho_Hant_TW = {
             thin_scrollbar: {
                 _title: "啟用細捲軸",
                 _description: "使用較細的捲軸替換預設捲軸。"
+            },
+            live_font_weight: {
+                _title: "前臺預設字重",
+                _description: "前臺頁面的預設字重，可被主題的樣式設定或訊息格式覆蓋。"
             }
         },
         echo: {
@@ -314,7 +359,7 @@ const lang_zho_Hant_TW = {
                 _description: "列印每個字元時所使用的動畫效果",
                 name: {
                     _title: "動效名稱",
-                    _description: "可用的音效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>說明文件</a>。"
+                    _description: "可用的動效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>說明文件</a>。<br>請注意：訊息格式中的一些高階動效可能會覆蓋字元列印動效。如果您需要使用這些高階動效，建議您關閉字元列印動效。"
                 },
                 duration: {
                     _title: "動效用時",
@@ -487,6 +532,10 @@ const lang_zho_Hant_TW = {
                 reconnect_limit: {
                     _title: "最大重連嘗試次數",
                     _description: "連線關閉和連線失敗將會嘗試重連，一旦超過重連嘗試次數限制將不再嘗試重連。"
+                },
+                disable_broadcast: {
+                    _title: "啟用 WebSocket 時禁用廣播頻道",
+                    _description: "當編輯器和客戶端處於同一瀏覽器環境時，同時啟用 WebSocket 和廣播會導致客戶端收到重複指令。"
                 }
             },
             color_picker: {
@@ -494,7 +543,7 @@ const lang_zho_Hant_TW = {
                 _description: "拾色器相關配置",
                 palette: {
                     _title: "啟用的色板",
-                    _description: "拾色器中有多種色板可供挑選。<br>預製的色板有 material、tailwindcss、ant_design 和 minecraft。<br>若要挑選啟用的色板或調整排序，請反選 “全部啟用”，並在下方文字框中輸入色板名稱，一&#65279;行一&#65279;個。",
+                    _description: "拾色器中有多種色板可供挑選。<br>若要挑選啟用的色板或調整排序，請反選 “全部啟用”，並在下方文字框中輸入色板名稱，一&#65279;行一&#65279;個。",
                     all_selected: "全部啟用"
                 },
                 contrast_enable: {
@@ -572,6 +621,46 @@ const lang_zho_Hant_TW = {
                 }
             }
         },
+        character: {
+            _title: "形象播放器",
+            _description: "用於展示立繪或頭像的播放器",
+            avatar: {
+                _title: "預設形象",
+                _description: "設定預設所使用的形象及其引數",
+                name: {
+                    _title: "形象名稱",
+                    _description: "可用的形象名稱請見<a href='#' target='_blank'>幫助文件（這裡的連結記得改）</a>。"
+                },
+                action: {
+                    _title: "動作名稱",
+                    _description: "預設所使用的動作名稱，留空則使用預設值。<br>不同的形象會有不同的動作可選，請根據您選擇的形象來選擇動作。<br>可用的動作名稱請見<a href='#' target='_blank'>幫助文件（這裡的連結記得改）</a>。"
+                },
+                scene: {
+                    _title: "鏡頭名稱",
+                    _description: "預設所使用的鏡頭名稱，留空則使用預設值。<br>不同的形象會有不同的鏡頭可選，請根據您選擇的形象來選擇鏡頭。<br>可用的鏡頭名稱請見<a href='#' target='_blank'>幫助文件（這裡的連結記得改）</a>。"
+                }
+            },
+            avatar_switch_effect: {
+                _title: "形象切換動效",
+                _description: "切換形象或動作時預設所使用的動畫效果",
+                name: {
+                    _title: "動效名稱",
+                    _description: "可用的動效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>幫助文件（這裡的連結記得改）</a>。"
+                },
+                duration: {
+                    _title: "動效用時",
+                    _description: "播放動畫所需時間。"
+                },
+                scale: {
+                    _title: "動效規模乘數",
+                    _description: "動畫的運動幅度乘數。"
+                },
+                timing_function: {
+                    _title: "動效時間曲線",
+                    _description: "動畫在不同時間段的運動速度。"
+                }
+            },
+        },
         accessibility: {
             _title: "可訪問性",
             _description: "可訪問性相關配置",
@@ -636,6 +725,14 @@ const lang_zho_Hant_TW = {
                 allow_send_duplicate_message: {
                     _title: "允許傳送重複訊息",
                     _description: "對話方塊收到重複訊息時會再次列印而非忽略，這將會失去防抖機制。"
+                },
+                websocket_heartbeat_backoff_scale: {
+                    _title: "WebSocket 心跳包併發退避比率",
+                    _description: "為了減輕 WebSocket 伺服器同時連線多個客戶端時的心跳包併發壓力，心跳包會以 UUID 為種子隨機延遲 0 ~ 4095 毫秒傳送。<br>調整比率可改變延遲長度。設為 0 可禁用併發退避。<br>預設的隨機範圍已足以應對常規使用場景，除非您試圖組建一個大型網路。"
+                },
+                websocket_heartbeat_duration: {
+                    _title: "WebSocket 心跳包間隔",
+                    _description: "每一個 WebSocket 心跳包之間的間隔。併發退避不會影響間隔，只會影響偏移量。<br>設為 0 可禁用心跳包。"
                 }
             },
             editor: {
@@ -747,10 +844,7 @@ const lang_zho_Hant_TW = {
         form: {
             text_length: "{n} 字元",
             aria_label: {
-                commander: "控制檯",
-                content_plain_text: "純文字內容編輯框",
-                log_box: "這裡是日誌列表，如果您聽到了這句話，請注意，這裡的閱讀體驗可能會很差。",
-                output_content: "輸出內容編輯框"
+                log_box: "這裡是日誌列表，如果您聽到了這句話，請注意，這裡的閱讀體驗可能會很差。"
             },
             description: {
                 formatting_code_example_1: "@b - 粗體，@i - 斜體，@u - 下劃線，@s - 刪除線，@r - 清除格式",
@@ -780,6 +874,9 @@ const lang_zho_Hant_TW = {
                 split_message: "多行文字分割為訊息佇列",
                 startup_parameter: "啟動引數",
                 use_formatting_code: "使用快速格式化程式碼"
+            },
+            placeholder: {
+                commander: "命令控制檯"
             }
         },
         format: {
@@ -867,7 +964,7 @@ const lang_zho_Hant_TW = {
                 set_theme: "收到來自其他服務端的命令：設定主題為 {name}",
                 shutdown: "收到來自其他服務端的命令：立即停止。",
                 shutdown_reason: "收到來自其他服務端的命令：立即停止。原因為：${reason}",
-                websocket_close: "收到來自其他服務端的命令：關閉 Websocket 連線。此命令將阻止 {client} 嘗試重連。"
+                websocket_close: "收到來自其他服務端的命令：關閉 Websocket 連線。此命令將阻止嘗試重連。"
             },
             broadcast_launch: {
                 disable: "未開啟廣播模式，無日誌顯示。",
@@ -917,6 +1014,7 @@ const lang_zho_Hant_TW = {
                 index: "對比度測試面板",
                 background_color: "背景色",
                 foreground_color: "前景色",
+                not_applicable: "不適用",
                 result: {
                     contrast: "對比度參考閾值",
                     wcag_aa: "WCAG AA",
@@ -1022,6 +1120,35 @@ const lang_zho_Hant_TW = {
                         red: "Dust Red / 薄暮",
                         volcano: "Volcano / 火山",
                         yellow: "Sunrise Yellow / 日出"
+                    }
+                },
+                custom_class: {
+                    title: "高階樣式",
+                    style: {
+                        gradient_aqua_splash: "海洋巨星",
+                        gradient_perfect_blue: "宇宙之眼",
+                        gradient_dusty_grass: "固沙草原",
+                        gradient_fly_high: "掙脫引力",
+                        gradient_heavy_rain: "傾盆大雨",
+                        gradient_juicy_peach: "多汁蜜桃",
+                        gradient_mountain_rock: "築山之巖",
+                        gradient_night_fade: "暮色銀河",
+                        gradient_premium_dark: "高階深灰",
+                        gradient_red_salvation: "碎空遠星",
+                        gradient_salt_mountain: "地中之鹽",
+                        gradient_spring_warmth: "暖陽春日",
+                        gradient_sunny_morning: "明媚早晨",
+                        gradient_winter_neva: "冰天雪地",
+                        jitter: "抖動",
+                        rainbow: "彩虹",
+                        roll_down: "旋轉倒置",
+                        wave_1: "微波起伏",
+                        wave_2: "波濤洶湧",
+                        wave_3: "驚濤駭浪"
+                    },
+                    group: {
+                        colorful: "多彩漸變",
+                        funny: "搞笑搞怪"
                     }
                 },
                 material: {
@@ -1216,6 +1343,22 @@ const lang_zho_Hant_TW = {
             image: "圖片"
         }
     },
+    font_weight: {
+        bold: "粗體",
+        inherit: "繼承預設值",
+        normal: "適中",
+        "100": "淡體",
+        "200": "特細",
+        "300": "細體",
+        "350": "次細",
+        "400": "標準",
+        "500": "適中",
+        "600": "次粗",
+        "700": "粗體",
+        "800": "特粗",
+        "900": "濃體",
+        "950": "特濃"
+    },
     help: {
         easter_egg: {
             previous: "你就是想跟我反著幹，對吧？",
@@ -1402,6 +1545,7 @@ const lang_zho_Hant_TW = {
     },
     notice: {
         client_target_but_no_client: "請不要虛空索敵！",
+        commander_tips: "您已開啟命令控制檯，點選此處可查閱關於命令的幫助。如果您只是誤操作，請將游標置於控制檯中並按 <kbd>Esc</kbd> 鍵退出。",
         config_re_output: "已重新匯出配置檔案內容！",
         config_saved: "配置檔案已儲存！請注意重新整理所有頁面使新配置生效。",
         config_saving: "儲存中...",
@@ -1431,6 +1575,7 @@ const lang_zho_Hant_TW = {
         }
     },
     page_title: {
+        character: "Echo Live 形象播放器",
         editor: "Echo Live 編輯器",
         history: "Echo Live 歷史記錄",
         live: "Echo Live",
@@ -1495,6 +1640,7 @@ const lang_zho_Hant_TW = {
         msgbox: {
             accessibility: "Echo-Live 所有後臺頁面均支援鍵盤訪問。<br>更多有關無障礙使用的説明請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>說明文件</a>。",
             advanced_settings: "不要隨意更改這裡的配置，除非您知道您在做什麼。",
+            character_settings: "形象播放器仍是一項實驗性功能，可能存在較多問題，未來有可能會發生重大更改，請勿過度依賴。",
             echo: {
                 title: "關於 Echo",
                 description: "Echo 是 Echo-Live 的核心，提供了文字滾動輸出功能。<br>它是一個工具庫，任何人都可以使用 Echo 建立自己的文字展示專案。<br>如果您有興趣瞭解 Echo，請見其 <a href='https://github.com/sheep-realms/Echo' target='_blank'>GitHub 倉庫</a>。"

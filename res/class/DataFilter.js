@@ -1,3 +1,11 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+ */
+
+
 class DataFilter {
     /**
      * 数据过滤器
@@ -328,7 +336,7 @@ class DataFilterConditions {
 
         function __checkNumberRange(search, value) {
             value = Number(value);
-            if (String(search).search('..') !== -1) {
+            if (String(search).search(/\.\./) !== -1) {
                 let min = search.split('..')[0];
                 let max = search.split('..')[1];
                 min = Number(min === '' ? -Infinity : min);
@@ -344,7 +352,7 @@ class DataFilterConditions {
             value = new Date(value);
             if (Number.isNaN(value.getTime())) return false;
 
-            if (String(search).search('..') !== -1) {
+            if (String(search).search(/\.\./) !== -1) {
                 let min = search.split('..')[0];
                 let max = search.split('..')[1];
                 min === '' ? min = new Date(0) : min = new Date(min);

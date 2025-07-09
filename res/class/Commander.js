@@ -1,3 +1,11 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+ */
+
+
 class Commander {
     constructor() {
         this.link = {
@@ -420,7 +428,7 @@ class Commander {
             {
                 autoFocusButton: 'cancel',
                 controller: ['cancel', 'confirm'],
-                icon: 'alert',
+                icon: 'material:alert',
                 maskClosable: true
             },
             (value, unit) => {

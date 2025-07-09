@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="page_title.character">Echo Live 形象播放器</title>
+    <link rel="icon" href="res/image/favicon.ico">
+    <link rel="stylesheet" href="res/style/character.css">
+    <script src="lib/jquery-3.7.1.min.js"></script>
+    <script src="config.js"></script>
+    <script src="res/class/EchoLiveSystem.js"></script>
+    <script src="res/data/root.js"></script>
+    <script src="res/data/avatar.js"></script>
+    <script src="res/class/EchoLiveTools.js"></script>
+    <script src="res/class/EchoLiveBroadcast.js"></script>
+    <script src="res/class/EchoLiveCharacter.js"></script>
+    <script src="lang/index.js"></script>
+    <script src="res/class/Translator.js"></script>
+    <script id="translator-init">
+        const translator = new Translator(config.global.language);
+        const $t = function(...e) {
+            return translator.output(...e);
+        };
+        const $tc = function(...e) {
+            return translator.outputByTextComponent(...e);
+        };
+        translator.init();
+    </script>
+    <!-- <script src="res/data/live_theme.js"></script> -->
+    <script src="res/class/ExtensionManager.js"></script>
+    <script src="extensions.js"></script>
+    <script src="res/script/live-pre.js" defer></script>
+</head>
+<body>
+    <div id="echo-live-character">
+        <div class="echo-live-character-layer">
+            <div class="layer" data-layer="before"></div>
+            <div class="layer" data-layer="main"></div>
+        </div>
+    </div>
+
+    <script src="res/script/i18n.js" defer></script>
+    <script src="res/script/character.js" defer></script>
+</body>
+</html>

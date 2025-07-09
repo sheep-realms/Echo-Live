@@ -1,3 +1,11 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+ */
+
+
 class FHUI {
     constructor() {}
 
@@ -128,8 +136,8 @@ class FHUIComponentLabel {
 
         let dom = '';
         let iconDOM = undefined;
-        if (data?.icon !== undefined && Icon[data.icon] !== undefined) {
-            iconDOM = Icon[data.icon];
+        if (data?.icon !== undefined && Icon.getIcon(data.icon) !== undefined) {
+            iconDOM = Icon.getIcon(data.icon);
             dom += FHUI.element(
                 'span',
                 {
@@ -329,6 +337,7 @@ class FHUIComponentInput {
             input.attr('aria-expanded', false);
             input.focus();
             input.trigger('input');
+            input.trigger('change');
         });
 
         // 输入框绑定下拉菜单选中状态
@@ -576,8 +585,6 @@ class FHUIComponentInput {
             }
         }
 
-        let hasDescription = false;
-
         data.name               = data.name             || data.id;
         data.default_value      = data.default_value    || value;
 
@@ -589,7 +596,7 @@ class FHUIComponentInput {
                 name: data.name,
                 class: 'fh-select ' + data.class,
                 after: {
-                    icon: 'chevronDown',
+                    icon: 'material:chevron-down',
                     is_primary: true
                 },
                 attribute: {
@@ -604,8 +611,26 @@ class FHUIComponentInput {
             }
         );
 
+        let optionsDOM = FHUIComponentInput.selectMenu(value, options, data);
+
+        return FHUI.element(
+            'div',
+            {
+                ...data.attribute,
+                class: 'fh-input-select-component',
+                style: data.style
+            },
+            [
+                inputDOM,
+                optionsDOM
+            ]
+        );
+    }
+
+    static selectMenu(value = undefined, options = [], data = {}) {
         let optionsDOM = '';
         let selectedIndex = [];
+        let hasDescription = false;
 
         options.forEach((e, i) => {
             e = {
@@ -648,7 +673,7 @@ class FHUIComponentInput {
                                 hidden: true
                             }
                         },
-                        Icon.check
+                        Icon.getIcon('material:check')
                     ),
                     FHUI.element(
                         'div',
@@ -695,18 +720,7 @@ class FHUIComponentInput {
             optionsDOM
         );
 
-        return FHUI.element(
-            'div',
-            {
-                ...data.attribute,
-                class: 'fh-input-select-component',
-                style: data.style
-            },
-            [
-                inputDOM,
-                optionsDOM
-            ]
-        );
+        return optionsDOM;
     }
 
     /**
@@ -951,7 +965,7 @@ class FHUIComponentMenu {
                     {
                         class: 'icon-start'
                     },
-                    data.icon !== undefined ? Icon[data.icon] : null
+                    data.icon !== undefined ? Icon.getIcon(data.icon) : null
                 ),
                 FHUI.element(
                     'div',
@@ -965,7 +979,7 @@ class FHUIComponentMenu {
                     {
                         class: 'icon-end'
                     },
-                    data.children.length > 0 ? Icon['chevronRight'] : null
+                    data.children.length > 0 ? Icon.getIcon('material:chevron-right') : null
                 )
             ]
         );

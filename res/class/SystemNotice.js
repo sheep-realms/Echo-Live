@@ -1,3 +1,11 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+ */
+
+
 class SystemNotice {
     constructor(sel = '#fh-notice') {
         this.sel = sel;
@@ -26,7 +34,8 @@ class SystemNotice {
         });
 
         // 点击通知
-        $(document).on('click', '.fh-notice-item', function() {
+        $(document).on('click', '.fh-notice-item', function(e) {
+            if ($(e.target).closest('.fh-notice-item-btn-close').length > 0) return;
             that.runCallback($(this).data('index'), 'click');
         });
 
@@ -97,13 +106,14 @@ class SystemNotice {
      * @param {String} data.id 通知 ID
      * @param {Number} data.waitTime 停留时间
      * @param {String} data.width 宽度
+     * @param {Function} callback 回调函数
      */
-    sendT(key = '', vars = {}, type = 'info', data = {}) {
+    sendT(key = '', vars = {}, type = 'info', data = {}, callback = undefined) {
         data = {
             id: key,
             ...data
         }
-        return this.send($t(key, vars), '', type, data);
+        return this.send($t(key, vars), '', type, data, callback);
     }
 
     /**
@@ -119,14 +129,15 @@ class SystemNotice {
      * @param {String} data.width 宽度
      * @param {String} title 自定义标题翻译键
      * @param {String} titleVars 标题翻译变量
+     * @param {Function} callback 回调函数
      */
-    sendTHasTitle(key = '', vars = {}, type = 'info', data = {}, title = '', titleVars = {}) {
+    sendTHasTitle(key = '', vars = {}, type = 'info', data = {}, title = '', titleVars = {}, callback = undefined) {
         data = {
             id: key,
             ...data
         }
         let titleKey = title === '' ? key + '.title' : title;
-        return this.send($t(key + '.message', vars), $t(titleKey, titleVars), type, data);
+        return this.send($t(key + '.message', vars), $t(titleKey, titleVars), type, data, callback);
     }
 
     /**

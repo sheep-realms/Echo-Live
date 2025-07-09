@@ -1,3 +1,11 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+ */
+
+
 class EchoLiveTools {
     constructor() {}
 
@@ -6,6 +14,8 @@ class EchoLiveTools {
      * @returns {String} UUID
      */
     static getUUID() {
+        if (window.crypto !== undefined) return window.crypto.randomUUID();
+        
         let timestamp = new Date().getTime();
         let perforNow = (typeof performance !== 'undefined' && performance.now && performance.now() * 1000) || 0;
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
@@ -134,7 +144,7 @@ class EchoLiveTools {
                     try {
                         typeof emojiHako;
                         let emoji = emojiHako.getEmoji(e.data.emoji);
-                        str += ` [${ $t( 'emoji.' + emoji?.title_i18n ) }] `;
+                        str += ` [${ $tc( emoji?.title, { before: 'emoji.' } ) }] `;
                     } catch (error) {
                         str += ` [${ e.data.emoji }] `;
                     }
@@ -456,6 +466,44 @@ class EchoLiveTools {
     }
 
     /**
+     * 清理不必要的 HTML 标签
+     * @param {String} text 文本
+     * @returns {String} 过滤后的文本
+     */
+    static sanitizeHTML(text) {
+        return text.replace(/<\/?[^>]*>/g, (tag) => {
+            // 匹配合法的 HTML 标签
+            const match = tag.match(/^<\/?(span|br|a)([^>]*)>/i);
+            if (match) {
+                const tagName = match[1].toLowerCase();
+                const isClosingTag = tag.startsWith('</');
+    
+                // 处理 span 标签，仅保留 lang 属性
+                if (tagName === 'span') {
+                    if (isClosingTag) return `</${tagName}>`;
+                    const langAttr = match[2]?.match(/lang\s*=\s*(['"])[a-z\-]+?\1/i);
+                    return `<${tagName}${langAttr ? ' ' + langAttr[0] : ''}>`;
+                }
+    
+                // 处理 a 标签，保留 href 属性并添加 target="_blank"
+                if (tagName === 'a') {
+                    if (isClosingTag) return `</${tagName}>`;
+                    const hrefAttr = match[2]?.match(/href\s*=\s*(['"])[^'"]*?\1/i);
+                    return `<${tagName}${hrefAttr ? ' ' + hrefAttr[0] : ''} target="_blank" referrerpolicy="no-referrer">`;
+                }
+    
+                // br 标签直接返回（没有属性）
+                return `<${tagName}>`;
+            }
+    
+            // 其他非法标签转义尖括号
+            return tag
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        });
+    }
+
+    /**
      * 使用 ViewTransition API 更新视图
      * @param {Function} action 过程
      */
@@ -548,10 +596,17 @@ class EchoLiveTools {
      * 替换字符串占位符
      * @param {String} str 源字符串
      * @param {Object} data 变量集
+     * @param {'single'|'double'|'triple'} type 替换类型
      * @returns {String} 替换后的字符串
      */
-    static replacePlaceholders(str, data) {
-        return str.replace(/\{(.*?)\}/g, (match, content) => {
+    static replacePlaceholders(str, data, type = 'single') {
+        const regex = {
+            single: /\{(.*?)\}/g,
+            double: /\{\{(.*?)\}\}/g,
+            triple: /\{\{\{(.*?)\}\}\}/g
+        };
+        if (regex[type] === undefined) return str;
+        return str.replace(regex[type], (match, content) => {
             let [key, defaultValue] = content.split('|').map(part => part.trim());
             if (data.hasOwnProperty(key) && (typeof data[key] === 'string' || typeof data[key] === 'number')) return data[key];
             if (defaultValue) return defaultValue;

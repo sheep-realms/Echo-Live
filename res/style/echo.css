@@ -1,3 +1,11 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+**/
+
+
 .echo-text-bold {font-weight: bold;}
 .echo-text-italic {font-style: italic;}
 /* .echo-text-underline {border-bottom: 1px solid var(--echo-span-color, #000);} */
@@ -86,7 +94,156 @@
     text-shadow: none;
 }
 
+.echo-text-preview-rainbow {
+    background-image: linear-gradient(
+        to right, 
+        #ef4444, #f97316, #f59e0b, #eab308, #84cc16, #22c55e, #10b981, #14b8a6, #06b6d4,
+        #0ea5e9, #3b82f6, #6366f1, #8b5cf6, #a855f7, #d945ef, #ec4899, #f43f5e, #ef4444
+    );
+}
+
 @keyframes echo-text-rainbow {
     0% { background-position: 0 0; }
     100% { background-position: -16em 0; }
+}
+
+.echo-text-roll-down .echo-chr {
+    display: inline-block;
+    transform: rotate(180deg);
+}
+
+.echo-text-jitter .echo-chr {
+    display: inline-block;
+    animation: echo-text-jitter 0.5s infinite;
+}
+
+.echo-text-jitter .echo-chr:nth-child(5n+1) { animation-delay: 0s; }
+.echo-text-jitter .echo-chr:nth-child(5n+2) { animation-delay: 0.05s; }
+.echo-text-jitter .echo-chr:nth-child(5n+3) { animation-delay: 0.1s; }
+.echo-text-jitter .echo-chr:nth-child(5n+4) { animation-delay: 0.15s; }
+.echo-text-jitter .echo-chr:nth-child(5n+5) { animation-delay: 0.2s; }
+.echo-text-jitter .echo-chr:nth-child(5n+6) { animation-delay: 0.25s; }
+
+@keyframes echo-text-jitter {
+    0%, 100% { transform: translate(0em, 0em); }
+    10%  { transform: translate(0.01em, -0.02em); }
+    20%  { transform: translate(-0.02em, 0.01em); }
+    30%  { transform: translate(0.03em, 0em); }
+    40%  { transform: translate(-0.01em, -0.01em); }
+    50%  { transform: translate(0.02em, 0.04em); }
+    60%  { transform: translate(-0.03em, -0.01em); }
+    70%  { transform: translate(0.01em, 0.03em); }
+    80%  { transform: translate(-0.04em, -0.02em); }
+    90%  { transform: translate(0.02em, -0.01em); }
+}
+
+.echo-text-gradient-night-fade,
+.echo-text-gradient-spring-warmth,
+.echo-text-gradient-sunny-morning,
+.echo-text-gradient-winter-neva,
+.echo-text-gradient-dusty-grass,
+.echo-text-gradient-heavy-rain,
+.echo-text-gradient-red-salvation,
+.echo-text-gradient-premium-dark,
+.echo-text-gradient-mountain-rock,
+.echo-text-gradient-juicy-peach,
+.echo-text-gradient-fly-high,
+.echo-text-gradient-aqua-splash,
+.echo-text-gradient-salt-mountain,
+.echo-text-gradient-perfect-blue {
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: none;
+    color: transparent;
+}
+
+.echo-text-gradient-night-fade,
+.echo-text-preview-gradient-night-fade {
+    background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
+}
+
+.echo-text-gradient-spring-warmth,
+.echo-text-preview-gradient-spring-warmth {
+    background-image: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%);
+}
+
+.echo-text-gradient-sunny-morning,
+.echo-text-preview-gradient-sunny-morning {
+    background-image: linear-gradient(to top, #fda085 0%, #f6d365 100%);
+}
+
+.echo-text-gradient-winter-neva,
+.echo-text-preview-gradient-winter-neva {
+    background-image: linear-gradient(to top, #c2e9fb 0%, #a1c4fd 100%);
+}
+
+.echo-text-gradient-dusty-grass,
+.echo-text-preview-gradient-dusty-grass {
+    background-image: linear-gradient(to top, #96e6a1 0%, #d4fc79 100%);
+}
+
+.echo-text-gradient-heavy-rain,
+.echo-text-preview-gradient-heavy-rain {
+    background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+}
+
+.echo-text-gradient-red-salvation,
+.echo-text-preview-gradient-red-salvation {
+    background-image: linear-gradient(to top, #f43b47 0%, #453a94 100%);
+}
+
+.echo-text-gradient-premium-dark,
+.echo-text-preview-gradient-premium-dark {
+    background-image: linear-gradient(to top, black 0%, #434343 100%);
+}
+
+.echo-text-gradient-mountain-rock,
+.echo-text-preview-gradient-mountain-rock {
+    background-image: linear-gradient(to top, #596164 0%, #868f96 100%);
+}
+
+.echo-text-gradient-juicy-peach,
+.echo-text-preview-gradient-juicy-peach {
+    background-image: linear-gradient(to top, #fcb69f 0%, #ffecd2 100%);
+}
+
+.echo-text-gradient-fly-high,
+.echo-text-preview-gradient-fly-high {
+    background-image: linear-gradient(to top, #48c6ef 0%, #6f86d6 100%);
+}
+
+.echo-text-gradient-aqua-splash,
+.echo-text-preview-gradient-aqua-splash {
+    background-image: linear-gradient(to top, #13547a 0%, #80d0c7 100%);
+}
+
+.echo-text-gradient-salt-mountain,
+.echo-text-preview-gradient-salt-mountain {
+    background-image: linear-gradient(to top, #D7FFFE 0%, #FFFEFF 100%);
+}
+
+.echo-text-gradient-perfect-blue,
+.echo-text-preview-gradient-perfect-blue {
+    background-image: linear-gradient(to bottom, #3D4E81 0%, #5753C9 48%, #6E7FF3 100%);
+}
+
+.echo-text-wave-1 .echo-chr {
+    display: inline-block;
+    animation: echo-text-wave 2s ease-in-out infinite;
+}
+
+.echo-text-wave-2 .echo-chr {
+    display: inline-block;
+    animation: echo-text-wave 1s ease-in-out infinite;
+}
+
+.echo-text-wave-3 .echo-chr {
+    display: inline-block;
+    animation: echo-text-wave .5s ease-in-out infinite;
+}
+
+@keyframes echo-text-wave {
+    0%   { transform: translateY(-0.08em); }
+    50%   { transform: translateY(0.08em); }
+    100% { transform: translateY(-0.08em); }
 }

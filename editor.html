@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="res/style/editor.css">
     <link rel="stylesheet" href="res/style/editor-only.css">
     <link rel="stylesheet" href="res/style/editor-accessibility.css">
+    <link rel="stylesheet" href="res/style/echo.css">
     <link rel="stylesheet" href="res/style/driver-custom.css">
     <link rel="stylesheet" href="res/style/markdown.css">
     <script src="lib/jquery-3.7.1.min.js"></script>
@@ -27,10 +28,14 @@
         const $t = function(...e) {
             return translator.output(...e);
         };
+        const $tc = function(...e) {
+            return translator.outputByTextComponent(...e);
+        };
         translator.init();
     </script>
     <script src="res/data/palette.js"></script>
     <script src="res/data/emoji.js"></script>
+    <script src="res/data/icon.js"></script>
     <script src="res/class/Icon.js"></script>
     <script src="res/class/EchoLiveTools.js"></script>
     <script src="res/class/SystemNotice.js"></script>
@@ -135,8 +140,6 @@
                         <textarea
                             name="content"
                             id="ptext-content"
-                            aria-label="纯文本内容编辑框"
-                            data-i18n-aria-label="editor.form.aria_label.content_plain_text"
                         ></textarea>
                         <div class="editor-bottom-bar">
                             <span class="length">0 字符</span>
@@ -445,8 +448,6 @@
                                 name="content"
                                 id="output-content"
                                 class="code"
-                                aria-label="输出内容编辑框"
-                                data-i18n-aria-label="editor.form.aria_label.output_content"
                             ></textarea>
                             <div class="editor-controller-bottom fh-flex-row fh-controller">
                                 <button id="output-btn-clear" class="fh-button fh-big fh-danger" data-i18n="ui.clear">清空</button>
@@ -492,7 +493,7 @@
 
     <div id="commander-input-panel" class="hide">
         <div class="commander-input-left"></div>
-        <textarea id="commander-input" class="code" data-i18n-aria-label="editor.form.aria_label.commander" rows="1" enterkeyhint="send"></textarea>
+        <textarea id="commander-input" class="code" data-i18n-placeholder="editor.form.placeholder.commander" rows="1" enterkeyhint="send"></textarea>
         <div class="commander-input-right"></div>
         <div class="commander-function-mode-label" data-i18n="command.common.label.function_mode"></div>
     </div>

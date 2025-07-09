@@ -10,7 +10,7 @@
 ![](https://img.shields.io/github/downloads/sheep-realms/Echo-Live/total?style=for-the-badge)
 ![](https://img.shields.io/github/stars/sheep-realms/Echo-Live?style=for-the-badge)
 
-这是一款基于 [Echo](https://github.com/sheep-realms/Echo) 的用于无声系虚拟主播直播的仿视觉小说对话框 OBS 插件。该插件无需部署本地服务器，下载后开箱即用。
+这是一款基于 [Echo](https://github.com/sheep-realms/Echo) 的用于无声系虚拟主播直播的仿视觉小说对话框 OBS 插件。
 
 阅读完整帮助文档请见 [Echo-Live 在线帮助文档](https://sheep-realms.github.io/Echo-Live-Doc/)（另有 [CloudFlare 镜像](https://echo-live-doc.pages.dev/)）。
 
@@ -35,10 +35,11 @@
 - [Echo](https://github.com/sheep-realms/Echo)
 - [Echo-Live-Doc](https://github.com/sheep-realms/Echo-Live-Doc)
 - [Echo-Live-WebSocket-Server](https://github.com/sheep-realms/Echo-Live-WebSocket-Server)
+- [Echo-MoJi](https://github.com/sheep-realms/Echo-MoJi)
 
 ### 第三方项目
+- [AphoniaLiveHelper](https://github.com/YouxingClub/AphoniaLiveHelper)
 - [Echo-Client](https://github.com/Rickyxrc/echo-client)
-- [Echo-Live-Rev](https://github.com/YouxingClub/Echo-Live-Rev)
 - [Echo-Live-Tauri](https://github.com/LuiScreaMed/Echo-Live-Tauri)
 - [Echo-Live-Typetool](https://github.com/RaySky-Rt/Echo-Live-Typetool)
 

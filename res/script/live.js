@@ -1,3 +1,11 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+ */
+
+
 "use strict";
 
 let echo = new Echo();
@@ -12,6 +20,7 @@ $('html').css('--char-effect-name', config.echolive.print_effect.name);
 $('html').css('--char-effect-speed', config.echolive.print_effect.duration + 'ms');
 $('html').css('--char-effect-scale', config.echolive.print_effect.scale);
 $('html').css('--char-effect-timing-function', config.echolive.print_effect.timing_function);
+$('html').css('font-weight', config.global.live_font_weight);
 if (config.echolive.layout.username_text_align_right) $('html').addClass('username-text-align-right');
 if (!config.echolive.layout.diplay_controller) $('html').addClass('controller-hidden');
 
@@ -223,7 +232,7 @@ echo.on('customEvent', function(e) {
 });
 
 echo.on('customData', function(e) {
-    if (e?.username) setUsername(e.username);
+    if (e?.username !== undefined) setUsername(e.username);
     if (e?.emoji) {
         echo.insertSequence({
             type: 'emoji',
@@ -239,6 +248,9 @@ echo.on('customData', function(e) {
     }
     if (e?.action !== undefined && e?.action?.printEnd !== undefined) {
         messageActions.printEnd = e.action.printEnd;
+    }
+    if (e?.character !== undefined) {
+        echolive.broadcast.sendAvatar(e.character);
     }
 });
 

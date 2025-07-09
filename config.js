@@ -1,5 +1,5 @@
 const config = {
-    "data_version": 10,
+    "data_version": 11,
     "global": {
         "language": "zho-Hans",
         "theme": "vanilla",
@@ -7,7 +7,8 @@ const config = {
         "color_scheme": "auto",
         "touchscreen_layout": false,
         "controller_layout_reverse": false,
-        "thin_scrollbar": false
+        "thin_scrollbar": false,
+        "live_font_weight": "inherit"
     },
     "echo": {
         "print_speed": 30,
@@ -107,7 +108,8 @@ const config = {
             "enable": false,
             "url": "ws://127.0.0.1:3000",
             "auto_url": true,
-            "reconnect_limit": 5
+            "reconnect_limit": 5,
+            "disable_broadcast": false
         },
         "color_picker": {
             "palette": "all",
@@ -136,6 +138,19 @@ const config = {
             "live_display_hidden_latest_message_show": true
         }
     },
+    "character": {
+        "avatar": {
+            "name": "echo_otone",
+            "action": "",
+            "scene": ""
+        },
+        "avatar_switch_effect": {
+            "name": "fade-in",
+            "duration": 250,
+            "scale": 1,
+            "timing_function": "ease-out"
+        }
+    },
     "accessibility": {
         "font_size": 16,
         "unlock_page_width": false,
@@ -151,7 +166,9 @@ const config = {
     "advanced": {
         "broadcast": {
             "allow_name_duplicate": false,
-            "allow_send_duplicate_message": false
+            "allow_send_duplicate_message": false,
+            "websocket_heartbeat_backoff_scale": 1,
+            "websocket_heartbeat_duration": 20000
         },
         "editor": {
             "forced_display_split_message": false,
@@ -170,6 +187,5 @@ const config = {
             "enable": true
         }
     },
-    "selector": {},
-    "character": {}
+    "selector": {}
 }

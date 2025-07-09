@@ -1,4 +1,15 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+ */
+
+
 "use strict";
+
+// 兜底，双重保障
+$('.settings-about-footer-var-1').text(navigator.userAgent);
 
 let sysNotice = new SystemNotice();
 
@@ -50,6 +61,10 @@ updater.localStorageManager = localStorageManager;
 
 let uniWindow = new UniverseWindow();
 
+let elcConfig = config;
+elcConfig.__demo_mode = true;
+let echoLiveCharacter = new EchoLiveCharacter(elcConfig);
+
 
 
 let hasUnsavedConfig = false;
@@ -78,6 +93,13 @@ let configSearchDataFilter = new DataFilter(
             map: {
                 value: 'type',
                 search: 'type'
+            }
+        }, {
+            name: 'created',
+            type: 'number',
+            map: {
+                value: 'created',
+                search: 'created'
             }
         }, {
             name: 'main',
@@ -111,6 +133,7 @@ let configSearchDataFilter = new DataFilter(
                     description: $t(`config.${ e.name }._description`).replace(/(<\w+\b[^>]*>)|(<\/\w+>)/g, ''),
                     type: e.type,
                     in: nameSplit[0],
+                    created: e.created,
                     groupTitle: groupTitle
                 });
             }
@@ -118,6 +141,167 @@ let configSearchDataFilter = new DataFilter(
         return data;
     }
 );
+
+const configDataList = [
+    {
+        data: arr => {
+            echoLiveSystem.registry.forEach('language_index', e => {
+                arr.push({
+                    value: e.code,
+                    title: `<span lang="${ e.code_ietf }">${ e.title }</sapn>`
+                });
+            });
+        },
+        key: 'global.language'
+    }, {
+        data: arr => {
+            echoLiveSystem.registry.forEach('live_theme', e => {
+                arr.push({
+                    title: e.title,
+                    value: e.name
+                });
+            });
+        },
+        key: [
+            'global.theme',
+            'echolive.style.live_theme',
+            'history.style.history_theme'
+        ]
+    }, {
+        data: [
+            { value: 'auto', title: $t('config.global.color_scheme._value.auto') },
+            { value: 'light', title: $t('config.global.color_scheme._value.light') },
+            { value: 'dark', title: $t('config.global.color_scheme._value.dark') }
+        ],
+        key: 'global.color_scheme'
+    }, {
+        data: arr => {
+            echoLiveSystem.registry.forEach('sound', e => {
+                arr.push({
+                    title: $t(`sound.${ e.name }`),
+                    value: e.name
+                });
+            });
+        },
+        key: 'echolive.print_audio.name'
+    }, {
+        data: arr => {
+            echoLiveSystem.registry.forEach('sound', e => {
+                arr.push({
+                    title: $t(`sound.${ e.name }`),
+                    value: e.name,
+                    __type: e.type
+                });
+                arr.sort((a, b) => {
+                    if (a.__type === b.type) return 0;
+                    if (b.__type === 'next') return 1;
+                    return -1;
+                });
+            });
+        },
+        key: 'echolive.next_audio.name'
+    }, {
+        data: arr => {
+            echoLiveSystem.registry.forEach('print_effect', e => {
+                if (!e?.hidden || config.advanced.settings.display_hidden_option) arr.push({
+                    title: $t(`effect.print.${ e.name }`),
+                    value: e.value
+                });
+            });
+        },
+        key: 'echolive.print_effect.name'
+    }, {
+        data: arr => {
+            echoLiveSystem.registry.forEach('timing_function', e => {
+                arr.push({
+                    title: $t(`timing_function.${ e.name }`),
+                    value: e.value
+                });
+            });
+        },
+        key: [
+            'echolive.print_effect.timing_function',
+            'character.avatar_switch_effect.timing_function'
+        ]
+    }, {
+        data: arr => {
+            let voices = [];
+            try {
+                voices = speechSynthesis.getVoices();
+                voices = voices.filter(e => e.localService == true);
+            } catch (error) {}
+            for (let i = 0; i < voices.length; i++) {
+                if (
+                    i >= config.advanced.settings.speech_synthesis_voices_maximum &&
+                    config.advanced.settings.speech_synthesis_voices_maximum >= 0
+                ) break;
+                const e = voices[i];
+                arr.push({
+                    value: e.name
+                });
+            }
+        },
+        key: 'echolive.speech_synthesis.voice'
+    }, {
+        data: arr => {
+            echoLiveSystem.registry.forEach('avatar', e => {
+                arr.push({
+                    title: $tc(e.meta.title, { before: 'avatar.' }),
+                    value: e.meta.name
+                });
+            });
+        },
+        key: 'character.avatar.name'
+    }, {
+        data: [
+            {
+                value: '',
+                title: $t('ui.empty')
+            }
+        ],
+        key: 'character.avatar.action'
+    }, {
+        data: [
+            {
+                value: '',
+                title: $t('ui.empty')
+            }
+        ],
+        key: 'character.avatar.scene'
+    }, {
+        data: arr => {
+            echoLiveSystem.registry.forEach('avatar_switch_effect', e => {
+                if (!e?.hidden || config.advanced.settings.display_hidden_option) arr.push({
+                    title: $t(`character.avatar_switch_effect.${ e.name }`),
+                    value: e.value
+                });
+            });
+        },
+        key: 'character.avatar_switch_effect.name'
+    }, {
+        data: arr => {
+            echoLiveSystem.registry.forEach('border_style', e => {
+                arr.push({
+                    title: $t(`border_style.${ e.name }`, {}, ''),
+                    value: e.value
+                });
+            });
+        },
+        key: 'accessibility.high_contrast_outline_style'
+    }, {
+        data: arr => {
+            echoLiveSystem.registry.forEach('font_weight', e => {
+                arr.push({
+                    title: $t(`font_weight.${ e.name }`, {}, ''),
+                    value: e.value
+                });
+            });
+        },
+        key: 'global.live_font_weight'
+    }
+];
+
+
 
 $('#settings-search-btn').click(function() {
     searchSettings($('#settings-search').val());
@@ -140,6 +324,34 @@ function searchSettings(text = '') {
     if (text.length == 0) return;
     let r = configSearchDataFilter.filter(text);
     $('.settings-search-result').html(SettingsPanel.searchResultList(r));
+}
+
+
+
+/**
+ * 设置配置项数据列表
+ * @param {String} name 配置名
+ * @param {Array} dataList 数据列表
+ */
+function setSettingsSelect(name, dataList) {
+    const $sel = $(`.settings-item[data-id="${ name }"]`);
+    if ($sel.length == 0) return;
+    const $item = $sel.eq(0);
+    const $select = $item.find('.fh-input-select-component').eq(0);
+    const value = getSettingsItemValue(name);
+
+    let selectMenuDOM = FHUIComponentInput.selectMenu(
+        value,
+        dataList,
+        {
+            id: name.replace(/\./g, '-'),
+            class: 'settings-value code',
+            option_description_fill_value: true
+        }
+    );
+
+    $select.find('.fh-select-option-list').remove();
+    $select.append(selectMenuDOM);
 }
 
 
@@ -264,6 +476,7 @@ function setSettingsItemValue(name, value, isDefault = false) {
     
     if (type.split('.')[0] != 'special') {
         $sel.find('.settings-value').eq(0).val(value);
+        $sel.find('.settings-value').eq(0).trigger('change');
         if (isDefault) {
             if (type === 'string.multiline') {
                 $sel.find('.settings-value').eq(0).data('default', encodeURIComponent(value));
@@ -432,7 +645,7 @@ function dangerConfigCheck(effect = false, exportNow = false) {
             {
                 controller: ['cancel', 'confirm'],
                 autoFocusButton: 'cancel',
-                icon: 'alert'
+                icon: 'material:alert'
             },
             (v, unit) => {
                 unit.close();
@@ -511,7 +724,7 @@ async function saveConfigFile(content, fileName = 'config.js', saveAs = false) {
 
     timerSaving = setTimeout(function() {
         sysNotice.sendT('notice.config_saving', {}, 'info', {
-            icon: 'timerSand'
+            icon: 'material:timer-sand'
         });
     }, 1000);
 
@@ -523,12 +736,12 @@ async function saveConfigFile(content, fileName = 'config.js', saveAs = false) {
         outputTabUnsavePoint(false);
         clearTimeout(timerSaving);
         sysNotice.sendT('notice.config_saved', {}, 'success', {
-            icon: 'contentSave'
+            icon: 'material:content-save'
         });
     } catch (error) {
         clearTimeout(timerSaving);
         sysNotice.sendT('notice.config_saving_fail', {}, 'error', {
-            icon: 'contentSaveAlert'
+            icon: 'material:content-save-alert'
         });
     }
 }
@@ -575,109 +788,31 @@ $(document).ready(function() {
 
         // 载入数据
 
-        let datalistLang = [];
-
         function __setConfigDefineDatalist(key, data) {
             let i = settingsManager.findIndexConfigDefine(key);
+            if (!Array.isArray(data) || data.length === 0) return;
+            
             settingsManager.configDefine[i].attribute.datalist = data;
         }
 
-        // lang_index.index.forEach(e => {
-        //     datalistLang.push({
-        //         value: e.code,
-        //         title: `<span lang="${ e.code_ietf }">${ e.title }</sapn>`
-        //     });
-        // });
-
-        echoLiveSystem.registry.forEach('language_index', e => {
-            datalistLang.push({
-                value: e.code,
-                title: `<span lang="${ e.code_ietf }">${ e.title }</sapn>`
-            });
-        });
-
-        __setConfigDefineDatalist('global.language', datalistLang);
-
-        datalistLang = [];
-        echoLiveSystem.registry.forEach('live_theme', e => {
-            datalistLang.push({
-                title: e.title,
-                value: e.name
-            });
-        });
-        __setConfigDefineDatalist('global.theme', datalistLang);
-        __setConfigDefineDatalist('echolive.style.live_theme', datalistLang);
-        __setConfigDefineDatalist('history.style.history_theme', datalistLang);
-
-        datalistLang = [];
-        echoLiveSystem.registry.forEach('sound', e => {
-            datalistLang.push({
-                title: $t(`sound.${ e.name }`),
-                value: e.name,
-                __type: e.type
-            });
-        });
-
-        __setConfigDefineDatalist('echolive.print_audio.name', datalistLang);
-        datalistLang = datalistLang.slice();
-        datalistLang.sort((a, b) => {
-            if (a.__type === b.type) return 0;
-            if (b.__type === 'next') return 1;
-            return -1;
-        });
-        __setConfigDefineDatalist('echolive.next_audio.name', datalistLang);
-
-        datalistLang = [];
-        echoLiveSystem.registry.forEach('print_effect', e => {
-            if (!e?.hidden || config.advanced.settings.display_hidden_option) datalistLang.push({
-                title: $t(`effect.print.${ e.name }`),
-                value: e.value
-            });
-        });
-        __setConfigDefineDatalist('echolive.print_effect.name', datalistLang);
-
-        datalistLang = [];
-        echoLiveSystem.registry.forEach('timing_function', e => {
-            datalistLang.push({
-                title: $t(`timing_function.${ e.name }`),
-                value: e.value
-            });
-        });
-        __setConfigDefineDatalist('echolive.print_effect.timing_function', datalistLang);
-
-        let voices = [];
-        try {
-            voices = speechSynthesis.getVoices();
-            voices = voices.filter(e => e.localService == true);
-        } catch (error) {}
-        let voiceName = [];
-        for (let i = 0; i < voices.length; i++) {
-            if (
-                i >= config.advanced.settings.speech_synthesis_voices_maximum &&
-                config.advanced.settings.speech_synthesis_voices_maximum >= 0
-            ) break;
-            const e = voices[i];
-            voiceName.push({
-                value: e.name
+        function __setConfigDataList() {
+            configDataList.forEach(e => {
+                let valueList = [];
+                if (typeof e.data === 'function') {
+                    e.data(valueList);
+                } else {
+                    valueList = e.data;
+                }
+                
+                let keyList = e.key;
+                if (!Array.isArray(keyList)) keyList = [keyList];
+                keyList.forEach(e2 => {
+                    __setConfigDefineDatalist(e2, valueList);
+                });
             });
         }
-        __setConfigDefineDatalist('echolive.speech_synthesis.voice', voiceName);
 
-        datalistLang = [
-            { value: 'auto', title: $t('config.global.color_scheme._value.auto') },
-            { value: 'light', title: $t('config.global.color_scheme._value.light') },
-            { value: 'dark', title: $t('config.global.color_scheme._value.dark') }
-        ];
-        __setConfigDefineDatalist('global.color_scheme', datalistLang);
-
-        datalistLang = [];
-        echoLiveSystem.registry.forEach('border_style', e => {
-            datalistLang.push({
-                title: $t(`border_style.${ e.name }`),
-                value: e.value
-            });
-        });
-        __setConfigDefineDatalist('accessibility.high_contrast_outline_style', datalistLang);
+        __setConfigDataList();
 
         // 生成页面
 
@@ -694,7 +829,7 @@ $(document).ready(function() {
             $t('ui.audition'),
             {
                 id: 'btn-speech-voice-audition',
-                icon: Icon.accountVoice
+                icon: Icon.getIcon('material:account-voice')
             }
         ));
 
@@ -704,6 +839,7 @@ $(document).ready(function() {
 
         configLoad();
 
+        // 关于页面链接
         aboutLinks.forEach(e => {
             if (e?.isGroupTitle) {
                 $('.settings-about-content').append(SettingsPanel.linkBarGroupTitle($t('config.about.' + e.name), e));
@@ -717,6 +853,7 @@ $(document).ready(function() {
             }
         });
 
+        // 最后的页面构建
         $('.settings-nav-item').eq(1).click();
 
         $('#settings-file-check-box').html(SettingsFileChecker.default());
@@ -730,7 +867,7 @@ $(document).ready(function() {
             SettingsPanel.msgBoxBlack(
                 $t('config.about.accessibility'),
                 $t('settings.msgbox.accessibility'),
-                'wheelchairAccessibility'
+                'material:wheelchair-accessibility'
             ) +
             `<div class="review-color-card" aria-label="${ $t('settings.label.accessibility_color_card') }">
                 <div class="general"><div class="fg">${ $t('settings.functional_color.general') }</div><div class="bg"></div></div>
@@ -743,6 +880,11 @@ $(document).ready(function() {
                 <div class="example-2">${ $t('config.accessibility.font_size.example_2') }</div>
             </div>`
         );
+
+        $('.settings-page[data-pageid="character"]').prepend(SettingsPanel.msgBox(
+            '',
+            $t('settings.msgbox.character_settings')
+        ));
         $('.settings-page[data-pageid="advanced"]').prepend(SettingsPanel.msgBoxWarn(
             '',
             $t('settings.msgbox.advanced_settings')
@@ -750,8 +892,50 @@ $(document).ready(function() {
         $('.settings-page[data-pageid="extension"]').prepend(SettingsPanel.msgBox(
             $t('settings.msgbox.extension.title'),
             $t('settings.msgbox.extension.description'),
-            'help'
+            'material:help'
         ));
+
+        $('.settings-item[data-id="character.avatar.name"]>.content').html(AvatarReviewPanel.panel());
+        $('.settings-item[data-id="character.avatar.name"]>.content').removeClass('hide');
+
+        echoLiveCharacter.on('imageChange', (image) => {
+            $('.avatar-review-image').attr('style', '');
+            $('.avatar-review-image').css('background-image', `url(${image.url})`);
+            if (image.position !== undefined) $('.avatar-review-image').css('background-position', image.position);
+            if (image.size !== undefined) $('.avatar-review-image').css('background-size', image.size);
+            if (image.repeat !== undefined) $('.avatar-review-image').css('background-repeat', image.repeat);
+        });
+
+        $(document).on('change', '.settings-item[data-id="character.avatar.name"] .settings-value, .settings-item[data-id="character.avatar.action"] .settings-value', function() {
+            const avatarName = getSettingsItemValue('character.avatar.name');
+            const actionName = getSettingsItemValue('character.avatar.action');
+            const avatarData = echoLiveSystem.registry.getRegistryValue('avatar', avatarName);
+
+            if (avatarData === undefined) {
+                echoLiveCharacter.clearImage();
+                $('.avatar-review-image').attr('style', '');
+            } else {
+                echoLiveCharacter.setAvatar({
+                    avatar: {
+                        name: avatarName,
+                        action: actionName !== '' ? actionName : undefined
+                    }
+                });
+            }
+
+            $('.avatar-review-info').html(
+                AvatarReviewPanel.info(
+                    avatarData?.meta,
+                    {
+                        translateData: {
+                            before: 'avatar.'
+                        }
+                    }
+                )
+            );
+        });
+
+        $('.settings-item[data-id="character.avatar.name"] .settings-value').trigger('change');
 
         let ua = navigator.userAgent.toLowerCase();
         if (ua.search(/ chrome\//) == -1) {
@@ -1277,6 +1461,50 @@ $(document).on('click', '.settings-item[data-id="global.touchscreen_layout"] .se
 
 $(document).on('input', '.settings-item[data-id="accessibility.font_size"] .settings-value', function() {
     $('.review-font-size-card').css('--font-size-base-review', `${ $(this).val() }px`);
+});
+
+$(document).on('change', '.settings-item[data-id="character.avatar.name"] .settings-value', function() {
+    const avatarName = getSettingsItemValue('character.avatar.name');
+    const avatarData = echoLiveSystem.registry.getRegistryValue('avatar', avatarName);
+    const empty = [
+        {
+            value: '',
+            title: $t('ui.empty')
+        }
+    ];
+
+    if (avatarData === undefined) {
+        setSettingsSelect('character.avatar.action', empty);
+        setSettingsSelect('character.avatar.scene', empty);
+        return;
+    }
+
+    
+
+    function __loadDataList(type) {
+        let datalist = [];
+        avatarData[type].forEach(e => {
+            let before = 'avatar.';
+            if (!e.custom_translate) before += avatarData.path[type + '_translate'];
+            datalist.push({
+                value: e.name,
+                title: $tc(e.title, { before: before }),
+            });
+        });
+        setSettingsSelect('character.avatar.' + type, datalist);
+    }
+    
+    if (!Array.isArray(avatarData.action) || avatarData.action.length === 0) {
+        setSettingsSelect('character.avatar.action', empty);
+    } else {
+        __loadDataList('action');
+    }
+
+    if (!Array.isArray(avatarData.scene) || avatarData.scene.length === 0) {
+        setSettingsSelect('character.avatar.scene', empty);
+    } else {
+        __loadDataList('scene');
+    }
 });
 
 

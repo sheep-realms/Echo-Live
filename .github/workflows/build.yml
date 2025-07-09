@@ -20,15 +20,13 @@ jobs:
         echo "Repository URL: ${{ github.repositoryUrl }}" >> build-info.txt
         echo "Triggered by: ${{ github.actor }} (${{ github.actor_id }})" >> build-info.txt
 
-    - name: Install zip
-      run: sudo apt-get install zip
-
-    - name: Zip Files
+    - name: Prepare Release Package
       run: |
-        zip -r echo-live-build-${{ github.run_number }}.zip . -x @.buildignore
+        mkdir dist
+        rsync -av --exclude-from='.buildignore' ./ dist/
 
-    - name: Upload Artifact
+    - name: Upload Release Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: echo-live-build-pack-${{ github.run_number }}
-        path: echo-live-build-${{ github.run_number }}.zip
+        name: "echo-live-build-pack-${{ github.run_number }}"
+        path: dist

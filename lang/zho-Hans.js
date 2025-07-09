@@ -629,15 +629,15 @@ const lang_zho_Hans = {
                 _description: "设置默认所使用的形象及其参数",
                 name: {
                     _title: "形象名称",
-                    _description: "可用的形象名称请见<a href='#' target='_blank'>帮助文档（这里的链接记得改）</a>。"
+                    _description: "Echo-Live 内置了“Echo 追音”作为默认形象。"
                 },
                 action: {
                     _title: "动作名称",
-                    _description: "默认所使用的动作名称，留空则使用默认值。<br>不同的形象会有不同的动作可选，请根据您选择的形象来选择动作。<br>可用的动作名称请见<a href='#' target='_blank'>帮助文档（这里的链接记得改）</a>。"
+                    _description: "默认所使用的动作名称，留空则使用默认值。<br>不同的形象会有不同的动作可选，请根据您选择的形象来选择动作。"
                 },
                 scene: {
                     _title: "镜头名称",
-                    _description: "默认所使用的镜头名称，留空则使用默认值。<br>不同的形象会有不同的镜头可选，请根据您选择的形象来选择镜头。<br>可用的镜头名称请见<a href='#' target='_blank'>帮助文档（这里的链接记得改）</a>。"
+                    _description: "默认所使用的镜头名称，留空则使用默认值。<br>不同的形象会有不同的镜头可选，请根据您选择的形象来选择镜头。"
                 }
             },
             avatar_switch_effect: {
@@ -645,7 +645,7 @@ const lang_zho_Hans = {
                 _description: "切换形象或动作时默认所使用的动画效果",
                 name: {
                     _title: "动效名称",
-                    _description: "可用的动效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>帮助文档（这里的链接记得改）</a>。"
+                    _description: "切换形象或动作时默认所使用的动画效果名称。"
                 },
                 duration: {
                     _title: "动效用时",

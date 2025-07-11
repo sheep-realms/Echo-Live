@@ -64,7 +64,7 @@ let utterance;
 if (config.echolive.speech_synthesis.enable) {
     try {
         voices = speechSynthesis.getVoices();
-    } catch (error) {}
+    } catch (_) {}
 
     if (config.echolive.speech_synthesis.voice !== '') voiceIndex = voices.findIndex(e => e.name === config.echolive.speech_synthesis.voice);
 }
@@ -189,7 +189,7 @@ echo.on('printEnd', function() {
     try {
         const measure = performance.getEntriesByName('printTime')[0];
         duration = measure.duration;
-    } catch (error) {
+    } catch (_) {
         duration = 0;
     }
     if (config.echolive.display.auto) {

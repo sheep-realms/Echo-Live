@@ -240,8 +240,8 @@ function addImageData(data, attr) {
 
     try {
         localStorageManager.setItem('images_cache', selectedImageData.flat());
-    } catch (error) {
-        
+    } catch (_) {
+        // TODO：缓存图片异常处理
     }
 
     return r;
@@ -309,7 +309,7 @@ $(document).on('click', '#popups-image-images-list.in-delete .image-box', functi
     $(`#popups-image-images-list .image-box[data-value="${value}"]`).remove();
     try {
         localStorageManager.setItem('images_cache', selectedImageData.flat());
-    } catch (error) {}
+    } catch (_) {}
 });
 
 $(document).on('click', '#popups-image .btn-image-cache-delete', function() {
@@ -332,5 +332,5 @@ $(document).on('click', '#popups-image .btn-image-cache-delete-all', function() 
     $('#popups-image .btn-image-cache-delete').focus();
     try {
         localStorageManager.setItem('images_cache', selectedImageData.flat());
-    } catch (error) {}
+    } catch (_) {}
 });

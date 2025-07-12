@@ -624,7 +624,7 @@ class EchoLiveLocalDeviceManager {
         if (typeof navigator.vibrate !== 'function') return;
         try {
             return navigator.vibrate(data);
-        } catch (error) {
+        } catch (_) {
             this.vibrate = () => {};
         }
     }

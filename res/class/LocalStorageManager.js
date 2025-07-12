@@ -42,7 +42,7 @@ class LocalStorageManager {
         let data;
         try {
             data = JSON.parse(s);
-        } catch (error) {
+        } catch (_) {
             return;
         }
 
@@ -64,7 +64,7 @@ class LocalStorageManager {
         let json;
         try {
             json = JSON.stringify(data);
-        } catch (error) {
+        } catch (_) {
             return;
         }
         localStorage.setItem(this.name, json);

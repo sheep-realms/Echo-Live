@@ -14,7 +14,7 @@ class EchoLiveTools {
      * @returns {String} UUID
      */
     static getUUID() {
-        if (window.crypto !== undefined) return window.crypto.randomUUID();
+        if (window.crypto !== undefined && window.crypto.randomUUID !== undefined) return window.crypto.randomUUID();
         
         let timestamp = new Date().getTime();
         let perforNow = (typeof performance !== 'undefined' && performance.now && performance.now() * 1000) || 0;
@@ -145,7 +145,7 @@ class EchoLiveTools {
                         typeof emojiHako;
                         let emoji = emojiHako.getEmoji(e.data.emoji);
                         str += ` [${ $tc( emoji?.title, { before: 'emoji.' } ) }] `;
-                    } catch (error) {
+                    } catch (_) {
                         str += ` [${ e.data.emoji }] `;
                     }
                 }

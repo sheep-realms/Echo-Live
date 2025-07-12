@@ -108,7 +108,7 @@ $(document).ready(function() {
             selectedImageData = localStorageManager.getItem('images_cache');
             if (!Array.isArray(selectedImageData)) selectedImageData = [];
             $('#popups-image-images-list').html(Popups.imagesContent(selectedImageData));
-        } catch (error) {
+        } catch (_) {
             
         }
     });
@@ -597,7 +597,7 @@ $('#output-btn-send').click(function() {
         }
         elb.sendData(msg);
         echoLiveSystem.device.vibrateAuto('success');
-    } catch (error) {
+    } catch (_) {
         if (centent === '/cmd') {
             if ($('#commander-input-panel').hasClass('hide')) {
                 $('#commander-input-panel').removeClass('hide');

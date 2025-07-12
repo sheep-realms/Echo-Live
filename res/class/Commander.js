@@ -248,7 +248,7 @@ class Commander {
                     let pjson;
                     try {
                         pjson = JSON.parse(p);
-                    } catch (error) {
+                    } catch (_) {
                         return this.__messageConstructor(
                             'common',
                             StateMessage.getFail('invalid_json')

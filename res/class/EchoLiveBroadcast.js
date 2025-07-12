@@ -455,7 +455,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
     __readWebsocketMessage(message) {
         try {
             this.getData(JSON.parse(message));
-        } catch (error) {
+        } catch (_) {
             this.event.websocketMessageError();
         }
     }
@@ -887,7 +887,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
     __readWebsocketMessage(message) {
         try {
             this.getData(JSON.parse(message));
-        } catch (error) {
+        } catch (_) {
             this.sendError('websocket_message_error');
         }
     }

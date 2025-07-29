@@ -782,6 +782,14 @@ const lang_zho_Hant_HK = {
                     _title: "啟用硬件設備控制",
                     _description: "允許 Echo-Live 調用一些硬件設備以提供更好的操作體驗。例如震動馬達，這將用於在移動設備上提供觸覺反饋。"
                 }
+            },
+            obs_api: {
+                _title: "OBS API",
+                _description: "配置前台頁面對 OBS API 的運用",
+                allow_scene_name_set_attribute: {
+                    _title: "允許場景名稱控制頁面屬性",
+                    _description: "通過在 OBS 場景名稱末尾寫入像 <code>[color=dark]</code> 這樣的鍵值對來更改頁面屬性，以便於在不同的場景中應用不同的樣式。<br>要使用此功能，對應的瀏覽器源的頁面權限應至少為“用戶資訊的讀取權限”。"
+                }
             }
         },
         extension: {

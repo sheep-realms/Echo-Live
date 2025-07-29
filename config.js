@@ -185,6 +185,9 @@ const config = {
         },
         "device": {
             "enable": true
+        },
+        "obs_api": {
+            "allow_scene_name_set_attribute": true
         }
     },
     "selector": {}

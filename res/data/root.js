@@ -112,7 +112,8 @@ echoLiveSystem.registry.init([
             title: 'missingno',
             description: '',
             style: undefined,
-            script: undefined
+            script: undefined,
+            variant: []
         }
     }, {
         name: 'palette',

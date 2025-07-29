@@ -22,6 +22,7 @@ class EchoLive {
         this.idle           = false;
         this.antiFlood      = false;
         this.theme          = [];
+        this.currentTheme   = "vanilla";
         this.targeted       = false;
         this.username       = '';
         this.timer          = {
@@ -118,6 +119,8 @@ class EchoLive {
         }
 
         if (this.config.echolive.display.auto) this.setDisplayHiddenWaitTimer();
+
+        echoLiveSystem.obs.syncAttributeFormSceneData();
 
         echoLiveSystem.hook.trigger('echolive_portal_init', {
             unit: this
@@ -388,6 +391,7 @@ class EchoLive {
     setThemeStyleUrl(url) {
         if ($('#echo-live-theme').attr('href') === url) return url;
         $('#echo-live-theme').attr('href', url);
+        this.currentTheme = '';
         return url;
     }
 
@@ -415,6 +419,7 @@ class EchoLive {
         $('script.echo-live-theme-script').remove();
 
         this.setThemeStyleUrl(theme.style);
+        this.currentTheme = name;
 
         if (this.themeScriptEnable && typeof theme.script == 'object') {
             theme.script.forEach(e => {
@@ -428,6 +433,16 @@ class EchoLive {
         this.event.themeScriptLoad();
 
         return theme.style;
+    }
+
+    setThemeVariant(name) {
+        const theme = this.findTheme(this.currentTheme);
+        if (theme === undefined) return;
+        if (theme.variant.length === 0) return;
+        const variant = theme.variant.find(e => e.name === name);
+        if (variant === undefined) return;
+
+        EchoLiveTools.setRootDOMUserCustom(variant.attribute);
     }
 
     /**

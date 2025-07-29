@@ -782,6 +782,14 @@ const lang_zho_Hans = {
                     _title: "启用硬件设备控制",
                     _description: "允许 Echo-Live 调用一些硬件设备以提供更好的操作体验。例如震动马达，这将用于在移动设备上提供触觉反馈。"
                 }
+            },
+            obs_api: {
+                _title: "OBS API",
+                _description: "配置前台页面对 OBS API 的运用",
+                allow_scene_name_set_attribute: {
+                    _title: "允许场景名称控制页面属性",
+                    _description: "通过在 OBS 场景名称末尾写入像 <code>[color=dark]</code> 这样的键值对来更改页面属性，以便于在不同的场景中应用不同的样式。<br>要使用此功能，对应的浏览器源的页面权限应至少为“用户信息的读取权限”。"
+                }
             }
         },
         extension: {

@@ -1,4 +1,4 @@
-const db_config_version = 11;
+const db_config_version = 12;
 
 const db_config_define = [
     {
@@ -1259,6 +1259,15 @@ const db_config_define = [
         type: 'boolean',
         default: true,
         created: 10
+    }, {
+        name: 'advanced.obs_api',
+        type: 'object',
+        created: 12
+    }, {
+        name: 'advanced.obs_api.allow_scene_name_set_attribute',
+        type: 'boolean',
+        default: true,
+        created: 12
     }, 
 
 

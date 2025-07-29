@@ -613,4 +613,29 @@ class EchoLiveTools {
             return match;
         });
     }
+
+    static clearRootDOMUserCustom() {
+        let $root = $('html');
+        $.each($root[0].attributes, function () {
+            if (this.name.startsWith('user-custom-')) {
+            $root.removeAttr(this.name);
+            }
+        });
+    }
+
+    static setRootDOMUserCustom(attributes = {}) {
+        EchoLiveTools.clearRootDOMUserCustom();
+
+        if (typeof attributes !== 'object' && Object.keys(attributes).length === 0) return;
+        for (const key in attributes) {
+            if (Object.hasOwnProperty.call(attributes, key)) {
+                const value = attributes[key];
+                try {
+                    $('html').attr('user-custom-' + key, value);
+                } catch (error) {
+                    // if (error.name === 'InvalidCharacterError') {}
+                }
+            }
+        }
+    }
 }

@@ -11,8 +11,10 @@
 let echo = new Echo();
 if (config.echo.html_format_enable !== true) echo.filter.HTMLFormat = false;
 let echolive = new EchoLive(echo, config);
-let urlTheme = EchoLiveTools.getUrlParam('theme');
+const urlTheme = EchoLiveTools.getUrlParam('theme');
+const urlThemeVariant = EchoLiveTools.getUrlParam('theme-variant');
 echolive.setTheme(urlTheme || config.echolive.style.live_theme || config.global.theme);
+if (urlThemeVariant !== undefined && urlThemeVariant !== '') echolive.setThemeVariant(urlThemeVariant);
 
 $('html').css('--animation-speed-display-hidden', config.echolive.display.hidden_time + 'ms');
 $('html').css('--animation-speed-display-show', config.echolive.display.show_time + 'ms');

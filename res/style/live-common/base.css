@@ -24,12 +24,12 @@ body {
 
 #echo-live:not(.display-hidden) {
     opacity: 1;
-    transition: opacity var(--animation-speed-display-show) ease-out;
+    transition: opacity var(--animation-speed-display-show) ease-out, background-color .3s;
 }
 
 #echo-live.display-hidden {
     opacity: 0;
-    transition: opacity var(--animation-speed-display-hidden) ease-in;
+    transition: opacity var(--animation-speed-display-hidden) ease-in, background-color .3s;
 }
 
 #echo-live .center-center,

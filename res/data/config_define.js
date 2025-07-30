@@ -22,6 +22,14 @@ const db_config_define = [
             datalist: []
         }
     }, {
+        name: 'global.theme_variant',
+        type: 'string',
+        default: '',
+        created: 12,
+        attribute: {
+            datalist: []
+        }
+    }, {
         name: 'global.theme_script_enable',
         type: 'boolean',
         default: false,
@@ -97,6 +105,14 @@ const db_config_define = [
         default: '',
         from: 'echolive.live_theme',
         created: 4,
+        attribute: {
+            datalist: []
+        }
+    }, {
+        name: 'echolive.style.live_theme_variant',
+        type: 'string',
+        default: '',
+        created: 12,
         attribute: {
             datalist: []
         }
@@ -910,6 +926,14 @@ const db_config_define = [
         default: '',
         from: 'history.history_theme',
         created: 4,
+        attribute: {
+            datalist: []
+        }
+    }, {
+        name: 'history.style.history_theme_variant',
+        type: 'string',
+        default: '',
+        created: 12,
         attribute: {
             datalist: []
         }

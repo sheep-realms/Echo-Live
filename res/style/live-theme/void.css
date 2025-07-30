@@ -125,6 +125,19 @@
     --echo-span-color: var(--echo-live-content-color);
 }
 
+:root[user-custom-color="white"] {
+    /* 对话框正文内容颜色 */
+    --echo-live-content-color: #FFF;
+    /* 对话框说话人名字颜色 */
+    --echo-live-username-color: #FFF;
+    /* 历史记录字体颜色 */
+    --echo-live-history-color: #FFF;
+    /* 对话框底部工具栏内容颜色 */
+    --echo-live-bottom-color: #CCC;
+    /* 历史记录发送时间字体颜色 */
+    --echo-live-history-color-time: #CCC;
+}
+
 
 #echo-live {
     /* min-height: 150px;

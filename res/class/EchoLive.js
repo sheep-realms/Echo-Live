@@ -436,6 +436,7 @@ class EchoLive {
     }
 
     setThemeVariant(name) {
+        if (name === '' || name === undefined) return;
         const theme = this.findTheme(this.currentTheme);
         if (theme === undefined) return;
         if (theme.variant.length === 0) return;

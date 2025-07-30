@@ -52,6 +52,7 @@ const lang_zho_Hans = {
         download: "下载",
         search: "搜索",
         empty: "（空）",
+        default: "默认",
         missingno: {
             no_author: "未署名",
             no_name: "未命名"
@@ -193,6 +194,10 @@ const lang_zho_Hans = {
                 _title: "全局主题",
                 _description: "控制对话框、历史记录等面向观众展示的界面主题。关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。<br>为了主题样式的表现正常，请在 OBS 选中对话框（包括历史记录在内的其他前台页面），右键，在弹出菜单中找到 “混合方式”，选择 “关闭 sRGB”。"
             },
+            theme_variant: {
+                _title: "全局主题变体",
+                _description: "一些主题具有多种样式变体，如更换配色方案、调整不透明度等。留空则使用默认样式。"
+            },
             theme_script_enable: {
                 _title: "启用全局主题脚本",
                 _description: "一些高级效果可能需要启用主题脚本才能正常使用。目前所有预制主题均不包含脚本。<br>脚本中可以执行任意代码，请谨慎安装需要您启用脚本的第三方主题。"
@@ -244,6 +249,10 @@ const lang_zho_Hans = {
                 live_theme: {
                     _title: "对话框主题",
                     _description: "留空则使用全局主题。关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。"
+                },
+                live_theme_variant: {
+                    _title: "对话框主题变体",
+                    _description: "留空则使用全局主题变体。"
                 },
                 live_theme_script_enable: {
                     _title: "启用对话框主题脚本",
@@ -578,6 +587,10 @@ const lang_zho_Hans = {
                 history_theme: {
                     _title: "历史记录主题",
                     _description: "留空则使用全局主题。关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。"
+                },
+                history_theme_variant: {
+                    _title: "历史记录主题变体",
+                    _description: "留空则使用全局主题变体。"
                 },
                 history_theme_script_enable: {
                     _title: "启用历史记录主题脚本",

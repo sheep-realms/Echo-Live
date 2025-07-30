@@ -154,6 +154,66 @@
     --echo-span-color: var(--echo-live-content-color);
 }
 
+/* 湖泊蓝 */
+:root[user-custom-color="blue"] {
+    /* 对话框底部工具栏内容颜色 */
+    --echo-live-bottom-color: #FFF;
+    /* 对话框渐变背景颜色 */
+    --echo-live-bg-gradient-color: rgba(0, 50, 140, 0.75);
+    /* 对话框底部工具栏渐变背景颜色 */
+    --echo-live-bottom-bg-gradient-color: rgba(26, 98, 190, 1);
+    /* 历史记录渐变背景颜色 */
+    --echo-live-history-bg-gradient-color: rgba(0, 50, 140, 0.75);
+}
+
+/* 水晶紫 */
+:root[user-custom-color="purple"] {
+    /* 对话框底部工具栏内容颜色 */
+    --echo-live-bottom-color: #FFF;
+    /* 对话框渐变背景颜色 */
+    --echo-live-bg-gradient-color: rgba(65, 58, 140, 0.75);
+    /* 对话框底部工具栏渐变背景颜色 */
+    --echo-live-bottom-bg-gradient-color: rgba(103, 94, 191, 1);
+    /* 历史记录渐变背景颜色 */
+    --echo-live-history-bg-gradient-color: rgba(65, 58, 140, 0.75);
+}
+
+/* 蜜桃粉 */
+:root[user-custom-color="pink"] {
+    /* 对话框底部工具栏内容颜色 */
+    --echo-live-bottom-color: #FFF;
+    /* 对话框渐变背景颜色 */
+    --echo-live-bg-gradient-color: rgba(204, 93, 149, 0.75);
+    /* 对话框底部工具栏渐变背景颜色 */
+    --echo-live-bottom-bg-gradient-color: rgba(230, 142, 186, 1);
+    /* 历史记录渐变背景颜色 */
+    --echo-live-history-bg-gradient-color: rgba(204, 93, 149, 0.75);
+}
+
+/* 葡萄红 */
+:root[user-custom-color="wine_red"] {
+    /* 对话框底部工具栏内容颜色 */
+    --echo-live-bottom-color: #FFCCBF;
+    /* 对话框渐变背景颜色 */
+    --echo-live-bg-gradient-color: rgba(128, 63, 74, 0.75);
+    /* 对话框底部工具栏渐变背景颜色 */
+    --echo-live-bottom-bg-gradient-color: rgba(178, 94, 115, 1);
+    /* 历史记录渐变背景颜色 */
+    --echo-live-history-bg-gradient-color: rgba(128, 63, 74, 0.75);
+    /* 历史记录发送时间字体颜色 */
+    --echo-live-history-color-time: #FFCCBF;
+}
+
+/* 咖啡棕 */
+:root[user-custom-color="coffee"] {
+    /* 对话框底部工具栏内容颜色 */
+    --echo-live-bottom-color: #FFF;
+    /* 对话框底部工具栏渐变背景颜色 */
+    --echo-live-bottom-bg-gradient-color: transparent;
+    /* 历史记录渐变背景颜色 */
+    --echo-live-history-bg-gradient-color: rgba(128, 70, 57, 0.75);
+}
+
 
 #echo-live {
     /* min-height: 150px;
@@ -163,6 +223,10 @@
     background-image: linear-gradient(to top, var(--echo-live-bg-gradient-color) var(--echo-live-bg-gradient-hint-start), transparent var(--echo-live-bg-gradient-hint-end));
     display: flex;
     flex-direction: column;
+}
+
+:root[user-custom-color="coffee"] #echo-live {
+    background-image: linear-gradient(to top, rgba(128, 70, 57, 0.95) 0%, rgba(191, 141, 129, 0.65) 50%, rgba(191, 141, 129, 0) 100%);
 }
 
 #echo-live .center {

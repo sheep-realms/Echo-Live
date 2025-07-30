@@ -180,6 +180,52 @@
     --echo-span-color: var(--echo-live-content-color);
 }
 
+/* 蔚蓝 */
+:root[user-custom-color="azure"] {
+    /* 对话框正文内容颜色 */
+    --echo-live-content-color: #082f49;
+    /* 对话框说话人名字颜色 */
+    --echo-live-username-color: #082f49;
+    /* 对话框底部工具栏内容颜色 */
+    --echo-live-bottom-color: #38bdf8;
+    /* 对话框边框颜色、尺寸、线形 */
+    --echo-live-border: #38bdf8 8px solid;
+    /* 对话框投影颜色 */
+    --echo-live-box-shadow-color: #38bdf8;
+
+    /* 历史记录字体颜色 */
+    --echo-live-history-color: #082f49;
+    /* 历史记录发送时间字体颜色 */
+    --echo-live-history-color-time: #38bdf8;
+    /* 历史记录边框颜色、尺寸、线形 */
+    --echo-live-history-border: #38bdf8 8px solid;
+    /* 历史记录投影颜色 */
+    --echo-live-history-box-shadow-color: #38bdf8;
+}
+
+/* 粉红 */
+:root[user-custom-color="pink"] {
+    /* 对话框正文内容颜色 */
+    --echo-live-content-color: #500724;
+    /* 对话框说话人名字颜色 */
+    --echo-live-username-color: #500724;
+    /* 对话框底部工具栏内容颜色 */
+    --echo-live-bottom-color: #f472b6;
+    /* 对话框边框颜色、尺寸、线形 */
+    --echo-live-border: #f472b6 8px solid;
+    /* 对话框投影颜色 */
+    --echo-live-box-shadow-color: #f472b6;
+
+    /* 历史记录字体颜色 */
+    --echo-live-history-color: #500724;
+    /* 历史记录发送时间字体颜色 */
+    --echo-live-history-color-time: #f472b6;
+    /* 历史记录边框颜色、尺寸、线形 */
+    --echo-live-history-border: #f472b6 8px solid;
+    /* 历史记录投影颜色 */
+    --echo-live-history-box-shadow-color: #f472b6;
+}
+
 
 #echo-live {
     /* min-height: 150px;
@@ -213,6 +259,14 @@
     border-radius: var(--echo-live-border-radius);
     border: var(--echo-live-border);
     overflow: hidden;
+}
+
+:root[user-custom-color="azure"] #echo-live {
+    background-image: linear-gradient(to top, rgba(240, 249, 255, 0.75), rgba(250, 245, 255, 0.35), transparent);
+}
+
+:root[user-custom-color="pink"] #echo-live {
+    background-image: linear-gradient(to top, rgba(253, 242, 248, 0.75), rgba(236, 254, 255, 0.35), transparent);
 }
 
 #echo-live .top {
@@ -334,6 +388,14 @@
     box-sizing: border-box;
     border-radius: var(--echo-live-history-border-radius);
     border: var(--echo-live-history-border);
+}
+
+:root[user-custom-color="azure"] #echo-live-history {
+    background-image: linear-gradient(to top, rgba(240, 249, 255, 0.75), rgba(250, 245, 255, 0.35), transparent);
+}
+
+:root[user-custom-color="pink"] #echo-live-history {
+    background-image: linear-gradient(to top, rgba(253, 242, 248, 0.75), rgba(236, 254, 255, 0.35), transparent);
 }
 
 .echo-live-history-title,

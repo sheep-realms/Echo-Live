@@ -14,7 +14,7 @@ let echolive = new EchoLive(echo, config);
 const urlTheme = EchoLiveTools.getUrlParam('theme');
 const urlThemeVariant = EchoLiveTools.getUrlParam('theme-variant');
 echolive.setTheme(urlTheme || config.echolive.style.live_theme || config.global.theme);
-if (urlThemeVariant !== undefined && urlThemeVariant !== '') echolive.setThemeVariant(urlThemeVariant);
+echolive.setThemeVariant(urlThemeVariant || config.echolive.style.live_theme_variant || config.global.theme_variant || '');
 
 $('html').css('--animation-speed-display-hidden', config.echolive.display.hidden_time + 'ms');
 $('html').css('--animation-speed-display-show', config.echolive.display.show_time + 'ms');

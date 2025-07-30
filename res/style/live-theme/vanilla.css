@@ -164,6 +164,8 @@
 :root[user-custom-color="light_glass"] {
     /* 对话框背景颜色 */
     --echo-live-bg-color: rgba(255, 255, 255, 0.75);
+    /* 历史记录背景颜色 */
+    --echo-live-history-bg-color: rgba(238, 238, 238, 0.75);
 }
 
 /* 深色主题通用 */
@@ -175,6 +177,14 @@
     --echo-live-username-color: #FFF;
     /* 对话框底部工具栏内容颜色 */
     --echo-live-bottom-color: #DDD;
+    /* 历史记录标题背景颜色 */
+    --echo-live-history-bg-color-title: #333740;
+    /* 历史记录字体颜色 */
+    --echo-live-history-color: #FFF;
+    /* 历史记录标题字体颜色 */
+    --echo-live-history-color-title: #9C9EA6;
+    /* 历史记录发送时间字体颜色 */
+    --echo-live-history-color-time: #9C9EA6;
 }
 
 /* 深色主题 */
@@ -185,6 +195,8 @@
     --echo-live-border-top: rgba(255, 255, 255, 1) 2px solid;
     /* 对话框装饰角标颜色 */
     --corner-marker-color: rgba(255, 255, 255, 1);
+    /* 历史记录背景颜色 */
+    --echo-live-history-bg-color: rgba(69, 73, 82, 1);
 }
 
 /* 深色半透明主题 */
@@ -195,6 +207,8 @@
     --echo-live-border-top: rgba(255, 255, 255, 0.5) 2px solid;
     /* 对话框装饰角标颜色 */
     --corner-marker-color: rgba(255, 255, 255, 0.5);
+    /* 历史记录背景颜色 */
+    --echo-live-history-bg-color: rgba(69, 73, 82, 0.75);
 }
 
 
@@ -322,6 +336,10 @@
     box-sizing: border-box;
     background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0, transparent 30px);
     /* background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0, transparent 30px), linear-gradient(to top, rgba(0, 0, 0, 0.1) 0, transparent 30px); */
+}
+
+:root[user-custom-color="dark"] #echo-live-history-message-list {
+    background-image: linear-gradient(rgba(156, 158, 166, 0.1) 0, transparent 30px);
 }
 
 #echo-live-history .history-message-item {

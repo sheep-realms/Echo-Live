@@ -14,6 +14,7 @@ class EchoLiveHistory {
         this.hidden         = false;
         this.prevMessage    = {};
         this.theme          = [];
+        this.currentTheme   = "vanilla";
         this.event          = {
             latestHistoryDisplayChange:     function() {},
             clearHistory:                   function() {},
@@ -108,6 +109,7 @@ class EchoLiveHistory {
     setThemeStyleUrl(url) {
         if ($('#echo-live-theme').attr('href') === url) return url;
         $('#echo-live-theme').attr('href', url);
+        this.currentTheme = '';
         return url;
     }
 
@@ -135,6 +137,7 @@ class EchoLiveHistory {
         $('script.echo-live-theme-script').remove();
 
         this.setThemeStyleUrl(theme.style);
+        this.currentTheme = name;
 
         if (this.themeScriptEnable && typeof theme.script == 'object') {
             theme.script.forEach(e => {
@@ -148,6 +151,17 @@ class EchoLiveHistory {
         this.event.themeScriptLoad();
 
         return theme.style;
+    }
+
+    setThemeVariant(name) {
+        if (name === '' || name === undefined) return;
+        const theme = this.findTheme(this.currentTheme);
+        if (theme === undefined) return;
+        if (theme.variant.length === 0) return;
+        const variant = theme.variant.find(e => e.name === name);
+        if (variant === undefined) return;
+
+        EchoLiveTools.setRootDOMUserCustom(variant.attribute);
     }
 
     /**

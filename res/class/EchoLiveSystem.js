@@ -717,10 +717,18 @@ class EchoLiveOBSMiddleware {
 
         function __clearAttr() {
             let $root = $('html');
-            $.each($root[0].attributes, function () {
-                if (this.name.startsWith('user-custom-')) {
-                $root.removeAttr(this.name);
+            let attrs = $root[0].attributes;
+            let toRemove = [];
+
+            for (let i = 0; i < attrs.length; i++) {
+                let attr = attrs[i];
+                if (attr && attr.name && attr.name.startsWith('user-custom-')) {
+                    toRemove.push(attr.name);
                 }
+            }
+
+            toRemove.forEach(function (name) {
+                $root.removeAttr(name);
             });
         }
 

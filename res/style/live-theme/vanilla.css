@@ -298,6 +298,26 @@
     transition: color .3s;
 }
 
+:root[user-custom-mini] #echo-live .top-left,
+:root[user-custom-mini] #echo-live .center-left,
+:root[user-custom-mini] #echo-live .bottom-left,
+:root[user-custom-mini] #echo-live .top-right,
+:root[user-custom-mini] #echo-live .center-right,
+:root[user-custom-mini] #echo-live .bottom-right {
+    flex: 1 !important;
+}
+
+:root[user-custom-mini] #echo-live .center-top,
+:root[user-custom-mini] #echo-live .center-center,
+:root[user-custom-mini] #echo-live .center-bottom {
+    flex: unset !important;
+    width: calc(33vw + 64px);
+}
+
+:root[user-custom-mini] #echo-live .controller {
+    display: none;
+}
+
 
 /* Echo-Live 历史记录 */
 #echo-live-history {

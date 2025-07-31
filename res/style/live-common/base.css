@@ -13,7 +13,7 @@
     --animation-speed-display-hidden: 1000ms;
     --animation-speed-display-show: 500ms;
 
-    --bili-pk-scene-width: calc(min(var(--obs-scene-height) * 0.58, var(--obs-scene-width)));
+    --bili-pk-scene-width: calc(min(var(--obs-scene-height) * 0.5926, var(--obs-scene-width)));
 }
 
 body {

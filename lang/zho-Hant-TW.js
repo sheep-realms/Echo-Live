@@ -196,7 +196,7 @@ const lang_zho_Hant_TW = {
             },
             theme_variant: {
                 _title: "全域性主題變體",
-                _description: "一些主題具有多種樣式變體，如更換配色方案、調整不透明度等。留空則使用預設樣式。"
+                _description: "一些主題具有多種樣式變體，如更換配色方案、調整不透明度等。留空則使用預設樣式。<br>您還可以使用場景屬性實現在不同的場景中使用不同的樣式，詳見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/#scene-attribute' target='_blank'>說明文件</a>。"
             },
             theme_script_enable: {
                 _title: "啟用全域性主題指令碼",
@@ -528,7 +528,7 @@ const lang_zho_Hant_TW = {
                 _description: "將編輯器連線到 WebSocket 伺服器",
                 enable: {
                     _title: "啟用 WebSocket",
-                    _description: "如果沒人要求您這麼做，請不要動它。<br>廣播模式下啟用 WebSocket 可連線至伺服器以從透過第三方軟體傳送訊息。<br>可從伺服器接收的訊息和廣播訊息一致，傳送的訊息須使用類似於 JSON.stringify 的方法序列化。<br>詳見<a href='https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/' target='_blank'>幫助文件</a>。"
+                    _description: "如果沒人要求您這麼做，請不要動它。<br>廣播模式下啟用 WebSocket 可連線至伺服器以從透過第三方軟體傳送訊息。<br>可從伺服器接收的訊息和廣播訊息一致，傳送的訊息須使用類似於 JSON.stringify 的方法序列化。<br>詳見<a href='https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/' target='_blank'>說明文件</a>。"
                 },
                 url: {
                     _title: "連線地址",

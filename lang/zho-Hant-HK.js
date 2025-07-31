@@ -196,7 +196,7 @@ const lang_zho_Hant_HK = {
             },
             theme_variant: {
                 _title: "全局主題變體",
-                _description: "一些主題具有多種樣式變體，如更換配色方案、調整不透明度等。留空則使用默認樣式。"
+                _description: "一些主題具有多種樣式變體，如更換配色方案、調整不透明度等。留空則使用默認樣式。<br>您還可以使用場景屬性實現在不同的場景中使用不同的樣式，詳見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/#scene-attribute' target='_blank'>幫助文檔</a>。"
             },
             theme_script_enable: {
                 _title: "啟用全局主題腳本",

@@ -196,7 +196,7 @@ const lang_zho_Hans = {
             },
             theme_variant: {
                 _title: "全局主题变体",
-                _description: "一些主题具有多种样式变体，如更换配色方案、调整不透明度等。留空则使用默认样式。"
+                _description: "一些主题具有多种样式变体，如更换配色方案、调整不透明度等。留空则使用默认样式。<br>您还可以使用场景属性实现在不同的场景中使用不同的样式，详见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/#scene-attribute' target='_blank'>帮助文档</a>。"
             },
             theme_script_enable: {
                 _title: "启用全局主题脚本",

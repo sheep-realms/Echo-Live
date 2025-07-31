@@ -16,8 +16,10 @@ if (config.history.message.latest_message_hide) $('html').addClass('echo-live-hi
 $('html').css('font-weight', config.global.live_font_weight);
 
 let echoLiveHistory = new EchoLiveHistory(config);
-let urlTheme = EchoLiveTools.getUrlParam('theme');
+const urlTheme = EchoLiveTools.getUrlParam('theme');
+const urlThemeVariant = EchoLiveTools.getUrlParam('theme-variant');
 echoLiveHistory.setTheme(urlTheme || config.history.style.history_theme || config.global.theme);
+echoLiveHistory.setThemeVariant(urlThemeVariant || config.history.style.history_theme_variant || config.global.theme_variant || '');
 
 echoLiveHistory.on('newHistory', function(e) {
     sendHistory(e.username, e.message);

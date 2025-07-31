@@ -12,6 +12,10 @@
 
     --animation-speed-display-hidden: 1000ms;
     --animation-speed-display-show: 500ms;
+
+    --echo-live-mini-size-coefficient: 0.5926;
+    --echo-live-mini-size-coefficient-trim: min(max(var(--echo-live-mini-size-coefficient), 0.3), 2);
+    --echo-live-mini-size-width: calc(min(var(--obs-scene-height) * var(--echo-live-mini-size-coefficient-trim), var(--obs-scene-width)));
 }
 
 body {
@@ -24,12 +28,12 @@ body {
 
 #echo-live:not(.display-hidden) {
     opacity: 1;
-    transition: opacity var(--animation-speed-display-show) ease-out;
+    transition: opacity var(--animation-speed-display-show) ease-out, background-color .3s;
 }
 
 #echo-live.display-hidden {
     opacity: 0;
-    transition: opacity var(--animation-speed-display-hidden) ease-in;
+    transition: opacity var(--animation-speed-display-hidden) ease-in, background-color .3s;
 }
 
 #echo-live .center-center,

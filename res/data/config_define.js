@@ -1,4 +1,4 @@
-const db_config_version = 11;
+const db_config_version = 12;
 
 const db_config_define = [
     {
@@ -18,6 +18,14 @@ const db_config_define = [
         type: 'string',
         default: 'vanilla',
         created: 3,
+        attribute: {
+            datalist: []
+        }
+    }, {
+        name: 'global.theme_variant',
+        type: 'string',
+        default: '',
+        created: 12,
         attribute: {
             datalist: []
         }
@@ -97,6 +105,14 @@ const db_config_define = [
         default: '',
         from: 'echolive.live_theme',
         created: 4,
+        attribute: {
+            datalist: []
+        }
+    }, {
+        name: 'echolive.style.live_theme_variant',
+        type: 'string',
+        default: '',
+        created: 12,
         attribute: {
             datalist: []
         }
@@ -914,6 +930,14 @@ const db_config_define = [
             datalist: []
         }
     }, {
+        name: 'history.style.history_theme_variant',
+        type: 'string',
+        default: '',
+        created: 12,
+        attribute: {
+            datalist: []
+        }
+    }, {
         name: 'history.style.history_theme_script_enable',
         type: 'boolean',
         default: false,
@@ -1259,6 +1283,20 @@ const db_config_define = [
         type: 'boolean',
         default: true,
         created: 10
+    }, {
+        name: 'advanced.obs_api',
+        type: 'object',
+        created: 12
+    }, {
+        name: 'advanced.obs_api.allow_scene_name_set_attribute',
+        type: 'boolean',
+        default: true,
+        created: 12
+    }, {
+        name: 'advanced.obs_api.echolive_mini_size_coefficient',
+        type: 'number',
+        default: 0.5926,
+        created: 12
     }, 
 
 

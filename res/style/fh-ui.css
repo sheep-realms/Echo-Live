@@ -118,8 +118,20 @@ body {
 }
 
 code, pre {
-    background-color: #EEE;
+    background-color: #f3f4f6;
     font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', serif;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not(.prefers-color-scheme-light) code,
+    :root:not(.prefers-color-scheme-light) pre {
+        background-color: #1f2937;
+    }
+}
+
+.prefers-color-scheme-dark code,
+.prefers-color-scheme-dark pre {
+    background-color: #1f2937;
 }
 
 code {

@@ -52,6 +52,7 @@ const lang_zho_Hans = {
         download: "下载",
         search: "搜索",
         empty: "（空）",
+        default: "默认",
         missingno: {
             no_author: "未署名",
             no_name: "未命名"
@@ -193,6 +194,10 @@ const lang_zho_Hans = {
                 _title: "全局主题",
                 _description: "控制对话框、历史记录等面向观众展示的界面主题。关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。<br>为了主题样式的表现正常，请在 OBS 选中对话框（包括历史记录在内的其他前台页面），右键，在弹出菜单中找到 “混合方式”，选择 “关闭 sRGB”。"
             },
+            theme_variant: {
+                _title: "全局主题变体",
+                _description: "一些主题具有多种样式变体，如更换配色方案、调整不透明度等。留空则使用默认样式。<br>您还可以使用场景属性实现在不同的场景中使用不同的样式，详见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/#scene-attribute' target='_blank'>帮助文档</a>。"
+            },
             theme_script_enable: {
                 _title: "启用全局主题脚本",
                 _description: "一些高级效果可能需要启用主题脚本才能正常使用。目前所有预制主题均不包含脚本。<br>脚本中可以执行任意代码，请谨慎安装需要您启用脚本的第三方主题。"
@@ -244,6 +249,10 @@ const lang_zho_Hans = {
                 live_theme: {
                     _title: "对话框主题",
                     _description: "留空则使用全局主题。关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。"
+                },
+                live_theme_variant: {
+                    _title: "对话框主题变体",
+                    _description: "留空则使用全局主题变体。"
                 },
                 live_theme_script_enable: {
                     _title: "启用对话框主题脚本",
@@ -579,6 +588,10 @@ const lang_zho_Hans = {
                     _title: "历史记录主题",
                     _description: "留空则使用全局主题。关于可用的主题请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>帮助文档</a>。"
                 },
+                history_theme_variant: {
+                    _title: "历史记录主题变体",
+                    _description: "留空则使用全局主题变体。"
+                },
                 history_theme_script_enable: {
                     _title: "启用历史记录主题脚本",
                     _description: "此配置项需要启用全局主题脚本才能生效。"
@@ -781,6 +794,18 @@ const lang_zho_Hans = {
                 enable: {
                     _title: "启用硬件设备控制",
                     _description: "允许 Echo-Live 调用一些硬件设备以提供更好的操作体验。例如震动马达，这将用于在移动设备上提供触觉反馈。"
+                }
+            },
+            obs_api: {
+                _title: "OBS API",
+                _description: "配置前台页面对 OBS API 的运用",
+                allow_scene_name_set_attribute: {
+                    _title: "允许场景名称控制页面属性",
+                    _description: "通过在 OBS 场景名称末尾写入像 <code>[color=dark]</code> 这样的键值对来更改页面属性，以便于在不同的场景中应用不同的样式。<br>要使用此功能，对应的浏览器源的页面权限应至少为“用户信息的读取权限”。"
+                },
+                echolive_mini_size_coefficient: {
+                    _title: "对话框迷你尺寸计算系数",
+                    _description: "通过在 OBS 场景名称末尾写入 <code>[mini]</code> 即可启用对话框的迷你尺寸，迷你尺寸仅在部分主题中可用。<br>系数取值范围为 0.3 ~ 2，迷你尺寸的宽度计算公式为：<code>min(场景高度 × 系数, 场景宽度)</code><br>要使用此功能，对应的浏览器源的页面权限应至少为“用户信息的读取权限”。"
                 }
             }
         },

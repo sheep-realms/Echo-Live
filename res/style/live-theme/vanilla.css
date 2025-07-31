@@ -67,7 +67,7 @@
     /* 对话框装饰角标颜色 */
     --corner-marker-color: rgba(255,255,255,0.5);
     /* 对话框装饰角标填充图案，要禁用请设为 unset */
-    --corner-marker: linear-gradient(-135deg, var(--corner-marker-color) 5px, transparent 5px);
+    --corner-marker: linear-gradient(-135deg, var(--corner-marker-color) 15px, transparent 15px);
     /* 对话框装饰角标填充图案（深色版），要禁用请设为 unset */
     --corner-marker-black: linear-gradient(-135deg, #CCC 15px, transparent 15px);
 
@@ -160,6 +160,57 @@
     --echo-span-color: var(--echo-live-content-color);
 }
 
+/* 半透明主题 */
+:root[user-custom-color="light_glass"] {
+    /* 对话框背景颜色 */
+    --echo-live-bg-color: rgba(255, 255, 255, 0.75);
+    /* 历史记录背景颜色 */
+    --echo-live-history-bg-color: rgba(238, 238, 238, 0.75);
+}
+
+/* 深色主题通用 */
+:root[user-custom-color="dark"],
+:root[user-custom-color="dark_glass"] {
+    /* 对话框正文内容颜色 */
+    --echo-live-content-color: #FFF;
+    /* 对话框说话人名字颜色 */
+    --echo-live-username-color: #FFF;
+    /* 对话框底部工具栏内容颜色 */
+    --echo-live-bottom-color: #DDD;
+    /* 历史记录标题背景颜色 */
+    --echo-live-history-bg-color-title: #333740;
+    /* 历史记录字体颜色 */
+    --echo-live-history-color: #FFF;
+    /* 历史记录标题字体颜色 */
+    --echo-live-history-color-title: #9C9EA6;
+    /* 历史记录发送时间字体颜色 */
+    --echo-live-history-color-time: #9C9EA6;
+}
+
+/* 深色主题 */
+:root[user-custom-color="dark"] {
+    /* 对话框背景颜色 */
+    --echo-live-bg-color: rgba(69, 73, 82, 1);
+    /* 对话框顶部边框颜色、尺寸、线形 */
+    --echo-live-border-top: rgba(255, 255, 255, 1) 2px solid;
+    /* 对话框装饰角标颜色 */
+    --corner-marker-color: rgba(255, 255, 255, 1);
+    /* 历史记录背景颜色 */
+    --echo-live-history-bg-color: rgba(69, 73, 82, 1);
+}
+
+/* 深色半透明主题 */
+:root[user-custom-color="dark_glass"] {
+    /* 对话框背景颜色 */
+    --echo-live-bg-color: rgba(0, 0, 0, 0.6);
+    /* 对话框顶部边框颜色、尺寸、线形 */
+    --echo-live-border-top: rgba(255, 255, 255, 0.5) 2px solid;
+    /* 对话框装饰角标颜色 */
+    --corner-marker-color: rgba(255, 255, 255, 0.5);
+    /* 历史记录背景颜色 */
+    --echo-live-history-bg-color: rgba(69, 73, 82, 0.75);
+}
+
 
 /* Echo-Live */
 #echo-live {
@@ -171,6 +222,11 @@
     background-image: var(--corner-marker-black);
     display: flex;
     flex-direction: column;
+}
+
+:root[user-custom-color="dark"] #echo-live,
+:root[user-custom-color="dark_glass"] #echo-live {
+    background-image: var(--corner-marker);
 }
 
 #echo-live .top {
@@ -218,6 +274,7 @@
     padding: 0.5em;
     box-sizing: border-box;
     color: var(--echo-live-content-color, #000);
+    transition: color .3s;
 }
 
 #echo-live .name {
@@ -227,6 +284,7 @@
     margin-inline-start: -1em;
     font-size: var(--echo-live-username-font-size, var(--echo-live-content-font-size));
     color: var(--echo-live-username-color, #000);
+    transition: color .3s;
 }
 
 #echo-live .controller {
@@ -237,6 +295,27 @@
     display: inline-block;
     margin-right: 1em;
     color: var(--echo-live-bottom-color, #888);
+    transition: color .3s;
+}
+
+:root[user-custom-mini] #echo-live .top-left,
+:root[user-custom-mini] #echo-live .center-left,
+:root[user-custom-mini] #echo-live .bottom-left,
+:root[user-custom-mini] #echo-live .top-right,
+:root[user-custom-mini] #echo-live .center-right,
+:root[user-custom-mini] #echo-live .bottom-right {
+    flex: 1 !important;
+}
+
+:root[user-custom-mini] #echo-live .center-top,
+:root[user-custom-mini] #echo-live .center-center,
+:root[user-custom-mini] #echo-live .center-bottom {
+    flex: unset !important;
+    width: calc(var(--echo-live-mini-size-width, 33vw) + 64px);
+}
+
+:root[user-custom-mini] #echo-live .controller {
+    display: none;
 }
 
 
@@ -248,6 +327,7 @@
     box-sizing: border-box;
     flex-direction: column;
     align-items: stretch;
+    transition: background-color .3s, color .3s;
 }
 
 .echo-live-history-title {
@@ -257,6 +337,7 @@
     min-height: var(--echo-live-history-min-height);
     display: flex;
     align-items: center;
+    transition: background-color .3s;
 }
 
 #echo-live-history h1 {
@@ -265,6 +346,7 @@
     font-weight: var(--echo-live-history-font-weight-title);
     position: relative;
     top: var(--echo-live-history-title-top);
+    transition: color .3s;
 }
 
 #echo-live-history-message-list {
@@ -274,6 +356,10 @@
     box-sizing: border-box;
     background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0, transparent 30px);
     /* background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0, transparent 30px), linear-gradient(to top, rgba(0, 0, 0, 0.1) 0, transparent 30px); */
+}
+
+:root[user-custom-color="dark"] #echo-live-history-message-list {
+    background-image: linear-gradient(rgba(156, 158, 166, 0.1) 0, transparent 30px);
 }
 
 #echo-live-history .history-message-item {
@@ -287,6 +373,7 @@
     color: var(--echo-live-history-color-username, var(--echo-live-history-font-size));
     font-size: var(--echo-live-history-font-size-username, var(--echo-live-history-font-size));
     font-weight: var(--echo-live-history-font-weight-username);
+    transition: color .3s;
 }
 
 #echo-live-history .history-message-item .message {
@@ -296,6 +383,7 @@
     color: var(--echo-live-history-color-message, var(--echo-live-history-font-size));
     font-size: var(--echo-live-history-font-size-message, var(--echo-live-history-font-size));
     font-weight: var(--echo-live-history-font-weight-message);
+    transition: color .3s;
 }
 
 #echo-live-history .history-message-item .time {
@@ -305,4 +393,5 @@
     color: var(--echo-live-history-color-time, var(--echo-live-history-font-size));
     font-size: var(--echo-live-history-font-size-time, var(--echo-live-history-font-size));
     font-weight: var(--echo-live-history-font-weight-time);
+    transition: color .3s;
 }

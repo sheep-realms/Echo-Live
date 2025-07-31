@@ -12,6 +12,7 @@ class EchoLiveSystem {
         this.registry   = new EchoLiveRegistry();
         this.device     = new EchoLiveLocalDeviceManager();
         this.hook       = new EchoLiveHook();
+        this.obs        = new EchoLiveOBSMiddleware();
         this.config     = config;
 
         this.hook.trigger('system_init', {
@@ -640,6 +641,136 @@ class EchoLiveLocalDeviceManager {
     }
 }
 
+class EchoLiveOBSMiddleware {
+    constructor() {
+        this.enable = config.advanced?.obs_api?.allow_scene_name_set_attribute ?? true;
+        this.initialized = false;
+        this.obs = undefined;
+        this.controlLevel = 0;
+
+        this.init();
+    }
+
+    init() {
+        try {
+            this.obs = window.obsstudio;
+            if (this.obs !== undefined) {
+                this.obs.getControlLevel(level => this.controlLevel = level);
+                this.initialized = true;
+            }
+        } catch (_) {}
+    }
+
+    __getData(method = '', callback = () => {}) {
+        if (!this.enable || !this.initialized) return;
+        this.obs[method]?.(callback);
+    }
+
+    getStatus(callback = () => {}) {
+        this.__getData('getStatus', callback);
+    }
+
+    getScenes(callback = () => {}) {
+        if (this.controlLevel < 2) return;
+        this.__getData('getScenes', callback);
+    }
+
+    getCurrentScene(callback = () => {}) {
+        if (this.controlLevel < 2) return;
+        this.__getData('getCurrentScene', callback);
+    }
+
+    __parseKeyValuePairs(input) {
+        if (typeof input !== 'string') return;
+        const match = input.match(/\[([^\[\]]*)\](?!.*\[[^\[\]]*\])/);
+        if (!match) return [];
+
+        const content = match[1];
+        const map = new Map();
+
+        content
+            .split(',')
+            .map(pair => pair.trim())
+            .filter(pair => pair.length > 0)
+            .forEach(pair => {
+                let key, value;
+                if (pair.includes('=')) {
+                    [key, value] = pair.split('=').map(s => s.trim());
+                } else {
+                    key = value = pair.trim();
+                }
+                map.set(key, value);
+            });
+        
+        return Array.from(map.entries()).map(([key, value]) => ({ key, value }));
+    }
+
+    getCurrentSceneKeyValuePairs(callback = () => {}) {
+        if (!this.enable || !this.initialized) return;
+        this.getCurrentScene(scene => {
+            callback(this.__parseKeyValuePairs(scene?.name));
+        });
+    }
+
+    setAttributeFormSceneData(value) {
+        if (value === undefined && (!this.enable || !this.initialized)) return;
+
+        function __clearAttr() {
+            let $root = $('html');
+            let attrs = $root[0].attributes;
+            let toRemove = [];
+
+            for (let i = 0; i < attrs.length; i++) {
+                let attr = attrs[i];
+                if (attr && attr.name && attr.name.startsWith('user-custom-')) {
+                    toRemove.push(attr.name);
+                }
+            }
+
+            toRemove.forEach(function (name) {
+                $root.removeAttr(name);
+            });
+        }
+
+        function __setAttr(kv) {
+            if (kv.length > 0) __clearAttr();
+            kv.forEach(e => {
+                try {
+                    $('html').attr('user-custom-' + e.key, e.value);
+                } catch (error) {
+                    // if (error.name === 'InvalidCharacterError') {}
+                }
+            });
+        }
+
+        if (value !== undefined) {
+            __setAttr(value);
+            return;
+        }
+
+        this.getCurrentSceneKeyValuePairs(pairs => {
+            __setAttr(pairs);
+        });
+    }
+
+    syncAttributeFormSceneData() {
+        if (!this.enable || !this.initialized) return;
+        this.setAttributeFormSceneData();
+        this.getCurrentScene(e => {
+            $('html').css('--obs-scene-width', e.width + 'px');
+            $('html').css('--obs-scene-height', e.height + 'px');
+        });
+
+        window.addEventListener('obsSceneChanged', e => {
+            this.setAttributeFormSceneData(
+                this.__parseKeyValuePairs(e.detail.name)
+            );
+            $('html').css('--obs-scene-width', e.detail.width + 'px');
+            $('html').css('--obs-scene-height', e.detail.height + 'px');
+        })
+    }
+}
+
 
 
 class EchoLiveHook {
@@ -767,8 +898,6 @@ class EchoLiveHookUnit {
         this.parent.remove(this.id);
     }
 }
-
-
 
 // class EchoLiveLog {
 //     constructor() {

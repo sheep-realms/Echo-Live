@@ -52,6 +52,7 @@ const lang_zho_Hant_TW = {
         download: "下載",
         search: "搜尋",
         empty: "（空）",
+        default: "預設",
         missingno: {
             no_author: "未署名",
             no_name: "未命名"
@@ -193,6 +194,10 @@ const lang_zho_Hant_TW = {
                 _title: "全域性主題",
                 _description: "控制對話方塊、歷史記錄等面向觀眾展示的介面主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>說明文件</a>。<br>為了主題樣式的表現正常，請在 OBS 選中對話方塊（包括歷史記錄在內的其他前臺頁面），右鍵，在彈出選單中找到 “混合方式”，選擇 “關閉 sRGB”。"
             },
+            theme_variant: {
+                _title: "全域性主題變體",
+                _description: "一些主題具有多種樣式變體，如更換配色方案、調整不透明度等。留空則使用預設樣式。<br>您還可以使用場景屬性實現在不同的場景中使用不同的樣式，詳見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/#scene-attribute' target='_blank'>說明文件</a>。"
+            },
             theme_script_enable: {
                 _title: "啟用全域性主題指令碼",
                 _description: "一些高階效果可能需要啟用主題指令碼才能正常使用。目前所有預製主題均不包含指令碼。<br>指令碼中可以執行任意程式碼，請謹慎安裝需要您啟用指令碼的第三方主題。"
@@ -244,6 +249,10 @@ const lang_zho_Hant_TW = {
                 live_theme: {
                     _title: "對話方塊主題",
                     _description: "留空則使用全域性主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>說明文件</a>。"
+                },
+                live_theme_variant: {
+                    _title: "對話方塊主題變體",
+                    _description: "留空則使用全域性主題變體。"
                 },
                 live_theme_script_enable: {
                     _title: "啟用對話方塊主題指令碼",
@@ -519,7 +528,7 @@ const lang_zho_Hant_TW = {
                 _description: "將編輯器連線到 WebSocket 伺服器",
                 enable: {
                     _title: "啟用 WebSocket",
-                    _description: "如果沒人要求您這麼做，請不要動它。<br>廣播模式下啟用 WebSocket 可連線至伺服器以從透過第三方軟體傳送訊息。<br>可從伺服器接收的訊息和廣播訊息一致，傳送的訊息須使用類似於 JSON.stringify 的方法序列化。<br>詳見<a href='https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/' target='_blank'>幫助文件</a>。"
+                    _description: "如果沒人要求您這麼做，請不要動它。<br>廣播模式下啟用 WebSocket 可連線至伺服器以從透過第三方軟體傳送訊息。<br>可從伺服器接收的訊息和廣播訊息一致，傳送的訊息須使用類似於 JSON.stringify 的方法序列化。<br>詳見<a href='https://sheep-realms.github.io/Echo-Live-Doc/dev/broadcast/' target='_blank'>說明文件</a>。"
                 },
                 url: {
                     _title: "連線地址",
@@ -578,6 +587,10 @@ const lang_zho_Hant_TW = {
                 history_theme: {
                     _title: "歷史記錄主題",
                     _description: "留空則使用全域性主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>說明文件</a>。"
+                },
+                history_theme_variant: {
+                    _title: "歷史記錄主題變體",
+                    _description: "留空則使用全域性主題變體。"
                 },
                 history_theme_script_enable: {
                     _title: "啟用歷史記錄主題指令碼",
@@ -781,6 +794,18 @@ const lang_zho_Hant_TW = {
                 enable: {
                     _title: "啟用硬體裝置控制",
                     _description: "允許 Echo-Live 呼叫一些硬體裝置以提供更好的操作體驗。例如震動馬達，這將用於在移動裝置上提供觸覺反饋。"
+                }
+            },
+            obs_api: {
+                _title: "OBS API",
+                _description: "配置前臺頁面對 OBS API 的運用",
+                allow_scene_name_set_attribute: {
+                    _title: "允許場景名稱控制頁面屬性",
+                    _description: "透過在 OBS 場景名稱末尾寫入像 <code>[color=dark]</code> 這樣的鍵值對來更改頁面屬性，以便於在不同的場景中應用不同的樣式。<br>要使用此功能，對應的瀏覽器源的頁面許可權應至少為“使用者資訊的讀取許可權”。"
+                },
+                echolive_mini_size_coefficient: {
+                    _title: "對話方塊迷你尺寸計算係數",
+                    _description: "透過在 OBS 場景名稱末尾寫入 <code>[mini]</code> 即可啟用對話方塊的迷你尺寸，迷你尺寸僅在部分主題中可用。<br>係數取值範圍為 0.3 ~ 2，迷你尺寸的寬度計算公式為：<code>min(場景高度 × 係數, 場景寬度)</code><br>要使用此功能，對應的瀏覽器源的頁面許可權應至少為“使用者資訊的讀取許可權”。"
                 }
             }
         },

@@ -52,6 +52,7 @@ const lang_zho_Hant_HK = {
         download: "下載",
         search: "搜索",
         empty: "（空）",
+        default: "默認",
         missingno: {
             no_author: "未署名",
             no_name: "未命名"
@@ -193,6 +194,10 @@ const lang_zho_Hant_HK = {
                 _title: "全局主題",
                 _description: "控制對話框、歷史記錄等面向觀眾展示的界面主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>幫助文檔</a>。<br>為了主題樣式的表現正常，請在 OBS 選中對話框（包括歷史記錄在內的其他前台頁面），右鍵，在彈出菜單中找到 “混合方式”，選擇 “關閉 sRGB”。"
             },
+            theme_variant: {
+                _title: "全局主題變體",
+                _description: "一些主題具有多種樣式變體，如更換配色方案、調整不透明度等。留空則使用默認樣式。<br>您還可以使用場景屬性實現在不同的場景中使用不同的樣式，詳見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/#scene-attribute' target='_blank'>幫助文檔</a>。"
+            },
             theme_script_enable: {
                 _title: "啟用全局主題腳本",
                 _description: "一些高級效果可能需要啟用主題腳本才能正常使用。目前所有預製主題均不包含腳本。<br>腳本中可以執行任意代碼，請謹慎安裝需要您啟用腳本的第三方主題。"
@@ -244,6 +249,10 @@ const lang_zho_Hant_HK = {
                 live_theme: {
                     _title: "對話框主題",
                     _description: "留空則使用全局主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>幫助文檔</a>。"
+                },
+                live_theme_variant: {
+                    _title: "對話框主題變體",
+                    _description: "留空則使用全局主題變體。"
                 },
                 live_theme_script_enable: {
                     _title: "啟用對話框主題腳本",
@@ -579,6 +588,10 @@ const lang_zho_Hant_HK = {
                     _title: "歷史記錄主題",
                     _description: "留空則使用全局主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>幫助文檔</a>。"
                 },
+                history_theme_variant: {
+                    _title: "歷史記錄主題變體",
+                    _description: "留空則使用全局主題變體。"
+                },
                 history_theme_script_enable: {
                     _title: "啟用歷史記錄主題腳本",
                     _description: "此配置項需要啟用全局主題腳本才能生效。"
@@ -781,6 +794,18 @@ const lang_zho_Hant_HK = {
                 enable: {
                     _title: "啟用硬件設備控制",
                     _description: "允許 Echo-Live 調用一些硬件設備以提供更好的操作體驗。例如震動馬達，這將用於在移動設備上提供觸覺反饋。"
+                }
+            },
+            obs_api: {
+                _title: "OBS API",
+                _description: "配置前台頁面對 OBS API 的運用",
+                allow_scene_name_set_attribute: {
+                    _title: "允許場景名稱控制頁面屬性",
+                    _description: "通過在 OBS 場景名稱末尾寫入像 <code>[color=dark]</code> 這樣的鍵值對來更改頁面屬性，以便於在不同的場景中應用不同的樣式。<br>要使用此功能，對應的瀏覽器源的頁面權限應至少為“用戶資訊的讀取權限”。"
+                },
+                echolive_mini_size_coefficient: {
+                    _title: "對話框迷你尺寸計算系數",
+                    _description: "通過在 OBS 場景名稱末尾寫入 <code>[mini]</code> 即可啟用對話框的迷你尺寸，迷你尺寸僅在部分主題中可用。<br>系數取值範圍為 0.3 ~ 2，迷你尺寸的寬度計算公式為：<code>min(場景高度 × 系數, 場景寬度)</code><br>要使用此功能，對應的瀏覽器源的頁面權限應至少為“用戶資訊的讀取權限”。"
                 }
             }
         },

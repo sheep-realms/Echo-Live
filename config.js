@@ -3,6 +3,7 @@ const config = {
     "global": {
         "language": "zho-Hans",
         "theme": "vanilla",
+        "theme_variant": "",
         "theme_script_enable": false,
         "color_scheme": "auto",
         "touchscreen_layout": false,
@@ -17,6 +18,7 @@ const config = {
     "echolive": {
         "style": {
             "live_theme": "",
+            "live_theme_variant": "",
             "live_theme_script_enable": false
         },
         "layout": {
@@ -124,6 +126,7 @@ const config = {
     "history": {
         "style": {
             "history_theme": "",
+            "history_theme_variant": "",
             "history_theme_script_enable": false
         },
         "layout": {
@@ -185,6 +188,10 @@ const config = {
         },
         "device": {
             "enable": true
+        },
+        "obs_api": {
+            "allow_scene_name_set_attribute": true,
+            "echolive_mini_size_coefficient": 0.5926
         }
     },
     "selector": {}

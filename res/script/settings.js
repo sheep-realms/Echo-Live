@@ -169,6 +169,18 @@ const configDataList = [
         ]
     }, {
         data: [
+            {
+                value: '',
+                title: $t('ui.empty')
+            }
+        ],
+        key: [
+            'global.theme_variant',
+            'echolive.style.live_theme_variant',
+            'history.style.history_theme_variant'
+        ]
+    }, {
+        data: [
             { value: 'auto', title: $t('config.global.color_scheme._value.auto') },
             { value: 'light', title: $t('config.global.color_scheme._value.light') },
             { value: 'dark', title: $t('config.global.color_scheme._value.dark') }
@@ -562,6 +574,26 @@ function checkConfigCondition(name = '') {
     });
 }
 
+function getThemeVariantDataList(themeName) {
+    const theme = echoLiveSystem.registry.getRegistryValue('live_theme', themeName);
+    if (theme === undefined) return [];
+
+    let dataList = [
+        {
+            value: '',
+            title: $t('ui.default')
+        }
+    ];
+    theme.variant.forEach(e => {
+        dataList.push({
+            title: e.title,
+            value: e.name
+        });
+    });
+
+    return dataList;
+}
+
 
 
 
@@ -933,6 +965,48 @@ $(document).ready(function() {
                     }
                 )
             );
+        });
+
+        // 载入主题变体
+        const themeVariantDataList = getThemeVariantDataList(config.global.theme);
+        setSettingsSelect('global.theme_variant', themeVariantDataList);
+        setSettingsSelect(
+            'echolive.style.live_theme_variant',
+            config.echolive.style.live_theme_variant !== ''
+                ? getThemeVariantDataList(config.echolive.style.live_theme)
+                : themeVariantDataList
+        );
+        setSettingsSelect(
+            'history.style.history_theme_variant',
+            config.history.style.history_theme_variant !== ''
+                ? getThemeVariantDataList(config.history.style.history_theme)
+                : themeVariantDataList
+        );
+
+        $(document).on('change', '.settings-item[data-id="global.theme"] .settings-value', function() {
+            const globalTheme = getSettingsItemValue('global.theme');
+            const liveTheme = getSettingsItemValue('echolive.style.live_theme');
+            const historyTheme = getSettingsItemValue('history.style.history_theme');
+            const dataList = getThemeVariantDataList(globalTheme);
+            setSettingsSelect('global.theme_variant', dataList);
+            if (liveTheme === '') setSettingsSelect('echolive.style.live_theme_variant', dataList);
+            if (historyTheme === '') setSettingsSelect('history.style.history_theme_variant', dataList);
+        });
+
+        $(document).on('change', '.settings-item[data-id="echolive.style.live_theme"] .settings-value', function() {
+            const theme = getSettingsItemValue('echolive.style.live_theme');
+            let globalTheme = '';
+            if (theme === '') globalTheme = getSettingsItemValue('global.theme');
+            const dataList = getThemeVariantDataList(theme || globalTheme);
+            setSettingsSelect('echolive.style.live_theme_variant', dataList);
+        });
+
+        $(document).on('change', '.settings-item[data-id="history.style.history_theme"] .settings-value', function() {
+            const theme = getSettingsItemValue('history.style.history_theme');
+            let globalTheme = '';
+            if (theme === '') globalTheme = getSettingsItemValue('global.theme');
+            const dataList = getThemeVariantDataList(theme || globalTheme);
+            setSettingsSelect('history.style.history_theme_variant', dataList);
         });
 
         $('.settings-item[data-id="character.avatar.name"] .settings-value').trigger('change');

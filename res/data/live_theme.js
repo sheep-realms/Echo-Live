@@ -73,13 +73,13 @@ echoLiveSystem.registry.loadRegistry('live_theme', 'name', [
                 "title": "葡萄红",
                 "name": "wine_red",
                 "attribute": {
-                    "color": "pink"
+                    "color": "wine_red"
                 }
             }, {
                 "title": "咖啡棕",
                 "name": "coffee",
                 "attribute": {
-                    "color": "pink"
+                    "color": "coffee"
                 }
             }
         ]

@@ -190,7 +190,8 @@ const config = {
             "enable": true
         },
         "obs_api": {
-            "allow_scene_name_set_attribute": true
+            "allow_scene_name_set_attribute": true,
+            "echolive_mini_size_coefficient": 0.5926
         }
     },
     "selector": {}

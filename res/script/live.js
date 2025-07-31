@@ -23,6 +23,7 @@ $('html').css('--char-effect-speed', config.echolive.print_effect.duration + 'ms
 $('html').css('--char-effect-scale', config.echolive.print_effect.scale);
 $('html').css('--char-effect-timing-function', config.echolive.print_effect.timing_function);
 $('html').css('font-weight', config.global.live_font_weight);
+$('html').css('--echo-live-mini-size-coefficient', config.advanced.obs_api.echolive_mini_size_coefficient || 0.5926);
 if (config.echolive.layout.username_text_align_right) $('html').addClass('username-text-align-right');
 if (!config.echolive.layout.diplay_controller) $('html').addClass('controller-hidden');
 

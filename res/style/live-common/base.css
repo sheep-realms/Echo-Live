@@ -13,7 +13,9 @@
     --animation-speed-display-hidden: 1000ms;
     --animation-speed-display-show: 500ms;
 
-    --bili-pk-scene-width: calc(min(var(--obs-scene-height) * 0.5926, var(--obs-scene-width)));
+    --echo-live-mini-size-coefficient: 0.5926;
+    --echo-live-mini-size-coefficient-trim: min(max(var(--echo-live-mini-size-coefficient), 0.3), 2);
+    --echo-live-mini-size-width: calc(min(var(--obs-scene-height) * var(--echo-live-mini-size-coefficient-trim), var(--obs-scene-width)));
 }
 
 body {

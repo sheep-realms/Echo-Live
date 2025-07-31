@@ -802,6 +802,10 @@ const lang_zho_Hans = {
                 allow_scene_name_set_attribute: {
                     _title: "允许场景名称控制页面属性",
                     _description: "通过在 OBS 场景名称末尾写入像 <code>[color=dark]</code> 这样的键值对来更改页面属性，以便于在不同的场景中应用不同的样式。<br>要使用此功能，对应的浏览器源的页面权限应至少为“用户信息的读取权限”。"
+                },
+                echolive_mini_size_coefficient: {
+                    _title: "对话框迷你尺寸计算系数",
+                    _description: "通过在 OBS 场景名称末尾写入 <code>[mini]</code> 即可启用对话框的迷你尺寸，迷你尺寸仅在部分主题中可用。<br>系数取值范围为 0.3 ~ 2，迷你尺寸的宽度计算公式为：<code>min(场景高度 × 系数, 场景宽度)</code><br>要使用此功能，对应的浏览器源的页面权限应至少为“用户信息的读取权限”。"
                 }
             }
         },

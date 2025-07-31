@@ -1292,6 +1292,11 @@ const db_config_define = [
         type: 'boolean',
         default: true,
         created: 12
+    }, {
+        name: 'advanced.obs_api.echolive_mini_size_coefficient',
+        type: 'number',
+        default: 0.5926,
+        created: 12
     }, 
 
 

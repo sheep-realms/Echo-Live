@@ -802,6 +802,10 @@ const lang_zho_Hant_HK = {
                 allow_scene_name_set_attribute: {
                     _title: "允許場景名稱控制頁面屬性",
                     _description: "通過在 OBS 場景名稱末尾寫入像 <code>[color=dark]</code> 這樣的鍵值對來更改頁面屬性，以便於在不同的場景中應用不同的樣式。<br>要使用此功能，對應的瀏覽器源的頁面權限應至少為“用戶資訊的讀取權限”。"
+                },
+                echolive_mini_size_coefficient: {
+                    _title: "對話框迷你尺寸計算系數",
+                    _description: "通過在 OBS 場景名稱末尾寫入 <code>[mini]</code> 即可啟用對話框的迷你尺寸，迷你尺寸僅在部分主題中可用。<br>系數取值範圍為 0.3 ~ 2，迷你尺寸的寬度計算公式為：<code>min(場景高度 × 系數, 場景寬度)</code><br>要使用此功能，對應的瀏覽器源的頁面權限應至少為“用戶資訊的讀取權限”。"
                 }
             }
         },

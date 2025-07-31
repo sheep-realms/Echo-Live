@@ -318,7 +318,7 @@
 :root[user-custom-mini] #echo-live .center-center,
 :root[user-custom-mini] #echo-live .center-bottom {
     flex: unset !important;
-    width: calc(var(--bili-pk-scene-width, 33vw) + 64px);
+    width: calc(var(--echo-live-mini-size-width, 33vw) + 64px);
 }
 
 :root[user-custom-mini] #echo-live .controller {

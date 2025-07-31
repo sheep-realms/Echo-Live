@@ -756,10 +756,17 @@ class EchoLiveOBSMiddleware {
     syncAttributeFormSceneData() {
         if (!this.enable || !this.initialized) return;
         this.setAttributeFormSceneData();
+        this.getCurrentScene(e => {
+            $('html').css('--obs-scene-width', e.width + 'px');
+            $('html').css('--obs-scene-height', e.height + 'px');
+        });
+
         window.addEventListener('obsSceneChanged', e => {
             this.setAttributeFormSceneData(
                 this.__parseKeyValuePairs(e.detail.name)
             );
+            $('html').css('--obs-scene-width', e.detail.width + 'px');
+            $('html').css('--obs-scene-height', e.detail.height + 'px');
         })
     }
 }

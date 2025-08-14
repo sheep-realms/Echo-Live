@@ -50,6 +50,7 @@ try {
 } catch (_) {}
 
 let easterEggDrop = false;
+let easterEggDropFileText = false;
 let logoClick = 0;
 
 let timerSaving = 0;
@@ -1231,10 +1232,11 @@ $(document).on('drop', '#settings-file-input-box', function(e) {
     $('#settings-file-input-box').removeClass('dragover');
 
     const isText = e.originalEvent.dataTransfer.types.indexOf('text/plain');
-    if (isText !== -1) {
+    if (!easterEggDropFileText && isText !== -1) {
         e.originalEvent.dataTransfer.items[isText].getAsString((str) => {
             if (str == $t('file.dropper.drop_file_but_file_text_target')) {
                 sysNotice.sendT('file.dropper.drop_file_but_file_text', {}, 'trophy');
+                easterEggDropFileText = true;
             }
         });
     }

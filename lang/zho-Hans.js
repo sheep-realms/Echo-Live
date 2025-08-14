@@ -1335,6 +1335,8 @@ const lang_zho_Hans = {
         },
         dropper: {
             title: "文件选择器",
+            drop_file_but_file_text: "您觉得您很幽默吗？",
+            drop_file_but_file_text_target: "文件",
             drop_file_cancel: "不放算了，哼！",
             drop_file_cancel_many: "一位用户反复拖拽文件，这是他的程序发生的变化",
             drop_file_long_time: "你怎么还不放手？",
@@ -1346,6 +1348,10 @@ const lang_zho_Hans = {
                 many_file: {
                     title: "太多了",
                     description: "处理不了那么多文件，请一个一个来。"
+                },
+                not_file: {
+                    title: "这不是文件",
+                    description: "您拖了个什么玩意儿进来？"
                 },
                 selected: {
                     title: "已选择文件",
@@ -1630,6 +1636,10 @@ const lang_zho_Hans = {
             no_json: {
                 title: "找不到配置数据",
                 description: "无法在此文件中找到配置数据。"
+            },
+            not_file: {
+                title: "这不是文件",
+                description: "您拖了个什么玩意儿进来？"
             },
             type_error: {
                 title: "文件类型错误",

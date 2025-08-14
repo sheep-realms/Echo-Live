@@ -1335,6 +1335,8 @@ const lang_zho_Hant_HK = {
         },
         dropper: {
             title: "文件選擇器",
+            drop_file_but_file_text: "您覺得您很幽默嗎？",
+            drop_file_but_file_text_target: "文件",
             drop_file_cancel: "不放算了，哼！",
             drop_file_cancel_many: "一位用戶反覆拖拽文件，這是他的程序發生的變化",
             drop_file_long_time: "你怎麼還不放手？",
@@ -1346,6 +1348,10 @@ const lang_zho_Hant_HK = {
                 many_file: {
                     title: "太多了",
                     description: "處理不了那麼多文件，請一個一個來。"
+                },
+                not_file: {
+                    title: "這不是文件",
+                    description: "您拖了個什麼玩意兒進來？"
                 },
                 selected: {
                     title: "已選擇文件",
@@ -1630,6 +1636,10 @@ const lang_zho_Hant_HK = {
             no_json: {
                 title: "找不到配置數據",
                 description: "無法在此文件中找到配置數據。"
+            },
+            not_file: {
+                title: "這不是文件",
+                description: "您拖了個什麼玩意兒進來？"
             },
             type_error: {
                 title: "文件類型錯誤",

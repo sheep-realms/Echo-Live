@@ -46,6 +46,11 @@ async function filePicker() {
 }
 
 function checkImageFile(fileList) {
+    if (fileList.length === 0) {
+        showFileCheckDialogError('not_file');
+        return;
+    }
+    
     if (fileList.length !== 1) {
         showFileCheckDialogError('many_file');
         return;

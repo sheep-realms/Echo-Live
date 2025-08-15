@@ -62,7 +62,7 @@ updater.localStorageManager = localStorageManager;
 
 let uniWindow = new UniverseWindow();
 
-let elcConfig = config;
+let elcConfig = JSON.parse(JSON.stringify(config));
 elcConfig.__demo_mode = true;
 let echoLiveCharacter = new EchoLiveCharacter(elcConfig);
 

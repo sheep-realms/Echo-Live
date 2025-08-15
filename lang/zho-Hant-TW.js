@@ -1335,6 +1335,8 @@ const lang_zho_Hant_TW = {
         },
         dropper: {
             title: "檔案選擇器",
+            drop_file_but_file_text: "您覺得您很幽默嗎？",
+            drop_file_but_file_text_target: "檔案",
             drop_file_cancel: "不放算了，哼！",
             drop_file_cancel_many: "一位使用者反覆拖拽檔案，這是他的程式發生的變化",
             drop_file_long_time: "你怎麼還不放手？",
@@ -1346,6 +1348,10 @@ const lang_zho_Hant_TW = {
                 many_file: {
                     title: "太多了",
                     description: "處理不了那麼多檔案，請一個一個來。"
+                },
+                not_file: {
+                    title: "這不是檔案",
+                    description: "您拖了個什麼玩意兒進來？"
                 },
                 selected: {
                     title: "已選擇檔案",
@@ -1557,6 +1563,19 @@ const lang_zho_Hant_TW = {
                     description: "再次感謝您使用 Echo-Live！如果您還有疑問，可以閱讀<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/' target='_blank'>說明文件</a>或諮詢開發者。"
                 }
             }
+        },
+        title: {
+            editor_overview: "編輯器使用指南",
+            settings_overview: "配置檔案編輯器使用指南"
+        },
+        tutorial_dialog: {
+            title: "互動式引導",
+            description: "您需要閱讀{title}嗎？",
+            option: {
+                yes: "需要",
+                skip: "下次再說",
+                no: "不需要"
+            }
         }
     },
     message_preview: {
@@ -1630,6 +1649,10 @@ const lang_zho_Hant_TW = {
             no_json: {
                 title: "找不到配置資料",
                 description: "無法在此檔案中找到配置資料。"
+            },
+            not_file: {
+                title: "這不是檔案",
+                description: "您拖了個什麼玩意兒進來？"
             },
             type_error: {
                 title: "檔案型別錯誤",

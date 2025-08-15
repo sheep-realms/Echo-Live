@@ -9,6 +9,8 @@
 let helpKey = EchoLiveTools.getUrlParam('help');
 const driver = window.driver.js.driver;
 
+const tutorialConfirmWindow = new TutorialConfirmWindow(uniWindow);
+
 let hasPrevClick = false;
 
 if (helpKey != null && helpKey != undefined) {
@@ -21,6 +23,12 @@ if (helpKey != null && helpKey != undefined) {
             break;
     }
 }
+
+$(document).ready(function() {
+    if (!localStorageManager.getTutorialFlag('editor_overview')) {
+        tutorialConfirmWindow.create('editor_overview', driverShowOverview);
+    }
+});
 
 function driverShowOverview() {
     $('#tabpage-nav-ptext').click();
@@ -143,6 +151,11 @@ function driverShowOverview() {
         }, {
             onNextClick: () => {
                 sysNotice.killById('help-sey-hello');
+                driverObj.moveNext();
+            }
+        }, {
+            onNextClick: () => {
+                localStorageManager.setTutorialFlag('editor_overview');
                 driverObj.moveNext();
             }
         }

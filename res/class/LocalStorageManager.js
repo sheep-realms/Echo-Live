@@ -70,4 +70,19 @@ class LocalStorageManager {
         localStorage.setItem(this.name, json);
         return data;
     }
+
+    getTutorialFlag(key) {
+        let data = this.getItem('tutorial');
+        data ??= {};
+        return data[key] !== undefined ? data[key] : false;
+    }
+
+    setTutorialFlag(key, value = true) {
+        if (typeof value !== 'boolean') return;
+        let data = this.getItem('tutorial');
+        data ??= {};
+        data[key] = value;
+        this.setItem('tutorial', data);
+        return value;
+    }
 }

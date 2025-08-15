@@ -405,3 +405,48 @@ class UpdateWindow {
         );
     }
 }
+
+class TutorialConfirmWindow {
+    constructor(parent) {
+        this.parent = parent;
+    }
+
+    create(key = '', tutorialMethod = () => {}) {
+        this.parent.messageWindow(
+            $t('help.tutorial_dialog.description', { title: $t('help.title.' + key) }),
+            $t('help.tutorial_dialog.title'),
+            {
+                controller: [
+                    {
+                        id: 'no',
+                        content: $t('help.tutorial_dialog.option.no'),
+                        data: {
+                            color: 'danger'
+                        }
+                    }, {
+                        id: 'skip',
+                        content: $t('help.tutorial_dialog.option.skip'),
+                        data: {
+                            color: 'warn'
+                        }
+                    }, {
+                        id: 'yes',
+                        content: $t('help.tutorial_dialog.option.yes')
+                    }
+                ],
+                autoFocusButton: 'yes',
+                icon: 'material:school'
+            },
+            (r, unit) => {
+                if (r === 'yes') {
+                    setTimeout(tutorialMethod, 1000);
+                    unit.close();
+                    return;
+                } else if (r === 'no') {
+                    localStorageManager.setTutorialFlag(key);
+                }
+                unit.close();
+            }
+        )
+    }
+}

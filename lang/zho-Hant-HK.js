@@ -1563,6 +1563,19 @@ const lang_zho_Hant_HK = {
                     description: "再次感謝您使用 Echo-Live！如果您還有疑問，可以閱讀<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/' target='_blank'>幫助文檔</a>或諮詢開發者。"
                 }
             }
+        },
+        title: {
+            editor_overview: "編輯器使用指南",
+            settings_overview: "配置文件編輯器使用指南"
+        },
+        tutorial_dialog: {
+            title: "互動式引導",
+            description: "您需要閲讀{title}嗎？",
+            option: {
+                yes: "需要",
+                skip: "下次再説",
+                no: "不需要"
+            }
         }
     },
     message_preview: {

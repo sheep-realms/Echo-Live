@@ -293,9 +293,13 @@
 
 #echo-live .controller span {
     display: inline-block;
-    margin-right: 1em;
+    /* margin-right: 1em; */
     color: var(--echo-live-bottom-color, #888);
     transition: color .3s;
+}
+
+#echo-live .controller svg {
+    fill: var(--echo-live-bottom-color, #888);
 }
 
 :root[user-custom-mini] #echo-live .top-left,

@@ -206,8 +206,12 @@
 
 #echo-live .controller span {
     display: inline-block;
-    margin-right: 1em;
+    /* margin-right: 1em; */
     color: var(--echo-live-bottom-color, #888);
+}
+
+#echo-live .controller svg {
+    fill: var(--echo-live-bottom-color, #888);
 }
 
 

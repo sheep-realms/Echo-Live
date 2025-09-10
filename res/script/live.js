@@ -346,6 +346,22 @@ echolive.on('displayHiddenNow', function() {
     $('#echo-live, body').addClass('display-hidden');
 });
 
+echolive.on('controllerLoad', function(controller) {
+    const $sel = $('#echo-live .controller');
+    $sel.html('');
+    controller.content.forEach(e => {
+        if (typeof e !== 'object') {
+            $sel.append(`<span>${e}</span>`);
+        } else if (e?.type === 'html') {
+            $sel.append(e.value);
+        } else if (e?.type === 'icon') {
+            $sel.append(Icon.getIcon(e.value));
+        }
+    });
+});
+
+echolive.setController(config.echolive.layout.controller || '');
+
 $(document).on('click', function() {
     if (echo.messageList.length > 0) {
         if (echo.state !== 'stop') {

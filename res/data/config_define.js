@@ -1,4 +1,4 @@
-const db_config_version = 12;
+const db_config_version = 13;
 
 const db_config_define = [
     {
@@ -142,6 +142,20 @@ const db_config_define = [
         type: 'boolean',
         default: true,
         created: 9
+    }, {
+        name: 'echolive.layout.controller',
+        type: 'string',
+        default: 'neo_icon',
+        created: 13,
+        conditions: [
+            {
+                name: 'echolive.layout.diplay_controller',
+                value: true
+            }
+        ],
+        attribute: {
+            datalist: []
+        }
     }, {
         name: 'echolive.broadcast',
         type: 'object',

@@ -269,6 +269,10 @@ const lang_zho_Hans = {
                 diplay_controller: {
                     _title: "显示控制栏",
                     _description: "显示对话框底部的 “SAVE”、“LOAD” 等模拟按钮。"
+                },
+                controller: {
+                    _title: "控制栏内容",
+                    _description: "控制栏中的模拟按钮，可以由文字和图标组成。"
                 }
             },
             broadcast: {
@@ -1577,6 +1581,10 @@ const lang_zho_Hans = {
                 no: "不需要"
             }
         }
+    },
+    live_controller: {
+        classic: "旧版纯文本",
+        neo_icon: "图标"
     },
     message_preview: {
         empty_message: "[空消息]",

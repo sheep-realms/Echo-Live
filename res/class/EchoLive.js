@@ -22,6 +22,7 @@ class EchoLive {
         this.idle           = false;
         this.antiFlood      = false;
         this.theme          = [];
+        this.controller     = [];
         this.currentTheme   = "vanilla";
         this.targeted       = false;
         this.username       = '';
@@ -30,6 +31,7 @@ class EchoLive {
             messagesPolling:    EchoLive.NOT_ACTIVE_TIMER
         };
         this.event          = {
+            controllerLoad:     function() {},
             displayHidden:      function() {},
             displayHiddenNow:   function() {},
             displayShow:        function() {},
@@ -83,6 +85,7 @@ class EchoLive {
      */
     init() {
         this.theme = echoLiveSystem.registry.getRegistryArray('live_theme');
+        this.controller = echoLiveSystem.registry.getRegistryArray('live_controller');
 
         let urlName     = EchoLiveTools.getUrlParam('name');
         let urlColor    = EchoLiveTools.getUrlParam('color');
@@ -444,6 +447,26 @@ class EchoLive {
         if (variant === undefined) return;
 
         EchoLiveTools.setRootDOMUserCustom(variant.attribute);
+    }
+
+    /**
+     * 查找控制栏
+     * @param {String} name 控制栏ID
+     * @returns {Object} 控制栏数据
+     */
+    findController(name) {
+        return this.controller.find((e) => e.meta.name === name);
+    }
+
+    /**
+     * 设置控制栏
+     * @param {String} name 控制栏ID
+     */
+    setController(name) {
+        const controller = this.findController(name);
+        if (controller === undefined) return;
+
+        this.event.controllerLoad(structuredClone(controller));
     }
 
     /**

@@ -181,6 +181,18 @@ const configDataList = [
             'history.style.history_theme_variant'
         ]
     }, {
+        data: arr => {
+            echoLiveSystem.registry.forEach('live_controller', e => {
+                arr.push({
+                    title: $tc(e.meta.title, { before: 'live_controller.' }),
+                    value: e.meta.name
+                });
+            });
+        },
+        key: [
+            'echolive.layout.controller',
+        ]
+    }, {
         data: [
             { value: 'auto', title: $t('config.global.color_scheme._value.auto') },
             { value: 'light', title: $t('config.global.color_scheme._value.light') },

@@ -269,6 +269,10 @@ const lang_zho_Hant_HK = {
                 diplay_controller: {
                     _title: "顯示控制欄",
                     _description: "顯示對話框底部的 “SAVE”、“LOAD” 等模擬按鈕。"
+                },
+                controller: {
+                    _title: "控制欄內容",
+                    _description: "控制欄中的模擬按鈕，可以由文字和圖標組成。"
                 }
             },
             broadcast: {
@@ -1577,6 +1581,10 @@ const lang_zho_Hant_HK = {
                 no: "不需要"
             }
         }
+    },
+    live_controller: {
+        classic: "舊版純文本",
+        neo_icon: "圖標"
     },
     message_preview: {
         empty_message: "[空消息]",

@@ -105,6 +105,16 @@ echoLiveSystem.registry.init([
             url: 'missingno.js'
         }
     }, {
+        name: 'live_controller',
+        unique_key: 'meta.name',
+        default_data: {
+            meta: {
+                name: 'missingno',
+                title: 'missingno'
+            },
+            content: []
+        }
+    }, {
         name: 'live_theme',
         unique_key: 'name',
         default_data: {

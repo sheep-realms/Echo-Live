@@ -300,9 +300,14 @@
 
 #echo-live .controller span {
     display: inline-block;
-    margin-right: 1em;
+    /* margin-right: 1em; */
     color: var(--echo-live-bottom-color, #DDD);
     text-shadow: 0 0 0.075em var(--echo-live-bottom-shadow-color), 0 0 0.075em var(--echo-live-bottom-shadow-color), 0 0 0.075em var(--echo-live-bottom-shadow-color), 0 0 0.075em var(--echo-live-bottom-shadow-color);
+}
+
+#echo-live .controller svg {
+    fill: var(--echo-live-bottom-color, #DDD);
+    filter: drop-shadow(0 0 0.02em var(--echo-live-bottom-shadow-color)) drop-shadow(0 0 0.02em var(--echo-live-bottom-shadow-color)) drop-shadow(0 0 0.02em var(--echo-live-bottom-shadow-color));
 }
 
 :root[user-custom-mini] #echo-live .top-left,

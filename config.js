@@ -1,5 +1,5 @@
 const config = {
-    "data_version": 11,
+    "data_version": 13,
     "global": {
         "language": "zho-Hans",
         "theme": "vanilla",
@@ -23,7 +23,8 @@ const config = {
         },
         "layout": {
             "username_text_align_right": false,
-            "diplay_controller": true
+            "diplay_controller": true,
+            "controller": "neo_icon"
         },
         "broadcast": {
             "enable": true,

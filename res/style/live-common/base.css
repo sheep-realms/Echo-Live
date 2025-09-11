@@ -61,6 +61,10 @@ body {
     top: -0.05em;
 }
 
+#echo-live .controller .flex-space {
+    flex: 1;
+}
+
 #echo-live .controller svg {
     width: calc(var(--echo-live-bottom-font-size) * 1.5);
     height: calc(var(--echo-live-bottom-font-size) * 1.5);

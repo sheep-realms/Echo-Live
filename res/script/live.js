@@ -358,6 +358,8 @@ echolive.on('controllerLoad', function(controller) {
             $sel.append(e.value);
         } else if (e?.type === 'icon') {
             $sel.append(Icon.getIcon(e.value));
+        } else if (e?.type === 'flex') {
+            $sel.append(`<span class="flex-space"></span>`);
         }
     });
 });

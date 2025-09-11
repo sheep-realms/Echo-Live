@@ -175,10 +175,10 @@ echoLiveSystem.registry.loadRegistry('live_controller', e => e.meta.name, [
                 value: 'material:select'
             }, {
                 type: 'icon',
-                value: 'material:arrow-all'
+                value: 'material:magic-staff'
             }, {
                 type: 'icon',
-                value: 'material:magic-staff'
+                value: 'material:arrow-all'
             }, {
                 type: 'icon',
                 value: 'material:pencil'

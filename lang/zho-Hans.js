@@ -1583,8 +1583,34 @@ const lang_zho_Hans = {
         }
     },
     live_controller: {
-        classic: "旧版纯文本",
-        neo_icon: "图标"
+        all_icon: {
+            title: "全量图标"
+        },
+        classic: {
+            title: "旧版纯文本"
+        },
+        draw: {
+            title: "画图"
+        },
+        neo_icon: {
+            title: "图标"
+        },
+        word: {
+            title: "Word 文档",
+            item: {
+                cite: "引用",
+                design: "设计",
+                email: "邮件",
+                file: "文件",
+                graphics: "绘图",
+                help: "帮助",
+                layout: "布局",
+                insert: "插入",
+                review: "审阅",
+                start: "开始",
+                view: "视图"
+            }
+        }
     },
     message_preview: {
         empty_message: "[空消息]",

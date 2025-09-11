@@ -352,6 +352,8 @@ echolive.on('controllerLoad', function(controller) {
     controller.content.forEach(e => {
         if (typeof e !== 'object') {
             $sel.append(`<span>${e}</span>`);
+        } else if (e?.type === 'text') {
+            $sel.append(`<span>${ $tc( e.value, { before: 'live_controller.' + controller.meta.name + '.item.' } ) }</span>`);
         } else if (e?.type === 'html') {
             $sel.append(e.value);
         } else if (e?.type === 'icon') {
@@ -360,7 +362,7 @@ echolive.on('controllerLoad', function(controller) {
     });
 });
 
-echolive.setController(config.echolive.layout.controller || '');
+if (config.echolive.layout.diplay_controller) echolive.setController(config.echolive.layout.controller || '');
 
 $(document).on('click', function() {
     if (echo.messageList.length > 0) {

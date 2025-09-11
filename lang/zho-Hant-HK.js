@@ -1583,8 +1583,34 @@ const lang_zho_Hant_HK = {
         }
     },
     live_controller: {
-        classic: "舊版純文本",
-        neo_icon: "圖標"
+        all_icon: {
+            title: "全量圖標"
+        },
+        classic: {
+            title: "舊版純文本"
+        },
+        draw: {
+            title: "畫圖"
+        },
+        neo_icon: {
+            title: "圖標"
+        },
+        word: {
+            title: "Word 文檔",
+            item: {
+                cite: "引用",
+                design: "設計",
+                email: "郵件",
+                file: "文件",
+                graphics: "繪圖",
+                help: "幫助",
+                layout: "佈局",
+                insert: "插入",
+                review: "審閱",
+                start: "開始",
+                view: "視圖"
+            }
+        }
     },
     message_preview: {
         empty_message: "[空消息]",

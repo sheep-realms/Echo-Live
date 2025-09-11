@@ -64,6 +64,7 @@ body {
 #echo-live .controller svg {
     width: calc(var(--echo-live-bottom-font-size) * 1.5);
     height: calc(var(--echo-live-bottom-font-size) * 1.5);
+    transition: fill .3s;
 }
 
 .controller-hidden #echo-live .controller {

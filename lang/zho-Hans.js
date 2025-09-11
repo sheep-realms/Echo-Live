@@ -1595,6 +1595,9 @@ const lang_zho_Hans = {
         neo_icon: {
             title: "图标"
         },
+        taskbar: {
+            title: "任务栏"
+        },
         word: {
             title: "Word 文档",
             item: {

@@ -1595,6 +1595,9 @@ const lang_zho_Hant_TW = {
         neo_icon: {
             title: "圖示"
         },
+        taskbar: {
+            title: "工作列"
+        },
         word: {
             title: "Word 文件",
             item: {

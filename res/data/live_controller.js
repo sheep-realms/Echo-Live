@@ -217,5 +217,42 @@ echoLiveSystem.registry.loadRegistry('live_controller', e => e.meta.name, [
                 value: 'material:palette'
             }
         ]
+    }, {
+        meta: {
+            name: 'taskbar',
+            title: {
+                text: '任务栏',
+                translate: 'taskbar.title'
+            }
+        },
+        content: [
+            {
+                type: 'icon',
+                value: 'material:view-grid'
+            }, {
+                type: 'icon',
+                value: 'material:magnify'
+            }, {
+                type: 'icon',
+                value: 'material:timeline-text-outline'
+            }, {
+                type: 'flex'
+            }, {
+                type: 'icon',
+                value: 'material:chevron-up'
+            }, {
+                type: 'icon',
+                value: 'material:wifi'
+            }, {
+                type: 'icon',
+                value: 'material:power-plug-battery'
+            }, {
+                type: 'icon',
+                value: 'material:volume-high'
+            }, {
+                type: 'icon',
+                value: 'material:bell'
+            }
+        ]
     }
 ]);

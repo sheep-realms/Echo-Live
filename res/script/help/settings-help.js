@@ -25,9 +25,11 @@ if (helpKey != null && helpKey != undefined) {
 }
 
 $(document).ready(function() {
-    if (!localStorageManager.getTutorialFlag('settings_overview')) {
-        tutorialConfirmWindow.create('settings_overview', driverShowOverview);
-    }
+    translator.ready(() => {
+        if (!localStorageManager.getTutorialFlag('settings_overview')) {
+            tutorialConfirmWindow.create('settings_overview', driverShowOverview);
+        }
+    });
 });
 
 function driverShowOverview() {

@@ -13,21 +13,20 @@ const tutorialConfirmWindow = new TutorialConfirmWindow(uniWindow);
 
 let hasPrevClick = false;
 
-if (helpKey != null && helpKey != undefined) {
-    switch (helpKey) {
-        case 'overview':
-            driverShowOverview();
-            break;
-    
-        default:
-            break;
-    }
-}
-
 $(document).ready(function() {
     translator.ready(() => {
-        if (!localStorageManager.getTutorialFlag('settings_overview')) {
-            tutorialConfirmWindow.create('settings_overview', driverShowOverview);
+        if (helpKey != null && helpKey != undefined) {
+            switch (helpKey) {
+                case 'overview':
+                    driverShowOverview();
+                    break;
+            
+                default:
+                    if (!localStorageManager.getTutorialFlag('settings_overview')) {
+                        tutorialConfirmWindow.create('settings_overview', driverShowOverview);
+                    }
+                    break;
+            }
         }
     });
 });

@@ -100,6 +100,7 @@ function setUsername(name = '') {
 $(document).ready(function() {
     translator.ready(() => {
         emojiHako = new EmojiHako();
+        if (config.echolive.layout.diplay_controller) echolive.setController(config.echolive.layout.controller || '');
     })
 });
 
@@ -371,8 +372,6 @@ echolive.on('controllerLoad', function(controller) {
         }
     });
 });
-
-if (config.echolive.layout.diplay_controller) echolive.setController(config.echolive.layout.controller || '');
 
 $(document).on('click', function() {
     if (echo.messageList.length > 0) {

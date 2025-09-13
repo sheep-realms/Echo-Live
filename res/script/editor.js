@@ -46,8 +46,6 @@ let hasError = false;
 
 let logScrollButInvisible = false;
 
-echoLiveEditor.emojiHako = emojiHako;
-
 let initDevicePixelRatio = window.devicePixelRatio;
 let devicePixelRatioChanged = 0;
 let inOBS = false;
@@ -88,10 +86,13 @@ let elb;
 let clientTargetButNoClient = false;
 
 $(document).ready(function() {
-    $('.tabpage-panel[data-pageid="ptext"] .editor-controller').append(EditorForm.editorController('ptext-content'));
 
     translator.ready(() => {
+        echoLiveEditor.emojiHako = new EmojiHako();
+
         $('#ptext-editor .editor-bottom-bar .length').text($t('editor.form.text_length', { n: 0 }));
+
+        $('.tabpage-panel[data-pageid="ptext"] .editor-controller').append(EditorForm.editorController('ptext-content'));
 
         popupsCreate(Popups.palettePopups(echoLiveEditor.getPalettes()), '#popups-palette');
         $('#popups-palette .palette-page').eq(0).removeClass('hide');
@@ -111,68 +112,68 @@ $(document).ready(function() {
         } catch (_) {
             
         }
+
+        if (config.echo.print_speed !== 30) {
+            $('.echo-editor-form-input-tip').text($t('editor.form.description.print_speed_custom', { value: config.echo.print_speed }));
+        }
+
+        if (config.echolive.broadcast.enable) {
+            $('#ptext-btn-submit').addClass('fh-ghost');
+            $('#ptext-btn-send, #output-btn-send, #checkbox-sent-clear').removeClass('hide');
+            $('#ptext-content, #output-content').attr('title', $t('editor.tip.hot_key_textarea_quick_send'));
+
+            if (config.editor.function.client_state_panel_enable) {
+                $('.echo-live-client-state').removeClass('hide');
+            }
+
+            if (config.editor.function.client_state_panel_enable || config.advanced.editor.forced_display_split_message) {
+                $('#collapse-split-message').removeClass('hide');
+            }
+
+            // 输出 - 内容 - 快捷键
+            $('#output-content').keydown(function(e) {
+                if (e.code === 'Enter' && e.ctrlKey) {
+                    $('#output-btn-send').click();
+                    effectClick('#output-btn-send');
+                }
+            })
+
+            $('.echo-live-client-state-content').html(EditorClientState.statePanel([]));
+
+            elb = new EchoLiveBroadcastServer(config.echolive.broadcast.channel, config);
+            elb.on('clientsChange', clientsChange);
+            elb.on('message', getMessage);
+            elb.on('error', getError);
+            elb.on('noClient', noClient);
+            elb.on('nameDuplicate', nameDuplicate);
+            elb.on('websocketConnectOpen', websocketConnectOpen);
+            elb.on('websocketConnectClose', websocketConnectClose);
+            elb.on('websocketConnectError', websocketConnectError);
+            elb.on('websocketMessageError', websocketMessageError);
+
+            commander.link.broadcast = elb;
+
+            translator.ready(() => {
+                checkNowDate();
+                editorLogT('editor.log.broadcast_launch.done', { channel: config.echolive.broadcast.channel });
+                editorLog('User Agent: ' + navigator.userAgent, 'dbug');
+
+                if (config.editor.websocket.enable) {
+                    editorLogT('editor.log.broadcast_launch.user_agent_check_websocket', {}, 'done');
+                } else if (navigator.userAgent.toLowerCase().search(/ obs\//) !== -1) {
+                    editorLogT('editor.log.broadcast_launch.user_agent_check', {}, 'done');
+                    inOBS = true;
+                } else {
+                    editorLogT('editor.log.broadcast_launch.user_agent_error', {}, 'tips');
+                }
+            });
+        } else {
+            translator.ready(() => {
+                checkNowDate();
+                editorLogT('editor.log.broadcast_launch.disable');
+            });
+        }
     });
-
-    if (config.echo.print_speed !== 30) {
-        $('.echo-editor-form-input-tip').text($t('editor.form.description.print_speed_custom', { value: config.echo.print_speed }));
-    }
-
-    if (config.echolive.broadcast.enable) {
-        $('#ptext-btn-submit').addClass('fh-ghost');
-        $('#ptext-btn-send, #output-btn-send, #checkbox-sent-clear').removeClass('hide');
-        $('#ptext-content, #output-content').attr('title', $t('editor.tip.hot_key_textarea_quick_send'));
-
-        if (config.editor.function.client_state_panel_enable) {
-            $('.echo-live-client-state').removeClass('hide');
-        }
-
-        if (config.editor.function.client_state_panel_enable || config.advanced.editor.forced_display_split_message) {
-            $('#collapse-split-message').removeClass('hide');
-        }
-
-        // 输出 - 内容 - 快捷键
-        $('#output-content').keydown(function(e) {
-            if (e.code === 'Enter' && e.ctrlKey) {
-                $('#output-btn-send').click();
-                effectClick('#output-btn-send');
-            }
-        })
-
-        $('.echo-live-client-state-content').html(EditorClientState.statePanel([]));
-
-        elb = new EchoLiveBroadcastServer(config.echolive.broadcast.channel, config);
-        elb.on('clientsChange', clientsChange);
-        elb.on('message', getMessage);
-        elb.on('error', getError);
-        elb.on('noClient', noClient);
-        elb.on('nameDuplicate', nameDuplicate);
-        elb.on('websocketConnectOpen', websocketConnectOpen);
-        elb.on('websocketConnectClose', websocketConnectClose);
-        elb.on('websocketConnectError', websocketConnectError);
-        elb.on('websocketMessageError', websocketMessageError);
-
-        commander.link.broadcast = elb;
-
-        translator.ready(() => {
-            checkNowDate();
-            editorLogT('editor.log.broadcast_launch.done', { channel: config.echolive.broadcast.channel });
-            editorLog('User Agent: ' + navigator.userAgent, 'dbug');
-
-            if (config.editor.websocket.enable) {
-                editorLogT('editor.log.broadcast_launch.user_agent_check_websocket', {}, 'done');
-            } else if (navigator.userAgent.toLowerCase().search(/ obs\//) !== -1) {
-                editorLogT('editor.log.broadcast_launch.user_agent_check', {}, 'done');
-                inOBS = true;
-            } else {
-                editorLogT('editor.log.broadcast_launch.user_agent_error', {}, 'tips');
-            }
-        });
-    } else {
-        translator.ready(() => {
-            checkNowDate();
-            editorLogT('editor.log.broadcast_launch.disable');
-        });
-    }
 });
 
 

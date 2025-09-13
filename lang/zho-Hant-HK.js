@@ -1615,6 +1615,39 @@ const lang_zho_Hant_HK = {
             }
         }
     },
+    live_theme: {
+        bubble: {
+            title: "氣泡",
+            variant: {
+                azure: "蔚藍",
+                pink: "粉紅"
+            }
+        },
+        glass: {
+            title: "玻璃",
+            variant: {
+                coffee: "咖啡棕",
+                blue: "湖泊藍",
+                pink: "蜜桃粉",
+                purple: "水晶紫",
+                wine_red: "葡萄紅"
+            }
+        },
+        vanilla: {
+            title: "原版",
+            variant: {
+                dark: "深色",
+                dark_glass: "深色半透明",
+                light_glass: "半透明"
+            }
+        },
+        void: {
+            title: "虛空",
+            variant: {
+                white: "白色文本"
+            }
+        }
+    },
     message_preview: {
         empty_message: "[空消息]",
         empty_username: "[未指定說話人]",

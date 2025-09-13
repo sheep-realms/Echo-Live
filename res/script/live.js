@@ -64,6 +64,8 @@ let voices = [];
 let voiceIndex = -1;
 let utterance;
 
+let emojiHako;
+
 if (config.echolive.speech_synthesis.enable) {
     try {
         voices = speechSynthesis.getVoices();
@@ -94,6 +96,12 @@ function setUsername(name = '') {
 
 
 
+
+$(document).ready(function() {
+    translator.ready(() => {
+        emojiHako = new EmojiHako();
+    })
+});
 
 echo.on('next', function(msg) {
     messageActions = {

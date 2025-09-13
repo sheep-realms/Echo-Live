@@ -1615,6 +1615,39 @@ const lang_zho_Hans = {
             }
         }
     },
+    live_theme: {
+        bubble: {
+            title: "气泡",
+            variant: {
+                azure: "蔚蓝",
+                pink: "粉红"
+            }
+        },
+        glass: {
+            title: "玻璃",
+            variant: {
+                coffee: "咖啡棕",
+                blue: "湖泊蓝",
+                pink: "蜜桃粉",
+                purple: "水晶紫",
+                wine_red: "葡萄红"
+            }
+        },
+        vanilla: {
+            title: "原版",
+            variant: {
+                dark: "深色",
+                dark_glass: "深色半透明",
+                light_glass: "半透明"
+            }
+        },
+        void: {
+            title: "虚空",
+            variant: {
+                white: "白色文本"
+            }
+        }
+    },
     message_preview: {
         empty_message: "[空消息]",
         empty_username: "[未指定说话人]",

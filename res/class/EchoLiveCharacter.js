@@ -248,7 +248,6 @@ class EchoLiveCharacter {
 
     clearImage() {
         this.lastImage = undefined;
-        debugger
         this.event.imageClear();
     }
 

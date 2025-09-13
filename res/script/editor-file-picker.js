@@ -15,21 +15,27 @@ let dragleaveCount = 0;
 
 let dropFile, dropFileReader, dropData;
 
-const imageFilePickerOpts = {
-    types: [
-        {
-            description: $t('file.picker.image'),
-            accept: {
-                'image/*': []
-            },
-        },
-    ],
-    excludeAcceptAllOption: true,
-    multiple: false,
-};
+let imageFilePickerOpts = {};
 
 
 
+
+$(document).ready(function() {
+    translator.ready(() => {
+        imageFilePickerOpts = {
+            types: [
+                {
+                    description: $t('file.picker.image'),
+                    accept: {
+                        'image/*': []
+                    },
+                },
+            ],
+            excludeAcceptAllOption: true,
+            multiple: false,
+        };
+    })
+});
 
 $(document).on('click', '#image-file-input-box', function(e) {
     filePicker();

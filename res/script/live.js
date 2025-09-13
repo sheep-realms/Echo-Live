@@ -64,6 +64,8 @@ let voices = [];
 let voiceIndex = -1;
 let utterance;
 
+let emojiHako;
+
 if (config.echolive.speech_synthesis.enable) {
     try {
         voices = speechSynthesis.getVoices();
@@ -94,6 +96,12 @@ function setUsername(name = '') {
 
 
 
+
+$(document).ready(function() {
+    translator.ready(() => {
+        emojiHako = new EmojiHako();
+    })
+});
 
 echo.on('next', function(msg) {
     messageActions = {
@@ -352,15 +360,19 @@ echolive.on('controllerLoad', function(controller) {
     controller.content.forEach(e => {
         if (typeof e !== 'object') {
             $sel.append(`<span>${e}</span>`);
+        } else if (e?.type === 'text') {
+            $sel.append(`<span>${ $tc( e.value, { before: 'live_controller.' + controller.meta.name + '.item.' } ) }</span>`);
         } else if (e?.type === 'html') {
             $sel.append(e.value);
         } else if (e?.type === 'icon') {
             $sel.append(Icon.getIcon(e.value));
+        } else if (e?.type === 'flex') {
+            $sel.append(`<span class="flex-space"></span>`);
         }
     });
 });
 
-echolive.setController(config.echolive.layout.controller || '');
+if (config.echolive.layout.diplay_controller) echolive.setController(config.echolive.layout.controller || '');
 
 $(document).on('click', function() {
     if (echo.messageList.length > 0) {

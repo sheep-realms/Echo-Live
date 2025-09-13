@@ -72,6 +72,9 @@ class Translator {
     }
 
     output(key, variable={}, backText = undefined, __inPlanB = false) {
+        if (!this.loaded) {
+            throw new Error(`Localization data not loaded for key: "${key}"`);
+        }
         function __extractVariableNames(inputString) {
             const regI18nVar = /\{\s*@([A-Za-z0-9_\.]+)\s*\}/g;
             const matches = [];

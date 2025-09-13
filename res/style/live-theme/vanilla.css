@@ -288,7 +288,7 @@
 }
 
 #echo-live .controller {
-    padding: 0.125em 0.5em;
+    padding: 0.125em 0.5em 0.35em;
 }
 
 #echo-live .controller span {

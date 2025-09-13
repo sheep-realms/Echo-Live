@@ -1,25 +1,37 @@
 echoLiveSystem.registry.loadRegistry('live_theme', 'name', [
     {
         "name": "vanilla",
-        "title": "原版",
+        "title": {
+            "text": "原版",
+            "translate": "vanilla.title"
+        },
         "description": "Echo-Live 内置主题",
         "style": "res/style/live-theme/vanilla.css",
         "variant": [
             {
-                "title": "半透明",
                 "name": "light_glass",
+                "title": {
+                    "text": "半透明",
+                    "translate": "light_glass"
+                },
                 "attribute": {
                     "color": "light_glass"
                 }
             }, {
-                "title": "深色",
                 "name": "dark",
+                "title": {
+                    "text": "深色",
+                    "translate": "dark"
+                },
                 "attribute": {
                     "color": "dark"
                 }
             }, {
-                "title": "深色半透明",
                 "name": "dark_glass",
+                "title": {
+                    "text": "深色半透明",
+                    "translate": "dark_glass"
+                },
                 "attribute": {
                     "color": "dark_glass"
                 }
@@ -27,19 +39,28 @@ echoLiveSystem.registry.loadRegistry('live_theme', 'name', [
         ]
     }, {
         "name": "bubble",
-        "title": "气泡",
+        "title": {
+            "text": "气泡",
+            "translate": "bubble.title"
+        },
         "description": "Echo-Live 内置主题",
         "style": "res/style/live-theme/bubble.css",
         "variant": [
             {
-                "title": "蔚蓝",
                 "name": "azure",
+                "title": {
+                    "text": "蔚蓝",
+                    "translate": "azure"
+                },
                 "attribute": {
                     "color": "azure"
                 }
             }, {
-                "title": "粉红",
                 "name": "pink",
+                "title": {
+                    "text": "粉红",
+                    "translate": "pink"
+                },
                 "attribute": {
                     "color": "pink"
                 }
@@ -47,37 +68,55 @@ echoLiveSystem.registry.loadRegistry('live_theme', 'name', [
         ]
     }, {
         "name": "glass",
-        "title": "玻璃",
+        "title": {
+            "text": "玻璃",
+            "translate": "glass.title"
+        },
         "description": "Echo-Live 内置主题",
         "style": "res/style/live-theme/glass.css",
         "variant": [
             {
-                "title": "湖泊蓝",
                 "name": "blue",
+                "title": {
+                    "text": "湖泊蓝",
+                    "translate": "blue"
+                },
                 "attribute": {
                     "color": "blue"
                 }
             }, {
-                "title": "水晶紫",
                 "name": "purple",
+                "title": {
+                    "text": "水晶紫",
+                    "translate": "purple"
+                },
                 "attribute": {
                     "color": "purple"
                 }
             }, {
-                "title": "蜜桃粉",
                 "name": "pink",
+                "title": {
+                    "text": "蜜桃粉",
+                    "translate": "pink"
+                },
                 "attribute": {
                     "color": "pink"
                 }
             }, {
-                "title": "葡萄红",
                 "name": "wine_red",
+                "title": {
+                    "text": "葡萄红",
+                    "translate": "wine_red"
+                },
                 "attribute": {
                     "color": "wine_red"
                 }
             }, {
-                "title": "咖啡棕",
                 "name": "coffee",
+                "title": {
+                    "text": "咖啡棕",
+                    "translate": "coffee"
+                },
                 "attribute": {
                     "color": "coffee"
                 }
@@ -85,13 +124,19 @@ echoLiveSystem.registry.loadRegistry('live_theme', 'name', [
         ]
     }, {
         "name": "void",
-        "title": "虚空",
+        "title": {
+            "text": "虚空",
+            "translate": "void.title"
+        },
         "description": "Echo-Live 内置主题",
         "style": "res/style/live-theme/void.css",
         "variant": [
             {
-                "title": "白色文本",
                 "name": "white",
+                "title": {
+                    "text": "白色文本",
+                    "translate": "white"
+                },
                 "attribute": {
                     "color": "white"
                 }

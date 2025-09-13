@@ -158,5 +158,3 @@ class EmojiHako {
         return emoji;
     }
 }
-
-let emojiHako = new EmojiHako();

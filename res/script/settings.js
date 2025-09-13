@@ -143,189 +143,6 @@ let configSearchDataFilter = new DataFilter(
     }
 );
 
-const configDataList = [
-    {
-        data: arr => {
-            echoLiveSystem.registry.forEach('language_index', e => {
-                arr.push({
-                    value: e.code,
-                    title: `<span lang="${ e.code_ietf }">${ e.title }</sapn>`
-                });
-            });
-        },
-        key: 'global.language'
-    }, {
-        data: arr => {
-            echoLiveSystem.registry.forEach('live_theme', e => {
-                arr.push({
-                    title: e.title,
-                    value: e.name
-                });
-            });
-        },
-        key: [
-            'global.theme',
-            'echolive.style.live_theme',
-            'history.style.history_theme'
-        ]
-    }, {
-        data: [
-            {
-                value: '',
-                title: $t('ui.empty')
-            }
-        ],
-        key: [
-            'global.theme_variant',
-            'echolive.style.live_theme_variant',
-            'history.style.history_theme_variant'
-        ]
-    }, {
-        data: arr => {
-            echoLiveSystem.registry.forEach('live_controller', e => {
-                arr.push({
-                    title: $tc(e.meta.title, { before: 'live_controller.' }),
-                    value: e.meta.name
-                });
-            });
-        },
-        key: [
-            'echolive.layout.controller',
-        ]
-    }, {
-        data: [
-            { value: 'auto', title: $t('config.global.color_scheme._value.auto') },
-            { value: 'light', title: $t('config.global.color_scheme._value.light') },
-            { value: 'dark', title: $t('config.global.color_scheme._value.dark') }
-        ],
-        key: 'global.color_scheme'
-    }, {
-        data: arr => {
-            echoLiveSystem.registry.forEach('sound', e => {
-                arr.push({
-                    title: $t(`sound.${ e.name }`),
-                    value: e.name
-                });
-            });
-        },
-        key: 'echolive.print_audio.name'
-    }, {
-        data: arr => {
-            echoLiveSystem.registry.forEach('sound', e => {
-                arr.push({
-                    title: $t(`sound.${ e.name }`),
-                    value: e.name,
-                    __type: e.type
-                });
-                arr.sort((a, b) => {
-                    if (a.__type === b.type) return 0;
-                    if (b.__type === 'next') return 1;
-                    return -1;
-                });
-            });
-        },
-        key: 'echolive.next_audio.name'
-    }, {
-        data: arr => {
-            echoLiveSystem.registry.forEach('print_effect', e => {
-                if (!e?.hidden || config.advanced.settings.display_hidden_option) arr.push({
-                    title: $t(`effect.print.${ e.name }`),
-                    value: e.value
-                });
-            });
-        },
-        key: 'echolive.print_effect.name'
-    }, {
-        data: arr => {
-            echoLiveSystem.registry.forEach('timing_function', e => {
-                arr.push({
-                    title: $t(`timing_function.${ e.name }`),
-                    value: e.value
-                });
-            });
-        },
-        key: [
-            'echolive.print_effect.timing_function',
-            'character.avatar_switch_effect.timing_function'
-        ]
-    }, {
-        data: arr => {
-            let voices = [];
-            try {
-                voices = speechSynthesis.getVoices();
-                voices = voices.filter(e => e.localService == true);
-            } catch (_) {}
-            for (let i = 0; i < voices.length; i++) {
-                if (
-                    i >= config.advanced.settings.speech_synthesis_voices_maximum &&
-                    config.advanced.settings.speech_synthesis_voices_maximum >= 0
-                ) break;
-                const e = voices[i];
-                arr.push({
-                    value: e.name
-                });
-            }
-        },
-        key: 'echolive.speech_synthesis.voice'
-    }, {
-        data: arr => {
-            echoLiveSystem.registry.forEach('avatar', e => {
-                arr.push({
-                    title: $tc(e.meta.title, { before: 'avatar.' }),
-                    value: e.meta.name
-                });
-            });
-        },
-        key: 'character.avatar.name'
-    }, {
-        data: [
-            {
-                value: '',
-                title: $t('ui.empty')
-            }
-        ],
-        key: 'character.avatar.action'
-    }, {
-        data: [
-            {
-                value: '',
-                title: $t('ui.empty')
-            }
-        ],
-        key: 'character.avatar.scene'
-    }, {
-        data: arr => {
-            echoLiveSystem.registry.forEach('avatar_switch_effect', e => {
-                if (!e?.hidden || config.advanced.settings.display_hidden_option) arr.push({
-                    title: $t(`character.avatar_switch_effect.${ e.name }`),
-                    value: e.value
-                });
-            });
-        },
-        key: 'character.avatar_switch_effect.name'
-    }, {
-        data: arr => {
-            echoLiveSystem.registry.forEach('border_style', e => {
-                arr.push({
-                    title: $t(`border_style.${ e.name }`, {}, ''),
-                    value: e.value
-                });
-            });
-        },
-        key: 'accessibility.high_contrast_outline_style'
-    }, {
-        data: arr => {
-            echoLiveSystem.registry.forEach('font_weight', e => {
-                arr.push({
-                    title: $t(`font_weight.${ e.name }`, {}, ''),
-                    value: e.value
-                });
-            });
-        },
-        key: 'global.live_font_weight'
-    }
-];
-
 
 
 $('#settings-search-btn').click(function() {
@@ -457,8 +274,8 @@ function getSettingsItemValue(name, isDefault = false) {
                         try {
                             value = decodeURIComponent($sel.find('.settings-value-list').eq(0).data('default')).split('\n');
                         } catch (_) {
-                            console.log(value);
-                            debugger
+                            // console.log(value);
+                            // debugger
                         }
                         
                     } else {
@@ -599,7 +416,7 @@ function getThemeVariantDataList(themeName) {
     ];
     theme.variant.forEach(e => {
         dataList.push({
-            title: e.title,
+            title: $tc(e.title, { before: `live_theme.${ themeName }.variant.` }),
             value: e.name
         });
     });
@@ -832,6 +649,203 @@ $(document).ready(function() {
         $('#echo-settings-nav').html(SettingsPanel.nav(settingsNav));
 
         // 载入数据
+
+        configFilePickerOpts = {
+            types: [
+                {
+                    description: $t('file.picker.config'),
+                    accept: {
+                        'text/javascript': ['.js', '.mjs'],
+                        'application/json': ['.json']
+                    },
+                },
+            ],
+            excludeAcceptAllOption: true,
+            multiple: false,
+        }
+
+        const configDataList = [
+            {
+                data: arr => {
+                    echoLiveSystem.registry.forEach('language_index', e => {
+                        arr.push({
+                            value: e.code,
+                            title: `<span lang="${ e.code_ietf }">${ e.title }</sapn>`
+                        });
+                    });
+                },
+                key: 'global.language'
+            }, {
+                data: arr => {
+                    echoLiveSystem.registry.forEach('live_theme', e => {
+                        arr.push({
+                            title: $tc(e.title, { before: 'live_theme.' }),
+                            value: e.name
+                        });
+                    });
+                },
+                key: [
+                    'global.theme',
+                    'echolive.style.live_theme',
+                    'history.style.history_theme'
+                ]
+            }, {
+                data: [
+                    {
+                        value: '',
+                        title: $t('ui.empty')
+                    }
+                ],
+                key: [
+                    'global.theme_variant',
+                    'echolive.style.live_theme_variant',
+                    'history.style.history_theme_variant'
+                ]
+            }, {
+                data: arr => {
+                    echoLiveSystem.registry.forEach('live_controller', e => {
+                        arr.push({
+                            title: $tc(e.meta.title, { before: 'live_controller.' }),
+                            value: e.meta.name
+                        });
+                    });
+                },
+                key: [
+                    'echolive.layout.controller',
+                ]
+            }, {
+                data: [
+                    { value: 'auto', title: $t('config.global.color_scheme._value.auto') },
+                    { value: 'light', title: $t('config.global.color_scheme._value.light') },
+                    { value: 'dark', title: $t('config.global.color_scheme._value.dark') }
+                ],
+                key: 'global.color_scheme'
+            }, {
+                data: arr => {
+                    echoLiveSystem.registry.forEach('sound', e => {
+                        arr.push({
+                            title: $t(`sound.${ e.name }`),
+                            value: e.name
+                        });
+                    });
+                },
+                key: 'echolive.print_audio.name'
+            }, {
+                data: arr => {
+                    echoLiveSystem.registry.forEach('sound', e => {
+                        arr.push({
+                            title: $t(`sound.${ e.name }`),
+                            value: e.name,
+                            __type: e.type
+                        });
+                        arr.sort((a, b) => {
+                            if (a.__type === b.type) return 0;
+                            if (b.__type === 'next') return 1;
+                            return -1;
+                        });
+                    });
+                },
+                key: 'echolive.next_audio.name'
+            }, {
+                data: arr => {
+                    echoLiveSystem.registry.forEach('print_effect', e => {
+                        if (!e?.hidden || config.advanced.settings.display_hidden_option) arr.push({
+                            title: $t(`effect.print.${ e.name }`),
+                            value: e.value
+                        });
+                    });
+                },
+                key: 'echolive.print_effect.name'
+            }, {
+                data: arr => {
+                    echoLiveSystem.registry.forEach('timing_function', e => {
+                        arr.push({
+                            title: $t(`timing_function.${ e.name }`),
+                            value: e.value
+                        });
+                    });
+                },
+                key: [
+                    'echolive.print_effect.timing_function',
+                    'character.avatar_switch_effect.timing_function'
+                ]
+            }, {
+                data: arr => {
+                    let voices = [];
+                    try {
+                        voices = speechSynthesis.getVoices();
+                        voices = voices.filter(e => e.localService == true);
+                    } catch (_) {}
+                    for (let i = 0; i < voices.length; i++) {
+                        if (
+                            i >= config.advanced.settings.speech_synthesis_voices_maximum &&
+                            config.advanced.settings.speech_synthesis_voices_maximum >= 0
+                        ) break;
+                        const e = voices[i];
+                        arr.push({
+                            value: e.name
+                        });
+                    }
+                },
+                key: 'echolive.speech_synthesis.voice'
+            }, {
+                data: arr => {
+                    echoLiveSystem.registry.forEach('avatar', e => {
+                        arr.push({
+                            title: $tc(e.meta.title, { before: 'avatar.' }),
+                            value: e.meta.name
+                        });
+                    });
+                },
+                key: 'character.avatar.name'
+            }, {
+                data: [
+                    {
+                        value: '',
+                        title: $t('ui.empty')
+                    }
+                ],
+                key: 'character.avatar.action'
+            }, {
+                data: [
+                    {
+                        value: '',
+                        title: $t('ui.empty')
+                    }
+                ],
+                key: 'character.avatar.scene'
+            }, {
+                data: arr => {
+                    echoLiveSystem.registry.forEach('avatar_switch_effect', e => {
+                        if (!e?.hidden || config.advanced.settings.display_hidden_option) arr.push({
+                            title: $t(`character.avatar_switch_effect.${ e.name }`),
+                            value: e.value
+                        });
+                    });
+                },
+                key: 'character.avatar_switch_effect.name'
+            }, {
+                data: arr => {
+                    echoLiveSystem.registry.forEach('border_style', e => {
+                        arr.push({
+                            title: $t(`border_style.${ e.name }`, {}, ''),
+                            value: e.value
+                        });
+                    });
+                },
+                key: 'accessibility.high_contrast_outline_style'
+            }, {
+                data: arr => {
+                    echoLiveSystem.registry.forEach('font_weight', e => {
+                        arr.push({
+                            title: $t(`font_weight.${ e.name }`, {}, ''),
+                            value: e.value
+                        });
+                    });
+                },
+                key: 'global.live_font_weight'
+            }
+        ];
 
         function __setConfigDefineDatalist(key, data) {
             let i = settingsManager.findIndexConfigDefine(key);
@@ -1066,19 +1080,7 @@ let dragleaveCount = 0;
 
 let dropFile, dropFileReader, dropData;
 
-const configFilePickerOpts = {
-    types: [
-        {
-            description: $t('file.picker.config'),
-            accept: {
-                'text/javascript': ['.js', '.mjs'],
-                'application/json': ['.json']
-            },
-        },
-    ],
-    excludeAcceptAllOption: true,
-    multiple: false,
-};
+let configFilePickerOpts;
 
 $(document).on('click', '#settings-file-input-box', function(e) {
     filePicker();

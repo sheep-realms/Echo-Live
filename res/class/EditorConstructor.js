@@ -1384,11 +1384,11 @@ class SettingsPanel {
         } else {
             ariaLabel = $t('config.search.aria_label.result_has_group', { index: index + 1, group: data.groupTitle, title: data.title });
         }
-        return `<div class="settings-search-result-item" data-id="${ data.name }" role="link" aria-label="${ ariaLabel }" tabindex="0">
+        return `<button class="settings-search-result-item" data-id="${ data.name }" role="link" aria-label="${ ariaLabel }" tabindex="0">
             <div class="group-title">${ data.groupTitle }</div>
             <div class="title">${ data.title }</div>
             <div class="description">${ data.description }</div>
-        </div>`;
+        </button>`;
     }
 }
 

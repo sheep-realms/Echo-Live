@@ -308,11 +308,13 @@ input.code {
 }
 
 .echo-editor-form label,
+.echo-editor-form .fh-label,
 .echo-editor-form textarea {
     display: block;
 }
 
-.echo-editor-form label {
+.echo-editor-form label,
+.echo-editor-form .fh-label {
     padding: 0.25em 0;
     font-size: var(--font-size-middle);
     color: var(--text-regular);
@@ -494,12 +496,14 @@ input.code {
     align-items: flex-start;
 }
 
-.echo-editor-form-row>label {
+.echo-editor-form-row>label,
+.echo-editor-form-row>.fh-label {
     width: 200px;
 }
 
 @media screen and (max-width: 760px) {
-    .echo-editor-form-row>label {
+    .echo-editor-form-row>label,
+    .echo-editor-form-row>.fh-label {
         width: 150px;
     }
 }

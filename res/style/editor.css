@@ -50,14 +50,16 @@
 
 @media (prefers-color-scheme: dark) {
     :root:not(.prefers-color-scheme-light) {
+        color-scheme: dark;
+
         --text-primary: #BEC1C6;
         --text-regular: #9C9EA6;
         --text-secondary: #747780;
         --text-placeholder: #5B5E66;
-    
+
         --border-color: #666666;
         --box-shadow: 0 2px 16px rgba(128, 128, 128, 0.35);
-    
+
         --page-bgcolor: #1E2129;
         --page-bgcolor-glass: rgba(30, 33, 41, 0.85);
         --input-bgcolor: #333740;
@@ -84,6 +86,8 @@
 }
 
 .prefers-color-scheme-dark {
+    color-scheme: dark;
+
     --text-primary: #BEC1C6;
     --text-regular: #9C9EA6;
     --text-secondary: #747780;

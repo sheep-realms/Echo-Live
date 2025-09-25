@@ -889,6 +889,7 @@ const lang_zho_Hans = {
                 open_settings: "打开配置文件编辑器"
             },
             label: {
+                advanced_function: "高级功能",
                 character: "说话人",
                 content: "内容",
                 live_client_state: "对话框状态",
@@ -1694,6 +1695,12 @@ const lang_zho_Hans = {
         history: "Echo Live 历史记录",
         live: "Echo Live",
         settings: "Echo Live 配置文件编辑器"
+    },
+    pip: {
+        in_pip: "本窗口正是画中画！",
+        not_support: "当前浏览器不支持 Document Picture-in-Picture API",
+        open_pip_window: "打开画中画窗口",
+        title: "画中画"
     },
     settings: {
         unknown_config_type: "暂不支持修改此配置",

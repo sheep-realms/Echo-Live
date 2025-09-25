@@ -889,6 +889,7 @@ const lang_zho_Hant_HK = {
                 open_settings: "打開配置文件編輯器"
             },
             label: {
+                advanced_function: "高級功能",
                 character: "說話人",
                 content: "內容",
                 live_client_state: "對話框狀態",
@@ -1694,6 +1695,12 @@ const lang_zho_Hant_HK = {
         history: "Echo Live 歷史記錄",
         live: "Echo Live",
         settings: "Echo Live 配置文件編輯器"
+    },
+    pip: {
+        in_pip: "本窗口正是畫中畫！",
+        not_support: "當前瀏覽器不支持 Document Picture-in-Picture API",
+        open_pip_window: "打開畫中畫窗口",
+        title: "畫中畫"
     },
     settings: {
         unknown_config_type: "暫不支持修改此配置",

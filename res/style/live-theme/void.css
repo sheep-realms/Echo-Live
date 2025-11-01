@@ -240,7 +240,7 @@
     flex: var(--echo-live-history-flex-username);
     min-width: var(--echo-live-history-min-width-username);
     max-width: var(--echo-live-history-max-width-username);
-    color: var(--echo-live-history-color-username, var(--echo-live-history-font-size));
+    color: var(--echo-live-history-color-username, var(--echo-live-history-color));
     font-size: var(--echo-live-history-font-size-username, var(--echo-live-history-font-size));
 }
 
@@ -248,7 +248,7 @@
     flex: var(--echo-live-history-flex-message);
     min-width: var(--echo-live-history-min-width-message);
     max-width: var(--echo-live-history-max-width-message);
-    color: var(--echo-live-history-color-message, var(--echo-live-history-font-size));
+    color: var(--echo-live-history-color-message, var(--echo-live-history-color));
     font-size: var(--echo-live-history-font-size-message, var(--echo-live-history-font-size));
 }
 
@@ -256,6 +256,6 @@
     flex: var(--echo-live-history-flex-time);
     min-width: var(--echo-live-history-min-width-time);
     max-width: var(--echo-live-history-max-width-time);
-    color: var(--echo-live-history-color-time, var(--echo-live-history-font-size));
+    color: var(--echo-live-history-color-time, var(--echo-live-history-color));
     font-size: var(--echo-live-history-font-size-time, var(--echo-live-history-font-size));
 }

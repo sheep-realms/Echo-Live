@@ -206,6 +206,7 @@
 .accessibility-high-contrast textarea,
 .accessibility-high-contrast input[type=number],
 .accessibility-high-contrast input[type=text],
+.accessibility-high-contrast input[type=search],
 .accessibility-high-contrast #editor-log,
 .accessibility-high-contrast select,
 .accessibility-high-contrast .echo-live-client-state-block {
@@ -219,6 +220,7 @@
 
 .accessibility-high-contrast input[type=number]:focus,
 .accessibility-high-contrast input[type=text]:focus,
+.accessibility-high-contrast input[type=search]:focus,
 .accessibility-high-contrast textarea:focus,
 .accessibility-high-contrast select:focus,
 .accessibility-high-contrast button:focus,

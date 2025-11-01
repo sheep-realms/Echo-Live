@@ -153,25 +153,29 @@ $(document).ready(function() {
 
             commander.link.broadcast = elb;
 
-            translator.ready(() => {
-                checkNowDate();
-                editorLogT('editor.log.broadcast_launch.done', { channel: config.echolive.broadcast.channel });
-                editorLog('User Agent: ' + navigator.userAgent, 'dbug');
+            checkNowDate();
+            editorLogT('editor.log.broadcast_launch.done', { channel: config.echolive.broadcast.channel });
+            editorLog('User Agent: ' + navigator.userAgent, 'dbug');
 
-                if (config.editor.websocket.enable) {
-                    editorLogT('editor.log.broadcast_launch.user_agent_check_websocket', {}, 'done');
-                } else if (navigator.userAgent.toLowerCase().search(/ obs\//) !== -1) {
-                    editorLogT('editor.log.broadcast_launch.user_agent_check', {}, 'done');
-                    inOBS = true;
-                } else {
-                    editorLogT('editor.log.broadcast_launch.user_agent_error', {}, 'tips');
-                }
-            });
+            if (config.editor.websocket.enable) {
+                editorLogT('editor.log.broadcast_launch.user_agent_check_websocket', {}, 'done');
+            } else if (navigator.userAgent.toLowerCase().search(/ obs\//) !== -1) {
+                editorLogT('editor.log.broadcast_launch.user_agent_check', {}, 'done');
+                inOBS = true;
+            } else {
+                editorLogT('editor.log.broadcast_launch.user_agent_error', {}, 'tips');
+            }
         } else {
-            translator.ready(() => {
-                checkNowDate();
-                editorLogT('editor.log.broadcast_launch.disable');
-            });
+            checkNowDate();
+            editorLogT('editor.log.broadcast_launch.disable');
+        }
+
+        if (window?.documentPictureInPicture === undefined) {
+            $('#ptext-box-open-document-pip').text($t('pip.not_support'));
+        } else if (EchoLiveTools.getUrlParam('pip') !== null) {
+            $('#ptext-box-open-document-pip').text($t('pip.in_pip'));
+        } else {
+            $('#ptext-btn-open-document-pip').prop('disabled', false);
         }
     });
 });
@@ -924,6 +928,38 @@ $('#ptext-content').keydown(function(e) {
         }
     }
 })
+
+$('#ptext-btn-open-document-pip').click(async function() {
+    $('#ptext-btn-open-document-pip').prop('disabled', true);
+
+    // 打开 PiP 窗口
+    const pipWindow = await documentPictureInPicture.requestWindow({
+        width: 500,
+        height: 600
+    });
+
+    pipWindow.document.documentElement.style.margin = "0";
+    pipWindow.document.documentElement.style.padding = "0";
+    pipWindow.document.body.style.margin = "0";
+    pipWindow.document.body.style.padding = "0";
+    pipWindow.document.body.style.overflow = "hidden";
+
+    const iframe = pipWindow.document.createElement('iframe');
+    iframe.src = location.href.split('?')[0] + '?pip=1';
+    iframe.style.position = "fixed";
+    iframe.style.top = "0";
+    iframe.style.left = "0";
+    iframe.style.width = "100%";
+    iframe.style.height = "100%";
+    iframe.style.border = "none";
+
+    pipWindow.document.body.appendChild(iframe);
+
+    // 可以在 PiP 窗口关闭时执行一些回调
+    pipWindow.addEventListener("unload", () => {
+        $('#ptext-btn-open-document-pip').prop('disabled', false);
+    });
+});
 
 
 

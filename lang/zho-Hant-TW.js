@@ -184,22 +184,22 @@ const lang_zho_Hant_TW = {
             }
         },
         global: {
-            _title: "全域性",
-            _description: "一些影響全域性的設定",
+            _title: "全域",
+            _description: "一些影響全域的設定",
             language: {
                 _title: "介面語言",
                 _description: "後臺頁面的介面語言。"
             },
             theme: {
-                _title: "全域性主題",
+                _title: "全域主題",
                 _description: "控制對話方塊、歷史記錄等面向觀眾展示的介面主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>說明文件</a>。<br>為了主題樣式的表現正常，請在 OBS 選中對話方塊（包括歷史記錄在內的其他前臺頁面），右鍵，在彈出選單中找到 “混合方式”，選擇 “關閉 sRGB”。"
             },
             theme_variant: {
-                _title: "全域性主題變體",
+                _title: "全域主題變體",
                 _description: "一些主題具有多種樣式變體，如更換配色方案、調整不透明度等。留空則使用預設樣式。<br>您還可以使用場景屬性實現在不同的場景中使用不同的樣式，詳見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/#scene-attribute' target='_blank'>說明文件</a>。"
             },
             theme_script_enable: {
-                _title: "啟用全域性主題指令碼",
+                _title: "啟用全域主題指令碼",
                 _description: "一些高階效果可能需要啟用主題指令碼才能正常使用。目前所有預製主題均不包含指令碼。<br>指令碼中可以執行任意程式碼，請謹慎安裝需要您啟用指令碼的第三方主題。"
             },
             color_scheme: {
@@ -248,15 +248,15 @@ const lang_zho_Hant_TW = {
                 _description: "設定對話方塊的樣式",
                 live_theme: {
                     _title: "對話方塊主題",
-                    _description: "留空則使用全域性主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>說明文件</a>。"
+                    _description: "留空則使用全域主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>說明文件</a>。"
                 },
                 live_theme_variant: {
                     _title: "對話方塊主題變體",
-                    _description: "留空則使用全域性主題變體。"
+                    _description: "留空則使用全域主題變體。"
                 },
                 live_theme_script_enable: {
                     _title: "啟用對話方塊主題指令碼",
-                    _description: "此配置項需要啟用全域性主題指令碼才能生效。"
+                    _description: "此配置項需要啟用全域主題指令碼才能生效。"
                 }
             },
             layout: {
@@ -590,15 +590,15 @@ const lang_zho_Hant_TW = {
                 _description: "設定歷史記錄的樣式",
                 history_theme: {
                     _title: "歷史記錄主題",
-                    _description: "留空則使用全域性主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>說明文件</a>。"
+                    _description: "留空則使用全域主題。關於可用的主題請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/' target='_blank'>說明文件</a>。"
                 },
                 history_theme_variant: {
                     _title: "歷史記錄主題變體",
-                    _description: "留空則使用全域性主題變體。"
+                    _description: "留空則使用全域主題變體。"
                 },
                 history_theme_script_enable: {
                     _title: "啟用歷史記錄主題指令碼",
-                    _description: "此配置項需要啟用全域性主題指令碼才能生效。"
+                    _description: "此配置項需要啟用全域主題指令碼才能生效。"
                 }
             },
             layout: {
@@ -889,6 +889,7 @@ const lang_zho_Hant_TW = {
                 open_settings: "開啟配置檔案編輯器"
             },
             label: {
+                advanced_function: "高階功能",
                 character: "說話人",
                 content: "內容",
                 live_client_state: "對話方塊狀態",
@@ -1694,6 +1695,12 @@ const lang_zho_Hant_TW = {
         history: "Echo Live 歷史記錄",
         live: "Echo Live",
         settings: "Echo Live 配置檔案編輯器"
+    },
+    pip: {
+        in_pip: "本視窗正是畫中畫！",
+        not_support: "當前瀏覽器不支援 Document Picture-in-Picture API",
+        open_pip_window: "開啟畫中畫視窗",
+        title: "畫中畫"
     },
     settings: {
         unknown_config_type: "暫不支援修改此配置",

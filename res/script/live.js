@@ -158,13 +158,8 @@ echo.on('print', function(chr) {
 
     messageOutput(chr);
 
-    if (config.echolive.print_audio.enable && chr !== '' && chr !== undefined && printSe) {
-        mixer.play(config.echolive.print_audio.name, config.echolive.print_audio.volume, config.echolive.print_audio.rate);
-        // 打印音效稳定器
-        printSe = false;
-        setTimeout(function() {
-            printSe = true;
-        }, printSeCd);
+    if (config.echolive.print_audio.enable && chr !== '' && chr !== undefined) {
+        echolive.playPrintSound();
     }
     
     if (first && chr !== undefined) {
@@ -317,14 +312,11 @@ echo.on('customSequence', function(e) {
         return;
     }
 
-    if (config.echolive.print_audio.enable && printSe) {
-        mixer.play(config.echolive.print_audio.name, config.echolive.print_audio.volume, config.echolive.print_audio.rate);
-        // 打印音效稳定器
-        printSe = false;
-        setTimeout(function() {
-            printSe = true;
-        }, printSeCd);
-    }
+    if (config.echolive.print_audio.enable) echolive.playPrintSound();
+});
+
+echolive.on('playSound', function(name, volume, rate, type) {
+    mixer.play(name, volume, rate, type);
 });
 
 echolive.on('shutdown', function(reason) {

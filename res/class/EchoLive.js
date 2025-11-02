@@ -31,18 +31,28 @@ class EchoLive {
             messagesPolling:    EchoLive.NOT_ACTIVE_TIMER
         };
         this.event          = {
-            controllerLoad:     function() {},
-            displayHidden:      function() {},
-            displayHiddenNow:   function() {},
-            displayShow:        function() {},
-            shutdown:           function() {},
-            themeScriptLoad:    function() {},
-            themeScriptUnload:  function() {}
+            controllerLoad:     ( controller ) => {},
+            displayHidden:      ( callback = () => {} ) => {},
+            displayHiddenNow:   () => {},
+            displayShow:        ( callback = () => {} ) => {},
+            playSound:          ( name, volume, rate, type ) => {},
+            shutdown:           ( reason ) => {},
+            themeScriptLoad:    () => {},
+            themeScriptUnload:  () => {}
         };
         this.task           = [];
         this.taskNow        = {};
         this.taskRunning    = false;
         this.taskLastID     = 0;
+        this.printSound     = {
+            audio: {
+                name:       this.config.echolive.print_audio.name,
+                volume:     this.config.echolive.print_audio.volume,
+                rate:       this.config.echolive.print_audio.rate
+            },
+            lastPlay:       0,
+            muteDuration:   this.echo.printSpeedChange + 3
+        };
         this.debug          = {
             taskLog: false
         };
@@ -385,6 +395,25 @@ class EchoLive {
      */
     stop() {
         clearInterval(this.timer.messagesPolling);
+    }
+
+    /**
+     * 播放打印音效
+     * @returns {Boolean} 是否成功
+     */
+    playPrintSound() {
+        if (!this.config.echolive.print_audio.enable) return false;
+
+        const now = performance.now();
+        if (this.printSound.lastPlay + this.printSound.muteDuration > now) return false;
+        this.printSound.lastPlay = now;
+        this.event.playSound(
+            this.printSound.audio.name,
+            this.printSound.audio.volume,
+            this.printSound.audio.rate,
+            'print'
+        );
+        return true;
     }
 
     /**

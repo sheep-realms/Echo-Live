@@ -59,7 +59,6 @@ class Mixer {
             a.playbackRate = 1;
         };
         
-        a.onended = function () {delete this};
         a.play();
     }
 

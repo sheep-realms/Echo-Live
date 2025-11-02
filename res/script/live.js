@@ -39,9 +39,6 @@ if (config.echolive.next_audio.enable) {
 
 let data;
 
-let printSeCd = 33;
-let printSe = true;
-
 let gruopIndex = 0;
 
 let first = false;
@@ -180,8 +177,8 @@ echo.on('printStart', function() {
     performance.clearMarks();
     performance.clearMeasures();
     performance.mark('printStart');
-    printSeCd = echo.printSpeedChange + 3;
     first = true;
+    echolive.resetPrintSound();
     if(config.echolive.broadcast.enable) echolive.broadcast.echoStateUpdate('play', echo.messageList.length);
 });
 

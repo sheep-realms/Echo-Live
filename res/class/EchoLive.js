@@ -398,6 +398,18 @@ class EchoLive {
     }
 
     /**
+     * 重置打印音效
+     */
+    resetPrintSound() {
+        this.printSound.audio = {
+            name:   this.config.echolive.print_audio.name,
+            volume: this.config.echolive.print_audio.volume,
+            rate:   this.config.echolive.print_audio.rate
+        };
+        this.printSound.muteDuration = this.echo.printSpeedChange + 3;
+    }
+
+    /**
      * 播放打印音效
      * @returns {Boolean} 是否成功
      */

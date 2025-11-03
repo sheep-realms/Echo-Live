@@ -231,8 +231,14 @@ function clientsChange(e) {
 function getMessage(data) {
     switch (data.action) {
         case 'message_data':
+            let messageDataText = EchoLiveTools.getMessageSendLog(data.data.messages[0].message, data.data.username);
+            let messageDataTextArray = [...messageDataText];
+            if (messageDataTextArray.length > 128) {
+                messageDataText = messageDataTextArray.splice(0, 128).join('');
+                messageDataText += '...'
+            }
             editorLogT('editor.log.broadcast.message_data_third', {
-                message: EchoLiveTools.getMessageSendLog(data.data.messages[0].message, data.data.username)
+                message: messageDataText
             });
             break;
             

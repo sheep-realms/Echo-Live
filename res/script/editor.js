@@ -231,7 +231,9 @@ function clientsChange(e) {
 function getMessage(data) {
     switch (data.action) {
         case 'message_data':
-            editorLogT('editor.log.broadcast.message_data_third');
+            editorLogT('editor.log.broadcast.message_data_third', {
+                message: EchoLiveTools.getMessageSendLog(data.data.messages[0].message, data.data.username)
+            });
             break;
             
         case 'hello':

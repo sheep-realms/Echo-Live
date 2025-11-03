@@ -986,7 +986,7 @@ const lang_zho_Hant_HK = {
                 hello_reply: "{client} 響應了廣播，識別名：{name}",
                 hello_reply_hidden: "{client} 響應了廣播，已休眠，識別名：{name}",
                 hello_to_server: "{client} 已向 Websocket 伺服器發送 HELLO 消息，識別名：{name}",
-                message_data_third: "收到來自其他服務端的消息數據。",
+                message_data_third: "收到來自其他服務端的消息數據：{message}",
                 page_hidden: "{client} 因不可見已休眠，識別名：{name}",
                 page_visible: "{client} 已喚醒，識別名：{name}",
                 ping_server: "有其他服務端加入頻道，識別名：{name}",

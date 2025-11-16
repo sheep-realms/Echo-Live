@@ -458,6 +458,18 @@ const lang_zho_Hant_HK = {
                     _title: "默認最大圖片尺寸",
                     _description: "控制圖片在對話框中的默認最大尺寸。單位：em（相對於字符尺寸的長度單位）。"
                 }
+            },
+            filter: {
+                _title: "過濾器",
+                _description: "控制消息過濾器的狀態",
+                enable: {
+                    _title: "啟用過濾器",
+                    _description: "啟用後，Echo-Live 會在收到消息時運行已註冊的過濾器。"
+                },
+                duplicate_chinese_mood_symbol_slice_enable: {
+                    _title: "連續重複的中文語氣符號切片過濾器",
+                    _description: "將連續重複的中文語氣符號切分為不連續的語義單元，以修復連續使用符號產生意外折行的問題。"
+                }
             }
         },
         editor: {

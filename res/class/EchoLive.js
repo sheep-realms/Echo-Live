@@ -339,6 +339,36 @@ class EchoLive {
 
         if (this.config.echolive.display.auto) this.clearDisplayHiddenWaitTimer();
 
+        const __messageFilter = (messageData) => {
+            messageData = JSON.parse(JSON.stringify(messageData));
+            const filters = echoLiveSystem.registry.getRegistryArray('message_filter');
+            const __runFilter = (text) => {
+                filters.forEach(method => {
+                    let t = method(text);
+                    if (typeof t === 'string') text = t;
+                });
+                return text;
+            };
+
+            if (typeof data?.username === 'string') {
+                messageData.username = __runFilter(messageData.username);
+            }
+
+            data.messages.forEach(msg => {
+                if (typeof msg === 'object' && !Array.isArray(msg)) {
+                    msg.message = __runFilter(msg.message);
+                } else if (Array.isArray(msg)) {
+                    msg.forEach(m => {
+                        m.text = __runFilter(m.text);
+                    });
+                }
+            });
+
+            return data;
+        }
+
+        if (this.config.echolive.filter.enable) data = __messageFilter(data);
+
         this.data = data;
         if (typeof data?.username === 'string') {
             this.username = data.username;

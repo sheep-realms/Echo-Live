@@ -1,5 +1,5 @@
 const config = {
-    "data_version": 13,
+    "data_version": 14,
     "global": {
         "language": "zho-Hans",
         "theme": "vanilla",
@@ -80,6 +80,10 @@ const config = {
             "enable": true,
             "allow_data_url_and_relative_url": true,
             "default_max_size": 3
+        },
+        "filter": {
+            "enable": true,
+            "duplicate_chinese_mood_symbol_slice_enable": true
         },
         "next_effect_name": "none",
         "next_effect_duration": 0,

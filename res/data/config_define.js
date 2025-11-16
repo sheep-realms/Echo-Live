@@ -1,4 +1,4 @@
-const db_config_version = 13;
+const db_config_version = 14;
 
 const db_config_define = [
     {
@@ -640,6 +640,20 @@ const db_config_define = [
                 value: true
             }
         ]
+    }, {
+        name: 'echolive.filter',
+        type: 'object',
+        created: 14
+    }, {
+        name: 'echolive.filter.enable',
+        type: 'boolean',
+        default: true,
+        created: 14
+    }, {
+        name: 'echolive.filter.duplicate_chinese_mood_symbol_slice_enable',
+        type: 'boolean',
+        default: true,
+        created: 14
     }, {
         name: 'echolive.next_effect_name',
         type: 'string',

@@ -458,6 +458,18 @@ const lang_zho_Hans = {
                     _title: "默认最大图片尺寸",
                     _description: "控制图片在对话框中的默认最大尺寸。单位：em（相对于字符尺寸的长度单位）。"
                 }
+            },
+            filter: {
+                _title: "过滤器",
+                _description: "控制消息过滤器的状态",
+                enable: {
+                    _title: "启用过滤器",
+                    _description: "启用后，Echo-Live 会在收到消息时运行已注册的过滤器。"
+                },
+                duplicate_chinese_mood_symbol_slice_enable: {
+                    _title: "连续重复的中文语气符号切片过滤器",
+                    _description: "将连续重复的中文语气符号切分为不连续的语义单元，以修复连续使用符号产生意外折行的问题。"
+                }
             }
         },
         editor: {

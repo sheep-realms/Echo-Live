@@ -90,6 +90,7 @@ class EchoLiveRegistry {
         this.registry = new Map();
         this.registryHashCache = new Map();
         this.syncRegistryHashCache = undefined;
+        this.isFunctionRegistryCache = {};
         this.initialized = false;
         this.event = {
             loadedRegistry: [],
@@ -257,7 +258,7 @@ class EchoLiveRegistry {
     getAllSyncRegistry() {
         let keys = [];
         this.getRegistry('root').forEach((v, k) => {
-            if (v.sync) keys.push(k);
+            if (v.sync && !v.is_function) keys.push(k);
         });
         return keys;
     }
@@ -427,7 +428,7 @@ class EchoLiveRegistry {
      * @returns {*} 默认值
      */
     getRegistryDefaultValue(table) {
-        const id = EchoLiveData.filter('namespace_id', 'get_id', table)
+        const id = EchoLiveData.filter('namespace_id', 'get_id', table);
         let data = this.getRegistryValue(
             `${ EchoLiveData.filter('namespace_id', 'get_namespace', table) }:root`,
             id
@@ -442,6 +443,25 @@ class EchoLiveRegistry {
     }
 
     /**
+     * 是否为函数注册表
+     * @param {String} table 注册表名
+     * @returns {Boolean} 值
+     */
+    isFunctionRegistry(table) {
+        const identifier = EchoLiveData.filter('namespace_id', 'pad_namespace', table);
+        const id = EchoLiveData.filter('namespace_id', 'get_id', identifier);
+        const namespace = EchoLiveData.filter('namespace_id', 'get_namespace', identifier);
+
+        if (this.isFunctionRegistryCache[identifier] !== undefined) return this.isFunctionRegistryCache[identifier];
+        let data = this.getRegistryValue(
+            `${ namespace }:root`,
+            id
+        );
+        this.isFunctionRegistryCache[identifier] = data?.is_function ? true : false;
+        return this.isFunctionRegistryCache[identifier];
+    }
+
+    /**
      * 设置注册表值
      * @param {String} table 注册表名
      * @param {String} key 注册表键
@@ -453,6 +473,7 @@ class EchoLiveRegistry {
      */
     setRegistryValue(table, key, value, data = {}) {
         if (key === undefined) return;
+        if (typeof value === 'function') return this.setFunctionRegistryValue(table, key, value, data);
         table = EchoLiveData.filter('namespace_id', 'pad_namespace', table);
         let reg = this.getRegistry(table);
         if (reg === undefined) return;
@@ -496,6 +517,34 @@ class EchoLiveRegistry {
     }
 
     /**
+     * 设置函数注册表值
+     * @param {String} table 注册表名
+     * @param {String} key 注册表键
+     * @param {*} value 注册表值
+     * @param {Object} data 附加数据
+     * @param {Boolean} data.trigger_disable 禁用触发
+     * @returns {*} 合并后的注册表值
+     */
+    setFunctionRegistryValue(table, key, value, data = {}) {
+        if (key === undefined) return;
+        if (typeof value !== 'function') return;
+        if (!this.isFunctionRegistry(table)) return;
+        table = EchoLiveData.filter('namespace_id', 'pad_namespace', table);
+        let reg = this.getRegistry(table);
+        if (reg === undefined) return;
+
+        data = {
+            trigger_disable: false,
+            ...data
+        }
+
+        reg.set(key, value);
+        if (!data.trigger_disable) this.trigger('setRegistryValue', table, key, { value: value });
+
+        return value;
+    }
+
+    /**
      * 导入注册表
      * @param {String} table 注册表名
      * @param {String|Function} getKey 注册表键
@@ -506,6 +555,7 @@ class EchoLiveRegistry {
         let reg = this.getRegistry(table);
         if (reg === undefined) return;
         if (typeof data !== 'object') return;
+        const isFunReg = this.isFunctionRegistry(table);
         this.registryHashCache.delete(table);
         if (!Array.isArray(data)) data = [data];
         data.forEach(e => {
@@ -515,7 +565,12 @@ class EchoLiveRegistry {
             } else {
                 key = e[getKey];
             }
-            this.setRegistryValue(table, key, e);
+
+            if (isFunReg) {
+                this.setRegistryValue(table, key, e.value);
+            } else {
+                this.setRegistryValue(table, key, e);
+            }
         });
         this.trigger('loadedRegistry', table, undefined, { value: data });
         return this.getRegistry(table);

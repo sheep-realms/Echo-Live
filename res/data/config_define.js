@@ -484,11 +484,11 @@ const db_config_define = [
         }
     }, {
         name: 'echolive.display',
+        icon: 'material:creation',
         type: 'object',
         created: 5
     }, {
         name: 'echolive.display.auto',
-        icon: 'material:creation',
         type: 'boolean',
         default: false,
         created: 5

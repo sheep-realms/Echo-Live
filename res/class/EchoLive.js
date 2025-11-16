@@ -367,7 +367,17 @@ class EchoLive {
             return data;
         }
 
+        echoLiveSystem.hook.trigger('echolive_portal_message_filter_before', {
+            unit: this,
+            data: data
+        });
+
         if (this.config.echolive.filter.enable) data = __messageFilter(data);
+
+        echoLiveSystem.hook.trigger('echolive_portal_message_filter_after', {
+            unit: this,
+            data: data
+        });
 
         this.data = data;
         if (typeof data?.username === 'string') {

@@ -7,6 +7,7 @@ const db_config_define = [
         created: 2
     }, {
         name: 'global.language',
+        icon: 'material:translate',
         type: 'string',
         default: 'zho-Hans',
         created: 2,
@@ -15,6 +16,7 @@ const db_config_define = [
         }
     }, {
         name: 'global.theme',
+        icon: 'material:format-paint',
         type: 'string',
         default: 'vanilla',
         created: 3,
@@ -23,6 +25,7 @@ const db_config_define = [
         }
     }, {
         name: 'global.theme_variant',
+        icon: 'material:brush',
         type: 'string',
         default: '',
         created: 12,
@@ -31,11 +34,13 @@ const db_config_define = [
         }
     }, {
         name: 'global.theme_script_enable',
+        icon: 'material:script-text',
         type: 'boolean',
         default: false,
         created: 1
     }, {
         name: 'global.color_scheme',
+        icon: 'material:theme-light-dark',
         type: 'string',
         default: 'auto',
         created: 3,
@@ -44,21 +49,25 @@ const db_config_define = [
         }
     }, {
         name: 'global.touchscreen_layout',
+        icon: 'material:gesture-tap-button',
         type: 'boolean',
         default: false,
         created: 9
     }, {
         name: 'global.controller_layout_reverse',
+        icon: 'material:swap-horizontal',
         type: 'boolean',
         default: false,
         created: 6
     }, {
         name: 'global.thin_scrollbar',
+        icon: 'material:glass-stange',
         type: 'boolean',
         default: false,
         created: 9
     }, {
         name: 'global.live_font_weight',
+        icon: 'material:format-bold',
         type: 'string',
         default: 'inherit',
         created: 11,
@@ -75,6 +84,7 @@ const db_config_define = [
         created: 1
     }, {
         name: 'echo.print_speed',
+        icon: 'material:play-speed',
         type: 'number',
         default: 30,
         created: 1,
@@ -84,6 +94,7 @@ const db_config_define = [
         }
     }, {
         name: 'echo.html_format_enable',
+        icon: 'material:xml',
         type: 'boolean',
         default: true,
         created: 3
@@ -97,10 +108,12 @@ const db_config_define = [
         created: 1
     }, {
         name: 'echolive.style',
+        icon: 'material:format-paint',
         type: 'object',
         created: 4
     }, {
         name: 'echolive.style.live_theme',
+        icon: 'material:format-paint',
         type: 'string',
         default: '',
         from: 'echolive.live_theme',
@@ -110,6 +123,7 @@ const db_config_define = [
         }
     }, {
         name: 'echolive.style.live_theme_variant',
+        icon: 'material:brush',
         type: 'string',
         default: '',
         created: 12,
@@ -118,6 +132,7 @@ const db_config_define = [
         }
     }, {
         name: 'echolive.style.live_theme_script_enable',
+        icon: 'material:script-text',
         type: 'boolean',
         default: false,
         from: 'echolive.live_theme_script_enable',
@@ -130,6 +145,7 @@ const db_config_define = [
         ]
     }, {
         name: 'echolive.layout',
+        icon: 'material:view-grid',
         type: 'object',
         created: 9
     }, {
@@ -158,6 +174,7 @@ const db_config_define = [
         }
     }, {
         name: 'echolive.broadcast',
+        icon: 'material:broadcast',
         type: 'object',
         created: 4
     }, {
@@ -244,6 +261,7 @@ const db_config_define = [
         ]
     }, {
         name: 'echolive.messages_polling',
+        icon: 'material:reload',
         type: 'object',
         created: 4
     }, {
@@ -279,6 +297,7 @@ const db_config_define = [
         ]
     }, {
         name: 'echolive.sleep',
+        icon: 'material:sleep',
         type: 'object',
         created: 4
     }, {
@@ -301,6 +320,7 @@ const db_config_define = [
         ]
     }, {
         name: 'echolive.print_audio',
+        icon: 'material:waveform',
         type: 'object',
         created: 4
     }, {
@@ -311,6 +331,7 @@ const db_config_define = [
         created: 4
     }, {
         name: 'echolive.print_audio.name',
+        icon: 'material:waveform',
         type: 'string',
         default: 'typewriter_loop',
         from: 'echolive.print_audio_name',
@@ -326,6 +347,7 @@ const db_config_define = [
         ]
     }, {
         name: 'echolive.print_audio.volume',
+        icon: 'material:volume-high',
         type: 'number',
         default: 0.5,
         from: 'echolive.print_audio_volume',
@@ -343,6 +365,7 @@ const db_config_define = [
         ]
     }, {
         name: 'echolive.print_audio.rate',
+        icon: 'material:play-speed',
         type: 'number',
         default: 1,
         from: 'echolive.print_audio_rate',
@@ -359,6 +382,7 @@ const db_config_define = [
         ]
     }, {
         name: 'echolive.next_audio',
+        icon: 'material:waveform',
         type: 'object',
         created: 4
     }, {
@@ -369,6 +393,7 @@ const db_config_define = [
         created: 4
     }, {
         name: 'echolive.next_audio.name',
+        icon: 'material:waveform',
         type: 'string',
         default: 'enter',
         from: 'echolive.next_audio_name',
@@ -384,6 +409,7 @@ const db_config_define = [
         ]
     }, {
         name: 'echolive.next_audio.volume',
+        icon: 'material:volume-high',
         type: 'number',
         default: 0.5,
         from: 'echolive.next_audio_volume',
@@ -401,6 +427,7 @@ const db_config_define = [
         ]
     }, {
         name: 'echolive.next_audio.rate',
+        icon: 'material:play-speed',
         type: 'number',
         default: 1,
         from: 'echolive.next_audio_rate',
@@ -417,6 +444,7 @@ const db_config_define = [
         ]
     }, {
         name: 'echolive.print_effect',
+        icon: 'material:creation',
         type: 'object',
         created: 7
     }, {
@@ -460,6 +488,7 @@ const db_config_define = [
         created: 5
     }, {
         name: 'echolive.display.auto',
+        icon: 'material:creation',
         type: 'boolean',
         default: false,
         created: 5
@@ -516,6 +545,7 @@ const db_config_define = [
         }
     }, {
         name: 'echolive.speech_synthesis',
+        icon: 'material:account-voice',
         type: 'object',
         created: 4
     }, {
@@ -540,6 +570,7 @@ const db_config_define = [
         ]
     }, {
         name: 'echolive.speech_synthesis.pitch',
+        icon: 'material:piano',
         type: 'number',
         default: 1,
         created: 4,
@@ -555,6 +586,7 @@ const db_config_define = [
         ]
     }, {
         name: 'echolive.speech_synthesis.rate',
+        icon: 'material:play-speed',
         type: 'number',
         default: 1,
         created: 4,
@@ -570,6 +602,7 @@ const db_config_define = [
         ]
     }, {
         name: 'echolive.speech_synthesis.delay',
+        icon: 'material:timer-sand',
         type: 'number',
         default: 0,
         created: 4,
@@ -608,6 +641,7 @@ const db_config_define = [
         ]
     }, {
         name: 'echolive.image',
+        icon: 'material:image',
         type: 'object',
         created: 4
     }, {
@@ -642,6 +676,7 @@ const db_config_define = [
         ]
     }, {
         name: 'echolive.filter',
+        icon: 'material:filter',
         type: 'object',
         created: 14
     }, {
@@ -950,6 +985,7 @@ const db_config_define = [
         created: 4
     }, {
         name: 'history.style.history_theme',
+        icon: 'material:format-paint',
         type: 'string',
         default: '',
         from: 'history.history_theme',
@@ -959,6 +995,7 @@ const db_config_define = [
         }
     }, {
         name: 'history.style.history_theme_variant',
+        icon: 'material:brush',
         type: 'string',
         default: '',
         created: 12,
@@ -967,6 +1004,7 @@ const db_config_define = [
         }
     }, {
         name: 'history.style.history_theme_script_enable',
+        icon: 'material:script-text',
         type: 'boolean',
         default: false,
         from: 'history.history_theme_script_enable',

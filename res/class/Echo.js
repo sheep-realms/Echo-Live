@@ -6,41 +6,41 @@
  */
 class Echo {
     constructor($sel = '') {
-        this.message = '';
-        this.messageBuffer = [];
-        this.messageList = [];
-        this.dbChrBuffer = '';
-        this.timer = 0;
-        this.groupCount = 0;
-        this.groupStack = [];
-        this.printSpeed = 30;
-        this.printSpeedStart = 30;
-        this.printSpeedChange = 30;
-        this.state = 'stop';
-        this.typewrite = 'none';
-        this.ruby = false;
-        this.filter = {
+        this.message            = '';
+        this.messageBuffer      = [];
+        this.messageList        = [];
+        this.dbChrBuffer        = '';
+        this.timer              = 0;
+        this.groupCount         = 0;
+        this.groupStack         = [];
+        this.printSpeed         = 30;
+        this.printSpeedStart    = 30;
+        this.printSpeedChange   = 30;
+        this.state              = 'stop';
+        this.typewrite          = 'none';
+        this.ruby               = false;
+        this.filter             = {
             HTMLFormat: true
         };
-        this.event = {
-            backspace: function() {},
-            clear: function() {},
-            customData: function() {},
-            customEvent: function() {},
-            customSequence: function() {},
-            groupEnd: function() {},
-            groupStart: function() {},
-            next: function() {},
-            print: function() {},
-            printEnd: function() {},
-            printStart: function() {},
-            rubyEnd: function() {},
-            rubyStart: function() {},
-            send: function() {},
-            sendList: function() {},
-            skip: function() {},
-            stop: function() {},
-            typewriteEnd: function() {}
+        this.event              = {
+            backspace:          () => {},
+            clear:              () => {},
+            customData:         ( data ) => {},
+            customEvent:        ( event ) => {},
+            customSequence:     ( sequence ) => {},
+            groupEnd:           ( event = { groupId: -1, groupNow: -1 } ) => {},
+            groupStart:         ( event = { groupId: -1, groupNow: -1, data: null } ) => {},
+            next:               ( message ) => {},
+            print:              ( char = '' ) => {},
+            printEnd:           () => {},
+            printStart:         () => {},
+            rubyEnd:            ( ruby = '' ) => {},
+            rubyStart:          ( ruby = '' ) => {},
+            send:               () => {},
+            sendList:           () => {},
+            skip:               ( char = '' ) => {},
+            stop:               () => {},
+            typewriteEnd:       () => {}
         };
         this.skipOnePrintLoopChar = /[\u2014-\u2015\u2018-\u2019\u201c-\u201d\u2e80-\u9fff\uac00-\ud7ff\uf900-\ufaff\ufe10-\ufe1f\ufe30-\ufe4f\uff01-\uff60\uffe0-\uffe7\u{17000}-\u{1b2ff}\u{20000}-\u{2fa1f}\u{30000}-\u{323af}]/u;
 
@@ -218,10 +218,18 @@ class Echo {
             }
         }
 
-        if (that.typewrite == 'ready') {
+        if (that.typewrite === 'ready') {
             that.typewrite = 'none';
             that.event.typewriteEnd();
-        } else if (that.typewrite == 'input' && a == "'" && that.messageBuffer[0] != undefined) {
+        } else if (
+            that.typewrite === 'input'
+            && a === "'"
+            && typeof that.messageBuffer[0] === 'string'
+        ) {
+            a += that.messageBuffer.shift();
+        }
+
+        if (that.messageBuffer[0] === '\u200b') {
             a += that.messageBuffer.shift();
         }
 
@@ -331,6 +339,7 @@ class Echo {
         this.dbChrBuffer = '';
         this.groupCount = 0;
         this.groupStack = [];
+        this.event.stop();
     }
 
     typewriteEnd() {

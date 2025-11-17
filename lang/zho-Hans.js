@@ -328,15 +328,15 @@ const lang_zho_Hans = {
                 },
             },
             print_audio: {
-                _title: "打字音效",
+                _title: "打印音效",
                 _description: "在每次输出字符时播放音效",
                 enable: {
-                    _title: "启用打字音效",
+                    _title: "启用打印音效",
                     _description: ""
                 },
                 name: {
-                    _title: "音效名称",
-                    _description: "可用的音效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/#list' target='_blank'>帮助文档</a>。"
+                    _title: "打印音效",
+                    _description: "选择您喜欢的打印音效。"
                 },
                 volume: {
                     _title: "音效音量",
@@ -355,8 +355,8 @@ const lang_zho_Hans = {
                     _description: ""
                 },
                 name: {
-                    _title: "音效名称",
-                    _description: "可用的音效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/#list' target='_blank'>帮助文档</a>。"
+                    _title: "入场音效",
+                    _description: "选择您喜欢的入场音效。"
                 },
                 volume: {
                     _title: "音效音量",
@@ -371,8 +371,8 @@ const lang_zho_Hans = {
                 _title: "字符打印动效",
                 _description: "打印每个字符时所使用的动画效果",
                 name: {
-                    _title: "动效名称",
-                    _description: "可用的动效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>帮助文档</a>。<br>请注意：消息格式中的一些高级动效可能会覆盖字符打印动效。如果您需要使用这些高级动效，建议您关闭字符打印动效。"
+                    _title: "打印动效",
+                    _description: "选择您喜欢的打印动效。<br>请注意：消息格式中的一些高级动效可能会覆盖字符打印动效。如果您需要使用这些高级动效，建议您关闭字符打印动效。"
                 },
                 duration: {
                     _title: "动效用时",
@@ -657,15 +657,15 @@ const lang_zho_Hans = {
                 _title: "默认形象",
                 _description: "设置默认所使用的形象及其参数",
                 name: {
-                    _title: "形象名称",
+                    _title: "形象",
                     _description: "Echo-Live 内置了“Echo 追音”作为默认形象。"
                 },
                 action: {
-                    _title: "动作名称",
+                    _title: "动作",
                     _description: "默认所使用的动作名称，留空则使用默认值。<br>不同的形象会有不同的动作可选，请根据您选择的形象来选择动作。"
                 },
                 scene: {
-                    _title: "镜头名称",
+                    _title: "镜头",
                     _description: "默认所使用的镜头名称，留空则使用默认值。<br>不同的形象会有不同的镜头可选，请根据您选择的形象来选择镜头。"
                 }
             },
@@ -673,8 +673,8 @@ const lang_zho_Hans = {
                 _title: "形象切换动效",
                 _description: "切换形象或动作时默认所使用的动画效果",
                 name: {
-                    _title: "动效名称",
-                    _description: "切换形象或动作时默认所使用的动画效果名称。"
+                    _title: "切换动效",
+                    _description: "切换形象或动作时默认所使用的动画效果。"
                 },
                 duration: {
                     _title: "动效用时",

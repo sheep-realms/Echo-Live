@@ -457,6 +457,7 @@ const db_config_define = [
         }
     }, {
         name: 'echolive.print_effect.duration',
+        icon: 'material:timer-outline',
         type: 'number',
         default: 250,
         created: 7,
@@ -467,6 +468,7 @@ const db_config_define = [
         }
     }, {
         name: 'echolive.print_effect.scale',
+        icon: 'material:sine-wave',
         type: 'number',
         default: 1,
         created: 7,
@@ -476,6 +478,7 @@ const db_config_define = [
         }
     }, {
         name: 'echolive.print_effect.timing_function',
+        icon: 'material:chart-bell-curve-cumulative',
         type: 'string',
         default: 'ease-out',
         created: 7,

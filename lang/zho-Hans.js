@@ -708,7 +708,7 @@ const lang_zho_Hans = {
                 _description: "不再限制页面内容宽度，这可以优化在较大字体布局下的显示效果。"
             },
             high_contrast: {
-                _title: "启用高对比度",
+                _title: "高对比度",
                 _description: "提高后台页面的对比度，并对焦点元素显示高亮边框。"
             },
             high_contrast_outline_color: {

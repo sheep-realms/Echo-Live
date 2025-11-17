@@ -185,6 +185,7 @@ const db_config_define = [
         created: 4
     }, {
         name: 'echolive.broadcast.channel',
+        icon: 'material:broadcast',
         type: 'string',
         default: 'sheep-realms:echolive',
         from: 'echolive.broadcast_channel',
@@ -204,6 +205,7 @@ const db_config_define = [
         ]
     }, {
         name: 'echolive.broadcast.websocket_enable',
+        icon: 'material:connection',
         type: 'boolean',
         default: false,
         from: 'echolive.websocket_enable',
@@ -216,6 +218,7 @@ const db_config_define = [
         ]
     }, {
         name: 'echolive.broadcast.websocket_url',
+        icon: 'material:link-variant',
         type: 'string',
         default: 'ws://127.0.0.1:3000',
         from: 'echolive.websocket_url',
@@ -231,6 +234,7 @@ const db_config_define = [
         ]
     }, {
         name: 'echolive.broadcast.websocket_reconnect_limit',
+        icon: 'material:reload',
         type: 'number',
         default: 5,
         from: 'echolive.websocket_reconnect_limit',
@@ -249,6 +253,7 @@ const db_config_define = [
         ]
     }, {
         name: 'echolive.broadcast.experimental_api_enable',
+        icon: 'material:test-tube',
         type: 'boolean',
         default: false,
         from: 'echolive.experimental_api_enable',
@@ -732,6 +737,7 @@ const db_config_define = [
         created: 1
     }, {
         name: 'editor.function',
+        icon: 'material:cogs',
         type: 'object',
         created: 4
     }, {
@@ -792,6 +798,7 @@ const db_config_define = [
         }
     }, {
         name: 'editor.form',
+        icon: 'material:form-textbox',
         type: 'object',
         created: 4
     }, {
@@ -802,11 +809,13 @@ const db_config_define = [
         created: 4
     }, {
         name: 'editor.form.quote_before',
+        icon: 'material:format-quote-open',
         type: 'string',
         default: '「',
         created: 4
     }, {
         name: 'editor.form.quote_after',
+        icon: 'material:format-quote-close',
         type: 'string',
         default: '」',
         created: 4
@@ -848,6 +857,7 @@ const db_config_define = [
         ]
     }, {
         name: 'editor.websocket',
+        icon: 'material:connection',
         type: 'object',
         created: 10
     }, {
@@ -863,6 +873,7 @@ const db_config_define = [
         ]
     }, {
         name: 'editor.websocket.url',
+        icon: 'material:link-variant',
         type: 'string',
         default: 'ws://127.0.0.1:3000',
         created: 10,
@@ -877,6 +888,7 @@ const db_config_define = [
         ]
     }, {
         name: 'editor.websocket.auto_url',
+        icon: 'material:transit-connection-variant',
         type: 'boolean',
         default: true,
         created: 10,
@@ -891,6 +903,7 @@ const db_config_define = [
         ]
     }, {
         name: 'editor.websocket.reconnect_limit',
+        icon: 'material:reload',
         type: 'number',
         default: 5,
         created: 10,
@@ -908,6 +921,7 @@ const db_config_define = [
         ]
     }, {
         name: 'editor.websocket.disable_broadcast',
+        icon: 'material:broadcast-off',
         type: 'boolean',
         default: false,
         created: 11,
@@ -922,6 +936,7 @@ const db_config_define = [
         ]
     }, {
         name: 'editor.color_picker',
+        icon: 'material:palette',
         type: 'object',
         created: 4
     }, {
@@ -967,6 +982,7 @@ const db_config_define = [
         ]
     }, {
         name: 'editor.emoji_picker',
+        icon: 'material:emoticon-happy',
         type: 'object',
         created: 4
     }, {
@@ -984,6 +1000,7 @@ const db_config_define = [
         created: 2
     }, {
         name: 'history.style',
+        icon: 'material:format-paint',
         type: 'object',
         created: 4
     }, {
@@ -1020,34 +1037,40 @@ const db_config_define = [
         ]
     }, {
         name: 'history.layout',
+        icon: 'material:view-grid',
         type: 'object',
         created: 4
     }, {
         name: 'history.layout.message_list_reverse',
+        icon: 'material:sort-clock-descending-outline',
         type: 'boolean',
         default: false,
         from: 'history.message_list_reverse',
         created: 4
     }, {
         name: 'history.layout.message_item_reverse',
+        icon: 'material:swap-horizontal',
         type: 'boolean',
         default: false,
         from: 'history.message_item_reverse',
         created: 4
     }, {
         name: 'history.layout.display_username',
+        icon: 'material:tag-outline',
         type: 'boolean',
         default: true,
         from: 'history.display_username',
         created: 4
     }, {
         name: 'history.layout.display_time',
+        icon: 'material:clock-outline',
         type: 'boolean',
         default: true,
         from: 'history.display_time',
         created: 4
     }, {
         name: 'history.message',
+        icon: 'material:message-text',
         type: 'object',
         created: 4
     }, {
@@ -1083,6 +1106,7 @@ const db_config_define = [
         created: 11
     }, {
         name: 'character.avatar',
+        icon: 'material:human',
         type: 'object',
         created: 11
     }, {
@@ -1111,6 +1135,7 @@ const db_config_define = [
         }
     }, {
         name: 'character.avatar_switch_effect',
+        icon: 'material:creation',
         type: 'object',
         created: 11
     }, {
@@ -1123,6 +1148,7 @@ const db_config_define = [
         }
     }, {
         name: 'character.avatar_switch_effect.duration',
+        icon: 'material:timer-outline',
         type: 'number',
         default: 250,
         created: 11,
@@ -1133,6 +1159,7 @@ const db_config_define = [
         }
     }, {
         name: 'character.avatar_switch_effect.scale',
+        icon: 'material:sine-wave',
         type: 'number',
         default: 1,
         created: 11,
@@ -1142,6 +1169,7 @@ const db_config_define = [
         }
     }, {
         name: 'character.avatar_switch_effect.timing_function',
+        icon: 'material:chart-bell-curve-cumulative',
         type: 'string',
         default: 'ease-out',
         created: 11,
@@ -1158,24 +1186,29 @@ const db_config_define = [
         created: 10
     }, {
         name: 'accessibility.font_size',
+        icon: 'material:format-size',
         type: 'special.fontsize',
         default: 16,
         from: 'accessible.font_size',
         created: 10
     }, {
         name: 'accessibility.unlock_page_width',
+        icon: 'material:arrow-horizontal-lock',
         type: 'boolean',
         default: false,
         from: 'accessible.unlock_page_width',
         created: 10
     }, {
         name: 'accessibility.high_contrast',
+        icon: 'material:contrast-box',
+        type: 'boolean',
         type: 'boolean',
         default: false,
         from: 'accessible.high_contrast',
         created: 10
     }, {
         name: 'accessibility.high_contrast_outline_color',
+        icon: 'material:border-all-variant',
         type: 'string',
         default: '#00E9FF',
         from: 'accessible.high_contrast_outline_color',
@@ -1188,6 +1221,7 @@ const db_config_define = [
         ]
     }, {
         name: 'accessibility.high_contrast_outline_size',
+        icon: 'material:format-line-weight',
         type: 'string',
         default: '2px',
         from: 'accessible.high_contrast_outline_size',
@@ -1200,6 +1234,7 @@ const db_config_define = [
         ]
     }, {
         name: 'accessibility.high_contrast_outline_style',
+        icon: 'material:border-style',
         type: 'string',
         default: 'solid',
         from: 'accessible.high_contrast_outline_style',
@@ -1225,24 +1260,28 @@ const db_config_define = [
         ]
     }, {
         name: 'accessibility.protanopia_and_deuteranopia',
+        icon: 'material:looks',
         type: 'boolean',
         default: false,
         from: 'accessible.drotanopia_and_deuteranopia',
         created: 10
     }, {
         name: 'accessibility.link_underline',
+        icon: 'material:format-underline',
         type: 'boolean',
         default: false,
         from: 'accessible.link_underline',
         created: 10
     }, {
         name: 'accessibility.animation_disable',
+        icon: 'material:animation-play',
         type: 'boolean',
         default: false,
         from: 'accessible.animation_disable',
         created: 10
     }, {
         name: 'accessibility.power_saving_mode',
+        icon: 'material:memory',
         type: 'boolean',
         default: false,
         from: 'accessible.power_saving_mode',

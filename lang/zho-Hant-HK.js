@@ -708,7 +708,7 @@ const lang_zho_Hant_HK = {
                 _description: "不再限制頁面內容寬度，這可以優化在較大字體佈局下的顯示效果。"
             },
             high_contrast: {
-                _title: "啟用高對比度",
+                _title: "高對比度",
                 _description: "提高後台頁面的對比度，並對焦點元素顯示高亮邊框。"
             },
             high_contrast_outline_color: {

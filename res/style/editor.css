@@ -1888,7 +1888,7 @@ select:focus {
     overflow-x: hidden;
     overflow-y: auto;
     box-sizing: border-box;
-    scroll-snap-type: y mandatory;
+    /* scroll-snap-type: y mandatory; */
     z-index: 2000;
 }
 

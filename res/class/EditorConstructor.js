@@ -1378,13 +1378,13 @@ class SettingsPanel {
      * @returns {String} DOM
      */
     static msgBox(title = '', content = '', icon = 'material:information', type = 'info') {
-        return `<div class="msgbox state-${ type }">
+        return `<aside class="msgbox state-${ type }">
             <div class="icon" aria-hidden="true">${ Icon.getIcon(icon) }</div>
             <div class="text">
                 <div class="title">${ title }</div>
                 <div class="content">${ content }</div>
             </div>
-        </div>`;
+        </aside>`;
     }
 
     /**

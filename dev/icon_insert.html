@@ -64,8 +64,8 @@
         <!-- 标签页面板 -->
         <div class="tabpage-centent" data-navid="main">
             <!-- 输入标签页 -->
-            <section class="tabpage-panel" role="tabpanel" data-pageid="edit">
-                <h2 class="tabpage-panel-title">输入</h2>
+            <section class="tabpage-panel" role="tabpanel" data-pageid="edit" aria-labelledby="tabpage-panel-title-edit">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-edit">输入</h2>
                 <div class="echo-editor-form">
                     <label for="icon-name">图标名称</label>
                     <input type="text" name="icon-name" id="icon-name" class="code" value="material:">
@@ -80,8 +80,8 @@
                 </div>
             </section>
             <!-- 输出标签页 -->
-            <section class="tabpage-panel hide" role="tabpanel" data-pageid="output">
-                <h2 class="tabpage-panel-title">输出</h2>
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="output" aria-labelledby="tabpage-panel-title-output">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-output">输出</h2>
                 <div class="echo-editor-form">
                     <label for="output" data-i18n="editor.form.label.output_content"></label>
                     <textarea name="output" id="output" class="code"></textarea>

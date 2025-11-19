@@ -304,7 +304,10 @@ input.code {
 }
 
 .tabpage-panel-title {
-    font-size: 0;
+    font-size: 1px;
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
 }
 
 .echo-editor-form label,

@@ -1004,7 +1004,10 @@ class SettingsPanel {
     }
 
     static page(id, content = '') {
-        return `<div class="settings-page hide" data-pageid="${ id }">${ content }</div>`;
+        return `<section class="settings-page hide" data-pageid="${ id }" aria-labelledby="tabpage-panel-title-config-${ id }">
+            <h3 class="tabpage-panel-title" id="tabpage-panel-title-config-${ id }">${ $t(`config.${ id }._title`) }</h3>
+            ${ content }
+        </section>`;
     }
 
     static setGroupTitle(data) {

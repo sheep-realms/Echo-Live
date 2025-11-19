@@ -121,8 +121,8 @@
         <!-- 标签页面板 -->
         <div class="tabpage-centent" data-navid="main">
             <!-- 纯文本标签页 -->
-            <section class="tabpage-panel" role="tabpanel" data-pageid="ptext">
-                <h2 class="tabpage-panel-title" data-i18n="editor.tabpage.editor.title">编辑器</h2>
+            <section class="tabpage-panel" role="tabpanel" data-pageid="ptext" aria-labelledby="tabpage-panel-title-ptext">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-ptext" data-i18n="editor.tabpage.editor.title">编辑器</h2>
                 <div class="echo-editor-form">
                     <div class="echo-live-client-state hide">
                         <label data-i18n="editor.form.label.live_client_state">对话框状态</label>
@@ -250,8 +250,8 @@
             </section>
 
             <!-- 富文本标签页 -->
-            <section class="tabpage-panel hide" role="tabpanel" data-pageid="rtext">
-                <h2 class="tabpage-panel-title">富文本</h2>
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="rtext" aria-labelledby="tabpage-panel-title-rtext">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-rtext">富文本</h2>
                 <p style="color: red;">该页面正在施工中，暂不可用。</p>
                 <div class="echo-editor-form">
                     <label for="ptext-character">说话人</label>
@@ -402,8 +402,8 @@
             </section>
 
             <!-- 配置标签页 -->
-            <section class="tabpage-panel hide" role="tabpanel" data-pageid="config">
-                <h2 class="tabpage-panel-title" data-i18n="editor.tabpage.config.title">配置</h2>
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="config" aria-labelledby="tabpage-panel-title-config">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-config" data-i18n="editor.tabpage.config.title">配置</h2>
                 <div class="echo-editor-form">
                     <label for="config-output-before" data-i18n="editor.form.label.output_before">头部内容</label>
                     <textarea name="output-before" id="config-output-before" class="code"></textarea>
@@ -426,8 +426,8 @@
             </section>
 
             <!-- 输出标签页 -->
-            <section class="tabpage-panel hide" role="tabpanel" data-pageid="output">
-                <h2 class="tabpage-panel-title" data-i18n="editor.tabpage.output.title">输出</h2>
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="output" aria-labelledby="tabpage-panel-title-output">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-output" data-i18n="editor.tabpage.output.title">输出</h2>
                 <!-- 嵌套 -->
                 <nav id="echo-editor-nav-output" class="tabpage-nav" data-navid="output">
                     <button
@@ -489,16 +489,16 @@
             </section>
 
             <!-- 广播标签页 -->
-            <section class="tabpage-panel hide" role="tabpanel" data-pageid="broadcast">
-                <h2 class="tabpage-panel-title" data-i18n="editor.tabpage.broadcast.title">广播</h2>
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="broadcast" aria-labelledby="tabpage-panel-title-broadcast">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-broadcast" data-i18n="editor.tabpage.broadcast.title">广播</h2>
                 <p style="color: red;">该页面正在施工中，暂不可用。</p>
                 <p>恭喜你发现了隐藏页面：广播！</p>
                 <p>这里计划添加一些功能按键用于控制对话框。</p>
             </section>
 
             <!-- 日志标签页 -->
-            <section class="tabpage-panel hide" role="tabpanel" data-pageid="log">
-                <h2 class="tabpage-panel-title" data-i18n="editor.tabpage.log.title">日志</h2>
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="log" aria-labelledby="tabpage-panel-title-log">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-log" data-i18n="editor.tabpage.log.title">日志</h2>
                 <div
                     id="editor-log"
                     aria-label="这里是日志列表，如果您听到了这句话，请注意，这里的阅读体验可能会很差。"

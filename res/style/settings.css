@@ -523,7 +523,8 @@ main {
     transition: opacity .3s;
 }
 
-.settings-item:first-child {
+.settings-item:first-child,
+.tabpage-panel-title:first-child+.settings-item {
     padding-top: 0;
 }
 

@@ -272,6 +272,19 @@
     opacity: 1;
 }
 
+.settings-item .accessibility-high-contrast-show {
+    display: none;
+    color: var(--color-danger-dark);
+}
+
+.accessibility-high-contrast .settings-item:has(.settings-switch.state-off) .accessibility-high-contrast-show {
+    display: inline;
+}
+
+.accessibility-high-contrast .settings-item:has(.settings-switch.state-off) .accessibility-high-contrast-hide {
+    display: none;
+}
+
 
 /* 红绿色盲 */
 .accessibility-protanopia-and-deuteranopia {

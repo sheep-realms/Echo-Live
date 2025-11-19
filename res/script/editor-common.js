@@ -19,7 +19,11 @@ if (config.global.color_scheme != 'auto') $('html').addClass('prefers-color-sche
 if (config.global.touchscreen_layout) $('html').addClass('touchscreen-layout');
 if (config.global.controller_layout_reverse) $('html').addClass('controller-layout-reverse');
 if (config.global.thin_scrollbar) $('html').addClass('thin-scrollbar');
-if (config.accessibility.high_contrast || window.matchMedia('(forced-colors: active)').matches) {
+if (
+    config.accessibility.high_contrast
+    || window.matchMedia('(forced-colors: active)').matches
+    || window.matchMedia('(prefers-contrast: more)').matches
+) {
     $('html').addClass('accessibility-high-contrast');
     $('html').css('--accessibility-outline-color', config.accessibility.high_contrast_outline_color);
     $('html').css('--accessibility-outline-size', config.accessibility.high_contrast_outline_size);
@@ -31,7 +35,6 @@ if (config.accessibility.animation_disable) $('html').addClass('accessibility-an
 if (config.accessibility.power_saving_mode) $('html').addClass('power-saving-mode');
 if (config.accessibility.unlock_page_width) $('html').addClass('unlock-page-width');
 $('html').css('--font-size-base', `${ config.accessibility.font_size }px`);
-
 
 
 let timer = {

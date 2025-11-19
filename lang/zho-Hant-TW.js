@@ -713,7 +713,7 @@ const lang_zho_Hant_TW = {
             },
             high_contrast: {
                 _title: "高對比度",
-                _description: "提高後臺頁面的對比度，並對焦點元素顯示高亮邊框。"
+                _description: "提高後臺頁面的對比度，並對焦點元素顯示高亮邊框。<br><span class='accessibility-high-contrast-hide'>此功能會遵循您的系統設定自動開啟。</span><span class='accessibility-high-contrast-show'>由於您的系統設定，此功能已預設開啟。</span>"
             },
             high_contrast_outline_color: {
                 _title: "焦點高亮邊框顏色",

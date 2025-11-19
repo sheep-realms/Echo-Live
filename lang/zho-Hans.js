@@ -713,7 +713,7 @@ const lang_zho_Hans = {
             },
             high_contrast: {
                 _title: "高对比度",
-                _description: "提高后台页面的对比度，并对焦点元素显示高亮边框。"
+                _description: "提高后台页面的对比度，并对焦点元素显示高亮边框。<br><span class='accessibility-high-contrast-hide'>此功能会遵循您的系统设置自动开启。</span><span class='accessibility-high-contrast-show'>由于您的系统设置，此功能已默认开启。</span>"
             },
             high_contrast_outline_color: {
                 _title: "焦点高亮边框颜色",

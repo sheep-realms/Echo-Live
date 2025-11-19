@@ -1814,7 +1814,7 @@ const lang_zho_Hans = {
     },
     studio: {
         title: {
-            text_to_messages: "Echo Live 工作室：文本转消息格式"
+            text_to_messages: "文本转消息格式 · Echo Live 工作室"
         },
         text_to_messages: {
             colon: "：",

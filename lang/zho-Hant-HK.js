@@ -1814,7 +1814,7 @@ const lang_zho_Hant_HK = {
     },
     studio: {
         title: {
-            text_to_messages: "Echo Live 工作室：文本轉消息格式"
+            text_to_messages: "文本轉消息格式 · Echo Live 工作室"
         },
         text_to_messages: {
             colon: "：",

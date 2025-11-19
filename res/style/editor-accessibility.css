@@ -285,6 +285,40 @@
     display: none;
 }
 
+.accessibility-high-contrast input[type=range]:focus::-webkit-slider-thumb,
+.accessibility-high-contrast input[type=range]:focus::-webkit-slider-runnable-track  {
+    outline: var(--accessibility-outline);
+}
+
+.accessibility-high-contrast input[type=range]:focus::-moz-range-thumb,
+.accessibility-high-contrast input[type=range]:focus::-moz-range-track {
+    outline: var(--accessibility-outline);
+}
+
+@media (forced-colors: active) {
+    input[type=range] {
+        --fh-color: var(--border-color);
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+        border: var(--border-color) 2px solid;
+        margin-top: calc((var(--font-size-base) - 1px) * -1);
+    }
+
+    input[type=range]::-moz-range-thumb {
+        border: var(--border-color) 2px solid;
+        margin-top: calc((var(--font-size-base) - 1px) * -1);
+    }
+
+    input[type=range]::-webkit-slider-runnable-track {
+        border: var(--border-color) 1px solid;
+    }
+
+    input[type=range]::-moz-range-track {
+        border: var(--border-color) 1px solid;
+    }
+}
+
 
 /* 红绿色盲 */
 .accessibility-protanopia-and-deuteranopia {

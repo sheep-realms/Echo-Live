@@ -161,6 +161,7 @@ const config = {
     },
     "accessibility": {
         "font_size": 16,
+        "use_short_language_iso_code": false,
         "unlock_page_width": false,
         "high_contrast": false,
         "high_contrast_outline_color": "#00E9FF",

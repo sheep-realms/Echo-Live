@@ -1192,6 +1192,12 @@ const db_config_define = [
         from: 'accessible.font_size',
         created: 10
     }, {
+        name: 'accessibility.use_short_language_iso_code',
+        icon: 'material:translate',
+        type: 'boolean',
+        default: false,
+        created: 14
+    }, {
         name: 'accessibility.unlock_page_width',
         icon: 'material:arrow-horizontal-lock',
         type: 'boolean',

@@ -151,8 +151,8 @@ const lang_zho_Hant_TW = {
         },
         getlang: {
             success: {
-                code: "當前語言的 ISO 639-3 程式碼為：{ @lang.code_iso_639_3 }",
-                ietf: "當前語言的 IETF 程式碼為：{ @lang.code_ietf }",
+                code: "當前語言的 ISO 639-3 代碼為：{ @lang.code_iso_639_3 }",
+                ietf: "當前語言的 IETF 代碼為：{ @lang.code_ietf }",
                 name: "當前語言的名稱為：{ @lang.title }"
             }
         },
@@ -200,7 +200,7 @@ const lang_zho_Hant_TW = {
             },
             theme_script_enable: {
                 _title: "啟用全域主題指令碼",
-                _description: "一些高階效果可能需要啟用主題指令碼才能正常使用。目前所有預製主題均不包含指令碼。<br>指令碼中可以執行任意程式碼，請謹慎安裝需要您啟用指令碼的第三方主題。"
+                _description: "一些高階效果可能需要啟用主題指令碼才能正常使用。目前所有預製主題均不包含指令碼。<br>指令碼中可以執行任意程式，請謹慎安裝需要您啟用指令碼的第三方主題。"
             },
             color_scheme: {
                 _title: "後臺配色方案",
@@ -702,6 +702,10 @@ const lang_zho_Hant_TW = {
                 extra_large: "特大",
                 example_1: "你的愛還不夠啊！",
                 example_2: "我對普通的人類沒有興趣！",
+            },
+            use_short_language_iso_code: {
+                _title: "使用短 ISO 語言代碼",
+                _description: "如果您的螢幕閱讀器只能識別兩位 ISO 語言代碼（即不支援擴展語言代碼），請啟用此配置項。這可能會導致一些字元不能正確選用變體字形。"
             },
             unlock_page_width: {
                 _title: "解鎖頁面寬度",

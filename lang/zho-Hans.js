@@ -703,6 +703,10 @@ const lang_zho_Hans = {
                 example_1: "你的爱还不够啊！",
                 example_2: "我对普通的人类没有兴趣！",
             },
+            use_short_language_iso_code: {
+                _title: "使用短 ISO 语言代码",
+                _description: "如果您的屏幕阅读器只能识别两位 ISO 语言代码（即不支持扩展语言代码），请启用此配置项。这可能会导致一些字符不能正确选用变体字形。"
+            },
             unlock_page_width: {
                 _title: "解锁页面宽度",
                 _description: "不再限制页面内容宽度，这可以优化在较大字体布局下的显示效果。"

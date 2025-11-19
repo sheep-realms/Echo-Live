@@ -703,6 +703,10 @@ const lang_zho_Hant_HK = {
                 example_1: "你的愛還不夠啊！",
                 example_2: "我對普通的人類沒有興趣！",
             },
+            use_short_language_iso_code: {
+                _title: "使用短 ISO 語言代碼",
+                _description: "如果您的螢幕閱讀器只能識別兩位 ISO 語言代碼（即不支持擴展語言代碼），請啟用此配置項。這可能會導致一些字符不能正確選用變體字形。"
+            },
             unlock_page_width: {
                 _title: "解鎖頁面寬度",
                 _description: "不再限制頁面內容寬度，這可以優化在較大字體佈局下的顯示效果。"

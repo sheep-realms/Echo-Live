@@ -170,7 +170,8 @@ const config = {
         "protanopia_and_deuteranopia": false,
         "link_underline": false,
         "animation_disable": false,
-        "power_saving_mode": false
+        "power_saving_mode": false,
+        "send_on_enter": false
     },
     "advanced": {
         "broadcast": {

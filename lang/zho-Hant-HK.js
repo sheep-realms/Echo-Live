@@ -742,6 +742,10 @@ const lang_zho_Hant_HK = {
             power_saving_mode: {
                 _title: "禁用高開銷效果",
                 _description: "禁用後台頁面所有高性能消耗的畫面效果。"
+            },
+            send_on_enter: {
+                _title: "按 Enter 鍵發送消息",
+                _description: "只需按下 Enter 鍵即可發送消息，按下 Ctrl + Enter 鍵換行。"
             }
         },
         advanced: {

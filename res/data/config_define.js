@@ -1292,6 +1292,12 @@ const db_config_define = [
         default: false,
         from: 'accessible.power_saving_mode',
         created: 10
+    }, {
+        name: 'accessibility.send_on_enter',
+        icon: 'material:keyboard-return',
+        type: 'boolean',
+        default: false,
+        created: 14
     },
 
 

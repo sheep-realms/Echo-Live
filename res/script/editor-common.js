@@ -63,10 +63,10 @@ function setCheckboxDefaultValue($sel, value) {
 
     $($sel).val(value);
     if (value == 1) {
-        $($sel).parents('.checkbox').attr('aria-selected', 'true');
+        $($sel).parents('.checkbox').attr('aria-checked', 'true');
         $($sel).parents('.checkbox').addClass('selected');
     } else {
-        $($sel).parents('.checkbox').attr('aria-selected', 'false');
+        $($sel).parents('.checkbox').attr('aria-checked', 'false');
         $($sel).parents('.checkbox').removeClass('selected');
     }
 }
@@ -332,7 +332,7 @@ $(document).on('click', '.checkbox', function() {
     if (v == 0) {
         $(this).children('input').val(1);
         $(this).addClass('selected');
-        $(this).attr('aria-selected', 'true');
+        $(this).attr('aria-checked', 'true');
         if ($(this).hasClass('collapse-checkbox')) {
             $(this).parents('.collapse').children('.collapse-content').removeClass('hide');
         }
@@ -340,7 +340,7 @@ $(document).on('click', '.checkbox', function() {
     } else {
         $(this).children('input').val(0);
         $(this).removeClass('selected');
-        $(this).attr('aria-selected', 'false');
+        $(this).attr('aria-checked', 'false');
         if ($(this).hasClass('collapse-checkbox')) {
             $(this).parents('.collapse').children('.collapse-content').addClass('hide');
         }

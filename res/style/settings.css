@@ -509,6 +509,7 @@ main {
     margin: 0 !important;
     position: absolute !important;
     pointer-events: none;
+    user-select: none;
 }
 
 .settings-group:not(:last-child) .settings-item:last-child {

@@ -708,7 +708,7 @@ class Popups {
         }
 
         return Popups.container(
-            `<nav id="popups-image-nav" class="tabpage-nav" data-navid="popups-image">
+            `<nav id="popups-image-nav" class="tabpage-nav" data-navid="popups-image" role="tablist">
                 <button
                     class="tabpage-nav-item"
                     data-pageid="file"

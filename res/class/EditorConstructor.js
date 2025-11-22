@@ -708,7 +708,7 @@ class Popups {
         }
 
         return Popups.container(
-            `<nav id="popups-image-nav" class="tabpage-nav" data-navid="popups-image">
+            `<nav id="popups-image-nav" class="tabpage-nav" data-navid="popups-image" role="tablist">
                 <button
                     class="tabpage-nav-item"
                     data-pageid="file"
@@ -1004,14 +1004,20 @@ class SettingsPanel {
     }
 
     static page(id, content = '') {
-        return `<div class="settings-page hide" data-pageid="${ id }">${ content }</div>`;
+        return `<section class="settings-page hide" data-pageid="${ id }" aria-labelledby="tabpage-panel-title-config-${ id }">
+            <h3 class="tabpage-panel-title" id="tabpage-panel-title-config-${ id }">${ $t(`config.${ id }._title`) }</h3>
+            ${ content }
+        </section>`;
     }
 
-    static setGroupTitle(title = '', description = '', depth) {
+    static setGroupTitle(data) {
+        const { title = '', description = '', depth, icon } = data;
+        let iconDOM;
+        iconDOM = icon !== undefined ? Icon.getIcon(icon) : undefined;
         if (depth === 1) {
             return `<button class="settings-group-collapse-title">
                 <div class="title">${ title }</div>
-                <div class="icon">
+                <div class="icon" aria-hidden="true">
                     <span class="open">${ Icon.getIcon('material:chevron-down') }</span>
                     <span class="close">${ Icon.getIcon('material:chevron-up') }</span>
                 </div>
@@ -1022,17 +1028,26 @@ class SettingsPanel {
             </div>`;
         }
         return `<hgroup class="settings-group-title">
-            <h3 class="title">${ title }</h3>
-            <div class="description">${ description }</div>
+            ${ iconDOM ? `<div class="icon" aria-hidden="true">${ iconDOM }</div>` : '' }
+            <div class="text">
+                <h3 class="title">${ title }</h3>
+                <div class="description">${ description }</div>
+            </div>
         </hgroup>`;
     }
 
-    static setItem(type = 'string', id = '', title = '', description = '', content = '', moreContent = '') {
+    static setItem(data) {
+        const { type = '', id = '', title = '', description = '', content = '', moreContent = '', icon = undefined } = data;
+        let iconDOM;
+        iconDOM = icon !== undefined ? Icon.getIcon(icon) : undefined;
         return `<div class="settings-item settings-type-${ type.split('.')[0] }" data-id="${ id }" data-type="${ type }">
             <div class="meta">
-                <div class="title">${ title }</div>
-                <div class="description">${ description }</div>
-                <div class="key"><code>${ id }</code></div>
+                ${ iconDOM ? `<div class="icon" aria-hidden="true">${ iconDOM }</div>` : '' }
+                <div class="text">
+                    <div class="title">${ title }</div>
+                    <div class="description">${ description }</div>
+                    <div class="key"><code>${ id }</code></div>
+                </div>
             </div>
             <div class="value">
                 ${ content }
@@ -1066,10 +1081,33 @@ class SettingsPanel {
         const title = $t( 'config.' + item.name + '._title' );
         const description = $t( 'config.' + item.name + '._description' );
 
-        if (item.type === 'object') return SettingsPanel.setGroupTitle(title, description, item?.depth);
-        if (item.type === 'boolean.bit') return SettingsPanel.setItemBoolean(item.type, item.name, title, description, item.default, item?.attribute, true);
+        if (item.type === 'object') return SettingsPanel.setGroupTitle({
+            title: title,
+            description: description,
+            depth: item?.depth,
+            icon: item?.icon
+        });
+        if (item.type === 'boolean.bit') return SettingsPanel.setItemBoolean({
+            itype: item.type,
+            id: item.name,
+            title: title,
+            description: description,
+            value: item.default,
+            attribute: item?.attribute,
+            isBit: true,
+            icon: item?.icon
+        });
 
-        return SettingsPanel[run](item.type, item.name, title, description, item.default, item?.attribute, item?.unit);
+        return SettingsPanel[run]({
+            type: item.type,
+            id: item.name,
+            title: title,
+            description: description,
+            value: item.default,
+            attribute: item?.attribute,
+            unit: item?.unit,
+            icon: item?.icon
+        });
     }
 
     static setItems(items) {
@@ -1108,15 +1146,14 @@ class SettingsPanel {
         return dom;
     }
 
-    static setItemUnknown(type = '', id = '', title = '', description = '', value = '') {
-        return SettingsPanel.setItem(
-            type, id, title, description,
-            `<span class="settings-unknown-config-type">${ $t('settings.unknown_config_type') }</span>`
-        );
+    static setItemUnknown(data) {
+        data.content = `<span class="settings-unknown-config-type">${ $t('settings.unknown_config_type') }</span>`;
+        return SettingsPanel.setItem(data);
     }
 
-    static setItemString(type = '', id = '', title = '', description = '', value = '', attribute = undefined) {
-        if (type === 'string.multiline') return SettingsPanel.setItemStringMultiLine(type, id, title, description, value);
+    static setItemString(data) {
+        const { type = '', id = '', title = '', value = '', attribute = undefined } = data;
+        if (type === 'string.multiline') return SettingsPanel.setItemStringMultiLine(data);
 
         let inputDOM = '';
         if (attribute?.datalist === undefined || attribute.datalist.length === 0) {
@@ -1141,36 +1178,37 @@ class SettingsPanel {
             );
         }
 
-        return SettingsPanel.setItem(
-            type, id, title, description,
-            FHUI.element(
+        return SettingsPanel.setItem({
+            ...data,
+            content: FHUI.element(
                 'label',
                 {
                     class: 'settings-item-label',
                     for: id.replace(/\./g, '-')
                 },
                 title
-            ) +
-            inputDOM,
-            `<div class="content hide"></div>`
-        );
+            ) + inputDOM,
+            moreContent: `<div class="content hide"></div>`
+        });
     }
 
-    static setItemStringMultiLine(type = '', id = '', title = '', description = '', value = '') {
+    static setItemStringMultiLine(data) {
+        const { id = '', title = '', value = '' } = data;
         // value = String(value).replace(/"/g, '&quot;');
-        return SettingsPanel.setItem(
-            type, id, title, description,
-            `<label class="settings-item-label" for="${ id.replace(/\./g, '-') }">${ title }</label>`,
-            `<div class="content">
+        return SettingsPanel.setItem({
+            ...data,
+            content: `<label class="settings-item-label" for="${ id.replace(/\./g, '-') }">${ title }</label>`,
+            moreContent: `<div class="content">
                 <textarea id="${ id.replace(/\./g, '-') }" class="settings-value code" aria-label="${ title }" data-default="${ encodeURIComponent(value) }">${ value }</textarea>
             </div>`
-        );
+        });
     }
 
-    static setItemNumber(type = '', id = '', title = '', description = '', value = '', attribute = undefined, unit = undefined) {
-        return SettingsPanel.setItem(
-            type, id, title, description,
-            FHUI.element(
+    static setItemNumber(data) {
+        const { id = '', title = '', value = '', attribute = undefined, unit = undefined } = data;
+        return SettingsPanel.setItem({
+            ...data,
+            content: FHUI.element(
                 'label',
                 {
                     class: 'settings-item-label',
@@ -1194,14 +1232,14 @@ class SettingsPanel {
                     }
                 }
             )
-        );
+        });
     }
 
-    static setItemBoolean(type = '', id = '', title = '', description = '', value = '', attribute = undefined, isBit = false) {
-        value = String(value).replace(/"/g, '&quot;');
-        return SettingsPanel.setItem(
-            type, id, title, description,
-            `<div class="settings-switch state-${ value ? 'on' : 'off' }" data-is-bit="${ isBit ? '1' : '0' }">
+    static setItemBoolean(data) {
+        const { id = '', value = '', isBit = undefined } = data;
+        return SettingsPanel.setItem({
+            ...data,
+            content: `<div class="settings-switch state-${ value ? 'on' : 'off' }" data-is-bit="${ isBit ? '1' : '0' }">
                 ${
                     FHUIComponentButton.buttonGhost(
                         $t('ui.off'),
@@ -1222,10 +1260,11 @@ class SettingsPanel {
                 }
                 <input type="hidden" id="${ id.replace(/\./g, '-') }" class="settings-value settings-switch-value" data-default="${ value }" value="${ value }">
             </div>`
-        );
+        });
     }
 
-    static setItemAllOrArrayString(type = '', id = '', title = '', description = '', value = '') {
+    static setItemAllOrArrayString(data) {
+        const { id = '', value = '' } = data;
         let list = [];
         let isAll = false;
         let listStr = '';
@@ -1239,9 +1278,9 @@ class SettingsPanel {
             listStr = list.filter(str => str.trim() !== '').map(str => str.trim()).join('\n');
         }
 
-        return SettingsPanel.setItem(
-            type, id, title, description,
-            `<div class="settings-switch settings-switch-all-or-array-string state-${ isAll ? 'on' : 'off' }">
+        return SettingsPanel.setItem({
+            ...data,
+            content: `<div class="settings-switch settings-switch-all-or-array-string state-${ isAll ? 'on' : 'off' }">
                 ${
                     FHUIComponentButton.buttonGhost(
                         $t('ui.enable_all'),
@@ -1262,18 +1301,19 @@ class SettingsPanel {
                 }
                 <input type="hidden" id="${ id.replace(/\./g, '-') }-is-all" class="settings-value-enable-all settings-switch-value" data-default="${ isAll }" value="${ isAll }">
             </div>`,
-            `<div class="content ${ isAll ? 'hide' : '' }">
+            moreContent: `<div class="content ${ isAll ? 'hide' : '' }">
                 <div class="settings-value-list-box">
                     <textarea id="${ id.replace(/\./g, '-') }-list" class="settings-value-list code" data-default="${ isAll ? '' : encodeURIComponent(listStr) }">${ listStr }</textarea>
                 </div>
             </div>`
-        );
+        });
     }
 
-    static setItemFontSize(type = '', id = '', title = '', description = '', value = '') {
-        return SettingsPanel.setItem(
-            type, id, title, description,
-            FHUI.element(
+    static setItemFontSize(data) {
+        const { id = '', value = '' } = data;
+        return SettingsPanel.setItem({
+            ...data,
+            content: FHUI.element(
                 'label',
                 {
                     class: 'settings-item-label',
@@ -1300,7 +1340,7 @@ class SettingsPanel {
                     }
                 }
             )
-        );
+        });
     }
 
     static linkBar(title = '', href = '', icon = undefined, data = {}) {
@@ -1338,13 +1378,13 @@ class SettingsPanel {
      * @returns {String} DOM
      */
     static msgBox(title = '', content = '', icon = 'material:information', type = 'info') {
-        return `<div class="msgbox state-${ type }">
+        return `<aside class="msgbox state-${ type }">
             <div class="icon" aria-hidden="true">${ Icon.getIcon(icon) }</div>
             <div class="text">
                 <div class="title">${ title }</div>
                 <div class="content">${ content }</div>
             </div>
-        </div>`;
+        </aside>`;
     }
 
     /**

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="studio.title.text_to_messages">Echo Live 工作室：文本转消息格式</title>
+    <title data-i18n="studio.title.text_to_messages">文本转消息格式 · Echo Live 工作室</title>
     <link rel="icon" href="../res/image/favicon.ico">
     <link rel="stylesheet" href="../res/style/fh-ui.css">
     <link rel="stylesheet" href="../res/style/editor.css">
@@ -17,7 +17,7 @@
     <script src="../lang/index.js"></script>
     <script src="../res/class/Translator.js"></script>
     <script>
-        const translator = new Translator(config.global.language);
+        const translator = new Translator(config.global.language, {}, { useShortISO: config.accessibility.use_short_language_iso_code });
         const $t = function(...e) {
             return translator.output(...e);
         };
@@ -41,7 +41,7 @@
 <body>
     <main>
         <!-- 标签页标题 -->
-        <nav id="echo-editor-nav" class="tabpage-nav" data-navid="main">
+        <nav id="echo-editor-nav" class="tabpage-nav" data-navid="main" role="tablist">
             <button
                 id="tabpage-nav-edit"
                 class="tabpage-nav-item"
@@ -67,8 +67,8 @@
         <!-- 标签页面板 -->
         <div class="tabpage-centent" data-navid="main">
             <!-- 编辑标签页 -->
-            <section class="tabpage-panel" role="tabpanel" data-pageid="edit">
-                <h2 class="tabpage-panel-title" data-i18n="studio.text_to_messages.tabpage.edit.title"></h2>
+            <section class="tabpage-panel" role="tabpanel" data-pageid="edit" aria-labelledby="tabpage-panel-title-edit">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-edit" data-i18n="studio.text_to_messages.tabpage.edit.title"></h2>
                 <div class="echo-editor-form">
                     <label for="character-split" data-i18n="studio.text_to_messages.label.character_split"></label>
                     <input type="text" name="character" id="character-split" value="">
@@ -84,8 +84,8 @@
             </section>
 
             <!-- 输出标签页 -->
-            <section class="tabpage-panel hide" role="tabpanel" data-pageid="output">
-                <h2 class="tabpage-panel-title" data-i18n="studio.text_to_messages.tabpage.output.title"></h2>
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="output" aria-labelledby="tabpage-panel-title-output">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-output" data-i18n="studio.text_to_messages.tabpage.output.title"></h2>
                 <div class="echo-editor-form">
                     <label for="meaasge-output" data-i18n="editor.form.label.output_content"></label>
                     <textarea name="message-data" id="meaasge-output" class="code"></textarea>

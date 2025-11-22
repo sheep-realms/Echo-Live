@@ -7,13 +7,16 @@
 
 
 class Translator {
-    constructor(lang='zho-Hans', langIndex = {}) {
+    constructor(lang='zho-Hans', langIndex = {}, config = {}) {
         this.lang = lang;
         this.langMain = undefined;
         this.i18n = {};
         this.langIndex = langIndex;
         this.initialized = false;
         this.loaded = false;
+        this.config = {
+            useShortISO: config?.useShortISO ?? false
+        };
         this.event = {
             ready: []
         };
@@ -189,7 +192,9 @@ class Translator {
         if (!this.loaded && i18nList.lang.code_iso_639_3 === this.lang) {
             this.loaded = true;
             this.trigger('ready');
-            $('html').attr('lang', $t('lang.code_ietf'));
+            let isoCode = $t('lang.code_ietf');
+            if (this.config.useShortISO) isoCode = isoCode.split('-')[0];
+            $('html').attr('lang', $t(isoCode));
         }
     }
 }

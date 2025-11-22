@@ -85,7 +85,7 @@ function driverShowOverview() {
         null,
         {
             onNextClick: () => {
-                $('#ptext-collapse-use-formatting-code[aria-selected="false"]').click();
+                $('#ptext-collapse-use-formatting-code[aria-checked="false"]').click();
                 driverObj.moveNext();
             }
         }, {

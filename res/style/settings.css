@@ -370,6 +370,27 @@ main {
     position: sticky;
     top: var(--settings-group-title-stickt-top);
     z-index: 10;
+    display: flex;
+    gap: var(--gap-small);
+    flex-direction: row-reverse;
+}
+
+.settings-group-title .icon {
+    display: flex;
+    align-items: center;
+    width: var(--icon-size-extra-large);
+    padding-inline-end: var(--gap-small);
+    opacity: 0.4;
+}
+
+.settings-group-title .icon svg {
+    height: var(--icon-size-extra-large);
+    width: var(--icon-size-extra-large);
+    fill: var(--text-placeholder);
+}
+
+.settings-group-title .text {
+    flex: 1;
 }
 
 .settings-group-title .title {
@@ -481,13 +502,16 @@ main {
 }
 
 .settings-item-label {
-    font-size: 0 !important;
-    width: 0 !important;
-    height: 0 !important;
+    font-size: 1px !important;
+    width: 1px !important;
+    height: 1px !important;
     padding: 0 !important;
     margin: 0 !important;
     position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
     pointer-events: none;
+    user-select: none;
 }
 
 .settings-group:not(:last-child) .settings-item:last-child {
@@ -502,7 +526,8 @@ main {
     transition: opacity .3s;
 }
 
-.settings-item:first-child {
+.settings-item:first-child,
+.tabpage-panel-title:first-child+.settings-item {
     padding-top: 0;
 }
 
@@ -533,9 +558,31 @@ main {
 
 .settings-item .meta {
     flex: 3;
+    display: flex;
+    gap: var(--gap-small);
+    align-items: stretch;
 }
 
-.settings-item .meta .title {
+.settings-item .meta .icon {
+    padding-inline-start: var(--gap-small);
+    max-height: calc(var(--font-size-base) * 2.875);
+    min-height: var(--icon-size-large);
+    width: var(--icon-size-large);
+    display: flex;
+    align-items: center;
+}
+
+.settings-item .meta .icon>svg {
+    width: var(--icon-size-large);
+    height: var(--icon-size-large);
+    fill: var(--text-placeholder);
+}
+
+.settings-item .meta .text {
+    flex: 1;
+}
+
+.settings-item .meta .text .title {
     color: var(--text-primary);
     font-weight: 500;
     font-size: var(--font-size-large);
@@ -545,34 +592,34 @@ main {
     gap: var(--gap-small);
 }
 
-.settings-item.settings-item-update .meta .title {
+.settings-item.settings-item-update .meta .text .title {
     color: var(--color-safe-dark);
 }
 
-.settings-item.change .meta .title::after,
-.settings-item.change-textarea .meta .title::after {
+.settings-item.change .meta .text .title::after,
+.settings-item.change-textarea .meta .text .title::after {
     content: "*";
     color: var(--color-danger);
     display: inline-block;
 }
 
-.settings-item .meta .description {
+.settings-item .meta .text .description {
     color: var(--text-secondary);
     font-size: var(--font-size-small);
 }
 
-.settings-item .meta .key {
+.settings-item .meta .text .key {
     display: none;
     color: var(--text-regular);
     font-size: var(--font-size-extra-small);
     margin-top: 0.25em;
 }
 
-.settings-item .meta .key code {
+.settings-item .meta .text .key code {
     margin: 0;
 }
 
-.display-config-key .settings-item .meta .key {
+.display-config-key .settings-item .meta .text .key {
     display: block;
 }
 

@@ -744,6 +744,10 @@ input[type=range] {
     outline: none;
 }
 
+input[type=range]:focus {
+    z-index: 1;
+}
+
 input[type=range]::-webkit-slider-thumb {
     appearance: none;
     -webkit-appearance: none;

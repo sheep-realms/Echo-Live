@@ -304,7 +304,10 @@ input.code {
 }
 
 .tabpage-panel-title {
-    font-size: 0;
+    font-size: 1px;
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
 }
 
 .echo-editor-form label,
@@ -1888,7 +1891,7 @@ select:focus {
     overflow-x: hidden;
     overflow-y: auto;
     box-sizing: border-box;
-    scroll-snap-type: y mandatory;
+    /* scroll-snap-type: y mandatory; */
     z-index: 2000;
 }
 

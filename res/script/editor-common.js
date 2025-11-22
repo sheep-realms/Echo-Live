@@ -19,7 +19,11 @@ if (config.global.color_scheme != 'auto') $('html').addClass('prefers-color-sche
 if (config.global.touchscreen_layout) $('html').addClass('touchscreen-layout');
 if (config.global.controller_layout_reverse) $('html').addClass('controller-layout-reverse');
 if (config.global.thin_scrollbar) $('html').addClass('thin-scrollbar');
-if (config.accessibility.high_contrast || window.matchMedia('(forced-colors: active)').matches) {
+if (
+    config.accessibility.high_contrast
+    || window.matchMedia('(forced-colors: active)').matches
+    || window.matchMedia('(prefers-contrast: more)').matches
+) {
     $('html').addClass('accessibility-high-contrast');
     $('html').css('--accessibility-outline-color', config.accessibility.high_contrast_outline_color);
     $('html').css('--accessibility-outline-size', config.accessibility.high_contrast_outline_size);
@@ -31,7 +35,6 @@ if (config.accessibility.animation_disable) $('html').addClass('accessibility-an
 if (config.accessibility.power_saving_mode) $('html').addClass('power-saving-mode');
 if (config.accessibility.unlock_page_width) $('html').addClass('unlock-page-width');
 $('html').css('--font-size-base', `${ config.accessibility.font_size }px`);
-
 
 
 let timer = {
@@ -60,10 +63,10 @@ function setCheckboxDefaultValue($sel, value) {
 
     $($sel).val(value);
     if (value == 1) {
-        $($sel).parents('.checkbox').attr('aria-selected', 'true');
+        $($sel).parents('.checkbox').attr('aria-checked', 'true');
         $($sel).parents('.checkbox').addClass('selected');
     } else {
-        $($sel).parents('.checkbox').attr('aria-selected', 'false');
+        $($sel).parents('.checkbox').attr('aria-checked', 'false');
         $($sel).parents('.checkbox').removeClass('selected');
     }
 }
@@ -329,7 +332,7 @@ $(document).on('click', '.checkbox', function() {
     if (v == 0) {
         $(this).children('input').val(1);
         $(this).addClass('selected');
-        $(this).attr('aria-selected', 'true');
+        $(this).attr('aria-checked', 'true');
         if ($(this).hasClass('collapse-checkbox')) {
             $(this).parents('.collapse').children('.collapse-content').removeClass('hide');
         }
@@ -337,7 +340,7 @@ $(document).on('click', '.checkbox', function() {
     } else {
         $(this).children('input').val(0);
         $(this).removeClass('selected');
-        $(this).attr('aria-selected', 'false');
+        $(this).attr('aria-checked', 'false');
         if ($(this).hasClass('collapse-checkbox')) {
             $(this).parents('.collapse').children('.collapse-content').addClass('hide');
         }

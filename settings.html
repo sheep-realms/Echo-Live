@@ -23,7 +23,7 @@
     <script src="lang/index.js"></script>
     <script src="res/class/Translator.js"></script>
     <script id="translator-init">
-        const translator = new Translator(config.global.language);
+        const translator = new Translator(config.global.language, {}, { useShortISO: config.accessibility.use_short_language_iso_code });
         const $t = function(...e) {
             return translator.output(...e);
         };
@@ -65,7 +65,7 @@
     <span class="holy-fucking-shit">如果你看到了这句话，要么就是你没解压，要么就是软件结构受到了破坏。<br>If you're seeing this, either you didn't unzip the file or the software structure is corrupted.</span>
     <main>
         <!-- 标签页标题 -->
-        <nav id="echo-editor-nav" class="tabpage-nav" data-navid="main">
+        <nav id="echo-editor-nav" class="tabpage-nav" data-navid="main" role="tablist">
             <button
                 id="tabpage-nav-import"
                 class="tabpage-nav-item"
@@ -105,8 +105,8 @@
         <!-- 标签页面板 -->
         <div class="tabpage-centent" data-navid="main">
             <!-- 导入标签页 -->
-            <section class="tabpage-panel" role="tabpanel" data-pageid="import">
-                <h2 class="tabpage-panel-title" data-i18n="settings.tabpage.import.title">导入</h2>
+            <section class="tabpage-panel" role="tabpanel" data-pageid="import" aria-labelledby="tabpage-panel-title-import">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-import" data-i18n="settings.tabpage.import.title">导入</h2>
                 
                 <div class="settings-file-input-panel">
                     <div id="settings-file-check-box">
@@ -128,19 +128,20 @@
             </section>
 
             <!-- 编辑标签页 -->
-            <section class="tabpage-panel hide" role="tabpanel" data-pageid="edit">
-                <h2 class="tabpage-panel-title" data-i18n="settings.tabpage.edit.title">编辑</h2>
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="edit" aria-labelledby="tabpage-panel-title-edit">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-edit" data-i18n="settings.tabpage.edit.title">编辑</h2>
                 <div class="echo-editor-form">
 
                     <div class="settings-panel">
-                        <nav id="echo-settings-nav" class="settings-nav">
+                        <nav id="echo-settings-nav" class="settings-nav" role="tablist">
                             <!-- 设置菜单 -->
                         </nav>
     
                         <div class="settings-content">
                             <div class="settings-pages">
                                 <!-- 设置内容 -->
-                                <div class="settings-page" data-pageid="search">
+                                <section class="settings-page" data-pageid="search" aria-labelledby="tabpage-panel-title-search">
+                                    <h3 class="tabpage-panel-title" id="tabpage-panel-title-search" data-i18n="config.search._title"></h3>
                                     <div class="settings-search-header">
                                         <label for="settings-search" data-i18n="config.search.label.search"></label>
                                         <div class="settings-search-bar">
@@ -151,8 +152,9 @@
                                     <div class="settings-search-content">
                                         <div class="settings-search-result"></div>
                                     </div>
-                                </div>
-                                <div class="settings-page" data-pageid="about">
+                                </section>
+                                <section class="settings-page" data-pageid="about" aria-labelledby="tabpage-panel-title-about">
+                                    <h3 class="tabpage-panel-title" id="tabpage-panel-title-about" data-i18n="config.about._title"></h3>
                                     <div class="settings-about-banner">
                                         <img class="scheme-light-only" src="res/image/banner_alpha.png" alt="LOGO">
                                         <img class="scheme-dark-only" src="res/image/banner_alpha_white.png" alt="LOGO">
@@ -169,7 +171,7 @@
                                         <p>⑥ <span class="settings-about-footer-var-6"></span></p>
                                         <p>⑦ <span class="settings-about-footer-var-7"></span></p>
                                     </div>
-                                </div>
+                                </section>
                             </div>
 
                             <div class="settings-controller-bottom fh-flex-row disabled">
@@ -186,8 +188,8 @@
             </section>
 
             <!-- 导出标签页 -->
-            <section class="tabpage-panel hide" role="tabpanel" data-pageid="export">
-                <h2 class="tabpage-panel-title" data-i18n="settings.tabpage.export.title">导出</h2>
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="export" aria-labelledby="tabpage-panel-title-export">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-export" data-i18n="settings.tabpage.export.title">导出</h2>
                 <div class="echo-editor-form">
                     <label for="edit-config-output" data-i18n="settings.label.config_output">导出配置内容</label>
                     <textarea name="message-data" id="edit-config-output" class="code"></textarea>

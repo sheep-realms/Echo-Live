@@ -16,7 +16,7 @@
     <script src="lang/index.js"></script>
     <script src="res/class/Translator.js"></script>
     <script id="translator-init">
-        const translator = new Translator(config.global.language);
+        const translator = new Translator(config.global.language, {}, { useShortISO: config.accessibility.use_short_language_iso_code });
         const $t = function(...e) {
             return translator.output(...e);
         };
@@ -30,6 +30,7 @@
     <script src="res/data/sound.js"></script>
     <script src="res/data/emoji.js"></script>
     <script src="res/data/icon.js"></script>
+    <script src="res/data/message_filter.js"></script>
     <script src="res/class/Icon.js"></script>
     <script src="res/class/Mixer.js"></script>
     <script src="res/class/ExtensionManager.js"></script>

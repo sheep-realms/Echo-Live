@@ -151,8 +151,8 @@ const lang_zho_Hant_TW = {
         },
         getlang: {
             success: {
-                code: "當前語言的 ISO 639-3 程式碼為：{ @lang.code_iso_639_3 }",
-                ietf: "當前語言的 IETF 程式碼為：{ @lang.code_ietf }",
+                code: "當前語言的 ISO 639-3 代碼為：{ @lang.code_iso_639_3 }",
+                ietf: "當前語言的 IETF 代碼為：{ @lang.code_ietf }",
                 name: "當前語言的名稱為：{ @lang.title }"
             }
         },
@@ -200,7 +200,7 @@ const lang_zho_Hant_TW = {
             },
             theme_script_enable: {
                 _title: "啟用全域主題指令碼",
-                _description: "一些高階效果可能需要啟用主題指令碼才能正常使用。目前所有預製主題均不包含指令碼。<br>指令碼中可以執行任意程式碼，請謹慎安裝需要您啟用指令碼的第三方主題。"
+                _description: "一些高階效果可能需要啟用主題指令碼才能正常使用。目前所有預製主題均不包含指令碼。<br>指令碼中可以執行任意程式，請謹慎安裝需要您啟用指令碼的第三方主題。"
             },
             color_scheme: {
                 _title: "後臺配色方案",
@@ -328,15 +328,15 @@ const lang_zho_Hant_TW = {
                 },
             },
             print_audio: {
-                _title: "打字音效",
+                _title: "列印音效",
                 _description: "在每次輸出字元時播放音效",
                 enable: {
-                    _title: "啟用打字音效",
+                    _title: "啟用列印音效",
                     _description: ""
                 },
                 name: {
-                    _title: "音效名稱",
-                    _description: "可用的音效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/#list' target='_blank'>說明文件</a>。"
+                    _title: "列印音效",
+                    _description: "選擇您喜歡的列印音效。"
                 },
                 volume: {
                     _title: "音效音量",
@@ -355,8 +355,8 @@ const lang_zho_Hant_TW = {
                     _description: ""
                 },
                 name: {
-                    _title: "音效名稱",
-                    _description: "可用的音效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/#list' target='_blank'>說明文件</a>。"
+                    _title: "入場音效",
+                    _description: "選擇您喜歡的入場音效。"
                 },
                 volume: {
                     _title: "音效音量",
@@ -372,7 +372,7 @@ const lang_zho_Hant_TW = {
                 _description: "列印每個字元時所使用的動畫效果",
                 name: {
                     _title: "動效名稱",
-                    _description: "可用的動效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>說明文件</a>。<br>請注意：訊息格式中的一些高階動效可能會覆蓋字元列印動效。如果您需要使用這些高階動效，建議您關閉字元列印動效。"
+                    _description: "選擇您喜歡的打印動效。<br>請注意：訊息格式中的一些高階動效可能會覆蓋字元列印動效。如果您需要使用這些高階動效，建議您關閉字元列印動效。"
                 },
                 duration: {
                     _title: "動效用時",
@@ -457,6 +457,18 @@ const lang_zho_Hant_TW = {
                 default_max_size: {
                     _title: "預設最大圖片尺寸",
                     _description: "控制圖片在對話方塊中的預設最大尺寸。單位：em（相對於字元尺寸的長度單位）。"
+                }
+            },
+            filter: {
+                _title: "過濾器",
+                _description: "控制訊息過濾器的狀態",
+                enable: {
+                    _title: "啟用過濾器",
+                    _description: "啟用後，Echo-Live 會在收到訊息時執行已註冊的過濾器。"
+                },
+                duplicate_chinese_mood_symbol_slice_enable: {
+                    _title: "連續重複的中文語氣符號切片過濾器",
+                    _description: "將連續重複的中文語氣符號切分為不連續的語義單元，以修復連續使用符號產生意外折行的問題。"
                 }
             }
         },
@@ -645,15 +657,15 @@ const lang_zho_Hant_TW = {
                 _title: "預設形象",
                 _description: "設定預設所使用的形象及其引數",
                 name: {
-                    _title: "形象名稱",
+                    _title: "形象",
                     _description: "Echo-Live 內建了“Echo 追音”作為預設形象。"
                 },
                 action: {
-                    _title: "動作名稱",
+                    _title: "動作",
                     _description: "預設所使用的動作名稱，留空則使用預設值。<br>不同的形象會有不同的動作可選，請根據您選擇的形象來選擇動作。"
                 },
                 scene: {
-                    _title: "鏡頭名稱",
+                    _title: "鏡頭",
                     _description: "預設所使用的鏡頭名稱，留空則使用預設值。<br>不同的形象會有不同的鏡頭可選，請根據您選擇的形象來選擇鏡頭。"
                 }
             },
@@ -661,8 +673,8 @@ const lang_zho_Hant_TW = {
                 _title: "形象切換動效",
                 _description: "切換形象或動作時預設所使用的動畫效果",
                 name: {
-                    _title: "動效名稱",
-                    _description: "切換形象或動作時預設所使用的動畫效果名稱。"
+                    _title: "切換動效",
+                    _description: "切換形象或動作時預設所使用的動畫效果。"
                 },
                 duration: {
                     _title: "動效用時",
@@ -691,13 +703,17 @@ const lang_zho_Hant_TW = {
                 example_1: "你的愛還不夠啊！",
                 example_2: "我對普通的人類沒有興趣！",
             },
+            use_short_language_iso_code: {
+                _title: "使用短 ISO 語言代碼",
+                _description: "如果您的螢幕閱讀器只能識別兩位 ISO 語言代碼（即不支援擴展語言代碼），請啟用此配置項。這可能會導致一些字元不能正確選用變體字形。"
+            },
             unlock_page_width: {
                 _title: "解鎖頁面寬度",
                 _description: "不再限制頁面內容寬度，這可以最佳化在較大字型佈局下的顯示效果。"
             },
             high_contrast: {
-                _title: "啟用高對比度",
-                _description: "提高後臺頁面的對比度，並對焦點元素顯示高亮邊框。"
+                _title: "高對比度",
+                _description: "提高後臺頁面的對比度，並對焦點元素顯示高亮邊框。<br><span class='accessibility-high-contrast-hide'>此功能會遵循您的系統設定自動開啟。</span><span class='accessibility-high-contrast-show'>由於您的系統設定，此功能已預設開啟。</span>"
             },
             high_contrast_outline_color: {
                 _title: "焦點高亮邊框顏色",
@@ -726,6 +742,10 @@ const lang_zho_Hant_TW = {
             power_saving_mode: {
                 _title: "停用高開銷效果",
                 _description: "停用後臺頁面所有高效能消耗的畫面效果。"
+            },
+            send_on_enter: {
+                _title: "按 Enter 鍵傳送訊息",
+                _description: "只需按下 Enter 鍵即可傳送訊息，按下 Ctrl + Enter 鍵換行。"
             }
         },
         advanced: {
@@ -986,7 +1006,7 @@ const lang_zho_Hant_TW = {
                 hello_reply: "{client} 響應了廣播，識別名：{name}",
                 hello_reply_hidden: "{client} 響應了廣播，已休眠，識別名：{name}",
                 hello_to_server: "{client} 已向 Websocket 伺服器傳送 HELLO 訊息，識別名：{name}",
-                message_data_third: "收到來自其他服務端的訊息資料。",
+                message_data_third: "收到來自其他服務端的訊息資料：{message}",
                 page_hidden: "{client} 因不可見已休眠，識別名：{name}",
                 page_visible: "{client} 已喚醒，識別名：{name}",
                 ping_server: "有其他服務端加入頻道，識別名：{name}",
@@ -1802,7 +1822,7 @@ const lang_zho_Hant_TW = {
     },
     studio: {
         title: {
-            text_to_messages: "Echo Live 工作室：文字轉訊息格式"
+            text_to_messages: "文字轉訊息格式 · Echo Live 工作室"
         },
         text_to_messages: {
             colon: "：",

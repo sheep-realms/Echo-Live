@@ -1,5 +1,5 @@
 const config = {
-    "data_version": 13,
+    "data_version": 14,
     "global": {
         "language": "zho-Hans",
         "theme": "vanilla",
@@ -81,6 +81,10 @@ const config = {
             "allow_data_url_and_relative_url": true,
             "default_max_size": 3
         },
+        "filter": {
+            "enable": true,
+            "duplicate_chinese_mood_symbol_slice_enable": true
+        },
         "next_effect_name": "none",
         "next_effect_duration": 0,
         "print_start_effect_name": "none",
@@ -157,6 +161,7 @@ const config = {
     },
     "accessibility": {
         "font_size": 16,
+        "use_short_language_iso_code": false,
         "unlock_page_width": false,
         "high_contrast": false,
         "high_contrast_outline_color": "#00E9FF",
@@ -165,7 +170,8 @@ const config = {
         "protanopia_and_deuteranopia": false,
         "link_underline": false,
         "animation_disable": false,
-        "power_saving_mode": false
+        "power_saving_mode": false,
+        "send_on_enter": false
     },
     "advanced": {
         "broadcast": {

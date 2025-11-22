@@ -345,8 +345,14 @@ class FHUIComponentInput {
             const select = $(this).parents('.fh-input-select-component').eq(0);
             const input = select.find('.fh-input-component .fh-input').eq(0);
             const list = select.find('.fh-select-option-list').eq(0);
+            const option = list.find(`.fh-select-option[data-value="${ input.val() }"]`)
             list.find('.fh-select-option').attr('aria-selected', false);
-            list.find(`.fh-select-option[data-value="${ input.val() }"]`).attr('aria-selected', true);
+            if (option.length > 0) {
+                option.attr('aria-selected', true);
+                input.attr('aria-activedescendant', option.eq(0).attr('id'));
+            } else {
+                input.removeAttr('aria-activedescendant');
+            }
         });
 
         // 下拉菜单隐去
@@ -579,11 +585,15 @@ class FHUIComponentInput {
             option_description_fill_value: false,
             option_width: undefined,
             style: undefined,
+            controlsId: undefined,
             ...data,
             attribute: {
                 ...data?.attribute
             }
         }
+
+        const optID = `fh-select-option-${ EchoLiveTools.getUUID() }-${ String(performance.now()).replace('.', '') }`;
+        data.controlsId = optID;
 
         data.name               = data.name             || data.id;
         data.default_value      = data.default_value    || value;
@@ -601,12 +611,15 @@ class FHUIComponentInput {
                 },
                 attribute: {
                     aria: {
-                        expanded: 'false'
+                        autocomplete: 'list',
+                        expanded: 'false',
+                        controls: optID,
                     },
+                    autocomplete: 'off',
                     data: {
                         default: data.default_value
                     },
-                    role: 'select'
+                    role: 'combobox'
                 }
             }
         );
@@ -658,6 +671,7 @@ class FHUIComponentInput {
                         selected: e.value === value
                     },
                     class: 'fh-select-option',
+                    id: data?.controlsId ? data.controlsId + '-' + i : undefined,
                     data: {
                         index: i,
                         value: e.value
@@ -710,6 +724,7 @@ class FHUIComponentInput {
                     'hide',
                     'closed'
                 ],
+                id: data?.controlsId,
                 data: {
                     length: options.length,
                     index: selectedIndex.length > 0 ? selectedIndex[0] : -1

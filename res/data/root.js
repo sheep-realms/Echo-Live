@@ -126,6 +126,9 @@ echoLiveSystem.registry.init([
             variant: []
         }
     }, {
+        name: 'message_filter',
+        is_function: true
+    }, {
         name: 'palette',
         unique_key: 'meta.name',
         default_data: {

@@ -328,15 +328,15 @@ const lang_zho_Hans = {
                 },
             },
             print_audio: {
-                _title: "打字音效",
+                _title: "打印音效",
                 _description: "在每次输出字符时播放音效",
                 enable: {
-                    _title: "启用打字音效",
+                    _title: "启用打印音效",
                     _description: ""
                 },
                 name: {
-                    _title: "音效名称",
-                    _description: "可用的音效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/#list' target='_blank'>帮助文档</a>。"
+                    _title: "打印音效",
+                    _description: "选择您喜欢的打印音效。"
                 },
                 volume: {
                     _title: "音效音量",
@@ -355,8 +355,8 @@ const lang_zho_Hans = {
                     _description: ""
                 },
                 name: {
-                    _title: "音效名称",
-                    _description: "可用的音效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/sound/#list' target='_blank'>帮助文档</a>。"
+                    _title: "入场音效",
+                    _description: "选择您喜欢的入场音效。"
                 },
                 volume: {
                     _title: "音效音量",
@@ -371,8 +371,8 @@ const lang_zho_Hans = {
                 _title: "字符打印动效",
                 _description: "打印每个字符时所使用的动画效果",
                 name: {
-                    _title: "动效名称",
-                    _description: "可用的动效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>帮助文档</a>。<br>请注意：消息格式中的一些高级动效可能会覆盖字符打印动效。如果您需要使用这些高级动效，建议您关闭字符打印动效。"
+                    _title: "打印动效",
+                    _description: "选择您喜欢的打印动效。<br>请注意：消息格式中的一些高级动效可能会覆盖字符打印动效。如果您需要使用这些高级动效，建议您关闭字符打印动效。"
                 },
                 duration: {
                     _title: "动效用时",
@@ -457,6 +457,18 @@ const lang_zho_Hans = {
                 default_max_size: {
                     _title: "默认最大图片尺寸",
                     _description: "控制图片在对话框中的默认最大尺寸。单位：em（相对于字符尺寸的长度单位）。"
+                }
+            },
+            filter: {
+                _title: "过滤器",
+                _description: "控制消息过滤器的状态",
+                enable: {
+                    _title: "启用过滤器",
+                    _description: "启用后，Echo-Live 会在收到消息时运行已注册的过滤器。"
+                },
+                duplicate_chinese_mood_symbol_slice_enable: {
+                    _title: "连续重复的中文语气符号切片过滤器",
+                    _description: "将连续重复的中文语气符号切分为不连续的语义单元，以修复连续使用符号产生意外折行的问题。"
                 }
             }
         },
@@ -645,15 +657,15 @@ const lang_zho_Hans = {
                 _title: "默认形象",
                 _description: "设置默认所使用的形象及其参数",
                 name: {
-                    _title: "形象名称",
+                    _title: "形象",
                     _description: "Echo-Live 内置了“Echo 追音”作为默认形象。"
                 },
                 action: {
-                    _title: "动作名称",
+                    _title: "动作",
                     _description: "默认所使用的动作名称，留空则使用默认值。<br>不同的形象会有不同的动作可选，请根据您选择的形象来选择动作。"
                 },
                 scene: {
-                    _title: "镜头名称",
+                    _title: "镜头",
                     _description: "默认所使用的镜头名称，留空则使用默认值。<br>不同的形象会有不同的镜头可选，请根据您选择的形象来选择镜头。"
                 }
             },
@@ -661,8 +673,8 @@ const lang_zho_Hans = {
                 _title: "形象切换动效",
                 _description: "切换形象或动作时默认所使用的动画效果",
                 name: {
-                    _title: "动效名称",
-                    _description: "切换形象或动作时默认所使用的动画效果名称。"
+                    _title: "切换动效",
+                    _description: "切换形象或动作时默认所使用的动画效果。"
                 },
                 duration: {
                     _title: "动效用时",
@@ -691,13 +703,17 @@ const lang_zho_Hans = {
                 example_1: "你的爱还不够啊！",
                 example_2: "我对普通的人类没有兴趣！",
             },
+            use_short_language_iso_code: {
+                _title: "使用短 ISO 语言代码",
+                _description: "如果您的屏幕阅读器只能识别两位 ISO 语言代码（即不支持扩展语言代码），请启用此配置项。这可能会导致一些字符不能正确选用变体字形。"
+            },
             unlock_page_width: {
                 _title: "解锁页面宽度",
                 _description: "不再限制页面内容宽度，这可以优化在较大字体布局下的显示效果。"
             },
             high_contrast: {
-                _title: "启用高对比度",
-                _description: "提高后台页面的对比度，并对焦点元素显示高亮边框。"
+                _title: "高对比度",
+                _description: "提高后台页面的对比度，并对焦点元素显示高亮边框。<br><span class='accessibility-high-contrast-hide'>此功能会遵循您的系统设置自动开启。</span><span class='accessibility-high-contrast-show'>由于您的系统设置，此功能已默认开启。</span>"
             },
             high_contrast_outline_color: {
                 _title: "焦点高亮边框颜色",
@@ -726,6 +742,10 @@ const lang_zho_Hans = {
             power_saving_mode: {
                 _title: "禁用高开销效果",
                 _description: "禁用后台页面所有高性能消耗的画面效果。"
+            },
+            send_on_enter: {
+                _title: "按 Enter 键发送消息",
+                _description: "只需按下 Enter 键即可发送消息，按下 Ctrl + Enter 键换行。"
             }
         },
         advanced: {
@@ -986,7 +1006,7 @@ const lang_zho_Hans = {
                 hello_reply: "{client} 响应了广播，识别名：{name}",
                 hello_reply_hidden: "{client} 响应了广播，已休眠，识别名：{name}",
                 hello_to_server: "{client} 已向 Websocket 服务器发送 HELLO 消息，识别名：{name}",
-                message_data_third: "收到来自其他服务端的消息数据。",
+                message_data_third: "收到来自其他服务端的消息数据：{message}",
                 page_hidden: "{client} 因不可见已休眠，识别名：{name}",
                 page_visible: "{client} 已唤醒，识别名：{name}",
                 ping_server: "有其他服务端加入频道，识别名：{name}",
@@ -1802,7 +1822,7 @@ const lang_zho_Hans = {
     },
     studio: {
         title: {
-            text_to_messages: "Echo Live 工作室：文本转消息格式"
+            text_to_messages: "文本转消息格式 · Echo Live 工作室"
         },
         text_to_messages: {
             colon: "：",

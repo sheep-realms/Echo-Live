@@ -31,18 +31,28 @@ class EchoLive {
             messagesPolling:    EchoLive.NOT_ACTIVE_TIMER
         };
         this.event          = {
-            controllerLoad:     function() {},
-            displayHidden:      function() {},
-            displayHiddenNow:   function() {},
-            displayShow:        function() {},
-            shutdown:           function() {},
-            themeScriptLoad:    function() {},
-            themeScriptUnload:  function() {}
+            controllerLoad:     ( controller ) => {},
+            displayHidden:      ( callback = () => {} ) => {},
+            displayHiddenNow:   () => {},
+            displayShow:        ( callback = () => {} ) => {},
+            playSound:          ( name, volume, rate, type ) => {},
+            shutdown:           ( reason ) => {},
+            themeScriptLoad:    () => {},
+            themeScriptUnload:  () => {}
         };
         this.task           = [];
         this.taskNow        = {};
         this.taskRunning    = false;
         this.taskLastID     = 0;
+        this.printSound     = {
+            audio: {
+                name:       this.config.echolive.print_audio.name,
+                volume:     this.config.echolive.print_audio.volume,
+                rate:       this.config.echolive.print_audio.rate
+            },
+            lastPlay:       0,
+            muteDuration:   this.echo.printSpeedChange + 3
+        };
         this.debug          = {
             taskLog: false
         };
@@ -329,6 +339,46 @@ class EchoLive {
 
         if (this.config.echolive.display.auto) this.clearDisplayHiddenWaitTimer();
 
+        const __messageFilter = (messageData) => {
+            messageData = JSON.parse(JSON.stringify(messageData));
+            const filters = echoLiveSystem.registry.getRegistryArray('message_filter');
+            const __runFilter = (text) => {
+                filters.forEach(method => {
+                    let t = method(text);
+                    if (typeof t === 'string') text = t;
+                });
+                return text;
+            };
+
+            if (typeof data?.username === 'string') {
+                messageData.username = __runFilter(messageData.username);
+            }
+
+            data.messages.forEach(msg => {
+                if (typeof msg === 'object' && !Array.isArray(msg)) {
+                    msg.message = __runFilter(msg.message);
+                } else if (Array.isArray(msg)) {
+                    msg.forEach(m => {
+                        m.text = __runFilter(m.text);
+                    });
+                }
+            });
+
+            return data;
+        }
+
+        echoLiveSystem.hook.trigger('echolive_portal_message_filter_before', {
+            unit: this,
+            data: data
+        });
+
+        if (this.config.echolive.filter.enable) data = __messageFilter(data);
+
+        echoLiveSystem.hook.trigger('echolive_portal_message_filter_after', {
+            unit: this,
+            data: data
+        });
+
         this.data = data;
         if (typeof data?.username === 'string') {
             this.username = data.username;
@@ -385,6 +435,37 @@ class EchoLive {
      */
     stop() {
         clearInterval(this.timer.messagesPolling);
+    }
+
+    /**
+     * 重置打印音效
+     */
+    resetPrintSound() {
+        this.printSound.audio = {
+            name:   this.config.echolive.print_audio.name,
+            volume: this.config.echolive.print_audio.volume,
+            rate:   this.config.echolive.print_audio.rate
+        };
+        this.printSound.muteDuration = this.echo.printSpeedChange + 3;
+    }
+
+    /**
+     * 播放打印音效
+     * @returns {Boolean} 是否成功
+     */
+    playPrintSound() {
+        if (!this.config.echolive.print_audio.enable) return false;
+
+        const now = performance.now();
+        if (this.printSound.lastPlay + this.printSound.muteDuration > now) return false;
+        this.printSound.lastPlay = now;
+        this.event.playSound(
+            this.printSound.audio.name,
+            this.printSound.audio.volume,
+            this.printSound.audio.rate,
+            'print'
+        );
+        return true;
     }
 
     /**

@@ -132,9 +132,18 @@ $(document).ready(function() {
 
             // 输出 - 内容 - 快捷键
             $('#output-content').keydown(function(e) {
-                if (e.code === 'Enter' && e.ctrlKey) {
-                    $('#output-btn-send').click();
-                    effectClick('#output-btn-send');
+                if (e.code === 'Enter') {
+                    e.preventDefault();
+                    if (
+                        (!config.accessibility.send_on_enter && e.ctrlKey)
+                        || (config.accessibility.send_on_enter && !e.ctrlKey)
+                    ) {
+                        $('#output-btn-send').click();
+                        effectClick('#output-btn-send');
+                    } else if (config.accessibility.send_on_enter) {
+                        e.preventDefault();
+                        insertNewline(this);
+                    }
                 }
             })
 
@@ -184,7 +193,7 @@ $(document).ready(function() {
 let logMsgMark = 0;
 
 function editorLog(message = '', type = 'info') {
-    $('#editor-log').append(`<div role="listitem" class="log-item log-type-${type}" ${type === 'dbug' ? 'aria-hidden="true"' : ''}><span class="time" aria-hidden="true">${EchoLiveTools.formatDate(undefined, 'date_time_common')}</span> <span class="type" aria-label="${ $t('editor.log.accessibility.type.' + type) }">[${type.toUpperCase()}]</span> <span class="message" ${type === 'erro' || type === 'warn' ? ' role="alert"' : ''}>${message}</span></div>`);
+    $('#editor-log').append(`<div class="log-item log-type-${type}" ${type === 'dbug' ? 'aria-hidden="true"' : ''}><span class="time" aria-hidden="true">${EchoLiveTools.formatDate(undefined, 'date_time_common')}</span> <span class="type" aria-label="${ $t('editor.log.accessibility.type.' + type) }">[${type.toUpperCase()}]</span> <span class="message" ${type === 'erro' || type === 'warn' ? ' role="alert"' : ''}>${message}</span></div>`);
     $('#editor-log').scrollTop(4503599627370496);
 
     if ($('#tabpage-nav-log[aria-selected="true"]').length <= 0) {
@@ -231,7 +240,15 @@ function clientsChange(e) {
 function getMessage(data) {
     switch (data.action) {
         case 'message_data':
-            editorLogT('editor.log.broadcast.message_data_third');
+            let messageDataText = EchoLiveTools.getMessageSendLog(data.data.messages[0].message, data.data.username);
+            let messageDataTextArray = [...messageDataText];
+            if (messageDataTextArray.length > 128) {
+                messageDataText = messageDataTextArray.splice(0, 128).join('');
+                messageDataText += '...'
+            }
+            editorLogT('editor.log.broadcast.message_data_third', {
+                message: messageDataText
+            });
             break;
             
         case 'hello':
@@ -892,40 +909,55 @@ $(document).on('contextmenu', '.echo-live-client-state-block', function(event) {
     }
 });
 
+$('#ptext-character').keydown(function(e) {
+    if (e.code === 'Enter') {
+        e.preventDefault();
+        $('#ptext-content').focus();
+        $('#ptext-content').select();
+    }
+});
+
 // 纯文本 - 内容 - 快捷键
 $('#ptext-content').keydown(function(e) {
     // console.log(e.code);
-    if (e.ctrlKey) {
-        if (e.code === 'Enter') {
+    if (e.code === 'Enter') {
+        if (
+            (!config.accessibility.send_on_enter && e.ctrlKey)
+            || (config.accessibility.send_on_enter && !e.ctrlKey)
+        ) {
+            e.preventDefault();
             if (!config.echolive.broadcast.enable) return;
             $('#ptext-btn-send').click();
             effectClick('#ptext-btn-send');
-        } else if (e.code === 'KeyS') {
+        } else if (config.accessibility.send_on_enter) {
             e.preventDefault();
-        } else {
-            let code = {
-                'KeyB':         'bold',
-                'KeyI':         'italic',
-                'KeyU':         'underline',
-                'KeyD':         'strikethrough',
-                'KeyC':         'color',
-                'KeyE':         'emoji',
-                'ArrowUp':      'font_size_increase',
-                'ArrowDown':    'font_size_decrease',
-                'Space':        'clear'
-            };
-            if (code[e.code] === undefined) return;
-            if (e.code === 'Space' && !e.shiftKey) return;
-            if (e.code === 'KeyC' && !e.shiftKey) return;
-            if (e.code == 'KeyI' && e.shiftKey) {
-                e.preventDefault();
-                $(`#ptext-editor .editor-controller:not(.disabled) button[data-value="image"]`).click();
-                return;
-            }
-
-            e.preventDefault();
-            $(`#ptext-editor .editor-controller:not(.disabled) button[data-value="${code[e.code]}"]`).click();
+            insertNewline(this);
         }
+    } else if (e.code === 'KeyS' && e.ctrlKey) {
+        e.preventDefault();
+    } else if (e.ctrlKey) {
+        let code = {
+            'KeyB':         'bold',
+            'KeyI':         'italic',
+            'KeyU':         'underline',
+            'KeyD':         'strikethrough',
+            'KeyC':         'color',
+            'KeyE':         'emoji',
+            'ArrowUp':      'font_size_increase',
+            'ArrowDown':    'font_size_decrease',
+            'Space':        'clear'
+        };
+        if (code[e.code] === undefined) return;
+        if (e.code === 'Space' && !e.shiftKey) return;
+        if (e.code === 'KeyC' && !e.shiftKey) return;
+        if (e.code == 'KeyI' && e.shiftKey) {
+            e.preventDefault();
+            $(`#ptext-editor .editor-controller:not(.disabled) button[data-value="image"]`).click();
+            return;
+        }
+
+        e.preventDefault();
+        $(`#ptext-editor .editor-controller:not(.disabled) button[data-value="${code[e.code]}"]`).click();
     }
 })
 
@@ -1070,6 +1102,44 @@ $(document).on('click', '#link-open-settings', function(e) {
         sysNotice.sendT('notice.open_settings_in_obs');
     }
 });
+
+function insertNewline(el) {
+    const start = el.selectionStart;
+    const end   = el.selectionEnd;
+    const value = el.value;
+    el.value            = value.substring(0, start) + "\n" + value.substring(end);
+    el.selectionStart   = el.selectionEnd = start + 1;
+    const div   = document.createElement("div");
+    const style = getComputedStyle(el);
+
+    [
+        "fontFamily", "fontSize", "fontWeight", "fontStyle", "letterSpacing", "textTransform", "wordWrap",
+        "paddingTop", "paddingBottom", "paddingLeft", "paddingRight", "borderTopWidth", "borderBottomWidth",
+        "boxSizing", "lineHeight", "whiteSpace"
+    ].forEach(k => div.style[k] = style[k]);
+
+    div.style.position      = "absolute";
+    div.style.visibility    = "hidden";
+    div.style.whiteSpace    = "pre-wrap";
+    div.style.width         = style.width;
+    div.style.height        = "auto";
+
+    const before = el.value.substring(0, el.selectionStart);
+    const after = el.value.substring(el.selectionStart);
+
+    div.textContent         = before;
+    const marker            = document.createElement("span");
+    marker.textContent      = "●";
+    div.appendChild(marker);
+    const rest              = document.createTextNode(after);
+    div.appendChild(rest);
+    document.body.appendChild(div);
+    const markerTop         = marker.offsetTop;
+    const targetScrollTop   = markerTop - 4;
+    el.scrollTop            = targetScrollTop;
+    document.body.removeChild(div);
+}
+
 
 
 

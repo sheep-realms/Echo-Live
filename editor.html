@@ -24,7 +24,7 @@
     <script src="lang/index.js"></script>
     <script src="res/class/Translator.js"></script>
     <script id="translator-init">
-        const translator = new Translator(config.global.language);
+        const translator = new Translator(config.global.language, {}, { useShortISO: config.accessibility.use_short_language_iso_code });
         const $t = function(...e) {
             return translator.output(...e);
         };
@@ -52,7 +52,7 @@
     <span class="holy-fucking-shit">如果你看到了这句话，要么就是你没解压，要么就是软件结构受到了破坏。<br>If you're seeing this, either you didn't unzip the file or the software structure is corrupted.</span>
     <main>
         <!-- 标签页标题 -->
-        <nav id="echo-editor-nav" class="tabpage-nav" data-navid="main">
+        <nav id="echo-editor-nav" class="tabpage-nav" data-navid="main" role="tablist">
             <button
                 id="tabpage-nav-ptext"
                 class="tabpage-nav-item"
@@ -121,8 +121,8 @@
         <!-- 标签页面板 -->
         <div class="tabpage-centent" data-navid="main">
             <!-- 纯文本标签页 -->
-            <section class="tabpage-panel" role="tabpanel" data-pageid="ptext">
-                <h2 class="tabpage-panel-title" data-i18n="editor.tabpage.editor.title">编辑器</h2>
+            <section class="tabpage-panel" role="tabpanel" data-pageid="ptext" aria-labelledby="tabpage-panel-title-ptext">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-ptext" data-i18n="editor.tabpage.editor.title">编辑器</h2>
                 <div class="echo-editor-form">
                     <div class="echo-live-client-state hide">
                         <label data-i18n="editor.form.label.live_client_state">对话框状态</label>
@@ -148,7 +148,7 @@
 
                     <div class="collapse">
                         <div class="collapse-title">
-                            <button role="checkbox" aria-selected="false" id="ptext-collapse-use-formatting-code" class="checkbox collapse-checkbox">
+                            <button role="checkbox" aria-checked="false" id="ptext-collapse-use-formatting-code" class="checkbox collapse-checkbox">
                                 <span class="icon"></span>
                                 <span class="text" data-i18n="editor.form.label.use_formatting_code">使用快速格式化代码</span>
                                 <input type="hidden" name="ptext-chk-use-formatting-code" id="ptext-chk-use-formatting-code" value="0">
@@ -163,7 +163,7 @@
 
                     <div class="collapse">
                         <div class="collapse-title">
-                            <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
+                            <button role="checkbox" aria-checked="false" class="checkbox collapse-checkbox">
                                 <span class="icon"></span>
                                 <span class="text" data-i18n="editor.form.label.startup_parameter">启动参数</span>
                                 <input type="hidden" name="ptext-chk-more" id="ptext-chk-more" value="0">
@@ -182,7 +182,7 @@
 
                     <div class="collapse">
                         <div class="collapse-title">
-                            <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
+                            <button role="checkbox" aria-checked="false" class="checkbox collapse-checkbox">
                                 <span class="icon"></span>
                                 <span class="text" data-i18n="editor.form.label.quote">引用符号</span>
                                 <input type="hidden" name="ptext-chk-quote" id="ptext-chk-quote" value="0">
@@ -205,7 +205,7 @@
 
                     <div class="collapse hide" id="collapse-split-message">
                         <div class="collapse-title">
-                            <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
+                            <button role="checkbox" aria-checked="false" class="checkbox collapse-checkbox">
                                 <span class="icon"></span>
                                 <span class="text" data-i18n="editor.form.label.split_message"></span>
                                 <input type="hidden" name="ptext-chk-use-split-message" id="ptext-chk-split-message" value="0">
@@ -217,7 +217,7 @@
                         </div>
                     </div>
 
-                    <button role="checkbox" aria-selected="false" class="checkbox hide" id="checkbox-sent-clear">
+                    <button role="checkbox" aria-checked="false" class="checkbox hide" id="checkbox-sent-clear">
                         <span class="icon"></span>
                         <span class="text" data-i18n="editor.form.label.sent_clear"></span>
                         <input type="hidden" name="ptext-chk-sent-clear" id="ptext-chk-sent-clear" value="0">
@@ -225,7 +225,7 @@
 
                     <div class="collapse">
                         <div class="collapse-title">
-                            <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
+                            <button role="checkbox" aria-checked="false" class="checkbox collapse-checkbox">
                                 <span class="icon"></span>
                                 <span class="text" data-i18n="editor.form.label.advanced_function">高级功能</span>
                                 <input type="hidden" name="ptext-chk-more" id="ptext-chk-more" value="0">
@@ -250,8 +250,8 @@
             </section>
 
             <!-- 富文本标签页 -->
-            <section class="tabpage-panel hide" role="tabpanel" data-pageid="rtext">
-                <h2 class="tabpage-panel-title">富文本</h2>
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="rtext" aria-labelledby="tabpage-panel-title-rtext">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-rtext">富文本</h2>
                 <p style="color: red;">该页面正在施工中，暂不可用。</p>
                 <div class="echo-editor-form">
                     <label for="ptext-character">说话人</label>
@@ -271,25 +271,25 @@
                             </div>
 
                             <div class="editor-text-controller">
-                                <button role="checkbox" aria-selected="false" class="checkbox">
+                                <button role="checkbox" aria-checked="false" class="checkbox">
                                     <span class="icon"></span>
                                     <span class="text">粗体</span>
                                     <input type="hidden" name="editor-text-controller-bold" value="0">
                                 </button>
 
-                                <button role="checkbox" aria-selected="false" class="checkbox">
+                                <button role="checkbox" aria-checked="false" class="checkbox">
                                     <span class="icon"></span>
                                     <span class="text">斜体</span>
                                     <input type="hidden" name="editor-text-controller-italic" value="0">
                                 </button>
 
-                                <button role="checkbox" aria-selected="false" class="checkbox">
+                                <button role="checkbox" aria-checked="false" class="checkbox">
                                     <span class="icon"></span>
                                     <span class="text">下划线</span>
                                     <input type="hidden" name="editor-text-controller-underline" value="0">
                                 </button>
 
-                                <button role="checkbox" aria-selected="false" class="checkbox">
+                                <button role="checkbox" aria-checked="false" class="checkbox">
                                     <span class="icon"></span>
                                     <span class="text">颜色</span>
                                     <input type="hidden" name="editor-text-controller-color" value="0">
@@ -301,7 +301,7 @@
 
                             <div class="collapse">
                                 <div class="collapse-title">
-                                    <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
+                                    <button role="checkbox" aria-checked="false" class="checkbox collapse-checkbox">
                                         <span class="icon"></span>
                                         <span class="text">打字模拟</span>
                                         <input type="hidden" name="rtext-chk-typewrite" id="rtext-chk-typewrite" value="0">
@@ -320,7 +320,7 @@
 
                             <div class="collapse">
                                 <div class="collapse-title">
-                                    <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
+                                    <button role="checkbox" aria-checked="false" class="checkbox collapse-checkbox">
                                         <span class="icon"></span>
                                         <span class="text">自定义样式</span>
                                         <input type="hidden" name="rtext-chk-style" id="rtext-chk-style" value="0">
@@ -341,7 +341,7 @@
 
                             <div class="collapse">
                                 <div class="collapse-title">
-                                    <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
+                                    <button role="checkbox" aria-checked="false" class="checkbox collapse-checkbox">
                                         <span class="icon"></span>
                                         <span class="text">杂项</span>
                                         <input type="hidden" name="rtext-chk-misc" id="rtext-chk-misc" value="0">
@@ -377,7 +377,7 @@
 
                     <div class="collapse">
                         <div class="collapse-title">
-                            <button role="checkbox" aria-selected="false" class="checkbox collapse-checkbox">
+                            <button role="checkbox" aria-checked="false" class="checkbox collapse-checkbox">
                                 <span class="icon"></span>
                                 <span class="text">启动参数</span>
                                 <input type="hidden" name="rtext-chk-more" id="rtext-chk-more" value="0">
@@ -402,12 +402,12 @@
             </section>
 
             <!-- 配置标签页 -->
-            <section class="tabpage-panel hide" role="tabpanel" data-pageid="config">
-                <h2 class="tabpage-panel-title" data-i18n="editor.tabpage.config.title">配置</h2>
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="config" aria-labelledby="tabpage-panel-title-config">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-config" data-i18n="editor.tabpage.config.title">配置</h2>
                 <div class="echo-editor-form">
                     <label for="config-output-before" data-i18n="editor.form.label.output_before">头部内容</label>
                     <textarea name="output-before" id="config-output-before" class="code"></textarea>
-                    <button role="checkbox" aria-selected="false" class="checkbox">
+                    <button role="checkbox" aria-checked="false" class="checkbox">
                         <span class="icon"></span>
                         <span class="text" data-i18n="editor.form.description.output_before">在输出内容之前插入头部内容</span>
                         <input type="hidden" name="config-output-use-before" id="config-output-use-before" value="0">
@@ -415,7 +415,7 @@
 
                     <label for="config-output-after" data-i18n="editor.form.label.output_after">尾部内容</label>
                     <textarea name="output-after" id="config-output-after" class="code"></textarea>
-                    <button role="checkbox" aria-selected="false" class="checkbox">
+                    <button role="checkbox" aria-checked="false" class="checkbox">
                         <span class="icon"></span>
                         <span class="text" data-i18n="editor.form.description.output_before">在输出内容之后插入尾部内容</span>
                         <input type="hidden" name="config-output-use-after" id="config-output-use-after" value="0">
@@ -426,10 +426,10 @@
             </section>
 
             <!-- 输出标签页 -->
-            <section class="tabpage-panel hide" role="tabpanel" data-pageid="output">
-                <h2 class="tabpage-panel-title" data-i18n="editor.tabpage.output.title">输出</h2>
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="output" aria-labelledby="tabpage-panel-title-output">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-output" data-i18n="editor.tabpage.output.title">输出</h2>
                 <!-- 嵌套 -->
-                <nav id="echo-editor-nav-output" class="tabpage-nav" data-navid="output">
+                <nav id="echo-editor-nav-output" class="tabpage-nav" data-navid="output" role="tablist">
                     <button
                         id="tabpage-nav-output-content"
                         class="tabpage-nav-item"
@@ -489,16 +489,16 @@
             </section>
 
             <!-- 广播标签页 -->
-            <section class="tabpage-panel hide" role="tabpanel" data-pageid="broadcast">
-                <h2 class="tabpage-panel-title" data-i18n="editor.tabpage.broadcast.title">广播</h2>
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="broadcast" aria-labelledby="tabpage-panel-title-broadcast">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-broadcast" data-i18n="editor.tabpage.broadcast.title">广播</h2>
                 <p style="color: red;">该页面正在施工中，暂不可用。</p>
                 <p>恭喜你发现了隐藏页面：广播！</p>
                 <p>这里计划添加一些功能按键用于控制对话框。</p>
             </section>
 
             <!-- 日志标签页 -->
-            <section class="tabpage-panel hide" role="tabpanel" data-pageid="log">
-                <h2 class="tabpage-panel-title" data-i18n="editor.tabpage.log.title">日志</h2>
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="log" aria-labelledby="tabpage-panel-title-log">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-log" data-i18n="editor.tabpage.log.title">日志</h2>
                 <div
                     id="editor-log"
                     aria-label="这里是日志列表，如果您听到了这句话，请注意，这里的阅读体验可能会很差。"

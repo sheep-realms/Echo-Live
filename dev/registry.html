@@ -202,7 +202,7 @@
                 const key = String($(this).data('key'));
                 const data = echoLiveSystem.registry.getRegistryValue(table, key);
                 uniWindow.textareaWindow(
-                    JSON.stringify(data, null, 4),
+                    typeof data === 'function' ? data.toString() : JSON.stringify(data, null, 4),
                     table + ' / ' + key,
                     {
                         size: {

@@ -38,6 +38,7 @@
     <script src="res/data/icon.js"></script>
     <script src="res/class/Icon.js"></script>
     <script src="res/class/EchoLiveTools.js"></script>
+    <script src="res/class/SlotInstaller.js"></script>
     <script src="res/class/SystemNotice.js"></script>
     <script src="res/class/LocalStorageManager.js"></script>
     <script src="res/class/EchoLiveEditor.js"></script>
@@ -150,6 +151,9 @@
                         <div class="collapse-title">
                             <button role="checkbox" aria-checked="false" id="ptext-collapse-use-formatting-code" class="checkbox collapse-checkbox">
                                 <span class="icon"></span>
+                                <span class="inner-icon">
+                                    <slot data-icon="material:code-tags"></slot>
+                                </span>
                                 <span class="text" data-i18n="editor.form.label.use_formatting_code">使用快速格式化代码</span>
                                 <input type="hidden" name="ptext-chk-use-formatting-code" id="ptext-chk-use-formatting-code" value="0">
                             </button>
@@ -165,6 +169,9 @@
                         <div class="collapse-title">
                             <button role="checkbox" aria-checked="false" class="checkbox collapse-checkbox">
                                 <span class="icon"></span>
+                                <span class="inner-icon">
+                                    <slot data-icon="material:rocket-launch"></slot>
+                                </span>
                                 <span class="text" data-i18n="editor.form.label.startup_parameter">启动参数</span>
                                 <input type="hidden" name="ptext-chk-more" id="ptext-chk-more" value="0">
                             </button>
@@ -184,6 +191,9 @@
                         <div class="collapse-title">
                             <button role="checkbox" aria-checked="false" class="checkbox collapse-checkbox">
                                 <span class="icon"></span>
+                                <span class="inner-icon">
+                                    <slot data-icon="material:format-quote-open"></slot>
+                                </span>
                                 <span class="text" data-i18n="editor.form.label.quote">引用符号</span>
                                 <input type="hidden" name="ptext-chk-quote" id="ptext-chk-quote" value="0">
                             </button>
@@ -207,6 +217,9 @@
                         <div class="collapse-title">
                             <button role="checkbox" aria-checked="false" class="checkbox collapse-checkbox">
                                 <span class="icon"></span>
+                                <span class="inner-icon">
+                                    <slot data-icon="material:tray-full"></slot>
+                                </span>
                                 <span class="text" data-i18n="editor.form.label.split_message"></span>
                                 <input type="hidden" name="ptext-chk-use-split-message" id="ptext-chk-split-message" value="0">
                             </button>
@@ -219,6 +232,9 @@
 
                     <button role="checkbox" aria-checked="false" class="checkbox hide" id="checkbox-sent-clear">
                         <span class="icon"></span>
+                        <span class="inner-icon">
+                            <slot data-icon="material:restore"></slot>
+                        </span>
                         <span class="text" data-i18n="editor.form.label.sent_clear"></span>
                         <input type="hidden" name="ptext-chk-sent-clear" id="ptext-chk-sent-clear" value="0">
                     </button>
@@ -227,6 +243,9 @@
                         <div class="collapse-title">
                             <button role="checkbox" aria-checked="false" class="checkbox collapse-checkbox">
                                 <span class="icon"></span>
+                                <span class="inner-icon">
+                                    <slot data-icon="material:cog"></slot>
+                                </span>
                                 <span class="text" data-i18n="editor.form.label.advanced_function">高级功能</span>
                                 <input type="hidden" name="ptext-chk-more" id="ptext-chk-more" value="0">
                             </button>
@@ -242,9 +261,24 @@
                     </div>
 
                     <div class="editor-controller-bottom fh-flex-row fh-controller">
-                        <button id="ptext-btn-clear" class="fh-button fh-big fh-danger" data-i18n="ui.reset">重置</button>
-                        <button id="ptext-btn-submit" class="fh-button fh-big" data-i18n="ui.output">输出</button>
-                        <button id="ptext-btn-send" class="fh-button fh-big hide" data-i18n="ui.send">发送</button>
+                        <button id="ptext-btn-clear" class="fh-button fh-icon-button fh-big fh-danger">
+                            <span class="icon fh-label-icon" aria-hidden="true">
+                                <slot data-icon="material:restore"></slot>
+                            </span>
+                            <span class="text fh-label-text" data-i18n="ui.reset">重置</span>
+                        </button>
+                        <button id="ptext-btn-submit" class="fh-button fh-icon-button fh-big">
+                            <span class="icon fh-label-icon" aria-hidden="true">
+                                <slot data-icon="material:export"></slot>
+                            </span>
+                            <span class="text fh-label-text" data-i18n="ui.output">输出</span>
+                        </button>
+                        <button id="ptext-btn-send" class="fh-button fh-icon-button fh-big hide">
+                            <span class="icon fh-label-icon" aria-hidden="true">
+                                <slot data-icon="material:send"></slot>
+                            </span>
+                            <span class="text fh-label-text" data-i18n="ui.send">发送</span>
+                        </button>
                     </div>
                 </div>
             </section>
@@ -468,8 +502,18 @@
                                 class="code"
                             ></textarea>
                             <div class="editor-controller-bottom fh-flex-row fh-controller">
-                                <button id="output-btn-clear" class="fh-button fh-big fh-danger" data-i18n="ui.clear">清空</button>
-                                <button id="output-btn-send" class="fh-button fh-big hide" data-i18n="ui.send">发送</button>
+                                <button id="output-btn-clear" class="fh-button fh-icon-button fh-big fh-danger">
+                                    <span class="icon fh-label-icon" aria-hidden="true">
+                                        <slot data-icon="material:close"></slot>
+                                    </span>
+                                    <span class="text fh-label-text" data-i18n="ui.clear">清空</span>
+                                </button>
+                                <button id="output-btn-send" class="fh-button fh-icon-button fh-big hide">
+                                    <span class="icon fh-label-icon" aria-hidden="true">
+                                        <slot data-icon="material:send"></slot>
+                                    </span>
+                                    <span class="text fh-label-text" data-i18n="ui.send">发送</span>
+                                </button>
                             </div>
                         </div>
                     </section>
@@ -481,7 +525,12 @@
 
                         </div>
                         <div id="history-editor-controller" class="editor-controller-bottom fh-flex-row fh-controller">
-                            <button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger" data-i18n="editor.history.clear">清空历史记录</button>
+                            <button id="history-btn-clear" class="fh-button fh-icon-button fh-big fh-ghost fh-danger">
+                                <span class="icon fh-label-icon" aria-hidden="true">
+                                    <slot data-icon="material:delete"></slot>
+                                </span>
+                                <span class="text fh-label-text" data-i18n="editor.history.clear">清空历史记录</span>
+                            </button>
                         </div>
                     </section>
                 </div>

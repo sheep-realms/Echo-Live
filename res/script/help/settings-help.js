@@ -22,10 +22,11 @@ $(document).ready(function() {
                     break;
             
                 default:
-                    if (!localStorageManager.getTutorialFlag('settings_overview')) {
-                        tutorialConfirmWindow.create('settings_overview', driverShowOverview);
-                    }
                     break;
+            }
+        } else {
+            if (!localStorageManager.getTutorialFlag('settings_overview')) {
+                tutorialConfirmWindow.create('settings_overview', driverShowOverview);
             }
         }
     });

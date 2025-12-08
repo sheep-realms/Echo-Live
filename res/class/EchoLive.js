@@ -343,6 +343,7 @@ class EchoLive {
             messageData = JSON.parse(JSON.stringify(messageData));
             const filters = echoLiveSystem.registry.getRegistryArray('message_filter');
             const __runFilter = (text) => {
+                if (typeof text !== 'string') return text;
                 filters.forEach(method => {
                     let t = method(text);
                     if (typeof t === 'string') text = t;

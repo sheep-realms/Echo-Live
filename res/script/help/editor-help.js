@@ -22,10 +22,11 @@ $(document).ready(function() {
                     break;
             
                 default:
-                    if (!localStorageManager.getTutorialFlag('editor_overview')) {
-                        tutorialConfirmWindow.create('editor_overview', driverShowOverview);
-                    }
                     break;
+            }
+        } else {
+            if (!localStorageManager.getTutorialFlag('editor_overview')) {
+                tutorialConfirmWindow.create('editor_overview', driverShowOverview);
             }
         }
     });

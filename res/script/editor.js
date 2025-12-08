@@ -846,11 +846,40 @@ $(document).on('click', '#history-btn-clear', function() {
         history = [];
         historyMinimum = 0;
         $('#history-message-list').html('');
-        $('#history-editor-controller').html(`<button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">${ $t('editor.history.clear') }</button>`);
+        $('#history-editor-controller').html(
+            FHUIComponentButton.button(
+                $t('editor.history.clear'),
+                {
+                    id: 'history-btn-clear',
+                    type: 'ghost',
+                    color: 'danger',
+                    size: 'big',
+                    icon: 'material:delete',
+                }
+            )
+        );
         $('#history-btn-clear').focus();
     } else {
         historyClearConfirm = true;
-        $('#history-editor-controller').html(`<button id="history-btn-clear-cancel" class="fh-button fh-big">${ $t('ui.cancel') }</button><button id="history-btn-clear" class="fh-button fh-big fh-danger">${ $t('editor.history.clear_confirm') }</button>`)
+        $('#history-editor-controller').html(
+            FHUIComponentButton.button(
+                $t('ui.cancel'),
+                {
+                    id: 'history-btn-clear-cancel',
+                    size: 'big',
+                    icon: 'material:close',
+                }
+            ) +
+            FHUIComponentButton.button(
+                $t('editor.history.clear_confirm'),
+                {
+                    id: 'history-btn-clear',
+                    color: 'danger',
+                    size: 'big',
+                    icon: 'material:check',
+                }
+            )
+        );
         $('#history-btn-clear-cancel').focus();
     }
 });
@@ -858,7 +887,18 @@ $(document).on('click', '#history-btn-clear', function() {
 // 历史页取消清空
 $(document).on('click', '#history-btn-clear-cancel', function() {
     historyClearConfirm = false;
-    $('#history-editor-controller').html(`<button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">${ $t('editor.history.clear') }</button>`);
+    $('#history-editor-controller').html(
+        FHUIComponentButton.button(
+            $t('editor.history.clear'),
+            {
+                id: 'history-btn-clear',
+                type: 'ghost',
+                color: 'danger',
+                size: 'big',
+                icon: 'material:delete',
+            }
+        )
+    );
     $('#history-btn-clear').focus();
 });
 

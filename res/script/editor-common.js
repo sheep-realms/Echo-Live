@@ -546,3 +546,12 @@ function paletteColorContrastUnset() {
     ).addClass('state-fail');
     $('#popups-palette .popups-palette-color-contrast .diff-result-contrast .title').text('N/A');
 }
+
+
+
+const slotInstaller = new SlotInstaller();
+
+slotInstaller.register("data-icon", (slot) => {
+    const iconName = slot.getAttribute("data-icon");
+    return Icon.getIcon(iconName);
+});

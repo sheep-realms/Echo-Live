@@ -825,11 +825,11 @@ const lang_zho_Hans = {
                 _description: "配置前台页面对 OBS API 的运用",
                 allow_scene_name_set_attribute: {
                     _title: "允许场景名称控制页面属性",
-                    _description: "通过在 OBS 场景名称末尾写入像 <code>[color=dark]</code> 这样的键值对来更改页面属性，以便于在不同的场景中应用不同的样式。<br>要使用此功能，对应的浏览器源的页面权限应至少为“用户信息的读取权限”。"
+                    _description: "通过在 OBS 场景名称末尾写入像 <code aria-label='“左方括号、color、等于号、dark、右方括号”'>[color=dark]</code> 这样的键值对来更改页面属性，以便于在不同的场景中应用不同的样式。<br>要使用此功能，对应的浏览器源的页面权限应至少为“用户信息的读取权限”。"
                 },
                 echolive_mini_size_coefficient: {
                     _title: "对话框迷你尺寸计算系数",
-                    _description: "通过在 OBS 场景名称末尾写入 <code>[mini]</code> 即可启用对话框的迷你尺寸，迷你尺寸仅在部分主题中可用。<br>系数取值范围为 0.3 ~ 2，迷你尺寸的宽度计算公式为：<code>min(场景高度 × 系数, 场景宽度)</code><br>要使用此功能，对应的浏览器源的页面权限应至少为“用户信息的读取权限”。"
+                    _description: "通过在 OBS 场景名称末尾写入 <code aria-label='“左方括号、mini、右方括号”'>[mini]</code> 即可启用对话框的迷你尺寸，迷你尺寸仅在部分主题中可用。<br>系数取值范围为 0.3 ~ 2，迷你尺寸的宽度计算公式为：<code aria-label='场景高度乘以系数所得的值与场景宽度取最小值。'>min(场景高度 × 系数, 场景宽度)</code><br>要使用此功能，对应的浏览器源的页面权限应至少为“用户信息的读取权限”。"
                 }
             }
         },
@@ -904,7 +904,7 @@ const lang_zho_Hans = {
                 print_speed: "每个打印循环的延迟时间（毫秒），默认为 30。数字越大，耗时越长。中日韩字符延迟 × 2。",
                 print_speed_custom: "每个打印循环的延迟时间（毫秒），默认为 30，您的默认配置为 {value}。数字越大，耗时越长。中日韩字符延迟 × 2。",
                 quote: "自动在每一句话开头和结尾添加引用符号，Echo Live 会为一些引用符号自动缩进。",
-                sent_clear: "消息发送后使用此模板内容替换内容文本框。可以使用 {{\\|}} 占位符指定光标位置。",
+                sent_clear: "消息发送后使用此模板内容替换内容文本框。可以使用占位符 <code aria-label='“两对花括号包裹一个管道符”'>{{\\|}}</code> 来指定光标位置。",
                 split_message_example_1: "每一行视为一条消息，组成消息队列，可以依次打印。",
                 split_message_example_2: "当开启对话框状态仪表板时，可以点击对应的对话框按钮打印下一条消息。",
                 open_settings: "打开配置文件编辑器"

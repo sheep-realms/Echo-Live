@@ -1323,7 +1323,7 @@ select:focus {
     --calc-left: calc(100vw - 1017px);
     position: fixed;
     top: calc(var(--panel-top) - var(--label-height));
-    left: max(calc(var(--calc-left) / 2), 0px);
+    left: max(calc(var(--calc-left) / 2 + 1px), 0px);
     height: var(--label-height);
     line-height: calc(var(--label-height) - 1px);
     padding: 0 0.75em;

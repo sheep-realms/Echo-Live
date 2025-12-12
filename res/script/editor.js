@@ -187,7 +187,62 @@ $(document).ready(function() {
             $('#ptext-btn-open-document-pip').prop('disabled', false);
         }
     });
+
+    loadEditorFormStorage();
 });
+
+window.addEventListener("beforeunload", () => {
+    localStorageManager.setItem('editor_form_storage', {
+        plan_text: {
+            character: $('#ptext-character').val(),
+            content: $('#ptext-content').val(),
+            use_formatting_code: $('#ptext-chk-use-formatting-code').val(),
+            startup_parameter: $('#ptext-chk-more').val(),
+            print_speed: $('#ptext-ipt-print-speed').val(),
+            quote: $('#ptext-chk-quote').val(),
+            quote_before: $('#ptext-ipt-quote-before').val(),
+            quote_after: $('#ptext-ipt-quote-after').val(),
+            split_message: $('#ptext-chk-split-message').val(),
+            sent_clear: $('#ptext-chk-sent-clear').val(),
+        }
+    });
+});
+
+function loadEditorFormStorage() {
+    const editorFormStorage = localStorageManager.getItem('editor_form_storage');
+    if (typeof editorFormStorage !== 'object') return;
+
+    const input = [
+        ['character',       'ptext-character'],
+        ['content',         'ptext-content'],
+        ['print_speed',     'ptext-ipt-print-speed'],
+        ['quote_before',    'ptext-ipt-quote-before'],
+        ['quote_after',     'ptext-ipt-quote-after']
+    ]
+    const checkbox = [
+        ['use_formatting_code', 'ptext-chk-use-formatting-code'],
+        ['startup_parameter',   'ptext-chk-more'],
+        ['quote',               'ptext-chk-quote'],
+        ['split_message',       'ptext-chk-split-message'],
+        ['sent_clear',          'ptext-chk-sent-clear']
+    ];
+
+    input.forEach(e => {
+        const value = editorFormStorage?.plan_text[e[0]];
+        if (value !== undefined) $('#' + e[1]).val(value);
+    });
+
+    checkbox.forEach(e => {
+        const value = editorFormStorage?.plan_text[e[0]];
+        if (value == 1) {
+            $('#' + e[1]).parents('.checkbox').eq(0).trigger('click');
+        }
+    });
+
+    if (editorFormStorage?.plan_text?.split_message == 1) {
+        $('#collapse-split-message').removeClass('hide');
+    }
+}
 
 
 let logMsgMark = 0;

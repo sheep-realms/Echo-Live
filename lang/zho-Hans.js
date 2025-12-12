@@ -904,6 +904,7 @@ const lang_zho_Hans = {
                 print_speed: "每个打印循环的延迟时间（毫秒），默认为 30。数字越大，耗时越长。中日韩字符延迟 × 2。",
                 print_speed_custom: "每个打印循环的延迟时间（毫秒），默认为 30，您的默认配置为 {value}。数字越大，耗时越长。中日韩字符延迟 × 2。",
                 quote: "自动在每一句话开头和结尾添加引用符号，Echo Live 会为一些引用符号自动缩进。",
+                sent_clear: "消息发送后使用此模板内容替换内容文本框。可以使用 {{\\|}} 占位符指定光标位置。",
                 split_message_example_1: "每一行视为一条消息，组成消息队列，可以依次打印。",
                 split_message_example_2: "当开启对话框状态仪表板时，可以点击对应的对话框按钮打印下一条消息。",
                 open_settings: "打开配置文件编辑器"
@@ -920,7 +921,8 @@ const lang_zho_Hans = {
                 quote: "引用符号",
                 quote_after: "结尾",
                 quote_before: "开头",
-                sent_clear: "发送后清空内容",
+                sent_clear: "发送后重置内容",
+                sent_clear_input: "模板",
                 split_message: "多行文本分割为消息队列",
                 startup_parameter: "启动参数",
                 use_formatting_code: "使用快速格式化代码"

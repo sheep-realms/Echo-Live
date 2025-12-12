@@ -204,6 +204,7 @@ window.addEventListener("beforeunload", () => {
             quote_after: $('#ptext-ipt-quote-after').val(),
             split_message: $('#ptext-chk-split-message').val(),
             sent_clear: $('#ptext-chk-sent-clear').val(),
+            sent_clear_content: $('#ptext-sent-clear-content').val()
         }
     });
 });
@@ -213,11 +214,12 @@ function loadEditorFormStorage() {
     if (typeof editorFormStorage !== 'object') return;
 
     const input = [
-        ['character',       'ptext-character'],
-        ['content',         'ptext-content'],
-        ['print_speed',     'ptext-ipt-print-speed'],
-        ['quote_before',    'ptext-ipt-quote-before'],
-        ['quote_after',     'ptext-ipt-quote-after']
+        ['character',           'ptext-character'],
+        ['content',             'ptext-content'],
+        ['print_speed',         'ptext-ipt-print-speed'],
+        ['quote_before',        'ptext-ipt-quote-before'],
+        ['quote_after',         'ptext-ipt-quote-after'],
+        ['sent_clear_content',  'ptext-sent-clear-content']
     ]
     const checkbox = [
         ['use_formatting_code', 'ptext-chk-use-formatting-code'],
@@ -635,9 +637,18 @@ $('#ptext-btn-send').click(function() {
         }
     );
 
-    if($('#ptext-chk-sent-clear').val() == 1) $('#ptext-content').val('');
-
-    $('#ptext-content').focus();
+    if($('#ptext-chk-sent-clear').val() == 1) {
+        $('#ptext-content').val('');
+        const template = String($('#ptext-sent-clear-content').val() || '');
+        const content = template.replace(/{{\|}}/g, '');
+        let cursor = template.search('{{|}}');
+        if (cursor < 0) cursor = content.length;
+        $('#ptext-content').val(content);
+        $('#ptext-content').focus();
+        $('#ptext-content').get(0).setSelectionRange(cursor, cursor);
+    } else {
+        $('#ptext-content').focus();
+    }
 
     echoLiveSystem.device.vibrateAuto('success');
 });

@@ -188,11 +188,16 @@ function updateCheck() {
     updater.updateCheck(r => {
         if (r.state !== 'success') return;
         if (!r.data.hasNewReleases || !r.data.newReleasesNotChecked) return;
+        let inOBS = navigator.userAgent.toLowerCase().search(/ obs\//) !== -1;
         sysNotice.send(
-            $t('updater.notice_content_editor'),
+            inOBS ? $t('updater.notice_content_editor') : $t('updater.notice_content_settings'),
             $t('updater.notice_title', { version: r.data.newReleasesTag }),
             'info',
-            { icon: 'material:update', waitTime: -1 }
+            { icon: 'material:update', waitTime: -1 },
+            inOBS ? undefined : (value, unit) => {
+                if (value !== null) new UpdateWindow(uniWindow);
+                unit.close();
+            }
         )
     });
 }

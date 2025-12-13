@@ -1,7 +1,7 @@
 const APP_META = {
     name: 'Echo-Live',
-    version: '1.6.11',
-    isBeta: false
+    version: '1.6.12',
+    isBeta: true
 };
 
 if (typeof window !== 'undefined') {

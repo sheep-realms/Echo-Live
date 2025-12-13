@@ -1035,6 +1035,9 @@ $('#ptext-content').keydown(function(e) {
             if (!config.echolive.broadcast.enable) return;
             $('#ptext-btn-send').click();
             effectClick('#ptext-btn-send');
+            if ($('#workspace-editor-base').hasClass('webscreen')) {
+                $('.webscreen-message-sent-effect').addClass('show');
+            }
         } else if (config.accessibility.send_on_enter) {
             e.preventDefault();
             insertNewline(this);
@@ -1097,6 +1100,10 @@ $('#ptext-btn-open-document-pip').click(async function() {
     pipWindow.addEventListener("unload", () => {
         $('#ptext-btn-open-document-pip').prop('disabled', false);
     });
+});
+
+$(document).on('animationend', '.webscreen-message-sent-effect', function() {
+    $(this).removeClass('show');
 });
 
 

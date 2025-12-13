@@ -373,22 +373,68 @@ input.code {
     border-bottom: var(--color-general) 1px solid;
 }
 
-.editor-container {
+#workspace-editor-base {
     background-color: var(--page-bgcolor);
 }
 
-.editor-container.webscreen {
+#workspace-editor-base.webscreen {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    z-index: 100000;
+    height: 100vh;
+    height: 100dvh;
+    z-index: 1010;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 0 var(--gap-small);
+    overflow: hidden;
 }
 
-.editor-container.webscreen #ptext-content {
+#workspace-editor-base.webscreen #ptext-editor {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+#workspace-editor-base.webscreen #ptext-content {
     resize: none;
-    height: calc(100vh - 68px);
+    flex: 1;
+}
+
+#workspace-editor-base .webscreen-message-sent-effect {
+    display: none;
+    position: fixed;
+    right: var(--gap-large);
+    bottom: 0;
+    width: calc(var(--icon-size-large) + var(--gap-extra-large));
+    height: calc(var(--icon-size-large) + var(--gap-extra-large) * 2);
+    box-sizing: border-box;
+    border-bottom: var(--color-general) 4px solid;
+    background-image: linear-gradient(to top, var(--color-general-glass), transparent);
+    background-repeat: no-repeat;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    user-select: none;
+}
+
+#workspace-editor-base .webscreen-message-sent-effect.show {
+    display: flex;
+    animation: webscreen-message-sent-effect .6s ease-out;
+}
+
+@keyframes webscreen-message-sent-effect {
+    0% { opacity: 1; background-position-y: 0; }
+    50% { background-position-y: calc(var(--icon-size-large) + var(--gap-extra-large) * 2); }
+    100% { opacity: 0; background-position-y: calc(var(--icon-size-large) + var(--gap-extra-large) * 2); }
+}
+
+#workspace-editor-base .webscreen-message-sent-effect svg {
+    width: var(--icon-size-large);
+    height: var(--icon-size-large);
+    fill: var(--color-general-dark);
 }
 
 .editor-controller-bottom {

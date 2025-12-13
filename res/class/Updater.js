@@ -36,7 +36,8 @@ class Updater {
     getData(url, callback = () => {}, onerror = () => {}) {
         fetch(url, {
             headers: {
-                'X-GitHub-Api-Version': Updater.GITHUB_API_VERSION
+                'X-GitHub-Api-Version': Updater.GITHUB_API_VERSION,
+                // 'Authorization': ''
             }
         })
         .then(response => response.json())
@@ -53,6 +54,7 @@ class Updater {
      * @param {Function} callback 回调
      */
     updateCheck(callback = () => {}) {
+        if (APP_META.isBeta) return;
         let lsData = this.getLocalStorageData();
         if (!this.debug.notRateLimit && lsData.lastUpdateCheck + 300000 > new Date().getTime()) return;
 
@@ -62,6 +64,8 @@ class Updater {
                 this.updateCheckCallback(data, callback);
             },
             error => {
+                lsData.lastUpdateCheck = new Date().getTime();
+                this.setLocalStorageData(lsData);
                 callback({
                     state: 'error',
                     error: error
@@ -76,7 +80,12 @@ class Updater {
      * @param {Function} callback 回调
      */
     updateCheckCallback(data = [], callback = () => {}) {
-        if (!Array.isArray(data)) return;
+        let lsData = this.getLocalStorageData();
+        if (!Array.isArray(data)) {
+            lsData.lastUpdateCheck = new Date().getTime();
+            this.setLocalStorageData(lsData);
+            return;
+        }
         let notPreReleases = data.filter(e => {
             // 不要相信别人的东西
             if (e?.prerelease === undefined) return true;
@@ -84,7 +93,6 @@ class Updater {
         });
         if (notPreReleases.length === 0) return;
 
-        let lsData = this.getLocalStorageData();
         lsData.lastUpdateCheck = new Date().getTime();
         lsData.latestReleasesData = notPreReleases[0];
 

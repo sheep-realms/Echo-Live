@@ -46,6 +46,7 @@
     <script src="res/class/FHUI.js"></script>
     <script src="res/class/EditorConstructor.js"></script>
     <script src="res/class/UniverseWindow.js"></script>
+    <script src="res/class/Updater.js"></script>
     <script src="res/class/EmojiHako.js" defer></script>
     <script src="res/class/Commander.js"></script>
 </head>
@@ -230,14 +231,33 @@
                         </div>
                     </div>
 
-                    <button role="checkbox" aria-checked="false" class="checkbox hide" id="checkbox-sent-clear">
-                        <span class="icon"></span>
-                        <span class="inner-icon">
-                            <slot data-icon="material:restore"></slot>
-                        </span>
-                        <span class="text" data-i18n="editor.form.label.sent_clear"></span>
-                        <input type="hidden" name="ptext-chk-sent-clear" id="ptext-chk-sent-clear" value="0">
-                    </button>
+                    <div class="collapse">
+                        <div class="collapse-title">
+                            <button role="checkbox" aria-checked="false" class="checkbox collapse-checkbox" id="checkbox-sent-clear">
+                                <span class="icon"></span>
+                                <span class="inner-icon">
+                                    <slot data-icon="material:restore"></slot>
+                                </span>
+                                <span class="text" data-i18n="editor.form.label.sent_clear"></span>
+                                <input type="hidden" name="ptext-chk-sent-clear" id="ptext-chk-sent-clear" value="0">
+                            </button>
+                        </div>
+                        <div class="collapse-content hide">
+                            <div class="echo-editor-form-row">
+                                <div class="fh-label" data-i18n="editor.form.label.sent_clear_input"></div>
+                                <div style="flex: 1;">
+                                    <label for="ptext-sent-clear-content" class="at-read-only-label" data-i18n="editor.form.label.sent_clear_input"></label>
+                                    <textarea
+                                        name="sent-clear-content"
+                                        id="ptext-sent-clear-content"
+                                    ></textarea>
+                                </div>
+                            </div>
+                            <div class="echo-editor-form-checkbox-list">
+                                <span class="echo-editor-form-input-tip" data-i18n="editor.form.description.sent_clear" data-i18n-html="true"></span>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="collapse">
                         <div class="collapse-title">

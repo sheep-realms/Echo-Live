@@ -13,7 +13,12 @@ function pageLoadedI18n() {
     for (let i = 0; i < $i18n.length; i++) {
         const e = $i18n.eq(i);
         const key = e.data('i18n');
-        e.text($t(key));
+        const isHTML = e.data('i18n-html');
+        if (isHTML !== undefined) {
+            e.html($t(key));
+        } else {
+            e.text($t(key));
+        }
     }
     $i18n = $('*[data-i18n-title]');
     for (let i = 0; i < $i18n.length; i++) {

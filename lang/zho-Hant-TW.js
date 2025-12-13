@@ -825,11 +825,11 @@ const lang_zho_Hant_TW = {
                 _description: "配置前臺頁面對 OBS API 的運用",
                 allow_scene_name_set_attribute: {
                     _title: "允許場景名稱控制頁面屬性",
-                    _description: "透過在 OBS 場景名稱末尾寫入像 <code>[color=dark]</code> 這樣的鍵值對來更改頁面屬性，以便於在不同的場景中應用不同的樣式。<br>要使用此功能，對應的瀏覽器源的頁面許可權應至少為“使用者資訊的讀取許可權”。"
+                    _description: "透過在 OBS 場景名稱末尾寫入像 <code aria-label='“左方括號、color、等於號、dark、右方括號”'>[color=dark]</code> 這樣的鍵值對來更改頁面屬性，以便於在不同的場景中應用不同的樣式。<br>要使用此功能，對應的瀏覽器源的頁面許可權應至少為“使用者資訊的讀取許可權”。"
                 },
                 echolive_mini_size_coefficient: {
                     _title: "對話方塊迷你尺寸計算係數",
-                    _description: "透過在 OBS 場景名稱末尾寫入 <code>[mini]</code> 即可啟用對話方塊的迷你尺寸，迷你尺寸僅在部分主題中可用。<br>係數取值範圍為 0.3 ~ 2，迷你尺寸的寬度計算公式為：<code>min(場景高度 × 係數, 場景寬度)</code><br>要使用此功能，對應的瀏覽器源的頁面許可權應至少為“使用者資訊的讀取許可權”。"
+                    _description: "透過在 OBS 場景名稱末尾寫入 <code aria-label='“左方括號、mini、右方括號”'>[mini]</code> 即可啟用對話方塊的迷你尺寸，迷你尺寸僅在部分主題中可用。<br>係數取值範圍為 0.3 ~ 2，迷你尺寸的寬度計算公式為：<code aria-label='場景高度乘以係數所得的值與場景寬度取最小值。'>min(場景高度 × 係數, 場景寬度)</code><br>要使用此功能，對應的瀏覽器源的頁面許可權應至少為“使用者資訊的讀取許可權”。"
                 }
             }
         },
@@ -904,6 +904,7 @@ const lang_zho_Hant_TW = {
                 print_speed: "每個列印迴圈的延遲時間（毫秒），預設為 30。數字越大，耗時越長。中日韓字元延遲 × 2。",
                 print_speed_custom: "每個列印迴圈的延遲時間（毫秒），預設為 30，您的預設配置為 {value}。數字越大，耗時越長。中日韓字元延遲 × 2。",
                 quote: "自動在每一句話開頭和結尾新增引用符號，Echo Live 會為一些引用符號自動縮排。",
+                sent_clear: "訊息傳送後使用此模板內容替換內容文字框。可以使用佔位符 <code aria-label='“兩對花括號包裹一個管道符”'>{{\\|}}</code> 來指定游標位置。。",
                 split_message_example_1: "每一行視為一條訊息，組成訊息佇列，可以依次列印。",
                 split_message_example_2: "當開啟對話方塊狀態儀表板時，可以點選對應的對話方塊按鈕列印下一條訊息。",
                 open_settings: "開啟配置檔案編輯器"
@@ -920,7 +921,8 @@ const lang_zho_Hant_TW = {
                 quote: "引用符號",
                 quote_after: "結尾",
                 quote_before: "開頭",
-                sent_clear: "傳送後清空內容",
+                sent_clear: "傳送後重置內容",
+                sent_clear_input: "模板",
                 split_message: "多行文字分割為訊息佇列",
                 startup_parameter: "啟動引數",
                 use_formatting_code: "使用快速格式化程式碼"
@@ -1860,6 +1862,16 @@ const lang_zho_Hant_TW = {
         ease_in_back: "回退緩出",
         ease_out_back: "回退緩入",
         ease_in_out_back: "回退緩入緩出"
+    },
+    updater: {
+        download_assets: "下載檔案",
+        notice_title: "有新版本可用：{version}",
+        notice_content_editor: "您可以開啟配置檔案編輯器獲取詳細資訊或自行前往 GitHub 下載最新版本。",
+        notice_content_settings: "您可以更新到新版本，點此瞭解詳細資訊。",
+        releases_author: "作者：{value}",
+        releases_created_at: "釋出時間：{value}",
+        releases_details: "發行版本詳情",
+        releases_details_tips: "如出現內容渲染錯誤，請前往 GitHub 檢視原文。"
     },
     window: {
         config_font_size_overload: {

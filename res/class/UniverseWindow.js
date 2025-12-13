@@ -335,16 +335,16 @@ class UpdateWindow {
     init() {
         this.windowUnit = this.parent.window(
             FHUIWindow.releasesView(this.updateData.latestReleasesData),
-            '发行版本详情',
+            $t('updater.releases_details'),
             {
                 autoIconButton: true,
                 controller: [
-                    'material:close',
+                    'close',
                     {
                         id: 'open',
                         content: 'GitHub',
                         data: {
-                            icon: Icon.getIcon('material:open-in-new'),
+                            icon: 'material:open-in-new',
                             type: 'ghost'
                         }
                     },
@@ -368,16 +368,15 @@ class UpdateWindow {
                         break;
 
                     case 'download':
-                        this.selectAssets();
-                        // if (this.updateData.latestReleasesData?.assets.length == 0) {
-                        //     sysNotice.sendTHasTitle('notice.github_download_but_no_assets', {}, {}, {
-                        //         icon: 'material:help'
-                        //     });
-                        // } else if (this.updateData.latestReleasesData?.assets.length == 1) {
-                        //     window.open(this.updateData.latestReleasesData?.assets[0]?.browser_download_url, '_blank');
-                        // } else {
-                        //     this.selectAssets();
-                        // }
+                        if (this.updateData.latestReleasesData?.assets.length == 0) {
+                            sysNotice.sendTHasTitle('notice.github_download_but_no_assets', {}, {}, {
+                                icon: 'material:help'
+                            });
+                        } else if (this.updateData.latestReleasesData?.assets.length == 1) {
+                            window.open(this.updateData.latestReleasesData?.assets[0]?.browser_download_url, '_blank');
+                        } else {
+                            this.selectAssets();
+                        }
                         break;
                 
                     default:
@@ -391,7 +390,7 @@ class UpdateWindow {
         if (this.windowUnitAssetsSelector != undefined) return;
         this.windowUnitAssetsSelector = this.parent.window(
             FHUIWindow.assetsSelectorsView(this.updateData.latestReleasesData.assets),
-            '下载文件',
+            $t('updater.download_assets'),
             {
                 autoIconButton: true,
                 controller: ['close'],
@@ -411,7 +410,7 @@ class TutorialConfirmWindow {
         this.parent = parent;
     }
 
-    create(key = '', tutorialMethod = () => {}) {
+    create(key = '', tutorialMethod = () => {}, callback = () => {}) {
         this.parent.messageWindow(
             $t('help.tutorial_dialog.description', { title: $t('help.title.' + key) }),
             $t('help.tutorial_dialog.title'),
@@ -439,12 +438,14 @@ class TutorialConfirmWindow {
             },
             (r, unit) => {
                 if (r === 'yes') {
+                    callback('yes');
                     setTimeout(tutorialMethod, 1000);
                     unit.close();
                     return;
                 } else if (r === 'no') {
                     localStorageManager.setTutorialFlag(key);
                 }
+                callback('no');
                 unit.close();
             }
         )

@@ -140,6 +140,19 @@
 }
 
 
+.at-read-only-label {
+    font-size: 1px !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+    pointer-events: none;
+    user-select: none;
+}
+
 
 body {
     overflow-y: scroll;
@@ -344,7 +357,7 @@ input.code {
 .echo-editor-form textarea {
     resize: vertical;
     width: 100%;
-    min-height: 100px;
+    min-height: calc(var(--font-size-base) * 6.25);
     font-size: var(--font-size-middle);
     box-sizing: border-box;
     padding: 0.5em;
@@ -1310,7 +1323,7 @@ select:focus {
     --calc-left: calc(100vw - 1017px);
     position: fixed;
     top: calc(var(--panel-top) - var(--label-height));
-    left: max(calc(var(--calc-left) / 2), 0px);
+    left: max(calc(var(--calc-left) / 2 + 1px), 0px);
     height: var(--label-height);
     line-height: calc(var(--label-height) - 1px);
     padding: 0 0.75em;

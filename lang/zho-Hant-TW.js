@@ -1863,6 +1863,16 @@ const lang_zho_Hant_TW = {
         ease_out_back: "回退緩入",
         ease_in_out_back: "回退緩入緩出"
     },
+    updater: {
+        download_assets: "下載檔案",
+        notice_title: "有新版本可用：{version}",
+        notice_content_editor: "您可以開啟配置檔案編輯器獲取詳細資訊或自行前往 GitHub 下載最新版本。",
+        notice_content_settings: "您可以更新到新版本，點此瞭解詳細資訊。",
+        releases_author: "作者：{value}",
+        releases_created_at: "釋出時間：{value}",
+        releases_details: "發行版本詳情",
+        releases_details_tips: "如出現內容渲染錯誤，請前往 GitHub 檢視原文。"
+    },
     window: {
         config_font_size_overload: {
             title: "您是認真的嗎？",

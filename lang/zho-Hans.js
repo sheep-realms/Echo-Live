@@ -1863,6 +1863,16 @@ const lang_zho_Hans = {
         ease_out_back: "回退缓入",
         ease_in_out_back: "回退缓入缓出"
     },
+    updater: {
+        download_assets: "下载文件",
+        notice_title: "有新版本可用：{version}",
+        notice_content_editor: "您可以打开配置文件编辑器获取详细信息或自行前往 GitHub 下载最新版本。",
+        notice_content_settings: "您可以更新到新版本，点此了解详细信息。",
+        releases_author: "作者：{value}",
+        releases_created_at: "发布时间：{value}",
+        releases_details: "发行版本详情",
+        releases_details_tips: "如出现内容渲染错误，请前往 GitHub 查看原文。"
+    },
     window: {
         config_font_size_overload: {
             title: "您是认真的吗？",

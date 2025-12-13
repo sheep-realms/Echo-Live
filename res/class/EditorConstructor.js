@@ -1930,8 +1930,9 @@ class FHUIWindow {
             <div class="releases-view-meta">
                 <div class="title">${ releasesData?.tag_name ?? '?' }</div>
                 <div class="meta">
-                    <div class="created-at">发布时间：${ EchoLiveTools.formatDate(releasesData?.created_at) }</div>
-                    <div class="author">作者：${ releasesData?.author?.login }</div>
+                    <div class="created-at">${ $t('updater.releases_created_at', { value: EchoLiveTools.formatDate(releasesData?.created_at) }) }</div>
+                    <div class="author">${ $t('updater.releases_author', { value: releasesData?.author?.login }) }</div>
+                    <div>${ $t('updater.releases_details_tips') }</div>
                 </div>
             </div>
             <div class="releases-view-body markdown-body">${ marked.parse(releasesData?.body) }</div>

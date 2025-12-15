@@ -135,7 +135,15 @@
 
                     <div id="workspace-editor-base">
                         <label for="ptext-character" data-i18n="editor.form.label.character">说话人</label>
-                        <input type="text" name="character" id="ptext-character" autocomplete="off">
+                        <div class="ptext-character-row">
+                            <input type="text" name="character" id="ptext-character" autocomplete="off">
+                            <button id="ptext-btn-send-2" class="fh-button fh-icon-button hide">
+                                <span class="icon fh-label-icon" aria-hidden="true">
+                                    <slot data-icon="material:send"></slot>
+                                </span>
+                                <span class="text fh-label-text" data-i18n="ui.send">发送</span>
+                            </button>
+                        </div>
 
                         <div id="ptext-editor" class="editor-container">
                             <div class="editor-controller disabled"></div>
@@ -251,7 +259,7 @@
                         <div class="collapse-content hide">
                             <div class="echo-editor-form-row">
                                 <div class="fh-label" data-i18n="editor.form.label.sent_clear_input"></div>
-                                <div style="flex: 1;">
+                                <div style="flex: 1; width: 100%;">
                                     <label for="ptext-sent-clear-content" class="at-read-only-label" data-i18n="editor.form.label.sent_clear_input"></label>
                                     <textarea
                                         name="sent-clear-content"

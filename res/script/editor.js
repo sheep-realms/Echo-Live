@@ -617,7 +617,7 @@ $('#ptext-btn-submit').click(function() {
 });
 
 // 纯文本发送
-$('#ptext-btn-send').click(function() {
+$('#ptext-btn-send, #ptext-btn-send-2').click(function() {
     let d = ptextSubmit();
 
     elb.sendData(d);
@@ -1300,17 +1300,19 @@ $(window).resize(function() {
     }
 });
 
-// let keyboardOpen = false;
+let keyboardOpen = false;
 
-// function adjustForKeyboard() {
-//     const keyboardOffset = window.innerHeight - window.visualViewport.height * window.visualViewport.scale;
-//     if (!keyboardOpen && keyboardOffset > 128) {
-//         keyboardOpen = true;
-//         sysNotice.send('keyboard_open');
-//     } else if (keyboardOpen && keyboardOffset <= 128 - 8) {
-//         keyboardOpen = false;
-//         sysNotice.send('keyboard_close');
-//     }
-// }
+function adjustForKeyboard() {
+    const keyboardOffset = window.innerHeight - window.visualViewport.height * window.visualViewport.scale;
+    if (!keyboardOpen && keyboardOffset > 128) {
+        keyboardOpen = true;
+        // sysNotice.send('keyboard_open');
+        if (config.echolive.broadcast.enable) $('#ptext-btn-send-2').removeClass('hide');
+    } else if (keyboardOpen && keyboardOffset <= 128 - 8) {
+        keyboardOpen = false;
+        // sysNotice.send('keyboard_close');
+        $('#ptext-btn-send-2').addClass('hide');
+    }
+}
 
-// window.visualViewport.addEventListener('resize', adjustForKeyboard);
+window.visualViewport.addEventListener('resize', adjustForKeyboard);

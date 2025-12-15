@@ -1035,7 +1035,7 @@ $('#ptext-content').keydown(function(e) {
             if (!config.echolive.broadcast.enable) return;
             $('#ptext-btn-send').click();
             effectClick('#ptext-btn-send');
-            if ($('#workspace-editor-base').hasClass('webscreen')) {
+            if (editorInFullscreen && !config.accessibility.animation_disable) {
                 $('.webscreen-message-sent-effect').addClass('show');
             }
         } else if (config.accessibility.send_on_enter) {
@@ -1316,3 +1316,20 @@ function adjustForKeyboard() {
 }
 
 window.visualViewport.addEventListener('resize', adjustForKeyboard);
+
+let editorInFullscreen = false;
+
+function toggleEditorFullscreen() {
+    if (!document.fullscreenElement) {
+        $('#workspace-editor-base').get(0).requestFullscreen({
+            navigationUI: 'show'
+        }).then(() => {
+            editorInFullscreen = true;
+        }).catch((err) => {
+            alert(`尝试启用全屏模式时出错：${err.message}（${err.name}）`);
+        });
+    } else {
+        document.exitFullscreen();
+            editorInFullscreen = false;
+    }
+}

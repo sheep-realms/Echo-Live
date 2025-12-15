@@ -381,7 +381,7 @@ input.code {
     background-color: var(--page-bgcolor);
 }
 
-#workspace-editor-base.webscreen {
+#workspace-editor-base:fullscreen {
     position: fixed;
     top: 0;
     left: 0;
@@ -396,13 +396,13 @@ input.code {
     overflow: hidden;
 }
 
-#workspace-editor-base.webscreen #ptext-editor {
+#workspace-editor-base:fullscreen #ptext-editor {
     display: flex;
     flex-direction: column;
     flex: 1;
 }
 
-#workspace-editor-base.webscreen #ptext-content {
+#workspace-editor-base:fullscreen #ptext-content {
     resize: none;
     flex: 1;
 }
@@ -426,12 +426,13 @@ input.code {
 
 #workspace-editor-base .webscreen-message-sent-effect.show {
     display: flex;
-    animation: webscreen-message-sent-effect .6s ease-out;
+    animation: webscreen-message-sent-effect .6s cubic-bezier(0.33, 1, 0.68, 1);
 }
 
 @keyframes webscreen-message-sent-effect {
     0% { opacity: 1; background-position-y: 0; }
-    50% { background-position-y: calc(var(--icon-size-large) + var(--gap-extra-large) * 2); }
+    50% { opacity: 1; }
+    75% { background-position-y: calc(var(--icon-size-large) + var(--gap-extra-large) * 2); }
     100% { opacity: 0; background-position-y: calc(var(--icon-size-large) + var(--gap-extra-large) * 2); }
 }
 
@@ -439,6 +440,16 @@ input.code {
     width: var(--icon-size-large);
     height: var(--icon-size-large);
     fill: var(--color-general-dark);
+    position: relative;
+}
+
+#workspace-editor-base .webscreen-message-sent-effect.show svg {
+    animation: webscreen-message-sent-effect-svg .6s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@keyframes webscreen-message-sent-effect-svg {
+    0% { bottom: 0; }
+    100% { bottom: calc(var(--icon-size-large) * 2); }
 }
 
 #ptext-sent-clear-content {
@@ -458,6 +469,10 @@ input.code {
 .ptext-character-row #ptext-btn-send-2 {
     min-width: calc(var(--font-size-base) * 6.25);
     margin: unset;
+}
+
+#workspace-editor-base:fullscreen #ptext-btn-send-2.hide {
+    display: inline-flex;
 }
 
 .editor-controller-bottom {

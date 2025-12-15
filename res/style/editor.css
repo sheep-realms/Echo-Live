@@ -276,6 +276,10 @@ input.code {
     --text-color: var(--text-primary);
 }
 
+.tabpage-nav-item[aria-selected="true"].hide {
+    display: inline-flex;
+}
+
 .tabpage-nav-item.fh-effect-flicker {
     animation: fh-effect-flicker .3s ease-out 1;
 }

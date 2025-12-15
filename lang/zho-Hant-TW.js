@@ -1228,7 +1228,7 @@ const lang_zho_Hant_TW = {
         tabpage: {
             broadcast: {
                 title: "廣播",
-                description: "廣播控制 [alt+6]"
+                description: "廣播控制 [alt+5]"
             },
             config: {
                 title: "配置",

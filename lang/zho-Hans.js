@@ -1228,7 +1228,7 @@ const lang_zho_Hans = {
         tabpage: {
             broadcast: {
                 title: "广播",
-                description: "广播控制 [alt+6]"
+                description: "广播控制 [alt+5]"
             },
             config: {
                 title: "配置",

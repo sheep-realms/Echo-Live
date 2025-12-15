@@ -94,7 +94,7 @@ const config = {
     },
     "editor": {
         "function": {
-            "tabpage_config_enable": true,
+            "tabpage_config_enable": false,
             "tabpage_output_enable": true,
             "client_state_panel_enable": false,
             "history_resend_bubble": false,

@@ -24,7 +24,16 @@ class LocalStorageManager {
         const s = localStorage.getItem(this.name);
         if (s == null) {
             localStorage.setItem(this.name, '{}');
-            this.setItem('data_version', 1);
+            this.setItem('data_version', 2);
+            return;
+        }
+
+        const sp = JSON.parse(s);
+        if (sp?.data_version === 1) {
+            this.setItem('data_version', 2);
+            this.removeItem('updater');
+            if (Array.isArray(sp?.images_cache)) this.setCache('editor_images', sp.images_cache);
+            this.removeItem('images_cache');
         }
     }
 
@@ -78,6 +87,23 @@ class LocalStorageManager {
         return data;
     }
 
+    /**
+     * 删除存储项
+     * @param {String} key 键名
+     */
+    removeItem(key) {
+        let data = this.getItem();
+        if (typeof data != 'object') return;
+        delete data[key];
+        let json;
+        try {
+            json = JSON.stringify(data);
+        } catch (_) {
+            return;
+        }
+        localStorage.setItem(this.name, json);
+    }
+
     getTutorialFlag(key) {
         let data = this.getItem('tutorial');
         data ??= {};
@@ -95,6 +121,7 @@ class LocalStorageManager {
 
     /**
      * 打开 IndexedDB
+     * @param {Array<String>} storeNames 存储桶名称列表
      * @private
      */
     _openDB(storeNames = []) {
@@ -242,7 +269,7 @@ class LocalStorageManager {
         store.put({
             key,
             value,
-            updatedAt: Date.now()
+            updated_at: Date.now()
         });
 
         return tx.complete;

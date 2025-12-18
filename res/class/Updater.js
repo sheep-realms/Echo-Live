@@ -79,8 +79,8 @@ class Updater {
      * @param {Array<Object>} data 版本列表
      * @param {Function} callback 回调
      */
-    updateCheckCallback(data = [], callback = () => {}) {
-        let lsData = this.getLocalStorageData();
+    async updateCheckCallback(data = [], callback = () => {}) {
+        let lsData = await this.getLocalStorageData();
         if (!Array.isArray(data)) {
             lsData.lastUpdateCheck = new Date().getTime();
             this.setLocalStorageData(lsData);
@@ -131,14 +131,14 @@ class Updater {
         return data;
     }
 
-    getLocalStorageData() {
-        let data = this.localStorageManager.getItem('updater');
-        if (data === undefined) data = this.initLocalStorageData();
+    async getLocalStorageData() {
+        let data = await this.localStorageManager.getCache('updater');
+        if (data === null) data = this.initLocalStorageData();
         return data;
     }
 
-    setLocalStorageData(data) {
-        this.localStorageManager.setItem('updater', data);
+    async setLocalStorageData(data) {
+        return this.localStorageManager.setCache('updater', data);
     }
 
     /**

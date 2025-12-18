@@ -106,9 +106,12 @@ $(document).ready(function() {
         popupsCreate(Popups.imagePopups(), '#popups-image');
 
         try {
-            selectedImageData = localStorageManager.getItem('images_cache');
-            if (!Array.isArray(selectedImageData)) selectedImageData = [];
-            $('#popups-image-images-list').html(Popups.imagesContent(selectedImageData));
+            localStorageManager.getCache('editor_images').then(value => {
+                selectedImageData = value;
+                if (!Array.isArray(selectedImageData)) selectedImageData = [];
+                $('#popups-image-images-list').html(Popups.imagesContent(selectedImageData));
+            });
+            
         } catch (_) {
             
         }
@@ -194,17 +197,17 @@ $(document).ready(function() {
 window.addEventListener("beforeunload", () => {
     localStorageManager.setItem('editor_form_storage', {
         plan_text: {
-            character: $('#ptext-character').val(),
-            content: $('#ptext-content').val(),
+            character: $('#ptext-character').val().substring(0, 128),
+            content: $('#ptext-content').val().substring(0, 512),
             use_formatting_code: $('#ptext-chk-use-formatting-code').val(),
             startup_parameter: $('#ptext-chk-more').val(),
             print_speed: $('#ptext-ipt-print-speed').val(),
             quote: $('#ptext-chk-quote').val(),
-            quote_before: $('#ptext-ipt-quote-before').val(),
-            quote_after: $('#ptext-ipt-quote-after').val(),
+            quote_before: $('#ptext-ipt-quote-before').val().substring(0, 128),
+            quote_after: $('#ptext-ipt-quote-after').val().substring(0, 128),
             split_message: $('#ptext-chk-split-message').val(),
             sent_clear: $('#ptext-chk-sent-clear').val(),
-            sent_clear_content: $('#ptext-sent-clear-content').val()
+            sent_clear_content: $('#ptext-sent-clear-content').val().substring(0, 512)
         }
     });
 });

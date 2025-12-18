@@ -1358,3 +1358,7 @@ function toggleEditorFullscreen() {
             editorInFullscreen = false;
     }
 }
+
+window.addEventListener('beforeunload', function (e) {
+    statisticManager.addStatsItemValue('editor.overview.session_duration_total_second', Math.round(performance.now() / 1000));
+});

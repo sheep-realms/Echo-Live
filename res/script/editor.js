@@ -24,6 +24,8 @@ window.addEventListener("error", (e) => {
 });
 
 let localStorageManager = new LocalStorageManager();
+let statisticManager = new StatisticManager(localStorageManager);
+statisticManager.setStatsItemTime('editor.overview.last_session_created');
 
 let uniWindow = new UniverseWindow();
 
@@ -247,6 +249,20 @@ function loadEditorFormStorage() {
     if (editorFormStorage?.plan_text?.split_message == 1) {
         $('#collapse-split-message').removeClass('hide');
     }
+}
+
+
+function sendMessageData(data) {
+    elb.sendData(data);
+    statisticManager.setStatsItemTime('editor.message.last_sent');
+    statisticManager.addStatsItemValue('editor.message.sent_count');
+
+    let charsTotal = 0;
+    data.messages.forEach(e => {
+        let str = EchoLiveTools.getMessagePlainText(e.message);
+        charsTotal += str.length;
+    });
+    statisticManager.addStatsItemValue('editor.message.sent_character_total', charsTotal);
 }
 
 
@@ -545,6 +561,7 @@ function ptextSubmit() {
             text = EchoLiveTools.formattingCodeToMessage(text, {
                 images: selectedImageData
             });
+            statisticManager.addStatsItemValue('editor.message.used_formatting_code_count');
         }
     
         if ($('#ptext-chk-quote').val() == 1) {
@@ -562,6 +579,8 @@ function ptextSubmit() {
                     throw 'Message Packaging Exception'
                 }
             }
+            
+            statisticManager.addStatsItemValue('editor.message.used_quote_count');
         }
 
         return text;
@@ -623,7 +642,7 @@ $('#ptext-btn-submit').click(function() {
 $('#ptext-btn-send, #ptext-btn-send-2').click(function() {
     let d = ptextSubmit();
 
-    elb.sendData(d);
+    sendMessageData(d);
     sendHistoryMessage(d);
 
     let text = EchoLiveTools.getMessageSendLog(d.messages[0].message, d.username);
@@ -686,7 +705,8 @@ $('#output-btn-send').click(function() {
             echoLiveSystem.device.vibrateAuto('error');
             return;
         }
-        elb.sendData(msg);
+        sendMessageData(msg);
+        statisticManager.addStatsItemValue('editor.message.custom_code_sent_count');
         echoLiveSystem.device.vibrateAuto('success');
     } catch (_) {
         if (centent === '/cmd') {
@@ -903,7 +923,9 @@ $(document).on('click', '.history-message-item-btn-send', function() {
 
     if (config.editor.function.history_resend_bubble) $('#history-message-list').prepend($item);
     
-    elb.sendData(history[i].data);
+    sendMessageData(history[i].data);
+    statisticManager.addStatsItemValue('editor.message.resent_count');
+
     echoLiveSystem.device.vibrateAuto('success');
     editorLogT('editor.log.message.resent');
 });

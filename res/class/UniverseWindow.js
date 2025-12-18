@@ -327,14 +327,15 @@ class UniverseWindowUnit {
 class UpdateWindow {
     constructor(parent) {
         this.parent = parent;
-        this.updateData = localStorageManager.getItem('updater');
+        this.updateData = undefined;
         this.windowUnit = undefined;
         this.windowUnitAssetsSelector = undefined;
 
         this.init();
     }
 
-    init() {
+    async init() {
+        this.updateData = await localStorageManager.getCache('updater');
         this.windowUnit = this.parent.window(
             FHUIWindow.releasesView(this.updateData.latestReleasesData),
             $t('updater.releases_details'),

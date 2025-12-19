@@ -11,7 +11,7 @@ const lang_zho_Hans = {
         date_time_common: "{y}-{MM}-{dd} {hh}:{mm}:{ss}",
         date: "{y} 年 {M} 月 {d} 日",
         date_pad_zero: "{y} 年 {MM} 月 {dd} 日",
-        date_time: "{y} 年 {M} 月 {d} 日 {h}:{m}:{s}",
+        date_time: "{y} 年 {M} 月 {d} 日 {h}:{mm}:{ss}",
         date_time_pad_zero: "{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}",
         time_common: "{hh}:{mm}:{ss}",
     },
@@ -59,7 +59,12 @@ const lang_zho_Hans = {
         }
     },
     unit: {
+        char: "字",
+        count: "次",
+        day: "天",
+        long_sec: "{m} 分钟 {s} 秒 | {h} 小时 {m} 分钟 {s} 秒 | {d} 天 {h} 小时 {m} 分钟 {s} 秒",
         ms: "毫秒",
+        rate: "%",
         sec: "秒"
     },
     avatar: {
@@ -925,6 +930,9 @@ const lang_zho_Hans = {
                 sent_clear_input: "模板",
                 split_message: "多行文本分割为消息队列",
                 startup_parameter: "启动参数",
+                statistic: "统计信息",
+                statistic_view: "查看统计信息",
+                statistic_export: "导出统计信息",
                 use_formatting_code: "使用快速格式化代码"
             },
             placeholder: {
@@ -1821,6 +1829,42 @@ const lang_zho_Hans = {
         sys003: "冒泡",
         enter: "打字机回车",
         paper: "翻页"
+    },
+    statistic: {
+        overview: {
+            statistic_days: "统计天数"
+        },
+        editor: {
+            message: {
+                custom_code_sent_count: "自定义消息发送次数",
+                last_sent: "最近一次消息发送时间",
+                not_resent_count: "不包含重发的消息发送次数",
+                resent_count: "消息重新发送次数",
+                sent_character_average: "每条消息平均字数",
+                sent_character_total: "发送总字数",
+                sent_count: "消息发送次数",
+                sent_max_length: "消息最大长度",
+                used_formatting_code_count: "快速格式化代码使用次数",
+                session: {
+                    resent_max_count: "会话内消息重新发送最多次数",
+                    sent_character_max_total: "会话内发送最多总字数",
+                    sent_max_count: "会话内消息发送最多次数"
+                }
+            },
+            overview: {
+                last_session_created: "最近一次会话启动时间",
+                session_created_count: "会话启动次数",
+                session_created_daily_average: "每个活动日会话启动平均次数",
+                session_created_days: "会话活动总天数",
+                session_created_statistic_daily_rate: "每日会话活动率",
+                session_duration_average_second: "会话平均时长",
+                session_duration_max_second: "会话最大时长",
+                session_duration_total_second: "会话总时长"
+            }
+        },
+        misc: {
+            view_statistic_count: "“统计信息？这是什么？看一下！”"
+        }
     },
     studio: {
         title: {

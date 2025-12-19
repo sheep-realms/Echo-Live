@@ -1,6 +1,23 @@
 echoLiveSystem.registry.loadRegistry('statistic', 'name', [
     {
-        name: 'editor.overview.session_created_count'
+        name: 'overview.statistic_days',
+        unit: 'day'
+    }, {
+        name: 'editor.overview.session_created_days',
+        unit: 'day',
+        source: 'daily_increment',
+        reference: 'editor.overview.last_session_created'
+    }, {
+        name: 'editor.overview.session_created_statistic_daily_rate',
+        unit: 'rate',
+        source: 'method'
+    }, {
+        name: 'editor.overview.session_created_count',
+        unit: 'count'
+    }, {
+        name: 'editor.overview.session_created_daily_average',
+        unit: 'count',
+        source: 'method'
     }, {
         name: 'editor.overview.last_session_created',
         type: 'timestamp'
@@ -18,28 +35,42 @@ echoLiveSystem.registry.loadRegistry('statistic', 'name', [
         name: 'editor.message.last_sent',
         type: 'timestamp'
     }, {
-        name: 'editor.message.sent_count'
+        name: 'editor.message.sent_count',
+        unit: 'count'
     }, {
-        name: 'editor.message.resent_count'
+        name: 'editor.message.resent_count',
+        unit: 'count'
     }, {
         name: 'editor.message.not_resent_count',
+        unit: 'count',
         source: 'method'
     }, {
-        name: 'editor.message.used_formatting_code_count'
+        name: 'editor.message.used_formatting_code_count',
+        unit: 'count'
     }, {
-        name: 'editor.message.custom_code_sent_count'
+        name: 'editor.message.custom_code_sent_count',
+        unit: 'count'
     }, {
-        name: 'editor.message.sent_character_total'
+        name: 'editor.message.sent_character_total',
+        unit: 'char'
     }, {
         name: 'editor.message.sent_character_average',
+        unit: 'char',
         source: 'method'
     }, {
-        name: 'editor.message.sent_max_length'
+        name: 'editor.message.sent_max_length',
+        unit: 'char'
     }, {
-        name: 'editor.message.session.sent_max_count'
+        name: 'editor.message.session.sent_max_count',
+        unit: 'count'
     }, {
-        name: 'editor.message.session.resent_max_count'
+        name: 'editor.message.session.resent_max_count',
+        unit: 'count'
     }, {
-        name: 'editor.message.session.sent_character_max_total'
+        name: 'editor.message.session.sent_character_max_total',
+        unit: 'char'
+    }, {
+        name: 'misc.view_statistic_count',
+        unit: 'count'
     }
 ]);

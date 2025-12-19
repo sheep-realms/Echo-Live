@@ -1387,6 +1387,7 @@ $(document).on('click', '#ptext-btn-statistic-export', () => {
 });
 
 $(document).on('click', '#ptext-btn-statistic-view', () => {
+    statisticManager.addStatsItemValue('misc.view_statistic_count');
     const data = statisticManager.exportStatistic();
     uniWindow.window(
         StatisticReportFactory.statsTable(data),

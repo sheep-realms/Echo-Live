@@ -9,6 +9,24 @@ echoLiveSystem.registry.loadRegistry('statistic_method', 'name', [
             return total / count;
         }
     }, {
+        name: 'editor.overview.session_created_statistic_daily_rate',
+        value: (s) => {
+            const [ total, count ] = s.getValues([
+                'overview.statistic_days',
+                'editor.overview.session_created_days'
+            ]);
+            return Math.max(Math.min(count / total, 1), 0);
+        }
+    }, {
+        name: 'editor.overview.session_created_daily_average',
+        value: (s) => {
+            const [ count, total ] = s.getValues([
+                'editor.overview.session_created_days',
+                'editor.overview.session_created_count'
+            ]);
+            return total / count;
+        }
+    }, {
         name: 'editor.message.not_resent_count',
         value: (s) => {
             const [ total, count ] = s.getValues([

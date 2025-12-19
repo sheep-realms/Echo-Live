@@ -2194,12 +2194,13 @@ select:focus {
 }
 
 .statistic-table dt {
-    flex: 0 0 auto;
+    flex: 0 1 auto;
     padding-inline-end: var(--gap-middle);
 }
 
 .statistic-table dd {
-    flex: 0 0 auto;
+    flex: 0 1 auto;
     margin-left: auto;
     font-weight: 500;
+    text-align: right;
 }

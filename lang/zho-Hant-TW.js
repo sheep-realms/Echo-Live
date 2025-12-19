@@ -11,7 +11,7 @@ const lang_zho_Hant_TW = {
         date_time_common: "{y}-{MM}-{dd} {hh}:{mm}:{ss}",
         date: "{y} 年 {M} 月 {d} 日",
         date_pad_zero: "{y} 年 {MM} 月 {dd} 日",
-        date_time: "{y} 年 {M} 月 {d} 日 {h}:{m}:{s}",
+        date_time: "{y} 年 {M} 月 {d} 日 {h}:{mm}:{ss}",
         date_time_pad_zero: "{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}",
         time_common: "{hh}:{mm}:{ss}",
     },
@@ -59,7 +59,12 @@ const lang_zho_Hant_TW = {
         }
     },
     unit: {
+        char: "字",
+        count: "次",
+        day: "天",
+        long_sec: "{m} 分鐘 {s} 秒 | {h} 小時 {m} 分鐘 {s} 秒 | {d} 天 {h} 小時 {m} 分鐘 {s} 秒",
         ms: "毫秒",
+        rate: "%",
         sec: "秒"
     },
     avatar: {
@@ -925,6 +930,9 @@ const lang_zho_Hant_TW = {
                 sent_clear_input: "模板",
                 split_message: "多行文字分割為訊息佇列",
                 startup_parameter: "啟動引數",
+                statistic: "統計資訊",
+                statistic_view: "檢視統計資訊",
+                statistic_export: "匯出統計資訊",
                 use_formatting_code: "使用快速格式化程式碼"
             },
             placeholder: {
@@ -1821,6 +1829,42 @@ const lang_zho_Hant_TW = {
         sys003: "冒泡",
         enter: "打字機回車",
         paper: "翻頁"
+    },
+    statistic: {
+        overview: {
+            statistic_days: "統計天數"
+        },
+        editor: {
+            message: {
+                custom_code_sent_count: "自定義訊息傳送次數",
+                last_sent: "最近一次訊息傳送時間",
+                not_resent_count: "不包含重發的訊息傳送次數",
+                resent_count: "訊息重新傳送次數",
+                sent_character_average: "每條訊息平均字數",
+                sent_character_total: "傳送總字數",
+                sent_count: "訊息傳送次數",
+                sent_max_length: "訊息最大長度",
+                used_formatting_code_count: "快速格式化程式碼使用次數",
+                session: {
+                    resent_max_count: "會話內訊息重新傳送最多次數",
+                    sent_character_max_total: "會話內傳送最多總字數",
+                    sent_max_count: "會話內訊息傳送最多次數"
+                }
+            },
+            overview: {
+                last_session_created: "最近一次會話啟動時間",
+                session_created_count: "會話啟動次數",
+                session_created_daily_average: "每個活動日會話啟動平均次數",
+                session_created_days: "會話活動總天數",
+                session_created_statistic_daily_rate: "每日會話活動率",
+                session_duration_average_second: "會話平均時長",
+                session_duration_max_second: "會話最大時長",
+                session_duration_total_second: "會話總時長"
+            }
+        },
+        misc: {
+            view_statistic_count: "“統計資訊？這是什麼？看一下！”"
+        }
     },
     studio: {
         title: {

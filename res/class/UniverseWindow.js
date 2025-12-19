@@ -75,6 +75,7 @@ class UniverseWindow {
      * @param {String} data.autoFocusButton 自动获得焦点的按钮
      * @param {String} data.autoFocusFormItem 自动获得焦点的表单项
      * @param {Boolean} data.closable 可关闭
+     * @param {String} data.expandClass 扩充 class
      * @param {Boolean} data.hasInput 是否有输入框
      * @param {String} data.icon 标题栏图标
      * @param {String} data.id ID

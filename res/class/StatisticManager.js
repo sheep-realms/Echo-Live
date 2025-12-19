@@ -30,6 +30,24 @@ class StatisticManager {
             this._updateLastModifiedAt(s);
             this.localStorageManager.setItem('statistic', s);
         }
+
+        const statsInfo = echoLiveSystem.registry.getRegistryArray('statistic');
+        const dailyIncrement = statsInfo.filter(e => e.source === 'daily_increment' && e.type === 'number');
+        dailyIncrement.forEach(e => {
+            let date = this.getStatsItem(e.reference);
+            let diff = StatisticManager._diffDays(date, Date.now());
+            if (diff > 0) {
+                this.addStatsItemValue(e.name);
+            }
+        });
+
+        this.setStatsItem(
+            'overview.statistic_days',
+            Math.max(
+                StatisticManager._diffDays(s.meta.first_created_at, Date.now()) + 1,
+                1
+            )
+        );
     }
 
     /**
@@ -111,6 +129,22 @@ class StatisticManager {
     }
 
     /**
+     * 日期比较
+     * @param {number} A 目标时间戳
+     * @param {number} B 比较时间戳
+     * @returns {number} 天数
+     */
+    static _diffDays(A, B) {
+        const DAY_MS = 24 * 60 * 60 * 1000;
+        const OFFSET = 4 * 60 * 60 * 1000;
+
+        const dayA = Math.floor((A - OFFSET) / DAY_MS);
+        const dayB = Math.floor((B - OFFSET) / DAY_MS);
+
+        return dayB - dayA;
+    }
+
+    /**
      * 获取统计信息
      * @param {String} key 统计项目
      * @returns {*} 统计信息
@@ -160,9 +194,10 @@ class StatisticManager {
         } else if (typeof date === 'number') {
             // 什么也不用做
         } else if (date instanceof Date) {
-            date = date.now();
+            date = date.getTime();
         } else if (typeof date === 'string') {
-            date = new Date(date).now();
+            let d = new Date(date)
+            date = d.getTime();
         } else {
             return null;
         }
@@ -224,11 +259,7 @@ class StatisticManager {
 
             const statsItem = echoLiveSystem.registry.getRegistryValue('statistic', key);
             let value;
-            if (statsItem.source === 'custom') {
-                value = this.getStatsItem(key) || statsItem.default || 0
-                StatisticManager._setByPath(data, key, value);
-                return value;
-            } else if (statsItem.source === 'method') {
+            if (statsItem.source === 'method') {
                 let method = echoLiveSystem.registry.getRegistryValue('statistic_method', key);
                 if (typeof method !== 'function') {
                     value = statsItem.default || 0;
@@ -239,6 +270,10 @@ class StatisticManager {
                     getValue: _getStatsValue,
                     getValues: _getStatsValues
                 }) || 0;
+                StatisticManager._setByPath(data, key, value);
+                return value;
+            } else {
+                value = this.getStatsItem(key) || statsItem.default || 0
                 StatisticManager._setByPath(data, key, value);
                 return value;
             }
@@ -349,17 +384,16 @@ class StatisticReportFactory {
             case 'timestamp':
                 str = EchoLiveTools.formatDate(value, 'date_time_pad_zero');
                 return str;
+
+            case 'number':
+                str = parseFloat(value.toFixed(2));
+                break;
         
             default:
                 str = strValue;
                 break;
         }
-
-        if (statsInfo?.unit === undefined) {
-            return str;
-        } else {
-            str += ' ';
-        }
+        if (statsInfo?.unit === undefined) return str;
 
         switch (statsInfo.unit) {
             case 'long_sec':
@@ -372,8 +406,11 @@ class StatisticReportFactory {
                 }
                 return $t('unit.long_sec', { n, ...longSecFormat });
         
+            case 'rate':
+                return parseFloat((value * 100).toFixed(2)) + ' ' + $t('unit.rate');
+
             default:
-                str += $t('unit.' + statsInfo.unit);
+                str += ' ' + $t('unit.' + statsInfo.unit);
                 return str;
         }
     }

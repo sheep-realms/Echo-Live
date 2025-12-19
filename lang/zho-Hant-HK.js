@@ -11,7 +11,7 @@ const lang_zho_Hant_HK = {
         date_time_common: "{y}-{MM}-{dd} {hh}:{mm}:{ss}",
         date: "{y} 年 {M} 月 {d} 日",
         date_pad_zero: "{y} 年 {MM} 月 {dd} 日",
-        date_time: "{y} 年 {M} 月 {d} 日 {h}:{m}:{s}",
+        date_time: "{y} 年 {M} 月 {d} 日 {h}:{mm}:{ss}",
         date_time_pad_zero: "{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}",
         time_common: "{hh}:{mm}:{ss}",
     },
@@ -59,7 +59,12 @@ const lang_zho_Hant_HK = {
         }
     },
     unit: {
+        char: "字",
+        count: "次",
+        day: "天",
+        long_sec: "{m} 分鐘 {s} 秒 | {h} 小時 {m} 分鐘 {s} 秒 | {d} 天 {h} 小時 {m} 分鐘 {s} 秒",
         ms: "毫秒",
+        rate: "%",
         sec: "秒"
     },
     avatar: {
@@ -829,7 +834,7 @@ const lang_zho_Hant_HK = {
                 },
                 echolive_mini_size_coefficient: {
                     _title: "對話框迷你尺寸計算系數",
-                    _description: "通過在 OBS 場景名稱末尾寫入 <code aria-label='“左方括號、mini、右方括號”'>[mini]</code> 即可啓用對話框的迷你尺寸，迷你尺寸僅在部分主題中可用。<br>係數取值範圍為 0.3 ~ 2，迷你尺寸的寬度計算公式為：<code aria-label='場景高度乘以係數所得的值與場景寬度取最小值。'>min(場景高度 × 係數, 場景寬度)</code><br>要使用此功能，對應的瀏覽器源的頁面權限應至少為“用户信息的讀取權限”。"
+                    _description: "通過在 OBS 場景名稱末尾寫入 <code aria-label='“左方括號、mini、右方括號”'>[mini]</code> 即可啓用對話框的迷你尺寸，迷你尺寸僅在部分主題中可用。<br>係數取值範圍為 0.3 ~ 2，迷你尺寸的寬度計算公式為：<code aria-label='場景高度乘以係數所得的值與場景寬度取最小值。'>min(場景高度 × 係數, 場景寬度)</code><br>要使用此功能，對應的瀏覽器源的頁面權限應至少為“用户資訊的讀取權限”。"
                 }
             }
         },
@@ -925,6 +930,9 @@ const lang_zho_Hant_HK = {
                 sent_clear_input: "模板",
                 split_message: "多行文本分割為消息隊列",
                 startup_parameter: "啟動參數",
+                statistic: "統計資訊",
+                statistic_view: "查看統計資訊",
+                statistic_export: "導出統計資訊",
                 use_formatting_code: "使用快速格式化代碼"
             },
             placeholder: {
@@ -1821,6 +1829,42 @@ const lang_zho_Hant_HK = {
         sys003: "冒泡",
         enter: "打字機回車",
         paper: "翻頁"
+    },
+    statistic: {
+        overview: {
+            statistic_days: "統計天數"
+        },
+        editor: {
+            message: {
+                custom_code_sent_count: "自定義消息發送次數",
+                last_sent: "最近一次消息發送時間",
+                not_resent_count: "不包含重發的消息發送次數",
+                resent_count: "消息重新發送次數",
+                sent_character_average: "每條消息平均字數",
+                sent_character_total: "發送總字數",
+                sent_count: "消息發送次數",
+                sent_max_length: "消息最大長度",
+                used_formatting_code_count: "快速格式化代碼使用次數",
+                session: {
+                    resent_max_count: "會話內消息重新發送最多次數",
+                    sent_character_max_total: "會話內發送最多總字數",
+                    sent_max_count: "會話內消息發送最多次數"
+                }
+            },
+            overview: {
+                last_session_created: "最近一次會話啟動時間",
+                session_created_count: "會話啟動次數",
+                session_created_daily_average: "每個活動日會話啟動平均次數",
+                session_created_days: "會話活動總天數",
+                session_created_statistic_daily_rate: "每日會話活動率",
+                session_duration_average_second: "會話平均時長",
+                session_duration_max_second: "會話最大時長",
+                session_duration_total_second: "會話總時長"
+            }
+        },
+        misc: {
+            view_statistic_count: "“統計資訊？這是甚麼？看一下！”"
+        }
     },
     studio: {
         title: {

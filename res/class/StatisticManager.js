@@ -47,7 +47,7 @@ class StatisticManager {
      * @param {String} path 地址
      * @private
      */
-    _getByPath(data, path) {
+    static _getByPath(data, path) {
         if (data === null || typeof data !== 'object') return null;
 
         const segments = path.split('.');
@@ -74,7 +74,7 @@ class StatisticManager {
      * @param {*} value 值
      * @private
      */
-    _setByPath(data, path, value) {
+    static _setByPath(data, path, value) {
         if (data === null || typeof data !== 'object') {
             return false;
         }
@@ -117,7 +117,7 @@ class StatisticManager {
      */
     getStatsItem(key) {
         const data = this.localStorageManager.getItem('statistic');
-        const value = this._getByPath(data.scope, key);
+        const value = StatisticManager._getByPath(data.scope, key);
         if (value !== null) {
             return value;
         } else {
@@ -138,7 +138,7 @@ class StatisticManager {
      */
     setStatsItem(key, value) {
         let data = this.localStorageManager.getItem('statistic');
-        if (this._setByPath(data.scope, key, value)) {
+        if (StatisticManager._setByPath(data.scope, key, value)) {
             this._updateLastModifiedAt(data);
             this.localStorageManager.setItem('statistic', data);
             return value;
@@ -219,27 +219,27 @@ class StatisticManager {
         let loadedKey = [];
 
         const _getStatsValue = key => {
-            if (loadedKey.includes(key)) return this._getByPath(data, key);
+            if (loadedKey.includes(key)) return StatisticManager._getByPath(data, key);
             loadedKey.push(key);
 
             const statsItem = echoLiveSystem.registry.getRegistryValue('statistic', key);
             let value;
             if (statsItem.source === 'custom') {
                 value = this.getStatsItem(key) || statsItem.default || 0
-                this._setByPath(data, key, value);
+                StatisticManager._setByPath(data, key, value);
                 return value;
             } else if (statsItem.source === 'method') {
                 let method = echoLiveSystem.registry.getRegistryValue('statistic_method', key);
                 if (typeof method !== 'function') {
                     value = statsItem.default || 0;
-                    this._setByPath(data, key, value);
+                    StatisticManager._setByPath(data, key, value);
                     return value;
                 }
                 value = method({
                     getValue: _getStatsValue,
                     getValues: _getStatsValues
                 }) || 0;
-                this._setByPath(data, key, value);
+                StatisticManager._setByPath(data, key, value);
                 return value;
             }
         };
@@ -331,5 +331,63 @@ class SessionMaxMetric {
             r[e] = this.addStatsItemValue(e, value);
         });
         return r;
+    }
+}
+
+
+class StatisticReportFactory {
+    constructor() {}
+
+    static statsItem(value, statsInfo) {
+        return `<dl><dt>${ $t('statistic.' + statsInfo.name) }</dt><dd>${ StatisticReportFactory.statsValue(value, statsInfo) }</dd></dl>`;
+    }
+
+    static statsValue(value, statsInfo) {
+        const strValue = String(value);
+        let str = '';
+        switch (statsInfo?.type) {
+            case 'timestamp':
+                str = EchoLiveTools.formatDate(value, 'date_time_pad_zero');
+                return str;
+        
+            default:
+                str = strValue;
+                break;
+        }
+
+        if (statsInfo?.unit === undefined) {
+            return str;
+        } else {
+            str += ' ';
+        }
+
+        switch (statsInfo.unit) {
+            case 'long_sec':
+                let longSecFormat = EchoLiveTools.formatDuration(value);
+                let n = 0;
+                if (longSecFormat.d > 0) {
+                    n = 2;
+                } else if (longSecFormat.h > 0) {
+                    n = 1
+                }
+                return $t('unit.long_sec', { n, ...longSecFormat });
+        
+            default:
+                str += $t('unit.' + statsInfo.unit);
+                return str;
+        }
+    }
+
+    static statsList(data) {
+        let dom = '';
+        echoLiveSystem.registry.forEach('statistic', (info, key) => {
+            let value = StatisticManager._getByPath(data.scope, key);
+            dom += StatisticReportFactory.statsItem(value, info);
+        });
+        return dom;
+    }
+
+    static statsTable(data) {
+        return `<div class="statistic-table">${ StatisticReportFactory.statsList(data) }</div>`
     }
 }

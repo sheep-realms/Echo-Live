@@ -1365,6 +1365,47 @@ function toggleEditorFullscreen() {
     }
 }
 
+
+
+$(document).on('click', '#ptext-btn-statistic-export', () => {
+    const data = statisticManager.exportStatistic();
+    uniWindow.textareaWindow(
+        JSON.stringify(data, null, 4),
+        $t('editor.form.label.statistic'),
+        {
+            size: {
+                width: 'min(calc(100vw - var(--gap-middle)), 640px)',
+                height: 'min(calc(100vh - var(--gap-middle) * 4), 640px)'
+            },
+            maskClosable: true,
+            textarea: {
+                class: 'code',
+                readOnly: true
+            }
+        }
+    );
+});
+
+$(document).on('click', '#ptext-btn-statistic-view', () => {
+    const data = statisticManager.exportStatistic();
+    uniWindow.window(
+        StatisticReportFactory.statsTable(data),
+        $t('editor.form.label.statistic'),
+        {
+            size: {
+                width: 'min(calc(100vw - var(--gap-middle)), 640px)',
+                height: 'min(calc(100vh - var(--gap-middle) * 4), 640px)'
+            },
+            maskClosable: true,
+            textarea: {
+                class: 'code',
+                readOnly: true
+            },
+            expandClass: 'statistic-view-window'
+        }
+    );
+});
+
 window.addEventListener('beforeunload', function () {
     const sessionDuration = Math.round(performance.now() / 1000);
     statisticManager.addStatsItemValue('editor.overview.session_duration_total_second', sessionDuration);

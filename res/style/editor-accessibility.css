@@ -233,6 +233,10 @@
     animation: unset;
 }
 
+.accessibility-high-contrast .statistic-table dl {
+    border-bottom: var(--border-color) 1px solid;
+}
+
 .accessibility-high-contrast .settings-panel a:not(.settings-link-bar),
 .accessibility-high-contrast .fh-link,
 .accessibility-link-underline .settings-panel a:not(.settings-link-bar),

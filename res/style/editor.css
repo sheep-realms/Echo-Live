@@ -2166,3 +2166,40 @@ select:focus {
 .fh-select-option .selected-icon svg {
     fill: var(--color-general-dark);
 }
+
+
+.statistic-view-window .fh-msgbox-content {
+    align-items: flex-start;
+}
+
+.fh-msgbox-content>.statistic-table {
+    width: calc(100% - var(--gap-middle) * 2);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: var(--gap-large) var(--gap-middle);
+}
+
+.statistic-table dl {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: var(--gap-extra-small) var(--gap-middle);
+    border-bottom: var(--border-color) 1px solid;
+}
+
+.statistic-table dl:hover {
+    background-color: var(--color-general-glass);
+}
+
+.statistic-table dt {
+    flex: 0 0 auto;
+    padding-inline-end: var(--gap-middle);
+}
+
+.statistic-table dd {
+    flex: 0 0 auto;
+    margin-left: auto;
+    font-weight: 500;
+}

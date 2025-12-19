@@ -6,13 +6,13 @@ echoLiveSystem.registry.loadRegistry('statistic', 'name', [
         type: 'timestamp'
     }, {
         name: 'editor.overview.session_duration_total_second',
-        unit: 'second'
+        unit: 'long_sec'
     }, {
         name: 'editor.overview.session_duration_max_second',
-        unit: 'second'
+        unit: 'long_sec'
     }, {
         name: 'editor.overview.session_duration_average_second',
-        unit: 'second',
+        unit: 'long_sec',
         source: 'method'
     }, {
         name: 'editor.message.last_sent',

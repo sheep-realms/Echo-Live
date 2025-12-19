@@ -1863,7 +1863,7 @@ const lang_zho_Hant_TW = {
             }
         },
         misc: {
-            view_statistic_count: "“統計資訊？這是什麼？看一下！”"
+            view_statistic_count: "“這是什麼？統計資訊？看一下！”"
         }
     },
     studio: {

@@ -1863,7 +1863,7 @@ const lang_zho_Hant_HK = {
             }
         },
         misc: {
-            view_statistic_count: "“統計資訊？這是甚麼？看一下！”"
+            view_statistic_count: "“這是甚麼？統計資訊？看一下！”"
         }
     },
     studio: {

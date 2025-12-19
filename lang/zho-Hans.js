@@ -1863,7 +1863,7 @@ const lang_zho_Hans = {
             }
         },
         misc: {
-            view_statistic_count: "“统计信息？这是什么？看一下！”"
+            view_statistic_count: "“这是什么？统计信息？看一下！”"
         }
     },
     studio: {

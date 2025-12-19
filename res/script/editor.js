@@ -137,23 +137,6 @@ $(document).ready(function() {
                 $('#collapse-split-message').removeClass('hide');
             }
 
-            // 输出 - 内容 - 快捷键
-            $('#output-content').keydown(function(e) {
-                if (e.code === 'Enter') {
-                    e.preventDefault();
-                    if (
-                        (!config.accessibility.send_on_enter && e.ctrlKey)
-                        || (config.accessibility.send_on_enter && !e.ctrlKey)
-                    ) {
-                        $('#output-btn-send').click();
-                        effectClick('#output-btn-send');
-                    } else if (config.accessibility.send_on_enter) {
-                        e.preventDefault();
-                        insertNewline(this);
-                    }
-                }
-            })
-
             $('.echo-live-client-state-content').html(EditorClientState.statePanel([]));
 
             elb = new EchoLiveBroadcastServer(config.echolive.broadcast.channel, config);
@@ -1057,6 +1040,7 @@ $('#ptext-character').keydown(function(e) {
 // 纯文本 - 内容 - 快捷键
 $('#ptext-content').keydown(function(e) {
     // console.log(e.code);
+    if (inCompositions) return;
     if (e.code === 'Enter') {
         if (
             (!config.accessibility.send_on_enter && e.ctrlKey)
@@ -1100,6 +1084,34 @@ $('#ptext-content').keydown(function(e) {
         $(`#ptext-editor .editor-controller:not(.disabled) button[data-value="${code[e.code]}"]`).click();
     }
 })
+
+// 输出 - 内容 - 快捷键
+$('#output-content').keydown(function(e) {
+    if (inCompositions) return;
+    if (e.code === 'Enter') {
+        e.preventDefault();
+        if (
+            (!config.accessibility.send_on_enter && e.ctrlKey)
+            || (config.accessibility.send_on_enter && !e.ctrlKey)
+        ) {
+            $('#output-btn-send').click();
+            effectClick('#output-btn-send');
+        } else if (config.accessibility.send_on_enter) {
+            e.preventDefault();
+            insertNewline(this);
+        }
+    }
+})
+
+let inCompositions = false;
+
+$(document).on('compositionstart', () => {
+    inCompositions = true;
+});
+
+$(document).on('compositionend', () => {
+    inCompositions = false;
+});
 
 $('#ptext-btn-open-document-pip').click(async function() {
     $('#ptext-btn-open-document-pip').prop('disabled', true);

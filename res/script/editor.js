@@ -25,6 +25,8 @@ window.addEventListener("error", (e) => {
 
 let localStorageManager = new LocalStorageManager();
 let statisticManager = new StatisticManager(localStorageManager);
+let sessionMaxMetric = new SessionMaxMetric(statisticManager);
+statisticManager.addStatsItemValue('editor.overview.session_created_count');
 statisticManager.setStatsItemTime('editor.overview.last_session_created');
 
 let uniWindow = new UniverseWindow();
@@ -256,13 +258,16 @@ function sendMessageData(data) {
     elb.sendData(data);
     statisticManager.setStatsItemTime('editor.message.last_sent');
     statisticManager.addStatsItemValue('editor.message.sent_count');
+    sessionMaxMetric.addValue('editor.message.session.sent_max_count');
 
     let charsTotal = 0;
     data.messages.forEach(e => {
         let str = EchoLiveTools.getMessagePlainText(e.message);
-        charsTotal += str.length;
+        charsTotal += [...str].length;
     });
     statisticManager.addStatsItemValue('editor.message.sent_character_total', charsTotal);
+    sessionMaxMetric.addValue('editor.message.session.sent_character_max_total', charsTotal);
+    statisticManager.updateStatsItemMaxValue('editor.message.sent_max_length', charsTotal);
 }
 
 
@@ -925,6 +930,7 @@ $(document).on('click', '.history-message-item-btn-send', function() {
     
     sendMessageData(history[i].data);
     statisticManager.addStatsItemValue('editor.message.resent_count');
+    sessionMaxMetric.addValue('editor.message.session.resent_max_count');
 
     echoLiveSystem.device.vibrateAuto('success');
     editorLogT('editor.log.message.resent');
@@ -1359,6 +1365,8 @@ function toggleEditorFullscreen() {
     }
 }
 
-window.addEventListener('beforeunload', function (e) {
-    statisticManager.addStatsItemValue('editor.overview.session_duration_total_second', Math.round(performance.now() / 1000));
+window.addEventListener('beforeunload', function () {
+    const sessionDuration = Math.round(performance.now() / 1000);
+    statisticManager.addStatsItemValue('editor.overview.session_duration_total_second', sessionDuration);
+    statisticManager.updateStatsItemMaxValue('editor.overview.session_duration_max_second', sessionDuration);
 });

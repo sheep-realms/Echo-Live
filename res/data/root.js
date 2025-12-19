@@ -179,6 +179,20 @@ echoLiveSystem.registry.init([
     }, {
         name: 'system'
     }, {
+        name: 'statistic',
+        unique_key: 'name',
+        sync: true,
+        default_data: {
+            name: undefined,
+            type: 'number',
+            default: 0,
+            unit: undefined,
+            source: 'custom'
+        }
+    }, {
+        name: 'statistic_method',
+        is_function: true
+    }, {
         name: 'text_style',
         unique_key: 'name',
         sync: true,

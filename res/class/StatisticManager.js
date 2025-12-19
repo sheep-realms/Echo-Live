@@ -113,7 +113,17 @@ class StatisticManager {
      */
     getStatsItem(key) {
         const data = this.localStorageManager.getItem('statistic');
-        return this._getByPath(data.scope, key);
+        const value = this._getByPath(data.scope, key);
+        if (value !== null) {
+            return value;
+        } else {
+            const defaultValue = echoLiveSystem.registry.getRegistryValue('statistic', key)?.default;
+            if (defaultValue !== undefined) {
+                return defaultValue;
+            } else {
+                return null
+            }
+        }
     }
 
     /**
@@ -176,6 +186,142 @@ class StatisticManager {
      * @returns {Object<Number|NaN|null>} 返回值
      */
     addStatsItemValues(keys = [], value = 1) {
+        let r = {};
+        keys.forEach(e => {
+            r[e] = this.addStatsItemValue(e, value);
+        });
+        return r;
+    }
+
+    /**
+     * 更新统计最大值
+     * @param {String} key 统计项目
+     * @param {*} value 值
+     * @returns {Number|NaN|null} 返回值
+     */
+    updateStatsItemMaxValue(key, value) {
+        let v = this.getStatsItem(key);
+        if (v === undefined || v === null) return null;
+        if (typeof v !== 'number' || typeof value !== 'number') return NaN;
+        if (value > v) {
+            return this.setStatsItem(key, value);
+        } else {
+            return v;
+        }
+    }
+
+    exportStatistic() {
+        let data = {};
+        let loadedKey = [];
+
+        const _getStatsValue = key => {
+            if (loadedKey.includes(key)) return this._getByPath(data, key);
+            loadedKey.push(key);
+
+            const statsItem = echoLiveSystem.registry.getRegistryValue('statistic', key);
+            let value;
+            if (statsItem.source === 'custom') {
+                value = this.getStatsItem(key) || statsItem.default || 0
+                this._setByPath(data, key, value);
+                return value;
+            } else if (statsItem.source === 'method') {
+                let method = echoLiveSystem.registry.getRegistryValue('statistic_method', key);
+                if (typeof method !== 'function') {
+                    value = statsItem.default || 0;
+                    this._setByPath(data, key, value);
+                    return value;
+                }
+                value = method({
+                    getValue: _getStatsValue,
+                    getValues: _getStatsValues
+                }) || 0;
+                this._setByPath(data, key, value);
+                return value;
+            }
+        };
+        const _getStatsValues = (keys) => {
+            if (!Array.isArray(keys)) keys = [keys];
+            let r = [];
+            keys.forEach(key => {
+                r.push(_getStatsValue(key));
+            });
+            return r;
+        };
+
+        echoLiveSystem.registry.forEach('statistic', (_, key) => {
+            if (!loadedKey.includes(key)) _getStatsValue(key);
+        });
+        const { meta } = this.localStorageManager.getItem('statistic');
+        return {
+            meta,
+            scope: data
+        };
+    }
+
+    /**
+     * 创建快照
+     * @param {'manual_dispatch'|'statistical_cycle_end'} createdBy 
+     * @returns {Promise<Number>} 新记录 ID
+     */
+    generateSnapshot(createdBy = 'manual_dispatch') {
+        const data = this.exportStatistic();
+        const snapshot = {
+            meta: {
+                created_by: createdBy,
+                created_at: Date.now()
+            },
+            content: data
+        };
+        return this.localStorageManager.addIncrement('statistic_snapshot', snapshot);
+    }
+
+    async rollbackStatisticFormSnapshot(id) {
+        const data = await this.localStorageManager.getIncrement('statistic_snapshot', id);
+        if (typeof data.payload !== 'object' || typeof data.payload?.content !== 'object') {
+            return new Promise((resolve, reject) => reject());
+        }
+        this.localStorageManager.setItem('statistic', data.payload.content);
+        return new Promise((resolve, reject) => resolve());
+    }
+}
+
+
+class SessionMaxMetric {
+    constructor(parent) {
+        this.parent = parent;
+        this.statisticData = {};
+    }
+
+    commit() {
+        for (const key in this.statisticData) {
+            if (!Object.hasOwn(this.statisticData, key)) continue;
+            const e = this.statisticData[key];
+            this.parent.updateStatsItemMaxValue(key, e);
+        }
+    }
+
+    /**
+     * 增加统计数值
+     * @param {String} key 统计项目
+     * @param {Number} value 增加的值
+     * @returns {Number|NaN} 返回值
+     */
+    addValue(key, value = 1) {
+        let v = this.statisticData[key];
+        if (v === undefined) v = 0;
+        if (typeof v !== 'number') return NaN;
+        v += value;
+        this.parent.updateStatsItemMaxValue(key, v);
+        return this.statisticData[key] = v;
+    }
+
+    /**
+     * 批量增加统计数值
+     * @param {String} keys 统计项目列表
+     * @param {Number} value 增加的值
+     * @returns {Object<Number|NaN>} 返回值
+     */
+    addValues(keys = [], value = 1) {
         let r = {};
         keys.forEach(e => {
             r[e] = this.addStatsItemValue(e, value);

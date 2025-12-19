@@ -25,6 +25,10 @@ class StatisticManager {
                 },
                 scope: {}
             });
+        } else if (new Date(s.meta.last_modified_at).getFullYear() < new Date().getFullYear()) {
+            this.generateSnapshot('statistical_cycle_end');
+            this._updateLastModifiedAt(s);
+            this.localStorageManager.setItem('statistic', s);
         }
     }
 

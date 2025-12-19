@@ -1383,7 +1383,7 @@ $(document).on('click', '#ptext-btn-statistic-export', () => {
     const data = statisticManager.exportStatistic();
     uniWindow.textareaWindow(
         JSON.stringify(data, null, 4),
-        $t('editor.form.label.statistic'),
+        $t('editor.form.label.statistic_export'),
         {
             size: {
                 width: 'min(calc(100vw - var(--gap-middle)), 640px)',
@@ -1403,7 +1403,7 @@ $(document).on('click', '#ptext-btn-statistic-view', () => {
     const data = statisticManager.exportStatistic();
     uniWindow.window(
         StatisticReportFactory.statsTable(data),
-        $t('editor.form.label.statistic'),
+        $t('editor.form.label.statistic_view'),
         {
             size: {
                 width: 'min(calc(100vw - var(--gap-middle)), 640px)',

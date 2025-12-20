@@ -1844,7 +1844,9 @@ const lang_zho_Hant_HK = {
                 sent_character_total: "字符發送總數",
                 sent_count: "消息發送次數",
                 sent_max_length: "消息最大長度",
+                used_exclamation_mark_total: "感嘆號使用總數",
                 used_formatting_code_count: "快速格式化代碼使用次數",
+                used_question_mark_total: "問號使用總數",
                 session: {
                     resent_max_count: "會話內消息重新發送最多次數",
                     sent_character_max_total: "會話內發送最多總字數",

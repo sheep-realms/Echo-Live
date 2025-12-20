@@ -1844,7 +1844,9 @@ const lang_zho_Hans = {
                 sent_character_total: "字符发送总数",
                 sent_count: "消息发送次数",
                 sent_max_length: "消息最大长度",
+                used_exclamation_mark_total: "感叹号使用总数",
                 used_formatting_code_count: "快速格式化代码使用次数",
+                used_question_mark_total: "问号使用总数",
                 session: {
                     resent_max_count: "会话内消息重新发送最多次数",
                     sent_character_max_total: "会话内发送最多总字数",

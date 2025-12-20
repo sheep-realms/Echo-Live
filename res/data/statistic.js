@@ -61,6 +61,12 @@ echoLiveSystem.registry.loadRegistry('statistic', 'name', [
         name: 'editor.message.sent_max_length',
         unit: 'char'
     }, {
+        name: 'editor.message.used_exclamation_mark_total',
+        unit: 'char'
+    }, {
+        name: 'editor.message.used_question_mark_total',
+        unit: 'char'
+    }, {
         name: 'editor.message.session.sent_max_count',
         unit: 'count'
     }, {

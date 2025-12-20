@@ -244,32 +244,36 @@ function sendMessageData(data) {
     sessionMaxMetric.addValue('editor.message.session.sent_max_count');
 
     let charsTotal = 0;
+    let messageStr = '';
     data.messages.forEach(e => {
-        let str = EchoLiveTools.getMessagePlainText(e.message);
-        charsTotal += [...str].length;
+        messageStr += EchoLiveTools.getMessagePlainText(e.message);
     });
+    charsTotal += [...messageStr].length;
+
     statisticManager.addStatsItemValue('editor.message.sent_character_total', charsTotal);
     sessionMaxMetric.addValue('editor.message.session.sent_character_max_total', charsTotal);
     statisticManager.updateStatsItemMaxValue('editor.message.sent_max_length', charsTotal);
+    statisticManager.addStatsItemValue('editor.message.used_exclamation_mark_total', countExclamationMarks(messageStr));
+    statisticManager.addStatsItemValue('editor.message.used_question_mark_total', countQuestionMarks(messageStr));
 }
 
 /**
- * 统计字符串中的感叹号数量（多语言）
+ * 统计字符串中的感叹号数量
  * @param {string} text
  * @returns {number}
  */
 function countExclamationMarks(text) {
-    const exclamationRegex = /[!\u00A1\uFF01\u203C\u2049]/gu;
+    const exclamationRegex = /[!\u00A1\uFF01\u203C\u2049\u2757]/gu;
     return (text.match(exclamationRegex) || []).length;
 }
 
 /**
- * 统计字符串中的问号数量（多语言）
+ * 统计字符串中的问号数量
  * @param {string} text
  * @returns {number}
  */
 function countQuestionMarks(text) {
-    const questionRegex = /[\?\u00BF\uFF1F\u203D]/gu;
+    const questionRegex = /[\?\u00BF\uFF1F\u203D\u2753]/gu;
     return (text.match(questionRegex) || []).length;
 }
 

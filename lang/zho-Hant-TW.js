@@ -1844,7 +1844,9 @@ const lang_zho_Hant_TW = {
                 sent_character_total: "字元傳送總數",
                 sent_count: "訊息傳送次數",
                 sent_max_length: "訊息最大長度",
+                used_exclamation_mark_total: "感嘆號使用總數",
                 used_formatting_code_count: "快速格式化程式碼使用次數",
+                used_question_mark_total: "問號使用總數",
                 session: {
                     resent_max_count: "會話內訊息重新傳送最多次數",
                     sent_character_max_total: "會話內傳送最多總字數",

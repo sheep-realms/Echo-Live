@@ -253,6 +253,26 @@ function sendMessageData(data) {
     statisticManager.updateStatsItemMaxValue('editor.message.sent_max_length', charsTotal);
 }
 
+/**
+ * 统计字符串中的感叹号数量（多语言）
+ * @param {string} text
+ * @returns {number}
+ */
+function countExclamationMarks(text) {
+    const exclamationRegex = /[!\u00A1\uFF01\u203C\u2049]/gu;
+    return (text.match(exclamationRegex) || []).length;
+}
+
+/**
+ * 统计字符串中的问号数量（多语言）
+ * @param {string} text
+ * @returns {number}
+ */
+function countQuestionMarks(text) {
+    const questionRegex = /[\?\u00BF\uFF1F\u203D]/gu;
+    return (text.match(questionRegex) || []).length;
+}
+
 
 let logMsgMark = 0;
 
@@ -1419,8 +1439,15 @@ $(document).on('click', '#ptext-btn-statistic-view', () => {
     );
 });
 
+statisticManager.on('exportStatistic', commitStatistic);
+
+function commitStatistic() {
+    const sessionDuration = Math.round(performance.now() / 1000);
+    statisticManager.updateStatsItemMaxValue('editor.overview.session_duration_max_second', sessionDuration);
+}
+
 window.addEventListener('beforeunload', function () {
     const sessionDuration = Math.round(performance.now() / 1000);
     statisticManager.addStatsItemValue('editor.overview.session_duration_total_second', sessionDuration);
-    statisticManager.updateStatsItemMaxValue('editor.overview.session_duration_max_second', sessionDuration);
+    commitStatistic();
 });

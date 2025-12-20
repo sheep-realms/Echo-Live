@@ -9,6 +9,9 @@
 class StatisticManager {
     constructor(localStorageManager) {
         this.localStorageManager = localStorageManager;
+        this.event = {
+            exportStatistic: () => {}
+        };
 
         this.init();
     }
@@ -16,7 +19,7 @@ class StatisticManager {
     init() {
         let s = this.localStorageManager.getItem('statistic');
         if (s === undefined) {
-            this.localStorageManager.setItem('statistic', {
+            s = {
                 meta: {
                     project_name: 'echolive',
                     data_version: 1,
@@ -24,30 +27,41 @@ class StatisticManager {
                     last_modified_at: Date.now()
                 },
                 scope: {}
-            });
+            }
+            this.localStorageManager.setItem('statistic', s);
         } else if (new Date(s.meta.last_modified_at).getFullYear() < new Date().getFullYear()) {
             this.generateSnapshot('statistical_cycle_end');
             this._updateLastModifiedAt(s);
             this.localStorageManager.setItem('statistic', s);
         }
 
+        const statisticDays = Math.max(
+            StatisticManager._diffDays(s.meta.first_created_at, Date.now()) + 1,
+            1
+        );
+        this.setStatsItem('overview.statistic_days', statisticDays);
+
         const statsInfo = echoLiveSystem.registry.getRegistryArray('statistic');
         const dailyIncrement = statsInfo.filter(e => e.source === 'daily_increment' && e.type === 'number');
         dailyIncrement.forEach(e => {
-            let date = this.getStatsItem(e.reference);
+            const date = this.getStatsItem(e.reference);
+            const value = this.getStatsItem(e.name);
             let diff = StatisticManager._diffDays(date, Date.now());
-            if (diff > 0) {
+            if (diff > 0 && value < statisticDays) {
                 this.addStatsItemValue(e.name);
             }
         });
+    }
 
-        this.setStatsItem(
-            'overview.statistic_days',
-            Math.max(
-                StatisticManager._diffDays(s.meta.first_created_at, Date.now()) + 1,
-                1
-            )
-        );
+    /**
+     * 绑定事件
+     * @param {String} eventName 事件名称
+     * @param {Function} action 函数
+     * @returns {Function} 函数
+     */
+    on(eventName, action = function() {}) {
+        if (typeof action != 'function') return;
+        return this.event[eventName] = action;
     }
 
     /**
@@ -135,13 +149,18 @@ class StatisticManager {
      * @returns {number} 天数
      */
     static _diffDays(A, B) {
-        const DAY_MS = 24 * 60 * 60 * 1000;
         const OFFSET = 4 * 60 * 60 * 1000;
 
-        const dayA = Math.floor((A - OFFSET) / DAY_MS);
-        const dayB = Math.floor((B - OFFSET) / DAY_MS);
+        function getBusinessDateIndex(ts) {
+            const d = new Date(ts - OFFSET);
+            const y = d.getFullYear();
+            const m = d.getMonth();
+            const day = d.getDate();
 
-        return dayB - dayA;
+            return Date.UTC(y, m, day) / 86400000;
+        }
+
+        return getBusinessDateIndex(B) - getBusinessDateIndex(A);
     }
 
     /**
@@ -250,6 +269,7 @@ class StatisticManager {
     }
 
     exportStatistic() {
+        this.event.exportStatistic();
         let data = {};
         let loadedKey = [];
 
@@ -382,7 +402,11 @@ class StatisticReportFactory {
         let str = '';
         switch (statsInfo?.type) {
             case 'timestamp':
-                str = EchoLiveTools.formatDate(value, 'date_time_pad_zero');
+                if (value > 0) {
+                    str = EchoLiveTools.formatDate(value, 'date_time_pad_zero');
+                } else {
+                    str = $t('statistic_info.empty_timestamp')
+                }
                 return str;
 
             case 'number':
@@ -403,6 +427,8 @@ class StatisticReportFactory {
                     n = 2;
                 } else if (longSecFormat.h > 0) {
                     n = 1
+                } else if (longSecFormat.m === 0) {
+                    return value + ' ' + $t('unit.sec');
                 }
                 return $t('unit.long_sec', { n, ...longSecFormat });
         
@@ -425,6 +451,17 @@ class StatisticReportFactory {
     }
 
     static statsTable(data) {
-        return `<div class="statistic-table">${ StatisticReportFactory.statsList(data) }</div>`
+        return `<div class="statistic-table">
+            ${ StatisticReportFactory.statsList(data) }
+            <div class="statistic-footer">
+                ${ $t(
+                    'statistic_info.footer_description',
+                    {
+                        created_at: EchoLiveTools.formatDate(data.meta.first_created_at),
+                        modified_at: EchoLiveTools.formatDate(data.meta.last_modified_at)
+                    }
+                ) }
+            </div>
+        </div>`
     }
 }

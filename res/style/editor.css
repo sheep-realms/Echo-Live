@@ -2204,3 +2204,9 @@ select:focus {
     font-weight: 500;
     text-align: right;
 }
+
+.statistic-table .statistic-footer {
+    font-size: var(--font-size-small);
+    font-weight: 300;
+    padding: var(--gap-small) var(--gap-middle);
+}

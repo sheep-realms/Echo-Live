@@ -1841,7 +1841,7 @@ const lang_zho_Hant_TW = {
                 not_resent_count: "不包含重發的訊息傳送次數",
                 resent_count: "訊息重新傳送次數",
                 sent_character_average: "每條訊息平均字數",
-                sent_character_total: "傳送總字數",
+                sent_character_total: "字元傳送總數",
                 sent_count: "訊息傳送次數",
                 sent_max_length: "訊息最大長度",
                 used_formatting_code_count: "快速格式化程式碼使用次數",
@@ -1865,6 +1865,10 @@ const lang_zho_Hant_TW = {
         misc: {
             view_statistic_count: "“這是什麼？統計資訊？看一下！”"
         }
+    },
+    statistic_info: {
+        empty_timestamp: "從未發生",
+        footer_description: "部分統計項需要在結束當前會話後才能完成統計。<br>統計開始於：{ created_at }<br>統計截止於：{ modified_at }"
     },
     studio: {
         title: {

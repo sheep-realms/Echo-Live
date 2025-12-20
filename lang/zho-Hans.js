@@ -1841,7 +1841,7 @@ const lang_zho_Hans = {
                 not_resent_count: "不包含重发的消息发送次数",
                 resent_count: "消息重新发送次数",
                 sent_character_average: "每条消息平均字数",
-                sent_character_total: "发送总字数",
+                sent_character_total: "字符发送总数",
                 sent_count: "消息发送次数",
                 sent_max_length: "消息最大长度",
                 used_formatting_code_count: "快速格式化代码使用次数",
@@ -1865,6 +1865,10 @@ const lang_zho_Hans = {
         misc: {
             view_statistic_count: "“这是什么？统计信息？看一下！”"
         }
+    },
+    statistic_info: {
+        empty_timestamp: "从未发生",
+        footer_description: "部分统计项需要在结束当前会话后才能完成统计。<br>统计开始于：{ created_at }<br>统计截止于：{ modified_at }"
     },
     studio: {
         title: {

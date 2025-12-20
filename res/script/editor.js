@@ -1410,7 +1410,7 @@ $(document).on('click', '#ptext-btn-statistic-export', () => {
         $t('editor.form.label.statistic_export'),
         {
             size: {
-                width: 'min(calc(100vw - var(--gap-middle)), 640px)',
+                width: 'min(calc(100vw - var(--gap-middle) * 4), 640px)',
                 height: 'min(calc(100vh - var(--gap-middle) * 4), 640px)'
             },
             maskClosable: true,
@@ -1430,7 +1430,7 @@ $(document).on('click', '#ptext-btn-statistic-view', () => {
         $t('editor.form.label.statistic_view'),
         {
             size: {
-                width: 'min(calc(100vw - var(--gap-middle)), 640px)',
+                width: 'min(calc(100vw - var(--gap-middle) * 4), 640px)',
                 height: 'min(calc(100vh - var(--gap-middle) * 4), 640px)'
             },
             maskClosable: true,

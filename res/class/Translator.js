@@ -107,7 +107,7 @@ class Translator {
         let t = objI18n;
 
         // 校验数据
-        if (typeof t != 'string') {
+        if (typeof t !== 'string') {
             if (!__inPlanB && this.lang !== this.langMain) return this.output(key, variable, backText, true);
             return backText ?? key;
         }
@@ -186,6 +186,75 @@ class Translator {
 
         return output;
     }
+
+    /**
+     * 格式化数字
+     * @param {Number} number 数字
+     * @param {Object} param 参数
+     * @param {String} param.locale IETF 语言代码
+     * @param {String} param.notation 格式化方式
+     * @param {Number} param.maximumFractionDigits 最大小数位数
+     * @param {String} param.unit 单位
+     * @param {String} param.suffix 后缀
+     * @param {Object} param.spacing 间隙
+     * @param {String} param.spacing.numberCompact 数字与位数单位的间隙
+     * @param {String} param.spacing.compactUnit 位数单位与业务单位的间隙
+     * @param {String} param.spacing.unitSuffix 业务单位与后缀的间隙
+     * @returns {String} 格式化数字
+     */
+    formatNumber(number, param) {
+        param = {
+            locale: this.output('lang.code_ietf'),
+            notation: 'compact',
+            maximumFractionDigits: 2,
+            unit: '',
+            suffix: '',
+            ...param,
+            spacing: {
+                numberCompact: this.output('localization.spacing.number_compact'),
+                compactUnit: this.output('localization.spacing.compact_unit'),
+                unitSuffix: this.output('localization.spacing.unit_suffix'),
+                ...param?.spacing
+            }
+        }
+
+        const formatter = new Intl.NumberFormat(
+            param.locale,
+            {
+                notation: param.notation,
+                maximumFractionDigits: param.maximumFractionDigits
+            }
+        );
+        const parts = formatter.formatToParts(number);
+
+        let numberPart = '';
+        let compactPart = '';
+
+        for (const part of parts) {
+            if (part.type === 'compact') {
+                compactPart += part.value;
+            } else {
+                numberPart += part.value;
+            }
+        }
+
+        if (!compactPart) numberPart = formatter.format(number);
+
+        let result = numberPart;
+
+        if (compactPart)    result += param.spacing.numberCompact   + compactPart;
+        if (
+            !compactPart && (
+                (param.unit && !param.spacing.compactUnit)
+                || (param.suffix && !param.spacing.unitSuffix)
+            )
+        ) result += param.spacing.numberCompact;
+        if (param.unit)     result += param.spacing.compactUnit     + param.unit;
+        if (param.suffix)   result += param.spacing.unitSuffix      + param.suffix;
+
+        return result;
+    }
+
 
     load(i18nList) {
         this.i18n[i18nList.lang.code_iso_639_3] = i18nList;

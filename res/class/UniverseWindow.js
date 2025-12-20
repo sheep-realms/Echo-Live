@@ -53,7 +53,7 @@ class UniverseWindow {
             }
         });
 
-        $(document).on('click', '.fh-window-modal-bg.fh-window-modal-bg-closable', function(e) {
+        $(document).on('mousedown', '.fh-window-modal-bg.fh-window-modal-bg-closable', function(e) {
             if (e.target != this) return;
             that.closeWindow($(this).data('index'));
             that.runCallback($(this).data('index'), null);

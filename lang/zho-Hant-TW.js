@@ -14,6 +14,11 @@ const lang_zho_Hant_TW = {
         date_time: "{y} 年 {M} 月 {d} 日 {h}:{mm}:{ss}",
         date_time_pad_zero: "{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}",
         time_common: "{hh}:{mm}:{ss}",
+        spacing: {
+            number_compact: " ",
+            compact_unit: "",
+            unit_suffix: "",
+        }
     },
     ui: {
         confirm: "確定",

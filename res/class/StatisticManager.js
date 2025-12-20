@@ -398,46 +398,32 @@ class StatisticReportFactory {
     }
 
     static statsValue(value, statsInfo) {
-        const strValue = String(value);
         let str = '';
-        switch (statsInfo?.type) {
-            case 'timestamp':
-                if (value > 0) {
-                    str = EchoLiveTools.formatDate(value, 'date_time_pad_zero');
-                } else {
-                    str = $t('statistic_info.empty_timestamp')
-                }
-                return str;
 
-            case 'number':
-                str = parseFloat(value.toFixed(2));
-                break;
-        
-            default:
-                str = strValue;
-                break;
-        }
-        if (statsInfo?.unit === undefined) return str;
-
-        switch (statsInfo.unit) {
-            case 'long_sec':
-                let longSecFormat = EchoLiveTools.formatDuration(value);
-                let n = 0;
-                if (longSecFormat.d > 0) {
-                    n = 2;
-                } else if (longSecFormat.h > 0) {
-                    n = 1
-                } else if (longSecFormat.m === 0) {
-                    return value + ' ' + $t('unit.sec');
-                }
-                return $t('unit.long_sec', { n, ...longSecFormat });
-        
-            case 'rate':
-                return parseFloat((value * 100).toFixed(2)) + ' ' + $t('unit.rate');
-
-            default:
-                str += ' ' + $t('unit.' + statsInfo.unit);
-                return str;
+        if (statsInfo?.type === 'timestamp') {
+            if (value > 0) {
+                str = EchoLiveTools.formatDate(value, 'date_time_pad_zero');
+            } else {
+                str = $t('statistic_info.empty_timestamp')
+            }
+            return str;
+        } else if (statsInfo?.unit === 'long_sec') {
+            let longSecFormat = EchoLiveTools.formatDuration(value);
+            let n = 0;
+            if (longSecFormat.d > 0) {
+                n = 2;
+            } else if (longSecFormat.h > 0) {
+                n = 1
+            } else if (longSecFormat.m === 0) {
+                return value + ' ' + $t('unit.sec');
+            }
+            return `<span title="${ value }">${$t('unit.long_sec', { n, ...longSecFormat })}</span>`;
+        } else if (statsInfo?.unit === 'rate') {
+            return `<span title="${ value }">${parseFloat((value * 100).toFixed(2)) + ' ' + $t('unit.rate')}</span>`;
+        } else {
+            return `<span title="${ value }">${$tn(value, {
+                unit: statsInfo?.unit !== undefined ? $t('unit.' + statsInfo.unit) : ''
+            })}</span>`;
         }
     }
 

@@ -31,6 +31,9 @@
         const $tc = function(...e) {
             return translator.outputByTextComponent(...e);
         };
+        const $tn = function(...e) {
+            return translator.formatNumber(...e);
+        };
         translator.init();
     </script>
     <script src="res/data/palette.js"></script>
@@ -291,14 +294,29 @@
                             <div class="echo-editor-form-row">
                                 <div class="fh-label" data-i18n="pip.title">画中画</div>
                                 <div id="ptext-box-open-document-pip" style="color: var(--text-regular);">
-                                    <button id="ptext-btn-open-document-pip" class="fh-button fh-ghost" disabled data-i18n="pip.open_pip_window"></button>
+                                    <button id="ptext-btn-open-document-pip" class="fh-button fh-icon-button fh-ghost" disabled>
+                                        <span class="icon fh-label-icon" aria-hidden="true">
+                                            <slot data-icon="material:picture-in-picture-bottom-right"></slot>
+                                        </span>
+                                        <span class="text fh-label-text" data-i18n="pip.open_pip_window"></span>
+                                    </button>
                                 </div>
                             </div>
                             <div class="echo-editor-form-row">
                                 <div class="fh-label" data-i18n="editor.form.label.statistic">统计信息</div>
                                 <div>
-                                    <button id="ptext-btn-statistic-view" class="fh-button fh-ghost" data-i18n="editor.form.label.statistic_view"></button>
-                                    <button id="ptext-btn-statistic-export" class="fh-button fh-ghost" data-i18n="editor.form.label.statistic_export"></button>
+                                    <button id="ptext-btn-statistic-view" class="fh-button fh-icon-button fh-ghost">
+                                        <span class="icon fh-label-icon" aria-hidden="true">
+                                            <slot data-icon="material:chart-arc"></slot>
+                                        </span>
+                                        <span class="text fh-label-text" data-i18n="editor.form.label.statistic_view"></span>
+                                    </button>
+                                    <button id="ptext-btn-statistic-export" class="fh-button fh-icon-button fh-ghost">
+                                        <span class="icon fh-label-icon" aria-hidden="true">
+                                            <slot data-icon="material:export"></slot>
+                                        </span>
+                                        <span class="text fh-label-text" data-i18n="editor.form.label.statistic_export"></span>
+                                    </button>
                                 </div>
                             </div>
                         </div>

@@ -1875,7 +1875,7 @@ const lang_zho_Hant_HK = {
     },
     statistic_info: {
         empty_timestamp: "從未發生",
-        footer_description: "部分統計項需要在結束當前會話後才能完成統計。<br>統計開始於：{ created_at }<br>統計截止於：{ modified_at }"
+        footer_description: "部分統計項需要在結束當前會話後才能完成統計。<br>這些數據僅存儲於瀏覽器中，更換瀏覽器或清除瀏覽器數據會失去統計數據。<br>統計開始於：{ created_at }<br>統計截止於：{ modified_at }"
     },
     studio: {
         title: {

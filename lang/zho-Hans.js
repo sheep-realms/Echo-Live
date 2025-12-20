@@ -1875,7 +1875,7 @@ const lang_zho_Hans = {
     },
     statistic_info: {
         empty_timestamp: "从未发生",
-        footer_description: "部分统计项需要在结束当前会话后才能完成统计。<br>统计开始于：{ created_at }<br>统计截止于：{ modified_at }"
+        footer_description: "部分统计项需要在结束当前会话后才能完成统计。<br>这些数据仅存储于浏览器中，更换浏览器或清除浏览器数据会失去统计数据。<br>统计开始于：{ created_at }<br>统计截止于：{ modified_at }"
     },
     studio: {
         title: {

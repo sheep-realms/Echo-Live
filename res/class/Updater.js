@@ -53,14 +53,19 @@ class Updater {
      * 检查更新
      * @param {Function} callback 回调
      */
-    updateCheck(callback = () => {}) {
+    async updateCheck(callback = () => {}) {
         if (APP_META.isBeta) return;
-        let lsData = this.getLocalStorageData();
+        let lsData = await this.getLocalStorageData();
         if (!this.debug.notRateLimit && lsData.lastUpdateCheck + 300000 > new Date().getTime()) return;
 
         this.getData(
             Updater.GITHUB_REST_API_REPOS_RELEASES,
             data => {
+                if (!Array.isArray(data)) {
+                    lsData.lastUpdateCheck = new Date().getTime();
+                    this.setLocalStorageData(lsData);
+                    return;
+                }
                 this.updateCheckCallback(data, callback);
             },
             error => {

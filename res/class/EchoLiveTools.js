@@ -451,6 +451,22 @@ class EchoLiveTools {
             AMorPM: h < 12 ? 'am' : 'pm'
         };
     }
+    
+    /**
+     * 格式化秒级时间
+     * @param {number} seconds 秒数
+     * @returns {{ d: number, h: number, m: number, s: number }}
+     */
+    static formatDuration(seconds) {
+        const total = Math.max(0, Math.floor(seconds));
+
+        const d = Math.floor(total / 86400);
+        const h = Math.floor((total % 86400) / 3600);
+        const m = Math.floor((total % 3600) / 60);
+        const s = total % 60;
+
+        return { d, h, m, s };
+    }
 
     /**
      * 安全输出 HTML

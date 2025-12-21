@@ -1785,6 +1785,7 @@ class FHUIWindow {
      * @param {String} data.autoFocusFormItem 自动获得焦点的表单项
      * @param {Boolean} data.autoIconButton 自动设置按钮图标
      * @param {Boolean} data.closable 可关闭
+     * @param {String} data.expandClass 扩充 class
      * @param {Boolean} data.hasInput 是否有输入框
      * @param {String} data.icon 标题栏图标
      * @param {String} data.id ID
@@ -1801,6 +1802,7 @@ class FHUIWindow {
             autoFocusButton: undefined,
             autoFocusFormItem: undefined,
             closable: true,
+            expandClass: '',
             icon: undefined,
             id: undefined,
             index: -1,
@@ -1825,7 +1827,7 @@ class FHUIWindow {
         let dom = `<div
             role="dialog"
             ${ data.id !== undefined ? `id="${ data.id }"` : '' }
-            class="fh-window window-show ${ data.hasInput ? 'fh-window-has-input' : '' }"
+            class="fh-window window-show ${ data.hasInput ? 'fh-window-has-input' : '' } ${ data.expandClass }"
             style="
                 --width: min(${ data.size.width }, calc(100vw - 32px));
                 --height: min(${ data.size.height }, calc(100vh - 32px));

@@ -359,6 +359,7 @@ $(document).on('click', '.tabpage-nav .tabpage-nav-item:not(.disabled)', functio
     $(`.tabpage-centent[data-navid="${navid}"]>.tabpage-panel`).addClass('hide');
     $(`.tabpage-centent[data-navid="${navid}"]>.tabpage-panel[data-pageid="${pageid}"]`).removeClass('hide');
     popupsDisplay('#popups-palette', false);
+    $(this).focus();
 });
 
 // 拾色器色板切换

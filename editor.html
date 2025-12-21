@@ -31,16 +31,22 @@
         const $tc = function(...e) {
             return translator.outputByTextComponent(...e);
         };
+        const $tn = function(...e) {
+            return translator.formatNumber(...e);
+        };
         translator.init();
     </script>
     <script src="res/data/palette.js"></script>
     <script src="res/data/emoji.js"></script>
+    <script src="res/data/statistic.js"></script>
+    <script src="res/data/statistic_method.js"></script>
     <script src="res/data/icon.js"></script>
     <script src="res/class/Icon.js"></script>
     <script src="res/class/EchoLiveTools.js"></script>
     <script src="res/class/SlotInstaller.js"></script>
     <script src="res/class/SystemNotice.js"></script>
     <script src="res/class/LocalStorageManager.js"></script>
+    <script src="res/class/StatisticManager.js"></script>
     <script src="res/class/EchoLiveEditor.js"></script>
     <script src="res/class/EchoLiveBroadcast.js"></script>
     <script src="res/class/FHUI.js"></script>
@@ -66,14 +72,14 @@
                 data-i18n="editor.tabpage.editor.title"
                 data-i18n-title="editor.tabpage.editor.description"
             >编辑器</button>
-            <button
+            <!-- <button
                 class="tabpage-nav-item hide"
                 data-pageid="rtext"
                 role="tab"
                 aria-selected="false"
-                accesskey="5"
-                title="包含特殊样式的文本 [alt+5]"
-            >富文本</button>
+                accesskey="6"
+                title="包含特殊样式的文本 [alt+6]"
+            >富文本</button> -->
             <button
                 id="tabpage-nav-config"
                 class="tabpage-nav-item"
@@ -97,16 +103,6 @@
                 data-i18n-title="editor.tabpage.output.description"
             >输出</button>
             <button
-                class="tabpage-nav-item hide"
-                data-pageid="broadcast"
-                role="tab"
-                aria-selected="false"
-                accesskey="6"
-                title="广播控制 [alt+6]"
-                data-i18n="editor.tabpage.broadcast.title"
-                data-i18n-title="editor.tabpage.broadcast.description"
-            >广播</button>
-            <button
                 id="tabpage-nav-log"
                 class="tabpage-nav-item"
                 data-pageid="log"
@@ -119,6 +115,16 @@
                 <span data-i18n="editor.tabpage.log.title">日志</span>
                 <span id="log-message-mark" class="hide" aria-hidden="true">1</span>
             </button>
+            <button
+                class="tabpage-nav-item hide"
+                data-pageid="broadcast"
+                role="tab"
+                aria-selected="false"
+                accesskey="5"
+                title="广播控制 [alt+5]"
+                data-i18n="editor.tabpage.broadcast.title"
+                data-i18n-title="editor.tabpage.broadcast.description"
+            >广播</button>
         </nav>
         <!-- 标签页面板 -->
         <div class="tabpage-centent" data-navid="main">
@@ -133,18 +139,32 @@
                         </div>
                     </div>
 
-                    <label for="ptext-character" data-i18n="editor.form.label.character">说话人</label>
-                    <input type="text" name="character" id="ptext-character" autocomplete="off">
+                    <div id="workspace-editor-base">
+                        <label for="ptext-character" data-i18n="editor.form.label.character">说话人</label>
+                        <div class="ptext-character-row">
+                            <input type="text" name="character" id="ptext-character" autocomplete="off">
+                            <button id="ptext-btn-send-2" class="fh-button fh-icon-button hide">
+                                <span class="icon fh-label-icon" aria-hidden="true">
+                                    <slot data-icon="material:send"></slot>
+                                </span>
+                                <span class="text fh-label-text" data-i18n="ui.send">发送</span>
+                            </button>
+                        </div>
 
-                    <div id="ptext-editor" class="editor-container">
-                        <div class="editor-controller disabled"></div>
-                        <label for="ptext-content" data-i18n="editor.form.label.content">内容</label>
-                        <textarea
-                            name="content"
-                            id="ptext-content"
-                        ></textarea>
-                        <div class="editor-bottom-bar">
-                            <span class="length">0 字符</span>
+                        <div id="ptext-editor" class="editor-container">
+                            <div class="editor-controller disabled"></div>
+                            <label for="ptext-content" data-i18n="editor.form.label.content">内容</label>
+                            <textarea
+                                name="content"
+                                id="ptext-content"
+                            ></textarea>
+                            <div class="editor-bottom-bar">
+                                <span class="length">0 字符</span>
+                            </div>
+                        </div>
+
+                        <div class="webscreen-message-sent-effect" aria-hidden="true">
+                            <slot data-icon="material:send"></slot>
                         </div>
                     </div>
 
@@ -245,7 +265,7 @@
                         <div class="collapse-content hide">
                             <div class="echo-editor-form-row">
                                 <div class="fh-label" data-i18n="editor.form.label.sent_clear_input"></div>
-                                <div style="flex: 1;">
+                                <div style="flex: 1; width: 100%;">
                                     <label for="ptext-sent-clear-content" class="at-read-only-label" data-i18n="editor.form.label.sent_clear_input"></label>
                                     <textarea
                                         name="sent-clear-content"
@@ -274,7 +294,29 @@
                             <div class="echo-editor-form-row">
                                 <div class="fh-label" data-i18n="pip.title">画中画</div>
                                 <div id="ptext-box-open-document-pip" style="color: var(--text-regular);">
-                                    <button id="ptext-btn-open-document-pip" class="fh-button fh-ghost" disabled data-i18n="pip.open_pip_window"></button>
+                                    <button id="ptext-btn-open-document-pip" class="fh-button fh-icon-button fh-ghost" disabled>
+                                        <span class="icon fh-label-icon" aria-hidden="true">
+                                            <slot data-icon="material:picture-in-picture-bottom-right"></slot>
+                                        </span>
+                                        <span class="text fh-label-text" data-i18n="pip.open_pip_window"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="echo-editor-form-row">
+                                <div class="fh-label" data-i18n="editor.form.label.statistic">统计信息</div>
+                                <div>
+                                    <button id="ptext-btn-statistic-view" class="fh-button fh-icon-button fh-ghost">
+                                        <span class="icon fh-label-icon" aria-hidden="true">
+                                            <slot data-icon="material:chart-arc"></slot>
+                                        </span>
+                                        <span class="text fh-label-text" data-i18n="editor.form.label.statistic_view"></span>
+                                    </button>
+                                    <button id="ptext-btn-statistic-export" class="fh-button fh-icon-button fh-ghost">
+                                        <span class="icon fh-label-icon" aria-hidden="true">
+                                            <slot data-icon="material:export"></slot>
+                                        </span>
+                                        <span class="text fh-label-text" data-i18n="editor.form.label.statistic_export"></span>
+                                    </button>
                                 </div>
                             </div>
                         </div>

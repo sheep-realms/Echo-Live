@@ -11,9 +11,14 @@ const lang_zho_Hans = {
         date_time_common: "{y}-{MM}-{dd} {hh}:{mm}:{ss}",
         date: "{y} 年 {M} 月 {d} 日",
         date_pad_zero: "{y} 年 {MM} 月 {dd} 日",
-        date_time: "{y} 年 {M} 月 {d} 日 {h}:{m}:{s}",
+        date_time: "{y} 年 {M} 月 {d} 日 {h}:{mm}:{ss}",
         date_time_pad_zero: "{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}",
         time_common: "{hh}:{mm}:{ss}",
+        spacing: {
+            number_compact: " ",
+            compact_unit: "",
+            unit_suffix: "",
+        }
     },
     ui: {
         confirm: "确定",
@@ -59,7 +64,12 @@ const lang_zho_Hans = {
         }
     },
     unit: {
+        char: "字",
+        count: "次",
+        day: "天",
+        long_sec: "{m} 分钟 {s} 秒 | {h} 小时 {m} 分钟 {s} 秒 | {d} 天 {h} 小时 {m} 分钟 {s} 秒",
         ms: "毫秒",
+        rate: "%",
         sec: "秒"
     },
     avatar: {
@@ -925,6 +935,9 @@ const lang_zho_Hans = {
                 sent_clear_input: "模板",
                 split_message: "多行文本分割为消息队列",
                 startup_parameter: "启动参数",
+                statistic: "统计信息",
+                statistic_view: "查看统计信息",
+                statistic_export: "导出统计信息",
                 use_formatting_code: "使用快速格式化代码"
             },
             placeholder: {
@@ -1228,7 +1241,7 @@ const lang_zho_Hans = {
         tabpage: {
             broadcast: {
                 title: "广播",
-                description: "广播控制 [alt+6]"
+                description: "广播控制 [alt+5]"
             },
             config: {
                 title: "配置",
@@ -1350,6 +1363,7 @@ const lang_zho_Hans = {
         last_modified_date: "最后修改时间",
         size: "文件大小",
         checker: {
+            data_url_unavailable: "Data URL 和相对地址不可用",
             default_file_loaded: "默认路径中的配置文件已载入",
             empry: "未载入文件",
             state: {
@@ -1591,6 +1605,12 @@ const lang_zho_Hans = {
                 }
             }
         },
+        tips: {
+            images_cache_note: {
+                title: "注意事项",
+                description: "直接导入图片会占用较大的存储空间，而浏览器的持久化存储空间是有限的（不到 5 MB）。<br>因此请尽可能通过 URL 地址来导入图片。"
+            }
+        },
         title: {
             editor_overview: "编辑器使用指南",
             settings_overview: "配置文件编辑器使用指南"
@@ -1698,6 +1718,7 @@ const lang_zho_Hans = {
             title: "让我们开始下载...... 等一下？",
             message: "发布了新版本结果没上传文件？还能有这种事情？！"
         },
+        images_cache_storage_fail: "图片存储失败：图片过大或已达到存储容量上限，请清理一些图片。您可以改用填写图片地址来缓解存储负担。",
         import_image_url_empty: "未填写图片 URL！",
         local_storage_cleared: "已清除本地存储数据！",
         open_file_picker_cancel: "已取消选择文件！",
@@ -1821,6 +1842,48 @@ const lang_zho_Hans = {
         sys003: "冒泡",
         enter: "打字机回车",
         paper: "翻页"
+    },
+    statistic: {
+        overview: {
+            statistic_days: "统计天数"
+        },
+        editor: {
+            message: {
+                custom_code_sent_count: "自定义消息发送次数",
+                last_sent: "最近一次消息发送时间",
+                not_resent_count: "不包含重发的消息发送次数",
+                resent_count: "消息重新发送次数",
+                sent_character_average: "每条消息平均字数",
+                sent_character_total: "字符发送总数",
+                sent_count: "消息发送次数",
+                sent_max_length: "消息最大长度",
+                used_exclamation_mark_total: "感叹号使用总数",
+                used_formatting_code_count: "快速格式化代码使用次数",
+                used_question_mark_total: "问号使用总数",
+                session: {
+                    resent_max_count: "会话内消息重新发送最多次数",
+                    sent_character_max_total: "会话内发送最多总字数",
+                    sent_max_count: "会话内消息发送最多次数"
+                }
+            },
+            overview: {
+                last_session_created: "最近一次会话启动时间",
+                session_created_count: "会话启动次数",
+                session_created_daily_average: "每个活动日会话启动平均次数",
+                session_created_days: "会话活动总天数",
+                session_created_statistic_daily_rate: "每日会话活动率",
+                session_duration_average_second: "会话平均时长",
+                session_duration_max_second: "会话最大时长",
+                session_duration_total_second: "会话总时长"
+            }
+        },
+        misc: {
+            view_statistic_count: "“这是什么？统计信息？看一下！”"
+        }
+    },
+    statistic_info: {
+        empty_timestamp: "从未发生",
+        footer_description: "部分统计项需要在结束当前会话后才能完成统计。<br>这些数据仅存储于浏览器中，更换浏览器或清除浏览器数据会失去统计数据。<br>统计开始于：{ created_at }<br>统计截止于：{ modified_at }"
     },
     studio: {
         title: {

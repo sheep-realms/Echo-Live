@@ -1060,6 +1060,7 @@ $(document).ready(function() {
     $('.settings-about-footer-var-4').text(nowTime.getTime());
     $('.settings-about-footer-var-6').text(config.data_version);
     $('.settings-about-footer-var-7').text(`${ echoLiveSystem.registry.registryCount }, ${ echoLiveSystem.registry.itemCount }`);
+    $('.settings-about-footer-var-8').text(parseFloat((localStorageManager.storageOverview.rate * 100).toFixed(2)) + '%');
 
     // 获取 URL 参数中的跳转指令
 

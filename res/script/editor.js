@@ -24,6 +24,10 @@ window.addEventListener("error", (e) => {
 });
 
 let localStorageManager = new LocalStorageManager();
+let statisticManager = new StatisticManager(localStorageManager);
+let sessionMaxMetric = new SessionMaxMetric(statisticManager);
+statisticManager.addStatsItemValue('editor.overview.session_created_count');
+statisticManager.setStatsItemTime('editor.overview.last_session_created');
 
 let uniWindow = new UniverseWindow();
 
@@ -106,6 +110,11 @@ $(document).ready(function() {
         popupsCreate(Popups.imagePopups(), '#popups-image');
 
         try {
+            // localStorageManager.getCache('editor_images').then(value => {
+            //     selectedImageData = value;
+            //     if (!Array.isArray(selectedImageData)) selectedImageData = [];
+            //     $('#popups-image-images-list').html(Popups.imagesContent(selectedImageData));
+            // });
             selectedImageData = localStorageManager.getItem('images_cache');
             if (!Array.isArray(selectedImageData)) selectedImageData = [];
             $('#popups-image-images-list').html(Popups.imagesContent(selectedImageData));
@@ -129,23 +138,6 @@ $(document).ready(function() {
             if (config.editor.function.client_state_panel_enable || config.advanced.editor.forced_display_split_message) {
                 $('#collapse-split-message').removeClass('hide');
             }
-
-            // 输出 - 内容 - 快捷键
-            $('#output-content').keydown(function(e) {
-                if (e.code === 'Enter') {
-                    e.preventDefault();
-                    if (
-                        (!config.accessibility.send_on_enter && e.ctrlKey)
-                        || (config.accessibility.send_on_enter && !e.ctrlKey)
-                    ) {
-                        $('#output-btn-send').click();
-                        effectClick('#output-btn-send');
-                    } else if (config.accessibility.send_on_enter) {
-                        e.preventDefault();
-                        insertNewline(this);
-                    }
-                }
-            })
 
             $('.echo-live-client-state-content').html(EditorClientState.statePanel([]));
 
@@ -194,17 +186,17 @@ $(document).ready(function() {
 window.addEventListener("beforeunload", () => {
     localStorageManager.setItem('editor_form_storage', {
         plan_text: {
-            character: $('#ptext-character').val(),
-            content: $('#ptext-content').val(),
+            character: $('#ptext-character').val().substring(0, 128),
+            content: $('#ptext-content').val().substring(0, 512),
             use_formatting_code: $('#ptext-chk-use-formatting-code').val(),
             startup_parameter: $('#ptext-chk-more').val(),
             print_speed: $('#ptext-ipt-print-speed').val(),
             quote: $('#ptext-chk-quote').val(),
-            quote_before: $('#ptext-ipt-quote-before').val(),
-            quote_after: $('#ptext-ipt-quote-after').val(),
+            quote_before: $('#ptext-ipt-quote-before').val().substring(0, 128),
+            quote_after: $('#ptext-ipt-quote-after').val().substring(0, 128),
             split_message: $('#ptext-chk-split-message').val(),
             sent_clear: $('#ptext-chk-sent-clear').val(),
-            sent_clear_content: $('#ptext-sent-clear-content').val()
+            sent_clear_content: $('#ptext-sent-clear-content').val().substring(0, 512)
         }
     });
 });
@@ -244,6 +236,47 @@ function loadEditorFormStorage() {
     if (editorFormStorage?.plan_text?.split_message == 1) {
         $('#collapse-split-message').removeClass('hide');
     }
+}
+
+
+function sendMessageData(data) {
+    elb.sendData(data);
+    statisticManager.setStatsItemTime('editor.message.last_sent');
+    statisticManager.addStatsItemValue('editor.message.sent_count');
+    sessionMaxMetric.addValue('editor.message.session.sent_max_count');
+
+    let charsTotal = 0;
+    let messageStr = '';
+    data.messages.forEach(e => {
+        messageStr += EchoLiveTools.getMessagePlainText(e.message);
+    });
+    charsTotal += [...messageStr].length;
+
+    statisticManager.addStatsItemValue('editor.message.sent_character_total', charsTotal);
+    sessionMaxMetric.addValue('editor.message.session.sent_character_max_total', charsTotal);
+    statisticManager.updateStatsItemMaxValue('editor.message.sent_max_length', charsTotal);
+    statisticManager.addStatsItemValue('editor.message.used_exclamation_mark_total', countExclamationMarks(messageStr));
+    statisticManager.addStatsItemValue('editor.message.used_question_mark_total', countQuestionMarks(messageStr));
+}
+
+/**
+ * 统计字符串中的感叹号数量
+ * @param {string} text
+ * @returns {number}
+ */
+function countExclamationMarks(text) {
+    const exclamationRegex = /[!\u00A1\uFF01\u203C\u2049\u2757]/gu;
+    return (text.match(exclamationRegex) || []).length;
+}
+
+/**
+ * 统计字符串中的问号数量
+ * @param {string} text
+ * @returns {number}
+ */
+function countQuestionMarks(text) {
+    const questionRegex = /[\?\u00BF\uFF1F\u203D\u2753]/gu;
+    return (text.match(questionRegex) || []).length;
 }
 
 
@@ -542,6 +575,7 @@ function ptextSubmit() {
             text = EchoLiveTools.formattingCodeToMessage(text, {
                 images: selectedImageData
             });
+            statisticManager.addStatsItemValue('editor.message.used_formatting_code_count');
         }
     
         if ($('#ptext-chk-quote').val() == 1) {
@@ -559,6 +593,8 @@ function ptextSubmit() {
                     throw 'Message Packaging Exception'
                 }
             }
+            
+            statisticManager.addStatsItemValue('editor.message.used_quote_count');
         }
 
         return text;
@@ -617,10 +653,10 @@ $('#ptext-btn-submit').click(function() {
 });
 
 // 纯文本发送
-$('#ptext-btn-send').click(function() {
+$('#ptext-btn-send, #ptext-btn-send-2').click(function() {
     let d = ptextSubmit();
 
-    elb.sendData(d);
+    sendMessageData(d);
     sendHistoryMessage(d);
 
     let text = EchoLiveTools.getMessageSendLog(d.messages[0].message, d.username);
@@ -683,7 +719,8 @@ $('#output-btn-send').click(function() {
             echoLiveSystem.device.vibrateAuto('error');
             return;
         }
-        elb.sendData(msg);
+        sendMessageData(msg);
+        statisticManager.addStatsItemValue('editor.message.custom_code_sent_count');
         echoLiveSystem.device.vibrateAuto('success');
     } catch (_) {
         if (centent === '/cmd') {
@@ -900,7 +937,10 @@ $(document).on('click', '.history-message-item-btn-send', function() {
 
     if (config.editor.function.history_resend_bubble) $('#history-message-list').prepend($item);
     
-    elb.sendData(history[i].data);
+    sendMessageData(history[i].data);
+    statisticManager.addStatsItemValue('editor.message.resent_count');
+    sessionMaxMetric.addValue('editor.message.session.resent_max_count');
+
     echoLiveSystem.device.vibrateAuto('success');
     editorLogT('editor.log.message.resent');
 });
@@ -1026,6 +1066,7 @@ $('#ptext-character').keydown(function(e) {
 // 纯文本 - 内容 - 快捷键
 $('#ptext-content').keydown(function(e) {
     // console.log(e.code);
+    if (inCompositions) return;
     if (e.code === 'Enter') {
         if (
             (!config.accessibility.send_on_enter && e.ctrlKey)
@@ -1035,6 +1076,9 @@ $('#ptext-content').keydown(function(e) {
             if (!config.echolive.broadcast.enable) return;
             $('#ptext-btn-send').click();
             effectClick('#ptext-btn-send');
+            if (editorInFullscreen && !config.accessibility.animation_disable) {
+                $('.webscreen-message-sent-effect').addClass('show');
+            }
         } else if (config.accessibility.send_on_enter) {
             e.preventDefault();
             insertNewline(this);
@@ -1067,6 +1111,34 @@ $('#ptext-content').keydown(function(e) {
     }
 })
 
+// 输出 - 内容 - 快捷键
+$('#output-content').keydown(function(e) {
+    if (inCompositions) return;
+    if (e.code === 'Enter') {
+        e.preventDefault();
+        if (
+            (!config.accessibility.send_on_enter && e.ctrlKey)
+            || (config.accessibility.send_on_enter && !e.ctrlKey)
+        ) {
+            $('#output-btn-send').click();
+            effectClick('#output-btn-send');
+        } else if (config.accessibility.send_on_enter) {
+            e.preventDefault();
+            insertNewline(this);
+        }
+    }
+})
+
+let inCompositions = false;
+
+$(document).on('compositionstart', () => {
+    inCompositions = true;
+});
+
+$(document).on('compositionend', () => {
+    inCompositions = false;
+});
+
 $('#ptext-btn-open-document-pip').click(async function() {
     $('#ptext-btn-open-document-pip').prop('disabled', true);
 
@@ -1097,6 +1169,10 @@ $('#ptext-btn-open-document-pip').click(async function() {
     pipWindow.addEventListener("unload", () => {
         $('#ptext-btn-open-document-pip').prop('disabled', false);
     });
+});
+
+$(document).on('animationend', '.webscreen-message-sent-effect', function() {
+    $(this).removeClass('show');
 });
 
 
@@ -1293,17 +1369,91 @@ $(window).resize(function() {
     }
 });
 
-// let keyboardOpen = false;
+let keyboardOpen = false;
 
-// function adjustForKeyboard() {
-//     const keyboardOffset = window.innerHeight - window.visualViewport.height * window.visualViewport.scale;
-//     if (!keyboardOpen && keyboardOffset > 128) {
-//         keyboardOpen = true;
-//         sysNotice.send('keyboard_open');
-//     } else if (keyboardOpen && keyboardOffset <= 128 - 8) {
-//         keyboardOpen = false;
-//         sysNotice.send('keyboard_close');
-//     }
-// }
+function adjustForKeyboard() {
+    const keyboardOffset = window.innerHeight - window.visualViewport.height * window.visualViewport.scale;
+    if (!keyboardOpen && keyboardOffset > 128) {
+        keyboardOpen = true;
+        // sysNotice.send('keyboard_open');
+        if (config.echolive.broadcast.enable) $('#ptext-btn-send-2').removeClass('hide');
+    } else if (keyboardOpen && keyboardOffset <= 128 - 8) {
+        keyboardOpen = false;
+        // sysNotice.send('keyboard_close');
+        $('#ptext-btn-send-2').addClass('hide');
+    }
+}
 
-// window.visualViewport.addEventListener('resize', adjustForKeyboard);
+window.visualViewport.addEventListener('resize', adjustForKeyboard);
+
+let editorInFullscreen = false;
+
+function toggleEditorFullscreen() {
+    if (!document.fullscreenElement) {
+        $('#workspace-editor-base').get(0).requestFullscreen({
+            navigationUI: 'show'
+        }).then(() => {
+            editorInFullscreen = true;
+        }).catch((err) => {
+            alert(`尝试启用全屏模式时出错：${err.message}（${err.name}）`);
+        });
+    } else {
+        document.exitFullscreen();
+            editorInFullscreen = false;
+    }
+}
+
+
+
+$(document).on('click', '#ptext-btn-statistic-export', () => {
+    const data = statisticManager.exportStatistic();
+    uniWindow.textareaWindow(
+        JSON.stringify(data, null, 4),
+        $t('editor.form.label.statistic_export'),
+        {
+            size: {
+                width: 'min(calc(100vw - var(--gap-middle) * 4), 640px)',
+                height: 'min(calc(100vh - var(--gap-middle) * 4), 640px)'
+            },
+            maskClosable: true,
+            textarea: {
+                class: 'code',
+                readOnly: true
+            }
+        }
+    );
+});
+
+$(document).on('click', '#ptext-btn-statistic-view', () => {
+    statisticManager.addStatsItemValue('misc.view_statistic_count');
+    const data = statisticManager.exportStatistic();
+    uniWindow.window(
+        StatisticReportFactory.statsTable(data),
+        $t('editor.form.label.statistic_view'),
+        {
+            size: {
+                width: 'min(calc(100vw - var(--gap-middle) * 4), 640px)',
+                height: 'min(calc(100vh - var(--gap-middle) * 4), 640px)'
+            },
+            maskClosable: true,
+            textarea: {
+                class: 'code',
+                readOnly: true
+            },
+            expandClass: 'statistic-view-window'
+        }
+    );
+});
+
+statisticManager.on('exportStatistic', commitStatistic);
+
+function commitStatistic() {
+    const sessionDuration = Math.round(performance.now() / 1000);
+    statisticManager.updateStatsItemMaxValue('editor.overview.session_duration_max_second', sessionDuration);
+}
+
+window.addEventListener('beforeunload', function () {
+    const sessionDuration = Math.round(performance.now() / 1000);
+    statisticManager.addStatsItemValue('editor.overview.session_duration_total_second', sessionDuration);
+    commitStatistic();
+});

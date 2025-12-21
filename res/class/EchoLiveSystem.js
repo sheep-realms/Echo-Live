@@ -605,7 +605,7 @@ class EchoLiveRegistry {
     /**
      * 遍历注册表
      * @param {String} table 注册表名
-     * @param {Function} action 方法
+     * @param {(value: *, key: String, map: Map) => undefined} action 方法
      */
     forEach(table, action = () => {}) {
         let reg = this.getRegistry(table);

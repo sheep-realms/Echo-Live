@@ -53,7 +53,7 @@ class UniverseWindow {
             }
         });
 
-        $(document).on('click', '.fh-window-modal-bg.fh-window-modal-bg-closable', function(e) {
+        $(document).on('mousedown', '.fh-window-modal-bg.fh-window-modal-bg-closable', function(e) {
             if (e.target != this) return;
             that.closeWindow($(this).data('index'));
             that.runCallback($(this).data('index'), null);
@@ -75,6 +75,7 @@ class UniverseWindow {
      * @param {String} data.autoFocusButton 自动获得焦点的按钮
      * @param {String} data.autoFocusFormItem 自动获得焦点的表单项
      * @param {Boolean} data.closable 可关闭
+     * @param {String} data.expandClass 扩充 class
      * @param {Boolean} data.hasInput 是否有输入框
      * @param {String} data.icon 标题栏图标
      * @param {String} data.id ID
@@ -212,7 +213,9 @@ class UniverseWindow {
         if (this.windowList[index] == undefined ) return;
         if (this.windowList[index].closed == true) return;
         this.windowList[index].closed = true;
-        if (config.accessibility.animation_disable || $('html').hasClass('accessibility-animation-disable')) return this.killWindow(index);
+        if (
+            config.accessibility.animation_disable || $('html').hasClass('accessibility-animation-disable')
+        ) return this.killWindow(index);
         $(`.fh-window[data-index="${ index }"]`).addClass('window-close');
         $(`.fh-window[data-index="${ index }"] button`).attr('disabled', 'true');
         $(`.fh-window-modal-bg[data-index="${ index }"]`).addClass('window-close');
@@ -325,14 +328,15 @@ class UniverseWindowUnit {
 class UpdateWindow {
     constructor(parent) {
         this.parent = parent;
-        this.updateData = localStorageManager.getItem('updater');
+        this.updateData = undefined;
         this.windowUnit = undefined;
         this.windowUnitAssetsSelector = undefined;
 
         this.init();
     }
 
-    init() {
+    async init() {
+        this.updateData = await localStorageManager.getCache('updater');
         this.windowUnit = this.parent.window(
             FHUIWindow.releasesView(this.updateData.latestReleasesData),
             $t('updater.releases_details'),

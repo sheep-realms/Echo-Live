@@ -118,6 +118,11 @@ class StatisticManager {
             const key = segments[i];
             const isLast = i === segments.length - 1;
 
+            // Prevent prototype pollution via special property names
+            if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+                return false;
+            }
+
             if (current === null || typeof current !== 'object') return false;
             if (Array.isArray(current)) return false;
 

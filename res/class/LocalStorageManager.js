@@ -37,6 +37,15 @@ class LocalStorageManager {
         }
     }
 
+    get storageOverview() {
+        const s = localStorage.getItem(this.name);
+        return {
+            length: s.length,
+            maxLength: this.maxLength,
+            rate: s.length / this.maxLength
+        };
+    }
+
     /**
      * 清空存储
      */

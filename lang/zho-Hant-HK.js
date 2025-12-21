@@ -1363,6 +1363,7 @@ const lang_zho_Hant_HK = {
         last_modified_date: "最後修改時間",
         size: "文件大小",
         checker: {
+            data_url_unavailable: "Data URL 和相對地址不可用",
             default_file_loaded: "默認路徑中的配置文件已載入",
             empry: "未載入文件",
             state: {
@@ -1602,6 +1603,12 @@ const lang_zho_Hant_HK = {
                     title: "新人引導結束",
                     description: "再次感謝您使用 Echo-Live！如果您還有疑問，可以閱讀<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/' target='_blank'>幫助文檔</a>或諮詢開發者。"
                 }
+            }
+        },
+        tips: {
+            images_cache_note: {
+                title: "注意事項",
+                description: "直接導入圖片會佔用較大的存儲空間，而瀏覽器的持久化存儲空間是有限的（不到 5 MB）。<br>因此請盡可能通過 URL 地址來導入圖片。"
             }
         },
         title: {

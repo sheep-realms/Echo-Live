@@ -38,8 +38,21 @@ $(document).ready(function() {
 });
 
 $(document).on('click', '#image-file-input-box', function(e) {
+    if (!localStorageManager.getTutorialFlag('images_cache_note')) return showImagesCacheNote();
     filePicker();
 });
+
+function showImagesCacheNote() {
+    uniWindow.messageWindow(
+        $t('help.tips.images_cache_note.description'),
+        $t('help.tips.images_cache_note.title'),
+        {},
+        (v, unit) => {
+            if (v === 'confirm') localStorageManager.setTutorialFlag('images_cache_note');
+            unit.close();
+        }
+    );
+}
 
 async function filePicker() {
     try {
@@ -122,6 +135,7 @@ $(document).on('dragleave', '#image-file-input-box', function(e) {
 
 $(document).on('drop', '#image-file-input-box', function(e) {
     e.preventDefault()
+    if (!localStorageManager.getTutorialFlag('images_cache_note')) showImagesCacheNote();
     inFileDorp = false;
     inFileDorpLongTime = false;
     clearTimeout(inFileDorpTimer);
@@ -301,7 +315,7 @@ $(document).on('input', '#image-url', function() {
         return;
     }
     if (!config.echolive.image.allow_data_url_and_relative_url && value.search(/^(http:\/\/|https:\/\/|file:\/\/\/)/) == -1) {
-        $('.image-url-message').text('Data URL 和相对地址不可用');
+        $('.image-url-message').text($t('file.checker.data_url_unavailable'));
     } else {
         $('.image-url-message').text('');
     }

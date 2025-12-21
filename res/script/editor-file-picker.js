@@ -250,9 +250,9 @@ function addImageData(data, attr) {
     }
 
     try {
-        localStorageManager.setCache('editor_images', selectedImageData.flat());
+        localStorageManager.setItem('images_cache', selectedImageData.flat());
     } catch (_) {
-        // TODO：缓存图片异常处理
+        sysNotice.sendT('notice.images_cache_storage_fail', {}, 'error');
     }
 
     return r;
@@ -319,7 +319,7 @@ $(document).on('click', '#popups-image-images-list.in-delete .image-box', functi
     delete selectedImageData[value];
     $(`#popups-image-images-list .image-box[data-value="${value}"]`).remove();
     try {
-        localStorageManager.setCache('editor_images', selectedImageData.flat());
+        localStorageManager.setItem('images_cache', selectedImageData.flat());
     } catch (_) {}
 });
 
@@ -342,6 +342,6 @@ $(document).on('click', '#popups-image .btn-image-cache-delete-all', function() 
     $('#popups-image .images-list-action').html(Popups.imagesListAction(0));
     $('#popups-image .btn-image-cache-delete').focus();
     try {
-        localStorageManager.setCache('editor_images', selectedImageData.flat());
+        localStorageManager.setItem('images_cache', selectedImageData.flat());
     } catch (_) {}
 });

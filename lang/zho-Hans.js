@@ -1711,6 +1711,7 @@ const lang_zho_Hans = {
             title: "让我们开始下载...... 等一下？",
             message: "发布了新版本结果没上传文件？还能有这种事情？！"
         },
+        images_cache_storage_fail: "图片存储失败：图片过大或已达到存储容量上限，请清理一些图片。您可以改用填写图片地址来缓解存储负担。",
         import_image_url_empty: "未填写图片 URL！",
         local_storage_cleared: "已清除本地存储数据！",
         open_file_picker_cancel: "已取消选择文件！",

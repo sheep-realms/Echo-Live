@@ -32,8 +32,8 @@ class LocalStorageManager {
         if (sp?.data_version === 1) {
             this.setItem('data_version', 2);
             this.removeItem('updater');
-            if (Array.isArray(sp?.images_cache)) this.setCache('editor_images', sp.images_cache);
-            this.removeItem('images_cache');
+            // if (Array.isArray(sp?.images_cache)) this.setCache('editor_images', sp.images_cache);
+            // this.removeItem('images_cache');
         }
     }
 

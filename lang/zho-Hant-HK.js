@@ -1711,6 +1711,7 @@ const lang_zho_Hant_HK = {
             title: "讓我們開始下載...... 等一下？",
             message: "發布了新版本結果沒上傳文件？還能有這種事情？！"
         },
+        images_cache_storage_fail: "圖片存儲失敗：圖片過大或已達到存儲容量上限，請清理一些圖片。您可以改用填寫圖片地址來緩解存儲負擔。",
         import_image_url_empty: "未填寫圖片 URL！",
         local_storage_cleared: "已清除本地存儲數據！",
         open_file_picker_cancel: "已取消選擇文件！",

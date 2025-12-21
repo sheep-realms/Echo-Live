@@ -110,12 +110,14 @@ $(document).ready(function() {
         popupsCreate(Popups.imagePopups(), '#popups-image');
 
         try {
-            localStorageManager.getCache('editor_images').then(value => {
-                selectedImageData = value;
-                if (!Array.isArray(selectedImageData)) selectedImageData = [];
-                $('#popups-image-images-list').html(Popups.imagesContent(selectedImageData));
-            });
-            
+            // localStorageManager.getCache('editor_images').then(value => {
+            //     selectedImageData = value;
+            //     if (!Array.isArray(selectedImageData)) selectedImageData = [];
+            //     $('#popups-image-images-list').html(Popups.imagesContent(selectedImageData));
+            // });
+            selectedImageData = localStorageManager.getItem('images_cache');
+            if (!Array.isArray(selectedImageData)) selectedImageData = [];
+            $('#popups-image-images-list').html(Popups.imagesContent(selectedImageData));
         } catch (_) {
             
         }

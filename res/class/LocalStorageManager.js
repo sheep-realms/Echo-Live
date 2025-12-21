@@ -9,7 +9,7 @@
 class LocalStorageManager {
     constructor(name = 'echolive') {
         this.name = name;
-        this.maxLength = 500000;
+        this.maxLength = 1500000;
         this.idbAvailable = 'indexedDB' in window;
         this.dbName = `${name}-db`;
         this.cacheStoreName = '__cache__';
@@ -22,7 +22,7 @@ class LocalStorageManager {
      */
     init() {
         const s = localStorage.getItem(this.name);
-        if (s == null) {
+        if (s === null || s.length > this.maxLength) {
             localStorage.setItem(this.name, '{}');
             this.setItem('data_version', 2);
             return;

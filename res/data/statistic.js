@@ -58,6 +58,10 @@ echoLiveSystem.registry.loadRegistry('statistic', 'name', [
         unit: 'char',
         source: 'method'
     }, {
+        name: 'editor.message.sent_character_daily_average',
+        unit: 'char',
+        source: 'method'
+    }, {
         name: 'editor.message.sent_max_length',
         unit: 'char'
     }, {

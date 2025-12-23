@@ -1854,6 +1854,7 @@ const lang_zho_Hant_TW = {
                 not_resent_count: "不包含重發的訊息傳送次數",
                 resent_count: "訊息重新傳送次數",
                 sent_character_average: "每條訊息平均字數",
+                sent_character_daily_average: "每個活動日訊息平均字數",
                 sent_character_total: "字元傳送總數",
                 sent_count: "訊息傳送次數",
                 sent_max_length: "訊息最大長度",

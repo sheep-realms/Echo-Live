@@ -44,5 +44,14 @@ echoLiveSystem.registry.loadRegistry('statistic_method', 'name', [
             ]);
             return total / count;
         }
+    }, {
+        name: 'editor.message.sent_character_daily_average',
+        value: (s) => {
+            const [ count, total ] = s.getValues([
+                'editor.overview.session_created_days',
+                'editor.message.sent_character_total'
+            ]);
+            return total / count;
+        }
     }
 ]);

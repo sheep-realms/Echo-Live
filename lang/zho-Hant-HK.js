@@ -1854,6 +1854,7 @@ const lang_zho_Hant_HK = {
                 not_resent_count: "不包含重發的消息發送次數",
                 resent_count: "消息重新發送次數",
                 sent_character_average: "每條消息平均字數",
+                sent_character_daily_average: "每個活動日消息平均字數",
                 sent_character_total: "字符發送總數",
                 sent_count: "消息發送次數",
                 sent_max_length: "消息最大長度",

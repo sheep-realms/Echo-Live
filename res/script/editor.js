@@ -1067,7 +1067,7 @@ $('#ptext-character').keydown(function(e) {
 $('#ptext-content').keydown(function(e) {
     // console.log(e.code);
     if (inCompositions) return;
-    if (e.code === 'Enter') {
+    if (e.code === 'Enter' || e.code === 'NumpadEnter') {
         if (
             (!config.accessibility.send_on_enter && e.ctrlKey)
             || (config.accessibility.send_on_enter && !e.ctrlKey)
@@ -1114,7 +1114,7 @@ $('#ptext-content').keydown(function(e) {
 // 输出 - 内容 - 快捷键
 $('#output-content').keydown(function(e) {
     if (inCompositions) return;
-    if (e.code === 'Enter') {
+    if (e.code === 'Enter' || e.code === 'NumpadEnter') {
         e.preventDefault();
         if (
             (!config.accessibility.send_on_enter && e.ctrlKey)

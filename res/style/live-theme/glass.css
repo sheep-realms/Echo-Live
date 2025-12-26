@@ -365,6 +365,7 @@
 }
 
 #echo-live-history .history-message-item .message {
+    padding-inline-start: 1em;
     flex: var(--echo-live-history-flex-message);
     min-width: var(--echo-live-history-min-width-message);
     max-width: var(--echo-live-history-max-width-message);

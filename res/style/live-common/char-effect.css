@@ -45,12 +45,12 @@
 @keyframes move-in-up {
     0% {
         position: relative;
-        top: calc(-1em * var(--char-effect-scale-calc));
+        inset-block-start: calc(-1em * var(--char-effect-scale-calc));
         opacity: 0;
     }
     100% {
         position: relative;
-        top: 0em;
+        inset-block-start: 0em;
         opacity: 1;
     }
 }
@@ -59,12 +59,12 @@
 @keyframes move-in-down {
     0% {
         position: relative;
-        bottom: calc(-1em * var(--char-effect-scale-calc));
+        inset-block-end: calc(-1em * var(--char-effect-scale-calc));
         opacity: 0;
     }
     100% {
         position: relative;
-        bottom: 0em;
+        inset-block-end: 0em;
         opacity: 1;
     }
 }
@@ -72,11 +72,13 @@
 /* 放大进入 */
 @keyframes zoom-in-inside {
     0% {
+        text-indent: 0;
         opacity: 0;
         display: inline-block;
         transform: scale(max(calc(1 - var(--char-effect-scale-calc)), 0));
     }
     100% {
+        text-indent: 0;
         opacity: 1;
         display: inline-block;
         transform: scale(1);
@@ -86,11 +88,13 @@
 /* 缩小进入 */
 @keyframes zoom-in-outside {
     0% {
+        text-indent: 0;
         opacity: 0;
         display: inline-block;
         transform: scale(calc(2 * var(--char-effect-scale-calc)));
     }
     100% {
+        text-indent: 0;
         opacity: 1;
         display: inline-block;
         transform: scale(1);
@@ -111,45 +115,96 @@
 
 
 /* 废案 */
-.char-effect-scrape-out .echo-chr {
-    animation-name: scrape-out;
+.char-effect-scrape-out-bottom .echo-chr {
+    animation-name: scrape-out-bottom;
 }
 
-.char-effect-scrape-out .echo-chr::after {
+.char-effect-scrape-out-bottom .echo-chr::after {
     content: "";
-    animation-name: scrape-out-after;
+    animation-name: scrape-out-bottom-after;
 }
 
-@keyframes scrape-out {
+.char-effect-scrape-out-inline-end .echo-chr {
+    animation-name: scrape-out-inline-end;
+}
+
+.char-effect-scrape-out-inline-end .echo-chr::after {
+    content: "";
+    animation-name: scrape-out-inline-end-after;
+}
+
+@keyframes scrape-out-bottom {
     0% {
+        text-indent: 0;
         opacity: 0;
         position: relative;
         display: inline-block;
     }
     100% {
+        text-indent: 0;
         opacity: 1;
         position: relative;
         display: inline-block;
     }
 }
 
-@keyframes scrape-out-after {
+@keyframes scrape-out-bottom-after {
     0% {
+        text-indent: 0;
         position: absolute;
         display: inline-block;
-        width: 100%;
-        height: 100%;
-        left: 0;
-        bottom: 0;
-        background-color: #000;
+        inline-size: 100%;
+        block-size: 100%;
+        inset-inline-start: 0;
+        inset-block-end: 0;
+        background-color: currentColor;
     }
     100% {
+        text-indent: 0;
         position: absolute;
         display: inline-block;
-        width: 100%;
-        height: 0%;
-        left: 0;
-        bottom: 0;
-        background-color: #000;
+        inline-size: 100%;
+        block-size: 0%;
+        inset-inline-start: 0;
+        inset-block-end: 0;
+        background-color: currentColor;
+    }
+}
+
+@keyframes scrape-out-inline-end {
+    0% {
+        text-indent: 0;
+        opacity: 0;
+        position: relative;
+        display: inline-block;
+    }
+    100% {
+        text-indent: 0;
+        opacity: 1;
+        position: relative;
+        display: inline-block;
+    }
+}
+
+@keyframes scrape-out-inline-end-after {
+    0% {
+        text-indent: 0;
+        position: absolute;
+        display: inline-block;
+        inline-size: 100%;
+        block-size: 100%;
+        inset-inline-end: 0;
+        inset-block-end: 0;
+        background-color: currentColor;
+    }
+    100% {
+        text-indent: 0;
+        position: absolute;
+        display: inline-block;
+        inline-size: 0%;
+        block-size: 100%;
+        inset-inline-end: 0;
+        inset-block-end: 0;
+        background-color: currentColor;
     }
 }

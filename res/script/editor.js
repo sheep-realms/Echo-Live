@@ -289,6 +289,10 @@ function editorLog(message = '', type = 'info') {
         done();
     });
 
+    if ($('#tabpage-nav-log[aria-selected="true"]').length <= 0) {
+        logScrollButInvisible = true;
+    }
+
     // 防止日志过多
     let $logitems = $('#editor-log .log-item');
     if (config.editor.function.log_line_maximum >= 0 && $logitems.length > config.editor.function.log_line_maximum) {

@@ -14,6 +14,7 @@ const lang_zho_Hant_TW = {
         date_time: "{y} 年 {M} 月 {d} 日 {h}:{mm}:{ss}",
         date_time_pad_zero: "{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}",
         time_common: "{hh}:{mm}:{ss}",
+        time_non_sec: "{hh}:{mm}",
         spacing: {
             number_compact: " ",
             compact_unit: "",
@@ -1025,6 +1026,7 @@ const lang_zho_Hant_TW = {
                 page_hidden: "{client} 因不可見已休眠，識別名：{name}",
                 page_visible: "{client} 已喚醒，識別名：{name}",
                 ping_server: "有其他服務端加入頻道，識別名：{name}",
+                ping_server_custom_name: "有其他服務端加入頻道，識別名：{name}（{uuid}）",
                 set_theme_style_url: "收到來自其他服務端的命令：設定主題樣式檔案 URL 為 {url}",
                 set_theme: "收到來自其他服務端的命令：設定主題為 {name}",
                 shutdown: "收到來自其他服務端的命令：立即停止。",

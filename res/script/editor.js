@@ -367,12 +367,22 @@ function getMessage(data) {
             break;
 
         case 'ping':
-            editorLogT(
-                'editor.log.broadcast.ping_server',
-                {
-                    name: data.from.name
-                }
-            );
+            if (data.from.name !== data.from.uuid) {
+                editorLogT(
+                    'editor.log.broadcast.ping_server_custom_name',
+                    {
+                        name: data.from.name,
+                        uuid: data.from.uuid,
+                    }
+                );
+            } else {
+                editorLogT(
+                    'editor.log.broadcast.ping_server',
+                    {
+                        name: data.from.name
+                    }
+                );
+            }
             break;
 
         case 'echo_next':

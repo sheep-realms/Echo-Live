@@ -312,7 +312,7 @@ echo.on('customSequence', function(e) {
     if (config.echolive.print_audio.enable) echolive.playPrintSound();
 });
 
-echolive.on('playSound', function(name, volume, rate, type) {
+echolive.on('play_sound', function(name, volume, rate, type) {
     mixer.play(name, volume, rate, type);
 });
 
@@ -326,25 +326,25 @@ echolive.on('shutdown', function(reason) {
     }
 });
 
-echolive.on('displayShow', function(callback) {
+echolive.on('display_show', function(callback) {
     $('#echo-live, body').removeClass('display-hidden');
     setTimeout(() => {
         callback();
     }, config.echolive.display.show_time);
 });
 
-echolive.on('displayHidden', function(callback) {
+echolive.on('display_hidden', function(callback) {
     $('#echo-live, body').addClass('display-hidden');
     setTimeout(() => {
         callback();
     }, config.echolive.display.hidden_time);
 });
 
-echolive.on('displayHiddenNow', function() {
+echolive.on('display_hidden_now', function() {
     $('#echo-live, body').addClass('display-hidden');
 });
 
-echolive.on('controllerLoad', function(controller) {
+echolive.on('controller_load', function(controller) {
     const $sel = $('#echo-live .controller');
     $sel.html('');
     controller.content.forEach(e => {

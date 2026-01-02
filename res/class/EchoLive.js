@@ -30,16 +30,16 @@ class EchoLive {
             displayHiddenWait:  EchoLive.NOT_ACTIVE_TIMER,
             messagesPolling:    EchoLive.NOT_ACTIVE_TIMER
         };
-        this.event          = {
-            controllerLoad:     ( controller ) => {},
-            displayHidden:      ( callback = () => {} ) => {},
-            displayHiddenNow:   () => {},
-            displayShow:        ( callback = () => {} ) => {},
-            playSound:          ( name, volume, rate, type ) => {},
-            shutdown:           ( reason ) => {},
-            themeScriptLoad:    () => {},
-            themeScriptUnload:  () => {}
-        };
+        this.event          = new EchoLiveEventManager({
+            controller_load:        {},
+            display_hidden:         {},
+            display_hidden_now:     { defer: true },
+            display_show:           {},
+            play_sound:             {},
+            shutdown:               {},
+            theme_script_load:      {},
+            theme_script_unload:    {}
+        });
         this.task           = [];
         this.taskNow        = {};
         this.taskRunning    = false;
@@ -56,6 +56,10 @@ class EchoLive {
         this.debug          = {
             taskLog: false
         };
+
+        this.on     = this.event.on;
+        this.once   = this.event.once;
+        this.off    = this.event.off;
 
         this.init();
     }
@@ -138,17 +142,6 @@ class EchoLive {
         echoLiveSystem.hook.trigger('echolive_portal_init', {
             unit: this
         });
-    }
-
-    /**
-     * 绑定事件
-     * @param {String} eventName 事件名称
-     * @param {Function} action 函数
-     * @returns {Function} 函数
-     */
-    on(eventName, action = function() {}) {
-        if (typeof action != 'function') return;
-        return this.event[eventName] = action;
     }
 
     /**
@@ -464,7 +457,8 @@ class EchoLive {
         const now = performance.now();
         if (this.printSound.lastPlay + this.printSound.muteDuration > now) return false;
         this.printSound.lastPlay = now;
-        this.event.playSound(
+        this.event.emit(
+            'play_sound',
             this.printSound.audio.name,
             this.printSound.audio.volume,
             this.printSound.audio.rate,
@@ -502,9 +496,9 @@ class EchoLive {
         const theme = this.findTheme(name);
         if (theme === undefined) return;
 
-        this.event.themeScriptUnload();
-        this.event.themeScriptLoad      = function() {};
-        this.event.themeScriptUnload    = function() {};
+        this.event.emit('theme_script_unload');
+        this.event.clear('theme_script_load');
+        this.event.clear('theme_script_unload');
         $('script.echo-live-theme-script').remove();
 
         this.setThemeStyleUrl(theme.style);
@@ -519,7 +513,7 @@ class EchoLive {
             });
         }
 
-        this.event.themeScriptLoad();
+        this.event.emit('theme_script_load');
 
         return theme.style;
     }
@@ -552,7 +546,10 @@ class EchoLive {
         const controller = this.findController(name);
         if (controller === undefined) return;
 
-        this.event.controllerLoad(structuredClone(controller));
+        this.event.emit(
+            'controller_load',
+            structuredClone(controller)
+        );
     }
 
     /**
@@ -564,9 +561,9 @@ class EchoLive {
         this.idle = false;
         this.clearDisplayHiddenWaitTimer();
         this.broadcast.displayUpdate(true);
-        this.event.displayShow(() => {
+        this.event.emit('display_show', () => {
             this.endTask(taskID);
-        });
+        })
     }
 
     /**
@@ -578,9 +575,9 @@ class EchoLive {
         this.idle = true;
         this.clearDisplayHiddenWaitTimer();
         this.broadcast.displayUpdate(false);
-        this.event.displayHidden(() => {
+        this.event.emit('display_hidden', () => {
             this.endTask(taskID);
-        });
+        })
     }
 
     /**
@@ -589,7 +586,7 @@ class EchoLive {
     displayHiddenNow() {
         this.idle = true;
         this.clearDisplayHiddenWaitTimer();
-        this.event.displayHiddenNow();
+        this.event.emit('display_hidden_now');
     }
 
     clearDisplayHiddenWaitTimer() {
@@ -612,6 +609,6 @@ class EchoLive {
         this.broadcast = undefined;
         this.timer.messagesPolling = EchoLive.NOT_ACTIVE_TIMER;
         this.clearDisplayHiddenWaitTimer();
-        this.event.shutdown(reason);
+        this.event.emit('shutdown', reason);
     }
 }

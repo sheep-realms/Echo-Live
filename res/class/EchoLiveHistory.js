@@ -15,14 +15,18 @@ class EchoLiveHistory {
         this.prevMessage    = {};
         this.theme          = [];
         this.currentTheme   = "vanilla";
-        this.event          = {
-            latestHistoryDisplayChange:     function() {},
-            clearHistory:                   function() {},
-            newHistory:                     function() {},
-            shutdown:                       function() {},
-            themeScriptLoad:                function() {},
-            themeScriptUnload:              function() {},
-        };
+        this.event          = new EchoLiveEventManager({
+            latest_history_display_change:  {},
+            clear_history:                  {},
+            new_history:                    {},
+            shutdown:                       {},
+            theme_script_load:              {},
+            theme_script_unload:            {},
+        });
+
+        this.on     = this.event.on;
+        this.once   = this.event.once;
+        this.off    = this.event.off;
 
         this.init();
     }
@@ -84,14 +88,14 @@ class EchoLiveHistory {
         ) return;
         this.prevMessage = data;
         this.changeLatestHistoryDisplay(false);
-        this.event.newHistory(data);
+        this.event.emit('new_history', data);
     }
 
     /**
      * 清空历史记录
      */
     clear() {
-        this.event.clearHistory();
+        this.event.emit('clear_history');
     }
 
     /**
@@ -99,7 +103,7 @@ class EchoLiveHistory {
      * @param {Boolean} display 是否显示
      */
     changeLatestHistoryDisplay(display = false) {
-        this.event.latestHistoryDisplayChange(display);
+        this.event.emit('latest_history_display_change', display);
     }
 
     /**
@@ -131,9 +135,9 @@ class EchoLiveHistory {
         const theme = this.findTheme(name);
         if (theme === undefined) return;
 
-        this.event.themeScriptUnload()
-        this.event.themeScriptLoad      = function() {};
-        this.event.themeScriptUnload    = function() {};
+        this.event.emit('theme_script_unload');
+        this.event.clear('theme_script_load');
+        this.event.clear('theme_script_unload');
         $('script.echo-live-theme-script').remove();
 
         this.setThemeStyleUrl(theme.style);
@@ -148,7 +152,7 @@ class EchoLiveHistory {
             });
         }
 
-        this.event.themeScriptLoad();
+        this.event.emit('theme_script_load');
 
         return theme.style;
     }
@@ -170,6 +174,6 @@ class EchoLiveHistory {
      */
     shutdown(reason = undefined) {
         this.broadcast = undefined;
-        this.event.shutdown(reason);
+        this.event.emit('shutdown', reason);
     }
 }

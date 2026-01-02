@@ -36,6 +36,139 @@ class EchoLiveSystem {
     }
 }
 
+class EchoLiveEventManager {
+    constructor(eventConfig = {}) {
+        this._config        = Object.create(null);
+        this._events        = Object.create(null);
+        this._deferredQueue = Object.create(null);
+
+        for (const [eventName, config] of Object.entries(eventConfig)) {
+            this._config[eventName] = {
+                defer: false,
+                ...config
+            };
+            this._events[eventName] = [];
+            this._deferredQueue[eventName] = [];
+        }
+
+        this.on     = this.on.bind(this);
+        this.once   = this.once.bind(this);
+        this.off    = this.off.bind(this);
+        this.emit   = this.emit.bind(this);
+        this.clear  = this.clear.bind(this);
+    }
+
+    _assertEventExists(eventName) {
+        if (!this._config[eventName]) {
+            throw new Error(`Undefined Event: ${eventName}`);
+        }
+    }
+
+    /**
+     * 绑定事件
+     * @param {String} eventName 事件名称
+     * @param {Function} callback 回调
+     * @returns {Function} 解绑函数
+     */
+    on(eventName, callback) {
+        this._assertEventExists(eventName);
+        const listener = {
+            callback,
+            once: false
+        };
+        this._events[eventName].push(listener);
+        this._flushDeferred(eventName);
+        return () => this.off(eventName, callback);
+    }
+
+    /**
+     * 绑定一次性事件
+     * @param {String} eventName 事件名称
+     * @param {Function} callback 回调
+     * @returns {Function} 解绑函数
+     */
+    once(eventName, callback) {
+        this._assertEventExists(eventName);
+        const listener = {
+            callback,
+            once: true
+        };
+        this._events[eventName].push(listener);
+        this._flushDeferred(eventName);
+        return () => this.off(eventName, callback);
+    }
+
+    /**
+     * 解绑事件
+     * @param {String} eventName 事件名称
+     * @param {Function} callback 回调
+     */
+    off(eventName, callback) {
+        this._assertEventExists(eventName);
+        const listeners = this._events[eventName];
+        this._events[eventName] = listeners.filter(
+            listener => listener.callback !== callback
+        );
+    }
+
+    /**
+     * 清空绑定
+     * @param {String} eventName 事件名称
+     * @param {Object} options 选项
+     * @param {Boolean} options.clearDeferred 清空延后触发队列
+     */
+    clear(eventName, options = {}) {
+        this._assertEventExists(eventName);
+        this._events[eventName].length = 0;
+        if (options.clearDeferred) {
+            this._deferredQueue[eventName].length = 0;
+        }
+    }
+
+    /**
+     * 触发事件
+     * @param {String} eventName 事件名称
+     * @param  {...any} args 参数
+     */
+    emit(eventName, ...args) {
+        this._assertEventExists(eventName);
+        const listeners = this._events[eventName];
+        if (listeners.length === 0) {
+            if (this._config[eventName].defer) {
+                this._deferredQueue[eventName].push(args);
+            }
+            return;
+        }
+        this._invokeListeners(eventName, args);
+    }
+
+    _invokeListeners(eventName, args) {
+        const listeners = this._events[eventName];
+        const remaining = [];
+
+        for (const listener of listeners) {
+            listener.callback(...args);
+            if (!listener.once) {
+                remaining.push(listener);
+            }
+        }
+
+        this._events[eventName] = remaining;
+    }
+
+    _flushDeferred(eventName) {
+        const queue = this._deferredQueue[eventName];
+        if (queue.length === 0) {
+            return;
+        }
+
+        while (queue.length > 0 && this._events[eventName].length > 0) {
+            const args = queue.shift();
+            this._invokeListeners(eventName, args);
+        }
+    }
+}
+
 class EchoLiveData {
     constructor() {}
 

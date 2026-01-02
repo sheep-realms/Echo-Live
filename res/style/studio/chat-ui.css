@@ -1,0 +1,109 @@
+:root {
+    --color-chat-background: var(--msgbox-bgcolor);
+    --color-chat-message-bubble: var(--input-bgcolor);
+    --color-chat-avatar-background: var(--input-bgcolor);
+}
+
+.fh-chat-ui-view {
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-chat-background);
+    overflow-y: scroll;
+    padding: var(--gap-small) 0;
+}
+
+.chat-message-item {
+    display: flex;
+    gap: var(--gap-small);
+    padding: var(--gap-small) var(--gap-middle);
+    transition: background-color .15s;
+}
+
+.chat-message-item .avatar {
+    width: 3rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.chat-message-item .avatar-icon {
+    height: 3rem;
+    width: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-chat-avatar-background);
+    border-radius: 1.5rem;
+}
+
+.chat-message-item .avatar-icon svg {
+    height: 2rem;
+    width: 2rem;
+    fill: var(--text-regular);
+}
+
+.chat-message-item-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--gap-extra-small);
+}
+
+.chat-message-item .username {
+    font-size: var(--font-size-small);
+    color: var(--text-regular);
+    font-weight: bold;
+    word-break: break-word;
+}
+
+.chat-message-item .content {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--gap-demi-small);
+}
+
+.chat-message-item .content .message {
+    color: var(--text-primary);
+    background-color: var(--color-chat-message-bubble);
+    padding: var(--gap-small) var(--gap-demi-small);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.5rem;
+    min-height: 1.2rem;
+    word-break: break-word;
+}
+
+.chat-message-item .content .time {
+    min-width: 4rem;
+    font-size: var(--font-size-extra-small);
+    color: var(--text-secondary);
+    opacity: 1;
+    transition: opacity .15s;
+}
+
+.chat-message-item.merge-before {
+    padding-top: var(--gap-extra-small);
+}
+
+.chat-message-item.merge-before .username,
+.chat-message-item.merge-before .avatar-icon {
+    display: none;
+}
+
+.chat-message-item.merge-after {
+    padding-bottom: var(--gap-extra-small);
+}
+
+.chat-message-item.merge-after .from {
+    display: none;
+}
+
+.chat-message-item.merge-after:not(:hover) .content .time {
+    opacity: 0;
+}
+
+.chat-message-item .from {
+    font-size: var(--font-size-extra-small);
+    color: var(--text-placeholder);
+}

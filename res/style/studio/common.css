@@ -1,0 +1,4 @@
+#chat-wrapper {
+    height: calc(100vh - var(--height-top-nav) - var(--gap-large) - var(--gap-middle));
+    box-sizing: border-box;
+}

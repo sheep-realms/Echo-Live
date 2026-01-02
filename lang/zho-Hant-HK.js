@@ -1893,7 +1893,24 @@ const lang_zho_Hant_HK = {
     },
     studio: {
         title: {
+            broadcast_console: "廣播控制台 · Echo Live 工作室",
             text_to_messages: "文本轉消息格式 · Echo Live 工作室"
+        },
+        broadcast_console: {
+            tabpage: {
+                connect: {
+                    title: "連接",
+                    description: "廣播系統連接狀態 [alt+1]"
+                },
+                overview: {
+                    title: "總覽",
+                    description: "廣播系統概覽 [alt+2]"
+                },
+                message: {
+                    title: "消息",
+                    description: "消息歷史 [alt+3]"
+                }
+            }
         },
         text_to_messages: {
             colon: "：",

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="studio.title.broadcast_console">广播控制台 · Echo Live 工作室</title>
+    <link rel="icon" href="../res/image/favicon.ico">
+    <link rel="stylesheet" href="../res/style/fh-ui.css">
+    <link rel="stylesheet" href="../res/style/editor.css">
+    <link rel="stylesheet" href="../res/style/editor-accessibility.css">
+    <link rel="stylesheet" href="../res/style/studio/common.css">
+    <link rel="stylesheet" href="../res/style/studio/chat-ui.css">
+    <script src="../lib/jquery-3.7.1.min.js"></script>
+    <script src="../res/script/config-load-fail.js"></script>
+    <script src="../config.js" onerror="configLoadFail()"></script>
+    <script src="../app.js"></script>
+    <script src="../res/class/EchoLiveSystem.js"></script>
+    <script src="../res/data/root.js"></script>
+    <script src="../lang/index.js"></script>
+    <script src="../res/class/Translator.js"></script>
+    <script>
+        const translator = new Translator(config.global.language, {}, { useShortISO: config.accessibility.use_short_language_iso_code });
+        const $t = function(...e) {
+            return translator.output(...e);
+        };
+        const $tc = function(...e) {
+            return translator.outputByTextComponent(...e);
+        };
+        const $tn = function(...e) {
+            return translator.formatNumber(...e);
+        };
+        translator.init('../');
+    </script>
+    <script src="../res/data/icon.js"></script>
+    <script src="../res/class/Icon.js"></script>
+    <script src="../res/class/EchoLiveTools.js"></script>
+    <script src="../res/class/EchoLiveBroadcast.js"></script>
+    <script src="../res/class/SlotInstaller.js"></script>
+    <script src="../res/class/EditorConstructor.js"></script>
+    <script src="../res/class/FHUI.js"></script>
+    <script src="../res/class/studio/ChatUI.js"></script>
+    <script src="../res/class/studio/ChatSession.js"></script>
+    <script src="../res/class/SystemNotice.js"></script>
+</head>
+<body>
+    <main>
+        <!-- 标签页标题 -->
+        <nav id="echo-editor-nav" class="tabpage-nav" data-navid="main" role="tablist">
+            <button
+                id="tabpage-nav-connect"
+                class="tabpage-nav-item"
+                data-pageid="connect"
+                role="tab"
+                aria-selected="true"
+                accesskey="1"
+                data-i18n="studio.broadcast_console.tabpage.connect.title"
+                data-i18n-title="studio.broadcast_console.tabpage.connect.description"
+            >连接</button>
+            <button
+                id="tabpage-nav-overview"
+                class="tabpage-nav-item"
+                data-pageid="overview"
+                role="tab"
+                aria-selected="false"
+                accesskey="2"
+                data-i18n="studio.broadcast_console.tabpage.overview.title"
+                data-i18n-title="studio.broadcast_console.tabpage.overview.description"
+            >总览</button>
+            <button
+                id="tabpage-nav-message"
+                class="tabpage-nav-item"
+                data-pageid="message"
+                role="tab"
+                aria-selected="false"
+                accesskey="3"
+                data-i18n="studio.broadcast_console.tabpage.message.title"
+                data-i18n-title="studio.broadcast_console.tabpage.message.description"
+            >消息</button>
+        </nav>
+
+        <!-- 标签页面板 -->
+        <div class="tabpage-centent" data-navid="main">
+            <!-- 连接标签页 -->
+            <section class="tabpage-panel" role="tabpanel" data-pageid="connect" aria-labelledby="tabpage-panel-title-connect">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-connect" data-i18n="studio.broadcast_console.tabpage.connect.title"></h2>
+                <div class="echo-editor-form">
+                    <!-- <label for="character-split" data-i18n="studio.broadcast_console.label.character_split"></label>
+                    <input type="text" name="character" id="character-split" value="">
+
+                    <label for="text-edit" data-i18n="studio.broadcast_console.label.text"></label>
+                    <textarea name="message-data" id="text-edit" class="code"></textarea>
+
+                    <div class="editor-controller-bottom fh-flex-row fh-controller">
+                        <button id="btn-clear" class="fh-button fh-big fh-danger" data-i18n="ui.reset">重置</button>
+                        <button id="btn-submit" class="fh-button fh-big" data-i18n="ui.output">输出</button>
+                    </div> -->
+                </div>
+            </section>
+
+            <!-- 总览标签页 -->
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="overview" aria-labelledby="tabpage-panel-title-overview">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-overview" data-i18n="studio.broadcast_console.tabpage.overview.title"></h2>
+
+            </section>
+
+            <!-- 消息标签页 -->
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="message" aria-labelledby="tabpage-panel-title-message">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-message" data-i18n="studio.broadcast_console.tabpage.message.title"></h2>
+                <div id="chat-wrapper">
+                    
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div id="fh-notice" aria-live="polite"></div>
+
+    <script src="../res/script/i18n.js" defer></script>
+    <script src="../res/script/editor-common.js" defer></script>
+    <script src="../res/script/studio/broadcast_console/common.js" defer></script>
+</body>
+</html>

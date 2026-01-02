@@ -1893,7 +1893,24 @@ const lang_zho_Hans = {
     },
     studio: {
         title: {
+            broadcast_console: "广播控制台 · Echo Live 工作室",
             text_to_messages: "文本转消息格式 · Echo Live 工作室"
+        },
+        broadcast_console: {
+            tabpage: {
+                connect: {
+                    title: "连接",
+                    description: "广播系统连接状态 [alt+1]"
+                },
+                overview: {
+                    title: "总览",
+                    description: "广播系统概览 [alt+2]"
+                },
+                message: {
+                    title: "消息",
+                    description: "消息历史 [alt+3]"
+                }
+            }
         },
         text_to_messages: {
             colon: "：",

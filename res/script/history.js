@@ -21,11 +21,11 @@ const urlThemeVariant = EchoLiveTools.getUrlParam('theme-variant');
 echoLiveHistory.setTheme(urlTheme || config.history.style.history_theme || config.global.theme);
 echoLiveHistory.setThemeVariant(urlThemeVariant || config.history.style.history_theme_variant || config.global.theme_variant || '');
 
-echoLiveHistory.on('newHistory', function(e) {
+echoLiveHistory.on('new_history', function(e) {
     sendHistory(e.username, e.message);
 });
 
-echoLiveHistory.on('clearHistory', function() {
+echoLiveHistory.on('clear_history', function() {
     $('#echo-live-history-message-list').text('');
 });
 
@@ -39,7 +39,7 @@ echoLiveHistory.on('shutdown', function(reason) {
     }
 });
 
-echoLiveHistory.on('latestHistoryDisplayChange', function(e) {
+echoLiveHistory.on('latest_history_display_change', function(e) {
     if (e) {
         $('html').addClass('echo-live-history-latest-message-show');
         if (config.history.message_list_reverse) {

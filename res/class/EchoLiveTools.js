@@ -654,4 +654,30 @@ class EchoLiveTools {
             }
         }
     }
+
+    /**
+     * 自动滚动控制
+     * @param {string|HTMLElement|JQuery} target - 容器选择器或元素
+     * @param {(isAtBottom: boolean, done: Function) => void} callback
+     * @param {number} [threshold=5] - 像素容差
+     */
+    static withAutoScroll(target, callback, threshold = 10) {
+        const $el = $(target);
+        if ($el.length === 0) return;
+
+        const el = $el[0];
+
+        const isAtBottom =
+            el.scrollTop + el.clientHeight >= el.scrollHeight - threshold;
+
+        const done = isAtBottom
+            ? function () {
+                requestAnimationFrame(() => {
+                    el.scrollTop = el.scrollHeight;
+                });
+            }
+            : function () {};
+
+        callback(isAtBottom, done);
+    }
 }

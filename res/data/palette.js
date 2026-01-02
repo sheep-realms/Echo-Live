@@ -401,6 +401,24 @@ echoLiveSystem.registry.loadRegistry('palette', e => e.meta.name, [
             },
             {
                 type: 'class',
+                value: 'orbit-1',
+                title: { name: '', translate: 'custom_class.style.orbit_1' },
+                image: 'res/image/editor/palette/orbit_1.png'
+            },
+            {
+                type: 'class',
+                value: 'orbit-2',
+                title: { name: '', translate: 'custom_class.style.orbit_2' },
+                image: 'res/image/editor/palette/orbit_2.png'
+            },
+            {
+                type: 'class',
+                value: 'orbit-3',
+                title: { name: '', translate: 'custom_class.style.orbit_3' },
+                image: 'res/image/editor/palette/orbit_3.png'
+            },
+            {
+                type: 'class',
                 value: 'roll-down',
                 title: { name: '旋转倒置', translate: 'custom_class.style.roll_down' },
                 image: 'res/image/editor/palette/roll_down.png'

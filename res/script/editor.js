@@ -283,8 +283,11 @@ function countQuestionMarks(text) {
 let logMsgMark = 0;
 
 function editorLog(message = '', type = 'info') {
-    $('#editor-log').append(`<div class="log-item log-type-${type}" ${type === 'dbug' ? 'aria-hidden="true"' : ''}><span class="time" aria-hidden="true">${EchoLiveTools.formatDate(undefined, 'date_time_common')}</span> <span class="type" aria-label="${ $t('editor.log.accessibility.type.' + type) }">[${type.toUpperCase()}]</span> <span class="message" ${type === 'erro' || type === 'warn' ? ' role="alert"' : ''}>${message}</span></div>`);
-    $('#editor-log').scrollTop(4503599627370496);
+    EchoLiveTools.withAutoScroll('#editor-log', (_, done) => {
+        $('#editor-log').append(`<div class="log-item log-type-${type}" ${type === 'dbug' ? 'aria-hidden="true"' : ''}><span class="time" aria-hidden="true">${EchoLiveTools.formatDate(undefined, 'date_time_common')}</span> <span class="type" aria-label="${ $t('editor.log.accessibility.type.' + type) }">[${type.toUpperCase()}]</span> <span class="message" ${type === 'erro' || type === 'warn' ? ' role="alert"' : ''}>${message}</span></div>`);
+        // $('#editor-log').scrollTop(4503599627370496);
+        done();
+    });
 
     if ($('#tabpage-nav-log[aria-selected="true"]').length <= 0) {
         logScrollButInvisible = true;
@@ -364,12 +367,22 @@ function getMessage(data) {
             break;
 
         case 'ping':
-            editorLogT(
-                'editor.log.broadcast.ping_server',
-                {
-                    name: data.from.name
-                }
-            );
+            if (data.from.name !== data.from.uuid) {
+                editorLogT(
+                    'editor.log.broadcast.ping_server_custom_name',
+                    {
+                        name: data.from.name,
+                        uuid: data.from.uuid,
+                    }
+                );
+            } else {
+                editorLogT(
+                    'editor.log.broadcast.ping_server',
+                    {
+                        name: data.from.name
+                    }
+                );
+            }
             break;
 
         case 'echo_next':

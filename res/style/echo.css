@@ -244,23 +244,62 @@
 .echo-text-wave-1 .echo-chr {
     display: inline-block;
     animation: echo-text-wave 2s ease-in-out infinite;
-    will-change: transform;
 }
 
 .echo-text-wave-2 .echo-chr {
     display: inline-block;
     animation: echo-text-wave 1s ease-in-out infinite;
-    will-change: transform;
 }
 
 .echo-text-wave-3 .echo-chr {
     display: inline-block;
     animation: echo-text-wave .5s ease-in-out infinite;
-    will-change: transform;
 }
 
 @keyframes echo-text-wave {
     0%   { transform: translateY(-0.08em); }
     50%   { transform: translateY(0.08em); }
     100% { transform: translateY(-0.08em); }
+}
+
+.echo-text-orbit-1,
+.echo-text-orbit-2,
+.echo-text-orbit-3 {
+    text-indent: 0;
+}
+
+.echo-text-orbit-1 .echo-chr {
+    display: inline-block;
+    animation: echo-text-orbit-motion 2s linear infinite;
+}
+
+.echo-text-orbit-2 .echo-chr {
+    display: inline-block;
+    animation: echo-text-orbit-motion 1.2s linear infinite;
+}
+
+.echo-text-orbit-3 .echo-chr {
+    display: inline-block;
+    animation: echo-text-orbit-motion .7s linear infinite;
+}
+
+.echo-text-rlo .echo-text-orbit-1 .echo-chr,
+.echo-text-rlo .echo-text-orbit-2 .echo-chr,
+.echo-text-rlo .echo-text-orbit-3 .echo-chr {
+    animation-direction: reverse;
+}
+
+@keyframes echo-text-orbit-motion {
+    from {
+        transform:
+            rotate(0deg)
+            translateX(0.08em)
+            rotate(0deg);
+    }
+    to {
+        transform:
+            rotate(-360deg)
+            translateX(0.08em)
+            rotate(360deg);
+    }
 }

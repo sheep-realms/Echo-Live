@@ -18,7 +18,7 @@ class EchoLiveBroadcast {
         this.custom     = {
             name:       undefined,
             color:      undefined,
-            data:       {}
+            expand:     undefined
         };
         this.broadcast  = new BroadcastChannel(channel);
         this.websocket  = undefined;
@@ -176,10 +176,11 @@ class EchoLiveBroadcast {
                 name:       this.getName(),
                 uuid:       this.uuid,
                 type:       this.type,
-                timestamp:  new Date().getTime()
+                timestamp:  new Date().getTime(),
             },
             data:   data
         };
+        if (typeof this.custom.expand === 'object') d.from.expand = this.custom.expand;
 
         if (this.isServer && target === undefined) {
             let r = this.clients.filter(e => e.target !== 'none');
@@ -404,6 +405,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         this.websocketReconnectCount    = 0;
         this.websocketClosed            = false;
         this.websocketStopped           = false;
+        this.custom.name = `Echo-Live Editor [${ APP_META.version }${ APP_META.isBeta ? ' in DEV' : '' }]`
         this.clients    = [];
         this.timer      = {
             ...this.timer,

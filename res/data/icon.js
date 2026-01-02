@@ -4,6 +4,10 @@ echoLiveSystem.registry.loadRegistry('icon', 'name', [
         "content": "<svg class=\"fh-svg-loading-diamond\" xmlns='http://www.w3.org/2000/svg' viewBox=\"0 0 8 8\"><polygon points='4,0 6,2 4,4 2,2' fill='black' /><polygon points='6,2 8,4 6,6 4,4' fill='transparent' /><polygon points='4,4 6,6 4,8 2,6' fill='transparent' /><polygon points='2,2 4,4 2,6 0,4' fill='transparent' /></svg>"
     },
     {
+        "name": "material:account",
+        "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z\" /></svg>"
+    },
+    {
         "name": "material:account-box",
         "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M6,17C6,15 10,13.9 12,13.9C14,13.9 18,15 18,17V18H6M15,9A3,3 0 0,1 12,12A3,3 0 0,1 9,9A3,3 0 0,1 12,6A3,3 0 0,1 15,9M3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3H5C3.89,3 3,3.9 3,5Z\" /></svg>"
     },

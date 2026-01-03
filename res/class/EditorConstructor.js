@@ -988,7 +988,7 @@ class SettingsPanel {
             aria-selected="false"
             title="${ $t( 'config.' + item.id + '._description' ) }"
         >
-            <span class="icon left" aria-hidden="true">${ item.icon !== undefined ? Icon.getIcon(item.icon) : ''}</span>
+            <span class="icon left" aria-hidden="true">${ Icon.getIcon(item.icon) }</span>
             <span class="title">${ $t( 'config.' + item.id + '._title' ) }</span>
             <span class="icon right" aria-hidden="true"></span>
         </button>`;
@@ -1355,7 +1355,7 @@ class SettingsPanel {
             ${ !data.isDebug ? 'target="_blank"' : '' }
             ${ data.isDebug ? `data-debug="${ data.debug }"` : '' }
         >
-            <div class="icon left">${ icon != undefined ? Icon.getIcon(icon) : '' }</div>
+            <div class="icon left">${ Icon.getIcon(icon) }</div>
             <div class="title">${ title }</div>
             <div class="icon right">${ !data?.isDebug ? Icon.getIcon('material:open-in-new') : '' }</div>
         </a>`;
@@ -1479,7 +1479,7 @@ class SettingsFileChecker {
 
     static dialog(title = '', description = '', controller = '', icon = undefined, domClass = '') {
         return `<div class="file-check-dialog ${ domClass }">
-            <div class="icon">${ icon != undefined ? Icon.getIcon(icon) : ''}</div>
+            <div class="icon">${ Icon.getIcon(icon) }</div>
             <div class="title">${ title }</div>
             <div class="description">${ description }</div>
             <div class="controller">${ controller }</div>
@@ -1735,7 +1735,7 @@ class FHUINotice {
             width: undefined,
             ...data
         };
-        let iconDOM = Icon.getIcon(data.icon) !== undefined ? Icon.getIcon(data.icon) : Icon.getIcon('material:information');
+        let iconDOM = Icon.getIcon(data.icon, 'material:information');
 
         return `<div
                 class="
@@ -1817,12 +1817,7 @@ class FHUIWindow {
             ...data
         }
 
-        let iconDom = '';
-        if (data.icon !== undefined && Icon.getIcon(data.icon) !== undefined) {
-            iconDom = Icon.getIcon(data.icon);
-        } else {
-            iconDom = Icon.getIcon('material:information');
-        }
+        let iconDom = Icon.getIcon(data.icon, 'material:information');
 
         let dom = `<div
             role="dialog"

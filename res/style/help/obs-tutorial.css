@@ -1,0 +1,45 @@
+:root {
+    scrollbar-width: none;
+}
+
+main {
+    height: 100vh;
+    width: 100%;
+}
+
+#obs-tutorial-player {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+#obs-tutorial-player .hidden {
+    display: none;
+}
+
+#obs-tutorial-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+    transition: filter .7s, background-color .7s;
+    position: relative;
+}
+
+#obs-tutorial-view.stopped {
+    filter: grayscale(0.75);
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+#obs-tutorial-control {
+    height: calc(var(--height-component-large) * 2);
+    width: 100%;
+    border-top: var(--border-color) 1px solid;
+    box-sizing: border-box;
+    padding: var(--gap-middle);
+}

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="page_title.editor">Echo Live 编辑器</title>
+    <link rel="icon" href="../res/image/favicon.ico">
+    <link rel="stylesheet" href="../lib/driver/driver.css">
+    <link rel="stylesheet" href="../res/style/fh-ui.css">
+    <link rel="stylesheet" href="../res/style/editor.css">
+    <link rel="stylesheet" href="../res/style/editor-accessibility.css">
+    <link rel="stylesheet" href="../res/style/driver-custom.css">
+    <link rel="stylesheet" href="../res/style/help/obs-studio-view.css">
+    <link rel="stylesheet" href="../res/style/help/obs-tutorial.css">
+    <script src="../lib/jquery-3.7.1.min.js"></script>
+    <script src="../lib/driver/driver.js.iife.js"></script>
+    <script src="../lib/markdown/marked.min.js"></script>
+    <script src="../res/script/config-load-fail.js"></script>
+    <script src="../config.js" onerror="configLoadFail()"></script>
+    <script src="../app.js"></script>
+    <script src="../res/class/EchoLiveSystem.js"></script>
+    <script src="../res/data/root.js"></script>
+    <script src="../lang/index.js"></script>
+    <script src="../res/class/Translator.js"></script>
+    <script id="translator-init">
+        const translator = new Translator(config.global.language, {}, { useShortISO: config.accessibility.use_short_language_iso_code });
+        const $t = function(...e) {
+            return translator.output(...e);
+        };
+        const $tc = function(...e) {
+            return translator.outputByTextComponent(...e);
+        };
+        const $tn = function(...e) {
+            return translator.formatNumber(...e);
+        };
+        translator.init('../');
+    </script>
+    <script src="../res/data/icon.js"></script>
+    <script src="../res/class/Icon.js"></script>
+    <script src="../res/class/EchoLiveTools.js"></script>
+    <script src="../res/class/SlotInstaller.js"></script>
+    <script src="../res/class/SystemNotice.js"></script>
+    <script src="../res/class/FHUI.js"></script>
+    <script src="../res/class/EditorConstructor.js"></script>
+    <script src="../res/class/UniverseWindow.js"></script>
+    <script src="../res/class/help/OBSTutorial.js"></script>
+</head>
+<body>
+    <main>
+        <div id="obs-tutorial-player">
+            <div id="obs-tutorial-view">
+                <div id="obs-studio-view" aria-hidden="true">
+                    <div class="title-bar">
+                        <div class="content">
+                            <div class="title"></div>
+                        </div>
+                        <div class="control">
+                            <div class="box"></div>
+                            <div class="box"></div>
+                            <div class="box"></div>
+                        </div>
+                    </div>
+                    <div class="menu-bar">
+                        <div class="menu-bar-item" id="menu-file">文件(F)</div>
+                        <div class="menu-bar-item" id="menu-edit">编辑(E)</div>
+                        <div class="menu-bar-item" id="menu-view">视图(V)</div>
+                        <div class="menu-bar-item" id="menu-dock">停靠窗口(D)</div>
+                        <div class="menu-bar-item" id="menu-profile">配置文件(P)</div>
+                        <div class="menu-bar-item" id="menu-scene">场景集合(S)</div>
+                        <div class="menu-bar-item" id="menu-tool">工具(T)</div>
+                        <div class="menu-bar-item" id="menu-help">帮助(H)</div>
+                    </div>
+                    <div class="wrapper wrapper-top">
+                        <div class="panel panel-scene">
+                            <div class="panel-title">场景</div>
+                            <div class="panel-body">
+                                <div class="panel-list" id="slot-scene"></div>
+                                <div class="panel-list-control">
+                                    <div class="button icon-button" id="btn-scene-add">
+                                        <slot data-icon="material:plus"></slot>
+                                    </div>
+                                    <div class="button icon-button" id="btn-scene-delete">
+                                        <slot data-icon="material:delete"></slot>
+                                    </div>
+                                    <div class="button icon-button">
+                                        <slot data-icon="material:gradient-horizontal"></slot>
+                                    </div>
+                                    <div class="button icon-button">
+                                        <slot data-icon="material:chevron-up"></slot>
+                                    </div>
+                                    <div class="button icon-button">
+                                        <slot data-icon="material:chevron-down"></slot>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-source">
+                            <div class="panel-title">来源</div>
+                            <div class="panel-body">
+                                <div class="panel-list" id="slot-source"></div>
+                                <div class="panel-list-control">
+                                    <div class="button icon-button" id="btn-source-add">
+                                        <slot data-icon="material:plus"></slot>
+                                    </div>
+                                    <div class="button icon-button" id="btn-source-delete">
+                                        <slot data-icon="material:delete"></slot>
+                                    </div>
+                                    <div class="button icon-button" id="btn-source-settings">
+                                        <slot data-icon="material:cog"></slot>
+                                    </div>
+                                    <div class="button icon-button">
+                                        <slot data-icon="material:chevron-up"></slot>
+                                    </div>
+                                    <div class="button icon-button">
+                                        <slot data-icon="material:chevron-down"></slot>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wrapper wrapper-preview">
+                            <div class="wrapper wrapper-preview-content">
+                                <div class="wrapper-preview-video" id="view-preview"></div>
+                            </div>
+                            <div class="panel panel-source-control">
+                                <div class="title">
+                                    <div class="example-wrapper">
+                                        <div class="example-line"></div>
+                                    </div>
+                                </div>
+                                <div class="control-bar">
+                                    <div class="button" id="btn-source-control-settings">
+                                        <slot data-icon="material:cog"></slot>
+                                        <span>设置</span>
+                                    </div>
+                                    <div class="button">
+                                        <slot data-icon="material:gradient-horizontal"></slot>
+                                        <span>滤镜</span>
+                                    </div>
+                                    <div class="button" id="btn-source-control-interaction">
+                                        <slot data-icon="material:cursor-pointer"></slot>
+                                        <span>交互</span>
+                                    </div>
+                                    <div class="button" id="btn-source-control-refresh">
+                                        <slot data-icon="material:refresh"></slot>
+                                        <span>刷新</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wrapper wrapper-bottom">
+                        <div class="panel panel-static">
+                            <div class="panel-title">统计</div>
+                            <div class="panel-body">
+                                <div class="example-wrapper">
+                                    <div class="example-line"></div>
+                                    <div class="example-line"></div>
+                                    <div class="example-line"></div>
+                                    <div class="example-line"></div>
+                                    <div class="example-line"></div>
+                                    <div class="example-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-mixir">
+                            <div class="panel-title">混音器</div>
+                            <div class="panel-body">
+                                <div class="example-wrapper auto-flex">
+                                    <div class="example-line"></div>
+                                    <div class="example-line"></div>
+                                    <div class="example-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-animation">
+                            <div class="panel-title">转场动画</div>
+                            <div class="panel-body">
+                                <div class="example-wrapper line-size-middle">
+                                    <div class="example-line"></div>
+                                    <div class="example-line"></div>
+                                    <div class="example-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-control">
+                            <div class="panel-title">控制按钮</div>
+                            <div class="panel-body">
+                                <div class="example-wrapper auto-flex">
+                                    <div class="example-line"></div>
+                                    <div class="example-line"></div>
+                                    <div class="example-line"></div>
+                                    <div class="example-line"></div>
+                                    <div class="example-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wrapper wrapper-footer">
+                        <div class="example-wrapper auto-flex">
+                            <div class="example-line"></div>
+                            <div class="example-line"></div>
+                            <div class="example-line"></div>
+                            <div class="example-line"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="obs-studio-window-wrapper" class="hidden">
+
+                </div>
+            </div>
+            <div id="obs-tutorial-control"></div>
+        </div>
+    </main>
+    <script src="../res/script/i18n.js" defer></script>
+    <script src="../res/script/editor-common.js" defer></script>
+    <script src="../res/script/help/obs-tutorial.js" defer></script>
+</body>
+</html>

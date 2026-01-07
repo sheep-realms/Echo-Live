@@ -1608,6 +1608,20 @@ const lang_zho_Hans = {
                     title: "新人引导结束",
                     description: "再次感谢您使用 Echo-Live！如果您还有疑问，可以阅读<a class='fh-link' href='https://sheep-realms.github.io/Echo-Live-Doc/' target='_blank'>帮助文档</a>或咨询开发者。"
                 }
+            },
+            obs_tutorial_install_portal: {
+                s1: {
+                    title: "在 OBS 中添加对话框",
+                    description: "本教程将指导您如何在 OBS 中添加 Echo-Live 对话框。"
+                },
+                s2: {
+                    title: "来源窗口",
+                    description: "这里是来源窗口，我们需要在这里添加对话框。在您自己的 OBS 中，来源窗口可能在别的位置，请认准窗口标题。"
+                },
+                s3: {
+                    title: "添加新的来源",
+                    description: "点击此按钮添加新的来源，在弹出菜单中选择“浏览器”，然后在弹出对话框中确认。"
+                }
             }
         },
         tips: {

@@ -17,7 +17,7 @@ class ShortcutManager {
      * @param {'ctrl-enter'|'enter'} config.submitKey.mode 组合模式
      * @param {Boolean} config.submitKey.swap 互换行为 
      * @param {Function} config.submitKey.handler 触发函数
-     * @param {'always'|'ctrlOnly'|'none'} config.submitKey.imeGuard IEM 避让
+     * @param {'always'|'ctrlOnly'|'none'} config.submitKey.imeGuard IME 避让
      * @param {{ keys: String, handler: Function }[]} config.shortcuts 快捷键列表
      * @param {String} config.shortcuts[].keys 按键组合
      * @param {Function} config.shortcuts[].handler 触发函数

@@ -15,11 +15,13 @@ class ShortcutManager {
      * @param {Object} config 配置
      * @param {Object} config.submitKey 提交快捷键
      * @param {'ctrl-enter'|'enter'} config.submitKey.mode 组合模式
-     * @param {Boolean} config.submitKey.swap 互换行为
+     * @param {Boolean} config.submitKey.swap 互换行为 
      * @param {Function} config.submitKey.handler 触发函数
+     * @param {'always'|'ctrlOnly'|'none'} config.submitKey.imeGuard IEM 避让
      * @param {{ keys: String, handler: Function }[]} config.shortcuts 快捷键列表
      * @param {String} config.shortcuts[].keys 按键组合
      * @param {Function} config.shortcuts[].handler 触发函数
+     * @param {Boolean} config.shortcuts[].allowMultiple 允许快捷键多次注册（忽略警告）
      */
     registerView(name, config) {
 		if (this.views.has(name)) {

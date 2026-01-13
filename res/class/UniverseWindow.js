@@ -79,7 +79,10 @@ class UniverseWindow {
      * @param {Boolean} data.hasInput 是否有输入框
      * @param {String} data.icon 标题栏图标
      * @param {String} data.id ID
-     * @param {Array<String|Object>} data.controller 控制器按钮
+     * @param {(String|Object)[]} data.controller 控制器按钮
+     * @param {String} data.controller[].id 控制器按钮 ID
+     * @param {String} data.controller[].content 控制器按钮内容
+     * @param {Object} data.controller[].data 控制器按钮属性
      * @param {Boolean} data.maskClosable 点击蒙层可关闭
      * @param {Boolean} data.modal 模态
      * @param {String} data.style 样式
@@ -112,7 +115,10 @@ class UniverseWindow {
      * @param {Boolean} data.closable 可关闭
      * @param {String} data.icon 标题栏图标
      * @param {String} data.id ID
-     * @param {Array<String|Object>} data.controller 控制器按钮
+     * @param {(String|Object)[]} data.controller 控制器按钮
+     * @param {String} data.controller[].id 控制器按钮 ID
+     * @param {String} data.controller[].content 控制器按钮内容
+     * @param {Object} data.controller[].data 控制器按钮属性
      * @param {Boolean} data.maskClosable 点击蒙层可关闭
      * @param {Boolean} data.modal 模态
      * @param {String} data.style 样式
@@ -137,7 +143,10 @@ class UniverseWindow {
      * @param {Boolean} data.closable 可关闭
      * @param {String} data.icon 标题栏图标
      * @param {String} data.id ID
-     * @param {Array<String|Object>} data.controller 控制器按钮
+     * @param {(String|Object)[]} data.controller 控制器按钮
+     * @param {String} data.controller[].id 控制器按钮 ID
+     * @param {String} data.controller[].content 控制器按钮内容
+     * @param {Object} data.controller[].data 控制器按钮属性
      * @param {Boolean} data.maskClosable 点击蒙层可关闭
      * @param {Boolean} data.modal 模态
      * @param {Boolean} data.readonly 只读

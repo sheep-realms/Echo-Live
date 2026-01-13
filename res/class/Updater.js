@@ -81,7 +81,7 @@ class Updater {
 
     /**
      * 检查是否有新版本
-     * @param {Array<Object>} data 版本列表
+     * @param {Object[]} data 版本列表
      * @param {Function} callback 回调
      */
     async updateCheckCallback(data = [], callback = () => {}) {

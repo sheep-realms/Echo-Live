@@ -112,10 +112,10 @@ class EchoLiveTools {
 
     /**
      * 获取段落格式纯文本内容
-     * @param {String|Object|Array<Object>} message 段落格式
-     * @param {Boolean} HTMLFilter 是否启用 HTML 过滤器
-     * @param {Boolean} noEmoji 是否禁用表情符号
-     * @param {RegExp} regFilter 过滤正则表达式
+     * @param {String|Object|Object[]} message 段落格式
+     * @param {Boolean} [HTMLFilter] 是否启用 HTML 过滤器
+     * @param {Boolean} [noEmoji] 是否禁用表情符号
+     * @param {RegExp} [regFilter] 过滤正则表达式
      * @returns {String} 纯文本内容
      */
     static getMessagePlainText(message, HTMLFilter = false, noEmoji = false, regFilter = undefined) {
@@ -169,8 +169,8 @@ class EchoLiveTools {
     /**
      * 获取段落格式最终呈现的用户名
      * @param {String} username 初始用户名
-     * @param {String|Object|Array<Object>} message 段落格式
-     * @param {Boolean} HTMLFilter 是否启用 HTML 过滤器
+     * @param {String|Object|Object[]} message 段落格式
+     * @param {Boolean} [HTMLFilter] 是否启用 HTML 过滤器
      * @returns {String} 说话人
      */
     static getMessageUsername(username, message, HTMLFilter = false) {
@@ -197,8 +197,8 @@ class EchoLiveTools {
 
     /**
      * 获取发送消息时的日志格式
-     * @param {String|Object|Array<Object>} message 段落格式
-     * @param {String} username 说话人
+     * @param {String|Object|Object[]} message 段落格式
+     * @param {String} [username] 说话人
      * @returns {String} 日志输出格式
      */
     static getMessageSendLog(message, username = '') {
@@ -213,9 +213,9 @@ class EchoLiveTools {
     /**
      * 快速格式化代码转换成段落格式
      * @param {String} text 文本
-     * @param {Object} data 附加数据
+     * @param {Object} [data] 附加数据
      * @param {Object} data.images 图片列表
-     * @returns {String|Object|Array<Object>} 段落格式
+     * @returns {String|Object|Object[]} 段落格式
      */
     static formattingCodeToMessage(text, data = {}) {
         let message = [];
@@ -454,8 +454,8 @@ class EchoLiveTools {
     
     /**
      * 格式化秒级时间
-     * @param {number} seconds 秒数
-     * @returns {{ d: number, h: number, m: number, s: number }}
+     * @param {Number} seconds 秒数
+     * @returns {{ d: Number, h: Number, m: Number, s: Number }}
      */
     static formatDuration(seconds) {
         const total = Math.max(0, Math.floor(seconds));
@@ -471,7 +471,7 @@ class EchoLiveTools {
     /**
      * 安全输出 HTML
      * @param {String} text 文本
-     * @param {Boolean} inAttribute 在属性值中
+     * @param {Boolean} [inAttribute] 在属性值中
      * @returns {String} 过滤后的文本
      */
     static safeHTML(text, inAttribute = false) {
@@ -546,7 +546,7 @@ class EchoLiveTools {
     /**
      * 生成 driver.js 引导数据
      * @param {Object} data 附加数据
-     * @param {Array<Object>} steps 步骤数据
+     * @param {Object[]} steps 步骤数据
      * @returns {Object} 引导数据
      */
     static generateDriverData(data = {}, steps = []) {
@@ -570,9 +570,9 @@ class EchoLiveTools {
      * 生成 driver.js 引导步骤
      * @param {String} key 翻译键
      * @param {Number} step 总步骤数
-     * @param {Array<Object>} elementData 目标元素数据
-     * @param {Array<Object>} popoverData 附加数据
-     * @returns {Array<Object>} 步骤数据
+     * @param {Object[]} elementData 目标元素数据
+     * @param {Object[]} popoverData 附加数据
+     * @returns {Object[]} 步骤数据
      */
     static generateDriverSteps(key = '', step = 1, elementData = [], popoverData = []) {
         let steps = [];
@@ -612,7 +612,7 @@ class EchoLiveTools {
      * 替换字符串占位符
      * @param {String} str 源字符串
      * @param {Object} data 变量集
-     * @param {'single'|'double'|'triple'} type 替换类型
+     * @param {'single'|'double'|'triple'} [type] 替换类型
      * @returns {String} 替换后的字符串
      */
     static replacePlaceholders(str, data, type = 'single') {
@@ -657,9 +657,9 @@ class EchoLiveTools {
 
     /**
      * 自动滚动控制
-     * @param {string|HTMLElement|JQuery} target - 容器选择器或元素
-     * @param {(isAtBottom: boolean, done: Function) => void} callback
-     * @param {number} [threshold=5] - 像素容差
+     * @param {String|HTMLElement|JQuery} target - 容器选择器或元素
+     * @param {(isAtBottom: Boolean, done: Function) => void} callback
+     * @param {Number} [threshold=10] - 像素容差
      */
     static withAutoScroll(target, callback, threshold = 10) {
         const $el = $(target);

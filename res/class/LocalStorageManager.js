@@ -130,7 +130,7 @@ class LocalStorageManager {
 
     /**
      * 打开 IndexedDB
-     * @param {Array<String>} storeNames 存储桶名称列表
+     * @param {String[]} storeNames 存储桶名称列表
      * @private
      */
     _openDB(storeNames = []) {

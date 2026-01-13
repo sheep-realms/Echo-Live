@@ -70,7 +70,7 @@ class FHUI {
 
     /**
      * 拼接 DOM 元素
-     * @param {Array<String|undefined|null>} content 元素列表
+     * @param {(String|undefined|null)[]} content 元素列表
      * @returns {String} DOM
      */
     static __elementJoin(content = []) {
@@ -381,7 +381,7 @@ class FHUIComponentInput {
      * @param {'text'|'number'|'password'|'search'|'url'|'email'|'tel'} type 文本框类型
      * @param {Object} data 数据
      * @param {String} data.class 类
-     * @param {Array<Object>} data.datalist 数据列表
+     * @param {Object[]} data.datalist 数据列表
      * @param {String} data.datalist_id 数据列表 ID
      * @param {String|Number} data.default_value 默认值
      * @param {String} data.id ID
@@ -481,7 +481,7 @@ class FHUIComponentInput {
      * @param {Object} data 数据
      * @param {String} data.class 类
      * @param {String|Number} data.default_value 默认值
-     * @param {Array<Object>} data.label 标签列表
+     * @param {Object[]} data.label 标签列表
      * @param {String} data.id ID
      * @param {Boolean} data.hasInput 有输入框
      * @param {String} data.name 名称
@@ -806,7 +806,7 @@ class FHUIComponentInput {
 
     /**
      * 文本框数据列表
-     * @param {Array<Object>} values 值列表
+     * @param {Object[]} values 值列表
      * @param {String|Number} values[].value 值
      * @param {String} values[].title 标题
      * @param {Object} data 数据

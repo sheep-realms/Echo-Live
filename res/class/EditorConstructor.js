@@ -304,7 +304,7 @@ class Popups {
 
     /**
      * 拾色器色板切换选项
-     * @param {Array<Object>} palette 色板列表
+     * @param {Object[]} palette 色板列表
      * @returns {String} DOM
      */
     static paletteOptions(palette = []) {
@@ -384,7 +384,7 @@ class Popups {
 
     /**
      * 拾色器色板页面
-     * @param {Array<Object>} palette 色板列表
+     * @param {Object[]} palette 色板列表
      * @returns {String} DOM
      */
     static palettePage(palette = []) {
@@ -446,7 +446,7 @@ class Popups {
 
     /**
      * 拾色器悬浮框
-     * @param {Array<Object>} palette 色板列表
+     * @param {Object[]} palette 色板列表
      * @param {Object} data 属性值
      * @param {String} data.class 类
      * @param {Object} data.pos 位置
@@ -527,7 +527,7 @@ class Popups {
 
     /**
      * 表情选择器悬浮框
-     * @param {Array<Object>} emojiPacks 表情包列表
+     * @param {Object[]} emojiPacks 表情包列表
      * @param {Object} data 属性值
      * @param {String} data.class 类
      * @param {Object} data.pos 位置
@@ -595,7 +595,7 @@ class Popups {
 
     /**
      * 表情选择器切换选项
-     * @param {Array<Object>} emojiPacks 表情包列表
+     * @param {Object[]} emojiPacks 表情包列表
      * @returns {String} DOM
      */
     static emojiOptions(emojiPacks = []) {
@@ -608,7 +608,7 @@ class Popups {
 
     /**
      * 表情选择器页面
-     * @param {Array<Object>} emojiPacks 表情包列表
+     * @param {Object[]} emojiPacks 表情包列表
      * @returns {String} DOM
      */
     static emojiPage(emojiPacks = []) {
@@ -1790,7 +1790,10 @@ class FHUIWindow {
      * @param {String} data.icon 标题栏图标
      * @param {String} data.id ID
      * @param {Number} data.index 索引编号
-     * @param {Array<String|Object>} data.controller 控制器按钮
+     * @param {(String|Object)[]} data.controller 控制器按钮
+     * @param {String} data.controller[].id 控制器按钮 ID
+     * @param {String} data.controller[].content 控制器按钮内容
+     * @param {Object} data.controller[].data 控制器按钮属性
      * @param {Boolean} data.maskClosable 点击蒙层可关闭
      * @param {Boolean} data.modal 模态
      * @param {String} data.style 样式

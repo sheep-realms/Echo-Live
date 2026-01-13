@@ -12,7 +12,7 @@ class DataFilter {
      * @description 请注意将高开销条件后置
      * @param {String} filterText 检索语句
      * @param {Object|DataFilterConditions} conditions 条件列表
-     * @param {Array<Object>} data 检索数据
+     * @param {Object[]} data 检索数据
      * @param {Function} dataUpdater 数据更新过程
      */
     constructor(filterText = '', conditions = [], data = [], dataUpdater = undefined) {
@@ -41,8 +41,8 @@ class DataFilter {
 
     /**
      * 比较数组权重
-     * @param {Array<Number>} a 数组
-     * @param {Array<Number>} b 数组
+     * @param {Number[]} a 数组
+     * @param {Number[]} b 数组
      * @returns {Number} -1 ~ 1
      */
     static compareArrays(a, b) {
@@ -74,7 +74,7 @@ class DataFilter {
     /**
      * 检索数据
      * @param {String} filterText 检索语句
-     * @returns {Array<*>} 结果
+     * @returns {any[]} 结果
      */
     filter(filterText = this.filterText) {
         if (this.updateRequired) {
@@ -201,7 +201,7 @@ class DataFilter {
 class DataFilterConditions {
     /**
      * 条件列表
-     * @param {Array<Object>} conditions 条件数据
+     * @param {Object[]} conditions 条件数据
      */
     constructor(conditions = []) {
         this.conditions = conditions;
@@ -295,8 +295,8 @@ class DataFilterConditions {
 
     /**
      * 条件检查
-     * @param {Array<Object>} search 检索条件列表
-     * @param {Array} keywords 关键词
+     * @param {Object[]} search 检索条件列表
+     * @param {String[]} keywords 关键词
      * @param {Object} item 检索数据
      * @returns {Boolean} 结果
      */
@@ -324,7 +324,7 @@ class DataFilterConditions {
     /**
      * 检查单一条件
      * @param {Object} condition 条件数据
-     * @param {Array<Object>} searchData 检索条件
+     * @param {Object[]} searchData 检索条件
      * @param {Object} item 检索数据
      * @returns {Boolean} 结果
      */
@@ -412,8 +412,8 @@ class DataFilterConditions {
 
     /**
      * 关键词搜索检查
-     * @param {String|Array<String>} text 待查询字符串
-     * @param {Array<String>} keywords 关键词列表
+     * @param {String|String[]} text 待查询字符串
+     * @param {String[]} keywords 关键词列表
      * @returns {Boolean} 结果
      */
     search(text, keywords) {
@@ -437,9 +437,9 @@ class DataFilterConditions {
 
     /**
      * 关键词权重查询
-     * @param {String|Array<String>} text 待查询字符串
-     * @param {Array<String>} keywords 关键词列表
-     * @returns {Array<Number>} 结果
+     * @param {String|String[]} text 待查询字符串
+     * @param {String[]} keywords 关键词列表
+     * @returns {Number[]} 结果
      */
     searchIndexOf(text, keywords) {
         if (!Array.isArray(text)) text = [text];

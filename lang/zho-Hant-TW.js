@@ -878,6 +878,7 @@ const lang_zho_Hant_TW = {
         shutdown_reason: "Echo-Live 因收到 shutdown 命令已停止執行，原因為“{reason}”，需要重新啟動請重新整理此頁面。"
     },
     editor: {
+        controller_title: "{title} [{shortcut}]",
         client_state: {
             active: "啟用",
             none: "未加入",

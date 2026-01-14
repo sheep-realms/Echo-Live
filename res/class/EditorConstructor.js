@@ -181,71 +181,45 @@ class EditorForm {
     /**
      * 编辑器控制器
      * @param {String} editorID 编辑器ID
+     * @param {Object[]} controllerData 控制器数据
      * @returns {String} DOM
      */
-    static editorController(editorID) {
-        return DOMConstructor.join([
-            EditorForm.buttonAir('', {
-                icon: Icon.getIcon('material:format-bold'),
-                class: 'editor-format-btn',
-                attr: `data-editorid="${editorID}" data-value="bold"`,
-                title: $t('editor.format.bold') + ' [Ctrl+B]'
-            }),
-            EditorForm.buttonAir('', {
-                icon: Icon.getIcon('material:format-italic'),
-                class: 'editor-format-btn',
-                attr: `data-editorid="${editorID}" data-value="italic"`,
-                title: $t('editor.format.italic') + ' [Ctrl+I]'
-            }),
-            EditorForm.buttonAir('', {
-                icon: Icon.getIcon('material:format-underline'),
-                class: 'editor-format-btn',
-                attr: `data-editorid="${editorID}" data-value="underline"`,
-                title: $t('editor.format.underline') + ' [Ctrl+U]'
-            }),
-            EditorForm.buttonAir('', {
-                icon: Icon.getIcon('material:format-strikethrough-variant'),
-                class: 'editor-format-btn',
-                attr: `data-editorid="${editorID}" data-value="strikethrough"`,
-                title: $t('editor.format.strikethrough') + ' [Ctrl+D]'
-            }),
-            EditorForm.buttonAir('', {
-                icon: Icon.getIcon('material:palette'),
-                class: 'editor-format-btn',
-                attr: `data-editorid="${editorID}" data-value="color"`,
-                title: $t('editor.format.color') + ' [Ctrl+Shift+C]'
-            }),
-            EditorForm.buttonAir('', {
-                icon: Icon.getIcon('material:emoticon-happy'),
-                class: 'editor-format-btn',
-                attr: `data-editorid="${editorID}" data-value="emoji"`,
-                title: $t('editor.format.emoji') + ' [Ctrl+E]'
-            }),
-            EditorForm.buttonAir('', {
-                icon: Icon.getIcon('material:image'),
-                class: 'editor-format-btn',
-                attr: `data-editorid="${editorID}" data-value="image"`,
-                title: $t('editor.format.image') + ' [Ctrl+Shift+I]'
-            }),
-            EditorForm.buttonAir('', {
-                icon: Icon.getIcon('material:format-font-size-increase'),
-                class: 'editor-format-btn',
-                attr: `data-editorid="${editorID}" data-value="font_size_increase"`,
-                title: $t('editor.format.font_size_increase') + ' [Ctrl+↑]'
-            }),
-            EditorForm.buttonAir('', {
-                icon: Icon.getIcon('material:format-font-size-decrease'),
-                class: 'editor-format-btn',
-                attr: `data-editorid="${editorID}" data-value="font_size_decrease"`,
-                title: $t('editor.format.font_size_decrease') + ' [Ctrl+↓]'
-            }),
-            EditorForm.buttonAir('', {
-                icon: Icon.getIcon('material:format-clear'),
-                class: 'editor-format-btn',
-                attr: `data-editorid="${editorID}" data-value="clear"`,
-                title: $t('editor.format.clear') + ' [Ctrl+Shift+Space]'
+    static editorController(editorID, controllerData) {
+        const controller = controllerData.filter(e => e.type !== 'hidden');
+        let dom = [];
+        const typeMap = {
+            item: 'editorControllerItem'
+        }
+        controller.forEach(e => {
+            if (typeMap[e.type] !== undefined) {
+                dom.push(EditorForm[typeMap[e.type]](editorID, e));
+            }
+        });
+        return DOMConstructor.join(dom);
+    }
+
+    static editorControllerItem(editorID, item) {
+        return EditorForm.buttonAir('', {
+            icon: Icon.getIcon(item.icon, 'material:help'),
+            class: 'editor-format-btn',
+            attr: `data-editorid="${ editorID }" data-value="${ item.name }"`,
+            title: $t('editor.controller_title', {
+                title: $tc(item.title, { before: 'editor.format.' }),
+                shortcut: EditorForm.editorControllerShortcut(item)
             })
-        ]);
+        });
+    }
+
+    static editorControllerShortcut(item) {
+        if (item.shortcut?.description !== undefined) {
+            return item.shortcut.description;
+        } else if (item.shortcut?.keys) {
+            if (Array.isArray(item.shortcut.keys)) {
+                return 'Ctrl+' + item.shortcut.keys[0];
+            } else {
+                return 'Ctrl+' + item.shortcut.keys;
+            }
+        }
     }
 }
 

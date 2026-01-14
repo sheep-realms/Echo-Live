@@ -96,7 +96,12 @@ $(document).ready(function() {
 
         $('#ptext-editor .editor-bottom-bar .length').text($t('editor.form.text_length', { n: 0 }));
 
-        $('.tabpage-panel[data-pageid="ptext"] .editor-controller').append(EditorForm.editorController('ptext-content'));
+        $('.tabpage-panel[data-pageid="ptext"] .editor-controller').append(
+            EditorForm.editorController(
+                'ptext-content',
+                echoLiveSystem.registry.getRegistryArray('editor_controller')
+            )
+        );
 
         popupsCreate(Popups.palettePopups(echoLiveEditor.getPalettes()), '#popups-palette');
         $('#popups-palette .palette-page').eq(0).removeClass('hide');
@@ -853,41 +858,9 @@ function sendHistoryMessage(data) {
 
 // 编辑器控制器点击
 $(document).on('click', '.editor-format-btn', function() {
-    let editorID = $(this).data('editorid'),
-        value = $(this).data('value');
-    
-    const format = {
-        bold:               '@b',
-        italic:             '@i',
-        underline:          '@u',
-        strikethrough:      '@s',
-        font_size_increase: '@+',
-        font_size_decrease: '@-',
-        clear:              '@r'
-    };
-
-    let forceRepeatBefore = false;
-
-    if (value == 'font_size_increase' || value == 'font_size_decrease') forceRepeatBefore = true;
-    
-    if (value == 'clear') {
-        insertTextAtCursor(editorID, format.clear, '', false, false, false, true, function(e) {
-            return e.replace(/(?<!\\)@(\[#[0-9a-fA-F]{3,8}\]|\{.*?\}|\S)/g, '');
-        });
-    } else if (value == 'color') {
-        popupsDisplay('#popups-palette');
-        popupsMoveToElement('#popups-palette', '.editor-controller button[data-value="color"]');
-        $('#popups-palette-select').focus();
-    } else if (value == 'emoji') {
-        popupsDisplay('#popups-emoji');
-        popupsMoveToElement('#popups-emoji', '.editor-controller button[data-value="emoji"]');
-        $('#popups-emoji-select').focus();
-    } else if (value == 'image') {
-        popupsDisplay('#popups-image');
-        popupsMoveToElement('#popups-image', '.editor-controller button[data-value="image"]');
-        $('#popups-image-nav .tabpage-nav-item[aria-selected="true"]').focus();
-    } else {
-        insertTextAtCursor(editorID, format[value], format.clear, false, forceRepeatBefore);
+    const value = $(this).data('value');
+    if (typeof editorControllerHandler[value] === 'function') {
+        return editorControllerHandler[value]();
     }
 });
 
@@ -1076,82 +1049,6 @@ $('#ptext-character').keydown(function(e) {
     }
 });
 
-// 纯文本 - 内容 - 快捷键
-$('#ptext-content').keydown(function(e) {
-    // console.log(e.code);
-    if (inCompositions) return;
-    if (e.code === 'Enter' || e.code === 'NumpadEnter') {
-        if (
-            (!config.accessibility.send_on_enter && e.ctrlKey)
-            || (config.accessibility.send_on_enter && !e.ctrlKey)
-        ) {
-            e.preventDefault();
-            if (!config.echolive.broadcast.enable) return;
-            $('#ptext-btn-send').click();
-            effectClick('#ptext-btn-send');
-            if (editorInFullscreen && !config.accessibility.animation_disable) {
-                $('.webscreen-message-sent-effect').addClass('show');
-            }
-        } else if (config.accessibility.send_on_enter) {
-            e.preventDefault();
-            insertNewline(this);
-        }
-    } else if (e.code === 'KeyS' && e.ctrlKey) {
-        e.preventDefault();
-    } else if (e.ctrlKey) {
-        let code = {
-            'KeyB':         'bold',
-            'KeyI':         'italic',
-            'KeyU':         'underline',
-            'KeyD':         'strikethrough',
-            'KeyC':         'color',
-            'KeyE':         'emoji',
-            'ArrowUp':      'font_size_increase',
-            'ArrowDown':    'font_size_decrease',
-            'Space':        'clear'
-        };
-        if (code[e.code] === undefined) return;
-        if (e.code === 'Space' && !e.shiftKey) return;
-        if (e.code === 'KeyC' && !e.shiftKey) return;
-        if (e.code == 'KeyI' && e.shiftKey) {
-            e.preventDefault();
-            $(`#ptext-editor .editor-controller:not(.disabled) button[data-value="image"]`).click();
-            return;
-        }
-
-        e.preventDefault();
-        $(`#ptext-editor .editor-controller:not(.disabled) button[data-value="${code[e.code]}"]`).click();
-    }
-})
-
-// 输出 - 内容 - 快捷键
-$('#output-content').keydown(function(e) {
-    if (inCompositions) return;
-    if (e.code === 'Enter' || e.code === 'NumpadEnter') {
-        e.preventDefault();
-        if (
-            (!config.accessibility.send_on_enter && e.ctrlKey)
-            || (config.accessibility.send_on_enter && !e.ctrlKey)
-        ) {
-            $('#output-btn-send').click();
-            effectClick('#output-btn-send');
-        } else if (config.accessibility.send_on_enter) {
-            e.preventDefault();
-            insertNewline(this);
-        }
-    }
-})
-
-let inCompositions = false;
-
-$(document).on('compositionstart', () => {
-    inCompositions = true;
-});
-
-$(document).on('compositionend', () => {
-    inCompositions = false;
-});
-
 $('#ptext-btn-open-document-pip').click(async function() {
     $('#ptext-btn-open-document-pip').prop('disabled', true);
 
@@ -1298,41 +1195,108 @@ $(document).on('click', '#link-open-settings', function(e) {
     }
 });
 
-function insertNewline(el) {
-    const start = el.selectionStart;
-    const end   = el.selectionEnd;
-    const value = el.value;
-    el.value            = value.substring(0, start) + "\n" + value.substring(end);
-    el.selectionStart   = el.selectionEnd = start + 1;
-    const div   = document.createElement("div");
-    const style = getComputedStyle(el);
 
-    [
-        "fontFamily", "fontSize", "fontWeight", "fontStyle", "letterSpacing", "textTransform", "wordWrap",
-        "paddingTop", "paddingBottom", "paddingLeft", "paddingRight", "borderTopWidth", "borderBottomWidth",
-        "boxSizing", "lineHeight", "whiteSpace"
-    ].forEach(k => div.style[k] = style[k]);
 
-    div.style.position      = "absolute";
-    div.style.visibility    = "hidden";
-    div.style.whiteSpace    = "pre-wrap";
-    div.style.width         = style.width;
-    div.style.height        = "auto";
+// 编辑器控制器
 
-    const before = el.value.substring(0, el.selectionStart);
-    const after = el.value.substring(el.selectionStart);
+let shortcutManager = new ShortcutManager();
 
-    div.textContent         = before;
-    const marker            = document.createElement("span");
-    marker.textContent      = "●";
-    div.appendChild(marker);
-    const rest              = document.createTextNode(after);
-    div.appendChild(rest);
-    document.body.appendChild(div);
-    const markerTop         = marker.offsetTop;
-    const targetScrollTop   = markerTop - 4;
-    el.scrollTop            = targetScrollTop;
-    document.body.removeChild(div);
+let editorControllerHandler = {};
+
+shortcutManager.registerView('echolive:editor', {
+    submitKey: {
+        swap: config.accessibility.send_on_enter,
+        handler: () => {
+            if (!config.echolive.broadcast.enable) return;
+            $('#ptext-btn-send').click();
+            effectClick('#ptext-btn-send');
+            if (editorInFullscreen && !config.accessibility.animation_disable) {
+                $('.webscreen-message-sent-effect').addClass('show');
+            }
+        }
+    },
+    shortcuts: getEditorControllerShortcuts()
+});
+
+shortcutManager.bindElement('#ptext-content', 'echolive:editor');
+
+shortcutManager.registerView('echolive:output_textarea', {
+    submitKey: {
+        swap: config.accessibility.send_on_enter,
+        handler: () => {
+            $('#output-btn-send').click();
+            effectClick('#output-btn-send');
+        }
+    }
+});
+
+shortcutManager.bindElement('#output-content', 'echolive:output_textarea');
+
+function getEditorControllerShortcuts() {
+    const controller = echoLiveSystem.registry.getRegistryArray('editor_controller');
+    const editorID = 'ptext-content';
+    let shortcuts = [];
+
+    function _getHandler(controllerItem) {
+        if (controllerItem.action?.type === 'insert_text_at_cursor') {
+            return () => {
+                insertTextAtCursorForObject({
+                    id: editorID,
+                    text: controllerItem.action?.value?.before ?? '',
+                    text2: controllerItem.action?.value?.after ?? '@r',
+                    forceInputText2: controllerItem.action?.value?.forceInputAfter ?? false,
+                    forceRepeatBefore: controllerItem.action?.value?.forceRepeatBefore ?? false,
+                    forceRepeatAfter: controllerItem.action?.value?.forceRepeatAfter ?? false,
+                    firstClear: controllerItem.action?.value?.firstClear ?? false,
+                    selectedTextFilter:
+                        controllerItem.action?.value?.selectedTextFilter
+                            ? echoLiveSystem.registry.getRegistryValue(
+                                    'editor_controller_method',
+                                    controllerItem.action?.value?.selectedTextFilter
+                                )
+                            : undefined,
+                    setFocus: controllerItem.action?.value?.setFocus ?? true
+                })
+            };
+        } else if (controllerItem.action?.type === 'show_popups') {
+            return () => {
+                popupsDisplay('#' + controllerItem.action?.value?.id);
+                popupsMoveToElement(
+                    '#' + controllerItem.action.value?.id,
+                    `.editor-controller button[data-value="${ controllerItem.name }"]`
+                );
+                $(controllerItem.action?.value.focus).focus();
+            };
+        } else {
+            return () => {};
+        }
+    }
+
+    function _getKeys(keys) {
+        if (typeof keys === 'string') {
+            return 'Ctrl+' + keys;
+        } else if (Array.isArray(keys)) {
+            let k = [];
+            keys.forEach(e => {
+                k.push('Ctrl+' + e);
+            });
+            return k;
+        } else {
+            return undefined;
+        }
+    }
+
+    controller.forEach(e => {
+        const h = _getHandler(e);
+        editorControllerHandler[e.name] = h;
+        let s = {
+            keys: _getKeys(e.shortcut?.keys),
+            handler: () => editorControllerHandler[e.name]()
+        };
+        shortcuts.push(s);
+    });
+
+    return shortcuts;
 }
 
 

@@ -1,3 +1,10 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+ */
+
 class ShortcutManager {
     constructor(options = {}) {
         this.views = new Map();
@@ -22,6 +29,7 @@ class ShortcutManager {
      * @param {String} config.shortcuts[].keys 按键组合
      * @param {Function} config.shortcuts[].handler 触发函数
      * @param {Boolean} config.shortcuts[].allowMultiple 允许快捷键多次注册（忽略警告）
+     * @param {Boolean} config.shortcuts[].submitOnly 仅在绑定元素自动提交时生效
      */
     registerView(name, config) {
 		if (this.views.has(name)) {
@@ -54,7 +62,7 @@ class ShortcutManager {
 			});
 		};
 
-		/* -------- 普通快捷键 -------- */
+		// 普通快捷键
 
 		for (const item of config.shortcuts || []) {
 			const keys = Array.isArray(item.keys) ? item.keys : [item.keys];
@@ -72,7 +80,7 @@ class ShortcutManager {
 			}
 		}
 
-		/* -------- 提交快捷键转写 -------- */
+		// 提交快捷键转写
 
 		if (config.submitKey) {
 			const {
@@ -107,7 +115,7 @@ class ShortcutManager {
 				);
 			});
 
-			/* ---- 互换模式下的“插入换行” ---- */
+			// 互换模式
 
 			if (swap) {
 				const newlineKeys =
@@ -119,7 +127,7 @@ class ShortcutManager {
 				newlineKeys.forEach(key => {
 					addShortcut(key, [
 						(event, element) => {
-							this.insertNewline(element);
+							this._insertNewline(element);
 						}
 					], true);
 				});
@@ -133,11 +141,12 @@ class ShortcutManager {
 		});
 	}
 
-
-    /* ----------------------------
-     * 视图提交与移除
-     * ---------------------------- */
-
+    /**
+     * 提交视图
+     * @param {String} name 视图名称
+     * @param {'manual'|'auto'} source 视图来源
+     * @param {Element} element 触发元素
+     */
     pushView(name, source = "manual", element = null) {
         if (!this.views.has(name)) {
             throw new Error(`View "${name}" is not registered.`);
@@ -146,6 +155,12 @@ class ShortcutManager {
         this.stack.push({ name, source, element });
     }
 
+    /**
+     * 移除视图
+     * @param {String} name 视图名称
+     * @param {Object} options 选项
+     * @param {Boolean} options.all 移除所有视图
+     */
     popView(name, options = {}) {
         const { all = false } = options;
 
@@ -157,6 +172,10 @@ class ShortcutManager {
         }
     }
 
+    /**
+     * 移除顶层视图
+     * @param {String} expectedName 限定视图名称
+     */
     popTopView(expectedName) {
         if (!this.stack.length) return;
 
@@ -166,10 +185,11 @@ class ShortcutManager {
         }
     }
 
-    /* ----------------------------
-     * 元素绑定
-     * ---------------------------- */
-
+    /**
+     * 绑定元素
+     * @param {String} selector 选择器
+     * @param {String} viewName 视图名称
+     */
     bindElement(selector, viewName) {
         const view = this.views.get(viewName);
         if (!view) {
@@ -194,10 +214,6 @@ class ShortcutManager {
         });
     }
 
-    /* ----------------------------
-     * 键盘事件处理
-     * ---------------------------- */
-
     _handleKeydown(event) {
         const key = this._eventToKey(event);
         const checked = new Set();
@@ -219,7 +235,7 @@ class ShortcutManager {
                 }
 				
 				
-				/* -------- IME Guard -------- */
+				// IME Guard
 
 				if (record.imeGuard && event.isComposing) {
 					if (record.imeGuard === "always") {
@@ -249,10 +265,6 @@ class ShortcutManager {
         }
     }
 
-    /* ----------------------------
-     * 键名处理
-     * ---------------------------- */
-
     _eventToKey(event) {
         const parts = [];
 
@@ -271,15 +283,11 @@ class ShortcutManager {
 	
 	_expandSubmitKeys(mode, ctrl) {
 		const enterKeys = ["Enter", "NumpadEnter"];
-
-		if (ctrl) {
-			return enterKeys.map(k => `Ctrl+${k}`);
-		}
-
+		if (ctrl) return enterKeys.map(k => `Ctrl+${k}`);
 		return enterKeys;
 	}
 
-    insertNewline(el) {
+    _insertNewline(el) {
         const start = el.selectionStart;
         const end   = el.selectionEnd;
         const value = el.value;

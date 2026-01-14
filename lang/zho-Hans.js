@@ -878,6 +878,7 @@ const lang_zho_Hans = {
         shutdown_reason: "Echo-Live 因收到 shutdown 命令已停止运行，原因为“{reason}”，需要重新启动请刷新此页面。"
     },
     editor: {
+        controller_title: "{title} [{shortcut}]",
         client_state: {
             active: "激活",
             none: "未加入",

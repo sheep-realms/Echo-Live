@@ -1,0 +1,6 @@
+.demo
+.idea
+.VSCode
+.VSCodeCounter
+server_config.json
+*.exe

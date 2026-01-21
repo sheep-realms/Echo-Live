@@ -170,7 +170,7 @@ class EchoLiveHistory {
 
     /**
      * 立即关闭
-     * @param {String} reason 理由
+     * @param {String} [reason] 理由
      */
     shutdown(reason = undefined) {
         this.broadcast = undefined;

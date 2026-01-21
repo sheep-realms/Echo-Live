@@ -88,7 +88,7 @@ class EchoLiveCharacter {
      * 获取形象内容数据
      * @param {String|Object} avatar 形象名称或形象数据
      * @param {'action'|'scene'} type 数据类型
-     * @param {String|undefined} name 内容名称
+     * @param {String} [name] 内容名称
      * @returns {Object|undefined} 内容数据
      */
     getAvatarContent(avatar, type, name) {
@@ -253,7 +253,7 @@ class EchoLiveCharacter {
 
     /**
      * 立即关闭
-     * @param {String} reason 理由
+     * @param {String} [reason] 理由
      */
     shutdown(reason = undefined) {
         this.broadcast = undefined;

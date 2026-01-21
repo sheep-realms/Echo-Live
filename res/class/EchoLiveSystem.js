@@ -114,7 +114,7 @@ class EchoLiveEventManager {
     /**
      * 清空绑定
      * @param {String} eventName 事件名称
-     * @param {Object} options 选项
+     * @param {Object} [options] 选项
      * @param {Boolean} options.clearDeferred 清空延后触发队列
      */
     clear(eventName, options = {}) {
@@ -128,7 +128,7 @@ class EchoLiveEventManager {
     /**
      * 触发事件
      * @param {String} eventName 事件名称
-     * @param  {...any} args 参数
+     * @param  {...any} [args] 参数
      */
     emit(eventName, ...args) {
         this._assertEventExists(eventName);
@@ -318,7 +318,7 @@ class EchoLiveRegistry {
      * @param {String} event 事件名
      * @param {String} table 注册表名
      * @param {String} key 注册表值
-     * @param {Object} data 附加数据
+     * @param {Object} [data] 附加数据
      */
     trigger(event, table, key, data = {}) {
         if (this.event[event] === undefined) return;
@@ -386,7 +386,7 @@ class EchoLiveRegistry {
 
     /**
      * 获取所有同步注册表名
-     * @returns {Array<String>} 所有同步注册表名
+     * @returns {String[]} 所有同步注册表名
      */
     getAllSyncRegistry() {
         let keys = [];
@@ -463,7 +463,7 @@ class EchoLiveRegistry {
     /**
      * 获取注册表数组
      * @param {String} key 注册表名
-     * @returns {Array} 注册表数组
+     * @returns {any[]} 注册表数组
      */
     getRegistryArray(key) {
         let array = [];
@@ -512,9 +512,9 @@ class EchoLiveRegistry {
     /**
      * 分页查询数据表值
      * @param {String} key 注册表名
-     * @param {Number} page 页数
-     * @param {Number} count 每页条目数
-     * @returns {Array} 注册表值数组
+     * @param {Number} [page] 页数
+     * @param {Number} [count] 每页条目数
+     * @returns {any[]} 注册表值数组
      */
     getRegistryValueForPage(key, page = 1, count = 20) {
         let reg = this.getRegistry(key);
@@ -535,7 +535,7 @@ class EchoLiveRegistry {
      * 在所有命名空间中获取注册表值
      * @param {String} table 注册表名
      * @param {String} key 注册表键
-     * @returns {Array<*>} 注册表值数组
+     * @returns {any[]} 注册表值数组
      */
     getAllNamespaceRegistryValue(table, key) {
         let array = [];
@@ -599,7 +599,7 @@ class EchoLiveRegistry {
      * @param {String} table 注册表名
      * @param {String} key 注册表键
      * @param {*} value 注册表值
-     * @param {Object} data 附加数据
+     * @param {Object} [data] 附加数据
      * @param {Boolean} data.fill 强制覆盖
      * @param {Boolean} data.trigger_disable 禁用触发
      * @returns {*} 合并后的注册表值
@@ -654,7 +654,7 @@ class EchoLiveRegistry {
      * @param {String} table 注册表名
      * @param {String} key 注册表键
      * @param {*} value 注册表值
-     * @param {Object} data 附加数据
+     * @param {Object} [data] 附加数据
      * @param {Boolean} data.trigger_disable 禁用触发
      * @returns {*} 合并后的注册表值
      */
@@ -681,7 +681,7 @@ class EchoLiveRegistry {
      * 导入注册表
      * @param {String} table 注册表名
      * @param {String|Function} getKey 注册表键
-     * @param {Array|Object} data 数据表
+     * @param {any[]|Object} data 数据表
      * @returns {Map} 注册表
      */
     loadRegistry(table, getKey, data = []) {
@@ -806,7 +806,7 @@ class EchoLiveLocalDeviceManager {
 
     /**
      * 设备震动
-     * @param {Array<Number>} data 震动参数
+     * @param {Number[]} data 震动参数
      */
     vibrate(data = []) {
         if (!this.enable) return;
@@ -1034,7 +1034,7 @@ class EchoLiveHook {
 
     /**
      * 清空 Hook
-     * @param {String|undefined} name 事件名称
+     * @param {String} [name] 事件名称
      */
     clear(name) {
         if (name === undefined) {
@@ -1047,9 +1047,9 @@ class EchoLiveHook {
     /**
      * 触发 Hook
      * @param {String} name 事件名称
-     * @param {*} data 数据 
+     * @param {Object} [data] 数据 
      */
-    trigger(name, data) {
+    trigger(name, data = {}) {
         if (this.debug.log_trigger) console.log('Hook: ' + name, data);
 
         let r = this.filter(name);

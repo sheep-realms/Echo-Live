@@ -181,71 +181,45 @@ class EditorForm {
     /**
      * 编辑器控制器
      * @param {String} editorID 编辑器ID
+     * @param {Object[]} controllerData 控制器数据
      * @returns {String} DOM
      */
-    static editorController(editorID) {
-        return DOMConstructor.join([
-            EditorForm.buttonAir('', {
-                icon: Icon.getIcon('material:format-bold'),
-                class: 'editor-format-btn',
-                attr: `data-editorid="${editorID}" data-value="bold"`,
-                title: $t('editor.format.bold') + ' [Ctrl+B]'
-            }),
-            EditorForm.buttonAir('', {
-                icon: Icon.getIcon('material:format-italic'),
-                class: 'editor-format-btn',
-                attr: `data-editorid="${editorID}" data-value="italic"`,
-                title: $t('editor.format.italic') + ' [Ctrl+I]'
-            }),
-            EditorForm.buttonAir('', {
-                icon: Icon.getIcon('material:format-underline'),
-                class: 'editor-format-btn',
-                attr: `data-editorid="${editorID}" data-value="underline"`,
-                title: $t('editor.format.underline') + ' [Ctrl+U]'
-            }),
-            EditorForm.buttonAir('', {
-                icon: Icon.getIcon('material:format-strikethrough-variant'),
-                class: 'editor-format-btn',
-                attr: `data-editorid="${editorID}" data-value="strikethrough"`,
-                title: $t('editor.format.strikethrough') + ' [Ctrl+D]'
-            }),
-            EditorForm.buttonAir('', {
-                icon: Icon.getIcon('material:palette'),
-                class: 'editor-format-btn',
-                attr: `data-editorid="${editorID}" data-value="color"`,
-                title: $t('editor.format.color') + ' [Ctrl+Shift+C]'
-            }),
-            EditorForm.buttonAir('', {
-                icon: Icon.getIcon('material:emoticon-happy'),
-                class: 'editor-format-btn',
-                attr: `data-editorid="${editorID}" data-value="emoji"`,
-                title: $t('editor.format.emoji') + ' [Ctrl+E]'
-            }),
-            EditorForm.buttonAir('', {
-                icon: Icon.getIcon('material:image'),
-                class: 'editor-format-btn',
-                attr: `data-editorid="${editorID}" data-value="image"`,
-                title: $t('editor.format.image') + ' [Ctrl+Shift+I]'
-            }),
-            EditorForm.buttonAir('', {
-                icon: Icon.getIcon('material:format-font-size-increase'),
-                class: 'editor-format-btn',
-                attr: `data-editorid="${editorID}" data-value="font_size_increase"`,
-                title: $t('editor.format.font_size_increase') + ' [Ctrl+↑]'
-            }),
-            EditorForm.buttonAir('', {
-                icon: Icon.getIcon('material:format-font-size-decrease'),
-                class: 'editor-format-btn',
-                attr: `data-editorid="${editorID}" data-value="font_size_decrease"`,
-                title: $t('editor.format.font_size_decrease') + ' [Ctrl+↓]'
-            }),
-            EditorForm.buttonAir('', {
-                icon: Icon.getIcon('material:format-clear'),
-                class: 'editor-format-btn',
-                attr: `data-editorid="${editorID}" data-value="clear"`,
-                title: $t('editor.format.clear') + ' [Ctrl+Shift+Space]'
+    static editorController(editorID, controllerData) {
+        const controller = controllerData.filter(e => e.type !== 'hidden');
+        let dom = [];
+        const typeMap = {
+            item: 'editorControllerItem'
+        }
+        controller.forEach(e => {
+            if (typeMap[e.type] !== undefined) {
+                dom.push(EditorForm[typeMap[e.type]](editorID, e));
+            }
+        });
+        return DOMConstructor.join(dom);
+    }
+
+    static editorControllerItem(editorID, item) {
+        return EditorForm.buttonAir('', {
+            icon: Icon.getIcon(item.icon, 'material:help'),
+            class: 'editor-format-btn',
+            attr: `data-editorid="${ editorID }" data-value="${ item.name }"`,
+            title: $t('editor.controller_title', {
+                title: $tc(item.title, { before: 'editor.format.' }),
+                shortcut: EditorForm.editorControllerShortcut(item)
             })
-        ]);
+        });
+    }
+
+    static editorControllerShortcut(item) {
+        if (item.shortcut?.description !== undefined) {
+            return item.shortcut.description;
+        } else if (item.shortcut?.keys) {
+            if (Array.isArray(item.shortcut.keys)) {
+                return 'Ctrl+' + item.shortcut.keys[0];
+            } else {
+                return 'Ctrl+' + item.shortcut.keys;
+            }
+        }
     }
 }
 
@@ -304,7 +278,7 @@ class Popups {
 
     /**
      * 拾色器色板切换选项
-     * @param {Array<Object>} palette 色板列表
+     * @param {Object[]} palette 色板列表
      * @returns {String} DOM
      */
     static paletteOptions(palette = []) {
@@ -384,7 +358,7 @@ class Popups {
 
     /**
      * 拾色器色板页面
-     * @param {Array<Object>} palette 色板列表
+     * @param {Object[]} palette 色板列表
      * @returns {String} DOM
      */
     static palettePage(palette = []) {
@@ -446,7 +420,7 @@ class Popups {
 
     /**
      * 拾色器悬浮框
-     * @param {Array<Object>} palette 色板列表
+     * @param {Object[]} palette 色板列表
      * @param {Object} data 属性值
      * @param {String} data.class 类
      * @param {Object} data.pos 位置
@@ -527,7 +501,7 @@ class Popups {
 
     /**
      * 表情选择器悬浮框
-     * @param {Array<Object>} emojiPacks 表情包列表
+     * @param {Object[]} emojiPacks 表情包列表
      * @param {Object} data 属性值
      * @param {String} data.class 类
      * @param {Object} data.pos 位置
@@ -595,7 +569,7 @@ class Popups {
 
     /**
      * 表情选择器切换选项
-     * @param {Array<Object>} emojiPacks 表情包列表
+     * @param {Object[]} emojiPacks 表情包列表
      * @returns {String} DOM
      */
     static emojiOptions(emojiPacks = []) {
@@ -608,7 +582,7 @@ class Popups {
 
     /**
      * 表情选择器页面
-     * @param {Array<Object>} emojiPacks 表情包列表
+     * @param {Object[]} emojiPacks 表情包列表
      * @returns {String} DOM
      */
     static emojiPage(emojiPacks = []) {
@@ -988,7 +962,7 @@ class SettingsPanel {
             aria-selected="false"
             title="${ $t( 'config.' + item.id + '._description' ) }"
         >
-            <span class="icon left" aria-hidden="true">${ item.icon !== undefined ? Icon.getIcon(item.icon) : ''}</span>
+            <span class="icon left" aria-hidden="true">${ Icon.getIcon(item.icon) }</span>
             <span class="title">${ $t( 'config.' + item.id + '._title' ) }</span>
             <span class="icon right" aria-hidden="true"></span>
         </button>`;
@@ -1355,7 +1329,7 @@ class SettingsPanel {
             ${ !data.isDebug ? 'target="_blank"' : '' }
             ${ data.isDebug ? `data-debug="${ data.debug }"` : '' }
         >
-            <div class="icon left">${ icon != undefined ? Icon.getIcon(icon) : '' }</div>
+            <div class="icon left">${ Icon.getIcon(icon) }</div>
             <div class="title">${ title }</div>
             <div class="icon right">${ !data?.isDebug ? Icon.getIcon('material:open-in-new') : '' }</div>
         </a>`;
@@ -1479,7 +1453,7 @@ class SettingsFileChecker {
 
     static dialog(title = '', description = '', controller = '', icon = undefined, domClass = '') {
         return `<div class="file-check-dialog ${ domClass }">
-            <div class="icon">${ icon != undefined ? Icon.getIcon(icon) : ''}</div>
+            <div class="icon">${ Icon.getIcon(icon) }</div>
             <div class="title">${ title }</div>
             <div class="description">${ description }</div>
             <div class="controller">${ controller }</div>
@@ -1735,7 +1709,7 @@ class FHUINotice {
             width: undefined,
             ...data
         };
-        let iconDOM = Icon.getIcon(data.icon) !== undefined ? Icon.getIcon(data.icon) : Icon.getIcon('material:information');
+        let iconDOM = Icon.getIcon(data.icon, 'material:information');
 
         return `<div
                 class="
@@ -1790,7 +1764,10 @@ class FHUIWindow {
      * @param {String} data.icon 标题栏图标
      * @param {String} data.id ID
      * @param {Number} data.index 索引编号
-     * @param {Array<String|Object>} data.controller 控制器按钮
+     * @param {(String|Object)[]} data.controller 控制器按钮
+     * @param {String} data.controller[].id 控制器按钮 ID
+     * @param {String} data.controller[].content 控制器按钮内容
+     * @param {Object} data.controller[].data 控制器按钮属性
      * @param {Boolean} data.maskClosable 点击蒙层可关闭
      * @param {Boolean} data.modal 模态
      * @param {String} data.style 样式
@@ -1817,12 +1794,7 @@ class FHUIWindow {
             ...data
         }
 
-        let iconDom = '';
-        if (data.icon !== undefined && Icon.getIcon(data.icon) !== undefined) {
-            iconDom = Icon.getIcon(data.icon);
-        } else {
-            iconDom = Icon.getIcon('material:information');
-        }
+        let iconDom = Icon.getIcon(data.icon, 'material:information');
 
         let dom = `<div
             role="dialog"

@@ -8,16 +8,20 @@ class Icon {
      * @returns {String} 图标内容
      */
     static getIcon(name, backup) {
-        name = EchoLiveData.filter('namespace_id', 'pad_namespace', name, { namespace: 'material' });
-        const icon = echoLiveSystem.registry.getRegistryValue('icon', name);
-        if (icon !== undefined) {
-            return icon?.content;
-        } else {
+        const _getBackup = () => {
             if (backup !== undefined) {
                 return Icon.getIcon(backup);
             } else {
                 return '';
             }
+        };
+        if (name === undefined) return _getBackup();
+        name = EchoLiveData.filter('namespace_id', 'pad_namespace', name, { namespace: 'material' });
+        const icon = echoLiveSystem.registry.getRegistryValue('icon', name);
+        if (icon !== undefined) {
+            return icon?.content;
+        } else {
+            return _getBackup();
         }
     }
 }

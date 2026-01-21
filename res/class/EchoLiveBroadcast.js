@@ -109,8 +109,8 @@ class EchoLiveBroadcast {
     /**
      * 设置侦听回调函数
      * @param {Number} depth 调用深度
-     * @param {Function} action 回调函数
      * @param {Object} listener 监听对象
+     * @param {Function} action 回调函数
      * @returns
      */
     setListenCallback(depth = 0, listener = this, action = function() {}) {
@@ -163,9 +163,9 @@ class EchoLiveBroadcast {
 
     /**
      * 发送数据
-     * @param {Object} data 数据
-     * @param {String} action 动作类型
-     * @param {String} target 目标
+     * @param {Object} [data] 数据
+     * @param {String} [action] 动作类型
+     * @param {String} [target] 目标
      * @returns {Object} 发送的数据
      */
     sendData(data = {}, action = EchoLiveBroadcast.API_NAME_MESSAGE_DATA, target = undefined) {
@@ -226,8 +226,8 @@ class EchoLiveBroadcast {
 
     /**
      * 检查是否应该收到消息
-     * @param {String|Array<String>} target 投递目标
-     * @param {Boolean} isTargeted 是否仅接收定向广播
+     * @param {String|String[]} target 投递目标
+     * @param {Boolean} [isTargeted] 是否仅接收定向广播
      * @returns {Boolean} 结果
      */
     checkTargetIsSelf(target, isTargeted = false) {
@@ -306,8 +306,8 @@ class EchoLiveBroadcast {
     /**
      * 发送错误报告
      * @param {String} name 错误类型
-     * @param {Object} data 附加数据
-     * @param {String} target 发送目标
+     * @param {Object} [data] 附加数据
+     * @param {String} [target] 发送目标
      * @returns {Object} 发送的消息
      */
     sendError(name = '', data = {}, target = undefined) {
@@ -557,7 +557,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
 
     /**
      * 发送 ping 消息
-     * @param {String} target 发送目标
+     * @param {String} [target] 发送目标
      * @returns {Object} 发送的消息
      */
     ping(target = undefined) {
@@ -574,7 +574,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
 
     /**
      * 发送命令：播放下一条消息
-     * @param {String} target 发送目标
+     * @param {String} [target] 发送目标
      * @returns {Object} 发送的消息
      */
     sendNext(target = undefined) {
@@ -621,7 +621,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
     /**
      * 发送命令：设置对话框显示状态
      * @param {Boolean} display 显示状态
-     * @param {String} target 发送目标
+     * @param {String} [target] 发送目标
      * @returns {Object} 发送的消息
      */
     sendLiveDisplay(display, target = undefined) {
@@ -632,7 +632,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
 
     /**
      * 发送命令：清空历史记录
-     * @param {String} target 发送目标
+     * @param {String} [target] 发送目标
      * @returns {Object} 发送的消息
      */
     sendHistoryClear(target = undefined) {
@@ -642,7 +642,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
     /**
      * 发送命令：设置主题样式文件 URL
      * @param {String} url URL
-     * @param {String} target 发送目标
+     * @param {String} [target] 发送目标
      * @returns {Object} 发送的消息
      */
     sendThemeStyleUrl(url, target = undefined) {
@@ -654,7 +654,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
     /**
      * 发送命令：设置主题
      * @param {String} name 主题名称
-     * @param {String} target 发送目标
+     * @param {String} [target] 发送目标
      * @returns {Object} 发送的消息
      */
     sendTheme(name, target = undefined) {
@@ -665,7 +665,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
 
     /**
      * 发送命令：关闭广播连接
-     * @param {String} target 发送目标
+     * @param {String} [target] 发送目标
      * @returns {Object} 发送的消息
      */
     sendBroadcastClose(target = undefined) {
@@ -674,7 +674,7 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
 
     /**
      * 发送命令：关闭 Websocket 连接
-     * @param {String} target 发送目标
+     * @param {String} [target] 发送目标
      * @returns {Object} 发送的消息
      */
     sendWebsocketClose(target = undefined) {
@@ -683,8 +683,8 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
 
     /**
      * 发送命令：立即关闭
-     * @param {String} reason 理由
-     * @param {String} target 发送目标
+     * @param {String} [reason] 理由
+     * @param {String} [target] 发送目标
      * @returns {Object} 发送的消息
      */
     sendShutdown(reason = undefined, target = undefined) {
@@ -973,7 +973,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
 
     /**
      * 发送 HELLO 消息
-     * @param {String} target 发送目标
+     * @param {String} [target] 发送目标
      * @returns {Object} 发送的消息
      */
     sendHello(target = undefined) {
@@ -985,7 +985,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
 
     /**
      * 发送消息：已休眠
-     * @param {String} target 发送目标
+     * @param {String} [target] 发送目标
      * @returns {Object} 发送的消息
      */
     pageHidden(target = undefined) {
@@ -995,7 +995,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
 
     /**
      * 发送消息：已激活
-     * @param {String} target 发送目标
+     * @param {String} [target] 发送目标
      * @returns {Object} 发送的消息
      */
     pageVisible(target = undefined) {
@@ -1018,7 +1018,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      * @param {String} source 源文件名
      * @param {Number} line 行号
      * @param {Number} col 列号
-     * @param {String} target 发送目标
+     * @param {String} [target] 发送目标
      * @returns {Object} 发送的消息
      */
     error(message, source, line, col, target = undefined) {
@@ -1042,7 +1042,7 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
 
     /**
      * 立即关闭
-     * @param {String} reason 理由
+     * @param {String} [reason] 理由
      */
     shutdown(reason = undefined) {
         this.close();
@@ -1151,8 +1151,8 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
     /**
      * Echo 状态更新广播
      * @param {'ready'|'play'|'stop'} state 状态名称
-     * @param {String} target 发送目标
-     * @param {Number} messagesCount 剩余消息数
+     * @param {Number} [messagesCount] 剩余消息数
+     * @param {String} [target] 发送目标
      * @returns {Object} 发送的消息
      */
     echoStateUpdate(state, messagesCount = 0, target = undefined) {
@@ -1165,7 +1165,7 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
     /**
      * 显示状态更新广播
      * @param {Boolean} display 显示状态
-     * @param {String} target 发送目标
+     * @param {String} [target] 发送目标
      */
     displayUpdate(display, target = undefined) {
         return this.sendData({
@@ -1177,7 +1177,7 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
      * Echo 打印内容广播
      * @param {String} username 说话人
      * @param {String|Object|Array} message 单条消息
-     * @param {String} target 发送目标
+     * @param {String} [target] 发送目标
      * @returns 
      */
     echoPrinting(username, message, target = undefined) {
@@ -1190,7 +1190,7 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
     /**
      * 发送形象
      * @param {Object} avatar 形象数据
-     * @param {String} target 发送目标
+     * @param {String} [target] 发送目标
      * @returns 
      */
     sendAvatar(avatar, target = undefined) {
@@ -1287,7 +1287,7 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
 
     /**
      * 发送 HELLO 消息
-     * @param {String} target 发送目标
+     * @param {String} [target] 发送目标
      * @returns {Object} 发送的消息
      */
     sendHello(target = undefined) {
@@ -1370,7 +1370,7 @@ class EchoLiveBroadcastCharacter extends EchoLiveBroadcastClient {
     
     /**
      * 发送 HELLO 消息
-     * @param {String} target 发送目标
+     * @param {String} [target] 发送目标
      * @returns {Object} 发送的消息
      */
     sendHello(target = undefined) {

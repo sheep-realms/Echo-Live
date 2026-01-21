@@ -54,6 +54,23 @@ echoLiveSystem.registry.init([
             value: undefined
         }
     }, {
+        name: 'editor_controller',
+        unique_key: 'name',
+        default_data: {
+            name: undefined,
+            type: 'item',
+            title: 'missingno',
+            icon: undefined,
+            shortcut: {},
+            action: {
+                type: 'none',
+                value: undefined
+            }
+        }
+    }, {
+        name: 'editor_controller_method',
+        is_function: true
+    }, {
         name: 'emoji',
         unique_key: 'meta.name',
         sync: true,

@@ -173,8 +173,8 @@ class EchoLive {
     /**
      * 添加任务
      * @param {String} taskName 任务名称
-     * @param {Object} taskData 任务数据
-     * @param {Boolean} runNow 是否立即运行
+     * @param {Object} [taskData] 任务数据
+     * @param {Boolean} [runNow] 是否立即运行
      * @returns {Object} 任务信息
      */
     addTask(taskName = '', taskData = {}, runNow = true) {
@@ -252,7 +252,7 @@ class EchoLive {
 
     /**
      * 结束当前任务，尝试运行下一个任务
-     * @param {Number} taskID 任务ID
+     * @param {Number} [taskID] 任务ID
      */
     endTask(taskID = EchoLive.NOW_TASK_ID) {
         this.killTask(taskID);
@@ -263,8 +263,8 @@ class EchoLive {
 
     /**
      * 清除任务
-     * @param {Number} taskID 任务ID
-     * @param {Boolean} force 是否强制清除
+     * @param {Number} [taskID] 任务ID
+     * @param {Boolean} [force] 是否强制清除
      */
     killTask(taskID = EchoLive.NOW_TASK_ID, force = false) {
         // 无效参数
@@ -302,7 +302,7 @@ class EchoLive {
      * 发送消息
      * @param {Object} data 消息格式
      * @param {String} data.username 说话人
-     * @param {Array<Object>} data.messages 消息队列
+     * @param {Object[]} data.messages 消息队列
      */
     send(data = {}) {
         if (this.hidden) return;
@@ -602,7 +602,7 @@ class EchoLive {
 
     /**
      * 立即关闭
-     * @param {String} reason 理由
+     * @param {String} [reason] 理由
      */
     shutdown(reason = undefined) {
         this.echo.stop();

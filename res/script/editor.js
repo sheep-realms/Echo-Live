@@ -134,7 +134,14 @@ $(document).ready(function() {
         if (config.echolive.broadcast.enable) {
             $('#ptext-btn-submit').addClass('fh-ghost');
             $('#ptext-btn-send, #output-btn-send, #checkbox-sent-clear').removeClass('hide');
-            $('#ptext-content, #output-content').attr('title', $t('editor.tip.hot_key_textarea_quick_send'));
+            $('#ptext-content, #output-content').attr(
+                'title',
+                $t(
+                    config.accessibility.send_on_enter
+                        ? 'editor.tip.hot_key_textarea_quick_send_on_enter'
+                        : 'editor.tip.hot_key_textarea_quick_send'
+                )
+            );
 
             if (config.editor.function.client_state_panel_enable) {
                 $('.echo-live-client-state').removeClass('hide');

@@ -1275,7 +1275,8 @@ const lang_zho_Hant_TW = {
             }
         },
         tip: {
-            hot_key_textarea_quick_send: "當焦點在此文字框中時，可以按下 Ctrl + Enter 快速傳送"
+            hot_key_textarea_quick_send: "當焦點在此文字框中時，可以按下 Ctrl + Enter 快速傳送",
+            hot_key_textarea_quick_send_on_enter: "當焦點在此文字框中時，可以按下 Enter 快速傳送"
         }
     },
     effect: {

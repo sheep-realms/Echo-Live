@@ -183,6 +183,7 @@ echoLiveSystem.registry.init([
             name: undefined,
             path: undefined,
             type: 'print',
+            safe_duration: 0,
             allow_duplicate: false
         }
     }, {

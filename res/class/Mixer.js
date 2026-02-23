@@ -10,6 +10,38 @@ class Mixer {
     constructor() {
         this.lastSoundName = undefined;
         this.lastSoundRandomIndex = 0;
+        this.playingSounds = new Map();
+        this.lastSoundPlayAt = new Map();
+    }
+
+    _addPlayingSound(name) {
+        let count = this.playingSounds.get(name);
+        if (typeof count !== 'number') count = 0;
+
+        return this.playingSounds.set(name, ++count);
+    }
+
+    _removePlayingSound(name) {
+        let count = this.playingSounds.get(name);
+        if (typeof count !== 'number') return;
+
+        return this.playingSounds.set(name, Math.max(0, --count));
+    }
+
+    _checkSoundInPlaying(name) {
+        let count = this.playingSounds.get(name);
+        if (typeof count !== 'number' || count <= 0) return false;
+        return true;
+    }
+
+    _updateSoundPlayAt(name) {
+        return this.lastSoundPlayAt.set(name, Date.now());
+    }
+
+    _getSoundPlayAt(name) {
+        let time = this.lastSoundPlayAt.get(name);
+        if (typeof time !== 'number') return 0;
+        return time;
     }
 
     /**
@@ -59,7 +91,16 @@ class Mixer {
             a.playbackRate = 1;
         };
         
-        a.play();
+        a.onplay = () => {
+            this._addPlayingSound(name);
+            this._updateSoundPlayAt(name);
+        }
+
+        a.onended = () => {
+            this._removePlayingSound(name);
+        }
+
+        if (this._getSoundPlayAt(name) + obj.safe_duration <= Date.now()) a.play();
     }
 
     /**

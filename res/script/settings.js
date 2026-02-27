@@ -723,6 +723,7 @@ $(document).ready(function() {
             }, {
                 data: arr => {
                     echoLiveSystem.registry.forEach('sound', e => {
+                        if (e.type !== 'print') return;
                         arr.push({
                             title: $t(`sound.${ e.name }`),
                             value: e.name
@@ -733,15 +734,10 @@ $(document).ready(function() {
             }, {
                 data: arr => {
                     echoLiveSystem.registry.forEach('sound', e => {
+                        if (e.type !== 'next') return;
                         arr.push({
                             title: $t(`sound.${ e.name }`),
-                            value: e.name,
-                            __type: e.type
-                        });
-                        arr.sort((a, b) => {
-                            if (a.__type === b.type) return 0;
-                            if (b.__type === 'next') return 1;
-                            return -1;
+                            value: e.name
                         });
                     });
                 },

@@ -1275,7 +1275,8 @@ const lang_zho_Hans = {
             }
         },
         tip: {
-            hot_key_textarea_quick_send: "当焦点在此文本框中时，可以按下 Ctrl + Enter 快速发送"
+            hot_key_textarea_quick_send: "当焦点在此文本框中时，可以按下 Ctrl + Enter 快速发送",
+            hot_key_textarea_quick_send_on_enter: "当焦点在此文本框中时，可以按下 Enter 快速发送"
         }
     },
     effect: {
@@ -1840,6 +1841,7 @@ const lang_zho_Hans = {
         }
     },
     sound: {
+        enhancer: "充能",
         pencil: "铅笔",
         typewriter: "打字机",
         typewriter_loop: "打字机（随机音效）",

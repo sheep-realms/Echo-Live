@@ -122,6 +122,7 @@ echo.on('next', function(msg) {
         $('.echo-output').addClass('echo-text-rlo');
     }
 
+    mixer.resetPickIndex();
     if (config.echolive.next_audio.enable) {
         mixer.play(config.echolive.next_audio.name, config.echolive.next_audio.volume, config.echolive.next_audio.rate);
     }
@@ -189,6 +190,7 @@ echo.on('printEnd', function() {
 
     performance.mark('printEnd');
     performance.measure('printTime', 'printStart', 'printEnd');
+    mixer.resetPickIndex();
     let duration = 0;
     try {
         const measure = performance.getEntriesByName('printTime')[0];

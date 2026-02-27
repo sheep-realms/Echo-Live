@@ -184,6 +184,7 @@ echoLiveSystem.registry.init([
             path: undefined,
             type: 'print',
             safe_duration: 0,
+            pick_strategy: 'random',
             allow_duplicate: false
         }
     }, {

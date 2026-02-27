@@ -1841,6 +1841,7 @@ const lang_zho_Hant_TW = {
         }
     },
     sound: {
+        enhancer: "充能",
         pencil: "鉛筆",
         typewriter: "打字機",
         typewriter_loop: "打字機（隨機音效）",

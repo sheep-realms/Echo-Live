@@ -68,8 +68,8 @@ class Mixer {
         let outputRate      = rate      ?? obj?.rate    ?? 1;
 
         if (obj.pick_strategy === 'sequential_clamp' && this.clampOscillator) {
-            outputVolume = outputVolume * (obj?.oscillator?.volume_multiplier ?? 1);
-            outputRate = outputRate * (obj?.oscillator?.rate_multiplier ?? 1);
+            outputVolume    = outputVolume  * (Math.max(Math.min(   obj?.oscillator?.volume_multiplier, 1)  , 0   ) ?? 1);
+            outputRate      = outputRate    * (Math.max(            obj?.oscillator?.rate_multiplier        , 0.01) ?? 1);
         }
 
         let a;

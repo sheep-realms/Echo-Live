@@ -1138,7 +1138,7 @@ class NumberProvider {
     /**
      * 数值提供器
      * @param {Object} payload 载荷
-     * @param {'binomial'|'constant'|'summands'|'uniform'} [payload.type='uniform'] 类型
+     * @param {'binomial'|'config'|'constant'|'summands'|'uniform'} [payload.type='uniform'] 类型
      * @param {Number|NumberProvider} [payload.min=0] 最小值
      * @param {Number|NumberProvider} [payload.max=1] 最大值
      * @param {Boolean} [payload.float=false] 使用浮点数
@@ -1146,6 +1146,8 @@ class NumberProvider {
      * @param {Number|NumberProvider} [payload.n=0] 进行独立重复的伯努利试验的次数
      * @param {Number|NumberProvider} [payload.p=0] 每次试验的成功概率
      * @param {NumberProvider[]} [payload.summands=[]] 数值提供器列表
+     * @param {String} [payload.config] 要读取的配置名称
+     * @param {Number|NumberProvider} [payload.fallback] 读取配置失败的回退值
      */
     constructor(payload = {}) {
         this._payload = payload;
@@ -1180,15 +1182,38 @@ class NumberProvider {
     }
 
     get n() {
-        return this._getNumberAttrbute('value', 0, { min: 0 });
+        return this._getNumberAttrbute('n', 0, { min: 0 });
     }
 
     get p() {
-        return this._getNumberAttrbute('value', 0, { min: 0, max: 1 });
+        return this._getNumberAttrbute('p', 0, { min: 0, max: 1 });
     }
 
     get summands() {
         return this._payload?.summands ?? [];
+    }
+
+    static _getConfigNumberByPath(path) {
+        const data = echoLiveSystem.config;
+        if (data === undefined) return;
+
+        const segments = path.split('.');
+
+        let current = data;
+
+        for (let i = 0; i < segments.length; i++) {
+            const key = segments[i];
+
+            if (current === undefined || current === null || typeof current !== 'object') return;
+            if (Array.isArray(current)) return;
+            if (!Object.prototype.hasOwnProperty.call(current, key)) return;
+
+            current = current[key];
+        }
+
+        if (typeof current === 'number') return current;
+        if ((typeof current === 'string' || typeof current === 'boolean') && !Number.isNaN(Number(current))) return Number(current);
+        return;
     }
 
     get() {
@@ -1201,6 +1226,12 @@ class NumberProvider {
                     count += Math.random() < this.p;
                 }
                 return count;
+
+            case 'config':
+                const configNumber = NumberProvider._getConfigNumberByPath(this._payload?.config);
+                if (typeof configNumber === 'number') return configNumber;
+                if (this._payload?.fallback !== undefined) return new NumberProvider(this._payload?.fallback).get();
+                return;
 
             case 'constant':
                 return this.value;

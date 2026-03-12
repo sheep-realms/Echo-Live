@@ -40,7 +40,12 @@ echoLiveSystem.registry.loadRegistry('sound', 'name', [
         safe_duration: 20,
         pick_strategy: 'sequential_clamp',
         oscillator: {
-            volume_multiplier: 0.6,
+            volume_multiplier: {
+                type: 'uniform',
+                min: 0.55,
+                max: 0.75,
+                float: true
+            },
             rate_multiplier: 1
         },
         path: [

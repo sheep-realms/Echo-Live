@@ -1127,3 +1127,104 @@ class EchoLiveHookUnit {
 
 
 let echoLiveSystem = new EchoLiveSystem();
+
+
+
+// 全局可复用类 ////////////////////////////////////////
+
+
+
+class NumberProvider {
+    /**
+     * 数值提供器
+     * @param {Object} payload 载荷
+     * @param {'binomial'|'constant'|'summands'|'uniform'} [payload.type='uniform'] 类型
+     * @param {Number|NumberProvider} [payload.min=0] 最小值
+     * @param {Number|NumberProvider} [payload.max=1] 最大值
+     * @param {Boolean} [payload.float=false] 使用浮点数
+     * @param {Number} [payload.value] 常数
+     * @param {Number|NumberProvider} [payload.n=0] 进行独立重复的伯努利试验的次数
+     * @param {Number|NumberProvider} [payload.p=0] 每次试验的成功概率
+     * @param {NumberProvider[]} [payload.summands=[]] 数值提供器列表
+     */
+    constructor(payload = {}) {
+        this._payload = payload;
+    }
+
+    get type() {
+        return this._payload?.type ?? 'uniform';
+    }
+
+    _getNumberAttrbute(name, defaultValue, modifier = {}) {
+        const { min, max } = modifier;
+        let n = this._payload[name] ?? defaultValue;
+        if (typeof n === 'object') n = new NumberProvider(n).get();
+        if (typeof n === 'number') {
+            if (typeof min === 'number' && n < min) n = min;
+            if (typeof min === 'number' && n > max) n = max;
+            return n;
+        }
+        return;
+    }
+
+    get min() {
+        return this._getNumberAttrbute('min', 0);
+    }
+
+    get max() {
+        return this._getNumberAttrbute('max', 1);
+    }
+
+    get value() {
+        return this._getNumberAttrbute('value');
+    }
+
+    get n() {
+        return this._getNumberAttrbute('value', 0, { min: 0 });
+    }
+
+    get p() {
+        return this._getNumberAttrbute('value', 0, { min: 0, max: 1 });
+    }
+
+    get summands() {
+        return this._payload?.summands ?? [];
+    }
+
+    get() {
+        if (typeof this._payload !== 'object') return this._payload;
+
+        switch (this.type) {
+            case 'binomial':
+                let count = 0;
+                for (let i = 0; i < this.n; i++) {
+                    count += Math.random() < this.p;
+                }
+                return count;
+
+            case 'constant':
+                return this.value;
+
+            case 'summands':
+                let sum = 0;
+                this.summands.forEach(e => {
+                    sum += new NumberProvider(e).get();
+                });
+                return sum;
+
+            case 'uniform':
+                const max = this.max;
+                const min = this.min;
+                const r = Math.random() * (max - min);
+                if (this._payload?.float) {
+                    return r + min
+                } else {
+                    return Math.floor(r) + min;
+                }
+
+            default:
+                console.warn('NumberProvider type invalid: ' + this.type);
+                return;
+        }
+    }
+}

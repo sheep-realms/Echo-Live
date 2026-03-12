@@ -273,6 +273,38 @@ echoLiveSystem.registry.loadRegistry('emoji', e => e.meta.name, [
                 name: 'exciting',
                 title: { translate: 'exciting' },
                 path: '052_exciting.png'
+            }, {
+                name: 'doubt_reverse',
+                title: { translate: 'doubt_reverse' },
+                path: '053_doubt_reverse.png'
+            }, {
+                name: 'transparent',
+                title: { translate: 'transparent' },
+                path: '054_transparent.png'
+            }, {
+                name: 'objection',
+                title: { translate: 'objection' },
+                path: '055_objection.png'
+            }, {
+                name: 'pistol',
+                title: { translate: 'pistol' },
+                path: '056_pistol.png'
+            }, {
+                name: 'tnt',
+                title: { translate: 'tnt' },
+                path: '057_tnt.png'
+            }, {
+                name: 'haaaa',
+                title: { translate: 'haaaa' },
+                path: '058_haaaa.png'
+            }, {
+                name: 'very_angry',
+                title: { translate: 'very_angry' },
+                path: '059_very_angry.png'
+            }, {
+                name: 'sailor_suit',
+                title: { translate: 'sailor_suit' },
+                path: '060_sailor_suit.png'
             }
         ]
     }, {
@@ -348,6 +380,22 @@ echoLiveSystem.registry.loadRegistry('emoji', e => e.meta.name, [
                 name: 'nani',
                 title: { translate: 'nani' },
                 path: 'nani.png'
+            }, {
+                name: 'haaaa',
+                title: { translate: 'haaaa' },
+                path: 'haaaa.png'
+            }, {
+                name: 'be_careful_of_sheep',
+                title: { translate: 'be_careful_of_sheep' },
+                path: 'be_careful_of_sheep.png'
+            }, {
+                name: 'please_wear_sailor_suit',
+                title: { translate: 'please_wear_sailor_suit' },
+                path: 'please_wear_sailor_suit.png'
+            }, {
+                name: 'shame',
+                title: { translate: 'shame' },
+                path: 'shame.png'
             }
         ]
     }

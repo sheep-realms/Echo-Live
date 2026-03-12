@@ -142,11 +142,13 @@ class EchoLiveTools {
                 }
                 if (e?.data?.emoji !== undefined && !noEmoji) {
                     try {
-                        typeof emojiHako;
+                        const emojiHako = echoLiveEditor?.emojiHako;
+                        if (emojiHako === undefined) throw new Error('emojiHako is not defined');
                         let emoji = emojiHako.getEmoji(e.data.emoji);
                         str += ` [${ $tc( emoji?.title, { before: 'emoji.' } ) }] `;
-                    } catch (_) {
+                    } catch (error) {
                         str += ` [${ e.data.emoji }] `;
+                        console.warn('Get message plain text exception: ' + error.message)
                     }
                 }
                 str += e.text;

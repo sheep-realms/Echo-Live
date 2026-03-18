@@ -538,7 +538,7 @@ class Popups {
                         title: 'missingno'
                     },
                     image: {
-                        isEmoji: true,
+                        is_emoji: true,
                         show_title: false
                     },
                     content: [
@@ -614,7 +614,7 @@ class Popups {
                     title = $tc(e.title, { before: 'emoji.' + emojiPack.path.translate + 'emoji.' });
                 }
 
-                if (emojiPack.image.isEmoji) {
+                if (emojiPack.image.is_emoji) {
                     if (typeof e == 'string') {
                         dom += `<button class="emoji-box is-true-emoji" data-value="${ e }">${ e }</button>`;
                     } else if (typeof e == 'object') {

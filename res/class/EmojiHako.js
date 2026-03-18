@@ -34,7 +34,7 @@ class EmojiHako {
                     ...e?.path
                 },
                 image: {
-                    isEmoji:        e?.image?.isEmoji !== undefined ? e.image.isEmoji : false,
+                    is_emoji:       e?.image?.is_emoji !== undefined ? e.image.is_emoji : false,
                     rendering:      e?.image?.rendering ? e.image.rendering : 'auto',
                     review_size:    e?.image?.review_size ? e.image.review_size : 'middle',
                     show_title:     e?.image?.show_title !== undefined ? e.image.show_title : true,
@@ -78,7 +78,7 @@ class EmojiHako {
                             path:   'missingno.png',
                             ...e2
                         });
-                    } else if (typeof e2 == 'string' && emojiPack.image.isEmoji) {
+                    } else if (typeof e2 == 'string' && emojiPack.image.is_emoji) {
                         emojiPack.content.push(e2);
                     }
                 }

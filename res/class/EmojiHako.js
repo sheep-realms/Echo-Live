@@ -29,7 +29,7 @@ class EmojiHako {
                     ...e?.meta
                 },
                 path: {
-                    i18n:           '',
+                    translate:      undefined,
                     images:         `res/emoji/${ e?.name ? e.name : 'missingno' }/`,
                     ...e?.path
                 },
@@ -39,18 +39,20 @@ class EmojiHako {
                     review_size:    e?.image?.review_size ? e.image.review_size : 'middle',
                     show_title:     e?.image?.show_title !== undefined ? e.image.show_title : true,
                     margin: {
-                        left:       '0.5em',
-                        right:      '0.5em',
+                        left:       'unset',
+                        right:      'unset',
+                        start:      'unset',
+                        end:        'unset',
                         ...e?.image?.margin
                     },
                     size: {
                         width: {
-                            value:  '1em',
+                            value:  '1rem',
                             max:    'unset',
                             min:    'unset'
                         },
                         height: {
-                            value:  '1em',
+                            value:  '1rem',
                             max:    'unset',
                             min:    'unset'
                         },

@@ -276,6 +276,8 @@ echo.on('customSequence', function(e) {
                     min-height: ${ emojiData.image.size.height.min };
                     margin-left: ${ emojiData.image.margin.left };
                     margin-right: ${ emojiData.image.margin.right };
+                    margin-inline-start: ${ emojiData.image.margin.start };
+                    margin-inline-end: ${ emojiData.image.margin.end };
                     image-rendering: ${ emojiData.image.rendering };
                 "
             >`;

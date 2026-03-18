@@ -82,8 +82,8 @@ echoLiveSystem.registry.loadRegistry('emoji', e => e.meta.name, [
         },
         image: {
             margin: {
-                left: '0.5rem',
-                right: '0.5rem'
+                start: '0.35rem',
+                end: '0.35rem'
             },
             rendering: 'pixelated',
             review_size: 'small',
@@ -330,8 +330,8 @@ echoLiveSystem.registry.loadRegistry('emoji', e => e.meta.name, [
         },
         image: {
             margin: {
-                left: '0.5rem',
-                right: '0.5rem'
+                start: '0.35rem',
+                end: '0.35rem'
             },
             review_size: 'large',
             size: {

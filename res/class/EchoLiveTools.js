@@ -142,9 +142,11 @@ class EchoLiveTools {
                 }
                 if (e?.data?.emoji !== undefined && !noEmoji) {
                     try {
-                        const emojiHako = echoLiveEditor?.emojiHako;
-                        if (emojiHako === undefined) throw new Error('emojiHako is not defined');
-                        let emoji = emojiHako.getEmoji(e.data.emoji);
+                        let emojiHakoCall = emojiHako ?? echoLiveEditor?.emojiHako;emojiHako
+                        if (emojiHakoCall === undefined) {
+                            throw new Error('emojiHako is not defined');
+                        }
+                        let emoji = emojiHakoCall.getEmoji(e.data.emoji);
                         str += ` [${ $tc( emoji?.title, { before: 'emoji.' } ) }] `;
                     } catch (error) {
                         str += ` [${ e.data.emoji }] `;

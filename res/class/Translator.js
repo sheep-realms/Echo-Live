@@ -170,12 +170,18 @@ class Translator {
             ...text
         };
 
+        let ignoreBefore = false;
+        if (String(text.translate).startsWith(':')) {
+            ignoreBefore = true;
+            text.translate = String(text.translate).substring(1);
+        }
+
         data = {
             before: '',
             ...data
         };
 
-        const translateKey = data.before + text.translate;
+        const translateKey = ignoreBefore ? text.translate : data.before + text.translate;
         
 
         let output = text.text;

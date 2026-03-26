@@ -321,7 +321,7 @@ class Popups {
                     }, e.title?.name);
                 }
 
-                dom += `<button class="color-box" title="${ title.replace(/"/g, '&quot;') }" data-value="${ e.value.replace(/"/g, '') }" style="--color: ${ e.value.replace(/"/g, '') };"><div class="color"></div></button>`;
+                dom += `<button class="color-box" title="${ title.replace(/"/g, '&quot;') }" data-value="${ e.value.replace(/"/g, '') }" data-meta-name="${ palette.meta?.name?.replace(/"/g, '') ?? 'echolive:recently' }" style="--color: ${ e.value.replace(/"/g, '') };"><div class="color"></div></button>`;
             } else if (e?.type === 'group') {
                 title = e.value;
 
@@ -345,6 +345,7 @@ class Popups {
                     class="color-box color-box-custom-class ${ e?.preview_class ? 'echo-text-preview-' + e.preview_class : '' }"
                     title="${ title.replace(/"/g, '&quot;') }"
                     data-value="${ e.value.replace(/"/g, '') }"
+                    data-meta-name="${ palette.meta?.name?.replace(/"/g, '') ?? 'echolive:recently' }"
                     style="${ e?.image ? `background-image: url(${ e.image });` : '' } ${ e?.style ?? '' }"
                 >
                     <div class="color"></div>
@@ -469,7 +470,8 @@ class Popups {
                 <label for="popups-palette-select" style="display: none;">${ $t('editor.palette.select') }</label>
                 <div class="popups-palette-select-content">
                     <kbd class="accessibility-key">Q</kbd>
-                    <select name="popups-palette-select" id="popups-palette-select">
+                    <select name="popups-palette-select" id="popups-palette-select" class="popups-select">
+                        <option value="echolive:recently">${ $t('editor.palette.label.recently') }</option>
                         ${ Popups.paletteOptions(palette) }
                     </select>
                     <kbd class="accessibility-key">E</kbd>
@@ -479,6 +481,7 @@ class Popups {
                 ${ Popups.paletteColorContrast() }
             </div>
             <div class="popups-palette-content">
+                <div id="popups-palette-recently-content" class="palette-page hide" data-palette-id="echolive:recently"></div>
                 ${ Popups.palettePage(palette) }
             </div>
             <div class="popups-palette-accessibility">
@@ -553,7 +556,7 @@ class Popups {
                 <label for="popups-emoji-select" style="display: none;">${ $t('editor.emoji.select') }</label>
                 <div class="popups-emoji-select-content">
                     <kbd class="accessibility-key">Q</kbd>
-                    <select name="popups-emoji-select" id="popups-emoji-select">
+                    <select name="popups-emoji-select" id="popups-emoji-select" class="popups-select">
                         ${ Popups.emojiOptions(emojiPacks) }
                     </select>
                     <kbd class="accessibility-key">E</kbd>

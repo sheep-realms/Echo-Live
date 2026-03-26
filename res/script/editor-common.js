@@ -111,35 +111,69 @@ function effectFlicker($sel) {
  * @param {Function} selectedTextFilter 选中文本过滤器
  * @param {Boolean} setFocus 设置焦点
  */
-function insertTextAtCursor(id, text, text2 = '', forceInputText2 = false, forceRepeatBefore = false, forceRepeatAfter = false, firstClear = false, selectedTextFilter = undefined, setFocus = true) {
+function insertTextAtCursor(
+    id,
+    text = '',
+    text2 = '',
+    forceInputText2 = false,
+    forceRepeatBefore = false,
+    forceRepeatAfter = false,
+    firstClear = false,
+    selectedTextFilter = undefined,
+    setFocus = true
+) {
     let textarea       = document.getElementById(id);
 
     let selectionStart = textarea.selectionStart,
         selectionEnd   = textarea.selectionEnd;
 
-    let textBefore     = textarea.value.substring(0,              selectionStart),
-        selectedText   = textarea.value.substring(selectionStart, selectionEnd),
-        textAfter      = textarea.value.substring(selectionEnd);
+    const value = textarea.value;
 
-    
-    if (!forceRepeatBefore && textBefore.substring(textBefore.length - text.length) == text) text = '';
-    if (firstClear && selectionStart == 0) text = '';
+    let textBefore     = value.substring(0,              selectionStart),
+        selectedText   = value.substring(selectionStart, selectionEnd),
+        textAfter      = value.substring(selectionEnd);
+
+    if (!forceRepeatBefore && textBefore.endsWith(text)) text = '';
+    if (firstClear && selectionStart === 0) text = '';
+
+    let pos0, pos1;
 
     if (selectionStart == selectionEnd) {
         if (!forceInputText2) text2 = '';
         textarea.value = textBefore + text   /*  NONE  */ + text2 + textAfter;
-        textarea.setSelectionRange(selectionStart + text.length, selectionStart + text.length);
+        pos0 = pos1 = selectionStart + text.length;
     } else {
-        if (typeof selectedTextFilter == 'function') selectedText = selectedTextFilter(selectedText);
-        if (!forceRepeatAfter && textAfter.search(text2) == 0) text2 = '';
+        if (typeof selectedTextFilter === 'function') selectedText = selectedTextFilter(selectedText);
+        if (!forceRepeatAfter && textAfter.startsWith(text2)) text2 = '';
         textarea.value = textBefore + text + selectedText + text2 + textAfter;
-        textarea.setSelectionRange(selectionStart + text.length, selectionStart + text.length + selectedText.length);
+        pos0 = selectionStart + text.length;
+        pos1 = selectionStart + text.length + selectedText.length;
     }
     
-    if (setFocus) textarea.focus();
+    if (setFocus) {
+        textarea.focus();
+        textarea.setSelectionRange(pos0, pos1);
+    } else {
+        requestAnimationFrame(() => {
+            textarea.setSelectionRange(pos0, pos1);
+        });
+    }
     $('#' + id).trigger('input');
 }
 
+/**
+ * 编辑器插入字符
+ * @param {String} value 选项
+ * @param {String} value.id 元素ID
+ * @param {String} value.text 左侧插入字符串
+ * @param {String} value.text2 右侧插入字符串
+ * @param {Boolean} value.forceInputText2 未选中文本时强制插入右侧字符串
+ * @param {Boolean} value.forceRepeatBefore 左侧有相同字符串时强制插入字符串
+ * @param {Boolean} value.forceRepeatAfter 右侧有相同字符串时强制插入字符串
+ * @param {Boolean} value.firstClear 当起始光标在左侧时清除左侧插入字符
+ * @param {Function} value.selectedTextFilter 选中文本过滤器
+ * @param {Boolean} value.setFocus 设置焦点
+ */
 function insertTextAtCursorForObject(value = {}) {
     value = {
         id: undefined,
@@ -151,6 +185,7 @@ function insertTextAtCursorForObject(value = {}) {
         firstClear: false,
         selectedTextFilter: undefined,
         setFocus: true,
+        jumpToEnd: false,
         ...value
     }
     return insertTextAtCursor(value.id, value.text, value.text2, value.forceInputText2, value.forceRepeatBefore, value.forceRepeatAfter, value.firstClear, value.selectedTextFilter, value.setFocus);
@@ -503,6 +538,19 @@ $(document).on('keydown', '#popups-image', function(e) {
             break;
     }
 });
+
+
+
+$(document).on('keydown', e => {
+    if (e.shiftKey) $('html').addClass('shift-key-press');
+});
+
+$(document).on('keyup', e => {
+    if (!e.shiftKey) $('html').removeClass('shift-key-press');
+});
+
+
+
 
 function paletteColorContrastCheck(value) {
     const bg = config.editor.color_picker.contrast_background_color;

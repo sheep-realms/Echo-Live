@@ -1095,6 +1095,7 @@ const lang_zho_Hant_TW = {
             },
             label: {
                 title_after: "{title} - {after}",
+                recently: "最近使用",
                 common: {
                     after: {
                         deep: "深色",

@@ -69,6 +69,14 @@ echoLiveSystem.registry.loadRegistry('editor_controller', 'name', [
                 id: 'popups-palette',
                 focus: '#popups-palette-select'
             }
+        },
+        alt_action: {
+            type: 'show_popups_set_option',
+            value: {
+                id: 'popups-palette',
+                focus: '#popups-palette-select',
+                option: 'custom_class'
+            }
         }
     }, {
         name: 'emoji',

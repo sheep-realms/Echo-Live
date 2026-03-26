@@ -684,4 +684,40 @@ class EchoLiveTools {
 
         callback(isAtBottom, done);
     }
+
+    /**
+     * 更新历史记录数组
+     * @param {Array<Object>} list 数组
+     * @param {string} key 用于比较的键名
+     * @param {Object} item 要插入或更新的对象
+     * @param {number} [maxLength] 最大长度
+     * @returns {Array<Object>} 更新后的数组
+     */
+    static updateHistoryArray(list, key, item, maxLength) {
+        if (!Array.isArray(list)) {
+            throw new TypeError("list 必须是数组");
+        }
+
+        const value = item?.[key];
+        if (value === undefined) {
+            throw new Error(`item 中不存在键: ${key}`);
+        }
+
+        const index = list.findIndex(v => v?.[key] === value);
+
+        if (index !== -1) {
+            const [existing] = list.splice(index, 1);
+            list.unshift(existing);
+        } else {
+            list.unshift(item);
+        }
+
+        if (typeof maxLength === "number" && maxLength >= 0) {
+            if (list.length > maxLength) {
+                list.length = maxLength;
+            }
+        }
+
+        return list;
+    }
 }

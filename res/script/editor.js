@@ -114,6 +114,8 @@ $(document).ready(function() {
 
         popupsCreate(Popups.imagePopups(), '#popups-image');
 
+        loadPaletteHistory();
+
         try {
             // localStorageManager.getCache('editor_images').then(value => {
             //     selectedImageData = value;
@@ -864,38 +866,92 @@ function sendHistoryMessage(data) {
 
 
 // 编辑器控制器点击
-$(document).on('click', '.editor-format-btn', function() {
+$(document).on('click', '.editor-format-btn', function(e) {
     const value = $(this).data('value');
-    if (typeof editorControllerHandler[value] === 'function') {
-        return editorControllerHandler[value]();
-    }
+    if (e.altKey && typeof editorControllerHandlerAlt[value] === 'function') return editorControllerHandlerAlt[value]();
+    return editorControllerHandler[value]?.();
 });
 
 // 拾色器色块点击
-$(document).on('click', '#popups-palette .color-box:not(.color-box-custom-class)', function() {
-    let value = $(this).data('value');
-    insertTextAtCursor('ptext-content', `@[${ value }]`, '@r');
-    popupsDisplay('#popups-palette', false);
+$(document).on('click', '#popups-palette .color-box:not(.color-box-custom-class)', function(e) {
+    const value = $(this).data('value');
+    const metaName = $(this).data('meta-name');
+    insertTextAtCursorForObject({
+        id: 'ptext-content',
+        text: `@[${ value }]`,
+        text2: '@r',
+        setFocus: !e.shiftKey
+    });
+    if (!e.shiftKey) popupsDisplay('#popups-palette', false);
+    updatePaletteHistory(getPaletteData(metaName, value));
+    if (e.shiftKey && metaName === 'echolive:recently') {
+        $('#popups-palette-recently-content .color-box').eq(0).focus();
+    }
 });
 
-$(document).on('click', '#popups-palette .color-box-custom-class', function() {
-    let value = $(this).data('value');
-    insertTextAtCursor('ptext-content', `@<${ value }>`, '@r');
-    popupsDisplay('#popups-palette', false);
+$(document).on('click', '#popups-palette .color-box-custom-class', function(e) {
+    const value = $(this).data('value');
+    const metaName = $(this).data('meta-name');
+    insertTextAtCursorForObject({
+        id: 'ptext-content',
+        text: `@<${ value }>`,
+        text2: '@r',
+        setFocus: !e.shiftKey
+    });
+    if (!e.shiftKey) popupsDisplay('#popups-palette', false);
+    updatePaletteHistory(getPaletteData(metaName, value));
+    if (e.shiftKey && metaName === 'echolive:recently') {
+        $('#popups-palette-recently-content .color-box').eq(0).focus();
+    }
 });
+
+function getPaletteData(meta, value) {
+    if (meta !== 'echolive:recently') {
+        const p = echoLiveSystem.registry.getRegistryValue('palette', meta);
+        if (p === undefined) return;
+        return p.colors.find(e => e.value === value);
+    } else {
+        const list = localStorageManager.getItem('editor_palette_recently');
+        if (!Array.isArray(list)) return;
+        return list.find(e => e.value === value);
+    }
+}
+
+function updatePaletteHistory(data) {
+    if (typeof data !== 'object' || data === null) return;
+    const $paletteRecently = $('#popups-palette-recently-content');
+    let list = localStorageManager.getItem('editor_palette_recently') ?? [];
+    EchoLiveTools.updateHistoryArray(list, 'value', data, 50);
+    localStorageManager.setItem('editor_palette_recently', list);
+    $paletteRecently.html(
+        Popups.paletteContent({
+            colors: list
+        })
+    );
+}
+
+function loadPaletteHistory(list) {
+    if (!Array.isArray(list)) list = localStorageManager.getItem('editor_palette_recently') ?? [];
+    const $paletteRecently = $('#popups-palette-recently-content');
+    $paletteRecently.html(
+        Popups.paletteContent({
+            colors: list
+        })
+    );
+}
 
 // 表情包点击
 $(document).on('click', '#popups-emoji .emoji-box', function(event) {
     let value = $(this).data('value');
     let str = `@{${ value }}`;
     if ($(this).hasClass('is-true-emoji')) str = value;
-    // TODO: 这个问题暂时搞不定
     insertTextAtCursorForObject({
         id: 'ptext-content',
         text: str,
-        forceRepeatBefore: true
+        forceRepeatBefore: true,
+        setFocus: !event.shiftKey
     });
-    popupsDisplay('#popups-emoji', false);
+    if (!event.shiftKey) popupsDisplay('#popups-emoji', false);
 });
 
 // 纯文本编辑器字数统计
@@ -1209,6 +1265,7 @@ $(document).on('click', '#link-open-settings', function(e) {
 let shortcutManager = new ShortcutManager();
 
 let editorControllerHandler = {};
+let editorControllerHandlerAlt = {};
 
 shortcutManager.registerView('echolive:editor', {
     submitKey: {
@@ -1244,38 +1301,51 @@ function getEditorControllerShortcuts() {
     const editorID = 'ptext-content';
     let shortcuts = [];
 
-    function _getHandler(controllerItem) {
-        if (controllerItem.action?.type === 'insert_text_at_cursor') {
+    function _getHandler(controllerItem, isAltAction = false) {
+        const actionName = isAltAction ? 'alt_action' : 'action';
+        const actionData = controllerItem[actionName];
+        if (actionData?.type === 'insert_text_at_cursor') {
             return () => {
                 insertTextAtCursorForObject({
                     id: editorID,
-                    text: controllerItem.action?.value?.before ?? '',
-                    text2: controllerItem.action?.value?.after ?? '@r',
-                    forceInputText2: controllerItem.action?.value?.forceInputAfter ?? false,
-                    forceRepeatBefore: controllerItem.action?.value?.forceRepeatBefore ?? false,
-                    forceRepeatAfter: controllerItem.action?.value?.forceRepeatAfter ?? false,
-                    firstClear: controllerItem.action?.value?.firstClear ?? false,
+                    text: actionData?.value?.before ?? '',
+                    text2: actionData?.value?.after ?? '@r',
+                    forceInputText2: actionData?.value?.forceInputAfter ?? false,
+                    forceRepeatBefore: actionData?.value?.forceRepeatBefore ?? false,
+                    forceRepeatAfter: actionData?.value?.forceRepeatAfter ?? false,
+                    firstClear: actionData?.value?.firstClear ?? false,
                     selectedTextFilter:
-                        controllerItem.action?.value?.selectedTextFilter
+                        actionData?.value?.selectedTextFilter
                             ? echoLiveSystem.registry.getRegistryValue(
                                     'editor_controller_method',
-                                    controllerItem.action?.value?.selectedTextFilter
+                                    actionData?.value?.selectedTextFilter
                                 )
                             : undefined,
-                    setFocus: controllerItem.action?.value?.setFocus ?? true
+                    setFocus: actionData?.value?.setFocus ?? true
                 })
             };
-        } else if (controllerItem.action?.type === 'show_popups') {
+        } else if (actionData?.type === 'show_popups') {
             return () => {
-                popupsDisplay('#' + controllerItem.action?.value?.id);
+                popupsDisplay('#' + actionData?.value?.id);
                 popupsMoveToElement(
-                    '#' + controllerItem.action.value?.id,
+                    '#' + actionData.value?.id,
                     `.editor-controller button[data-value="${ controllerItem.name }"]`
                 );
-                $(controllerItem.action?.value.focus).focus();
+                $(actionData?.value.focus).focus();
+            };
+        } else if (actionData?.type === 'show_popups_set_option') {
+            return () => {
+                popupsDisplay('#' + actionData?.value?.id);
+                popupsMoveToElement(
+                    '#' + actionData.value?.id,
+                    `.editor-controller button[data-value="${ controllerItem.name }"]`
+                );
+                $(actionData?.value.focus).focus();
+                $(`#${ actionData.value?.id } .popups-select`).val(actionData.value?.option);
+                $(`#${ actionData.value?.id } .popups-select`).trigger('change');
             };
         } else {
-            return () => {};
+            return isAltAction ? undefined : () => {};
         }
     }
 
@@ -1295,12 +1365,26 @@ function getEditorControllerShortcuts() {
 
     controller.forEach(e => {
         const h = _getHandler(e);
+        const h2 = _getHandler(e, true);
         editorControllerHandler[e.name] = h;
+        const keys = _getKeys(e.shortcut?.keys)
         let s = {
-            keys: _getKeys(e.shortcut?.keys),
+            keys: keys,
             handler: () => editorControllerHandler[e.name]()
         };
-        shortcuts.push(s);
+        if (typeof keys === 'string') shortcuts.push(s);
+
+        if (typeof h2 !== 'function') return;
+        editorControllerHandlerAlt[e.name] = h2;
+        if (typeof keys !== 'string') return;
+        let altKeysArray = keys.split('+');
+        altKeysArray.splice(altKeysArray.length - 1, 0, 'Alt');
+        const altKeys = altKeysArray.join('+');
+        let s2 = {
+            keys: altKeys,
+            handler: () => editorControllerHandlerAlt[e.name]()
+        };
+        shortcuts.push(s2);
     });
 
     return shortcuts;

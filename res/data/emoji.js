@@ -14,7 +14,7 @@ echoLiveSystem.registry.loadRegistry('emoji', e => e.meta.name, [
             images: ''
         },
         image: {
-            isEmoji: true,
+            is_emoji: true,
             show_title: false
         },
         content: [

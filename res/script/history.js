@@ -42,7 +42,7 @@ echoLiveHistory.on('shutdown', function(reason) {
 echoLiveHistory.on('latest_history_display_change', function(e) {
     if (e) {
         $('html').addClass('echo-live-history-latest-message-show');
-        if (config.history.message_list_reverse) {
+        if (config.history.layout.message_list_reverse) {
             $('#echo-live-history-message-list').scrollTop(-4503599627370496);
         } else {
             $('#echo-live-history-message-list').scrollTop(4503599627370496);
@@ -67,7 +67,7 @@ function sendHistory(username = '', message = '') {
         </div>`
     );
 
-    if (config.history.message_list_reverse) {
+    if (config.history.layout.message_list_reverse) {
         $('#echo-live-history-message-list').scrollTop(-4503599627370496);
     } else {
         $('#echo-live-history-message-list').scrollTop(4503599627370496);

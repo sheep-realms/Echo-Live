@@ -1216,7 +1216,13 @@ class SettingsPanel {
         const { id = '', value = '', isBit = undefined } = data;
         return SettingsPanel.setItem({
             ...data,
-            content: `<div class="settings-switch state-${ value ? 'on' : 'off' }" data-is-bit="${ isBit ? '1' : '0' }">
+            content: `<div
+                class="settings-switch
+                state-${ value ? 'on' : 'off' }"
+                data-is-bit="${ isBit ? '1' : '0' }"
+                role="switch"
+                aria-checked="${ value ? 'true' : 'false' }"
+            >
                 ${
                     FHUIComponentButton.buttonGhost(
                         $t('ui.off'),
@@ -1257,7 +1263,11 @@ class SettingsPanel {
 
         return SettingsPanel.setItem({
             ...data,
-            content: `<div class="settings-switch settings-switch-all-or-array-string state-${ isAll ? 'on' : 'off' }">
+            content: `<div
+                class="settings-switch settings-switch-all-or-array-string state-${ isAll ? 'on' : 'off' }"
+                role="switch"
+                aria-checked="${ isAll ? 'true' : 'false' }"
+            >
                 ${
                     FHUIComponentButton.buttonGhost(
                         $t('ui.enable_all'),

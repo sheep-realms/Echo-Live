@@ -1350,6 +1350,7 @@ $(document).on('click', '.settings-switch', function() {
     $(this).children('.settings-switch-value').val(value);
     $(this).removeClass('state-off state-on');
     $(this).addClass('state-' + t[next][0]);
+    $(this).attr('aria-checked', t[next][1]);
     $(this).children('.btn-' + t[next][0]).focus();
 
     if ($parent.data('type') == 'special.all_or_array_string') {

@@ -882,11 +882,7 @@ $(document).on('click', '#popups-palette .color-box:not(.color-box-custom-class)
         text2: '@r',
         setFocus: !e.shiftKey
     });
-    if (!e.shiftKey) popupsDisplay('#popups-palette', false);
-    updatePaletteHistory(getPaletteData(metaName, value));
-    if (e.shiftKey && metaName === 'echolive:recently') {
-        $('#popups-palette-recently-content .color-box').eq(0).focus();
-    }
+    paletteColosClickAfter(e, value, metaName);
 });
 
 $(document).on('click', '#popups-palette .color-box-custom-class', function(e) {
@@ -898,12 +894,24 @@ $(document).on('click', '#popups-palette .color-box-custom-class', function(e) {
         text2: '@r',
         setFocus: !e.shiftKey
     });
-    if (!e.shiftKey) popupsDisplay('#popups-palette', false);
-    updatePaletteHistory(getPaletteData(metaName, value));
-    if (e.shiftKey && metaName === 'echolive:recently') {
+    paletteColosClickAfter(e, value, metaName);
+});
+
+function paletteColosClickAfter(event, value, metaName) {
+    const oe = event.originalEvent;
+    let isKeyboardTrigger = false;
+    let updateDOM = true;
+    if (oe?.detail === 0) isKeyboardTrigger = true;
+    if (event.shiftKey && isKeyboardTrigger) updateDOM = false;
+
+    if (!event.shiftKey) popupsDisplay('#popups-palette', false);
+    if (config.editor.color_picker.recently_auto_sort || metaName !== 'echolive:recently') {
+        updatePaletteHistory(getPaletteData(metaName, value), updateDOM);
+    }
+    if (updateDOM && event.shiftKey && config.editor.color_picker.recently_auto_sort && metaName === 'echolive:recently') {
         $('#popups-palette-recently-content .color-box').eq(0).focus();
     }
-});
+}
 
 function getPaletteData(meta, value) {
     if (meta !== 'echolive:recently') {
@@ -917,13 +925,13 @@ function getPaletteData(meta, value) {
     }
 }
 
-function updatePaletteHistory(data) {
+function updatePaletteHistory(data, updateDOM = true) {
     if (typeof data !== 'object' || data === null) return;
     const $paletteRecently = $('#popups-palette-recently-content');
     let list = localStorageManager.getItem('editor_palette_recently') ?? [];
     EchoLiveTools.updateHistoryArray(list, 'value', data, 50);
     localStorageManager.setItem('editor_palette_recently', list);
-    $paletteRecently.html(
+    if (updateDOM) $paletteRecently.html(
         Popups.paletteContent({
             colors: list
         })

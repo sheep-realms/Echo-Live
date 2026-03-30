@@ -1,4 +1,4 @@
-const db_config_version = 14;
+const db_config_version = 15;
 
 const db_config_define = [
     {
@@ -945,6 +945,11 @@ const db_config_define = [
         default: 'all',
         from: 'editor.palette',
         created: 4
+    }, {
+        name: 'editor.color_picker.recently_auto_sort',
+        type: 'boolean',
+        default: true,
+        created: 15
     }, {
         name: 'editor.color_picker.contrast_enable',
         type: 'boolean',

@@ -582,6 +582,10 @@ const lang_zho_Hans = {
                     _description: "拾色器中有多种色板可供挑选。<br>若要挑选启用的色板或调整排序，请反选 “全部启用”，并在下方文本框中输入色板名称，一&#65279;行一&#65279;个。",
                     all_selected: "全部启用"
                 },
+                recently_auto_sort: {
+                    _title: "最近使用色板重新排序",
+                    _description: "在最近使用色板中使用颜色时将所使用的颜色移动至首位。<br>无论是否启用，在进行键盘导航时，按住 Shift 键连续使用颜色不会发生显性重排。"
+                },
                 contrast_enable: {
                     _title: "启用 WCAG 颜色对比度测试",
                     _description: "在拾色器中显示颜色对比面板和 WCAG 颜色对比度测试结果。"

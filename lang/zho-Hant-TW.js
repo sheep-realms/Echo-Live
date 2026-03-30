@@ -582,6 +582,10 @@ const lang_zho_Hant_TW = {
                     _description: "拾色器中有多種色板可供挑選。<br>若要挑選啟用的色板或調整排序，請反選 “全部啟用”，並在下方文字框中輸入色板名稱，一&#65279;行一&#65279;個。",
                     all_selected: "全部啟用"
                 },
+                recently_auto_sort: {
+                    _title: "最近使用色板重新排序",
+                    _description: "在最近使用色板中使用顏色時將所使用的顏色移動至首位。<br>無論是否啟用，在進行鍵盤導航時，按住 Shift 鍵連續使用顏色不會發生顯性重排。"
+                },
                 contrast_enable: {
                     _title: "啟用 WCAG 顏色對比度測試",
                     _description: "在拾色器中顯示顏色對比面板和 WCAG 顏色對比度測試結果。"

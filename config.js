@@ -1,5 +1,5 @@
 const config = {
-    "data_version": 14,
+    "data_version": 15,
     "global": {
         "language": "zho-Hans",
         "theme": "vanilla",
@@ -120,6 +120,7 @@ const config = {
         },
         "color_picker": {
             "palette": "all",
+            "recently_auto_sort": true,
             "contrast_enable": false,
             "contrast_background_color": "#ffffff",
             "contrast_threshold": 3.8

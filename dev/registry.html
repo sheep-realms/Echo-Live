@@ -55,6 +55,8 @@
     <script src="../res/data/print_effect.js"></script>
     <script src="../res/data/settings_about_link.js"></script>
     <script src="../res/data/settings_navigation.js"></script>
+    <script src="../res/data/slot_settings_wrapper_after.js"></script>
+    <script src="../res/data/slot_settings_wrapper_before.js"></script>
     <script src="../res/data/sound.js"></script>
     <script src="../res/data/statistic.js"></script>
     <script src="../res/data/statistic_method.js"></script>
@@ -192,7 +194,7 @@
             });
 
             echoLiveSystem.registry.registry.forEach((data, table) => {
-                $('#registry-list').append(`<button class="registry-list-item" data-table="${table}">${table}</button>`);
+                $('#registry-list').append(`<button class="registry-list-item" title="${table}" data-table="${table}">${table}</button>`);
             });
 
             $(document).on('click', '.registry-list-item', function() {

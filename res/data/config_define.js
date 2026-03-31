@@ -797,65 +797,6 @@ const db_config_define = [
             min: -1
         }
     }, {
-        name: 'editor.form',
-        icon: 'material:form-textbox',
-        type: 'object',
-        created: 4
-    }, {
-        name: 'editor.form.username',
-        type: 'string',
-        default: '',
-        from: 'editor.username_init',
-        created: 4
-    }, {
-        name: 'editor.form.quote_before',
-        icon: 'material:format-quote-open',
-        type: 'string',
-        default: '「',
-        created: 4
-    }, {
-        name: 'editor.form.quote_after',
-        icon: 'material:format-quote-close',
-        type: 'string',
-        default: '」',
-        created: 4
-    }, {
-        name: 'editor.form.ontput_before_enable',
-        type: 'boolean.bit',
-        default: 0,
-        from: 'editor.ontput_before_enable',
-        created: 4
-    }, {
-        name: 'editor.form.output_before',
-        type: 'string',
-        default: 'echolive.send(',
-        from: 'editor.output_before',
-        created: 4,
-        conditions: [
-            {
-                name: 'editor.form.ontput_before_enable',
-                value: 1
-            }
-        ]
-    }, {
-        name: 'editor.form.ontput_after_enable',
-        type: 'boolean.bit',
-        default: 0,
-        from: 'editor.ontput_after_enable',
-        created: 4
-    }, {
-        name: 'editor.form.output_after',
-        type: 'string',
-        default: ');',
-        from: 'editor.output_after',
-        created: 4,
-        conditions: [
-            {
-                name: 'editor.form.ontput_after_enable',
-                value: 1
-            }
-        ]
-    }, {
         name: 'editor.websocket',
         icon: 'material:connection',
         type: 'object',
@@ -995,6 +936,65 @@ const db_config_define = [
         type: 'special.all_or_array_string',
         default: 'all',
         created: 4
+    }, {
+        name: 'editor.form',
+        icon: 'material:form-textbox',
+        type: 'object',
+        created: 4
+    }, {
+        name: 'editor.form.username',
+        type: 'string',
+        default: '',
+        from: 'editor.username_init',
+        created: 4
+    }, {
+        name: 'editor.form.quote_before',
+        icon: 'material:format-quote-open',
+        type: 'string',
+        default: '「',
+        created: 4
+    }, {
+        name: 'editor.form.quote_after',
+        icon: 'material:format-quote-close',
+        type: 'string',
+        default: '」',
+        created: 4
+    }, {
+        name: 'editor.form.ontput_before_enable',
+        type: 'boolean.bit',
+        default: 0,
+        from: 'editor.ontput_before_enable',
+        created: 4
+    }, {
+        name: 'editor.form.output_before',
+        type: 'string',
+        default: 'echolive.send(',
+        from: 'editor.output_before',
+        created: 4,
+        conditions: [
+            {
+                name: 'editor.form.ontput_before_enable',
+                value: 1
+            }
+        ]
+    }, {
+        name: 'editor.form.ontput_after_enable',
+        type: 'boolean.bit',
+        default: 0,
+        from: 'editor.ontput_after_enable',
+        created: 4
+    }, {
+        name: 'editor.form.output_after',
+        type: 'string',
+        default: ');',
+        from: 'editor.output_after',
+        created: 4,
+        conditions: [
+            {
+                name: 'editor.form.ontput_after_enable',
+                value: 1
+            }
+        ]
     },
 
 

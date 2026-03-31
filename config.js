@@ -102,15 +102,6 @@ const config = {
             "log_line_maximum": 512,
             "images_cache_maximum": 64
         },
-        "form": {
-            "username": "",
-            "quote_before": "「",
-            "quote_after": "」",
-            "ontput_before_enable": 0,
-            "output_before": "echolive.send(",
-            "ontput_after_enable": 0,
-            "output_after": ");"
-        },
         "websocket": {
             "enable": false,
             "url": "ws://127.0.0.1:3000",
@@ -127,6 +118,15 @@ const config = {
         },
         "emoji_picker": {
             "emoji": "all"
+        },
+        "form": {
+            "username": "",
+            "quote_before": "「",
+            "quote_after": "」",
+            "ontput_before_enable": 0,
+            "output_before": "echolive.send(",
+            "ontput_after_enable": 0,
+            "output_after": ");"
         }
     },
     "history": {

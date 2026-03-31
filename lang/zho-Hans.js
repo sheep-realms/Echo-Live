@@ -1833,6 +1833,7 @@ const lang_zho_Hans = {
             accessibility: "Echo-Live 所有后台页面均支持键盘访问。<br>更多有关无障碍使用的帮助请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>帮助文档</a>。",
             advanced_settings: "不要随意更改这里的配置，除非您知道您在做什么。",
             character_settings: "形象播放器仍是一项实验性功能，可能存在较多问题，未来有可能会发生重大更改，请勿过度依赖。",
+            old_version_abandoned_config: "这些配置项仅在旧版本中发挥最大作用，出于兼容考虑仍然保留。它们已被新功能取代，不再能很好地发挥作用。这些配置项在未来可能会被删除。",
             echo: {
                 title: "关于 Echo",
                 description: "Echo 是 Echo-Live 的内核，提供了文本滚动输出功能。<br>它是一个工具库，任何人都可以使用 Echo 创建自己的文本展示项目。<br>如果您有兴趣了解 Echo，请见其 <a href='https://github.com/sheep-realms/Echo' target='_blank'>GitHub 仓库</a>。"

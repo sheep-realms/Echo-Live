@@ -1,5 +1,5 @@
 const config = {
-    "data_version": 14,
+    "data_version": 15,
     "global": {
         "language": "zho-Hans",
         "theme": "vanilla",
@@ -102,15 +102,6 @@ const config = {
             "log_line_maximum": 512,
             "images_cache_maximum": 64
         },
-        "form": {
-            "username": "",
-            "quote_before": "「",
-            "quote_after": "」",
-            "ontput_before_enable": 0,
-            "output_before": "echolive.send(",
-            "ontput_after_enable": 0,
-            "output_after": ");"
-        },
         "websocket": {
             "enable": false,
             "url": "ws://127.0.0.1:3000",
@@ -120,12 +111,22 @@ const config = {
         },
         "color_picker": {
             "palette": "all",
+            "recently_auto_sort": true,
             "contrast_enable": false,
             "contrast_background_color": "#ffffff",
             "contrast_threshold": 3.8
         },
         "emoji_picker": {
             "emoji": "all"
+        },
+        "form": {
+            "username": "",
+            "quote_before": "「",
+            "quote_after": "」",
+            "ontput_before_enable": 0,
+            "output_before": "echolive.send(",
+            "ontput_after_enable": 0,
+            "output_after": ");"
         }
     },
     "history": {

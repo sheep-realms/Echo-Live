@@ -78,6 +78,39 @@ window.addEventListener('beforeunload', function (e) {
 });
 
 
+const settingsSlotInstaller = new SlotInstaller();
+
+function getSettingsSlotParameters(id) {
+    return {
+        config: config,
+        value: getSettingsItemValue(id),
+        valueGet: getSettingsItemValue,
+        valueSet: setSettingsItemValue,
+        onInputChange: method => {
+            $(document).on('change', `.settings-item[data-id="${ id }"] .settings-value`, () => {
+                const value = getSettingsItemValue(id);
+                method(value);
+            });
+        }
+    }
+}
+
+settingsSlotInstaller.register("data-settings-wrapper-before", (slot) => {
+    const id = slot.getAttribute("data-settings-wrapper-before");
+    const method = echoLiveSystem.registry.getRegistryValue('slot_settings_wrapper_before', id);
+    const dom = method?.(id, getSettingsSlotParameters(id)) ?? '';
+    return `<div class="before-wrapper">${ dom }</div>`;
+});
+
+settingsSlotInstaller.register("data-settings-wrapper-after", (slot) => {
+    const id = slot.getAttribute("data-settings-wrapper-after");
+    const method = echoLiveSystem.registry.getRegistryValue('slot_settings_wrapper_after', id);
+    const dom = method?.(id, getSettingsSlotParameters(id)) ?? '';
+    return `<div class="after-wrapper">${ dom }</div>`;
+});
+
+
+
 let configSearchDataFilter = new DataFilter(
     '', 
     [
@@ -924,16 +957,7 @@ $(document).ready(function() {
                 $t('settings.msgbox.accessibility'),
                 'material:wheelchair-accessibility'
             ) +
-            `<div class="review-color-card" aria-label="${ $t('settings.label.accessibility_color_card') }">
-                <div class="general"><div class="fg">${ $t('settings.functional_color.general') }</div><div class="bg"></div></div>
-                <div class="safe"><div class="fg">${ $t('settings.functional_color.safe') }</div><div class="bg"></div></div>
-                <div class="warn"><div class="fg">${ $t('settings.functional_color.warn') }</div><div class="bg"></div></div>
-                <div class="danger"><div class="fg">${ $t('settings.functional_color.danger') }</div><div class="bg"></div></div>
-            </div>
-            <div class="review-font-size-card" aria-hidden="true" style="--font-size-base-review: ${config.accessibility.font_size}px; font-size: var(--font-size-base);">
-                <div class="example-1">${ $t('config.accessibility.font_size.example_1') }</div>
-                <div class="example-2">${ $t('config.accessibility.font_size.example_2') }</div>
-            </div>`
+            `<div style="height: var(--gap-middle);"></div>`
         );
 
         $('.settings-page[data-pageid="character"]').prepend(SettingsPanel.msgBox(
@@ -1350,6 +1374,7 @@ $(document).on('click', '.settings-switch', function() {
     $(this).children('.settings-switch-value').val(value);
     $(this).removeClass('state-off state-on');
     $(this).addClass('state-' + t[next][0]);
+    $(this).attr('aria-checked', t[next][1]);
     $(this).children('.btn-' + t[next][0]).focus();
 
     if ($parent.data('type') == 'special.all_or_array_string') {

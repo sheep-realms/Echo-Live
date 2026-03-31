@@ -176,6 +176,12 @@ echoLiveSystem.registry.init([
     }, {
         name: 'settings_data'
     }, {
+        name: 'slot_settings_wrapper_after',
+        is_function: true
+    }, {
+        name: 'slot_settings_wrapper_before',
+        is_function: true
+    }, {
         name: 'sound',
         unique_key: 'name',
         sync: true,

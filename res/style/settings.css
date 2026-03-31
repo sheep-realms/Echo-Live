@@ -494,9 +494,15 @@ main {
 
 .settings-item {
     display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--font-size-middle) 0;
+}
+
+.settings-item>.main-wrapper {
+    display: flex;
     align-items: center;
     gap: var(--font-size-middle);
-    padding: var(--font-size-middle) 0;
     box-sizing: border-box;
     flex-wrap: wrap;
 }
@@ -1155,4 +1161,45 @@ a.settings-link-bar:active {
         align-items: center;
         flex-direction: column;
     }
+}
+
+.settings-preview-wrapper {
+    border: none;
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    background-color: var(--msgbox-bgcolor);
+    margin-top: var(--gap-middle);
+    min-height: calc(var(--font-size-base) * 4);
+    max-height: calc(var(--font-size-base) * 12);
+    padding: var(--gap-middle);
+    color: var(--text-primary);
+    pointer-events: none;
+    user-select: none;
+    overflow: hidden;
+}
+
+#settings-preview-wrapper-live-controller {
+    font-size: var(--font-size-extra-small);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem
+}
+
+#settings-preview-wrapper-live-controller span {
+    line-height: 1rem;
+    position: relative;
+    top: -0.025rem;
+}
+
+#settings-preview-wrapper-live-controller .flex-space {
+    flex: 1;
+}
+
+#settings-preview-wrapper-live-controller svg {
+    width: var(--icon-size-extra-small);
+    height: var(--icon-size-extra-small);
+    transition: fill .3s;
+    fill: var(--text-primary);
 }

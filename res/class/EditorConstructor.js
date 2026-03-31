@@ -1018,18 +1018,22 @@ class SettingsPanel {
         let iconDOM;
         iconDOM = icon !== undefined ? Icon.getIcon(icon) : undefined;
         return `<div class="settings-item settings-type-${ type.split('.')[0] }" data-id="${ id }" data-type="${ type }">
-            <div class="meta">
-                ${ iconDOM ? `<div class="icon" aria-hidden="true">${ iconDOM }</div>` : '' }
-                <div class="text">
-                    <div class="title">${ title }</div>
-                    <div class="description">${ description }</div>
-                    <div class="key"><code>${ id }</code></div>
+            <slot data-settings-wrapper-before="${ id }"></slot>
+            <div class="main-wrapper">
+                <div class="meta">
+                    ${ iconDOM ? `<div class="icon" aria-hidden="true">${ iconDOM }</div>` : '' }
+                    <div class="text">
+                        <div class="title">${ title }</div>
+                        <div class="description">${ description }</div>
+                        <div class="key"><code>${ id }</code></div>
+                    </div>
                 </div>
+                <div class="value">
+                    ${ content }
+                </div>
+                ${ moreContent !== '' ? moreContent : '' }
             </div>
-            <div class="value">
-                ${ content }
-            </div>
-            ${ moreContent !== '' ? moreContent : '' }
+            <slot data-settings-wrapper-after="${ id }"></slot>
         </div>`;
     }
 
@@ -1216,7 +1220,13 @@ class SettingsPanel {
         const { id = '', value = '', isBit = undefined } = data;
         return SettingsPanel.setItem({
             ...data,
-            content: `<div class="settings-switch state-${ value ? 'on' : 'off' }" data-is-bit="${ isBit ? '1' : '0' }">
+            content: `<div
+                class="settings-switch
+                state-${ value ? 'on' : 'off' }"
+                data-is-bit="${ isBit ? '1' : '0' }"
+                role="switch"
+                aria-checked="${ value ? 'true' : 'false' }"
+            >
                 ${
                     FHUIComponentButton.buttonGhost(
                         $t('ui.off'),
@@ -1257,7 +1267,11 @@ class SettingsPanel {
 
         return SettingsPanel.setItem({
             ...data,
-            content: `<div class="settings-switch settings-switch-all-or-array-string state-${ isAll ? 'on' : 'off' }">
+            content: `<div
+                class="settings-switch settings-switch-all-or-array-string state-${ isAll ? 'on' : 'off' }"
+                role="switch"
+                aria-checked="${ isAll ? 'true' : 'false' }"
+            >
                 ${
                     FHUIComponentButton.buttonGhost(
                         $t('ui.enable_all'),
@@ -2023,5 +2037,30 @@ class AvatarReviewPanel {
                 )
             }</div>
         </div>`;
+    }
+}
+
+
+
+class PortalPreview {
+    constructor() {}
+
+    static controller(data) {
+        if (data === undefined) return '';
+        let dom = '';
+        data.content.forEach(e => {
+            if (typeof e !== 'object') {
+                dom += `<span>${e}</span>`;
+            } else if (e?.type === 'text') {
+                dom += `<span>${ $tc( e.value, { before: 'live_controller.' + data.meta.name + '.item.' } ) }</span>`;
+            } else if (e?.type === 'html') {
+                dom += e.value;
+            } else if (e?.type === 'icon') {
+                dom += Icon.getIcon(e.value);
+            } else if (e?.type === 'flex') {
+                dom += `<span class="flex-space"></span>`;
+            }
+        });
+        return dom;
     }
 }

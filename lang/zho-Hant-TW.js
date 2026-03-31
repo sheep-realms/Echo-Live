@@ -582,6 +582,10 @@ const lang_zho_Hant_TW = {
                     _description: "拾色器中有多種色板可供挑選。<br>若要挑選啟用的色板或調整排序，請反選 “全部啟用”，並在下方文字框中輸入色板名稱，一&#65279;行一&#65279;個。",
                     all_selected: "全部啟用"
                 },
+                recently_auto_sort: {
+                    _title: "最近使用色板重新排序",
+                    _description: "在最近使用色板中使用顏色時將所使用的顏色移動至首位。<br>無論是否啟用，在進行鍵盤導航時，按住 Shift 鍵連續使用顏色不會發生顯性重排。"
+                },
                 contrast_enable: {
                     _title: "啟用 WCAG 顏色對比度測試",
                     _description: "在拾色器中顯示顏色對比面板和 WCAG 顏色對比度測試結果。"
@@ -1829,6 +1833,7 @@ const lang_zho_Hant_TW = {
             accessibility: "Echo-Live 所有後臺頁面均支援鍵盤訪問。<br>更多有關無障礙使用的説明請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>說明文件</a>。",
             advanced_settings: "不要隨意更改這裡的配置，除非您知道您在做什麼。",
             character_settings: "形象播放器仍是一項實驗性功能，可能存在較多問題，未來有可能會發生重大更改，請勿過度依賴。",
+            old_version_abandoned_config: "這些配置項僅在舊版本中發揮最大作用，出於相容考慮仍然保留。它們已被新功能取代，不再能很好地發揮作用。這些配置項在未來可能會被刪除。",
             echo: {
                 title: "關於 Echo",
                 description: "Echo 是 Echo-Live 的核心，提供了文字滾動輸出功能。<br>它是一個工具庫，任何人都可以使用 Echo 建立自己的文字展示專案。<br>如果您有興趣瞭解 Echo，請見其 <a href='https://github.com/sheep-realms/Echo' target='_blank'>GitHub 倉庫</a>。"

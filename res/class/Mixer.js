@@ -77,8 +77,6 @@ class Mixer {
                     new NumberProvider(obj?.oscillator?.rate_multiplier).get(), 0.01
                 ) ?? 1);
         }
-
-        console.log(outputVolume);
         
         let a;
         this.lastSoundName = name;
@@ -101,7 +99,7 @@ class Mixer {
             this._removePlayingSound(name);
         }
 
-        if (this._getSoundPlayAt(name) + obj.safe_duration <= Date.now()) a.play();
+        if (this._getSoundPlayAt(name) + new NumberProvider(obj.safe_duration).get() <= Date.now()) a.play();
     }
 
     /**

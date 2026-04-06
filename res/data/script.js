@@ -39,9 +39,10 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
     {
         name: 'echolive_class:emoji_hako',
         domain: [
+            'background.dev.registoy',
             'background.editor',
-            'echolive.portal',
-            'echolive.history'
+            'echolive.history',
+            'echolive.portal'
         ],
         dependencies: [
             'registry:emoji'
@@ -66,14 +67,20 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
     },
     {
         name: 'echolive_class:tools',
+        domain: [
+            'background',
+            'echolive'
+        ],
         src: 'res/class/EchoLiveTools.js'
     },
     {
         name: 'echolive_class:slot_installer',
+        domain: 'background',
         src: 'res/class/SlotInstaller.js'
     },
     {
         name: 'echolive_class:system_notice',
+        domain: 'background',
         dependencies: [
             'echolive_class:fhui'
         ],
@@ -81,6 +88,7 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
     },
     {
         name: 'echolive_class:universe_window',
+        domain: 'background',
         dependencies: [
             'echolive_class:fhui'
         ],
@@ -92,7 +100,8 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
         defer: true,
         insert_body: true,
         dependencies: [
-            'echolive_class:fhui'
+            'echolive_class:fhui',
+            'echolive_class:slot_installer'
         ],
         src: 'res/script/editor-common.js'
     },

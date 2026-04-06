@@ -151,39 +151,13 @@
 
     <div id="fh-notice" aria-live="polite"></div>
     <script>
-        echoLiveSystem.loader.onReady([
-            'registry:avatar',
-            'registry:avatar_switch_effect',
-            'registry:border_style',
-            'registry:editor_controller',
-            'registry:editor_controller_method',
-            'registry:emoji',
-            'registry:font_weight',
-            'registry:icon',
-            'registry:live_controller',
-            'registry:live_theme',
-            'registry:message_filter',
-            'registry:palette',
-            'registry:print_effect',
-            'registry:settings_data',
-            'registry:slot_settings_wrapper_after',
-            'registry:slot_settings_wrapper_before',
-            'registry:sound',
-            'registry:statistic',
-            'registry:statistic_method',
-            'registry:text_style',
-            'registry:timing_function',
-            'echolive_class:icon',
-            'echolive_class:tools',
-            'echolive_class:slot_installer',
-            'echolive_class:fhui',
-            'echolive_class:editor_constructor',
-            'echolive_class:universe_window',
-            'echolive_class:system_notice',
-            'echolive_class:emoji_hako',
-            'echolive_script:i18n',
-            'echolive_script:editor_common'
-        ], () => {
+        echoLiveSystem.loader.init('background.dev.registoy', '../', () => {
+            echoLiveSystem.loader.loadAllRegistry('../', () => {
+                loadRegistryView();
+            }, '../');
+        });
+
+        function loadRegistryView() {
             reglog('Ready');
 
             let uniWindow = new UniverseWindow();
@@ -227,7 +201,7 @@
                     }
                 );
             });
-        }, '../');
+        }
     </script>
 </body>
 </html>

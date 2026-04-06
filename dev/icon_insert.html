@@ -29,12 +29,7 @@
         };
         translator.init('../');
     </script>
-    <script src="../res/data/icon.js"></script>
-    <script src="../res/class/Icon.js"></script>
-    <script src="../res/class/EchoLiveTools.js"></script>
-    <script src="../res/class/SlotInstaller.js"></script>
-    <script src="../res/class/EditorConstructor.js"></script>
-    <script src="../res/class/SystemNotice.js"></script>
+    <script src="../res/data/script.js"></script>
     <style>
         #output {
             height: calc(100vh - var(--font-size-middle) - var(--gap-extra-large) - var(--height-top-nav));
@@ -96,33 +91,33 @@
 
     <div id="fh-notice" aria-live="polite"></div>
 
-    <script src="../res/script/i18n.js" defer></script>
-    <script src="../res/script/editor-common.js" defer></script>
     <script>
-        let iconData = echoLiveSystem.registry.getRegistryArray('icon');
+        echoLiveSystem.loader.init('background.dev.icon_insert', '../', () => {
+            let iconData = echoLiveSystem.registry.getRegistryArray('icon');
 
-        function insertData(name, content) {
-            if (iconData.some(item => item.name === name)) {
-                return '### 已存在同名图标，请检查 ###';
+            function insertData(name, content) {
+                if (iconData.some(item => item.name === name)) {
+                    return '### 已存在同名图标，请检查 ###';
+                }
+                const cleanedContent = content.replace(/<title[^>]*>[\s\S]*?<\/title>/gi, "");
+
+                iconData.push({ name, content: cleanedContent });
+                iconData.sort((a, b) => a.name.localeCompare(b.name));
+
+                return "echoLiveSystem.registry.loadRegistry('icon', 'name', " + JSON.stringify(iconData, null, 4) + ");";
             }
-            const cleanedContent = content.replace(/<title[^>]*>[\s\S]*?<\/title>/gi, "");
 
-            iconData.push({ name, content: cleanedContent });
-            iconData.sort((a, b) => a.name.localeCompare(b.name));
+            $('#btn-clear').click(() => {
+                $('#icon-name').val('material:');
+                $('#icon-content').val('');
+            });
 
-            return "echoLiveSystem.registry.loadRegistry('icon', 'name', " + JSON.stringify(iconData, null, 4) + ");";
-        }
-
-        $('#btn-clear').click(() => {
-            $('#icon-name').val('material:');
-            $('#icon-content').val('');
-        });
-
-        $('#btn-submit').click(() => {
-            $('#output').val(insertData($('#icon-name').val(), $('#icon-content').val()));
-            $('#tabpage-nav-output').trigger('click');
-            $('#output').focus();
-            $('#output').select();
+            $('#btn-submit').click(() => {
+                $('#output').val(insertData($('#icon-name').val(), $('#icon-content').val()));
+                $('#tabpage-nav-output').trigger('click');
+                $('#output').focus();
+                $('#output').select();
+            });
         });
     </script>
 </body>

@@ -815,7 +815,7 @@ class ResourceLoader {
         };
     }
 
-    init(domain, basePath = '', callback) {
+    init(domain, basePath = '', callback = () => {}) {
         const list = this.registry.getRegistryArray('script');
 
         const targets = list.filter(items => {
@@ -823,7 +823,7 @@ class ResourceLoader {
             const domainList = Array.isArray(items.domain) ? items.domain : [items.domain];
             for (let i = 0; i < domainList.length; i++) {
                 const e = domainList[i];
-                if (e.domain && domain.startsWith(e.domain)) return true;
+                if (e && domain.startsWith(e)) return true;
             }
         });
 
@@ -843,6 +843,17 @@ class ResourceLoader {
             this.ready(Array.from(allKeys), basePath)
                 .then(callback);
         }
+    }
+
+    loadAllRegistry(basePath = '', callback = () => {}) {
+        const allKeys = new Set();
+        const root = this.registry.getRegistryArray('root');
+        root.forEach(e => {
+            if (e.src !== undefined) allKeys.add('registry:' +e.name);
+        });
+
+        this.ready(Array.from(allKeys), basePath)
+            .then(callback);
     }
 
     onReady(keys, callback, basePath = '') {

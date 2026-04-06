@@ -184,8 +184,12 @@ echoLiveSystem.registry.init([
         src: 'script.js',
         default_data: {
             name: undefined,
-            path: undefined,
-            page: 'all'
+            domain: undefined,
+            async: false,
+            defer: false,
+            insert_body: false,
+            dependencies: undefined,
+            src: ''
         }
     }, {
         name: 'settings_data',
@@ -217,7 +221,6 @@ echoLiveSystem.registry.init([
     }, {
         name: 'stylesheet',
         unique_key: 'name',
-        src: 'stylesheet.js',
         default_data: {
             name: undefined,
             path: undefined,

@@ -13,20 +13,45 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
         src: 'res/class/Echo.js'
     },
     {
+        name: 'echolive_class:echolive',
+        domain: 'echolive.portal',
+        dependencies: [
+            'echolive_class:echo',
+            'echolive_class:echolive_broadcast'
+        ],
+        src: 'res/class/EchoLive.js'
+    },
+    {
+        name: 'echolive_class:echolive_broadcast',
+        domain: 'echolive',
+        dependencies: [
+            'echolive_class:tools'
+        ],
+        src: 'res/class/EchoLiveBroadcast.js'
+    },
+    {
+        name: 'echolive_class:echolive_character',
+        domain: 'echolive.character',
+        dependencies: [
+            'echolive_class:echolive_broadcast'
+        ],
+        src: 'res/class/EchoLiveCharacter.js'
+    },
+    {
+        name: 'echolive_class:echolive_history',
+        domain: 'echolive.history',
+        dependencies: [
+            'echolive_class:echolive_broadcast'
+        ],
+        src: 'res/class/EchoLiveHistory.js'
+    },
+    {
         name: 'echolive_class:editor',
         domain: 'background.editor',
         dependencies: [
             'echolive_class:emoji_hako'
         ],
         src: 'res/class/EchoLiveEditor.js'
-    },
-    {
-        name: 'echolive_class:broadcast',
-        domain: 'echolive',
-        dependencies: [
-            'echolive_class:tools'
-        ],
-        src: 'res/class/EchoLiveBroadcast.js'
     },
     {
         name: 'echolive_class:editor_constructor',
@@ -41,13 +66,16 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
         domain: [
             'background.dev.registoy',
             'background.editor',
-            'echolive.history',
             'echolive.portal'
         ],
         dependencies: [
             'registry:emoji'
         ],
         src: 'res/class/EmojiHako.js'
+    },
+    {
+        name: 'echolive_class:extension_manager',
+        src: 'res/class/ExtensionManager.js'
     },
     {
         name: 'echolive_class:fhui',
@@ -66,6 +94,39 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
         src: 'res/class/Icon.js'
     },
     {
+        name: 'echolive_class:local_storage_manager',
+        domain: [
+            'background.editor',
+            'background.settings'
+        ],
+        src: 'res/class/LocalStorageManager.js'
+    },
+    {
+        name: 'echolive_class:mixer',
+        domain: 'echolive.portal',
+        src: 'res/class/Mixer.js'
+    },
+    {
+        name: 'echolive_class:settings_manager',
+        domain: 'background.settings',
+        src: 'res/class/SettingsManager.js'
+    },
+    {
+        name: 'echolive_class:shortcut_manager',
+        domain: 'background.editor',
+        src: 'res/class/ShortcutManager.js'
+    },
+    {
+        name: 'echolive_class:statistic_manager',
+        domain: 'background.editor',
+        src: 'res/class/StatisticManager.js'
+    },
+    {
+        name: 'echolive_class:slot_installer',
+        domain: 'background',
+        src: 'res/class/SlotInstaller.js'
+    },
+    {
         name: 'echolive_class:tools',
         domain: [
             'background',
@@ -74,9 +135,8 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
         src: 'res/class/EchoLiveTools.js'
     },
     {
-        name: 'echolive_class:slot_installer',
-        domain: 'background',
-        src: 'res/class/SlotInstaller.js'
+        name: 'echolive_class:translator',
+        src: 'res/class/Translator.js'
     },
     {
         name: 'echolive_class:system_notice',
@@ -95,6 +155,42 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
         src: 'res/class/UniverseWindow.js'
     },
     {
+        name: 'echolive_class:updater',
+        domain: [
+            'background.editor',
+            'background.settgins'
+        ],
+        src: 'res/class/Updater.js'
+    },
+    {
+        name: 'echolive_script:character',
+        domain: 'echolive.character',
+        defer: true,
+        insert_body: true,
+        dependencies: [
+            'echolive_class:echolive_character',
+            'echolive_class:tools',
+            'echolive_script:live_pre'
+        ],
+        src: 'res/script/character.js'
+    },
+    {
+        name: 'echolive_script:editor',
+        domain: 'background.editor',
+        defer: true,
+        insert_body: true,
+        dependencies: [
+            'echolive_class:editor',
+            'echolive_class:editor_constructor',
+            'echolive_class:emoji_hako',
+            'echolive_class:local_storage_manager',
+            'echolive_class:statistic_manager',
+            'echolive_class:universe_window',
+            'echolive_script:editor_common'
+        ],
+        src: 'res/script/editor.js'
+    },
+    {
         name: 'echolive_script:editor_common',
         domain: 'background',
         defer: true,
@@ -106,10 +202,71 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
         src: 'res/script/editor-common.js'
     },
     {
+        name: 'echolive_script:editor_file_picker',
+        domain: 'background.editor',
+        defer: true,
+        insert_body: true,
+        src: 'res/script/editor-file-picker.js'
+    },
+    {
+        name: 'echolive_script:help/editor',
+        domain: 'background.editor',
+        defer: true,
+        insert_body: true,
+        src: 'res/script/help/editor-help.js'
+    },
+    {
+        name: 'echolive_script:help/settings',
+        domain: 'background.settings',
+        defer: true,
+        insert_body: true,
+        src: 'res/script/help/settings-help.js'
+    },
+    {
+        name: 'echolive_script:history',
+        domain: 'echolive.history',
+        dependencies: [
+            'echolive_class:echolive_history',
+            'echolive_class:tools',
+            'echolive_script:live_pre'
+        ],
+        src: 'res/script/history.js'
+    },
+    {
         name: 'echolive_script:i18n',
-        domain: 'background',
+        domain: [
+            'background',
+            'echolive'
+        ],
         defer: true,
         insert_body: true,
         src: 'res/script/i18n.js'
-    }
+    },
+    {
+        name: 'echolive_script:live',
+        domain: 'echolive.portal',
+        dependencies: [
+            'echolive_class:echolive',
+            'echolive_class:emoji_hako',
+            'echolive_class:tools',
+            'echolive_script:live_pre'
+        ],
+        src: 'res/script/live.js'
+    },
+    {
+        name: 'echolive_script:live_pre',
+        domain: 'echolive',
+        dependencies: [
+            'echolive_class:extension_manager'
+        ],
+        src: 'res/script/live-pre.js'
+    },
+    {
+        name: 'echolive_script:settings',
+        domain: 'background.settings',
+        dependencies: [
+            'echolive_class:tools'
+        ],
+        src: 'res/script/settings.js'
+    },
 ]);

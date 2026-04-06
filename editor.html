@@ -36,28 +36,8 @@
         };
         translator.init();
     </script>
-    <script src="res/data/palette.js"></script>
-    <script src="res/data/emoji.js"></script>
-    <script src="res/data/editor_controller.js"></script>
-    <script src="res/data/editor_controller_method.js"></script>
-    <script src="res/data/statistic.js"></script>
-    <script src="res/data/statistic_method.js"></script>
-    <script src="res/data/icon.js"></script>
-    <script src="res/class/Icon.js"></script>
+    <script src="res/data/script.js"></script>
     <script src="res/class/EchoLiveTools.js"></script>
-    <script src="res/class/SlotInstaller.js"></script>
-    <script src="res/class/SystemNotice.js"></script>
-    <script src="res/class/LocalStorageManager.js"></script>
-    <script src="res/class/StatisticManager.js"></script>
-    <script src="res/class/EchoLiveEditor.js"></script>
-    <script src="res/class/EchoLiveBroadcast.js"></script>
-    <script src="res/class/FHUI.js"></script>
-    <script src="res/class/EditorConstructor.js"></script>
-    <script src="res/class/UniverseWindow.js"></script>
-    <script src="res/class/Updater.js"></script>
-    <script src="res/class/ShortcutManager.js"></script>
-    <script src="res/class/EmojiHako.js" defer></script>
-    <script src="res/class/Commander.js"></script>
 </head>
 <body>
     <span class="holy-fucking-shit">如果你看到了这句话，要么就是你没解压，要么就是软件结构受到了破坏。<br>If you're seeing this, either you didn't unzip the file or the software structure is corrupted.</span>
@@ -632,10 +612,8 @@
 
     <div id="fh-notice" aria-live="polite"></div>
 
-    <script src="res/script/i18n.js" defer></script>
-    <script src="res/script/editor-common.js" defer></script>
-    <script src="res/script/editor.js" defer></script>
-    <script src="res/script/editor-file-picker.js" defer></script>
-    <script src="res/script/help/editor-help.js" defer></script>
+    <script>
+        echoLiveSystem.loader.init('background.editor');
+    </script>
 </body>
 </html>

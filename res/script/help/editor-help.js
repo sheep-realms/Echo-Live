@@ -9,13 +9,15 @@
 let helpKey = EchoLiveTools.getUrlParam('help');
 const driver = window.driver.js.driver;
 
-const tutorialConfirmWindow = new TutorialConfirmWindow(uniWindow);
+let tutorialConfirmWindow;
 
 let hasPrevClick = false;
 let updater = new Updater();
-updater.localStorageManager = localStorageManager;
 
 $(document).ready(function() {
+    tutorialConfirmWindow = new TutorialConfirmWindow(uniWindow);
+    updater.localStorageManager = localStorageManager;
+
     translator.ready(() => {
         if (helpKey != null && helpKey != undefined) {
             switch (helpKey) {
@@ -65,6 +67,11 @@ function driverShowOverview() {
     let popoverData = [
         null,
         {
+            onNextClick: () => {
+                $('#ptext-character').val('');
+                $('#ptext-content').val('');
+                driverObj.moveNext();
+            },
             onPrevClick: () => {
                 sysNotice.sendT('help.easter_egg.previous_is_first_step', {}, 'info');
                 return;
@@ -103,6 +110,8 @@ function driverShowOverview() {
         }, {
             onNextClick: () => {
                 $('#ptext-editor .editor-controller button[data-value="color"]').click();
+                $('#popups-palette-select').val('material');
+                $('#popups-palette-select').trigger('change');
                 $('#popups-palette .color-box').eq(0).focus();
                 driverObj.moveNext();
             }

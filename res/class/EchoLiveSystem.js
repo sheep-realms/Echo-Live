@@ -10,6 +10,7 @@ class EchoLiveSystem {
     constructor() {
         this.mixer      = undefined;
         this.registry   = new EchoLiveRegistry();
+        this.loader     = new ResourceLoader(this);
         this.device     = new EchoLiveLocalDeviceManager();
         this.hook       = new EchoLiveHook();
         this.obs        = new EchoLiveOBSMiddleware();
@@ -291,6 +292,10 @@ class EchoLiveRegistry {
             table: table,
             action: action
         });
+        if (table !== '*') {
+            const reg = this.getRegistryArray(table);
+            if (reg.length > 0) action(table, this.getRegistry(table));
+        }
         return id;
     }
 
@@ -792,6 +797,329 @@ class EchoLiveRegistryUnit {
         return this.registry.setRegistryValue(this.name, key, value);
     }
 }
+
+
+class ResourceLoader {
+    constructor(system) {
+        this.system = system;
+        this.registry = system.registry;
+        this.stateMap = new Map();
+
+        this.loadedSrcSet = new Set();
+        this.loadingSrcMap = new Map();
+
+        this.waitQueue = [];
+
+        this.loaders = {
+            script: this._loadScript.bind(this)
+        };
+    }
+
+    init(domain, basePath = '', callback) {
+        const list = this.registry.getRegistryArray('script');
+
+        const targets = list.filter(items => {
+            if (items.domain === undefined) return false;
+            const domainList = Array.isArray(items.domain) ? items.domain : [items.domain];
+            for (let i = 0; i < domainList.length; i++) {
+                const e = domainList[i];
+                if (e.domain && domain.startsWith(e.domain)) return true;
+            }
+        });
+
+        const allKeys = new Set();
+
+        targets.forEach(item => {
+            const key = item.name;
+            allKeys.add(key);
+            this._ensureLoadWithDepsByKey(
+                item.name,
+                basePath,
+                new Set()
+            );
+        });
+
+        if (typeof callback === 'function') {
+            this.ready(Array.from(allKeys), basePath)
+                .then(callback);
+        }
+    }
+
+    onReady(keys, callback, basePath = '') {
+        echoLiveSystem.registry.onLoadedRegistry('script', () => {
+            const finalKeys = new Set(keys);
+            const keyArray = Array.from(finalKeys);
+
+            keyArray.forEach(key => {
+                this._ensureLoadWithDepsByKey(key, basePath, new Set());
+            });
+
+            if (this._checkAllLoaded(keyArray)) {
+                callback();
+                return;
+            }
+
+            this.waitQueue.push({
+                names: keyArray,
+                callback
+            });
+        });
+    }
+
+    ready(names, basePath = '') {
+        return new Promise(resolve => {
+            this.onReady(names, resolve, basePath);
+        });
+    }
+
+    _parseResourceKey(key) {
+        if (key.startsWith('registry:')) {
+            return {
+                type: 'registry',
+                name: key.slice(9)
+            };
+        }
+
+        return {
+            type: 'script',
+            name: key
+        };
+    }
+
+    _ensureLoadWithDepsByKey(key, basePath, visiting) {
+        const { type, name } = this._parseResourceKey(key);
+
+        const visitKey = `${type}:${name}`;
+
+        if (visiting.has(visitKey)) {
+            console.warn(`[ResourceLoader] Circular dependency detected: ${visitKey}`);
+            return;
+        }
+
+        visiting.add(visitKey);
+
+        const item = this._getRegistryItem(type, name);
+        if (!item) {
+            console.warn(`[ResourceLoader] Resource not found: ${visitKey}`);
+            return;
+        }
+
+        const deps = item.dependencies || [];
+        deps.forEach(dep => {
+            this._ensureLoadWithDepsByKey(dep, basePath, visiting);
+        });
+
+        this._ensureLoadByKey(key, basePath);
+
+        visiting.delete(visitKey);
+    }
+
+    _ensureLoadByKey(key, basePath) {
+        const { type, name } = this._parseResourceKey(key);
+
+        const stateKey = `${type}:${name}`;
+
+        const state = this.stateMap.get(stateKey);
+
+        if (state) {
+            if (state.status === 'loaded' || state.status === 'loading') {
+                return;
+            }
+        }
+
+        const item = this._getRegistryItem(type, name);
+        if (!item) return;
+
+        this._initResourceState(stateKey);
+        
+        this._loadByType(type, name, item, basePath);
+    }
+
+    _getRegistryItem(type, name) {
+        if (type === 'script') {
+            return this.registry.getRegistryValue('script', name);
+        }
+
+        if (type === 'registry') {
+            return this.registry.getRegistryValue('root', name);
+        }
+
+        return null;
+    }
+
+    _initResourceState(stateKey) {
+        if (!this.stateMap.has(stateKey)) {
+            this.stateMap.set(stateKey, {
+                status: 'pending',
+                loadedCount: 0,
+                total: 0
+            });
+        }
+    }
+
+    _loadByType(type, name, item, basePath) {
+        if (type === 'script') {
+            this._loadScript(item, basePath, `script:${name}`);
+        }
+
+        if (type === 'registry') {
+            this._loadRegistryScript(item, basePath, `registry:${name}`);
+        }
+    }
+
+    _loadResource(item, basePath) {
+        const loader = this.loaders['script'];
+        if (!loader) return;
+
+        loader(item, basePath);
+    }
+
+    _loadScript(item, basePath, stateKey) {
+        const { src, async, defer, type, insert_body } = item;
+        
+        const sources = Array.isArray(src) ? src : [src];
+
+        const state = this.stateMap.get(stateKey);
+        state.status = 'loading';
+        state.total = sources.length;
+
+        sources.forEach(url => {
+            const fullUrl = basePath + url;
+
+            if (this.loadedSrcSet.has(fullUrl)) {
+                this._onSingleLoaded(stateKey);
+                return;
+            }
+
+            if (this.loadingSrcMap.has(fullUrl)) {
+                this.loadingSrcMap.get(fullUrl)
+                    .then(() => this._onSingleLoaded(stateKey))
+                    .catch(() => this._onError(stateKey));
+                return;
+            }
+
+            const promise = new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+
+                script.src = fullUrl;
+
+                if (type) script.type = type;
+                if (async) script.async = true;
+                if (defer) script.defer = true;
+
+                script.onload = () => {
+                    this.loadedSrcSet.add(fullUrl);
+                    this.loadingSrcMap.delete(fullUrl);
+                    resolve();
+                };
+
+                script.onerror = () => {
+                    this.loadingSrcMap.delete(fullUrl);
+                    reject();
+                };
+
+                document[insert_body? 'body' : 'head'].appendChild(script);
+            });
+
+            this.loadingSrcMap.set(fullUrl, promise);
+
+            promise
+                .then(() => this._onSingleLoaded(stateKey))
+                .catch(() => this._onError(stateKey));
+        });
+    }
+
+    _loadRegistryScript(item, basePath, stateKey) {
+        const { src } = item;
+
+        const sources = Array.isArray(src) ? src : [src];
+
+        const state = this.stateMap.get(stateKey);
+        state.status = 'loading';
+        state.total = sources.length;
+
+        sources.forEach(url => {
+            const fullUrl = basePath + 'res/data/' + url;
+
+            // 复用原有去重逻辑
+            if (this.loadedSrcSet.has(fullUrl)) {
+                this._onSingleLoaded(stateKey);
+                return;
+            }
+
+            if (this.loadingSrcMap.has(fullUrl)) {
+                this.loadingSrcMap.get(fullUrl)
+                    .then(() => this._onSingleLoaded(stateKey))
+                    .catch(() => this._onError(stateKey));
+                return;
+            }
+
+            const promise = new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+
+                script.src = fullUrl;
+
+                script.onload = () => {
+                    this.loadedSrcSet.add(fullUrl);
+                    this.loadingSrcMap.delete(fullUrl);
+                    resolve();
+                };
+
+                script.onerror = () => {
+                    this.loadingSrcMap.delete(fullUrl);
+                    reject();
+                };
+
+                document.head.appendChild(script);
+            });
+
+            this.loadingSrcMap.set(fullUrl, promise);
+
+            promise
+                .then(() => this._onSingleLoaded(stateKey))
+                .catch(() => this._onError(stateKey));
+        });
+    }
+
+    _onSingleLoaded(stateKey) {
+        const state = this.stateMap.get(stateKey);
+        state.loadedCount++;
+
+        if (state.loadedCount >= state.total) {
+            state.status = 'loaded';
+            this._flushQueue();
+        }
+    }
+
+    _onError(stateKey) {
+        const state = this.stateMap.get(stateKey);
+        state.status = 'error';
+        this._flushQueue();
+    }
+
+    _checkAllLoaded(keys) {
+        return keys.every(key => {
+            const { type, name } = this._parseResourceKey(key);
+            const state = this.stateMap.get(`${type}:${name}`);
+            return state && state.status === 'loaded';
+        });
+    }
+
+    _flushQueue() {
+        this.waitQueue = this.waitQueue.filter(task => {
+            if (this._checkAllLoaded(task.names)) {
+                task.callback();
+                return false;
+            }
+            return true;
+        });
+    }
+
+    registerLoader(type, loader) {
+        this.loaders[type] = loader;
+    }
+}
+
 
 class EchoLiveLocalDeviceManager {
     constructor() {

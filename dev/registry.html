@@ -23,6 +23,8 @@
         echoLiveSystem.registry.onLoadedRegistry('*', (table, data) => {
             reglog(`Loaded ${table} (${data.value.length})`);
         });
+
+        reglog('Init...');
     </script>
     <script src="../res/data/root.js"></script>
     <script src="../lang/index.js"></script>
@@ -40,39 +42,7 @@
         };
         translator.init('../');
     </script>
-    <script src="../res/data/avatar.js"></script>
-    <script src="../res/data/avatar_switch_effect.js"></script>
-    <script src="../res/data/border_style.js"></script>
-    <script src="../res/data/editor_controller.js"></script>
-    <script src="../res/data/editor_controller_method.js"></script>
-    <script src="../res/data/emoji.js"></script>
-    <script src="../res/data/font_weight.js"></script>
-    <script src="../res/data/icon.js"></script>
-    <script src="../res/data/live_controller.js"></script>
-    <script src="../res/data/live_theme.js"></script>
-    <script src="../res/data/message_filter.js"></script>
-    <script src="../res/data/palette.js"></script>
-    <script src="../res/data/print_effect.js"></script>
-    <script src="../res/data/settings_about_link.js"></script>
-    <script src="../res/data/settings_navigation.js"></script>
-    <script src="../res/data/slot_settings_wrapper_after.js"></script>
-    <script src="../res/data/slot_settings_wrapper_before.js"></script>
-    <script src="../res/data/sound.js"></script>
-    <script src="../res/data/statistic.js"></script>
-    <script src="../res/data/statistic_method.js"></script>
-    <script src="../res/data/text_style.js"></script>
-    <script src="../res/data/timing_function.js"></script>
-    <script src="../res/class/Icon.js"></script>
-    <script src="../res/class/EchoLiveTools.js"></script>
-    <script src="../res/class/SlotInstaller.js"></script>
-    <script src="../res/class/FHUI.js"></script>
-    <script src="../res/class/EditorConstructor.js"></script>
-    <script src="../res/class/UniverseWindow.js"></script>
-    <script src="../res/class/SystemNotice.js"></script>
-    <script>
-        reglog('Init...');
-    </script>
-    <script src="../res/class/EmojiHako.js" defer></script>
+    <script src="../res/data/script.js"></script>
     <style>
         #registry-view {
             display: flex;
@@ -180,14 +150,44 @@
     </main>
 
     <div id="fh-notice" aria-live="polite"></div>
-
-    <script src="../res/script/i18n.js" defer></script>
-    <script src="../res/script/editor-common.js" defer></script>
     <script>
-        uniWindow = new UniverseWindow();
-
-        $(document).ready(function() {
+        echoLiveSystem.loader.onReady([
+            'registry:avatar',
+            'registry:avatar_switch_effect',
+            'registry:border_style',
+            'registry:editor_controller',
+            'registry:editor_controller_method',
+            'registry:emoji',
+            'registry:font_weight',
+            'registry:icon',
+            'registry:live_controller',
+            'registry:live_theme',
+            'registry:message_filter',
+            'registry:palette',
+            'registry:print_effect',
+            'registry:settings_data',
+            'registry:slot_settings_wrapper_after',
+            'registry:slot_settings_wrapper_before',
+            'registry:sound',
+            'registry:statistic',
+            'registry:statistic_method',
+            'registry:text_style',
+            'registry:timing_function',
+            'echolive_class:icon',
+            'echolive_class:tools',
+            'echolive_class:slot_installer',
+            'echolive_class:fhui',
+            'echolive_class:editor_constructor',
+            'echolive_class:universe_window',
+            'echolive_class:system_notice',
+            'echolive_class:emoji_hako',
+            'echolive_script:i18n',
+            'echolive_script:editor_common'
+        ], () => {
             reglog('Ready');
+
+            let uniWindow = new UniverseWindow();
+            let emojiHako = new EmojiHako();
 
             regLogList.forEach((log) => {
                 $('#log').append(`<p>${log}</p>`);
@@ -227,7 +227,7 @@
                     }
                 );
             });
-        });
+        }, '../');
     </script>
 </body>
 </html>

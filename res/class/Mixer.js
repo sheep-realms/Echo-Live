@@ -13,6 +13,8 @@ class Mixer {
         this.clampOscillator = false;
         this.playingSounds = new Map();
         this.lastSoundPlayAt = new Map();
+
+        echoLiveSystem.setupModule('mixer', this);
     }
 
     _addPlayingSound(name) {

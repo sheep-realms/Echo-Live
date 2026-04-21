@@ -91,6 +91,7 @@ class EchoLiveBroadcast {
      * 广播初始化
      */
     init() {
+        echoLiveSystem.setupModule('echolive_broadcast', this);
         this.listen();
         echoLiveSystem.hook.trigger('broadcast_terminal_init', {
             unit: this

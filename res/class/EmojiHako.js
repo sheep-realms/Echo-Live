@@ -12,6 +12,7 @@ class EmojiHako {
     }
 
     init() {
+        echoLiveSystem.setupModule('emoji_hako', this);
         this.register(echoLiveSystem.registry.getRegistryArray('emoji'));
     }
 

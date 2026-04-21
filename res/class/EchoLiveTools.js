@@ -9,6 +9,10 @@
 class EchoLiveTools {
     constructor() {}
 
+    static {
+        echoLiveSystem.setupModule('echolive_tools', this);
+    }
+
     /**
      * 生成 UUID
      * @returns {String} UUID

@@ -19,6 +19,7 @@ class SystemNotice {
      * 初始化事件绑定
      */
     init() {
+        echoLiveSystem.setupModule('toast', this);
         let that = this;
         // 关闭通知
         $(document).on('click', '.fh-notice-item-btn-close', function(e) {

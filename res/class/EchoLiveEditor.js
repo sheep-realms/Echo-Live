@@ -10,6 +10,8 @@ class EchoLiveEditor {
     constructor(config) {
         this.emojiHako  = undefined;
         this.config     = config;
+
+        echoLiveSystem.setupModule('echolive_editor', this);
     }
 
     getPalettes() {

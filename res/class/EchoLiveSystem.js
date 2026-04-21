@@ -15,6 +15,16 @@ class EchoLiveSystem {
         this.hook       = new EchoLiveHook();
         this.obs        = new EchoLiveOBSMiddleware();
         this.config     = config;
+        this.modules    = [];
+        this.lastModuleIndex = 0;
+
+        this.setupModules({
+            registry: this.registry,
+            resource_loader: this.loader,
+            local_device_manager: this.device,
+            hook: this.hook,
+            obs_middleware: this.obs,
+        });
 
         this.hook.trigger('system_init', {
             unit: this
@@ -28,6 +38,48 @@ class EchoLiveSystem {
         const hashArray = Array.from(new Uint8Array(hashBuffer));
         const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
         return hashHex;
+    }
+
+    /**
+     * 安装模块
+     * @param {String} name 模块名称
+     * @param {Object|Function} object 模块对象
+     */
+    setupModule(name, object) {
+        if (typeof object !== 'object' && typeof object !== 'function') {
+            console.warn(`[EchoLiveSystem] Setup Module Exception: "${ name }" is not object or function`);
+            return;
+        }
+
+        const index = this.lastModuleIndex++
+        this.modules.push({
+            index: index,
+            name: name,
+            payload: object
+        });
+
+        return index;
+    }
+
+    /**
+     * 安装多个模块
+     * @param {Object} list 模块键值对
+     */
+    setupModules(list) {
+        let indexTable = {};
+        for (const key in list) {
+            if (!Object.hasOwn(list, key)) continue;
+            const e = list[key];
+            const r = this.setupModule(key, e);
+            indexTable[key] = r;
+        }
+    }
+
+    lookup(name, callback = () => {}) {
+        const data = this.modules.find(e => e.name === name);
+        if (data === undefined) return;
+        callback(data.payload, data.index);
+        return data.payload;
     }
 
     experimentalFlagCheck(name = '') {

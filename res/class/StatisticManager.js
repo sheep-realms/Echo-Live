@@ -17,6 +17,7 @@ class StatisticManager {
     }
 
     init() {
+        echoLiveSystem.setupModule('statistic_manager', this);
         let s = this.localStorageManager.getItem('statistic');
         if (s === undefined) {
             s = {

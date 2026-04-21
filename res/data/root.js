@@ -184,6 +184,7 @@ echoLiveSystem.registry.init([
         src: 'script.js',
         default_data: {
             name: undefined,
+            id: undefined,
             domain: undefined,
             async: false,
             defer: false,

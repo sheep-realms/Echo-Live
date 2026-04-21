@@ -986,7 +986,7 @@ class ResourceLoader {
     }
 
     _loadScript(item, basePath, stateKey) {
-        const { src, async, defer, type, insert_body } = item;
+        const { src, id, async, defer, type, insert_body } = item;
         
         const sources = Array.isArray(src) ? src : [src];
 
@@ -1014,6 +1014,7 @@ class ResourceLoader {
 
                 script.src = fullUrl;
 
+                if (id) script.id = id;
                 if (type) script.type = type;
                 if (async) script.async = true;
                 if (defer) script.defer = true;

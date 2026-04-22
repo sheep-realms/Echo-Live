@@ -16,7 +16,7 @@ class ExtensionManager {
         if (data?.meta === undefined || data?.meta?.name === undefined) return;
 
         // 注册扩展
-        echoLiveSystem.registry.setRegistryValue('extension', data.meta.name, data.meta);
+        echoLiveSystem.registry.setRegistryValue('extension', data.meta.name, data);
 
         if (!data?.register_hook) return;
         

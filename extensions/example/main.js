@@ -16,7 +16,7 @@ extensionManager.load({
                         name: 'example:sonar',
                         safe_duration: 250,
                         type: 'next',
-                        path: 'audio/sonar.ogg'
+                        path: 'extensions/example/audio/sonar.ogg'
                     }
                 }
             }

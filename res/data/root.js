@@ -213,6 +213,7 @@ echoLiveSystem.registry.init([
         sync: true,
         src: 'sound.js',
         default_data: {
+            title: undefined,
             name: undefined,
             path: undefined,
             type: 'print',

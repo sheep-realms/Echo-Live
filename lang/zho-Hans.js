@@ -1839,8 +1839,8 @@ const lang_zho_Hans = {
                 description: "Echo 是 Echo-Live 的内核，提供了文本滚动输出功能。<br>它是一个工具库，任何人都可以使用 Echo 创建自己的文本展示项目。<br>如果您有兴趣了解 Echo，请见其 <a href='https://github.com/sheep-realms/Echo' target='_blank'>GitHub 仓库</a>。"
             },
             extension: {
-                title: "在做了在做了！！！",
-                description: "为了让扩展的功能变得更强大，咱对 Echo-Live 的数据加载逻辑进行了一场惊天地泣鬼神的更改，于是原有的扩展系统不管用了...... 不不不，咱不是那个意思！新的扩展系统需要很多配套设施，很多人非常期待这个版本的更新，所以扩展系统的更新需要延后了。如果不出意外的话，它很快就会回来的！"
+                title: "扩展功能已初步实现",
+                description: "扩展管理器目前尚未完成，您可以通过编辑根目录中的 extensions.js 来选择载入哪些扩展。extensions 文件夹中已有一个示例扩展以供参考。"
             }
         },
         tabpage: {
@@ -1860,6 +1860,7 @@ const lang_zho_Hans = {
     },
     sound: {
         enhancer: "充能",
+        example_sonar: "声纳",
         pencil: "铅笔",
         typewriter: "打字机",
         typewriter_loop: "打字机（随机音效）",

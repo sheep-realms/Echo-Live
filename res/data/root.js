@@ -208,6 +208,7 @@ echoLiveSystem.registry.init([
         src: 'slot_settings_wrapper_before.js'
     }, {
         name: 'sound',
+        title: undefined,
         unique_key: 'name',
         sync: true,
         src: 'sound.js',

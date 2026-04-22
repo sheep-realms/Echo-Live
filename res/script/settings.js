@@ -758,7 +758,7 @@ $(document).ready(function() {
                     echoLiveSystem.registry.forEach('sound', e => {
                         if (e.type !== 'print') return;
                         arr.push({
-                            title: $t(`sound.${ e.name }`),
+                            title: e.title ? $tc(e.title, { before: 'sound.' }) : $t(`sound.${ e.name }`),
                             value: e.name
                         });
                     });
@@ -769,7 +769,7 @@ $(document).ready(function() {
                     echoLiveSystem.registry.forEach('sound', e => {
                         if (e.type !== 'next') return;
                         arr.push({
-                            title: $t(`sound.${ e.name }`),
+                            title: e.title ? $tc(e.title, { before: 'sound.' }) : $t(`sound.${ e.name }`),
                             value: e.name
                         });
                     });

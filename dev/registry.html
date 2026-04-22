@@ -43,6 +43,12 @@
         translator.init('../');
     </script>
     <script src="../res/data/script.js"></script>
+    <script src="../extensions.js"></script>
+    <script src="../res/class/ExtensionManager.js"></script>
+    <script>
+        let extensionManager = new ExtensionManager('../');
+        if (extensions) extensionManager.launch(extensions);
+    </script>
     <script src="../res/class/EchoLiveTools.js"></script>
     <style>
         #registry-view {
@@ -154,6 +160,7 @@
     <script>
         echoLiveSystem.loader.init('background.dev.registoy', '../', () => {
             echoLiveSystem.loader.loadAllRegistry('../', () => {
+                echoLiveSystem.registry.resolveExtensionLoadQueueAll();
                 loadRegistryView();
             });
         });

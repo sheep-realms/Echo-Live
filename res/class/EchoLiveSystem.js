@@ -301,6 +301,8 @@ class EchoLiveRegistry {
         this.syncRegistryHashCache = undefined;
         this.isFunctionRegistryCache = {};
         this.initialized = false;
+        this.loadedRegistry = new Set();
+        this.extensionLoadQueue = new Map();
         this.event = {
             loadedRegistry: [],
             setRegistryValue: []
@@ -402,7 +404,7 @@ class EchoLiveRegistry {
      */
     trigger(event, table, key, data = {}) {
         if (this.event[event] === undefined) return;
-        if (event === 'loadedRegistry') {
+        if (event === 'loadedRegistry' || event === 'initRegistry') {
             if (table !== '*') table = EchoLiveData.filter('namespace_id', 'pad_namespace', table);
             this.event[event]
                 .filter(e => e.table === table || e.table === '*')
@@ -457,6 +459,8 @@ class EchoLiveRegistry {
      * @returns {Object|undefined} 注册表键值对
      */
     getRegistryKeysAndValues(key) {
+        key = EchoLiveData.filter('namespace_id', 'pad_namespace', key);
+        if (!this.loadedRegistry.has(key) && this.hasExtensionLoadQueue(key)) this.resolveExtensionLoadQueue(key);
         let reg = this.getRegistry(key);
         if (reg === undefined) return;
         const keys = Array.from(reg.keys());
@@ -582,6 +586,8 @@ class EchoLiveRegistry {
      * @returns {*} 注册表值
      */
     getRegistryValue(table, key) {
+        table = EchoLiveData.filter('namespace_id', 'pad_namespace', table);
+        if (!this.loadedRegistry.has(table) && this.hasExtensionLoadQueue(table)) this.resolveExtensionLoadQueue(table);
         let reg = this.getRegistry(table);
         if (reg === undefined) return;
         let value = reg.get(key);
@@ -597,6 +603,8 @@ class EchoLiveRegistry {
      * @returns {any[]} 注册表值数组
      */
     getRegistryValueForPage(key, page = 1, count = 20) {
+        key = EchoLiveData.filter('namespace_id', 'pad_namespace', key);
+        if (!this.loadedRegistry.has(key) && this.hasExtensionLoadQueue(key)) this.resolveExtensionLoadQueue(key);
         let reg = this.getRegistry(key);
         if (reg === undefined) return;
         const values = Array.from(reg.values());
@@ -622,6 +630,7 @@ class EchoLiveRegistry {
         this.registry.forEach((v, k) => {
             let name = EchoLiveData.filter('namespace_id', 'get_id', k);
             if (name === table) {
+                if (!this.loadedRegistry.has(k) && this.hasExtensionLoadQueue(k)) this.resolveExtensionLoadQueue(k);
                 let v2;
                 if (key !== undefined) {
                     v2 = this.getRegistryValue(k, key);
@@ -765,6 +774,7 @@ class EchoLiveRegistry {
      * @returns {Map} 注册表
      */
     loadRegistry(table, getKey, data = []) {
+        table = EchoLiveData.filter('namespace_id', 'pad_namespace', table);
         let reg = this.getRegistry(table);
         if (reg === undefined) return;
         if (typeof data !== 'object') return;
@@ -785,8 +795,60 @@ class EchoLiveRegistry {
                 this.setRegistryValue(table, key, e);
             }
         });
+        if (!this.loadedRegistry.has(table)) {
+            this.loadedRegistry.add(table);
+            this.trigger('initRegistry', table, undefined, { value: data });
+        }
         this.trigger('loadedRegistry', table, undefined, { value: data });
+        if (this.hasExtensionLoadQueue(table)) this.resolveExtensionLoadQueue(table);
         return this.getRegistry(table);
+    }
+
+    extensionLoadRegistry(root, data, option = {}) {
+        const { hook = 'loaded' } = option;
+        data.forEach(e => {
+            if (e.registry === root && !echoLiveSystem.registry.hasRegistry(root)) {
+                echoLiveSystem.registry.createRootRegistry(data.meta, e.value);
+            }
+            if (hook === 'now' || this.loadedRegistry.has(e.registry)) {
+                this.resolveExtensionRegistryData(e.registry, e.value);
+            } else {
+                this.addExtensionLoadQueue(e.registry, e.value);
+            }
+        });
+    }
+
+    resolveExtensionRegistryData(table, data) {
+        for (const key in data) {
+            if (Object.prototype.hasOwnProperty.call(data, key)) {
+                const e2 = data[key];
+                echoLiveSystem.registry.setRegistryValue(table, key, e2);
+            }
+        }
+    }
+
+    addExtensionLoadQueue(table, data) {
+        const key = EchoLiveData.filter('namespace_id', 'pad_namespace', table);
+        let queue = this.extensionLoadQueue.get(key) ?? [];
+        queue.push(data);
+        this.extensionLoadQueue.set(key, queue);
+    }
+
+    hasExtensionLoadQueue(table) {
+        return this.extensionLoadQueue.has(table);
+    }
+
+    resolveExtensionLoadQueue(table) {
+        const data = this.extensionLoadQueue.get(table);
+        this.extensionLoadQueue.delete(table);
+        data.forEach(e => {
+            this.resolveExtensionRegistryData(table, e);
+        });
+    }
+
+    resolveExtensionLoadQueueAll() {
+        this.extensionLoadQueue.forEach((value, key) => resolveExtensionLoadQueue(key, value));
+        this.extensionLoadQueue.clear();
     }
 
     /**

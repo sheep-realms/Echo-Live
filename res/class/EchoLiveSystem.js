@@ -75,11 +75,34 @@ class EchoLiveSystem {
         }
     }
 
+    /**
+     * 联络模块
+     * @param {String} name 模块名称
+     * @param {Function} callback 回调函数
+     * @returns {Object|undefined} 请求载荷
+     */
     lookup(name, callback = () => {}) {
         const data = this.modules.find(e => e.name === name);
         if (data === undefined) return;
         callback(data.payload, data.index);
         return data.payload;
+    }
+
+    /**
+     * 异步联络模块
+     * @param {String} name 模块名称
+     * @returns {Promise} Promise
+     */
+    async lookupSync(name) {
+        return new Promise((resolve, reject) => {
+            const payload = this.lookup(name);
+            if (payload !== undefined) {
+                resolve(payload);
+            } else {
+                // TODO: 监听后续载入
+                reject();
+            }
+        });
     }
 
     experimentalFlagCheck(name = '') {

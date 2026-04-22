@@ -88,8 +88,10 @@ echoLiveSystem.registry.init([
         unique_key: 'meta.name',
         sync: true,
         default_data: {
-            title: 'missingno',
-            name: 'missingno',
+            meta: {
+                title: 'missingno',
+                name: 'missingno'
+            },
             register_hook: {}
         }
     }, {

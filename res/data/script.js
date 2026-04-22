@@ -12,26 +12,21 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
     },
     {
         name: 'echolive_class:echo',
-        domain: 'echolive.portal',
         src: 'res/class/Echo.js'
     },
     {
         name: 'echolive_class:echolive',
-        domain: 'echolive.portal',
         dependencies: [
-            'echolive_class:echo',
             'echolive_class:echolive_broadcast'
         ],
         src: 'res/class/EchoLive.js'
     },
     {
         name: 'echolive_class:echolive_broadcast',
-        domain: 'echolive',
         src: 'res/class/EchoLiveBroadcast.js'
     },
     {
         name: 'echolive_class:echolive_character',
-        domain: 'echolive.character',
         dependencies: [
             'echolive_class:echolive_broadcast'
         ],
@@ -39,7 +34,6 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
     },
     {
         name: 'echolive_class:echolive_history',
-        domain: 'echolive.history',
         dependencies: [
             'echolive_class:echolive_broadcast'
         ],
@@ -66,17 +60,12 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
         name: 'echolive_class:emoji_hako',
         domain: [
             'background.dev.registoy',
-            'background.editor',
-            'echolive.portal'
+            'background.editor'
         ],
         dependencies: [
             'registry:emoji'
         ],
         src: 'res/class/EmojiHako.js'
-    },
-    {
-        name: 'echolive_class:extension_manager',
-        src: 'res/class/ExtensionManager.js'
     },
     {
         name: 'echolive_class:fhui',
@@ -86,8 +75,7 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
     {
         name: 'echolive_class:icon',
         domain: [
-            'background',
-            'echolive.portal'
+            'background'
         ],
         dependencies: [
             'registry:icon'
@@ -105,8 +93,7 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
     {
         name: 'echolive_class:mixer',
         domain: [
-            'background.settings',
-            'echolive.portal'
+            'background.settings'
         ],
         dependencies: [
             'registry:sound'
@@ -167,12 +154,10 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
     },
     {
         name: 'echolive_script:character',
-        domain: 'echolive.character',
         defer: true,
         insert_body: true,
         dependencies: [
             'echolive_class:echolive_character',
-            'echolive_script:live_pre'
         ],
         src: 'res/script/character.js'
     },
@@ -242,10 +227,8 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
     },
     {
         name: 'echolive_script:history',
-        domain: 'echolive.history',
         dependencies: [
             'echolive_class:echolive_history',
-            'echolive_script:live_pre'
         ],
         src: 'res/script/history.js'
     },
@@ -261,21 +244,13 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
     },
     {
         name: 'echolive_script:live',
-        domain: 'echolive.portal',
+        defer: true,
+        insert_body: true,
         dependencies: [
             'echolive_class:echolive',
             'echolive_class:emoji_hako',
-            'echolive_script:live_pre'
         ],
         src: 'res/script/live.js'
-    },
-    {
-        name: 'echolive_script:live_pre',
-        domain: 'echolive',
-        dependencies: [
-            'echolive_class:extension_manager'
-        ],
-        src: 'res/script/live-pre.js'
     },
     {
         name: 'echolive_script:settings',
@@ -307,5 +282,5 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
             'registry:timing_function'
         ],
         src: 'res/script/settings.js'
-    },
+    }
 ]);

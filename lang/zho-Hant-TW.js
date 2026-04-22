@@ -1839,8 +1839,8 @@ const lang_zho_Hant_TW = {
                 description: "Echo 是 Echo-Live 的核心，提供了文字滾動輸出功能。<br>它是一個工具庫，任何人都可以使用 Echo 建立自己的文字展示專案。<br>如果您有興趣瞭解 Echo，請見其 <a href='https://github.com/sheep-realms/Echo' target='_blank'>GitHub 倉庫</a>。"
             },
             extension: {
-                title: "在做了在做了！！！",
-                description: "為了讓擴充套件的功能變得更強大，咱對 Echo-Live 的資料載入邏輯進行了一場驚天地泣鬼神的更改，於是原有的擴充套件系統不管用了...... 不不不，咱不是那個意思！新的擴充套件系統需要很多配套設施，很多人非常期待這個版本的更新，所以擴充套件系統的更新需要延後了。如果不出意外的話，它很快就會回來的！"
+                title: "擴充套件功能已初步實現",
+                description: "擴充套件管理器目前尚未完成，您可以透過編輯根目錄中的 extensions.js 來選擇載入哪些擴充套件。extensions 資料夾中已有一個示例擴充套件以供參考。"
             }
         },
         tabpage: {
@@ -1860,6 +1860,7 @@ const lang_zho_Hant_TW = {
     },
     sound: {
         enhancer: "充能",
+        example_sonar: "聲納",
         pencil: "鉛筆",
         typewriter: "打字機",
         typewriter_loop: "打字機（隨機音效）",

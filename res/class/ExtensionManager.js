@@ -7,46 +7,46 @@
 
 
 class ExtensionManager {
-    constructor() {
-        this.mixer = undefined;
-        this.theme = [];
+    constructor(path = '') {
+        this.path = path;
+        echoLiveSystem.setupModule('extension_manager', this);
     }
 
     load(data = {}) {
         if (data?.meta === undefined || data?.meta?.name === undefined) return;
 
-        echoLiveSystem.registry.setRegistryValue('extension', data.meta.name, data.meta);
+        // 注册扩展
+        echoLiveSystem.registry.setRegistryValue('extension', data.meta.name, data);
 
-        if (!Array.isArray(data?.registry)) return;
+        if (!data?.register_hook) return;
         
+        // 载入注册表
         const root = `${data.meta.name}:root`;
-        data.register.forEach(e => {
-            if (e.registry === root && !echoLiveSystem.registry.hasRegistry(root)) {
-                echoLiveSystem.registry.createRootRegistry(data.meta, e.value);
-            } else {
-                for (const key in e.value) {
-                    if (Object.prototype.hasOwnProperty.call(e.value, key)) {
-                        const e2 = e.value[key];
-                        echoLiveSystem.registry.setRegistryValue(e.registry, key, e2);
-                    }
+        if (data.register_hook.now) {
+            echoLiveSystem.registry.extensionLoadRegistry(
+                root,
+                data.register_hook.now,
+                {
+                    hook: 'now'
                 }
-            }
-        });
+            );
+        }
+        if (data.register_hook.loaded) {
+            echoLiveSystem.registry.extensionLoadRegistry(
+                root,
+                data.register_hook.loaded,
+                {
+                    hook: 'loaded'
+                }
+            );
+        }
     }
 
     launch(extList = []) {
         extList.forEach(e => {
             let s = document.createElement("script");
-            s.src = `extensions/${e}/pack.js`;
+            s.src = `${this.path}extensions/${e}/main.js`;
             document.head.appendChild(s);
         });
-    }
-
-    /**
-     * 导入默认主题
-     * @param {Array} data 主题列表
-     */
-    importDefaultTheme(data) {
-        this.theme.unshift(...data);
     }
 }

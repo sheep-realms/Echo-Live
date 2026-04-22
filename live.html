@@ -28,6 +28,7 @@
         };
         translator.init();
     </script>
+    <script src="res/data/script.js"></script>
     <script src="res/data/live_theme.js"></script>
     <script src="res/data/live_controller.js"></script>
     <script src="res/data/sound.js"></script>
@@ -36,8 +37,12 @@
     <script src="res/data/message_filter.js"></script>
     <script src="res/class/Icon.js"></script>
     <script src="res/class/Mixer.js"></script>
-    <script src="res/class/ExtensionManager.js"></script>
     <script src="extensions.js"></script>
+    <script src="res/class/ExtensionManager.js"></script>
+    <script>
+        let extensionManager = new ExtensionManager();
+        if (extensions) extensionManager.launch(extensions);
+    </script>
     <script src="res/script/live-pre.js" defer></script>
     <script src="res/class/EmojiHako.js" defer></script>
     <link rel="icon" href="res/image/favicon.ico">
@@ -86,8 +91,10 @@
         </div>
     </div>
     
-    <script src="res/script/i18n.js" defer></script>
     <script src="res/script/live.js" defer></script>
     <script src="start.js" id="start-script" defer></script>
+    <script>
+        echoLiveSystem.loader.init('echolive.portal');
+    </script>
 </body>
 </html>

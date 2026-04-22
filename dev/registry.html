@@ -23,6 +23,8 @@
         echoLiveSystem.registry.onLoadedRegistry('*', (table, data) => {
             reglog(`Loaded ${table} (${data.value.length})`);
         });
+
+        reglog('Init...');
     </script>
     <script src="../res/data/root.js"></script>
     <script src="../lang/index.js"></script>
@@ -40,39 +42,14 @@
         };
         translator.init('../');
     </script>
-    <script src="../res/data/avatar.js"></script>
-    <script src="../res/data/avatar_switch_effect.js"></script>
-    <script src="../res/data/border_style.js"></script>
-    <script src="../res/data/editor_controller.js"></script>
-    <script src="../res/data/editor_controller_method.js"></script>
-    <script src="../res/data/emoji.js"></script>
-    <script src="../res/data/font_weight.js"></script>
-    <script src="../res/data/icon.js"></script>
-    <script src="../res/data/live_controller.js"></script>
-    <script src="../res/data/live_theme.js"></script>
-    <script src="../res/data/message_filter.js"></script>
-    <script src="../res/data/palette.js"></script>
-    <script src="../res/data/print_effect.js"></script>
-    <script src="../res/data/settings_about_link.js"></script>
-    <script src="../res/data/settings_navigation.js"></script>
-    <script src="../res/data/slot_settings_wrapper_after.js"></script>
-    <script src="../res/data/slot_settings_wrapper_before.js"></script>
-    <script src="../res/data/sound.js"></script>
-    <script src="../res/data/statistic.js"></script>
-    <script src="../res/data/statistic_method.js"></script>
-    <script src="../res/data/text_style.js"></script>
-    <script src="../res/data/timing_function.js"></script>
-    <script src="../res/class/Icon.js"></script>
-    <script src="../res/class/EchoLiveTools.js"></script>
-    <script src="../res/class/SlotInstaller.js"></script>
-    <script src="../res/class/FHUI.js"></script>
-    <script src="../res/class/EditorConstructor.js"></script>
-    <script src="../res/class/UniverseWindow.js"></script>
-    <script src="../res/class/SystemNotice.js"></script>
+    <script src="../res/data/script.js"></script>
+    <script src="../extensions.js"></script>
+    <script src="../res/class/ExtensionManager.js"></script>
     <script>
-        reglog('Init...');
+        let extensionManager = new ExtensionManager('../');
+        if (extensions) extensionManager.launch(extensions);
     </script>
-    <script src="../res/class/EmojiHako.js" defer></script>
+    <script src="../res/class/EchoLiveTools.js"></script>
     <style>
         #registry-view {
             display: flex;
@@ -180,14 +157,19 @@
     </main>
 
     <div id="fh-notice" aria-live="polite"></div>
-
-    <script src="../res/script/i18n.js" defer></script>
-    <script src="../res/script/editor-common.js" defer></script>
     <script>
-        uniWindow = new UniverseWindow();
+        echoLiveSystem.loader.init('background.dev.registoy', '../', () => {
+            echoLiveSystem.loader.loadAllRegistry('../', () => {
+                echoLiveSystem.registry.resolveExtensionLoadQueueAll();
+                loadRegistryView();
+            });
+        });
 
-        $(document).ready(function() {
+        function loadRegistryView() {
             reglog('Ready');
+
+            let uniWindow = new UniverseWindow();
+            let emojiHako = new EmojiHako();
 
             regLogList.forEach((log) => {
                 $('#log').append(`<p>${log}</p>`);
@@ -227,7 +209,7 @@
                     }
                 );
             });
-        });
+        }
     </script>
 </body>
 </html>

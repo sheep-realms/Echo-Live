@@ -9,11 +9,13 @@
 let helpKey = EchoLiveTools.getUrlParam('help');
 const driver = window.driver.js.driver;
 
-const tutorialConfirmWindow = new TutorialConfirmWindow(uniWindow);
+let tutorialConfirmWindow;
 
 let hasPrevClick = false;
 
 $(document).ready(function() {
+    tutorialConfirmWindow = new TutorialConfirmWindow(uniWindow);
+
     translator.ready(() => {
         if (helpKey != null && helpKey != undefined) {
             switch (helpKey) {

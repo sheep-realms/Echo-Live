@@ -14,6 +14,8 @@ class ShortcutManager {
 
         this._handleKeydown = this._handleKeydown.bind(this);
         this.root.addEventListener("keydown", this._handleKeydown, true);
+
+        echoLiveSystem.setupModule('shortcut_manager', this);
     }
 
     /**

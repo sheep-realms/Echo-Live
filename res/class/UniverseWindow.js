@@ -18,6 +18,8 @@ class UniverseWindow {
      * 初始化事件绑定
      */
     init() {
+        echoLiveSystem.setupModule('window', this);
+
         let that = this;
         $(document).on('click', '.fh-window .fh-window-title .close', function() {
             let $window = $(this).parents('.fh-window').eq(0);

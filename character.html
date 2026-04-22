@@ -29,9 +29,13 @@
         };
         translator.init();
     </script>
-    <!-- <script src="res/data/live_theme.js"></script> -->
-    <script src="res/class/ExtensionManager.js"></script>
+    <script src="res/data/script.js"></script>
     <script src="extensions.js"></script>
+    <script src="res/class/ExtensionManager.js"></script>
+    <script>
+        let extensionManager = new ExtensionManager();
+        if (extensions) extensionManager.launch(extensions);
+    </script>
     <script src="res/script/live-pre.js" defer></script>
 </head>
 <body>
@@ -42,7 +46,9 @@
         </div>
     </div>
 
-    <script src="res/script/i18n.js" defer></script>
     <script src="res/script/character.js" defer></script>
+    <script>
+        echoLiveSystem.loader.init('echolive.character');
+    </script>
 </body>
 </html>

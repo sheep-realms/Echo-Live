@@ -10,10 +10,21 @@ class EchoLiveSystem {
     constructor() {
         this.mixer      = undefined;
         this.registry   = new EchoLiveRegistry();
+        this.loader     = new ResourceLoader(this);
         this.device     = new EchoLiveLocalDeviceManager();
         this.hook       = new EchoLiveHook();
         this.obs        = new EchoLiveOBSMiddleware();
         this.config     = config;
+        this.modules    = [];
+        this.lastModuleIndex = 0;
+
+        this.setupModules({
+            registry: this.registry,
+            resource_loader: this.loader,
+            local_device_manager: this.device,
+            hook: this.hook,
+            obs_middleware: this.obs,
+        });
 
         this.hook.trigger('system_init', {
             unit: this
@@ -27,6 +38,71 @@ class EchoLiveSystem {
         const hashArray = Array.from(new Uint8Array(hashBuffer));
         const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
         return hashHex;
+    }
+
+    /**
+     * 安装模块
+     * @param {String} name 模块名称
+     * @param {Object|Function} object 模块对象
+     */
+    setupModule(name, object) {
+        if (typeof object !== 'object' && typeof object !== 'function') {
+            console.warn(`[EchoLiveSystem] Setup Module Exception: "${ name }" is not object or function`);
+            return;
+        }
+
+        const index = this.lastModuleIndex++
+        this.modules.push({
+            index: index,
+            name: name,
+            payload: object
+        });
+
+        return index;
+    }
+
+    /**
+     * 安装多个模块
+     * @param {Object} list 模块键值对
+     */
+    setupModules(list) {
+        let indexTable = {};
+        for (const key in list) {
+            if (!Object.hasOwn(list, key)) continue;
+            const e = list[key];
+            const r = this.setupModule(key, e);
+            indexTable[key] = r;
+        }
+    }
+
+    /**
+     * 联络模块
+     * @param {String} name 模块名称
+     * @param {Function} callback 回调函数
+     * @returns {Object|undefined} 请求载荷
+     */
+    lookup(name, callback = () => {}) {
+        const data = this.modules.find(e => e.name === name);
+        if (data === undefined) return;
+        callback(data.payload, data.index);
+        return data.payload;
+    }
+
+    /**
+     * 异步联络模块
+     * @param {String} name 模块名称
+     * @returns {Promise} Promise
+     */
+    async lookupSync(name) {
+        return new Promise((resolve, reject) => {
+            const payload = this.lookup(name);
+            if (payload !== undefined) {
+                resolve(payload);
+            } else {
+                // TODO: 监听后续载入
+                reject();
+            }
+        });
     }
 
     experimentalFlagCheck(name = '') {
@@ -225,6 +301,8 @@ class EchoLiveRegistry {
         this.syncRegistryHashCache = undefined;
         this.isFunctionRegistryCache = {};
         this.initialized = false;
+        this.loadedRegistry = new Set();
+        this.extensionLoadQueue = new Map();
         this.event = {
             loadedRegistry: [],
             setRegistryValue: []
@@ -291,6 +369,10 @@ class EchoLiveRegistry {
             table: table,
             action: action
         });
+        if (table !== '*') {
+            const reg = this.getRegistryArray(table);
+            if (reg.length > 0) action(table, this.getRegistry(table));
+        }
         return id;
     }
 
@@ -322,7 +404,7 @@ class EchoLiveRegistry {
      */
     trigger(event, table, key, data = {}) {
         if (this.event[event] === undefined) return;
-        if (event === 'loadedRegistry') {
+        if (event === 'loadedRegistry' || event === 'initRegistry') {
             if (table !== '*') table = EchoLiveData.filter('namespace_id', 'pad_namespace', table);
             this.event[event]
                 .filter(e => e.table === table || e.table === '*')
@@ -377,6 +459,8 @@ class EchoLiveRegistry {
      * @returns {Object|undefined} 注册表键值对
      */
     getRegistryKeysAndValues(key) {
+        key = EchoLiveData.filter('namespace_id', 'pad_namespace', key);
+        if (!this.loadedRegistry.has(key) && this.hasExtensionLoadQueue(key)) this.resolveExtensionLoadQueue(key);
         let reg = this.getRegistry(key);
         if (reg === undefined) return;
         const keys = Array.from(reg.keys());
@@ -502,6 +586,8 @@ class EchoLiveRegistry {
      * @returns {*} 注册表值
      */
     getRegistryValue(table, key) {
+        table = EchoLiveData.filter('namespace_id', 'pad_namespace', table);
+        if (!this.loadedRegistry.has(table) && this.hasExtensionLoadQueue(table)) this.resolveExtensionLoadQueue(table);
         let reg = this.getRegistry(table);
         if (reg === undefined) return;
         let value = reg.get(key);
@@ -517,6 +603,8 @@ class EchoLiveRegistry {
      * @returns {any[]} 注册表值数组
      */
     getRegistryValueForPage(key, page = 1, count = 20) {
+        key = EchoLiveData.filter('namespace_id', 'pad_namespace', key);
+        if (!this.loadedRegistry.has(key) && this.hasExtensionLoadQueue(key)) this.resolveExtensionLoadQueue(key);
         let reg = this.getRegistry(key);
         if (reg === undefined) return;
         const values = Array.from(reg.values());
@@ -542,6 +630,7 @@ class EchoLiveRegistry {
         this.registry.forEach((v, k) => {
             let name = EchoLiveData.filter('namespace_id', 'get_id', k);
             if (name === table) {
+                if (!this.loadedRegistry.has(k) && this.hasExtensionLoadQueue(k)) this.resolveExtensionLoadQueue(k);
                 let v2;
                 if (key !== undefined) {
                     v2 = this.getRegistryValue(k, key);
@@ -685,6 +774,7 @@ class EchoLiveRegistry {
      * @returns {Map} 注册表
      */
     loadRegistry(table, getKey, data = []) {
+        table = EchoLiveData.filter('namespace_id', 'pad_namespace', table);
         let reg = this.getRegistry(table);
         if (reg === undefined) return;
         if (typeof data !== 'object') return;
@@ -705,8 +795,60 @@ class EchoLiveRegistry {
                 this.setRegistryValue(table, key, e);
             }
         });
+        if (!this.loadedRegistry.has(table)) {
+            this.loadedRegistry.add(table);
+            this.trigger('initRegistry', table, undefined, { value: data });
+        }
         this.trigger('loadedRegistry', table, undefined, { value: data });
+        if (this.hasExtensionLoadQueue(table)) this.resolveExtensionLoadQueue(table);
         return this.getRegistry(table);
+    }
+
+    extensionLoadRegistry(root, data, option = {}) {
+        const { hook = 'loaded' } = option;
+        data.forEach(e => {
+            if (e.registry === root && !echoLiveSystem.registry.hasRegistry(root)) {
+                echoLiveSystem.registry.createRootRegistry(data.meta, e.value);
+            }
+            if (hook === 'now' || this.loadedRegistry.has(e.registry)) {
+                this.resolveExtensionRegistryData(e.registry, e.value);
+            } else {
+                this.addExtensionLoadQueue(e.registry, e.value);
+            }
+        });
+    }
+
+    resolveExtensionRegistryData(table, data) {
+        for (const key in data) {
+            if (Object.prototype.hasOwnProperty.call(data, key)) {
+                const e2 = data[key];
+                echoLiveSystem.registry.setRegistryValue(table, key, e2);
+            }
+        }
+    }
+
+    addExtensionLoadQueue(table, data) {
+        const key = EchoLiveData.filter('namespace_id', 'pad_namespace', table);
+        let queue = this.extensionLoadQueue.get(key) ?? [];
+        queue.push(data);
+        this.extensionLoadQueue.set(key, queue);
+    }
+
+    hasExtensionLoadQueue(table) {
+        return this.extensionLoadQueue.has(table);
+    }
+
+    resolveExtensionLoadQueue(table) {
+        const data = this.extensionLoadQueue.get(table);
+        this.extensionLoadQueue.delete(table);
+        data.forEach(e => {
+            this.resolveExtensionRegistryData(table, e);
+        });
+    }
+
+    resolveExtensionLoadQueueAll() {
+        this.extensionLoadQueue.forEach((value, key) => resolveExtensionLoadQueue(key, value));
+        this.extensionLoadQueue.clear();
     }
 
     /**
@@ -792,6 +934,341 @@ class EchoLiveRegistryUnit {
         return this.registry.setRegistryValue(this.name, key, value);
     }
 }
+
+
+class ResourceLoader {
+    constructor(system) {
+        this.system = system;
+        this.registry = system.registry;
+        this.stateMap = new Map();
+
+        this.loadedSrcSet = new Set();
+        this.loadingSrcMap = new Map();
+
+        this.waitQueue = [];
+
+        this.loaders = {
+            script: this._loadScript.bind(this)
+        };
+    }
+
+    init(domain, basePath = '', callback = () => {}) {
+        const list = this.registry.getRegistryArray('script');
+
+        const targets = list.filter(items => {
+            if (items.domain === undefined) return false;
+            const domainList = Array.isArray(items.domain) ? items.domain : [items.domain];
+            for (let i = 0; i < domainList.length; i++) {
+                const e = domainList[i];
+                if (e && domain.startsWith(e)) return true;
+            }
+        });
+
+        const allKeys = new Set();
+
+        targets.forEach(item => {
+            const key = item.name;
+            allKeys.add(key);
+            this._ensureLoadWithDepsByKey(
+                item.name,
+                basePath,
+                new Set()
+            );
+        });
+
+        if (typeof callback === 'function') {
+            this.ready(Array.from(allKeys), basePath)
+                .then(callback);
+        }
+    }
+
+    loadAllRegistry(basePath = '', callback = () => {}) {
+        const allKeys = new Set();
+        const root = this.registry.getRegistryArray('root');
+        root.forEach(e => {
+            if (e.src !== undefined) allKeys.add('registry:' +e.name);
+        });
+
+        this.ready(Array.from(allKeys), basePath)
+            .then(callback);
+    }
+
+    onReady(keys, callback, basePath = '') {
+        echoLiveSystem.registry.onLoadedRegistry('script', () => {
+            const finalKeys = new Set(keys);
+            const keyArray = Array.from(finalKeys);
+
+            keyArray.forEach(key => {
+                this._ensureLoadWithDepsByKey(key, basePath, new Set());
+            });
+
+            if (this._checkAllLoaded(keyArray)) {
+                callback();
+                return;
+            }
+
+            this.waitQueue.push({
+                names: keyArray,
+                callback
+            });
+        });
+    }
+
+    ready(names, basePath = '') {
+        return new Promise(resolve => {
+            this.onReady(names, resolve, basePath);
+        });
+    }
+
+    _parseResourceKey(key) {
+        if (key.startsWith('registry:')) {
+            return {
+                type: 'registry',
+                name: key.slice(9)
+            };
+        }
+
+        return {
+            type: 'script',
+            name: key
+        };
+    }
+
+    _ensureLoadWithDepsByKey(key, basePath, visiting) {
+        const { type, name } = this._parseResourceKey(key);
+
+        const visitKey = `${type}:${name}`;
+
+        if (visiting.has(visitKey)) {
+            console.warn(`[ResourceLoader] Circular dependency detected: ${visitKey}`);
+            return;
+        }
+
+        visiting.add(visitKey);
+
+        const item = this._getRegistryItem(type, name);
+        if (!item) {
+            console.warn(`[ResourceLoader] Resource not found: ${visitKey}`);
+            return;
+        }
+
+        const deps = item.dependencies || [];
+        deps.forEach(dep => {
+            this._ensureLoadWithDepsByKey(dep, basePath, visiting);
+        });
+
+        this._ensureLoadByKey(key, basePath);
+
+        visiting.delete(visitKey);
+    }
+
+    _ensureLoadByKey(key, basePath) {
+        const { type, name } = this._parseResourceKey(key);
+
+        const stateKey = `${type}:${name}`;
+
+        const state = this.stateMap.get(stateKey);
+
+        if (state) {
+            if (state.status === 'loaded' || state.status === 'loading') {
+                return;
+            }
+        }
+
+        const item = this._getRegistryItem(type, name);
+        if (!item) return;
+
+        this._initResourceState(stateKey);
+        
+        this._loadByType(type, name, item, basePath);
+    }
+
+    _getRegistryItem(type, name) {
+        if (type === 'script') {
+            return this.registry.getRegistryValue('script', name);
+        }
+
+        if (type === 'registry') {
+            return this.registry.getRegistryValue('root', name);
+        }
+
+        return null;
+    }
+
+    _initResourceState(stateKey) {
+        if (!this.stateMap.has(stateKey)) {
+            this.stateMap.set(stateKey, {
+                status: 'pending',
+                loadedCount: 0,
+                total: 0
+            });
+        }
+    }
+
+    _loadByType(type, name, item, basePath) {
+        if (type === 'script') {
+            this._loadScript(item, basePath, `script:${name}`);
+        }
+
+        if (type === 'registry') {
+            this._loadRegistryScript(item, basePath, `registry:${name}`);
+        }
+    }
+
+    _loadResource(item, basePath) {
+        const loader = this.loaders['script'];
+        if (!loader) return;
+
+        loader(item, basePath);
+    }
+
+    _loadScript(item, basePath, stateKey) {
+        const { src, id, async, defer, type, insert_body } = item;
+        
+        const sources = Array.isArray(src) ? src : [src];
+
+        const state = this.stateMap.get(stateKey);
+        state.status = 'loading';
+        state.total = sources.length;
+
+        sources.forEach(url => {
+            const fullUrl = basePath + url;
+
+            if (this.loadedSrcSet.has(fullUrl)) {
+                this._onSingleLoaded(stateKey);
+                return;
+            }
+
+            if (this.loadingSrcMap.has(fullUrl)) {
+                this.loadingSrcMap.get(fullUrl)
+                    .then(() => this._onSingleLoaded(stateKey))
+                    .catch(() => this._onError(stateKey));
+                return;
+            }
+
+            const promise = new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+
+                script.src = fullUrl;
+
+                if (id) script.id = id;
+                if (type) script.type = type;
+                if (async) script.async = true;
+                if (defer) script.defer = true;
+
+                script.onload = () => {
+                    this.loadedSrcSet.add(fullUrl);
+                    this.loadingSrcMap.delete(fullUrl);
+                    resolve();
+                };
+
+                script.onerror = () => {
+                    this.loadingSrcMap.delete(fullUrl);
+                    reject();
+                };
+
+                document[insert_body? 'body' : 'head'].appendChild(script);
+            });
+
+            this.loadingSrcMap.set(fullUrl, promise);
+
+            promise
+                .then(() => this._onSingleLoaded(stateKey))
+                .catch(() => this._onError(stateKey));
+        });
+    }
+
+    _loadRegistryScript(item, basePath, stateKey) {
+        const { src } = item;
+
+        const sources = Array.isArray(src) ? src : [src];
+
+        const state = this.stateMap.get(stateKey);
+        state.status = 'loading';
+        state.total = sources.length;
+
+        sources.forEach(url => {
+            const fullUrl = basePath + 'res/data/' + url;
+
+            // 复用原有去重逻辑
+            if (this.loadedSrcSet.has(fullUrl)) {
+                this._onSingleLoaded(stateKey);
+                return;
+            }
+
+            if (this.loadingSrcMap.has(fullUrl)) {
+                this.loadingSrcMap.get(fullUrl)
+                    .then(() => this._onSingleLoaded(stateKey))
+                    .catch(() => this._onError(stateKey));
+                return;
+            }
+
+            const promise = new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+
+                script.src = fullUrl;
+
+                script.onload = () => {
+                    this.loadedSrcSet.add(fullUrl);
+                    this.loadingSrcMap.delete(fullUrl);
+                    resolve();
+                };
+
+                script.onerror = () => {
+                    this.loadingSrcMap.delete(fullUrl);
+                    reject();
+                };
+
+                document.head.appendChild(script);
+            });
+
+            this.loadingSrcMap.set(fullUrl, promise);
+
+            promise
+                .then(() => this._onSingleLoaded(stateKey))
+                .catch(() => this._onError(stateKey));
+        });
+    }
+
+    _onSingleLoaded(stateKey) {
+        const state = this.stateMap.get(stateKey);
+        state.loadedCount++;
+
+        if (state.loadedCount >= state.total) {
+            state.status = 'loaded';
+            this._flushQueue();
+        }
+    }
+
+    _onError(stateKey) {
+        const state = this.stateMap.get(stateKey);
+        state.status = 'error';
+        this._flushQueue();
+    }
+
+    _checkAllLoaded(keys) {
+        return keys.every(key => {
+            const { type, name } = this._parseResourceKey(key);
+            const state = this.stateMap.get(`${type}:${name}`);
+            return state && state.status === 'loaded';
+        });
+    }
+
+    _flushQueue() {
+        this.waitQueue = this.waitQueue.filter(task => {
+            if (this._checkAllLoaded(task.names)) {
+                task.callback();
+                return false;
+            }
+            return true;
+        });
+    }
+
+    registerLoader(type, loader) {
+        this.loaders[type] = loader;
+    }
+}
+
 
 class EchoLiveLocalDeviceManager {
     constructor() {

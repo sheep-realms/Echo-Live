@@ -21,6 +21,8 @@ class LocalStorageManager {
      * 初始化
      */
     init() {
+        echoLiveSystem.setupModule('local_storage_manager', this);
+
         const s = localStorage.getItem(this.name);
         if (s === null || s.length > this.maxLength) {
             localStorage.setItem(this.name, '{}');

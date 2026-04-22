@@ -42,6 +42,7 @@ class EchoLiveHistory {
      * 初始化
      */
     init() {
+        echoLiveSystem.setupModule('echolive_history', this);
         this.theme = echoLiveSystem.registry.getRegistryArray('live_theme');
 
         if (this.config.echolive.sleep.enable) {

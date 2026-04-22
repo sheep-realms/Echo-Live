@@ -98,6 +98,7 @@ class EchoLive {
      * 初始化
      */
     init() {
+        echoLiveSystem.setupModule('echolive', this);
         this.theme = echoLiveSystem.registry.getRegistryArray('live_theme');
         this.controller = echoLiveSystem.registry.getRegistryArray('live_controller');
 

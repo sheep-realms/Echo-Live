@@ -41,5 +41,5 @@ function pageLoadedI18n() {
 }
 
 $(document).ready(function() {
-        translator.ready(pageLoadedI18n);
+    translator.ready(pageLoadedI18n);
 });

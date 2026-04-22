@@ -11,6 +11,8 @@ class SettingsManager {
         this.configDefine   = configDefine;
         this.config         = {};
         this.configBackup   = {};
+
+        echoLiveSystem.setupModule('settings_manager', this);
     }
 
     getConfigDefine(prefix = '', verMin = 0, verMax = 100000) {

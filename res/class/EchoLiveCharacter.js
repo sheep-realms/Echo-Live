@@ -32,6 +32,8 @@ class EchoLiveCharacter {
      * 初始化
      */
     init() {
+        echoLiveSystem.setupModule('echolive_character', this);
+
         if (this.config.echolive.sleep.enable) {
             document.addEventListener("visibilitychange", () => {
                 this.hidden = document.visibilityState !== "visible";

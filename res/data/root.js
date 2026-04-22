@@ -85,14 +85,12 @@ echoLiveSystem.registry.init([
         name: 'emoji_namespace'
     }, {
         name: 'extension',
-        unique_key: 'name',
+        unique_key: 'meta.name',
         sync: true,
         default_data: {
             title: 'missingno',
-            description: '',
-            namespace: undefined,
-            author: undefined,
-            license: undefined
+            name: 'missingno',
+            register_hook: {}
         }
     }, {
         name: 'font_weight',

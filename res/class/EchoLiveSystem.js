@@ -414,7 +414,7 @@ class EchoLiveRegistry {
             return;
         }
         table = EchoLiveData.filter('namespace_id', 'pad_namespace', table);
-        this.event[event].filter(e => e.table === table && (e.key === key || e.key === '*')).forEach(e => e.action(data));
+        this.event[event].filter(e => e.table === table && (e.key === key || e.key === '*')).forEach(e => e.action(data, key, table));
     }
 
     /**

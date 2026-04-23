@@ -1,0 +1,40 @@
+.extension-info-card {
+    display: flex;
+    padding-block-start: var(--gap-small);
+    padding-block-end: var(--gap-small);
+    gap: var(--gap-middle);
+}
+
+.extension-info-card .icon {
+    width: calc(var(--font-size-middle) * 6);
+    height: calc(var(--font-size-middle) * 6);
+    background-color: var(--msgbox-bgcolor);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.extension-info-card .icon svg {
+    width: calc(var(--font-size-middle) * 4);
+    height: calc(var(--font-size-middle) * 4);
+    fill: var(--text-placeholder);
+}
+
+.extension-info-card .info {
+    flex: 1;
+    padding: var(--gap-small);
+    box-sizing: border-box;
+}
+
+.extension-info-card .title {
+    font-weight: bold;
+    font-size: var(--font-size-large);
+    color: var(--text-primary);
+}
+
+.extension-info-card .description {
+    color: var(--text-secondary);
+    font-size: var(--font-size-small);
+    max-height: calc(var(--font-size-small) * 4);
+    overflow: hidden;
+}

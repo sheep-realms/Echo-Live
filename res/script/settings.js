@@ -968,11 +968,15 @@ $(document).ready(function() {
             '',
             $t('settings.msgbox.advanced_settings')
         ));
-        $('.settings-page[data-pageid="extension"]').prepend(SettingsPanel.msgBox(
-            $t('settings.msgbox.extension.title'),
-            $t('settings.msgbox.extension.description'),
-            'material:help'
-        ));
+        $('.settings-page[data-pageid="extension"]').prepend(
+            SettingsPanel.msgBox(
+                $t('settings.msgbox.extension.title'),
+                $t('settings.msgbox.extension.description'),
+                'material:help'
+            ) +
+            `<div style="height: var(--gap-middle);"></div>` +
+            ExtensionPanel.infoCardList(echoLiveSystem.registry.getRegistryArray('extension'))
+        );
 
         $('.settings-item[data-id="character.avatar.name"]>.content').html(AvatarReviewPanel.panel());
         $('.settings-item[data-id="character.avatar.name"]>.content').removeClass('hide');

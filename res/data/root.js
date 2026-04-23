@@ -90,8 +90,11 @@ echoLiveSystem.registry.init([
         default_data: {
             meta: {
                 title: 'missingno',
-                name: 'missingno'
+                name: 'missingno',
+                author: undefined,
+                license: undefined
             },
+            localization_patch: {},
             register_hook: {}
         }
     }, {

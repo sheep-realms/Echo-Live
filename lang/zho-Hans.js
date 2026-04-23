@@ -1860,7 +1860,6 @@ const lang_zho_Hans = {
     },
     sound: {
         enhancer: "充能",
-        example_sonar: "声纳",
         pencil: "铅笔",
         typewriter: "打字机",
         typewriter_loop: "打字机（随机音效）",

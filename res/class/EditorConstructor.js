@@ -2064,3 +2064,31 @@ class PortalPreview {
         return dom;
     }
 }
+
+
+
+class ExtensionPanel {
+    constructor() {}
+
+    static infoCard(data) {
+        return `<div class="extension-info-card">
+            <div class="icon">${ ExtensionPanel.icon(data.meta?.icon) }</div>
+            <div class="info">
+                <div class="title">${ $tc(data.meta?.title, { before: 'extension.' }) }</div>
+                <div class="description">${ $tc(data.meta?.description ?? '', { before: 'extension.' }) }</div>
+            </div>
+        </div>`;
+    }
+
+    static infoCardList(list) {
+        let dom = '';
+        list.forEach(e => {
+            dom += ExtensionPanel.infoCard(e);
+        });
+        return `<div class="extension-info-card-list">${ dom }</div>`
+    }
+
+    static icon(iconData) {
+        return Icon.getIcon('material:puzzle');
+    }
+}

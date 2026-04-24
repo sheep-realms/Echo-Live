@@ -1,6 +1,11 @@
+# 本地测试
 .demo
+
+# IDE
 .idea
 .VSCode
 .VSCodeCounter
+
+# Echo-Live WebSocket Server
 server_config.json
 *.exe

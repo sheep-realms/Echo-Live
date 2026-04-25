@@ -5,6 +5,8 @@ extensionManager.load({
             translate: 'example.title'
         },
         name: 'example',
+        schema_version: [2, 0, 1],
+        extension_version: '1.0.0',
         description: {
             text: '本扩展是一个导入自定义音效的简单演示。',
             translate: 'example.description'

@@ -1738,6 +1738,14 @@ const lang_zho_Hans = {
         },
         debug_mode: "已启用调试选项！",
         drop_file_cancel_many: "你倒是放啊！",
+        extension_launch_failed: "扩展“{name}”载入失败！",
+        extension_launch_timeout: {
+            title: "扩展载入出错",
+            message: "有预期载入的扩展超时未载入或未注册，可能原因为扩展元数据错误、载入用时过长或未运行注册过程。这不是正常现象，请检查您的扩展。<br>未正确解析的扩展：{list}"
+        },
+        extension_name_invalid: "扩展载入错误：“{name}”包含不允许使用的字符。",
+        extension_name_missingno: "这个扩展竟然真的叫做“missingno”？不不不这绝对不可以！",
+        extension_name_too_long: "扩展载入错误：“{prefix}...”这个名称太长了！名称长度不能超过 255 个字符。",
         github_download_but_no_assets: {
             title: "让我们开始下载...... 等一下？",
             message: "发布了新版本结果没上传文件？还能有这种事情？！"

@@ -1738,6 +1738,14 @@ const lang_zho_Hant_TW = {
         },
         debug_mode: "已啟用除錯選項！",
         drop_file_cancel_many: "你倒是放啊！",
+        extension_launch_failed: "擴充套件“{name}”載入失敗！",
+        extension_launch_timeout: {
+            title: "擴充套件載入出錯",
+            message: "有預期載入的擴充套件超時未載入或未註冊，可能原因為擴充套件後設資料錯誤、載入用時過長或未執行註冊過程。這不是正常現象，請檢查您的擴充套件。<br>未正確解析的擴充套件：{list}"
+        },
+        extension_name_invalid: "擴充套件載入錯誤：“{name}”包含不允許使用的字元。",
+        extension_name_missingno: "這個擴充套件竟然真的叫做“missingno”？不不不這絕對不可以！",
+        extension_name_too_long: "擴充套件載入錯誤：“{prefix}...”這個名稱太長了！名稱長度不能超過 255 個字元。",
         github_download_but_no_assets: {
             title: "讓我們開始下載...... 等一下？",
             message: "釋出了新版本結果沒上傳檔案？還能有這種事情？！"

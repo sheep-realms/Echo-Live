@@ -91,8 +91,11 @@ echoLiveSystem.registry.init([
             meta: {
                 title: 'missingno',
                 name: 'missingno',
+                schema_version: [2, 0, 0],
+                extension_version: '0.0.1',
                 author: undefined,
-                license: undefined
+                license: undefined,
+                flag: {}
             },
             localization_patch: {},
             register_hook: {}

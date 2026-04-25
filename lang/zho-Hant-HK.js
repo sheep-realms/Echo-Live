@@ -1738,6 +1738,14 @@ const lang_zho_Hant_HK = {
         },
         debug_mode: "已啟用調試選項！",
         drop_file_cancel_many: "你倒是放啊！",
+        extension_launch_failed: "擴展“{name}”載入失敗！",
+        extension_launch_timeout: {
+            title: "擴展載入出錯",
+            message: "有預期載入的擴展超時未載入或未註冊，可能原因為擴展元數據錯誤、載入用時過長或未運行註冊過程。這不是正常現象，請檢查您的擴展。<br>未正確解析的擴展：{list}"
+        },
+        extension_name_invalid: "擴展載入錯誤：“{name}”包含不允許使用的字符。",
+        extension_name_missingno: "這個擴展竟然真的叫做“missingno”？不不不這絕對不可以！",
+        extension_name_too_long: "擴展載入錯誤：“{prefix}...”這個名稱太長了！名稱長度不能超過 255 個字符。",
         github_download_but_no_assets: {
             title: "讓我們開始下載...... 等一下？",
             message: "發布了新版本結果沒上傳文件？還能有這種事情？！"

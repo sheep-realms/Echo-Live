@@ -16,6 +16,7 @@ class EchoLiveSystem {
         this.obs        = new EchoLiveOBSMiddleware();
         this.config     = config;
         this.modules    = [];
+        this.moduleLookupQueue = new Map();
         this.lastModuleIndex = 0;
 
         this.setupModules({
@@ -58,6 +59,10 @@ class EchoLiveSystem {
             payload: object
         });
 
+        if (this._hasModuleLookupQueue(name)) {
+            setTimeout(() => this._resolveModuleLookupQueue(name, object, index));
+        }
+
         return index;
     }
 
@@ -73,6 +78,31 @@ class EchoLiveSystem {
             const r = this.setupModule(key, e);
             indexTable[key] = r;
         }
+    }
+
+    _addModuleLookupQueue(key, data) {
+        let queue = this.moduleLookupQueue.get(key) ?? [];
+
+        if (data.handlerId !== undefined) {
+            const i = queue.findIndex(e => e.handlerId === data.handlerId);
+            queue[i] = data;
+        } else {
+            queue.push(data);
+        }
+
+        this.moduleLookupQueue.set(key, queue);
+    }
+
+    _hasModuleLookupQueue(key) {
+        return this.moduleLookupQueue.has(key);
+    }
+
+    _resolveModuleLookupQueue(key, payload, index) {
+        const data = this.moduleLookupQueue.get(key);
+        this.moduleLookupQueue.delete(key);
+        data.forEach(e => {
+            e.handler(payload, index);
+        });
     }
 
     /**
@@ -91,16 +121,19 @@ class EchoLiveSystem {
     /**
      * 异步联络模块
      * @param {String} name 模块名称
+     * @param {String} handlerId Handler ID（用于覆写）
      * @returns {Promise} Promise
      */
-    async lookupSync(name) {
+    async lookupAsync(name, handlerId) {
         return new Promise((resolve, reject) => {
             const payload = this.lookup(name);
             if (payload !== undefined) {
                 resolve(payload);
             } else {
-                // TODO: 监听后续载入
-                reject();
+                this._addModuleLookupQueue(name, {
+                    handlerId: handlerId,
+                    handler: payload => resolve(payload)
+                });
             }
         });
     }

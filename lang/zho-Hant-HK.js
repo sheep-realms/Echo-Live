@@ -1231,7 +1231,24 @@ const lang_zho_Hant_HK = {
                     title: "Material Design"
                 },
                 minecraft: {
-                    title: "Minecraft"
+                    title: "Minecraft",
+                    color: {
+                        material_amethyst: "紫水晶質",
+                        material_copper: "銅質",
+                        material_diamond: "鑽石質",
+                        material_emerald: "綠寶石質",
+                        material_gold: "金質",
+                        material_iron: "鐵質",
+                        material_lapis: "青金石質",
+                        material_netherite: "地獄合金質",
+                        material_quartz: "石英質",
+                        material_redstone: "紅石質",
+                        material_resin: "樹脂質",
+                    },
+                    group: {
+                        material: "材料颜色",
+                        text: "文本颜色"
+                    }
                 },
                 tailwindcss: {
                     title: "Tailwind CSS",

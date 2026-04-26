@@ -1231,7 +1231,24 @@ const lang_zho_Hans = {
                     title: "Material Design"
                 },
                 minecraft: {
-                    title: "Minecraft"
+                    title: "Minecraft",
+                    color: {
+                        material_amethyst: "紫水晶色",
+                        material_copper: "铜锭色",
+                        material_diamond: "钻石色",
+                        material_emerald: "绿宝石色",
+                        material_gold: "金锭色",
+                        material_iron: "铁锭色",
+                        material_lapis: "青金石色",
+                        material_netherite: "下界合金色",
+                        material_quartz: "石英色",
+                        material_redstone: "红石色",
+                        material_resin: "树脂色",
+                    },
+                    group: {
+                        material: "材料颜色",
+                        text: "文本颜色"
+                    }
                 },
                 tailwindcss: {
                     title: "Tailwind CSS",

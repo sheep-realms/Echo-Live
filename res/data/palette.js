@@ -348,6 +348,7 @@ echoLiveSystem.registry.loadRegistry('palette', e => e.meta.name, [
             }
         },
         colors: [
+            { type: 'group', value: { name: '文本颜色', translate: 'minecraft.group.text' } },
             { value: '#000000', title: { name: 'Black', translate: 'common.color.black' } },
             { value: '#0000aa', title: { name: 'Dark Blue', translate: 'common.color.deep_blue' } },
             { value: '#00aa00', title: { name: 'Dark Green', translate: 'common.color.deep_green' } },
@@ -364,6 +365,19 @@ echoLiveSystem.registry.loadRegistry('palette', e => e.meta.name, [
             { value: '#ff55ff', title: { name: 'Light Purple', translate: 'common.color.light_purple' } },
             { value: '#ffff55', title: { name: 'Yellow', translate: 'common.color.yellow' } },
             { value: '#ffffff', title: { name: 'White', translate: 'common.color.white' } },
+
+            { type: 'group', value: { name: '材料颜色', translate: 'minecraft.group.material' } },
+            { value: '#e3d4d1', title: { name: 'Material Quartz', translate: 'minecraft.color.material_quartz' } },
+            { value: '#cecaca', title: { name: 'Material Iron', translate: 'minecraft.color.material_iron' } },
+            { value: '#443a3b', title: { name: 'Material Netherite', translate: 'minecraft.color.material_netherite' } },
+            { value: '#971607', title: { name: 'Material Redstone', translate: 'minecraft.color.material_redstone' } },
+            { value: '#b4684d', title: { name: 'Material Copper', translate: 'minecraft.color.material_copper' } },
+            { value: '#deb12d', title: { name: 'Material Gold', translate: 'minecraft.color.material_gold' } },
+            { value: '#47a036', title: { name: 'Material Emerald', translate: 'minecraft.color.material_emerald' } },
+            { value: '#2cbaa8', title: { name: 'Material Diamond', translate: 'minecraft.color.material_diamond' } },
+            { value: '#21497b', title: { name: 'Material Lapis', translate: 'minecraft.color.material_lapis' } },
+            { value: '#9a5cc6', title: { name: 'Material Amethyst', translate: 'minecraft.color.material_amethyst' } },
+            { value: '#eb7114', title: { name: 'Material Resin', translate: 'minecraft.color.material_resin' } },
         ]
     }, {
         meta: {

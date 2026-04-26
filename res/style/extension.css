@@ -20,9 +20,16 @@
     fill: var(--text-placeholder);
 }
 
+.extension-info-card .icon img {
+    width: calc(var(--font-size-middle) * 6);
+    height: calc(var(--font-size-middle) * 6);
+}
+
 .extension-info-card .info {
     flex: 1;
-    padding: var(--gap-small);
+    padding-block-start: var(--gap-small);
+    padding-block-end: var(--gap-small);
+    padding-inline-end: var(--gap-small);
     box-sizing: border-box;
 }
 

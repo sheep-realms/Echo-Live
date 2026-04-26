@@ -1,25 +1,40 @@
 extensionManager.load({
+    // 扩展元数据
     meta: {
+        // 扩展标题，支持本地化文本组件
         title: {
             text: '示例扩展',
             translate: 'example.title'
         },
+        // 扩展识别名，应与文件夹名称一致
         name: 'example',
+        // 扩展所使用的注册数据格式版本
         schema_version: [2, 0, 1],
+        // 扩展自身版本号
         extension_version: '1.0.0',
+        // 图标（可选）
+        // icon: 'material:puzzle',
+        // 封面，将会覆盖图标（可选）
+        cover: 'cover.png',
+        // 描述，支持本地化文本组件
         description: {
             text: '本扩展是一个导入自定义音效的简单演示。',
             translate: 'example.description'
         },
+        // 项目地址（可选）
+        project_url: 'https://github.com/sheep-realms/Echo-Live',
+        // 作者，参考元数据组件（可选）
         author: {
             name: 'Sheep-realms',
             url: 'https://github.com/sheep-realms'
         },
+        // 授权协议，参考元数据组件（可选）
         license: {
             name: 'GPL-3.0 license',
             url: 'https://www.gnu.org/licenses/gpl-3.0.html'
         }
     },
+    // 注册表 Hook
     register_hook: {
         loaded: [
             {
@@ -39,6 +54,7 @@ extensionManager.load({
             }
         ]
     },
+    // 本地化补丁
     localization_patch: {
         'zho-Hans': {
             extension: {
@@ -74,4 +90,7 @@ extensionManager.load({
             }
         }
     }
+}).then(() => {
+    // Extension loaded ...
+    // 当扩展成功载入后，将会运行此过程
 });

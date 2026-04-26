@@ -146,7 +146,7 @@ class EchoLiveTools {
                 }
                 if (e?.data?.emoji !== undefined && !noEmoji) {
                     try {
-                        let emojiHakoCall = emojiHako ?? echoLiveEditor?.emojiHako;emojiHako
+                        let emojiHakoCall = echoLiveSystem.lookup('emoji_hako');
                         if (emojiHakoCall === undefined) {
                             throw new Error('emojiHako is not defined');
                         }

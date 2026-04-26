@@ -9,3 +9,8 @@
 # Echo-Live WebSocket Server
 server_config.json
 *.exe
+
+# 扩展调试
+extensions/*
+!extensions/example/
+!extensions/example/**

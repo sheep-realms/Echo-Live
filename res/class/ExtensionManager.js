@@ -17,7 +17,7 @@ class ExtensionManager {
     }
 
     load(data = {}) {
-        if (!this._loadDataCheck(data)) return;
+        if (!this._loadDataCheck(data)) return Promise.reject();
 
         this._oldSchemaVersionCheck(data);
 
@@ -30,33 +30,35 @@ class ExtensionManager {
             echoLiveSystem.registry.setRegistryValue('extension', data.meta.name, data);
         }
 
-        if (!data?.register_hook) return;
-
         // 注入本地化补丁
         if (data.localization_patch) {
             echoLiveSystem.lookup('translator')?.patch(data.localization_patch);
         }
         
         // 载入注册表
-        const root = `${data.meta.name}:root`;
-        if (data.register_hook.now) {
-            echoLiveSystem.registry.extensionLoadRegistry(
-                root,
-                data.register_hook.now,
-                {
-                    hook: 'now'
-                }
-            );
+        if (data?.register_hook) {
+            const root = `${data.meta.name}:root`;
+            if (data.register_hook.now) {
+                echoLiveSystem.registry.extensionLoadRegistry(
+                    root,
+                    data.register_hook.now,
+                    {
+                        hook: 'now'
+                    }
+                );
+            }
+            if (data.register_hook.loaded) {
+                echoLiveSystem.registry.extensionLoadRegistry(
+                    root,
+                    data.register_hook.loaded,
+                    {
+                        hook: 'loaded'
+                    }
+                );
+            }
         }
-        if (data.register_hook.loaded) {
-            echoLiveSystem.registry.extensionLoadRegistry(
-                root,
-                data.register_hook.loaded,
-                {
-                    hook: 'loaded'
-                }
-            );
-        }
+        
+        return Promise.resolve();
     }
 
     launch(extList = []) {

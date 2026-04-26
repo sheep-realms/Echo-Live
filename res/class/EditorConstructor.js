@@ -2072,7 +2072,7 @@ class ExtensionPanel {
 
     static infoCard(data) {
         return `<div class="extension-info-card">
-            <div class="icon">${ ExtensionPanel.icon(data.meta?.icon) }</div>
+            <div class="icon" aria-hidden="true">${ ExtensionPanel.icon(data.meta) }</div>
             <div class="info">
                 <div class="title">${ $tc(data.meta?.title, { before: 'extension.' }) }</div>
                 <div class="description">${ $tc(data.meta?.description ?? '', { before: 'extension.' }) }</div>
@@ -2088,7 +2088,11 @@ class ExtensionPanel {
         return `<div class="extension-info-card-list">${ dom }</div>`
     }
 
-    static icon(iconData) {
-        return Icon.getIcon('material:puzzle');
+    static icon(metaData) {
+        if (metaData.cover === undefined) {
+            return Icon.getIcon(metaData.icon ?? 'material:puzzle');
+        } else {
+            return `<img src="extensions/${ metaData.name }/${ metaData.cover }" alt="${ $tc(metaData.title, { before: 'extension.' }) }">`
+        }
     }
 }

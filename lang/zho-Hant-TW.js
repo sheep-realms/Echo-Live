@@ -1247,7 +1247,7 @@ const lang_zho_Hant_TW = {
                     },
                     group: {
                         material: "材質顔色",
-                        text: "文本顔色"
+                        text: "文字顔色"
                     }
                 },
                 tailwindcss: {

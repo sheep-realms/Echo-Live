@@ -1246,7 +1246,7 @@ const lang_zho_Hans = {
                         material_resin: "树脂色",
                     },
                     group: {
-                        material: "材料颜色",
+                        material: "材质颜色",
                         text: "文本颜色"
                     }
                 },

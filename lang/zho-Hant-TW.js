@@ -1246,8 +1246,8 @@ const lang_zho_Hant_TW = {
                         material_resin: "樹脂材質",
                     },
                     group: {
-                        material: "材料颜色",
-                        text: "文本颜色"
+                        material: "材質顔色",
+                        text: "文本顔色"
                     }
                 },
                 tailwindcss: {

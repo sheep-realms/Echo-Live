@@ -968,11 +968,15 @@ $(document).ready(function() {
             '',
             $t('settings.msgbox.advanced_settings')
         ));
-        $('.settings-page[data-pageid="extension"]').prepend(SettingsPanel.msgBox(
-            $t('settings.msgbox.extension.title'),
-            $t('settings.msgbox.extension.description'),
-            'material:help'
-        ));
+        $('.settings-page[data-pageid="extension"]').prepend(
+            SettingsPanel.msgBox(
+                $t('settings.msgbox.extension.title'),
+                $t('settings.msgbox.extension.description'),
+                'material:help'
+            ) +
+            `<div style="height: var(--gap-middle);"></div>` +
+            ExtensionPanel.infoCardList(echoLiveSystem.registry.getRegistryArray('extension'))
+        );
 
         $('.settings-item[data-id="character.avatar.name"]>.content').html(AvatarReviewPanel.panel());
         $('.settings-item[data-id="character.avatar.name"]>.content').removeClass('hide');
@@ -1737,3 +1741,32 @@ $(document).on('click', '.settings-link-bar.settings-link-debug', function(e) {
         id: 'debug_output'
     });
 });
+
+$(document).on('click', '.btn-open-extension-detail-wrapper', function(e) {
+    const name = $(this).data('name');
+    const data = echoLiveSystem.registry.getRegistryValue('extension', name);
+    uniWindow.window(
+        ExtensionPanel.detail(data),
+        $tc(data.meta?.title, { before: 'extension.' }),
+        {
+            autoIconButton: true,
+            controller: [
+                'close'
+            ],
+            maskClosable: true,
+            size: {
+                width: '680px',
+                height: '80vh'
+            }
+        },
+        (value, unit) => {
+            switch (value) {
+                case 'close':
+                case null:
+                    unit.close();
+                    break;
+            }
+        }
+    );
+    
+})

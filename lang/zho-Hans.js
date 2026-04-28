@@ -48,6 +48,7 @@ const lang_zho_Hans = {
         export: "导出",
         re_export: "重新导出",
         more_info: "了解详情",
+        detail: "详细信息",
         add: "添加",
         remove: "移除",
         move_up: "上移",
@@ -1231,7 +1232,24 @@ const lang_zho_Hans = {
                     title: "Material Design"
                 },
                 minecraft: {
-                    title: "Minecraft"
+                    title: "Minecraft",
+                    color: {
+                        material_amethyst: "紫水晶色",
+                        material_copper: "铜锭色",
+                        material_diamond: "钻石色",
+                        material_emerald: "绿宝石色",
+                        material_gold: "金锭色",
+                        material_iron: "铁锭色",
+                        material_lapis: "青金石色",
+                        material_netherite: "下界合金色",
+                        material_quartz: "石英色",
+                        material_redstone: "红石色",
+                        material_resin: "树脂色",
+                    },
+                    group: {
+                        material: "材质颜色",
+                        text: "文本颜色"
+                    }
                 },
                 tailwindcss: {
                     title: "Tailwind CSS",
@@ -1380,6 +1398,16 @@ const lang_zho_Hans = {
                     yes: "可以"
                 }
             }
+        }
+    },
+    extension_manager: {
+        label: {
+            feature_flag: "特性",
+            localization_patch: "本地化补丁",
+            register_hook: "注册器 Hook"
+        },
+        msgbox: {
+            flag_my_data_is_too_large: "由于该扩展声明了特性“my_data_is_too_large”，为避免性能问题无法预览此扩展的数据更改。如需了解其数据更改请检查其扩展文件。"
         }
     },
     file: {
@@ -1738,6 +1766,14 @@ const lang_zho_Hans = {
         },
         debug_mode: "已启用调试选项！",
         drop_file_cancel_many: "你倒是放啊！",
+        extension_launch_failed: "扩展“{name}”载入失败！",
+        extension_launch_timeout: {
+            title: "扩展载入出错",
+            message: "有预期载入的扩展超时未载入或未注册，可能原因为扩展元数据错误、载入用时过长或未运行注册过程。这不是正常现象，请检查您的扩展。<br>未正确解析的扩展：{list}"
+        },
+        extension_name_invalid: "扩展载入错误：“{name}”包含不允许使用的字符。",
+        extension_name_missingno: "这个扩展竟然真的叫做“missingno”？不不不这绝对不可以！",
+        extension_name_too_long: "扩展载入错误：“{prefix}...”这个名称太长了！名称长度不能超过 255 个字符。",
         github_download_but_no_assets: {
             title: "让我们开始下载...... 等一下？",
             message: "发布了新版本结果没上传文件？还能有这种事情？！"
@@ -1860,7 +1896,6 @@ const lang_zho_Hans = {
     },
     sound: {
         enhancer: "充能",
-        example_sonar: "声纳",
         pencil: "铅笔",
         typewriter: "打字机",
         typewriter_loop: "打字机（随机音效）",

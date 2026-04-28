@@ -14,6 +14,7 @@ class Translator {
         this.langIndex = langIndex;
         this.initialized = false;
         this.loaded = false;
+        this.patchQueue = new Map();
         this.config = {
             useShortISO: config?.useShortISO ?? false
         };
@@ -27,6 +28,7 @@ class Translator {
      * @param {String} path 脚本根路径
      */
     init(path = '') {
+        echoLiveSystem.setupModule('translator', this);
         if (this.initialized) return;
         const mainLang          = echoLiveSystem.registry.getRegistryValue('system', 'main_language');
         const langIndex         = echoLiveSystem.registry.getRegistryArray('language_index');
@@ -72,6 +74,59 @@ class Translator {
                 s.src   = `${ path }lang/${ url }`;
                 s.async = false;
                 document.head.appendChild(s);
+    }
+
+    __deepMerge(target, source) {
+        target = JSON.parse(JSON.stringify(target));
+        for (let key in source) {
+            if (
+                source[key] instanceof Object &&
+                !Array.isArray(source[key]) &&
+                key in target &&
+                target[key] instanceof Object &&
+                !Array.isArray(target[key]) 
+            ) {
+                target[key] = EchoLiveRegistry.__deepMerge(target[key], source[key]);
+            } else if (Array.isArray(source[key]) && key in target && Array.isArray(target[key])) {
+                target[key] = target[key].concat(source[key]);
+            } else if (source[key] !== undefined) {
+                target[key] = source[key];
+            }
+        }
+        return target;
+    }
+
+    _addPatchQueue(key, data) {
+        let queue = this.patchQueue.get(key) ?? [];
+        queue.push(data);
+        this.patchQueue.set(key, queue);
+    }
+
+    _hasPatchQueue(key) {
+        return this.patchQueue.has(key);
+    }
+
+    _resolvePatchQueue(key) {
+        const data = this.patchQueue.get(key);
+        this.patchQueue.delete(key);
+        data.forEach(e => {
+            this.i18n[key] = this.__deepMerge(this.i18n[key], e);
+        });
+    }
+
+    patch(data) {
+        if (typeof data !== 'object') return;
+
+        for (const key in data) {
+            if (!Object.hasOwn(data, key)) continue;
+            const e = data[key];
+            if (typeof e !== 'object') continue;
+            if (this.i18n[key] === undefined) {
+                this._addPatchQueue(key, e);
+                continue;
+            }
+            this.i18n[key] = this.__deepMerge(this.i18n[key], e);
+        }
     }
 
     output(key, variable={}, backText = undefined, __inPlanB = false) {
@@ -263,8 +318,14 @@ class Translator {
 
 
     load(i18nList) {
-        this.i18n[i18nList.lang.code_iso_639_3] = i18nList;
-        if (!this.loaded && i18nList.lang.code_iso_639_3 === this.lang) {
+        const languageCode = i18nList.lang.code_iso_639_3;
+        this.i18n[languageCode] = i18nList;
+
+        if (this._hasPatchQueue(languageCode)) {
+            this._resolvePatchQueue(languageCode);
+        }
+
+        if (!this.loaded && languageCode === this.lang) {
             this.loaded = true;
             this.trigger('ready');
             let isoCode = $t('lang.code_ietf');

@@ -646,7 +646,7 @@ class Popups {
                     }
                 }
             );
-            dom += `<div>${ $t('meta_info.author', { name: $tc( authorDOM ) }) }</div>`;
+            dom += `<div>${ $t('meta_info.author', { name: authorDOM }) }</div>`;
         }
         let licenseDOM = '';
         if (emojiPack.meta?.license !== undefined) {
@@ -659,7 +659,7 @@ class Popups {
                     }
                 }
             );
-            dom += `<div>${ $t('meta_info.license', { name: $tc( licenseDOM ) }) }</div>`;
+            dom += `<div>${ $t('meta_info.license', { name: licenseDOM }) }</div>`;
         }
         dom += '</div>';
         return dom;
@@ -2062,5 +2062,172 @@ class PortalPreview {
             }
         });
         return dom;
+    }
+}
+
+
+
+class ExtensionPanel {
+    constructor() {}
+
+    static infoCard(data) {
+        return `<div class="extension-info-card">
+            <div class="icon" aria-hidden="true">${ ExtensionPanel.icon(data.meta) }</div>
+            <div class="info">
+                <div class="title">${ $tc(data.meta?.title, { before: 'extension.' }) }</div>
+                <div class="description">${ $tc(data.meta?.description ?? '', { before: 'extension.' }) }</div>
+            </div>
+            <div class="action">
+                ${ 
+                    FHUIComponentButton.button(
+                        $t('ui.detail'),
+                        {
+                            type: 'air',
+                            icon: 'material:magnify',
+                            class: 'btn-open-extension-detail-wrapper',
+                            attribute: {
+                                data: {
+                                    name: data.meta.name
+                                }
+                            }
+                        }
+                    )
+                }
+            </div>
+        </div>`;
+    }
+
+    static infoCardList(list) {
+        let dom = '';
+        list.forEach(e => {
+            dom += ExtensionPanel.infoCard(e);
+        });
+        return `<div class="extension-info-card-list">${ dom }</div>`
+    }
+
+    static icon(metaData) {
+        if (metaData.cover === undefined) {
+            return Icon.getIcon(metaData.icon ?? 'material:puzzle');
+        } else {
+            return `<img src="extensions/${ metaData.name }/${ metaData.cover }" alt="${ $tc(metaData.title, { before: 'extension.' }) }">`
+        }
+    }
+
+    static detail(data) {
+        let authorDOM = '';
+        if (data.meta?.author !== undefined && data.meta?.author !== '') {
+            authorDOM = MetaInfo.linkList(
+                data.meta.author,
+                'ui.missingno.no_author',
+                {
+                    translateData: {
+                        before: `extension.${ data.meta.name }.`
+                    }
+                }
+            );
+        }
+
+        let licenseDOM = '';
+        if (data.meta?.license !== undefined) {
+            licenseDOM = MetaInfo.linkList(
+                data.meta.license,
+                'ui.missingno.no_name',
+                {
+                    translateData: {
+                        before: `extension.${ data.meta.name }.`
+                    }
+                }
+            );
+        }
+
+        let msgboxDOM = '';
+        let myDataIsTooLarge = false;
+        if (data.meta.flag?.my_data_is_too_large) {
+            myDataIsTooLarge = true;
+            msgboxDOM += SettingsPanel.msgBoxWarn('', $t('extension_manager.msgbox.flag_my_data_is_too_large'));
+        }
+        return `<div class="extension-detail-wrapper">
+            <div class="header">
+                <div class="icon" aria-hidden="true">${ ExtensionPanel.icon(data.meta) }</div>
+                <div class="info">
+                    <div class="title">${ $tc(data.meta?.title, { before: 'extension.' }) }</div>
+                    <div class="description">${ $tc(data.meta?.description ?? '', { before: 'extension.' }) }</div>
+                    ${ authorDOM !== '' ? `<div class="author">${ $t('meta_info.author', { name: authorDOM }) }</div>` : '' }
+                    ${ licenseDOM !== '' ? `<div class="license">${ $t('meta_info.license', { name: licenseDOM }) }</div>` : '' }
+                </div>
+            </div>
+            <div class="body">
+                ${ msgboxDOM }
+                ${ ExtensionPanel.detailFlag(data) }
+                ${ myDataIsTooLarge ? '' : ExtensionPanel.detailRegisterHook(data.register_hook) }
+                ${ myDataIsTooLarge ? '' : ExtensionPanel.detailLocalizationPatch(data.localization_patch) }
+            </div>
+        </div>`;
+    }
+
+    static detailFlag(data) {
+        let dom = '';
+        for (const key in data.meta?.flag) {
+            if (!Object.hasOwn(data.meta?.flag, key)) continue;
+            const e = data.meta.flag[key];
+            dom += `<li><code>${ key }</code>: <code>${ String(e) }</code></li>`;
+        }
+        if (dom === '') {
+            dom = $t('ui.empty');
+        } else {
+            dom = `<ul class="extension-feature-flag-list">${dom}</ul>`
+        }
+        return `<div class="extension-detail-section">
+            <div class="title">${ $t('extension_manager.label.feature_flag') }</div>
+            <div class="content">${ dom }</div>
+        </div>`;
+    }
+
+    static detailRegisterHook(hookData) {
+        if (hookData === undefined) return '';
+
+        const HOOK_LIST = [
+            'loaded',
+            'now'
+        ];
+
+        function getRegistryList(hookUnitData) {
+            if (hookUnitData === undefined) return '';
+            let dom = '';
+            hookUnitData.forEach(e => {
+                dom += `<li><code>${e.registry}</code></li>`;
+            });
+            if (dom === '') return '';
+            return `<ul>${ dom }</ul>`
+        }
+
+        let outputDOM = '';
+        HOOK_LIST.forEach(e => {
+            let dom = getRegistryList(hookData[e]);
+            if (dom === '') return;
+            outputDOM += `<div class="register-hook-name"><code>${ e }</code></div>${ dom }`;
+        });
+
+        if (outputDOM === '') return '';
+
+        return `<div class="extension-detail-section">
+            <div class="title">${ $t('extension_manager.label.register_hook') }</div>
+            <div class="content">${ outputDOM }</div>
+        </div>`;
+    }
+
+    static detailLocalizationPatch(l10nPatchData) {
+        if (l10nPatchData === undefined) return '';
+        let dom = '';
+        for (const key in l10nPatchData) {
+            if (!Object.hasOwn(l10nPatchData, key)) continue;
+            dom += `<li><code>${key}</code></li>`;
+        }
+
+        if (dom === '') return '';
+        return `<div class="extension-detail-section">
+            <div class="title">${ $t('extension_manager.label.localization_patch') }</div>
+            <div class="content"><ul>${ dom }</ul></div>
+        </div>`;
     }
 }

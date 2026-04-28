@@ -1,6 +1,7 @@
 .git/*
 .github/*
 .demo/*
+dev/checklist.md
 .gitignore
 .buildignore
 social-media.md

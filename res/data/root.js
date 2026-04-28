@@ -90,8 +90,16 @@ echoLiveSystem.registry.init([
         default_data: {
             meta: {
                 title: 'missingno',
-                name: 'missingno'
+                name: 'missingno',
+                schema_version: undefined,
+                extension_version: '0.0.1',
+                icon: 'material:puzzle',
+                cover: undefined,
+                author: undefined,
+                license: undefined,
+                flag: {}
             },
+            localization_patch: {},
             register_hook: {}
         }
     }, {
@@ -213,6 +221,7 @@ echoLiveSystem.registry.init([
         sync: true,
         src: 'sound.js',
         default_data: {
+            title: undefined,
             name: undefined,
             path: undefined,
             type: 'print',

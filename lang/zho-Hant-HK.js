@@ -48,6 +48,7 @@ const lang_zho_Hant_HK = {
         export: "導出",
         re_export: "重新導出",
         more_info: "了解詳情",
+        detail: "詳細信息",
         add: "添加",
         remove: "移除",
         move_up: "上移",
@@ -1231,7 +1232,24 @@ const lang_zho_Hant_HK = {
                     title: "Material Design"
                 },
                 minecraft: {
-                    title: "Minecraft"
+                    title: "Minecraft",
+                    color: {
+                        material_amethyst: "紫水晶質",
+                        material_copper: "銅質",
+                        material_diamond: "鑽石質",
+                        material_emerald: "綠寶石質",
+                        material_gold: "金質",
+                        material_iron: "鐵質",
+                        material_lapis: "青金石質",
+                        material_netherite: "地獄合金質",
+                        material_quartz: "石英質",
+                        material_redstone: "紅石質",
+                        material_resin: "樹脂質",
+                    },
+                    group: {
+                        material: "材質顔色",
+                        text: "文本顔色"
+                    }
                 },
                 tailwindcss: {
                     title: "Tailwind CSS",
@@ -1380,6 +1398,16 @@ const lang_zho_Hant_HK = {
                     yes: "可以"
                 }
             }
+        }
+    },
+    extension_manager: {
+        label: {
+            feature_flag: "特性",
+            localization_patch: "本地化補丁",
+            register_hook: "註冊器 Hook"
+        },
+        msgbox: {
+            flag_my_data_is_too_large: "由於該擴展聲明了特性“my_data_is_too_large”，為避免性能問題無法預覽此擴展的數據更改。如需瞭解其數據更改請檢查其擴展文件。"
         }
     },
     file: {
@@ -1738,6 +1766,14 @@ const lang_zho_Hant_HK = {
         },
         debug_mode: "已啟用調試選項！",
         drop_file_cancel_many: "你倒是放啊！",
+        extension_launch_failed: "擴展“{name}”載入失敗！",
+        extension_launch_timeout: {
+            title: "擴展載入出錯",
+            message: "有預期載入的擴展超時未載入或未註冊，可能原因為擴展元數據錯誤、載入用時過長或未運行註冊過程。這不是正常現象，請檢查您的擴展。<br>未正確解析的擴展：{list}"
+        },
+        extension_name_invalid: "擴展載入錯誤：“{name}”包含不允許使用的字符。",
+        extension_name_missingno: "這個擴展竟然真的叫做“missingno”？不不不這絕對不可以！",
+        extension_name_too_long: "擴展載入錯誤：“{prefix}...”這個名稱太長了！名稱長度不能超過 255 個字符。",
         github_download_but_no_assets: {
             title: "讓我們開始下載...... 等一下？",
             message: "發布了新版本結果沒上傳文件？還能有這種事情？！"
@@ -1860,7 +1896,6 @@ const lang_zho_Hant_HK = {
     },
     sound: {
         enhancer: "充能",
-        example_sonar: "聲納",
         pencil: "鉛筆",
         typewriter: "打字機",
         typewriter_loop: "打字機（隨機音效）",

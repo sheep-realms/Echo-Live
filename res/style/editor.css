@@ -1122,13 +1122,13 @@ select:focus {
 }
 
 #popups-emoji .emoji-meta a {
-    color: var(--text-secondary);
+    color: currentcolor;
     text-decoration: none;
+    text-underline-offset: 0.125rem;
 }
 
 #popups-emoji .emoji-meta a:hover {
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
+    text-decoration: underline;
 }
 
 #popups-palette .color-box {

@@ -1741,3 +1741,32 @@ $(document).on('click', '.settings-link-bar.settings-link-debug', function(e) {
         id: 'debug_output'
     });
 });
+
+$(document).on('click', '.btn-open-extension-detail-wrapper', function(e) {
+    const name = $(this).data('name');
+    const data = echoLiveSystem.registry.getRegistryValue('extension', name);
+    uniWindow.window(
+        ExtensionPanel.detail(data),
+        $tc(data.meta?.title, { before: 'extension.' }),
+        {
+            autoIconButton: true,
+            controller: [
+                'close'
+            ],
+            maskClosable: true,
+            size: {
+                width: '680px',
+                height: '80vh'
+            }
+        },
+        (value, unit) => {
+            switch (value) {
+                case 'close':
+                case null:
+                    unit.close();
+                    break;
+            }
+        }
+    );
+    
+})

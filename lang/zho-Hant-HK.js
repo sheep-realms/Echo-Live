@@ -48,6 +48,7 @@ const lang_zho_Hant_HK = {
         export: "導出",
         re_export: "重新導出",
         more_info: "了解詳情",
+        detail: "詳細信息",
         add: "添加",
         remove: "移除",
         move_up: "上移",
@@ -1397,6 +1398,16 @@ const lang_zho_Hant_HK = {
                     yes: "可以"
                 }
             }
+        }
+    },
+    extension_manager: {
+        label: {
+            feature_flag: "特性",
+            localization_patch: "本地化補丁",
+            register_hook: "註冊器 Hook"
+        },
+        msgbox: {
+            flag_my_data_is_too_large: "由於該擴展聲明了特性“my_data_is_too_large”，為避免性能問題無法預覽此擴展的數據更改。如需瞭解其數據更改請檢查其擴展文件。"
         }
     },
     file: {

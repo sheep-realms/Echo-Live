@@ -48,6 +48,7 @@ const lang_zho_Hans = {
         export: "导出",
         re_export: "重新导出",
         more_info: "了解详情",
+        detail: "详细信息",
         add: "添加",
         remove: "移除",
         move_up: "上移",
@@ -1397,6 +1398,16 @@ const lang_zho_Hans = {
                     yes: "可以"
                 }
             }
+        }
+    },
+    extension_manager: {
+        label: {
+            feature_flag: "特性",
+            localization_patch: "本地化补丁",
+            register_hook: "注册器 Hook"
+        },
+        msgbox: {
+            flag_my_data_is_too_large: "由于该扩展声明了特性“my_data_is_too_large”，为避免性能问题无法预览此扩展的数据更改。如需了解其数据更改请检查其扩展文件。"
         }
     },
     file: {

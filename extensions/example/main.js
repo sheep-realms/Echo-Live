@@ -16,6 +16,8 @@ extensionManager.load({
         // icon: 'material:puzzle',
         // 封面，将会覆盖图标（可选）
         cover: 'cover.png',
+        // 特性开关
+        // flag: {},
         // 描述，支持本地化文本组件
         description: {
             text: '本扩展是一个导入自定义音效的简单演示。',

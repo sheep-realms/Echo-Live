@@ -65,6 +65,7 @@ class Mixer {
     play(name, volume = undefined, rate = undefined) {
         let obj = this.find(name);
         if (obj === undefined) return undefined;
+        let groupName = obj?.group ?? obj.name;
 
         let outputVolume    = volume    ?? obj?.volume  ?? 1;
         let outputRate      = rate      ?? obj?.rate    ?? 1;
@@ -94,14 +95,14 @@ class Mixer {
         
         a.onplay = () => {
             this._addPlayingSound(name);
-            this._updateSoundPlayAt(name);
+            this._updateSoundPlayAt(groupName);
         }
 
         a.onended = () => {
             this._removePlayingSound(name);
         }
 
-        if (this._getSoundPlayAt(name) + new NumberProvider(obj.safe_duration).get() <= Date.now()) a.play();
+        if (this._getSoundPlayAt(groupName) + new NumberProvider(obj.safe_duration).get() <= Date.now()) a.play();
     }
 
     /**

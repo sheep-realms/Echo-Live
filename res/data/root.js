@@ -223,6 +223,7 @@ echoLiveSystem.registry.init([
         default_data: {
             title: undefined,
             name: undefined,
+            group: undefined,
             path: undefined,
             type: 'print',
             safe_duration: 0,

@@ -9,7 +9,7 @@ extensionManager.load({
         // 扩展识别名，应与文件夹名称一致
         name: 'example',
         // 扩展所使用的注册数据格式版本
-        schema_version: [2, 0, 1],
+        schema_version: [2, 0, 2],
         // 扩展自身版本号
         extension_version: '1.0.0',
         // 图标（可选）

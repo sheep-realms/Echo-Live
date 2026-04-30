@@ -39,7 +39,7 @@ if (config.echolive.next_audio.enable) {
 
 let data;
 
-let gruopIndex = 0;
+let groupIndex = 0;
 
 let first = false;
 
@@ -80,10 +80,10 @@ function messageOutput(text = '', hasHTML = false) {
         inTypewriteEnd = false;
         $('.echo-output .echo-text-typewrite' + exsel).html(textDOM);
         $('.echo-output .echo-text-typewrite' + exsel).removeClass('echo-text-typewrite');
-    } else if (gruopIndex === 0) {
+    } else if (groupIndex === 0) {
         $('.echo-output' + exsel).append(textDOM);
     } else {
-        $(`.echo-output span[data-group="${gruopIndex}"]` + exsel).append(textDOM);
+        $(`.echo-output span[data-group="${groupIndex}"]` + exsel).append(textDOM);
     }
 }
 
@@ -209,13 +209,13 @@ echo.on('printEnd', function() {
 });
 
 echo.on('groupStart', function(e) {
-    gruopIndex = e.groupNow;
+    groupIndex = e.groupNow;
     let d = EchoLiveTools.messageStyleGenerator(e.data);
-    $('.echo-output').append(`<span data-group="${gruopIndex}" class="${d.class}" style="${d.style}"></span>`);
+    $('.echo-output').append(`<span data-group="${groupIndex}" class="${d.class}" style="${d.style}"></span>`);
 });
 
 echo.on('groupEnd', function(e) {
-    gruopIndex = e.groupNow;
+    groupIndex = e.groupNow;
 });
 
 echo.on('typewriteEnd', function() {
@@ -281,10 +281,10 @@ echo.on('customSequence', function(e) {
                     image-rendering: ${ emojiData.image.rendering };
                 "
             >`;
-            if (gruopIndex === 0) {
+            if (groupIndex === 0) {
                 $('.echo-output').append(emojiDOM);
             } else {
-                $(`.echo-output span[data-group="${gruopIndex}"]`).append(emojiDOM);
+                $(`.echo-output span[data-group="${groupIndex}"]`).append(emojiDOM);
             }
         }
     } else if (e.type === 'image' && config.echolive.image.enable) {
@@ -304,10 +304,10 @@ echo.on('customSequence', function(e) {
                 image-rendering: ${ e.image?.rendering || 'auto' };
             "
         >`;
-        if (gruopIndex === 0) {
+        if (groupIndex === 0) {
             $('.echo-output').append(imageDom);
         } else {
-            $(`.echo-output span[data-group="${gruopIndex}"]`).append(imageDom);
+            $(`.echo-output span[data-group="${groupIndex}"]`).append(imageDom);
         }
     } else {
         return;
@@ -371,7 +371,7 @@ $(document).on('click', function() {
         if (echo.state !== 'stop') {
             echo.stop();
         }
-        gruopIndex = 0;
+        groupIndex = 0;
         echo.next();
     }
 });

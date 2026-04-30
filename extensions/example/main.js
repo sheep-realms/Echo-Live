@@ -4,7 +4,7 @@ extensionManager.load({
         // 扩展标题，支持本地化文本组件
         title: {
             text: '示例扩展',
-            translate: 'example.title'
+            translate: 'title'
         },
         // 扩展识别名，应与文件夹名称一致
         name: 'example',
@@ -21,7 +21,7 @@ extensionManager.load({
         // 描述，支持本地化文本组件
         description: {
             text: '本扩展是一个导入自定义音效的简单演示。',
-            translate: 'example.description'
+            translate: 'description'
         },
         // 项目地址（可选）
         project_url: 'https://github.com/sheep-realms/Echo-Live',

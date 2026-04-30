@@ -2074,8 +2074,8 @@ class ExtensionPanel {
         return `<div class="extension-info-card">
             <div class="icon" aria-hidden="true">${ ExtensionPanel.icon(data.meta) }</div>
             <div class="info">
-                <div class="title">${ $tc(data.meta?.title, { before: 'extension.' }) }</div>
-                <div class="description">${ $tc(data.meta?.description ?? '', { before: 'extension.' }) }</div>
+                <div class="title">${ EchoLiveTools.safeHTML($tc(data.meta?.title, { before: `extension.${ data.meta.name }.` })) }</div>
+                <div class="description">${ EchoLiveTools.safeHTML($tc(data.meta?.description ?? '', { before: `extension.${ data.meta.name }.` })) }</div>
             </div>
             <div class="action">
                 ${ 
@@ -2109,7 +2109,7 @@ class ExtensionPanel {
         if (metaData.cover === undefined) {
             return Icon.getIcon(metaData.icon ?? 'material:puzzle');
         } else {
-            return `<img src="extensions/${ metaData.name }/${ metaData.cover }" alt="${ $tc(metaData.title, { before: 'extension.' }) }">`
+            return `<img src="extensions/${ metaData.name }/${ EchoLiveTools.safeHTML(metaData.cover, true) }" alt="${ EchoLiveTools.safeHTML($tc(metaData.title, { before: 'extension.' }), true) }">`
         }
     }
 
@@ -2150,8 +2150,8 @@ class ExtensionPanel {
             <div class="header">
                 <div class="icon" aria-hidden="true">${ ExtensionPanel.icon(data.meta) }</div>
                 <div class="info">
-                    <div class="title">${ $tc(data.meta?.title, { before: 'extension.' }) }</div>
-                    <div class="description">${ $tc(data.meta?.description ?? '', { before: 'extension.' }) }</div>
+                    <div class="title">${ EchoLiveTools.safeHTML($tc(data.meta?.title, { before: 'extension.' })) }</div>
+                    <div class="description">${ EchoLiveTools.safeHTML($tc(data.meta?.description ?? '', { before: 'extension.' })) }</div>
                     ${ authorDOM !== '' ? `<div class="author">${ $t('meta_info.author', { name: authorDOM }) }</div>` : '' }
                     ${ licenseDOM !== '' ? `<div class="license">${ $t('meta_info.license', { name: licenseDOM }) }</div>` : '' }
                 </div>
@@ -2170,7 +2170,7 @@ class ExtensionPanel {
         for (const key in data.meta?.flag) {
             if (!Object.hasOwn(data.meta?.flag, key)) continue;
             const e = data.meta.flag[key];
-            dom += `<li><code>${ key }</code>: <code>${ String(e) }</code></li>`;
+            dom += `<li><code>${ EchoLiveTools.safeHTML(key) }</code>: <code>${ EchoLiveTools.safeHTML(String(e)) }</code></li>`;
         }
         if (dom === '') {
             dom = $t('ui.empty');

@@ -8,7 +8,7 @@
 
 class ExtensionManager {
     constructor(path = '') {
-        this.schemaVersion = [2, 0, 1];
+        this.schemaVersion = [2, 0, 2];
         this.path = path;
         this.launchingExtension = new Set();
         this.extensionLaunchTimeoutTimer = undefined;

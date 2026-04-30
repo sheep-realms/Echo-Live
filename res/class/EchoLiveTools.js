@@ -484,8 +484,11 @@ class EchoLiveTools {
      */
     static safeHTML(text, inAttribute = false) {
         if (typeof text != 'string') return text;
-        let txt = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        if (inAttribute) txt = text.replace(/"/g, '&quot;');
+        let txt = text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+        if (inAttribute) txt = txt.replace(/"/g, '&quot;');
         return txt;
     }
 

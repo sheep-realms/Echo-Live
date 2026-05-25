@@ -1755,6 +1755,7 @@ const lang_zho_Hant_HK = {
     notice: {
         client_target_but_no_client: "請不要虛空索敵！",
         commander_tips: "您已打開命令控制台，點擊此處可查閱關於命令的幫助。如果您只是誤操作，請將光標置於控制台中並按 <kbd>Esc</kbd> 鍵退出。",
+        config_loaded: "配置文件已載入！請注意，配置文件尚未保存。",
         config_re_output: "已重新導出配置文件內容！",
         config_saved: "配置文件已保存！請注意刷新所有頁面使新配置生效。",
         config_saving: "保存中...",

@@ -502,6 +502,10 @@ function showFileChecker(file, type) {
         update: 'warn'
     };
     $('#settings-file-check-box').html(SettingsFileChecker.fill(file, types[type], $t('file.checker.state.' + type)));
+
+    if (type === 'loaded') {
+        sysNotice.sendT('notice.config_loaded', {}, 'success');
+    }
 }
 
 function closeFileChecker() {
@@ -1204,7 +1208,6 @@ function checkConfigFile(fileList) {
 
 function importConfigCheck() {
     closeFileCheckDialog();
-    showFileChecker(dropFile, 'loaded');
     settingsManager.importConfig(dropData);
     $('#tabpage-nav-edit, #tabpage-nav-export').addClass('disabled');
     $('#tabpage-nav-import').click();
@@ -1220,6 +1223,7 @@ function importConfigCheck() {
         showFileChecker(dropFile, 'future');
         showFileCheckDialog(SettingsFileChecker.dialogConfigFromFuture());
     } else {
+        showFileChecker(dropFile, 'loaded');
         configLoad();
         $('#tabpage-nav-edit, #tabpage-nav-export').removeClass('disabled');
         effectFlicker('#tabpage-nav-edit');

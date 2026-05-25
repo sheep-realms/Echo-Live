@@ -1755,6 +1755,7 @@ const lang_zho_Hans = {
     notice: {
         client_target_but_no_client: "请不要虚空索敌！",
         commander_tips: "您已打开命令控制台，点击此处可查阅关于命令的帮助。如果您只是误操作，请将光标置于控制台中并按 <kbd>Esc</kbd> 键退出。",
+        config_loaded: "配置文件已载入！请注意，配置文件尚未保存。",
         config_re_output: "已重新导出配置文件内容！",
         config_saved: "配置文件已保存！请注意刷新所有页面使新配置生效。",
         config_saving: "保存中...",

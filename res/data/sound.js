@@ -2,7 +2,7 @@ echoLiveSystem.registry.loadRegistry('sound', 'name', [
     {
         name: 'typewriter',
         safe_duration: 20,
-        path: 'res/audio/print/typewriter.ogg'
+        path: 'res/audio/print/typewriter/typewriter.ogg'
     }, {
         name: 'typewriter_loop',
         safe_duration: 20,

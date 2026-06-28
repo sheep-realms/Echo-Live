@@ -427,8 +427,8 @@ class DataFilterConditions {
             const e = keywords[i];
             let r = false;
             for (let j = 0; j < text.length; j++) {
-                const e2 = text[j];
-                r = r || e2.search(e.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) >= 0;
+                const e2 = text[j].toLowerCase();
+                r = r || e2.search(e.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) >= 0;
             }
             if (!r) return false;
         }
@@ -453,8 +453,8 @@ class DataFilterConditions {
             const e = text[i];
             r[i] = [];
             for (let j = 0; j < keywords.length; j++) {
-                const e2 = keywords[j];
-                r[i][j] = e.search(e2.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+                const e2 = keywords[j].toLowerCase();
+                r[i][j] = e.search(e2.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
                 if (r[i][j] < 0) r[i][j] = Infinity;
             }
             r[i] = Math.min(...r[i]);

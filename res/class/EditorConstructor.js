@@ -297,10 +297,10 @@ class Popups {
     static paletteContent(palette = {}) {
         if (palette.colors.length <= 0) return '';
         let dom = '<div class="palette-list">';
-        let firstGruop = false;
+        let firstGroup = false;
         if (palette.colors[0]?.type === 'group') {
             dom = '';
-            firstGruop = true;
+            firstGroup = true;
         }
         palette.colors.forEach(e => {
             let title;
@@ -331,7 +331,7 @@ class Popups {
                     title = $t('editor.palette.label.' + e.value.translate, tv, e.title?.name);
                 }
 
-                dom += `${ firstGruop ? '' : '</div>' }<div class="palette-group">${ EchoLiveTools.safeHTML(title) }</div><div class="palette-list">`;
+                dom += `${ firstGroup ? '' : '</div>' }<div class="palette-group">${ EchoLiveTools.safeHTML(title) }</div><div class="palette-list">`;
             } else if (e?.type === 'class') {
                 title = e.title;
 
@@ -351,9 +351,9 @@ class Popups {
                     <div class="color"></div>
                 </button>`;
             }
-            firstGruop = false;
+            firstGroup = false;
         });
-        if (!firstGruop) dom += '</div>'
+        if (!firstGroup) dom += '</div>'
         return dom;
     }
 
@@ -604,10 +604,10 @@ class Popups {
     static emojiContent(emojiPack = {}) {
         if (emojiPack.content.length <= 0) return '';
         let dom = '<div class="emoji-list">';
-        let firstGruop = false;
+        let firstGroup = false;
         if (emojiPack.content[0]?.type === 'group') {
             dom = '';
-            firstGruop = true;
+            firstGroup = true;
         }
 
         emojiPack.content.forEach(e => {
@@ -628,11 +628,11 @@ class Popups {
                 }
             } else if (e?.type === 'group') {
                 title = $tc(e.title, { before: 'emoji.' + emojiPack.path.translate + 'group.' });
-                dom += `${ firstGruop ? '' : '</div>' }<div class="emoji-group">${ title }</div><div class="emoji-list">`;
+                dom += `${ firstGroup ? '' : '</div>' }<div class="emoji-group">${ title }</div><div class="emoji-list">`;
             }
-            firstGruop = false;
+            firstGroup = false;
         });
-        if (!firstGruop) dom += '</div>';
+        if (!firstGroup) dom += '</div>';
 
         dom += '<div class="emoji-meta">';
         let authorDOM = '';

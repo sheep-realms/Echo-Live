@@ -482,12 +482,13 @@ class EchoLiveTools {
      * @param {Boolean} [inAttribute] 在属性值中
      * @returns {String} 过滤后的文本
      */
-    static safeHTML(text, inAttribute = false) {
+    static safeHTML(text, inAttribute = false, option = {}) {
+        const { amp = true } = option
         if (typeof text != 'string') return text;
         let txt = text
-            .replace(/&/g, '&amp;')
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;');
+        if (amp) txt = txt.replace(/&/g, '&amp;');
         if (inAttribute) txt = txt.replace(/"/g, '&quot;');
         return txt;
     }

@@ -485,10 +485,11 @@ class EchoLiveTools {
     static safeHTML(text, inAttribute = false, option = {}) {
         const { amp = true } = option
         if (typeof text != 'string') return text;
-        let txt = text
+        let txt = text;
+        if (amp) txt = txt.replace(/&/g, '&amp;');
+        txt = text
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;');
-        if (amp) txt = txt.replace(/&/g, '&amp;');
         if (inAttribute) txt = txt.replace(/"/g, '&quot;');
         return txt;
     }

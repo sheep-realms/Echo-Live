@@ -447,6 +447,30 @@ echoLiveSystem.registry.loadRegistry('palette', e => e.meta.name, [
             },
             {
                 type: 'class',
+                value: 'shine-gold',
+                title: { name: '金色扫光', translate: 'custom_class.style.shine_gold' },
+                preview_class: 'shine-gold'
+            },
+            {
+                type: 'class',
+                value: 'shine-sliver',
+                title: { name: '银色扫光', translate: 'custom_class.style.shine_sliver' },
+                preview_class: 'shine-sliver'
+            },
+            {
+                type: 'class',
+                value: 'shine-copper',
+                title: { name: '铜色扫光', translate: 'custom_class.style.shine_copper' },
+                preview_class: 'shine-copper'
+            },
+            {
+                type: 'class',
+                value: 'shine-metal',
+                title: { name: '黑色扫光', translate: 'custom_class.style.shine_metal' },
+                preview_class: 'shine-metal'
+            },
+            {
+                type: 'class',
                 value: 'gradient-salt-mountain',
                 title: { name: '地中之盐', translate: 'custom_class.style.gradient_salt_mountain' },
                 preview_class: 'gradient-salt-mountain'

@@ -1219,6 +1219,10 @@ const lang_zho_Hant_TW = {
                         orbit_3: "月球軌道",
                         rainbow: "彩虹",
                         roll_down: "旋轉倒置",
+                        shine_copper: "銅色掃光",
+                        shine_gold: "金色掃光",
+                        shine_metal: "黑色掃光",
+                        shine_sliver: "銀色掃光",
                         wave_1: "微波起伏",
                         wave_2: "波濤洶湧",
                         wave_3: "驚濤駭浪"

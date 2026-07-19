@@ -1219,6 +1219,10 @@ const lang_zho_Hans = {
                         orbit_3: "月球轨道",
                         rainbow: "彩虹",
                         roll_down: "旋转倒置",
+                        shine_copper: "铜色扫光",
+                        shine_gold: "金色扫光",
+                        shine_metal: "黑色扫光",
+                        shine_sliver: "银色扫光",
                         wave_1: "微波起伏",
                         wave_2: "波涛汹涌",
                         wave_3: "惊涛骇浪"

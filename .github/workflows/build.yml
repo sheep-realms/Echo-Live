@@ -9,7 +9,7 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     - name: Build Info
       run: |
@@ -26,7 +26,7 @@ jobs:
         rsync -av --exclude-from='.buildignore' ./ dist/
 
     - name: Upload Release Artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: "echo-live-build-pack-${{ github.run_number }}"
         path: dist

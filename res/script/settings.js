@@ -982,8 +982,8 @@ $(document).ready(function() {
             ExtensionPanel.infoCardList(echoLiveSystem.registry.getRegistryArray('extension'))
         );
 
-        $('.settings-item[data-id="character.avatar.name"]>.content').html(AvatarReviewPanel.panel());
-        $('.settings-item[data-id="character.avatar.name"]>.content').removeClass('hide');
+        $('.settings-item[data-id="character.avatar.name"] .content').html(AvatarReviewPanel.panel());
+        $('.settings-item[data-id="character.avatar.name"] .content').removeClass('hide');
 
         echoLiveCharacter.on('imageChange', (image) => {
             $('.avatar-review-image').attr('style', '');

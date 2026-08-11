@@ -155,7 +155,8 @@ echoLiveSystem.registry.loadRegistry('live_controller', e => e.meta.name, [
                 value: { text: '帮助', translate: 'help' }
             }
         ]
-    }, {
+    },
+    {
         meta: {
             name: 'draw',
             title: {
@@ -217,7 +218,8 @@ echoLiveSystem.registry.loadRegistry('live_controller', e => e.meta.name, [
                 value: 'material:palette'
             }
         ]
-    }, {
+    },
+    {
         meta: {
             name: 'taskbar',
             title: {
@@ -252,6 +254,128 @@ echoLiveSystem.registry.loadRegistry('live_controller', e => e.meta.name, [
             }, {
                 type: 'icon',
                 value: 'material:bell'
+            }
+        ]
+    },
+    {
+        meta: {
+            name: 'music_player',
+            title: {
+                text: '音乐播放器',
+                translate: 'music_player.title'
+            }
+        },
+        content: [
+            {
+                type: 'icon',
+                value: 'material:heart-outline'
+            }, {
+                type: 'icon',
+                value: 'material:message-text-outline'
+            }, {
+                type: 'flex'
+            }, {
+                type: 'icon',
+                value: 'material:repeat'
+            }, {
+                type: 'icon',
+                value: 'material:skip-previous'
+            }, {
+                type: 'icon',
+                value: 'material:play-circle'
+            }, {
+                type: 'icon',
+                value: 'material:skip-next'
+            }, {
+                type: 'icon',
+                value: 'material:playlist-music'
+            }, {
+                type: 'flex'
+            }, {
+                type: 'icon',
+                value: 'material:volume-high'
+            }, {
+                type: 'icon',
+                value: 'material:dots-horizontal'
+            }
+        ]
+    },
+    {
+        meta: {
+            name: 'game_hud',
+            title: {
+                text: '游戏 HUD',
+                translate: 'game_hud.title'
+            }
+        },
+        content: [
+            {
+                type: 'icon',
+                value: 'material:heart'
+            }, {
+                type: 'icon',
+                value: 'material:heart'
+            }, {
+                type: 'icon',
+                value: 'material:heart'
+            }, {
+                type: 'icon',
+                value: 'material:heart'
+            }, {
+                type: 'icon',
+                value: 'material:heart'
+            }, {
+                type: 'flex'
+            }, {
+                type: 'icon',
+                value: 'material:food-drumstick'
+            }, {
+                type: 'icon',
+                value: 'material:food-drumstick'
+            }, {
+                type: 'icon',
+                value: 'material:food-drumstick'
+            }, {
+                type: 'icon',
+                value: 'material:food-drumstick'
+            }, {
+                type: 'icon',
+                value: 'material:food-drumstick'
+            }
+        ]
+    },
+    {
+        meta: {
+            name: 'rpg_encounter',
+            title: {
+                text: 'RPG 战斗',
+                translate: 'rpg_encounter.title'
+            }
+        },
+        content: [
+            {
+                type: 'text',
+                value: { text: '攻击', translate: 'attack' }
+            }, {
+                type: 'text',
+                value: { text: '魔法', translate: 'magic' }
+            }, {
+                type: 'text',
+                value: { text: '道具', translate: 'item' }
+            }, {
+                type: 'text',
+                value: { text: '逃跑', translate: 'escape' }
+            }, {
+                type: 'flex'
+            }, {
+                type: 'text',
+                value: { text: 'HP: 100', translate: 'hp' }
+            }, {
+                type: 'text',
+                value: { text: 'MP: 100', translate: 'mp' }
+            }, {
+                type: 'text',
+                value: { text: 'TP: 0', translate: 'tp' }
             }
         ]
     }

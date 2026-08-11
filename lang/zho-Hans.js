@@ -1691,8 +1691,26 @@ const lang_zho_Hans = {
         draw: {
             title: "画图"
         },
+        game_hud: {
+            title: "游戏 HUD"
+        },
+        music_player: {
+            timer: "音乐播放器"
+        },
         neo_icon: {
             title: "图标"
+        },
+        rpg_encounter: {
+            title: "RPG 战斗",
+            item: {
+                attack: "攻击",
+                escape: "逃跑",
+                hp: "HP: 100",
+                item: "道具",
+                magic: "魔法",
+                mp: "MP: 100",
+                tp: "TP: 0"
+            }
         },
         taskbar: {
             title: "任务栏"

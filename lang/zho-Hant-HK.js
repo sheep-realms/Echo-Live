@@ -1691,8 +1691,26 @@ const lang_zho_Hant_HK = {
         draw: {
             title: "畫圖"
         },
+        game_hud: {
+            title: "遊戲 HUD"
+        },
+        music_player: {
+            timer: "音樂播放器"
+        },
         neo_icon: {
             title: "圖標"
+        },
+        rpg_encounter: {
+            title: "RPG 戰鬥",
+            item: {
+                attack: "攻擊",
+                escape: "逃跑",
+                hp: "HP: 100",
+                item: "道具",
+                magic: "魔法",
+                mp: "MP: 100",
+                tp: "TP: 0"
+            }
         },
         taskbar: {
             title: "任務欄"

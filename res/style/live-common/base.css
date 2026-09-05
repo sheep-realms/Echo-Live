@@ -52,10 +52,12 @@ body {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.75em
+    gap: 0.75em;
+    opacity: 1;
 }
 
-#echo-live .controller span {
+#echo-live .controller span,
+#echo-live .typing-message-content {
     line-height: 1em;
     position: relative;
     top: -0.05em;
@@ -65,7 +67,8 @@ body {
     flex: 1;
 }
 
-#echo-live .controller svg {
+#echo-live .controller svg,
+#echo-live .typing-message svg {
     width: calc(var(--echo-live-bottom-font-size) * 1.5);
     height: calc(var(--echo-live-bottom-font-size) * 1.5);
     transition: fill .3s;
@@ -73,6 +76,60 @@ body {
 
 .controller-hidden #echo-live .controller {
     display: none !important;
+}
+
+#echo-live .typing-message {
+    font-size: var(--echo-live-bottom-font-size);
+    display: flex;
+    align-items: center;
+    gap: 0.25em;
+    opacity: 1;
+}
+
+#echo-live .typing-icon {
+    display: flex;
+}
+
+#echo-live .controller.show,
+#echo-live .typing-message.show {
+    animation: typing-show .15s ease-in 1;
+}
+
+@keyframes typing-show {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+#echo-live .controller.hide,
+#echo-live .typing-message.hide {
+    opacity: 0;
+    animation: typing-hide .15s ease-out 1 forwards;
+}
+
+@keyframes typing-hide {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+#echo-live .controller.hidden,
+#echo-live .typing-message.hidden {
+    display: none;
+}
+
+#echo-live .typing-message svg {
+    width: calc(var(--echo-live-bottom-font-size) * 1.5);
+    height: calc(var(--echo-live-bottom-font-size) * 1.5);
+    transition: fill .3s;
+    animation: typing-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes typing-pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .5;
+    }
 }
 
 #echo-live-history {

@@ -200,17 +200,20 @@
     color: var(--echo-live-username-color, #000);
 }
 
-#echo-live .controller {
+#echo-live .controller,
+#echo-live .typing-message {
     padding: 0.125em 0.5em;
 }
 
-#echo-live .controller span {
+#echo-live .controller span,
+#echo-live .typing-message-content {
     display: inline-block;
     /* margin-right: 1em; */
     color: var(--echo-live-bottom-color, #888);
 }
 
-#echo-live .controller svg {
+#echo-live .controller svg,
+#echo-live .typing-message svg {
     fill: var(--echo-live-bottom-color, #888);
 }
 

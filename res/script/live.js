@@ -63,6 +63,9 @@ let utterance;
 
 let emojiHako;
 
+let typingLabelData;
+let typingLabel = config.echolive.typing.label;
+
 if (config.echolive.speech_synthesis.enable) {
     try {
         voices = speechSynthesis.getVoices();
@@ -98,6 +101,12 @@ $(document).ready(function() {
     translator.ready(() => {
         emojiHako = new EmojiHako();
         if (config.echolive.layout.diplay_controller) echolive.setController(config.echolive.layout.controller || '');
+
+        typingLabelData = echoLiveSystem.registry.getRegistryValue('typing_label', config.echolive.typing.label);
+        if (typingLabelData === undefined) {
+            typingLabelData = echoLiveSystem.registry.getRegistryValue('typing_label', 'typing');
+        }
+        $('.typing-icon').html(Icon.getIcon(typingLabelData.icon));
     })
 });
 
@@ -364,6 +373,73 @@ echolive.on('controller_load', function(controller) {
             $sel.append(`<span class="flex-space"></span>`);
         }
     });
+});
+
+echolive.on('typing_state_change', function(state) {
+    if (state === 'show') {
+        $('.controller').removeClass('hidden hide show open');
+        $('.controller').addClass('hide');
+        setTimeout(() => {
+            $('.controller').removeClass('hide');
+            $('.controller').addClass('hidden');
+            $('.typing-message').removeClass('hidden hide show open');
+            $('.typing-message').addClass('show');
+        }, 150);
+        setTimeout(() => {
+            $('.typing-message').removeClass('show');
+            $('.typing-message').addClass('open');
+        }, 300);
+    } else if (state === 'hide') {
+        $('.typing-message').removeClass('hidden hide show open');
+        $('.typing-message').addClass('hide');
+        setTimeout(() => {
+            $('.typing-message').removeClass('hide');
+            $('.typing-message').addClass('hidden');
+            $('.controller').removeClass('hidden hide show open');
+            $('.controller').addClass('show');
+        }, 150);
+        setTimeout(() => {
+            $('.controller').removeClass('show');
+            $('.controller').addClass('open');
+        }, 300);
+    }
+});
+
+echolive.on('typing_users_change', function(count, users = []) {
+    if (count === 0) return;
+    const maxUserNameLength = config.echolive.typing.max_username_length;
+
+    const noName = $t('typing.no_name');
+    function _getUserName(name) {
+        if (typeof name !== 'string') {
+            return noName;
+        } else if (name.trim().length === 0) {
+            return noName;
+        } else {
+            if (maxUserNameLength > 0 && name.length > maxUserNameLength) {
+                return name.substring(0, maxUserNameLength) + $t('localization.ellipsis', {}, '…');
+            }
+            return name;
+        }
+    }
+
+    if (config.echolive.typing.username_enable) {
+        const data = {
+            user: _getUserName(users[0]),
+            user2: _getUserName(users[1]),
+            n: count
+        };
+
+        if (count === 1) {
+            $('.typing-message-content').text($t(`typing.label.${ typingLabel }.user_1`, data));
+        } else if (count === 2) {
+            $('.typing-message-content').text($t(`typing.label.${ typingLabel }.user_2`, data));
+        } else if (count > 2) {
+            $('.typing-message-content').text($t(`typing.label.${ typingLabel }.user_multi`, data));
+        }
+    } else {
+        $('.typing-message-content').text($t(`typing.${ typingLabel }.no_username`));
+    }
 });
 
 $(document).on('click', function() {

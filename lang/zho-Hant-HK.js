@@ -13,6 +13,7 @@ const lang_zho_Hant_HK = {
         date_pad_zero: "{y} 年 {MM} 月 {dd} 日",
         date_time: "{y} 年 {M} 月 {d} 日 {h}:{mm}:{ss}",
         date_time_pad_zero: "{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}",
+        ellipsis: "…",
         time_common: "{hh}:{mm}:{ss}",
         time_non_sec: "{hh}:{mm}",
         spacing: {
@@ -421,6 +422,26 @@ const lang_zho_Hant_HK = {
                 show_time: {
                     _title: "顯現動畫用時",
                     _description: "對話框顯現所需時間。"
+                }
+            },
+            typing: {
+                _title: "輸入提示",
+                _description: "當編輯器正在輸入時顯示輸入提示",
+                enable: {
+                    _title: "啓用輸入提示",
+                    _description: "啓用後，當編輯器正在輸入時，對話框底部的控制欄會被替換為輸入提示消息。<br>關閉控制欄不會影響此功能。"
+                },
+                username_enable: {
+                    _title: "顯示説話人",
+                    _description: "在輸入提示消息中顯示説話人，這在多人聯動時很有用。"
+                },
+                max_username_length: {
+                    _title: "説話人最大長度",
+                    _description: "説話人名稱的最大長度，超出此長度的部分會被截斷。"
+                },
+                label: {
+                    _title: "消息內容",
+                    _description: "選擇要顯示的消息內容。"
                 }
             },
             speech_synthesis: {
@@ -2011,6 +2032,49 @@ const lang_zho_Hant_HK = {
         ease_in_back: "回退緩出",
         ease_out_back: "回退緩入",
         ease_in_out_back: "回退緩入緩出"
+    },
+    typing: {
+        example_name: "追音",
+        example_name_2: "Sheep-realms",
+        no_name: "匿名",
+        label: {
+            generating: {
+                no_username: "正在生成回覆",
+                user_1: "{user} 正在生成回覆",
+                user_2: "{user} 和 {user2} 正在生成回覆",
+                user_multi: "{user}、{user2} 等 {n} 位智能體正在生成回覆"
+            },
+            rolling_keyboard: {
+                no_username: "正在滾鍵盤",
+                user_1: "{user} 正在滾鍵盤",
+                user_2: "{user} 和 {user2} 正在滾鍵盤",
+                user_multi: "{user}、{user2} 等 {n} 只貓咪正在滾鍵盤"
+            },
+            searching: {
+                no_username: "正在聯網搜索",
+                user_1: "{user} 正在聯網搜索",
+                user_2: "{user} 和 {user2} 正在聯網搜索",
+                user_multi: "{user}、{user2} 等 {n} 位智能體正在聯網搜索"
+            },
+            thinking: {
+                no_username: "正在思考",
+                user_1: "{user} 正在思考",
+                user_2: "{user} 和 {user2} 正在思考",
+                user_multi: "{user}、{user2} 等 {n} 人正在思考"
+            },
+            transmission: {
+                no_username: "正在傳輸信息",
+                user_1: "{user} 正在傳輸信息",
+                user_2: "{user} 和 {user2} 正在傳輸信息",
+                user_multi: "{user}、{user2} 等 {n} 人正在傳輸信息"
+            },
+            typing: {
+                no_username: "正在輸入",
+                user_1: "{user} 正在輸入",
+                user_2: "{user} 和 {user2} 正在輸入",
+                user_multi: "{user}、{user2} 等 {n} 人正在輸入"
+            }
+        }
     },
     updater: {
         download_assets: "下載文件",

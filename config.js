@@ -1,5 +1,5 @@
 const config = {
-    "data_version": 15,
+    "data_version": 16,
     "global": {
         "language": "zho-Hans",
         "theme": "vanilla",
@@ -66,6 +66,12 @@ const config = {
             "long_text_compensation_rate": 0.15,
             "hidden_time": 1000,
             "show_time": 500
+        },
+        "typing": {
+            "enable": false,
+            "username_enable": false,
+            "max_username_length": 16,
+            "label": "typing"
         },
         "speech_synthesis": {
             "enable": false,

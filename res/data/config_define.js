@@ -1,4 +1,4 @@
-const db_config_version = 15;
+const db_config_version = 16;
 
 const db_config_define = [
     {
@@ -551,6 +551,60 @@ const db_config_define = [
             min: 0,
             step: 100
         }
+    }, {
+        name: 'echolive.typing',
+        icon: 'material:chat-processing',
+        type: 'object',
+        created: 16
+    }, {
+        name: 'echolive.typing.enable',
+        type: 'boolean',
+        default: false,
+        created: 16
+    }, {
+        name: 'echolive.typing.username_enable',
+        type: 'boolean',
+        default: false,
+        created: 16,
+        conditions: [
+            {
+                name: 'echolive.typing.enable',
+                value: true
+            }
+        ]
+    }, {
+        name: 'echolive.typing.max_username_length',
+        type: 'number',
+        default: 16,
+        created: 16,
+        unit: 'char',
+        attribute: {
+            min: 0,
+            step: 1
+        },
+        conditions: [
+            {
+                name: 'echolive.typing.enable',
+                value: true
+            }, {
+                name: 'echolive.typing.username_enable',
+                value: true
+            }
+        ]
+    }, {
+        name: 'echolive.typing.label',
+        type: 'string',
+        default: 'typing',
+        created: 16,
+        attribute: {
+            datalist: []
+        },
+        conditions: [
+            {
+                name: 'echolive.typing.enable',
+                value: true
+            }
+        ]
     }, {
         name: 'echolive.speech_synthesis',
         icon: 'material:account-voice',

@@ -1233,10 +1233,15 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
         switch (data.action) {
             case EchoLiveBroadcast.API_NAME_MESSAGE_DATA:
                 listener.echolive.send(data.data);
+                listener.echolive.removeTypingEditor(data.from?.uuid);
                 break;
 
             case EchoLiveBroadcast.API_NAME_ECHO_NEXT:
                 listener.echolive.next();
+                break;
+
+            case EchoLiveBroadcast.API_NAME_EDITOR_TYPING:
+                listener.echolive.setTypingEditor(data.from?.uuid, data.data);
                 break;
 
             case EchoLiveBroadcast.API_NAME_SET_LIVE_DISPLAY:

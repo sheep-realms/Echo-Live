@@ -1203,3 +1203,24 @@ a.settings-link-bar:active {
     transition: fill .3s;
     fill: var(--text-primary);
 }
+
+#settings-preview-wrapper-typing-label {
+    font-size: var(--font-size-small);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem
+}
+
+#settings-preview-wrapper-typing-label svg {
+    width: var(--icon-size-small);
+    height: var(--icon-size-small);
+    transition: fill .3s;
+    fill: var(--text-primary);
+}
+
+#settings-preview-wrapper-typing-label span {
+    line-height: 1rem;
+    position: relative;
+    top: -0.025rem;
+}

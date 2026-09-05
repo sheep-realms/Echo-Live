@@ -16,6 +16,31 @@ echoLiveSystem.registry.loadRegistry('slot_settings_wrapper_after', 'name', [
             </div>`
         }
     }, {
+        name: 'echolive.typing.label',
+        value: (id, data) => {
+            let usernameEnable = data.valueGet('echolive.typing.username_enable');
+            const _getContent = labelData => `${ Icon.getIcon(labelData.icon) }<span class="preview-typing-content">${ $t(
+                usernameEnable ? `typing.label.${labelData.name}.user_multi` : `typing.label.${labelData.name}.no_username`,
+                {
+                    user: $t('typing.example_name'),
+                    user2: $t('typing.example_name_2'),
+                    n: 5
+                }
+            ) }</span>`;
+            const dl = echoLiveSystem.registry.getRegistryValue('typing_label', data.value);
+
+            data.onInputChange(value => {
+                const label = echoLiveSystem.registry.getRegistryValue('typing_label', value);
+                usernameEnable = data.valueGet('echolive.typing.username_enable');
+                if (label === undefined) return;
+                $('#settings-preview-wrapper-typing-label').html(_getContent(label));
+            })
+
+            return `<div id="settings-preview-wrapper-typing-label" class="settings-preview-wrapper" aria-hidden="true">
+                ${ dl ? _getContent(dl) : '' }
+            </div>`
+        }
+    }, {
         name: 'accessibility.font_size',
         value: (id, data) => {
             return `<div class="review-font-size-card" aria-hidden="true" style="--font-size-base-review: ${data.config.accessibility.font_size}px; font-size: var(--font-size-base);">

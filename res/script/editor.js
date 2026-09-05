@@ -694,6 +694,7 @@ $('#ptext-btn-send, #ptext-btn-send-2').click(function() {
     let d = ptextSubmit();
 
     lastMessageSentAt = new Date().getTime();
+    lastTyping = -100000;
 
     sendMessageData(d);
     sendHistoryMessage(d);
@@ -742,6 +743,8 @@ $('#output-btn-send').click(function() {
         echoLiveSystem.device.vibrateAuto('error');
         return;
     }
+
+    lastTyping = -100000;
     
     newCentent = centent;
 
@@ -974,11 +977,17 @@ $(document).on('click', '#popups-emoji .emoji-box', function(event) {
     if (!event.shiftKey) popupsDisplay('#popups-emoji', false);
 });
 
-// 纯文本编辑器字数统计
+// 纯文本编辑器字数统计和打字心跳包
 $(document).on('input', '#ptext-content', function() {
     let length  = [...$(this).val()].length;
 
     $('#ptext-editor .editor-bottom-bar .length').text($t('editor.form.text_length', { n: length }));
+
+    const now = performance.now();
+    if (lastTyping + 1500 < now) {
+        lastTyping = now;
+        elb.sendTyping($('#ptext-character').val());
+    }
 });
 $(document).on('change', '#ptext-content', function() {
     let length  = [...$(this).val()].length;
@@ -1303,14 +1312,6 @@ shortcutManager.registerView('echolive:editor', {
 });
 
 shortcutManager.bindElement('#ptext-content', 'echolive:editor');
-
-$(document).on('input', '#ptext-content', function() {
-    const now = performance.now();
-    if (lastTyping + 1500 < now) {
-        lastTyping = now;
-        elb.sendTyping($('#ptext-character').val());
-    }
-});
 
 shortcutManager.registerView('echolive:output_textarea', {
     submitKey: {

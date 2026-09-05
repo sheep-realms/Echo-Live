@@ -290,7 +290,8 @@
     text-shadow: 0 0 0.075em var(--echo-live-username-shadow-color), 0 0 0.075em var(--echo-live-username-shadow-color), 0 0 0.075em var(--echo-live-username-shadow-color), 0 0 0.075em var(--echo-live-username-shadow-color);
 }
 
-#echo-live .controller {
+#echo-live .controller,
+#echo-live .typing-message {
     display: flex;
     padding: 0.125em 0.5em;
     flex-wrap: wrap;
@@ -298,14 +299,20 @@
     align-items: center;
 }
 
-#echo-live .controller span {
+#echo-live .typing-message {
+    justify-content: flex-start;
+}
+
+#echo-live .controller span,
+#echo-live .typing-message-content {
     display: inline-block;
     /* margin-right: 1em; */
     color: var(--echo-live-bottom-color, #DDD);
     text-shadow: 0 0 0.075em var(--echo-live-bottom-shadow-color), 0 0 0.075em var(--echo-live-bottom-shadow-color), 0 0 0.075em var(--echo-live-bottom-shadow-color), 0 0 0.075em var(--echo-live-bottom-shadow-color);
 }
 
-#echo-live .controller svg {
+#echo-live .controller svg,
+#echo-live .typing-message svg {
     fill: var(--echo-live-bottom-color, #DDD);
     filter: drop-shadow(0 0 0.02em var(--echo-live-bottom-shadow-color)) drop-shadow(0 0 0.02em var(--echo-live-bottom-shadow-color)) drop-shadow(0 0 0.02em var(--echo-live-bottom-shadow-color));
 }

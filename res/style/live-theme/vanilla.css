@@ -287,18 +287,21 @@
     transition: color .3s;
 }
 
-#echo-live .controller {
+#echo-live .controller,
+#echo-live .typing-message {
     padding: 0.125em 0.5em 0.35em;
 }
 
-#echo-live .controller span {
+#echo-live .controller span,
+#echo-live .typing-message-content {
     display: inline-block;
     /* margin-right: 1em; */
     color: var(--echo-live-bottom-color, #888);
     transition: color .3s;
 }
 
-#echo-live .controller svg {
+#echo-live .controller svg,
+#echo-live .typing-message svg {
     fill: var(--echo-live-bottom-color, #888);
 }
 

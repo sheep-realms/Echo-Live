@@ -28,7 +28,8 @@ class EchoLive {
         this.username       = '';
         this.timer          = {
             displayHiddenWait:  EchoLive.NOT_ACTIVE_TIMER,
-            messagesPolling:    EchoLive.NOT_ACTIVE_TIMER
+            messagesPolling:    EchoLive.NOT_ACTIVE_TIMER,
+            typingState:        EchoLive.NOT_ACTIVE_TIMER
         };
         this.event          = new EchoLiveEventManager({
             controller_load:        {},
@@ -38,7 +39,9 @@ class EchoLive {
             play_sound:             {},
             shutdown:               {},
             theme_script_load:      {},
-            theme_script_unload:    {}
+            theme_script_unload:    {},
+            typing_state_change:    {},
+            typing_users_change:    {}
         });
         this.task           = [];
         this.taskNow        = {};
@@ -53,6 +56,8 @@ class EchoLive {
             lastPlay:       0,
             muteDuration:   this.echo.printSpeedChange + 3
         };
+        this.inTypingEditor = new Map();
+        this.typingState    = 'hidden';
         this.debug          = {
             taskLog: false
         };
@@ -599,6 +604,66 @@ class EchoLive {
         this.timer.displayHiddenWait = setTimeout(() => {
             this.addTask('display_hidden');
         }, Math.max(this.config.echolive.display.hidden_wait_time, time));
+    }
+
+    getTypingEditor(uuid) {
+        return this.inTypingEditor.get(uuid);
+    }
+
+    getTypingUsers() {
+        let users = [];
+        this.inTypingEditor.forEach(e => {
+            users.push(e.username);
+        });
+        return users;
+    }
+
+    setTypingEditor(uuid, data = {}) {
+        if (!this.config.echolive.typing.enable) return;
+        const d = this.getTypingEditor(uuid);
+        if (d !== undefined) {
+            clearTimeout(d.timer);
+        } else {}
+
+        data = {
+            username: data.username,
+            createdAt: performance.now(),
+            timer: setTimeout(() => {
+                this.removeTypingEditor(uuid);
+            }, 3000)
+        };
+
+        this.inTypingEditor.set(uuid, data);
+        this.event.emit('typing_users_change', this.inTypingEditor.size, this.getTypingUsers());
+        this.changeTypingState(true);
+    }
+
+    removeTypingEditor(uuid) {
+        if (!this.config.echolive.typing.enable) return;
+        const d = this.getTypingEditor(uuid);
+        clearTimeout(d.timer);
+        this.inTypingEditor.delete(uuid);
+        this.event.emit('typing_users_change', this.inTypingEditor.size, this.getTypingUsers());
+        if (this.inTypingEditor.size === 0) this.changeTypingState(false);
+    }
+
+    changeTypingState(show = false) {
+        if (!this.config.echolive.typing.enable) return;
+        if (show && this.typingState === 'hidden') {
+            this.typingState = 'show';
+            this.event.emit('typing_state_change', this.typingState);
+            this.timer.typingState = setTimeout(() => {
+                this.typingState = 'open'
+                this.event.emit('typing_state_change', this.typingState);
+            }, 300);
+        } else if (show === false && this.typingState === 'open') {
+            this.typingState = 'hide';
+            this.event.emit('typing_state_change', this.typingState);
+            this.timer.typingState = setTimeout(() => {
+                this.typingState = 'hidden'
+                this.event.emit('typing_state_change', this.typingState);
+            }, 300);
+        }
     }
 
     /**

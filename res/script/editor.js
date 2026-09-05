@@ -54,6 +54,8 @@ let initDevicePixelRatio = window.devicePixelRatio;
 let devicePixelRatioChanged = 0;
 let inOBS = false;
 
+let lastMessageSentAt = 0;
+
 setDefaultValue('#config-output-before', config.editor.form.output_before);
 setDefaultValue('#config-output-after', config.editor.form.output_after);
 setDefaultValue('#ptext-ipt-quote-before', config.editor.form.quote_before);
@@ -681,7 +683,16 @@ $('#ptext-btn-submit').click(function() {
 
 // 纯文本发送
 $('#ptext-btn-send, #ptext-btn-send-2').click(function() {
+    if (
+        $('#ptext-content').val() === ''
+        && new Date().getTime() - lastMessageSentAt <= 500
+    ) {
+        return;
+    }
+
     let d = ptextSubmit();
+
+    lastMessageSentAt = new Date().getTime();
 
     sendMessageData(d);
     sendHistoryMessage(d);

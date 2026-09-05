@@ -437,7 +437,7 @@ const lang_zho_Hant_HK = {
                 },
                 max_username_length: {
                     _title: "説話人最大長度",
-                    _description: "説話人名稱的最大長度，超出此長度的部分會被截斷。"
+                    _description: "説話人名稱的最大長度，超出此長度的部分會被截斷。<br>設為 0 禁用此限制。"
                 },
                 label: {
                     _title: "消息內容",

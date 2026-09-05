@@ -437,7 +437,7 @@ const lang_zho_Hans = {
                 },
                 max_username_length: {
                     _title: "说话人最大长度",
-                    _description: "说话人名称的最大长度，超出此长度的部分会被截断。"
+                    _description: "说话人名称的最大长度，超出此长度的部分会被截断。<br>设为 0 禁用此限制。"
                 },
                 label: {
                     _title: "消息内容",

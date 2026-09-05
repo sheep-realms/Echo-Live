@@ -289,6 +289,7 @@ class FHUIComponentInput {
             list.data('index', index);
             input.val(list.find(`.fh-select-option[data-index="${ index }"]`).eq(0).data('value'));
             input.trigger('input');
+            input.trigger('change');
             // input.select();
         });
         $(document).on('keydown', '.fh-input-select-component .fh-select-option', function(e) {

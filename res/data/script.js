@@ -279,7 +279,8 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
             'registry:slot_settings_wrapper_after',
             'registry:slot_settings_wrapper_before',
             'registry:settings_data',
-            'registry:timing_function'
+            'registry:timing_function',
+            'registry:typing_label'
         ],
         src: 'res/script/settings.js'
     }

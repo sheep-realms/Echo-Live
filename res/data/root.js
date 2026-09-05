@@ -277,5 +277,13 @@ echoLiveSystem.registry.init([
             name: undefined,
             value: undefined
         }
+    }, {
+        name: 'typing_label',
+        unique_key: 'name',
+        src: 'typing_label.js',
+        default_data: {
+            name: undefined,
+            icon: undefined
+        }
     }
 ]);

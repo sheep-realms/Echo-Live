@@ -804,6 +804,16 @@ $(document).ready(function() {
                 ]
             }, {
                 data: arr => {
+                    echoLiveSystem.registry.forEach('typing_label', e => {
+                        arr.push({
+                            title: $t(`typing.label.${ e.name }.no_username`),
+                            value: e.name
+                        });
+                    });
+                },
+                key: 'echolive.typing.label'
+            }, {
+                data: arr => {
                     let voices = [];
                     try {
                         voices = speechSynthesis.getVoices();
@@ -1591,6 +1601,10 @@ $(document).on('click', '.settings-item[data-id="global.touchscreen_layout"] .se
         const offsetTopNew = $('.settings-item[data-id="global.touchscreen_layout"] .settings-switch').offset().top;
         window.scrollTo({ top: scrollY + (offsetTopNew - offsetTop) });
     }, 12);
+});
+
+$(document).on('click', '.settings-item[data-id="echolive.typing.username_enable"] .settings-switch button', function() {
+    setTimeout(() => { $('.settings-item[data-id="echolive.typing.label"] .settings-value').trigger('change') });
 });
 
 $(document).on('input', '.settings-item[data-id="accessibility.font_size"] .settings-value', function() {

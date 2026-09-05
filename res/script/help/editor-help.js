@@ -198,9 +198,14 @@ function updateCheck() {
         if (r.state !== 'success') return;
         if (!r.data.hasNewReleases || !r.data.newReleasesNotChecked) return;
         let inOBS = navigator.userAgent.toLowerCase().search(/ obs\//) !== -1;
+        let noticeTitleKey = 'updater.notice_title';
+        const tag = r.data.getTag()
+        if (typeof tag === 'string') {
+            noticeTitleKey = 'updater.notice_title_' + tag;
+        }
         sysNotice.send(
             inOBS ? $t('updater.notice_content_editor') : $t('updater.notice_content_settings'),
-            $t('updater.notice_title', { version: r.data.newReleasesTag }),
+            $t(noticeTitleKey, { version: r.data.newReleasesTag }),
             'info',
             { icon: 'material:update', waitTime: -1 },
             inOBS ? undefined : (value, unit) => {

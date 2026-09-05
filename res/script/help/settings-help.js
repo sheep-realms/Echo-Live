@@ -163,9 +163,14 @@ function updateCheck() {
     updater.updateCheck(r => {
         if (r.state !== 'success') return;
         if (!r.data.hasNewReleases || !r.data.newReleasesNotChecked) return;
+        let noticeTitleKey = 'updater.notice_title';
+        const tag = r.data.getTag()
+        if (typeof tag === 'string') {
+            noticeTitleKey = 'updater.notice_title_' + tag;
+        }
         sysNotice.send(
             $t('updater.notice_content_settings'),
-            $t('updater.notice_title', { version: r.data.newReleasesTag }),
+            $t(noticeTitleKey, { version: r.data.newReleasesTag }),
             'info',
             { icon: 'material:update', waitTime: -1 },
             (value, unit) => {

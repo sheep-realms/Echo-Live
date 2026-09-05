@@ -13,6 +13,7 @@ const lang_zho_Hans = {
         date_pad_zero: "{y} 年 {MM} 月 {dd} 日",
         date_time: "{y} 年 {M} 月 {d} 日 {h}:{mm}:{ss}",
         date_time_pad_zero: "{y} 年 {MM} 月 {dd} 日 {hh}:{mm}:{ss}",
+        ellipsis: "…",
         time_common: "{hh}:{mm}:{ss}",
         time_non_sec: "{hh}:{mm}",
         spacing: {
@@ -421,6 +422,26 @@ const lang_zho_Hans = {
                 show_time: {
                     _title: "显现动画用时",
                     _description: "对话框显现所需时间。"
+                }
+            },
+            typing: {
+                _title: "输入提示",
+                _description: "当编辑器正在输入时显示输入提示",
+                enable: {
+                    _title: "启用输入提示",
+                    _description: "启用后，当编辑器正在输入时，对话框底部的控制栏会被替换为输入提示消息。<br>关闭控制栏不会影响此功能。"
+                },
+                username_enable: {
+                    _title: "显示说话人",
+                    _description: "在输入提示消息中显示说话人，这在多人联动时很有用。"
+                },
+                max_username_length: {
+                    _title: "说话人最大长度",
+                    _description: "说话人名称的最大长度，超出此长度的部分会被截断。<br>设为 0 禁用此限制。"
+                },
+                label: {
+                    _title: "消息内容",
+                    _description: "选择要显示的消息内容。"
                 }
             },
             speech_synthesis: {
@@ -2012,9 +2033,58 @@ const lang_zho_Hans = {
         ease_out_back: "回退缓入",
         ease_in_out_back: "回退缓入缓出"
     },
+    typing: {
+        example_name: "追音",
+        example_name_2: "Sheep-realms",
+        no_name: "匿名",
+        label: {
+            generating: {
+                no_username: "正在生成回复",
+                user_1: "{user} 正在生成回复",
+                user_2: "{user} 和 {user2} 正在生成回复",
+                user_multi: "{user}、{user2} 等 {n} 位智能体正在生成回复"
+            },
+            rolling_keyboard: {
+                no_username: "正在滚键盘",
+                user_1: "{user} 正在滚键盘",
+                user_2: "{user} 和 {user2} 正在滚键盘",
+                user_multi: "{user}、{user2} 等 {n} 只猫咪正在滚键盘"
+            },
+            searching: {
+                no_username: "正在联网搜索",
+                user_1: "{user} 正在联网搜索",
+                user_2: "{user} 和 {user2} 正在联网搜索",
+                user_multi: "{user}、{user2} 等 {n} 位智能体正在联网搜索"
+            },
+            thinking: {
+                no_username: "正在思考",
+                user_1: "{user} 正在思考",
+                user_2: "{user} 和 {user2} 正在思考",
+                user_multi: "{user}、{user2} 等 {n} 人正在思考"
+            },
+            transmission: {
+                no_username: "正在传输信息",
+                user_1: "{user} 正在传输信息",
+                user_2: "{user} 和 {user2} 正在传输信息",
+                user_multi: "{user}、{user2} 等 {n} 人正在传输信息"
+            },
+            typing: {
+                no_username: "正在输入",
+                user_1: "{user} 正在输入",
+                user_2: "{user} 和 {user2} 正在输入",
+                user_multi: "{user}、{user2} 等 {n} 人正在输入"
+            }
+        }
+    },
     updater: {
         download_assets: "下载文件",
-        notice_title: "有新版本可用：{version}",
+        notice_title: "发现更新：{version}",
+        notice_title_experimental: "发现实验性更新：{version}",
+        notice_title_important: "发现重要更新：{version}",
+        notice_title_incremental: "发现增量更新：{version}",
+        notice_title_optimization: "发现优化更新：{version}",
+        notice_title_patch: "发现补丁更新：{version}",
+        notice_title_security: "发现安全更新：{version}",
         notice_content_editor: "您可以打开配置文件编辑器获取详细信息或自行前往 GitHub 下载最新版本。",
         notice_content_settings: "您可以更新到新版本，点此了解详细信息。",
         releases_author: "作者：{value}",

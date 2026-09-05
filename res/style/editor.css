@@ -1042,6 +1042,7 @@ select:focus {
     overflow: hidden;
     opacity: 1;
     transition: opacity .3s;
+    overscroll-behavior: contain;
 }
 
 .fh-popups.hide {
@@ -1615,6 +1616,7 @@ select:focus {
 .fh-window {
     box-shadow: var(--box-shadow);
     animation: unset;
+    overscroll-behavior: contain;
 }
 
 .fh-window.window-show {
@@ -1738,6 +1740,8 @@ select:focus {
     width: calc(100vw + 32px);
     height: calc(100vh + 32px);
     z-index: 11000;
+    overflow: hidden;
+    overscroll-behavior: contain;
 }
 
 .fh-window-modal-bg.window-show {
@@ -2020,6 +2024,7 @@ select:focus {
     box-sizing: border-box;
     /* scroll-snap-type: y mandatory; */
     z-index: 2000;
+    overscroll-behavior: contain;
 }
 
 .fh-select-option-list.has-description {

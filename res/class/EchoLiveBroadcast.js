@@ -50,6 +50,7 @@ class EchoLiveBroadcast {
             API_NAME_ECHO_NEXT:             'echo_next',
             API_NAME_ECHO_PRINTING:         'echo_printing',
             API_NAME_ECHO_STATE_UPDATE:     'echo_state_update',
+            API_NAME_EDITOR_TYPING:         'editor_typing',
             API_NAME_ERROR:                 'error',
             API_NAME_ERROR_UNKNOWN:         'error_unknown',
             API_NAME_HELLO:                 'hello',
@@ -695,6 +696,18 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
     }
 
     /**
+     * 发送打字心跳包
+     * @param {String} [username] 用户名
+     * @param {String} [target] 发送目标
+     * @returns {Object} 发送的消息
+     */
+    sendTyping(username = undefined, target = undefined) {
+        return this.sendData({
+            username: username
+        }, EchoLiveBroadcast.API_NAME_EDITOR_TYPING, target);
+    }
+
+    /**
      * 新增客户端
      * @param {Object} data 客户端数据
      * @param {String} data.uuid UUID
@@ -1220,10 +1233,15 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
         switch (data.action) {
             case EchoLiveBroadcast.API_NAME_MESSAGE_DATA:
                 listener.echolive.send(data.data);
+                listener.echolive.removeTypingEditor(data.from?.uuid);
                 break;
 
             case EchoLiveBroadcast.API_NAME_ECHO_NEXT:
                 listener.echolive.next();
+                break;
+
+            case EchoLiveBroadcast.API_NAME_EDITOR_TYPING:
+                listener.echolive.setTypingEditor(data.from?.uuid, data.data);
                 break;
 
             case EchoLiveBroadcast.API_NAME_SET_LIVE_DISPLAY:

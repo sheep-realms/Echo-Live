@@ -113,15 +113,43 @@ class Updater {
 
         this.setLocalStorageData(lsData);
 
-        callback({
+        function _checkTag(tagName) {
+            return notPreReleases[0]?.body?.search(`\\[__${tagName.toUpperCase()}__\\]`) > -1;
+        }
+
+        const result = {
             state: 'success',
             data: {
-                hasNewReleases: lsData?.hasNewReleases,
-                newReleasesTag: lsData?.newReleasesTag,
-                newReleasesNotChecked: lsData?.newReleasesNotChecked,
-                releases: notPreReleases[0]
+                hasNewReleases:         lsData?.hasNewReleases,
+                isExperimentalUpdate:   _checkTag('EXPERIMENTAL'),
+                isImportantUpdate:      _checkTag('IMPORTANT'),
+                isIncrementalUpdate:    _checkTag('INCREMENTAL'),
+                isOptimizationUpdate:   _checkTag('OPTIMIZATION'),
+                isPatchUpdate:          _checkTag('PATCH'),
+                isSecurityUpdate:       _checkTag('SECURITY'),
+                newReleasesTag:         lsData?.newReleasesTag,
+                newReleasesNotChecked:  lsData?.newReleasesNotChecked,
+                releases:               notPreReleases[0]
             }
-        });
+        };
+
+        result.data.getTag = () => {
+            for (
+                const tag of [
+                    ['isSecurityUpdate',        'security'      ],
+                    ['isImportantUpdate',       'important'     ],
+                    ['isIncrementalUpdate',     'incremental'   ],
+                    ['isOptimizationUpdate',    'optimization'  ],
+                    ['isPatchUpdate',           'patch'         ],
+                    ['isExperimentalUpdate',    'experimental'  ]
+                ]
+            ) {
+                if (result.data[tag[0]] === true) return tag[1];
+            }
+            return;
+        };
+
+        callback(result);
     }
 
     initLocalStorageData() {

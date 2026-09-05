@@ -58,3 +58,7 @@
 .markdown-body a:active {
     filter: brightness(0.85);
 }
+
+.markdown-body summary {
+    cursor: pointer;
+}

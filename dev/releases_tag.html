@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发行版标签生成器 · Echo Live 开发者工具</title>
+    <link rel="icon" href="../res/image/favicon.ico">
+    <link rel="stylesheet" href="../res/style/fh-ui.css">
+    <link rel="stylesheet" href="../res/style/editor.css">
+    <link rel="stylesheet" href="../res/style/editor-accessibility.css">
+    <script src="../lib/jquery-3.7.1.min.js"></script>
+    <script src="../res/script/config-load-fail.js"></script>
+    <script src="../config.js" onerror="configLoadFail()"></script>
+    <script src="../app.js"></script>
+    <script src="../res/class/EchoLiveSystem.js"></script>
+    <script src="../res/data/root.js"></script>
+    <script src="../lang/index.js"></script>
+    <script src="../res/class/Translator.js"></script>
+    <script>
+        const translator = new Translator(config.global.language, {}, { useShortISO: config.accessibility.use_short_language_iso_code });
+        const $t = function(...e) {
+            return translator.output(...e);
+        };
+        const $tc = function(...e) {
+            return translator.outputByTextComponent(...e);
+        };
+        const $tn = function(...e) {
+            return translator.formatNumber(...e);
+        };
+        translator.init('../');
+    </script>
+    <script src="../res/data/script.js"></script>
+    <script src="../res/class/EchoLiveTools.js"></script>
+    <style>
+        #output {
+            height: calc(100vh - var(--font-size-middle) - var(--gap-extra-large) - var(--height-top-nav));
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <!-- 标签页标题 -->
+        <nav id="echo-editor-nav" class="tabpage-nav" data-navid="main" role="tablist">
+            <button
+                id="tabpage-nav-edit"
+                class="tabpage-nav-item"
+                data-pageid="edit"
+                role="tab"
+                aria-selected="true"
+                accesskey="1"
+            >输入</button>
+            <button
+                id="tabpage-nav-output"
+                class="tabpage-nav-item"
+                data-pageid="output"
+                role="tab"
+                aria-selected="false"
+                accesskey="2"
+                data-i18n="studio.text_to_messages.tabpage.output.title"
+                data-i18n-title="studio.text_to_messages.tabpage.output.description"
+            >输出</button>
+        </nav>
+
+        <!-- 标签页面板 -->
+        <div class="tabpage-centent" data-navid="main">
+            <!-- 输入标签页 -->
+            <section class="tabpage-panel" role="tabpanel" data-pageid="edit" aria-labelledby="tabpage-panel-title-edit">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-edit">输入</h2>
+                <button role="checkbox" aria-checked="false" class="checkbox">
+                    <span class="icon"></span>
+                    <span class="text">安全更新</span>
+                    <input type="hidden" class="checkbox-releases-tag" id="releases-tag-security" value="0">
+                </button>
+
+                <button role="checkbox" aria-checked="false" class="checkbox">
+                    <span class="icon"></span>
+                    <span class="text">重要更新</span>
+                    <input type="hidden" class="checkbox-releases-tag" id="releases-tag-important" value="0">
+                </button>
+
+                <button role="checkbox" aria-checked="false" class="checkbox">
+                    <span class="icon"></span>
+                    <span class="text">增量更新</span>
+                    <input type="hidden" class="checkbox-releases-tag" id="releases-tag-incremental" value="0">
+                </button>
+
+                <button role="checkbox" aria-checked="false" class="checkbox">
+                    <span class="icon"></span>
+                    <span class="text">优化更新</span>
+                    <input type="hidden" class="checkbox-releases-tag" id="releases-tag-optimization" value="0">
+                </button>
+
+                <button role="checkbox" aria-checked="false" class="checkbox">
+                    <span class="icon"></span>
+                    <span class="text">补丁更新</span>
+                    <input type="hidden" class="checkbox-releases-tag" id="releases-tag-patch" value="0">
+                </button>
+
+                <button role="checkbox" aria-checked="false" class="checkbox">
+                    <span class="icon"></span>
+                    <span class="text">实验性更新</span>
+                    <input type="hidden" class="checkbox-releases-tag" id="releases-tag-experimental" value="0">
+                </button>
+
+                <div class="editor-controller-bottom fh-flex-row fh-controller">
+                    <button id="btn-clear" class="fh-button fh-big fh-danger" data-i18n="ui.reset">重置</button>
+                    <button id="btn-submit" class="fh-button fh-big" data-i18n="ui.output">输出</button>
+                </div>
+            </section>
+            <!-- 输出标签页 -->
+            <section class="tabpage-panel hide" role="tabpanel" data-pageid="output" aria-labelledby="tabpage-panel-title-output">
+                <h2 class="tabpage-panel-title" id="tabpage-panel-title-output">输出</h2>
+                <div class="echo-editor-form">
+                    <label for="output" data-i18n="editor.form.label.output_content"></label>
+                    <textarea name="output" id="output" class="code"></textarea>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div id="fh-notice" aria-live="polite"></div>
+
+    <script>
+        echoLiveSystem.loader.init('background.dev.releases_tag', '../', () => {
+            $('#btn-clear').click(() => {
+                setCheckboxDefaultValue('.checkbox-releases-tag', 0);
+            });
+
+            $('#btn-submit').click(() => {
+                const tagValues = [
+                    'security',
+                    'important',
+                    'incremental',
+                    'optimization',
+                    'patch',
+                    'experimental'
+                ];
+
+                let tagTemplate = '';
+                for (const tagName of tagValues) {
+                    if ($('#releases-tag-' + tagName).val() == 1) {
+                        tagTemplate += `[__${ tagName.toUpperCase() }__]`;
+                    }
+                }
+
+                $('#output').val(`----\n\n<details>\n<summary>发行版元数据</summary>\n\n\`\`\`\n${tagTemplate}\n\`\`\`\n\n</details>`);
+                $('#tabpage-nav-output').trigger('click');
+                $('#output').focus();
+                $('#output').select();
+            });
+        });
+    </script>
+</body>
+</html>

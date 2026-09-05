@@ -50,6 +50,7 @@ class EchoLiveBroadcast {
             API_NAME_ECHO_NEXT:             'echo_next',
             API_NAME_ECHO_PRINTING:         'echo_printing',
             API_NAME_ECHO_STATE_UPDATE:     'echo_state_update',
+            API_NAME_EDITOR_TYPING:         'editor_typing',
             API_NAME_ERROR:                 'error',
             API_NAME_ERROR_UNKNOWN:         'error_unknown',
             API_NAME_HELLO:                 'hello',
@@ -692,6 +693,18 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
         return this.sendData({
             reason: reason
         }, EchoLiveBroadcast.API_NAME_SHUTDOWN, target);
+    }
+
+    /**
+     * 发送打字心跳包
+     * @param {String} [username] 用户名
+     * @param {String} [target] 发送目标
+     * @returns {Object} 发送的消息
+     */
+    sendTyping(username = undefined, target = undefined) {
+        return this.sendData({
+            username: username
+        }, EchoLiveBroadcast.API_NAME_EDITOR_TYPING, target);
     }
 
     /**

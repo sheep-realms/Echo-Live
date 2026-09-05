@@ -55,6 +55,7 @@ let devicePixelRatioChanged = 0;
 let inOBS = false;
 
 let lastMessageSentAt = 0;
+let lastTyping = -100000;
 
 setDefaultValue('#config-output-before', config.editor.form.output_before);
 setDefaultValue('#config-output-after', config.editor.form.output_after);
@@ -1302,6 +1303,14 @@ shortcutManager.registerView('echolive:editor', {
 });
 
 shortcutManager.bindElement('#ptext-content', 'echolive:editor');
+
+$(document).on('input', '#ptext-content', function() {
+    const now = performance.now();
+    if (lastTyping + 1500 < now) {
+        lastTyping = now;
+        elb.sendTyping($('#ptext-character').val());
+    }
+});
 
 shortcutManager.registerView('echolive:output_textarea', {
     submitKey: {

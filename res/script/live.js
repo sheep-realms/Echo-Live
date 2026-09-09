@@ -438,7 +438,7 @@ echolive.on('typing_users_change', function(count, users = []) {
             $('.typing-message-content').text($t(`typing.label.${ typingLabel }.user_multi`, data));
         }
     } else {
-        $('.typing-message-content').text($t(`typing.${ typingLabel }.no_username`));
+        $('.typing-message-content').text($t(`typing.label.${ typingLabel }.no_username`));
     }
 });
 

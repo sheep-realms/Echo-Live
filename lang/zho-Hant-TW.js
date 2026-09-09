@@ -2085,6 +2085,7 @@ const lang_zho_Hant_TW = {
         notice_title_optimization: "發現改進更新：{version}",
         notice_title_patch: "發現補丁更新：{version}",
         notice_title_security: "發現安全更新：{version}",
+        notice_title_technical: "發現技術性更新：{version}",
         notice_content_editor: "您可以開啟配置檔案編輯器獲取詳細資訊或自行前往 GitHub 下載最新版本。",
         notice_content_settings: "您可以更新到新版本，點此瞭解詳細資訊。",
         releases_author: "作者：{value}",

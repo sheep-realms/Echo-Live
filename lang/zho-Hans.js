@@ -2085,6 +2085,7 @@ const lang_zho_Hans = {
         notice_title_optimization: "发现优化更新：{version}",
         notice_title_patch: "发现补丁更新：{version}",
         notice_title_security: "发现安全更新：{version}",
+        notice_title_technical: "发现技术性更新：{version}",
         notice_content_editor: "您可以打开配置文件编辑器获取详细信息或自行前往 GitHub 下载最新版本。",
         notice_content_settings: "您可以更新到新版本，点此了解详细信息。",
         releases_author: "作者：{value}",

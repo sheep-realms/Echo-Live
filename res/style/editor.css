@@ -203,7 +203,9 @@ kbd {
 }
 
 kbd.accessibility-key {
-    pointer-events: none;
+    /* pointer-events: none; */
+    cursor: help;
+    user-select: none;
 }
 
 textarea.code,

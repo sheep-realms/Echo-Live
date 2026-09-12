@@ -469,12 +469,12 @@ class Popups {
             `<div class="popups-palette-header">
                 <label for="popups-palette-select" style="display: none;">${ $t('editor.palette.select') }</label>
                 <div class="popups-palette-select-content">
-                    <kbd class="accessibility-key">Q</kbd>
+                    <kbd class="accessibility-key" title="${ $t('editor.tip.press_key_to_prev_page', { key: 'Q' }) }">Q</kbd>
                     <select name="popups-palette-select" id="popups-palette-select" class="popups-select">
                         <option value="echolive:recently">${ $t('editor.palette.label.recently') }</option>
                         ${ Popups.paletteOptions(palette) }
                     </select>
-                    <kbd class="accessibility-key">E</kbd>
+                    <kbd class="accessibility-key" title="${ $t('editor.tip.press_key_to_next_page', { key: 'E' }) }">E</kbd>
                 </div>
             </div>
             <div class="popups-palette-color-contrast" aria-label="${ $t('editor.palette.diff_dashboard.index') }">
@@ -555,11 +555,11 @@ class Popups {
             `<div class="popups-emoji-header">
                 <label for="popups-emoji-select" style="display: none;">${ $t('editor.emoji.select') }</label>
                 <div class="popups-emoji-select-content">
-                    <kbd class="accessibility-key">Q</kbd>
+                    <kbd class="accessibility-key" title="${ $t('editor.tip.press_key_to_prev_page', { key: 'Q' }) }">Q</kbd>
                     <select name="popups-emoji-select" id="popups-emoji-select" class="popups-select">
                         ${ Popups.emojiOptions(emojiPacks) }
                     </select>
-                    <kbd class="accessibility-key">E</kbd>
+                    <kbd class="accessibility-key" title="${ $t('editor.tip.press_key_to_next_page', { key: 'E' }) }">E</kbd>
                 </div>
             </div>
             <div class="popups-emoji-content">

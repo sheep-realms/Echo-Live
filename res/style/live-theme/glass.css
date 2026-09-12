@@ -317,6 +317,10 @@
     filter: drop-shadow(0 0 0.02em var(--echo-live-bottom-shadow-color)) drop-shadow(0 0 0.02em var(--echo-live-bottom-shadow-color)) drop-shadow(0 0 0.02em var(--echo-live-bottom-shadow-color));
 }
 
+#echo-live .echo-emoji-icon {
+    filter: drop-shadow(0 0 0.075rem var(--echo-live-bottom-shadow-color)) drop-shadow(0 0 0.075rem var(--echo-live-bottom-shadow-color));
+}
+
 :root[user-custom-mini] #echo-live .top-left,
 :root[user-custom-mini] #echo-live .center-left,
 :root[user-custom-mini] #echo-live .bottom-left,

@@ -1302,6 +1302,7 @@ select:focus {
     justify-content: center;
     padding: 8px;
     background-color: var(--page-bgcolor);
+    fill: var(--text-regular);
 }
 
 #popups-emoji .emoji-box img {

@@ -269,27 +269,47 @@ echo.on('customData', function(e) {
     }
 });
 
+function cerateEmojiElement(data) {
+    const style = `style="
+        ${ typeof data.icon === 'string' ? '' : 'display: inline-block;' }
+        width: ${ data.image.size.width.value };
+        height: ${ data.image.size.height.value };
+        max-width: ${ data.image.size.width.max };
+        max-height: ${ data.image.size.height.max };
+        min-width: ${ data.image.size.width.min };
+        min-height: ${ data.image.size.height.min };
+        margin-left: ${ data.image.margin.left };
+        margin-right: ${ data.image.margin.right };
+        margin-inline-start: ${ data.image.margin.start };
+        margin-inline-end: ${ data.image.margin.end };
+        image-rendering: ${ data.image.rendering };
+        position: relative;
+        top: ${ data.image.offset };
+        ${ data.image.scale !== 0 ? `transform: scale(${ data.image.scale });` : '' }
+    "`;
+
+    if (typeof data.icon === 'string') {
+        return `<span
+            class="echo-emoji-icon"
+            ${ style }
+        >
+            ${ Icon.getIcon(data.icon) }
+        </span>`;
+    } else if (typeof data.path === 'string') {
+        return `<img
+            src="${ data.path }"
+            ${ style }
+        >`;
+    } else {
+        return '';
+    }
+}
+
 echo.on('customSequence', function(e) {
     if (e.type === 'emoji') {
         let emojiData = emojiHako.getEmoji(e.value);
         if (emojiData !== undefined) {
-            let emojiDOM = `<img
-                src="${ emojiData.path }"
-                style="
-                    display: inline-block;
-                    width: ${ emojiData.image.size.width.value };
-                    height: ${ emojiData.image.size.height.value };
-                    max-width: ${ emojiData.image.size.width.max };
-                    max-height: ${ emojiData.image.size.height.max };
-                    min-width: ${ emojiData.image.size.width.min };
-                    min-height: ${ emojiData.image.size.height.min };
-                    margin-left: ${ emojiData.image.margin.left };
-                    margin-right: ${ emojiData.image.margin.right };
-                    margin-inline-start: ${ emojiData.image.margin.start };
-                    margin-inline-end: ${ emojiData.image.margin.end };
-                    image-rendering: ${ emojiData.image.rendering };
-                "
-            >`;
+            let emojiDOM = cerateEmojiElement(emojiData);
             if (groupIndex === 0) {
                 $('.echo-output').append(emojiDOM);
             } else {

@@ -578,7 +578,7 @@ class Popups {
     static emojiOptions(emojiPacks = []) {
         let dom = '';
         emojiPacks.forEach(e => {
-            dom += `<option value="${ e.meta.name }">${ $tc(e.meta.title) }</option>`
+            dom += `<option value="${ e.meta.name }">${ $tc(e.meta.title, { before: 'emoji.' }) }</option>`
         });
         return dom;
     }
@@ -610,6 +610,16 @@ class Popups {
             firstGroup = true;
         }
 
+        function _emojiGridContent(emojiItem, title) {
+            if (typeof emojiItem.icon === 'string') {
+                return Icon.getIcon(emojiItem.icon);
+            } else if (typeof emojiItem.path === 'string') {
+                return `<img src="${ emojiPack.path.images + emojiItem.path }" alt="${ title }">`;
+            } else {
+                return '';
+            }
+        }
+
         emojiPack.content.forEach(e => {
             let title;
             if (e?.type === 'emoji' || e?.type === undefined) {
@@ -624,7 +634,7 @@ class Popups {
                         dom += `<button class="emoji-box is-true-emoji" ${ title !== undefined ? `title="${ title }"` : '' } data-value="${ e.name }">${ e.name }</button>`;
                     }
                 } else {
-                    dom += `<button class="emoji-box" ${ title !== undefined ? `title="${ title }"` : '' } data-value="${ emojiPack.meta.namespace + ':' + e.name }"><img src="${ emojiPack.path.images + e.path }" alt="${ title }"></button>`;
+                    dom += `<button class="emoji-box" ${ title !== undefined ? `title="${ title }"` : '' } data-value="${ emojiPack.meta.namespace + ':' + e.name }">${ _emojiGridContent(e, title) }</button>`;
                 }
             } else if (e?.type === 'group') {
                 title = $tc(e.title, { before: 'emoji.' + emojiPack.path.translate + 'group.' });

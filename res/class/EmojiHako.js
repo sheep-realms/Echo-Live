@@ -39,6 +39,8 @@ class EmojiHako {
                     rendering:      e?.image?.rendering ? e.image.rendering : 'auto',
                     review_size:    e?.image?.review_size ? e.image.review_size : 'middle',
                     show_title:     e?.image?.show_title !== undefined ? e.image.show_title : true,
+                    offset:         e?.image?.offset ? e.image.offset : 'unset',
+                    scale:          e?.image?.scale ? e.image.scale : 0,
                     margin: {
                         left:       'unset',
                         right:      'unset',

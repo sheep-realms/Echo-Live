@@ -72,6 +72,12 @@
                     
                     <label for="icon-content">图标内容</label>
                     <textarea name="icon-content" id="icon-content" class="code"></textarea>
+
+                    <button role="checkbox" aria-checked="false" class="checkbox">
+                        <span class="icon"></span>
+                        <span class="text">输出后重置</span>
+                        <input type="hidden" id="output-before-reset" value="0">
+                    </button>
                 </div>
 
                 <div class="editor-controller-bottom fh-flex-row fh-controller">
@@ -115,6 +121,11 @@
 
             $('#btn-submit').click(() => {
                 $('#output').val(insertData($('#icon-name').val(), $('#icon-content').val()));
+
+                if ($('#output-before-reset').val() == 1) {
+                    $('#btn-clear').trigger('click');
+                }
+
                 $('#tabpage-nav-output').trigger('click');
                 $('#output').focus();
                 $('#output').select();

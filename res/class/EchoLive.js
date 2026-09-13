@@ -29,7 +29,8 @@ class EchoLive {
         this.timer          = {
             displayHiddenWait:  EchoLive.NOT_ACTIVE_TIMER,
             messagesPolling:    EchoLive.NOT_ACTIVE_TIMER,
-            typingState:        EchoLive.NOT_ACTIVE_TIMER
+            typingState:        EchoLive.NOT_ACTIVE_TIMER,
+            typingStateGuard:   EchoLive.NOT_ACTIVE_TIMER
         };
         this.event          = new EchoLiveEventManager({
             controller_load:        {},
@@ -142,6 +143,8 @@ class EchoLive {
         }
 
         if (this.config.echolive.display.auto) this.setDisplayHiddenWaitTimer();
+
+        if (this.config.echolive.typing.enable) this.#launchTypingStateGuard();
 
         echoLiveSystem.obs.syncAttributeFormSceneData();
 
@@ -606,6 +609,20 @@ class EchoLive {
         }, Math.max(this.config.echolive.display.hidden_wait_time, time));
     }
 
+    #launchTypingStateGuard() {
+        this.timer.typingStateGuard = setInterval(() => {
+            this.#checkTypingState();
+        }, 5000);
+    }
+
+    #checkTypingState() {
+        this.inTypingEditor.forEach((value, key) => {
+            if (value.createdAt + 3000 < performance.now()) {
+                this.removeTypingEditor(key);
+            }
+        });
+    }
+
     getTypingEditor(uuid) {
         return this.inTypingEditor.get(uuid);
     }
@@ -636,6 +653,7 @@ class EchoLive {
         this.inTypingEditor.set(uuid, data);
         this.event.emit('typing_users_change', this.inTypingEditor.size, this.getTypingUsers());
         this.changeTypingState(true);
+        this.#checkTypingState();
     }
 
     removeTypingEditor(uuid) {

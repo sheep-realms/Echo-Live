@@ -469,12 +469,12 @@ class Popups {
             `<div class="popups-palette-header">
                 <label for="popups-palette-select" style="display: none;">${ $t('editor.palette.select') }</label>
                 <div class="popups-palette-select-content">
-                    <kbd class="accessibility-key">Q</kbd>
+                    <kbd class="accessibility-key" title="${ $t('editor.tip.press_key_to_prev_page', { key: 'Q' }) }">Q</kbd>
                     <select name="popups-palette-select" id="popups-palette-select" class="popups-select">
                         <option value="echolive:recently">${ $t('editor.palette.label.recently') }</option>
                         ${ Popups.paletteOptions(palette) }
                     </select>
-                    <kbd class="accessibility-key">E</kbd>
+                    <kbd class="accessibility-key" title="${ $t('editor.tip.press_key_to_next_page', { key: 'E' }) }">E</kbd>
                 </div>
             </div>
             <div class="popups-palette-color-contrast" aria-label="${ $t('editor.palette.diff_dashboard.index') }">
@@ -555,11 +555,11 @@ class Popups {
             `<div class="popups-emoji-header">
                 <label for="popups-emoji-select" style="display: none;">${ $t('editor.emoji.select') }</label>
                 <div class="popups-emoji-select-content">
-                    <kbd class="accessibility-key">Q</kbd>
+                    <kbd class="accessibility-key" title="${ $t('editor.tip.press_key_to_prev_page', { key: 'Q' }) }">Q</kbd>
                     <select name="popups-emoji-select" id="popups-emoji-select" class="popups-select">
                         ${ Popups.emojiOptions(emojiPacks) }
                     </select>
-                    <kbd class="accessibility-key">E</kbd>
+                    <kbd class="accessibility-key" title="${ $t('editor.tip.press_key_to_next_page', { key: 'E' }) }">E</kbd>
                 </div>
             </div>
             <div class="popups-emoji-content">
@@ -578,7 +578,7 @@ class Popups {
     static emojiOptions(emojiPacks = []) {
         let dom = '';
         emojiPacks.forEach(e => {
-            dom += `<option value="${ e.meta.name }">${ $tc(e.meta.title) }</option>`
+            dom += `<option value="${ e.meta.name }">${ $tc(e.meta.title, { before: 'emoji.' }) }</option>`
         });
         return dom;
     }
@@ -610,6 +610,16 @@ class Popups {
             firstGroup = true;
         }
 
+        function _emojiGridContent(emojiItem, title) {
+            if (typeof emojiItem.icon === 'string') {
+                return Icon.getIcon(emojiItem.icon);
+            } else if (typeof emojiItem.path === 'string') {
+                return `<img src="${ emojiPack.path.images + emojiItem.path }" alt="${ title }">`;
+            } else {
+                return '';
+            }
+        }
+
         emojiPack.content.forEach(e => {
             let title;
             if (e?.type === 'emoji' || e?.type === undefined) {
@@ -624,7 +634,7 @@ class Popups {
                         dom += `<button class="emoji-box is-true-emoji" ${ title !== undefined ? `title="${ title }"` : '' } data-value="${ e.name }">${ e.name }</button>`;
                     }
                 } else {
-                    dom += `<button class="emoji-box" ${ title !== undefined ? `title="${ title }"` : '' } data-value="${ emojiPack.meta.namespace + ':' + e.name }"><img src="${ emojiPack.path.images + e.path }" alt="${ title }"></button>`;
+                    dom += `<button class="emoji-box" ${ title !== undefined ? `title="${ title }"` : '' } data-value="${ emojiPack.meta.namespace + ':' + e.name }">${ _emojiGridContent(e, title) }</button>`;
                 }
             } else if (e?.type === 'group') {
                 title = $tc(e.title, { before: 'emoji.' + emojiPack.path.translate + 'group.' });

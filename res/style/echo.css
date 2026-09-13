@@ -69,6 +69,11 @@
 .echo-text-letter-spacing-half-width {letter-spacing: 0.5em;}
 .echo-text-letter-spacing-full-width {letter-spacing: 1em;}
 
+.echo-emoji-icon {
+    display: inline-flex;
+    fill: currentColor;
+}
+
 @keyframes echo-text-rock-y {
     0% {position: relative; top: 0px;}
     25% {position: relative; top: -2px;}

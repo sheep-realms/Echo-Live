@@ -98,6 +98,12 @@
 
                 <button role="checkbox" aria-checked="false" class="checkbox">
                     <span class="icon"></span>
+                    <span class="text">技术性更新</span>
+                    <input type="hidden" class="checkbox-releases-tag" id="releases-tag-technical" value="0">
+                </button>
+
+                <button role="checkbox" aria-checked="false" class="checkbox">
+                    <span class="icon"></span>
                     <span class="text">实验性更新</span>
                     <input type="hidden" class="checkbox-releases-tag" id="releases-tag-experimental" value="0">
                 </button>
@@ -133,6 +139,7 @@
                     'incremental',
                     'optimization',
                     'patch',
+                    'technical',
                     'experimental'
                 ];
 

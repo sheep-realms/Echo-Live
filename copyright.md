@@ -23,7 +23,7 @@ Echo-Live 包含有并非以 GNU 公众授权协议共享的美术、音频资�
 ## 美术资源版权信息
 | 名称 | 作者 | 授权协议 |
 | - | - | - |
-| [Material Design Icons](https://pictogrammers.com/library/mdi/) | [Pictogrammers](https://pictogrammers.com/) | [Apache License 2.0](https://apache.org/licenses/LICENSE-2.0) |
+| [Material Design Icons](https://pictogrammers.com/library/mdi/) | [Google](https://m3.material.io/styles/icons)、[Pictogrammers](https://pictogrammers.com/) | [Apache License 2.0](https://apache.org/licenses/LICENSE-2.0) |
 | [绵羊的像素头像](https://github.com/sheep-realms/sheep-realms-avatar) | [Sheep-realms](https://github.com/sheep-realms) | [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) |
 | 绵羊的大表情 | [Sheep-realms](https://github.com/sheep-realms) | [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) |
 | Echo 追音（エコー追音，Echo Otone） | [Sheep-realms](https://github.com/sheep-realms) | [Echo-Live 虚拟形象 “Echo 追音” 授权协议](docs/License-Echo-Otone.txt) |

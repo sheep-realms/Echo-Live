@@ -127,6 +127,7 @@ class Updater {
                 isOptimizationUpdate:   _checkTag('OPTIMIZATION'),
                 isPatchUpdate:          _checkTag('PATCH'),
                 isSecurityUpdate:       _checkTag('SECURITY'),
+                isTechnicalUpdate:      _checkTag('TECHNICAL'),
                 newReleasesTag:         lsData?.newReleasesTag,
                 newReleasesNotChecked:  lsData?.newReleasesNotChecked,
                 releases:               notPreReleases[0]
@@ -141,6 +142,7 @@ class Updater {
                     ['isIncrementalUpdate',     'incremental'   ],
                     ['isOptimizationUpdate',    'optimization'  ],
                     ['isPatchUpdate',           'patch'         ],
+                    ['isTechnicalUpdate',       'technical'     ],
                     ['isExperimentalUpdate',    'experimental'  ]
                 ]
             ) {

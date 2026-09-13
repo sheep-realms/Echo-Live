@@ -285,7 +285,7 @@ function cerateEmojiElement(data) {
         image-rendering: ${ data.image.rendering };
         position: relative;
         top: ${ data.image.offset };
-        ${ data.image.scale !== 0 ? `transform: scale(${ data.image.scale });` : '' }
+        ${ data.image.scale !== 1 ? `transform: scale(${ data.image.scale });` : '' }
     "`;
 
     if (typeof data.icon === 'string') {

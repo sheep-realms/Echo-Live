@@ -40,7 +40,7 @@ class EmojiHako {
                     review_size:    e?.image?.review_size ? e.image.review_size : 'middle',
                     show_title:     e?.image?.show_title !== undefined ? e.image.show_title : true,
                     offset:         e?.image?.offset ? e.image.offset : 'unset',
-                    scale:          e?.image?.scale ? e.image.scale : 0,
+                    scale:          e?.image?.scale ? e.image.scale : 1,
                     margin: {
                         left:       'unset',
                         right:      'unset',

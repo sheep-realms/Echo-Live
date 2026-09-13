@@ -1,6 +1,6 @@
 const APP_META = {
     name: 'Echo-Live',
-    version: '1.8.8',
+    version: '1.8.9',
     isBeta: false
 };
 

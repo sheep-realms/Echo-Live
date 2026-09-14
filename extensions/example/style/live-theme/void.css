@@ -10,24 +10,6 @@
  * 这里是 Echo Live 的样式文件
 **/
 
-/* 导入：基本样式 */
-@import url("../../../../res/style/live-common/base.css");
-
-/* 导入：默认字体 */
-@import url("../../../../res/style/live-common/font-family.css");
-
-/* 导入：字符打印效果 */
-@import url("../../../../res/style/live-common/char-effect.css");
-
-/* 导入：引用符号缩进 */
-@import url("../../../../res/style/live-common/char-indent.css");
-
-/* 导入：多国语言适配 */
-@import url("../../../../res/style/live-common/i18n.css");
-
-/* 导入：事件动效 */
-@import url("../../../../res/style/live-common/event-effect.css");
-
 /**
  * 导入：原始主题
  * 这一步非常关键！如果要基于现有主题更改，应该引入其样式表而不是完整拷贝，这样可以尽可能降低对未来版本变动的影响。

@@ -596,11 +596,13 @@ function paletteColorContrastUnset() {
     $('#popups-palette .popups-palette-color-contrast .diff-result-contrast .title').text('N/A');
 }
 
+let slotInstaller;
 
+$(document).ready(function() {
+    slotInstaller = new SlotInstaller();
 
-const slotInstaller = new SlotInstaller();
-
-slotInstaller.register("data-icon", (slot) => {
-    const iconName = slot.getAttribute("data-icon");
-    return Icon.getIcon(iconName);
+    slotInstaller.register("data-icon", (slot) => {
+        const iconName = slot.getAttribute("data-icon");
+        return Icon.getIcon(iconName);
+    });
 });

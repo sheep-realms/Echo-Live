@@ -11,7 +11,7 @@
 // 为了防止再出现逆天的建立在bug上运行的程序加入了严格模式
 "use strict";
 
-let sysNotice = new SystemNotice();
+let sysNotice;
 
 let unknownErrorListenerDown = false;
 window.addEventListener("error", (e) => {
@@ -23,21 +23,15 @@ window.addEventListener("error", (e) => {
     }, 10000)
 });
 
-let localStorageManager = new LocalStorageManager();
-let statisticManager = new StatisticManager(localStorageManager);
-let sessionMaxMetric = new SessionMaxMetric(statisticManager);
-statisticManager.addStatsItemValue('editor.overview.session_created_count');
-statisticManager.setStatsItemTime('editor.overview.last_session_created');
+let localStorageManager;
+let statisticManager;
+let sessionMaxMetric;
 
-let uniWindow = new UniverseWindow();
+let uniWindow;
 
 let textList = [
     {text: ''}
 ];
-
-checkboxEvent = {
-    "ptext-chk-use-formatting-code": ptextChkUseFormattingCodeChange
-};
 
 let history = [];
 let historyMinimum = 0;
@@ -57,14 +51,6 @@ let inOBS = false;
 let lastMessageSentAt = 0;
 let lastTyping = -100000;
 
-setDefaultValue('#config-output-before', config.editor.form.output_before);
-setDefaultValue('#config-output-after', config.editor.form.output_after);
-setDefaultValue('#ptext-ipt-quote-before', config.editor.form.quote_before);
-setDefaultValue('#ptext-ipt-quote-after', config.editor.form.quote_after);
-$('#ptext-character, #rtext-character').val(config.editor.form.username);
-setCheckboxDefaultValue('#config-output-use-before', config.editor.form.ontput_before_enable);
-setCheckboxDefaultValue('#config-output-use-after', config.editor.form.ontput_after_enable);
-
 if (!config.editor.function.tabpage_config_enable) $('#tabpage-nav-config').addClass('hide');
 if (!config.editor.function.tabpage_output_enable) $('#tabpage-nav-output').addClass('hide');
 
@@ -76,23 +62,87 @@ if (!config.echolive.image.allow_data_url_and_relative_url) {
 
 
 
-let commander = new Commander();
-let logMessager = new Messager();
-logMessager.on('message', function(message, type = 'info', isInput = false) {
-    editorLog('[Commander] ' + ( isInput ? '&lt; ' : '&gt; ' ) + EchoLiveTools.safeHTML(message), type);
-});
-commander.link.localStorageManager = localStorageManager;
-commander.link.messager = logMessager;
-commander.link.systemNotice = sysNotice;
-commander.link.window = uniWindow;
+let commander;
+let logMessager;
 let commanderFnMode = false;
 
 let elb;
+
+// 编辑器控制器
+let shortcutManager
+let editorControllerHandler = {};
+let editorControllerHandlerAlt = {};
 
 // 彩蛋
 let clientTargetButNoClient = false;
 
 $(document).ready(function() {
+    setDefaultValue('#config-output-before', config.editor.form.output_before);
+    setDefaultValue('#config-output-after', config.editor.form.output_after);
+    setDefaultValue('#ptext-ipt-quote-before', config.editor.form.quote_before);
+    setDefaultValue('#ptext-ipt-quote-after', config.editor.form.quote_after);
+    $('#ptext-character, #rtext-character').val(config.editor.form.username);
+    setCheckboxDefaultValue('#config-output-use-before', config.editor.form.ontput_before_enable);
+    setCheckboxDefaultValue('#config-output-use-after', config.editor.form.ontput_after_enable);
+
+    sysNotice = new SystemNotice();
+    uniWindow = new UniverseWindow();
+
+    localStorageManager = new LocalStorageManager();
+    statisticManager = new StatisticManager(localStorageManager);
+    sessionMaxMetric = new SessionMaxMetric(statisticManager);
+    statisticManager.addStatsItemValue('editor.overview.session_created_count');
+    statisticManager.setStatsItemTime('editor.overview.last_session_created');
+    statisticManager.on('exportStatistic', commitStatistic);
+
+    logMessager = new Messager();
+    logMessager.on('message', function(message, type = 'info', isInput = false) {
+        editorLog('[Commander] ' + ( isInput ? '&lt; ' : '&gt; ' ) + EchoLiveTools.safeHTML(message), type);
+    });
+
+    commander = new Commander();
+    commander.link.localStorageManager = localStorageManager;
+    commander.link.messager = logMessager;
+    commander.link.systemNotice = sysNotice;
+    commander.link.window = uniWindow;
+
+
+    // 编辑器控制器
+
+    shortcutManager = new ShortcutManager();
+
+    shortcutManager.registerView('echolive:editor', {
+        submitKey: {
+            swap: config.accessibility.send_on_enter,
+            handler: () => {
+                if (!config.echolive.broadcast.enable) return;
+                $('#ptext-btn-send').click();
+                effectClick('#ptext-btn-send');
+                if (editorInFullscreen && !config.accessibility.animation_disable) {
+                    $('.webscreen-message-sent-effect').addClass('show');
+                }
+            }
+        },
+        shortcuts: getEditorControllerShortcuts()
+    });
+
+    shortcutManager.bindElement('#ptext-content', 'echolive:editor');
+
+    shortcutManager.registerView('echolive:output_textarea', {
+        submitKey: {
+            swap: config.accessibility.send_on_enter,
+            handler: () => {
+                $('#output-btn-send').click();
+                effectClick('#output-btn-send');
+            }
+        }
+    });
+
+    shortcutManager.bindElement('#output-content', 'echolive:output_textarea');
+
+    checkboxEvent = {
+        "ptext-chk-use-formatting-code": ptextChkUseFormattingCodeChange
+    };
 
     translator.ready(() => {
         echoLiveEditor.emojiHako = new EmojiHako();
@@ -1289,42 +1339,6 @@ $(document).on('click', '#link-open-settings', function(e) {
 
 
 
-// 编辑器控制器
-
-let shortcutManager = new ShortcutManager();
-
-let editorControllerHandler = {};
-let editorControllerHandlerAlt = {};
-
-shortcutManager.registerView('echolive:editor', {
-    submitKey: {
-        swap: config.accessibility.send_on_enter,
-        handler: () => {
-            if (!config.echolive.broadcast.enable) return;
-            $('#ptext-btn-send').click();
-            effectClick('#ptext-btn-send');
-            if (editorInFullscreen && !config.accessibility.animation_disable) {
-                $('.webscreen-message-sent-effect').addClass('show');
-            }
-        }
-    },
-    shortcuts: getEditorControllerShortcuts()
-});
-
-shortcutManager.bindElement('#ptext-content', 'echolive:editor');
-
-shortcutManager.registerView('echolive:output_textarea', {
-    submitKey: {
-        swap: config.accessibility.send_on_enter,
-        handler: () => {
-            $('#output-btn-send').click();
-            effectClick('#output-btn-send');
-        }
-    }
-});
-
-shortcutManager.bindElement('#output-content', 'echolive:output_textarea');
-
 function getEditorControllerShortcuts() {
     const controller = echoLiveSystem.registry.getRegistryArray('editor_controller');
     const editorID = 'ptext-content';
@@ -1541,8 +1555,6 @@ $(document).on('click', '#ptext-btn-statistic-view', () => {
         }
     );
 });
-
-statisticManager.on('exportStatistic', commitStatistic);
 
 function commitStatistic() {
     const sessionDuration = Math.round(performance.now() / 1000);

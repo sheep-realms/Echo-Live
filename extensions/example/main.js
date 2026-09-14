@@ -40,6 +40,20 @@ extensionManager.load({
     register_hook: {
         loaded: [
             {
+                registry: 'echolive:live_theme',
+                value: {
+                    'example:void': {
+                        name: 'example:void',
+                        title: {
+                            text: '虚空（改）',
+                            translate: 'example.void.title'
+                        },
+                        description: '扩展示例自定义主题',
+                        style: 'extensions/example/style/live-theme/void.css',
+                        variant: []
+                    }
+                }
+            }, {
                 registry: 'echolive:sound',
                 value: {
                     'example:sonar': {
@@ -62,7 +76,14 @@ extensionManager.load({
             extension: {
                 example: {
                     title: '示例扩展',
-                    description: '本扩展是一个导入自定义音效的简单演示。'
+                    description: '本扩展是一个导入自定义音效和主题的简单演示。'
+                }
+            },
+            live_theme: {
+                example: {
+                    void: {
+                        title: '虚空（改）'
+                    }
                 }
             },
             sound: {
@@ -73,7 +94,14 @@ extensionManager.load({
             extension: {
                 example: {
                     title: '示例擴充套件',
-                    description: '本擴充套件是一個匯入自定義音效的簡單演示。'
+                    description: '本擴充套件是一個匯入自定義音效和主題的簡單演示。'
+                }
+            },
+            live_theme: {
+                example: {
+                    void: {
+                        title: '虚空（改）'
+                    }
                 }
             },
             sound: {
@@ -84,7 +112,14 @@ extensionManager.load({
             extension: {
                 example: {
                     title: '示例擴展',
-                    description: '本擴展是一個導入自定義音效的簡單演示。'
+                    description: '本擴展是一個導入自定義音效和主題的簡單演示。'
+                }
+            },
+            live_theme: {
+                example: {
+                    void: {
+                        title: '虚空（改）'
+                    }
                 }
             },
             sound: {

@@ -212,7 +212,7 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
         insert_body: true,
         dependencies: [
             'echolive_class:local_storage_manager',
-            'echolive_class:system_notice',,
+            'echolive_class:system_notice',
             'echolive_class:universe_window',
             'echolive_script:editor'
         ],
@@ -224,6 +224,9 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
         defer: true,
         insert_body: true,
         dependencies: [
+            'echolive_class:local_storage_manager',
+            'echolive_class:system_notice',
+            'echolive_class:universe_window',
             'echolive_script:settings'
         ],
         src: 'res/script/help/settings-help.js'

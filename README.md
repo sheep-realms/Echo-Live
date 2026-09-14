@@ -37,7 +37,7 @@
 - [Echo-Live-WebSocket-Server](https://github.com/sheep-realms/Echo-Live-WebSocket-Server)
 - [Echo-MoJi](https://github.com/sheep-realms/Echo-MoJi)
 
-## 扩展项目
+### 扩展项目
 - [在 GitHub 上查找 Echo-Live 扩展](https://github.com/topics/echo-live-extension)
 
 ### 第三方项目

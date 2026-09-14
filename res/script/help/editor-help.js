@@ -12,11 +12,12 @@ const driver = window.driver.js.driver;
 let tutorialConfirmWindow;
 
 let hasPrevClick = false;
-let updater = new Updater();
+let updater;
 
 $(document).ready(function() {
+    updater = new Updater();
     tutorialConfirmWindow = new TutorialConfirmWindow(uniWindow);
-    updater.localStorageManager = localStorageManager;
+    updater.localStorageManager = new LocalStorageManager();
 
     translator.ready(() => {
         if (helpKey != null && helpKey != undefined) {

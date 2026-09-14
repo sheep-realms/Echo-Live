@@ -659,6 +659,7 @@ class EchoLive {
     removeTypingEditor(uuid) {
         if (!this.config.echolive.typing.enable) return;
         const d = this.getTypingEditor(uuid);
+        if(d === undefined || d === null) return;
         clearTimeout(d.timer);
         this.inTypingEditor.delete(uuid);
         this.event.emit('typing_users_change', this.inTypingEditor.size, this.getTypingUsers());

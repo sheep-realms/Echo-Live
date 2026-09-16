@@ -1,0 +1,26 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+**/
+
+
+/**
+ * 这里是 Echo Live 的样式文件
+**/
+
+/**
+ * 导入：原始主题
+ * 这一步非常关键！如果要基于现有主题更改，应该引入其样式表而不是完整拷贝，这样可以尽可能降低对未来版本变动的影响。
+**/
+@import url("../../../../res/style/live-theme/void.css");
+
+:root {
+    /* 对话框正文内容颜色 */
+    --echo-live-content-color: #66ccff;
+    /* 对话框说话人名字颜色 */
+    --echo-live-username-color: #000;
+    /* 对话框底部工具栏内容颜色 */
+    --echo-live-bottom-color: #888;
+}

@@ -17,7 +17,7 @@ let updater;
 $(document).ready(function() {
     updater = new Updater();
     tutorialConfirmWindow = new TutorialConfirmWindow(uniWindow);
-    updater.localStorageManager = new LocalStorageManager();
+    updater.localStorageManager = localStorageManager;
 
     translator.ready(() => {
         if (helpKey != null && helpKey != undefined) {

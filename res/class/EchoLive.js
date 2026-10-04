@@ -353,13 +353,20 @@ class EchoLive {
                 return text;
             };
 
-            if (typeof data?.username === 'string') {
+            const filterMessage = item => {
+                if (typeof item === 'string') return __runFilter(item);
+                if (Array.isArray(item)) return item.map(filterMessage);
+                if (item && typeof item.text === 'string') item.text = __runFilter(item.text);
+                return item;
+            };
+
+            if (typeof messageData?.username === 'string') {
                 messageData.username = __runFilter(messageData.username);
             }
 
-            data.messages.forEach(msg => {
+            messageData.messages.forEach(msg => {
                 if (typeof msg === 'object' && !Array.isArray(msg)) {
-                    msg.message = __runFilter(msg.message);
+                    msg.message = filterMessage(msg.message);
                 } else if (Array.isArray(msg)) {
                     msg.forEach(m => {
                         m.text = __runFilter(m.text);
@@ -367,7 +374,7 @@ class EchoLive {
                 }
             });
 
-            return data;
+            return messageData;
         }
 
         echoLiveSystem.hook.trigger('echolive_portal_message_filter_before', {

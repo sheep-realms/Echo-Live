@@ -17,7 +17,7 @@ let updater;
 $(document).ready(function() {
     updater = new Updater();
     tutorialConfirmWindow = new TutorialConfirmWindow(uniWindow);
-    updater.localStorageManager = localStorageManager;
+    updater.localStorageManager = new LocalStorageManager();
 
     translator.ready(() => {
         if (helpKey != null && helpKey != undefined) {
@@ -30,7 +30,7 @@ $(document).ready(function() {
                     break;
             }
         } else {
-            if (!localStorageManager.getTutorialFlag('editor_overview')) {
+            if (!updater.localStorageManager.getTutorialFlag('editor_overview')) {
                 tutorialConfirmWindow.create('editor_overview', driverShowOverview, r => {
                     if (r === 'no') updateCheck();
                 });

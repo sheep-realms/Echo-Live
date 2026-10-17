@@ -14,27 +14,28 @@ let tutorialConfirmWindow;
 let hasPrevClick = false;
 
 $(document).ready(function() {
-    tutorialConfirmWindow = new TutorialConfirmWindow(uniWindow);
-
     translator.ready(() => {
-        if (helpKey != null && helpKey != undefined) {
-            switch (helpKey) {
-                case 'overview':
-                    driverShowOverview();
-                    break;
-            
-                default:
-                    break;
-            }
-        } else {
-            if (!localStorageManager.getTutorialFlag('settings_overview')) {
-                tutorialConfirmWindow.create('settings_overview', driverShowOverview, r => {
-                    if (r === 'no') updateCheck();
-                });
+        setTimeout(() => {
+            tutorialConfirmWindow = new TutorialConfirmWindow(uniWindow);
+            if (helpKey != null && helpKey != undefined) {
+                switch (helpKey) {
+                    case 'overview':
+                        driverShowOverview();
+                        break;
+                
+                    default:
+                        break;
+                }
             } else {
-                updateCheck();
+                if (!localStorageManager.getTutorialFlag('settings_overview')) {
+                    tutorialConfirmWindow.create('settings_overview', driverShowOverview, r => {
+                        if (r === 'no') updateCheck();
+                    });
+                } else {
+                    updateCheck();
+                }
             }
-        }
+        }, 1000)
     });
 });
 

@@ -1,5 +1,8 @@
 name: Echo-Live Build
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch
 

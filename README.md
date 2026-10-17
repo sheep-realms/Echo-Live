@@ -41,10 +41,20 @@
 - [在 GitHub 上查找 Echo-Live 扩展](https://github.com/topics/echo-live-extension)
 
 ### 第三方项目
+此处列出的项目与 Echo-Live 有关联，且通常与 Echo-Live 的贡献者无直接联系，出于友情链接的目的添加至此。请您知悉：我们不能保证这些项目能够按预期工作或与 Echo-Live 的最新版本正确联动，也不会有意兼容、适配这些项目。
+
+#### 附属
+这些项目依赖于 Echo-Live 运行。
+
 - [AphoniaLiveHelper](https://github.com/YouxingClub/AphoniaLiveHelper)
 - [Echo-Client](https://github.com/Rickyxrc/echo-client)
 - [Echo-Live-Tauri](https://github.com/LuiScreaMed/Echo-Live-Tauri)
 - [Echo-Live-Typetool](https://github.com/RaySky-Rt/Echo-Live-Typetool)
+
+#### 联动
+这些项目与 Echo-Live 存在联动且可独立运行。
+
+- [NanaType](https://github.com/sena-nana/NanaType)
 
 ### 其他项目
 

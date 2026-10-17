@@ -982,7 +982,9 @@ const lang_zho_Hans = {
             image: "插入图片",
             italic: "斜体",
             underline: "下划线",
-            strikethrough: "删除线"
+            strikethrough: "删除线",
+            sub: "下标",
+            super: "上标"
         },
         history: {
             clear: "清空历史记录",

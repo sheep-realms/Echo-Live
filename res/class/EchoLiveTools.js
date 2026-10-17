@@ -312,6 +312,14 @@ class EchoLiveTools {
                     }
                     break;
 
+                case '@^':
+                    style.super = true;
+                    break;
+
+                case '@_':
+                    style.sub = true;
+                    break;
+
                 case '@r':
                     styleCache = {};
                     classCache = '';

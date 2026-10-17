@@ -982,7 +982,9 @@ const lang_zho_Hant_HK = {
             image: "插入圖片",
             italic: "斜體",
             underline: "下劃線",
-            strikethrough: "刪除線"
+            strikethrough: "刪除線",
+            sub: "下標",
+            super: "上標"
         },
         history: {
             clear: "清空歷史記錄",

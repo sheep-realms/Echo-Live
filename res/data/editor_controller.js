@@ -139,6 +139,34 @@ echoLiveSystem.registry.loadRegistry('editor_controller', 'name', [
             }
         }
     }, {
+        name: 'super',
+        title: { translate: 'super' },
+        icon: 'material:format-superscript',
+        shortcut: {
+            keys: 'Shift+Equal',
+            description: 'Ctrl+Shift++'
+        },
+        action: {
+            type: 'insert_text_at_cursor',
+            value: {
+                before: '@^'
+            }
+        }
+    }, {
+        name: 'sub',
+        title: { translate: 'sub' },
+        icon: 'material:format-subscript',
+        shortcut: {
+            keys: 'Shift+Minus',
+            description: 'Ctrl+Shift+_'
+        },
+        action: {
+            type: 'insert_text_at_cursor',
+            value: {
+                before: '@_'
+            }
+        }
+    }, {
         name: 'clear',
         title: { translate: 'clear' },
         icon: 'material:format-clear',

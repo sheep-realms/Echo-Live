@@ -689,7 +689,7 @@ main {
 
 .settings-item[data-type="string.multiline"] {
     flex-direction: column;
-    align-items: flex-start;
+    /* align-items: flex-start; */
 }
 
 .settings-item[data-type="string.multiline"] .value {

@@ -15,29 +15,31 @@ let hasPrevClick = false;
 let updater;
 
 $(document).ready(function() {
-    updater = new Updater();
-    tutorialConfirmWindow = new TutorialConfirmWindow(uniWindow);
-    updater.localStorageManager = localStorageManager;
-
     translator.ready(() => {
-        if (helpKey != null && helpKey != undefined) {
-            switch (helpKey) {
-                case 'overview':
-                    driverShowOverview();
-                    break;
-            
-                default:
-                    break;
-            }
-        } else {
-            if (!localStorageManager.getTutorialFlag('editor_overview')) {
-                tutorialConfirmWindow.create('editor_overview', driverShowOverview, r => {
-                    if (r === 'no') updateCheck();
-                });
+        setTimeout(() => {
+            updater = new Updater();
+            tutorialConfirmWindow = new TutorialConfirmWindow(uniWindow);
+            updater.localStorageManager = new LocalStorageManager();
+
+            if (helpKey != null && helpKey != undefined) {
+                switch (helpKey) {
+                    case 'overview':
+                        driverShowOverview();
+                        break;
+                
+                    default:
+                        break;
+                }
             } else {
-                updateCheck();
+                if (!updater.localStorageManager.getTutorialFlag('editor_overview')) {
+                    tutorialConfirmWindow.create('editor_overview', driverShowOverview, r => {
+                        if (r === 'no') updateCheck();
+                    });
+                } else {
+                    updateCheck();
+                }
             }
-        }
+        }, 1000);
     });
 });
 

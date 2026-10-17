@@ -120,9 +120,10 @@ class EchoLiveTools {
      * @param {Boolean} [HTMLFilter] 是否启用 HTML 过滤器
      * @param {Boolean} [noEmoji] 是否禁用表情符号
      * @param {RegExp} [regFilter] 过滤正则表达式
+     * @param {String|Object|Object[]} [subTrack] 子轨道
      * @returns {String} 纯文本内容
      */
-    static getMessagePlainText(message, HTMLFilter = false, noEmoji = false, regFilter = undefined) {
+    static getMessagePlainText(message, HTMLFilter = false, noEmoji = false, regFilter = undefined, subTrack) {
         let str = '';
 
         if (typeof message == 'object' && message?.message !== undefined) message = message.message;
@@ -131,6 +132,11 @@ class EchoLiveTools {
             if (HTMLFilter) str = str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/ {2}/g, '&nbsp; ').replace(/\n/g, '<br>');
             if (noEmoji)    str = str.replace(/\p{Emoji}/gu, '');
             if (regFilter instanceof RegExp) str = str.replace(regFilter, '');
+            if (Array.isArray(subTrack)) {
+                subTrack.forEach(e => {
+                    str += '\n' + EchoLiveTools.getMessagePlainText(e, HTMLFilter, noEmoji, regFilter);
+                });
+            }
             return str;
         }
         if (typeof message == 'object' && !Array.isArray(message)) message = [message];
@@ -170,6 +176,12 @@ class EchoLiveTools {
         if (HTMLFilter) str = str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/ {2}/g, '&nbsp; ').replace(/\n/g, '<br>');
         if (noEmoji)    str = str.replace(/\p{Emoji}/gu, '');
         if (regFilter instanceof RegExp) str = str.replace(regFilter, '');
+
+        if (Array.isArray(subTrack)) {
+            subTrack.forEach(e => {
+                str += '\n' + EchoLiveTools.getMessagePlainText(e, HTMLFilter, noEmoji, regFilter);
+            });
+        }
 
         return str;
     }
@@ -310,6 +322,14 @@ class EchoLiveTools {
                         fontSizeFindIndex   = Math.max(fontSizeFindIndex - 1, 0);
                         style.size          = fontSizeValue[fontSizeFindIndex];
                     }
+                    break;
+
+                case '@^':
+                    style.super = true;
+                    break;
+
+                case '@_':
+                    style.sub = true;
                     break;
 
                 case '@r':

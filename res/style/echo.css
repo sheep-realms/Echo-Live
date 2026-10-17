@@ -69,6 +69,16 @@
 .echo-text-letter-spacing-half-width {letter-spacing: 0.5em;}
 .echo-text-letter-spacing-full-width {letter-spacing: 1em;}
 
+.echo-text-sub {
+    vertical-align: sub;
+    font-size: 0.75em;
+}
+
+.echo-text-super {
+    vertical-align: super;
+    font-size: 0.75em;
+}
+
 .echo-emoji-icon {
     display: inline-flex;
     fill: currentColor;

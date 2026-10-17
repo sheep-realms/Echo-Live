@@ -6,38 +6,38 @@
 **/
 
 
-.echo-output[data-before='「'],
-.echo-output[data-before='『'],
-.echo-output[data-before='﹁'],
-.echo-output[data-before='﹂'],
-.echo-output[data-before='“'],
-.echo-output[data-before='‘'],
-.echo-output[data-before='＂'],
-.echo-output[data-before='＇'],
-.echo-output[data-before='〝'],
-.echo-output[data-before='〞'],
-.echo-output[data-before='〟']
+.echo-track[data-before='「'],
+.echo-track[data-before='『'],
+.echo-track[data-before='﹁'],
+.echo-track[data-before='﹂'],
+.echo-track[data-before='“'],
+.echo-track[data-before='‘'],
+.echo-track[data-before='＂'],
+.echo-track[data-before='＇'],
+.echo-track[data-before='〝'],
+.echo-track[data-before='〞'],
+.echo-track[data-before='〟']
 {text-indent: -1em;}
 
 
-.echo-output[data-before='｢'],
-.echo-output[data-before='｣']
+.echo-track[data-before='｢'],
+.echo-track[data-before='｣']
 {text-indent: -0.5em;}
 
-.echo-output[data-before='"'],
-.echo-output[data-before="«"],
-.echo-output[data-before="„"]
+.echo-track[data-before='"'],
+.echo-track[data-before="«"],
+.echo-track[data-before="„"]
 {text-indent: -0.475em;}
 
-.echo-output[data-before="‟"]
+.echo-track[data-before="‟"]
 {text-indent: -0.375em;}
 
-.echo-output[data-before="‹"]
+.echo-track[data-before="‹"]
 {text-indent: -0.3em;}
 
-.echo-output[data-before="'"],
-.echo-output[data-before="‚"]
+.echo-track[data-before="'"],
+.echo-track[data-before="‚"]
 {text-indent: -0.275em;}
 
-.echo-output[data-before="‛"]
+.echo-track[data-before="‛"]
 {text-indent: -0.25em;}

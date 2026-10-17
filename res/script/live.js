@@ -39,6 +39,8 @@ if (config.echolive.next_audio.enable) {
 
 let data;
 
+let echoTrack = {}
+
 let groupIndex = 0;
 
 let first = false;
@@ -74,19 +76,42 @@ if (config.echolive.speech_synthesis.enable) {
     if (config.echolive.speech_synthesis.voice !== '') voiceIndex = voices.findIndex(e => e.name === config.echolive.speech_synthesis.voice);
 }
 
-function messageOutput(text = '', hasHTML = false) {
+function resetEchoTrack(subTrackCount) {
+    echoTrack = {
+        main: {
+            first: false,
+            groupIndex: 0,
+            inRuby: false,
+            inTypewriteEnd: false
+        }
+    };
+
+    $('.echo-output').append('<div class="echo-track" data-name="main"></div>');
+
+    for (let i = 0; i < subTrackCount; i++) {
+        echoTrack[`sub_${i}`] = {
+            first: false,
+            groupIndex: 0,
+            inRuby: false,
+            inTypewriteEnd: false
+        };
+        $('.echo-output').append(`<div class="echo-track" data-name="sub_${i}"></div>`);
+    }
+}
+
+function messageOutput(text = '', hasHTML = false, track = 'main') {
     if (text === '') return;
     if (text === '<br>') hasHTML = true;
-    let textDOM = hasHTML ? text : `<span class="echo-chr ${inTypewriteEnd ? 'echo-typewrite-enter' : ''}">${EchoLiveTools.safeHTML(text, false, { amp: false })}</span>`;
-    let exsel = inRuby ? ' ruby' : '';
-    if (inTypewriteEnd) {
-        inTypewriteEnd = false;
-        $('.echo-output .echo-text-typewrite' + exsel).html(textDOM);
-        $('.echo-output .echo-text-typewrite' + exsel).removeClass('echo-text-typewrite');
-    } else if (groupIndex === 0) {
-        $('.echo-output' + exsel).append(textDOM);
+    let textDOM = hasHTML ? text : `<span class="echo-chr ${echoTrack[track].inTypewriteEnd ? 'echo-typewrite-enter' : ''}">${EchoLiveTools.safeHTML(text, false, { amp: false })}</span>`;
+    let exsel = echoTrack[track].inRuby ? ' ruby' : '';
+    if (echoTrack[track].inTypewriteEnd) {
+        echoTrack[track].inTypewriteEnd = false;
+        $(`.echo-output .echo-track[data-name="${track}"] .echo-text-typewrite` + exsel).html(textDOM);
+        $(`.echo-output .echo-track[data-name="${track}"] .echo-text-typewrite` + exsel).removeClass('echo-text-typewrite');
+    } else if (echoTrack[track].groupIndex === 0) {
+        $(`.echo-output .echo-track[data-name="${track}"]` + exsel).append(textDOM);
     } else {
-        $(`.echo-output span[data-group="${groupIndex}"]` + exsel).append(textDOM);
+        $(`.echo-output .echo-track[data-name="${track}"] span[data-group="${echoTrack[track].groupIndex}"]` + exsel).append(textDOM);
     }
 }
 
@@ -110,7 +135,11 @@ $(document).ready(function() {
     })
 });
 
-echo.on('next', function(msg) {
+echo.on('next', function(msg, option) {
+    const { subTrackCount } = option;
+    resetEchoTrack(subTrackCount);
+    messageLenB = 0;
+
     messageActions = {
         printEnd: undefined
     };
@@ -122,13 +151,34 @@ echo.on('next', function(msg) {
 
     if(config.echolive.broadcast.enable) echolive.broadcast.echoStateUpdate('ready', echo.messageList.length);
 
-    let str = EchoLiveTools.getMessagePlainText(msg.message);
-    messageLenB = new TextEncoder().encode(str).length;
+    let trackMessage = {
+        main: EchoLiveTools.getMessagePlainText(msg.message)
+    };
+    let trackMessageLenB = {
+        main: new TextEncoder().encode(trackMessage.main).length
+    };
+    messageLenB = trackMessageLenB.main;
+
+    if (Array.isArray(msg.track)) {
+        msg.track.forEach((e, i) => {
+            if (e !== undefined) {
+                const text = EchoLiveTools.getMessagePlainText(e);
+                const b = new TextEncoder().encode(text).length;
+                trackMessage[`sub_${i}`] = text;
+                trackMessageLenB[`sub_${i}`] = b;
+                messageLenB = Math.max(messageLenB, b);
+            }
+        });
+    }
 
     // 判断文字书写方向
-    $('.echo-output').removeClass('echo-text-rlo');
-    if (str.trim().search(/[\u0590-\u05FF\u0600-\u06FF\u0700-\u074F\u0750-\u077F\u07C0-\u07FF\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/) === 0) {
-        $('.echo-output').addClass('echo-text-rlo');
+    $('.echo-output').removeClass('echo-text-rlo');     // 旧代码，以防万一还是留着
+    for (const key in trackMessage) {
+        if (!Object.hasOwn(trackMessage, key)) continue;
+        const element = trackMessage[key];
+        if (element.trim().search(/[\u0590-\u05FF\u0600-\u06FF\u0700-\u074F\u0750-\u077F\u07C0-\u07FF\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/) === 0) {
+            $(`.echo-output .echo-track[data-name="${key}"]`).addClass('echo-text-rlo');
+        }
     }
 
     mixer.resetPickIndex();
@@ -143,8 +193,10 @@ echo.on('next', function(msg) {
             msg.message,
             false,
             !config.echolive.speech_synthesis.speech_emoji,
-            EchoLiveTools.generateCharRegex(config.echolive.speech_synthesis.ignored_characters)
+            EchoLiveTools.generateCharRegex(config.echolive.speech_synthesis.ignored_characters),
+            config.echolive.speech_synthesis.speech_subtrack ? msg.track : undefined
         );
+        
         utterance = new SpeechSynthesisUtterance(speechText);
 
         if (voiceIndex !== -1) utterance.voice = voices[voiceIndex];
@@ -157,21 +209,22 @@ echo.on('next', function(msg) {
     }
 });
 
-echo.on('print', function(chr) {
+echo.on('print', function(chr, track = 'main') {
     if (chr === '\n') {
-        first = false;
+        echoTrack[track].first = false;
         chr = '<br>'
     }
 
-    messageOutput(chr);
+    messageOutput(chr, false, track);
 
     if (config.echolive.print_audio.enable && chr !== '' && chr !== undefined) {
-        echolive.playPrintSound();
+        echolive.playPrintSound(track);
     }
-    
-    if (first && chr !== undefined) {
-        first = false;
-        $('.echo-output').attr('data-before', chr);
+
+    if (echoTrack[track].first && chr !== undefined) {
+        echoTrack[track].first = false;
+        if (track === 'main') $('.echo-output').attr('data-before', chr);
+        $(`.echo-output .echo-track[data-name="${track}"]`).attr('data-before', chr);
     }
 });
 
@@ -187,12 +240,18 @@ echo.on('printStart', function() {
     performance.clearMarks();
     performance.clearMeasures();
     performance.mark('printStart');
-    first = true;
+
+    for (const key in echoTrack) {
+        if (!Object.hasOwn(echoTrack, key)) continue;
+        const element = echoTrack[key];
+        element.first = true;
+    }
+
     echolive.resetPrintSound();
     if(config.echolive.broadcast.enable) echolive.broadcast.echoStateUpdate('play', echo.messageList.length);
 });
 
-echo.on('printEnd', function() {
+echo.on('printEnd', function(track = 'main') {
     // 整理字符串
     // $('.echo-output').html($('.echo-output').html());
     if(config.echolive.broadcast.enable) echolive.broadcast.echoStateUpdate('stop', echo.messageList.length);
@@ -211,43 +270,43 @@ echo.on('printEnd', function() {
         echolive.setDisplayHiddenWaitTimer(messageLenB * 1000 * config.echolive.display.long_text_compensation_rate - duration);
     }
 
-    if (messageActions.printEnd === 'next') {
+    if (messageActions.printEnd === 'next' && track === 'main') {
         messageActions.printEnd = undefined;
         echo.next();
     }
 });
 
-echo.on('groupStart', function(e) {
-    groupIndex = e.groupNow;
+echo.on('groupStart', function(e, track = 'main') {
+    echoTrack[track].groupIndex = e.groupNow;
     let d = EchoLiveTools.messageStyleGenerator(e.data);
-    $('.echo-output').append(`<span data-group="${groupIndex}" class="${d.class}" style="${d.style}"></span>`);
+    $(`.echo-output .echo-track[data-name="${track}"]`).append(`<span data-group="${echoTrack[track].groupIndex}" class="${d.class}" style="${d.style}"></span>`);
 });
 
-echo.on('groupEnd', function(e) {
-    groupIndex = e.groupNow;
+echo.on('groupEnd', function(e, track = 'main') {
+    echoTrack[track].groupIndex = e.groupNow;
 });
 
-echo.on('typewriteEnd', function() {
-    inTypewriteEnd = true;
+echo.on('typewriteEnd', function(track = 'main') {
+    echoTrack[track].inTypewriteEnd = true;
     // $('.echo-output .echo-text-typewrite').remove();
 });
 
-echo.on('rubyStart', function() {
-    messageOutput('<ruby></ruby>', true);
-    inRuby = true;
+echo.on('rubyStart', function(_, track = 'main') {
+    messageOutput('<ruby></ruby>', true, track);
+    echoTrack[track].inRuby = true;
 })
 
-echo.on('rubyEnd', function(e) {
-    messageOutput(`<rt>${e}</rt>`, true);
-    inRuby = false;
+echo.on('rubyEnd', function(e, track = 'main') {
+    messageOutput(`<rt>${e}</rt>`, true, track);
+    echoTrack[track].inRuby = false;
 })
 
-echo.on('customEvent', function(e) {
-    $('#echo-live').addClass('event-' + e);
+echo.on('customEvent', function(e, track = 'main') {
+    if (track === 'main') $('#echo-live').addClass('event-' + e);
 });
 
-echo.on('customData', function(e) {
-    if (e?.username !== undefined) setUsername(e.username);
+echo.on('customData', function(e, track = 'main') {
+    if (e?.username !== undefined && track === 'main') setUsername(e.username);
     if (e?.emoji) {
         echo.insertSequence({
             type: 'emoji',
@@ -261,10 +320,10 @@ echo.on('customData', function(e) {
             image: e.image
         }, 1);
     }
-    if (e?.action !== undefined && e?.action?.printEnd !== undefined) {
+    if (e?.action !== undefined && track === 'main' && e?.action?.printEnd !== undefined) {
         messageActions.printEnd = e.action.printEnd;
     }
-    if (e?.character !== undefined) {
+    if (e?.character !== undefined && track === 'main') {
         echolive.broadcast.sendAvatar(e.character);
     }
 });
@@ -305,15 +364,15 @@ function cerateEmojiElement(data) {
     }
 }
 
-echo.on('customSequence', function(e) {
+echo.on('customSequence', function(e, track = 'main') {
     if (e.type === 'emoji') {
         let emojiData = emojiHako.getEmoji(e.value);
         if (emojiData !== undefined) {
             let emojiDOM = cerateEmojiElement(emojiData);
-            if (groupIndex === 0) {
-                $('.echo-output').append(emojiDOM);
+            if (echoTrack[track].groupIndex === 0) {
+                $(`.echo-output .echo-track[data-name="${track}"]`).append(emojiDOM);
             } else {
-                $(`.echo-output span[data-group="${groupIndex}"]`).append(emojiDOM);
+                $(`.echo-output .echo-track[data-name="${track}"] span[data-group="${echoTrack[track].groupIndex}"]`).append(emojiDOM);
             }
         }
     } else if (e.type === 'image' && config.echolive.image.enable) {
@@ -333,16 +392,16 @@ echo.on('customSequence', function(e) {
                 image-rendering: ${ e.image?.rendering || 'auto' };
             "
         >`;
-        if (groupIndex === 0) {
-            $('.echo-output').append(imageDom);
+        if (echoTrack[track].groupIndex === 0) {
+            $(`.echo-output .echo-track[data-name="${track}"]`).append(imageDom);
         } else {
-            $(`.echo-output span[data-group="${groupIndex}"]`).append(imageDom);
+            $(`.echo-output .echo-track[data-name="${track}"] span[data-group="${echoTrack[track].groupIndex}"]`).append(imageDom);
         }
     } else {
         return;
     }
 
-    if (config.echolive.print_audio.enable) echolive.playPrintSound();
+    if (config.echolive.print_audio.enable) echolive.playPrintSound(track);
 });
 
 echolive.on('play_sound', function(name, volume, rate, type) {
@@ -467,7 +526,7 @@ $(document).on('click', function() {
         if (echo.state !== 'stop') {
             echo.stop();
         }
-        groupIndex = 0;
+        echoTrack.main.groupIndex = 0;
         echo.next();
     }
 });

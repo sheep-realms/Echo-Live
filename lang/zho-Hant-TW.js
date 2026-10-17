@@ -358,6 +358,14 @@ const lang_zho_Hant_TW = {
                 rate: {
                     _title: "音效播放速度",
                     _description: "1 為原速。"
+                },
+                subtrack_volume: {
+                    _title: "子軌道音效音量",
+                    _description: "當主軌道列印結束且子軌道仍在列印時的音量。"
+                },
+                subtrack_rate: {
+                    _title: "子軌道音效播放速度",
+                    _description: "當主軌道列印結束且子軌道仍在列印時的播放速度。"
                 }
             },
             next_audio: {
@@ -470,6 +478,10 @@ const lang_zho_Hant_TW = {
                 speech_emoji: {
                     _title: "讀出表情符號",
                     _description: "啟用後講述人將會讀出訊息中的 emoji 符號和表情圖片的描述。<br>其它特殊符號不受影響。"
+                },
+                speech_subtrack: {
+                    _title: "讀出子軌道",
+                    _description: "讓子軌道的字元也會被講述人讀出。"
                 },
                 ignored_characters: {
                     _title: "忽略的字元",
@@ -982,7 +994,9 @@ const lang_zho_Hant_TW = {
             image: "插入圖片",
             italic: "斜體",
             underline: "下劃線",
-            strikethrough: "刪除線"
+            strikethrough: "刪除線",
+            sub: "下標",
+            super: "上標"
         },
         history: {
             clear: "清空歷史記錄",

@@ -456,9 +456,11 @@ class EchoLive {
      */
     resetPrintSound() {
         this.printSound.audio = {
-            name:   this.config.echolive.print_audio.name,
-            volume: this.config.echolive.print_audio.volume,
-            rate:   this.config.echolive.print_audio.rate
+            name:               this.config.echolive.print_audio.name,
+            volume:             this.config.echolive.print_audio.volume,
+            rate:               this.config.echolive.print_audio.rate,
+            subtrack_volume:    this.config.echolive.print_audio.subtrack_volume,
+            subtrack_rate:      this.config.echolive.print_audio.subtrack_rate,
         };
         this.printSound.muteDuration = this.echo.printSpeedChange + 3;
     }
@@ -476,8 +478,8 @@ class EchoLive {
         this.event.emit(
             'play_sound',
             this.printSound.audio.name,
-            this.printSound.audio.volume,
-            this.printSound.audio.rate,
+            this.echo.state !== 'wait_subtrack' ? this.printSound.audio.volume : this.printSound.audio.subtrack_volume,
+            this.echo.state !== 'wait_subtrack' ? this.printSound.audio.rate : this.printSound.audio.subtrack_rate,
             'print'
         );
         return true;

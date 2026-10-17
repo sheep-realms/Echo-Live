@@ -358,6 +358,14 @@ const lang_zho_Hans = {
                 rate: {
                     _title: "音效播放速度",
                     _description: "1 为原速。"
+                },
+                subtrack_volume: {
+                    _title: "子轨道音效音量",
+                    _description: "当主轨道打印结束且子轨道仍在打印时的音量。"
+                },
+                subtrack_rate: {
+                    _title: "子轨道音效播放速度",
+                    _description: "当主轨道打印结束且子轨道仍在打印时的播放速度。"
                 }
             },
             next_audio: {
@@ -470,6 +478,10 @@ const lang_zho_Hans = {
                 speech_emoji: {
                     _title: "读出表情符号",
                     _description: "启用后讲述人将会读出消息中的 emoji 符号和表情图片的描述。<br>其它特殊符号不受影响。"
+                },
+                speech_subtrack: {
+                    _title: "读出子轨道",
+                    _description: "让子轨道的字符也会被讲述人读出。"
                 },
                 ignored_characters: {
                     _title: "忽略的字符",

@@ -1,5 +1,5 @@
 const config = {
-    "data_version": 16,
+    "data_version": 17,
     "global": {
         "language": "zho-Hans",
         "theme": "vanilla",
@@ -46,7 +46,9 @@ const config = {
             "enable": false,
             "name": "typewriter_loop",
             "volume": 0.5,
-            "rate": 1
+            "rate": 1,
+            "subtrack_volume": 0.15,
+            "subtrack_rate": 1
         },
         "next_audio": {
             "enable": false,
@@ -80,6 +82,7 @@ const config = {
             "rate": 1,
             "delay": 0,
             "speech_emoji": false,
+            "speech_subtrack": false,
             "ignored_characters": ""
         },
         "image": {

@@ -1,4 +1,4 @@
-const db_config_version = 16;
+const db_config_version = 17;
 
 const db_config_define = [
     {
@@ -360,7 +360,7 @@ const db_config_define = [
         attribute: {
             max: 1,
             min: 0,
-            step: 0.1
+            step: 0.05
         },
         conditions: [
             {
@@ -375,6 +375,39 @@ const db_config_define = [
         default: 1,
         from: 'echolive.print_audio_rate',
         created: 4,
+        attribute: {
+            min: 0,
+            step: 0.25
+        },
+        conditions: [
+            {
+                name: 'echolive.print_audio.enable',
+                value: true
+            }
+        ]
+    }, {
+        name: 'echolive.print_audio.subtrack_volume',
+        icon: 'material:volume-high',
+        type: 'number',
+        default: 0.15,
+        created: 17,
+        attribute: {
+            max: 1,
+            min: 0,
+            step: 0.05
+        },
+        conditions: [
+            {
+                name: 'echolive.print_audio.enable',
+                value: true
+            }
+        ]
+    }, {
+        name: 'echolive.print_audio.subtrack_rate',
+        icon: 'material:play-speed',
+        type: 'number',
+        default: 1,
+        created: 17,
         attribute: {
             min: 0,
             step: 0.25
@@ -684,6 +717,17 @@ const db_config_define = [
         type: 'boolean',
         default: false,
         created: 4,
+        conditions: [
+            {
+                name: 'echolive.speech_synthesis.enable',
+                value: true
+            }
+        ]
+    }, {
+        name: 'echolive.speech_synthesis.speech_subtrack',
+        type: 'boolean',
+        default: false,
+        created: 17,
         conditions: [
             {
                 name: 'echolive.speech_synthesis.enable',

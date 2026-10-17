@@ -366,7 +366,9 @@ class Echo {
             this.printSpeedChange = this.printSpeedStart;
         }
         clearInterval(this.timer);
-        this.timer = setInterval(this.print, this.printSpeedChange, this);
+        this.timer = setInterval(() => {
+            this.print()
+        }, this.printSpeedChange);
         return this.printSpeedChange;
     }
 

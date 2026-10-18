@@ -467,9 +467,11 @@ class EchoLive {
 
     /**
      * 播放打印音效
+     * @param {String} track 轨道名称
      * @returns {Boolean} 是否成功
      */
-    playPrintSound() {
+    playPrintSound(track) {
+        if (this.echo.state !== 'wait_subtrack' && track !== 'main') return;
         if (!this.config.echolive.print_audio.enable) return false;
 
         const now = performance.now();

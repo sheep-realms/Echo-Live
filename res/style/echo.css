@@ -6,6 +6,20 @@
 **/
 
 
+:root {
+    --echo-text-logic-top: top;
+    --echo-text-logic-right: right;
+    --echo-text-logic-bottom: bottom;
+    --echo-text-logic-left: left;
+}
+
+:root[user-custom-writing-mode="vertical"] {
+    --echo-text-logic-top: right;
+    --echo-text-logic-right: bottom;
+    --echo-text-logic-bottom: left;
+    --echo-text-logic-left: top;
+}
+
 .echo-text-bold {font-weight: bold;}
 .echo-text-italic {font-style: italic;}
 /* .echo-text-underline {border-bottom: 1px solid var(--echo-span-color, #000);} */
@@ -84,6 +98,11 @@
     fill: currentColor;
 }
 
+:root[user-custom-writing-mode="vertical"] .echo-emoji-icon,
+:root[user-custom-writing-mode="vertical"] .echo-emoji-image {
+    inset-block-start: unset !important;
+}
+
 @keyframes echo-text-rock-y {
     0% {position: relative; top: 0px;}
     25% {position: relative; top: -2px;}
@@ -95,9 +114,10 @@
 }
 
 .echo-text-rainbow {
+    --animation-name: echo-text-rainbow;
     color: #000;
     background-image: linear-gradient(
-        to right, 
+        to var(--echo-text-logic-right), 
         #ef4444, #f97316, #f59e0b, #eab308, #84cc16, #22c55e, #10b981, #14b8a6, #06b6d4,
         #0ea5e9, #3b82f6, #6366f1, #8b5cf6, #a855f7, #d945ef, #ec4899, #f43f5e, #ef4444
     );
@@ -105,8 +125,13 @@
     color: transparent;
     -webkit-background-clip: text;
     background-clip: text;
-    animation: echo-text-rainbow 2s infinite linear;
+    animation: var(--animation-name) 2s infinite linear;
     text-shadow: none;
+}
+
+:root[user-custom-writing-mode="vertical"] .echo-text-rainbow {
+    --animation-name: echo-text-rainbow-vertical;
+    background-size: auto 16em;
 }
 
 .echo-text-preview-rainbow {
@@ -120,6 +145,11 @@
 @keyframes echo-text-rainbow {
     0% { background-position: 0 0; }
     100% { background-position: -16em 0; }
+}
+
+@keyframes echo-text-rainbow-vertical {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 -16em; }
 }
 
 .echo-text-roll-down {
@@ -182,99 +212,112 @@
 
 .echo-text-gradient-night-fade,
 .echo-text-preview-gradient-night-fade {
-    background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
+    background-image: linear-gradient(to var(--echo-text-logic-top), #a18cd1 0%, #fbc2eb 100%);
 }
 
 .echo-text-gradient-spring-warmth,
 .echo-text-preview-gradient-spring-warmth {
-    background-image: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%);
+    background-image: linear-gradient(to var(--echo-text-logic-top), #fad0c4 0%, #ffd1ff 100%);
 }
 
 .echo-text-gradient-sunny-morning,
 .echo-text-preview-gradient-sunny-morning {
-    background-image: linear-gradient(to top, #fda085 0%, #f6d365 100%);
+    background-image: linear-gradient(to var(--echo-text-logic-top), #fda085 0%, #f6d365 100%);
 }
 
 .echo-text-gradient-winter-neva,
 .echo-text-preview-gradient-winter-neva {
-    background-image: linear-gradient(to top, #c2e9fb 0%, #a1c4fd 100%);
+    background-image: linear-gradient(to var(--echo-text-logic-top), #c2e9fb 0%, #a1c4fd 100%);
 }
 
 .echo-text-gradient-dusty-grass,
 .echo-text-preview-gradient-dusty-grass {
-    background-image: linear-gradient(to top, #96e6a1 0%, #d4fc79 100%);
+    background-image: linear-gradient(to var(--echo-text-logic-top), #96e6a1 0%, #d4fc79 100%);
 }
 
 .echo-text-gradient-heavy-rain,
 .echo-text-preview-gradient-heavy-rain {
-    background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+    background-image: linear-gradient(to var(--echo-text-logic-top), #cfd9df 0%, #e2ebf0 100%);
 }
 
 .echo-text-gradient-red-salvation,
 .echo-text-preview-gradient-red-salvation {
-    background-image: linear-gradient(to top, #f43b47 0%, #453a94 100%);
+    background-image: linear-gradient(to var(--echo-text-logic-top), #f43b47 0%, #453a94 100%);
 }
 
 .echo-text-gradient-premium-dark,
 .echo-text-preview-gradient-premium-dark {
-    background-image: linear-gradient(to top, black 0%, #434343 100%);
+    background-image: linear-gradient(to var(--echo-text-logic-top), black 0%, #434343 100%);
 }
 
 .echo-text-gradient-mountain-rock,
 .echo-text-preview-gradient-mountain-rock {
-    background-image: linear-gradient(to top, #596164 0%, #868f96 100%);
+    background-image: linear-gradient(to var(--echo-text-logic-top), #596164 0%, #868f96 100%);
 }
 
 .echo-text-gradient-juicy-peach,
 .echo-text-preview-gradient-juicy-peach {
-    background-image: linear-gradient(to top, #fcb69f 0%, #ffecd2 100%);
+    background-image: linear-gradient(to var(--echo-text-logic-top), #fcb69f 0%, #ffecd2 100%);
 }
 
 .echo-text-gradient-fly-high,
 .echo-text-preview-gradient-fly-high {
-    background-image: linear-gradient(to top, #48c6ef 0%, #6f86d6 100%);
+    background-image: linear-gradient(to var(--echo-text-logic-top), #48c6ef 0%, #6f86d6 100%);
 }
 
 .echo-text-gradient-aqua-splash,
 .echo-text-preview-gradient-aqua-splash {
-    background-image: linear-gradient(to top, #13547a 0%, #80d0c7 100%);
+    background-image: linear-gradient(to var(--echo-text-logic-top), #13547a 0%, #80d0c7 100%);
 }
 
 .echo-text-gradient-salt-mountain,
 .echo-text-preview-gradient-salt-mountain {
-    background-image: linear-gradient(to top, #D7FFFE 0%, #FFFEFF 100%);
+    background-image: linear-gradient(to var(--echo-text-logic-top), #D7FFFE 0%, #FFFEFF 100%);
 }
 
 .echo-text-gradient-perfect-blue,
 .echo-text-preview-gradient-perfect-blue {
-    background-image: linear-gradient(to bottom, #3D4E81 0%, #5753C9 48%, #6E7FF3 100%);
+    background-image: linear-gradient(to var(--echo-text-logic-bottom), #3D4E81 0%, #5753C9 48%, #6E7FF3 100%);
 }
 
 .echo-text-wave-1,
 .echo-text-wave-2,
 .echo-text-wave-3 {
+    --animation-name: echo-text-wave;
     text-indent: 0;
+}
+
+:root[user-custom-writing-mode="vertical"] .echo-text-wave-1,
+:root[user-custom-writing-mode="vertical"] .echo-text-wave-2,
+:root[user-custom-writing-mode="vertical"] .echo-text-wave-3 {
+    --animation-name: echo-text-wave-vertical;
 }
 
 .echo-text-wave-1 .echo-chr {
     display: inline-block;
-    animation: echo-text-wave 2s ease-in-out infinite;
+    animation: var(--animation-name) 2s ease-in-out infinite;
 }
 
 .echo-text-wave-2 .echo-chr {
     display: inline-block;
-    animation: echo-text-wave 1s ease-in-out infinite;
+    animation: var(--animation-name) 1s ease-in-out infinite;
 }
 
 .echo-text-wave-3 .echo-chr {
     display: inline-block;
-    animation: echo-text-wave .5s ease-in-out infinite;
+    animation: var(--animation-name) .5s ease-in-out infinite;
 }
 
 @keyframes echo-text-wave {
     0%   { transform: translateY(-0.08em); }
     50%   { transform: translateY(0.08em); }
     100% { transform: translateY(-0.08em); }
+}
+
+@keyframes echo-text-wave-vertical {
+    0%   { transform: translateX(0.08em); }
+    50%   { transform: translateX(-0.08em); }
+    100% { transform: translateX(0.08em); }
 }
 
 .echo-text-orbit-1,
@@ -323,6 +366,7 @@
 .echo-text-shine-sliver,
 .echo-text-shine-copper,
 .echo-text-shine-metal {
+    --animation-name: echo-text-shine;
     --shine-gradient-color-1: #faebc0;
     --shine-gradient-color-2: #e2b52c;
     --shine-gradient-color-3: #f5cd55;
@@ -337,7 +381,7 @@
             transparent 51%
         ), 
         linear-gradient(
-            to bottom, 
+            to var(--echo-text-logic-bottom), 
             var(--shine-gradient-color-1) 0%,
             var(--shine-gradient-color-2) 50%,
             var(--shine-gradient-color-3) 100%
@@ -346,8 +390,16 @@
     color: transparent;
     -webkit-background-clip: text;
     background-clip: text;
-    animation: echo-text-shine 2s infinite linear;
+    animation: var(--animation-name) 2s infinite linear;
     text-shadow: none;
+}
+
+:root[user-custom-writing-mode="vertical"] .echo-text-shine-gold,
+:root[user-custom-writing-mode="vertical"] .echo-text-shine-sliver,
+:root[user-custom-writing-mode="vertical"] .echo-text-shine-copper,
+:root[user-custom-writing-mode="vertical"] .echo-text-shine-metal {
+    --animation-name: echo-text-shine-vertical;
+    background-size: auto 64em;
 }
 
 .echo-text-preview-shine-gold,
@@ -401,4 +453,9 @@
 @keyframes echo-text-shine {
     0% { background-position: 0 0; }
     100% { background-position: 64em 0; }
+}
+
+@keyframes echo-text-shine-vertical {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 64em; }
 }

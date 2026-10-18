@@ -343,7 +343,7 @@ function cerateEmojiElement(data) {
         margin-inline-end: ${ data.image.margin.end };
         image-rendering: ${ data.image.rendering };
         position: relative;
-        top: ${ data.image.offset };
+        inset-block-start: ${ data.image.offset };
         ${ data.image.scale !== 1 ? `transform: scale(${ data.image.scale });` : '' }
     "`;
 
@@ -356,6 +356,7 @@ function cerateEmojiElement(data) {
         </span>`;
     } else if (typeof data.path === 'string') {
         return `<img
+            class="echo-emoji-image"
             src="${ data.path }"
             ${ style }
         >`;

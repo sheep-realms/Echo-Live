@@ -10,6 +10,10 @@
     /* 使对话框文本不可选中 */
     user-select: none;
 
+    /* 缩放率 */
+    --zoom: 1;
+    zoom: var(--zoom);
+
     /* 隐去和显现速度 */
     --animation-speed-display-hidden: 1000ms;
     --animation-speed-display-show: 500ms;
@@ -163,8 +167,8 @@ body {
 }
 
 #echo-live-history {
-    height: 100vh;
-    width: 100vw;
+    height: calc(100vh / var(--zoom));
+    width: calc(100vw / var(--zoom));
     display: flex;
     align-items: flex-start;
 }

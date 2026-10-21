@@ -18,8 +18,10 @@ $('html').css('font-weight', config.global.live_font_weight);
 let echoLiveHistory = new EchoLiveHistory(config);
 const urlTheme = EchoLiveTools.getUrlParam('theme');
 const urlThemeVariant = EchoLiveTools.getUrlParam('theme-variant');
+const urlZoom = EchoLiveTools.getUrlParam('zoom');
 echoLiveHistory.setTheme(urlTheme || config.history.style.history_theme || config.global.theme);
 echoLiveHistory.setThemeVariant(urlThemeVariant || config.history.style.history_theme_variant || config.global.theme_variant || '');
+if (urlZoom) $('html').css('--zoom', urlZoom);
 
 echoLiveHistory.on('new_history', function(e) {
     sendHistory(e.username, e.message);

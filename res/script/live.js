@@ -13,6 +13,7 @@ if (config.echo.html_format_enable !== true) echo.filter.HTMLFormat = false;
 let echolive = new EchoLive(echo, config);
 const urlTheme = EchoLiveTools.getUrlParam('theme');
 const urlThemeVariant = EchoLiveTools.getUrlParam('theme-variant');
+const urlZoom = EchoLiveTools.getUrlParam('zoom');
 echolive.setTheme(urlTheme || config.echolive.style.live_theme || config.global.theme);
 echolive.setThemeVariant(urlThemeVariant || config.echolive.style.live_theme_variant || config.global.theme_variant || '');
 
@@ -26,6 +27,7 @@ $('html').css('font-weight', config.global.live_font_weight);
 $('html').css('--echo-live-mini-size-coefficient', config.advanced.obs_api.echolive_mini_size_coefficient || 0.5926);
 if (config.echolive.layout.username_text_align_right) $('html').addClass('username-text-align-right');
 if (!config.echolive.layout.diplay_controller) $('html').addClass('controller-hidden');
+if (urlZoom) $('html').css('--zoom', urlZoom);
 
 if (config.echolive.print_audio.enable) {
     mixer.preload(config.echolive.print_audio.name);
@@ -343,7 +345,7 @@ function cerateEmojiElement(data) {
         margin-inline-end: ${ data.image.margin.end };
         image-rendering: ${ data.image.rendering };
         position: relative;
-        top: ${ data.image.offset };
+        inset-block-start: ${ data.image.offset };
         ${ data.image.scale !== 1 ? `transform: scale(${ data.image.scale });` : '' }
     "`;
 
@@ -356,6 +358,7 @@ function cerateEmojiElement(data) {
         </span>`;
     } else if (typeof data.path === 'string') {
         return `<img
+            class="echo-emoji-image"
             src="${ data.path }"
             ${ style }
         >`;

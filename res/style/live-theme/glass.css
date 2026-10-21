@@ -220,13 +220,13 @@
     max-height: 500px; */
     height: 100vh;
     background-color: transparent;
-    background-image: linear-gradient(to top, var(--echo-live-bg-gradient-color) var(--echo-live-bg-gradient-hint-start), transparent var(--echo-live-bg-gradient-hint-end));
+    background-image: linear-gradient(to var(--echo-live-visual-top), var(--echo-live-bg-gradient-color) var(--echo-live-bg-gradient-hint-start), transparent var(--echo-live-bg-gradient-hint-end));
     display: flex;
     flex-direction: column;
 }
 
 :root[user-custom-color="coffee"] #echo-live {
-    background-image: linear-gradient(to top, rgba(128, 70, 57, 0.95) 0%, rgba(191, 141, 129, 0.65) 50%, rgba(191, 141, 129, 0) 100%);
+    background-image: linear-gradient(to var(--echo-live-visual-top), rgba(128, 70, 57, 0.95) 0%, rgba(191, 141, 129, 0.65) 50%, rgba(191, 141, 129, 0) 100%);
 }
 
 #echo-live .center {
@@ -242,7 +242,7 @@
 #echo-live .bottom {
     display: var(--echo-live-bottombar-display);
     align-items: center;
-    background-image: linear-gradient(to top, var(--echo-live-bottom-bg-gradient-color) 0%, transparent 100%);
+    background-image: linear-gradient(to var(--echo-live-visual-top), var(--echo-live-bottom-bg-gradient-color) 0%, transparent 100%);
     box-sizing: border-box;
     padding: 0.5em 0;
     min-height: 4em;

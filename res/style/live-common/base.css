@@ -10,12 +10,40 @@
     /* 使对话框文本不可选中 */
     user-select: none;
 
+    /* 缩放率 */
+    --zoom: 1;
+    zoom: var(--zoom);
+
+    /* 隐去和显现速度 */
     --animation-speed-display-hidden: 1000ms;
     --animation-speed-display-show: 500ms;
 
+    /* 迷你模式 */
     --echo-live-mini-size-coefficient: 0.5926;
     --echo-live-mini-size-coefficient-trim: min(max(var(--echo-live-mini-size-coefficient), 0.3), 2);
     --echo-live-mini-size-width: calc(min(var(--obs-scene-height) * var(--echo-live-mini-size-coefficient-trim), var(--obs-scene-width)));
+
+    /* 逻辑方向 */
+    --echo-live-logic-top: top;
+    --echo-live-logic-right: right;
+    --echo-live-logic-bottom: bottom;
+    --echo-live-logic-left: left;
+
+    /* 视觉方向 */
+    --echo-live-visual-top: top;
+    --echo-live-visual-bottom: bottom;
+}
+
+:root[user-custom-writing-mode="vertical"] {
+    /* 逻辑方向 */
+    --echo-live-logic-top: right;
+    --echo-live-logic-right: bottom;
+    --echo-live-logic-bottom: left;
+    --echo-live-logic-left: top;
+
+    /* 视觉方向 */
+    --echo-live-visual-top: left;
+    --echo-live-visual-bottom: right;
 }
 
 body {
@@ -24,6 +52,12 @@ body {
 
 ::-webkit-scrollbar {
     display: none;
+}
+
+:root[user-custom-writing-mode="vertical"] #echo-live {
+    writing-mode: vertical-rl;
+    width: 100%;
+    flex-direction: column-reverse;
 }
 
 #echo-live:not(.display-hidden) {
@@ -133,8 +167,8 @@ body {
 }
 
 #echo-live-history {
-    height: 100vh;
-    width: 100vw;
+    height: calc(100vh / var(--zoom));
+    width: calc(100vw / var(--zoom));
     display: flex;
     align-items: flex-start;
 }

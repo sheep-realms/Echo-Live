@@ -1931,6 +1931,12 @@ const lang_zho_Hans = {
                 blue: "湖泊蓝",
                 pink: "蜜桃粉",
                 purple: "水晶紫",
+                vertical: "直排",
+                vertical_coffee: "直排-咖啡棕",
+                vertical_blue: "直排-湖泊蓝",
+                vertical_pink: "直排-蜜桃粉",
+                vertical_purple: "直排-水晶紫",
+                vertical_wine_red: "直排-葡萄红",
                 wine_red: "葡萄红"
             }
         },
@@ -1945,6 +1951,8 @@ const lang_zho_Hans = {
         void: {
             title: "虚空",
             variant: {
+                vertical: "直排",
+                vertical_white: "直排-白色文本",
                 white: "白色文本"
             }
         }

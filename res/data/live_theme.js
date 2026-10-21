@@ -120,6 +120,65 @@ echoLiveSystem.registry.loadRegistry('live_theme', 'name', [
                 "attribute": {
                     "color": "coffee"
                 }
+            }, {
+                "name": "vertical",
+                "title": {
+                    "text": "直排",
+                    "translate": "vertical"
+                },
+                "attribute": {
+                    "writing-mode": "vertical"
+                }
+            }, {
+                "name": "vertical_blue",
+                "title": {
+                    "text": "直排-湖泊蓝",
+                    "translate": "vertical_blue"
+                },
+                "attribute": {
+                    "color": "blue",
+                    "writing-mode": "vertical"
+                }
+            }, {
+                "name": "vertical_purple",
+                "title": {
+                    "text": "直排-水晶紫",
+                    "translate": "vertical_purple"
+                },
+                "attribute": {
+                    "color": "purple",
+                    "writing-mode": "vertical"
+                }
+            }, {
+                "name": "vertical_pink",
+                "title": {
+                    "text": "直排-蜜桃粉",
+                    "translate": "vertical_pink"
+                },
+                "attribute": {
+                    "color": "pink",
+                    "writing-mode": "vertical"
+                }
+            }, {
+                "name": "vertical_wine_red",
+                "title": {
+                    "text": "直排-葡萄红",
+                    "translate": "vertical_wine_red"
+                },
+                "attribute": {
+                    "color": "wine_red",
+                    "writing-mode": "vertical"
+                }
+            }, {
+                "name": "vertical_coffee",
+                "title": {
+                    "text": "直排-咖啡棕",
+                    "translate": "vertical_coffee"
+                },
+                "attribute": {
+                    "color": "coffee",
+                    "writing-mode": "vertical"
+                }
             }
         ]
     }, {
@@ -139,6 +198,25 @@ echoLiveSystem.registry.loadRegistry('live_theme', 'name', [
                 },
                 "attribute": {
                     "color": "white"
+                }
+            }, {
+                "name": "vertical",
+                "title": {
+                    "text": "直排",
+                    "translate": "vertical"
+                },
+                "attribute": {
+                    "writing-mode": "vertical"
+                }
+            }, {
+                "name": "vertical_white",
+                "title": {
+                    "text": "直排-白色文本",
+                    "translate": "vertical_white"
+                },
+                "attribute": {
+                    "color": "white",
+                    "writing-mode": "vertical"
                 }
             }
         ]

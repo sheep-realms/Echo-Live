@@ -20,6 +20,8 @@
     animation-timing-function: var(--char-effect-timing-function);
     animation-delay: 0s;
     animation-iteration-count: 1;
+
+    display: inline-block;
 }
 
 .echo-chr::after {

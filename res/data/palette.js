@@ -433,6 +433,18 @@ echoLiveSystem.registry.loadRegistry('palette', e => e.meta.name, [
             },
             {
                 type: 'class',
+                value: 'laugh',
+                title: { name: '哈哈大笑', translate: 'custom_class.style.laugh' },
+                image: 'res/image/editor/palette/laugh.png'
+            },
+            {
+                type: 'class',
+                value: 'bounce',
+                title: { name: '弹跳', translate: 'custom_class.style.bounce' },
+                image: 'res/image/editor/palette/bounce.png'
+            },
+            {
+                type: 'class',
                 value: 'roll-down',
                 title: { name: '旋转倒置', translate: 'custom_class.style.roll_down' },
                 image: 'res/image/editor/palette/roll_down.png'

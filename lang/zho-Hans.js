@@ -1234,6 +1234,7 @@ const lang_zho_Hans = {
                 custom_class: {
                     title: "高级样式",
                     style: {
+                        bounce: "弹跳",
                         gradient_aqua_splash: "海洋巨星",
                         gradient_perfect_blue: "宇宙之眼",
                         gradient_dusty_grass: "固沙草原",
@@ -1249,6 +1250,7 @@ const lang_zho_Hans = {
                         gradient_sunny_morning: "明媚早晨",
                         gradient_winter_neva: "冰天雪地",
                         jitter: "抖动",
+                        laugh: "哈哈大笑",
                         orbit_1: "木星轨道",
                         orbit_2: "地球轨道",
                         orbit_3: "月球轨道",

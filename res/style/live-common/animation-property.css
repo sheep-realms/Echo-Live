@@ -1,0 +1,97 @@
+/* ============================================================
+ * Echo-Live
+ * Github: https://github.com/sheep-realms/Echo-Live
+ * License: GNU General Public License 3.0
+ * ============================================================
+**/
+
+
+/* 缩放 */
+
+@property --echo-text-scale {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1;
+}
+
+@property --echo-text-scale-x {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1;
+}
+
+@property --echo-text-scale-y {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1;
+}
+
+@property --echo-text-odd-scale-x {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1;
+}
+
+@property --echo-text-odd-scale-y {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1;
+}
+
+@property --echo-text-even-scale-x {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1;
+}
+
+@property --echo-text-even-scale-y {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1;
+}
+
+
+
+/* 位移 */
+
+@property --echo-text-translate {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 0;
+}
+
+@property --echo-text-translate-x {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 0;
+}
+
+@property --echo-text-translate-y {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 0;
+}
+
+@property --echo-text-odd-translate-x {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 0;
+}
+
+@property --echo-text-odd-translate-y {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 0;
+}
+
+@property --echo-text-even-translate-x {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 0;
+}
+
+@property --echo-text-even-translate-y {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 0;
+}

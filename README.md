@@ -54,6 +54,7 @@
 #### 联动
 这些项目与 Echo-Live 存在联动且可独立运行。
 
+- [VChatTiny](https://github.com/VTuberChatProject/VChatTiny)
 - [NanaType](https://github.com/sena-nana/NanaType)
 
 ### 其他项目

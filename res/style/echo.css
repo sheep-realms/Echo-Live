@@ -5,7 +5,6 @@
  * ============================================================
 **/
 
-
 :root {
     --echo-text-logic-top: top;
     --echo-text-logic-right: right;
@@ -161,6 +160,10 @@
     transform: rotate(180deg);
 }
 
+
+
+/* 抖动 */
+
 .echo-text-jitter {
     text-indent: 0;
 }
@@ -189,6 +192,10 @@
     80%  { transform: translate(-0.04em, -0.02em); }
     90%  { transform: translate(0.02em, -0.01em); }
 }
+
+
+
+/* 渐变 */
 
 .echo-text-gradient-night-fade,
 .echo-text-gradient-spring-warmth,
@@ -280,6 +287,10 @@
     background-image: linear-gradient(to var(--echo-text-logic-bottom), #3D4E81 0%, #5753C9 48%, #6E7FF3 100%);
 }
 
+
+
+/* 波浪 */
+
 .echo-text-wave-1,
 .echo-text-wave-2,
 .echo-text-wave-3 {
@@ -319,6 +330,10 @@
     50%   { transform: translateX(-0.08em); }
     100% { transform: translateX(0.08em); }
 }
+
+
+
+/* 轨道 */
 
 .echo-text-orbit-1,
 .echo-text-orbit-2,
@@ -361,6 +376,10 @@
             rotate(360deg);
     }
 }
+
+
+
+/* 扫光 */
 
 .echo-text-shine-gold,
 .echo-text-shine-sliver,
@@ -458,4 +477,189 @@
 @keyframes echo-text-shine-vertical {
     0% { background-position: 0 0; }
     100% { background-position: 0 64em; }
+}
+
+
+
+/* 哈哈大笑 */
+
+.echo-text-laugh {
+    --echo-text-odd-scale-x: 1;
+    --echo-text-odd-scale-y: 1;
+    --echo-text-even-scale-x: 1;
+    --echo-text-even-scale-y: 1;
+    --echo-text-odd-translate-y: 0em;
+    --echo-text-even-translate-y: 0em;
+    animation: echo-text-laugh 0.2s infinite;
+    animation-timing-function: ease-in;
+}
+
+.echo-text-laugh .echo-chr:nth-child(2n) {
+    text-indent: 0;
+    display: inline-block;
+    animation-name: unset;
+    transform: 
+        scale(var(--echo-text-even-scale-x), var(--echo-text-even-scale-y))
+        translate(0, var(--echo-text-even-translate-y));
+}
+
+.echo-text-laugh .echo-chr:nth-child(2n+1) {
+    text-indent: 0;
+    display: inline-block;
+    animation-name: unset;
+    transform:
+        scale(var(--echo-text-odd-scale-x), var(--echo-text-odd-scale-y))
+        translate(0, var(--echo-text-odd-translate-y));
+}
+
+:root[user-custom-writing-mode="vertical"] .echo-text-laugh .echo-chr:nth-child(2n) {
+    transform: 
+        scale(var(--echo-text-even-scale-y), var(--echo-text-even-scale-x))
+        translate(calc(var(--echo-text-even-translate-y) * -1), 0);
+}
+
+:root[user-custom-writing-mode="vertical"] .echo-text-laugh .echo-chr:nth-child(2n+1) {
+    transform: 
+        scale(var(--echo-text-odd-scale-y), var(--echo-text-odd-scale-x))
+        translate(calc(var(--echo-text-odd-translate-y) * -1), 0);
+}
+
+@keyframes echo-text-laugh {
+    0%, 100% {
+        --echo-text-odd-scale-x: 1.1;
+        --echo-text-odd-scale-y: 0.9;
+        --echo-text-even-scale-x: 0.8;
+        --echo-text-even-scale-y: 1.2;
+        --echo-text-odd-translate-y: 0.05em;
+        --echo-text-even-translate-y: -0.1em;
+    }
+    50%  {
+        --echo-text-odd-scale-x: 0.8;
+        --echo-text-odd-scale-y: 1.2;
+        --echo-text-even-scale-x: 1.1;
+        --echo-text-even-scale-y: 0.9;
+        --echo-text-odd-translate-y: -0.1em;
+        --echo-text-even-translate-y: 0.05em;
+    }
+}
+
+
+
+/* 弹跳 */
+
+.echo-text-bounce .echo-chr {
+    --echo-text-translate-y: 0em;
+    text-indent: 0;
+    display: inline-block;
+    transform: translateY(var(--echo-text-translate-y));
+    animation: echo-text-bounce 0.7s infinite;
+    animation-delay: -0.35s;
+}
+
+.echo-text-bounce .echo-chr:nth-child(2n) { animation-delay: -0.35s; }
+.echo-text-bounce .echo-chr:nth-child(2n) { animation-delay: 0s; }
+
+:root[user-custom-writing-mode="vertical"] .echo-text-bounce .echo-chr {
+    transform: translateX(calc(var(--echo-text-translate-y) * -1));
+}
+
+@keyframes echo-text-bounce {
+    0%, 100% {
+        --echo-text-translate-y: -0.25em;
+        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    50% {
+        --echo-text-translate-y: 0;
+        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+}
+
+
+
+/* 摇摆 */
+
+.echo-text-sway {
+    --echo-text-rotate: 0deg;
+    --echo-text-translate-x: 0em;
+    --echo-text-translate-y: 0em;
+    animation: echo-text-sway 1s infinite;
+}
+
+.echo-text-rlo .echo-text-sway {
+    animation-delay: -0.5s;
+}
+
+.echo-text-sway .echo-chr {
+    text-indent: 0;
+    display: inline-block;
+    animation-name: unset;
+    transform:
+        rotate(var(--echo-text-rotate))
+        translate(var(--echo-text-translate-x), var(--echo-text-translate-y));
+}
+
+:root[user-custom-writing-mode="vertical"] .echo-text-sway .echo-chr {
+    transform:
+        rotate(var(--echo-text-rotate))
+        translate(calc(var(--echo-text-translate-y) * -1), var(--echo-text-translate-x));
+}
+
+@keyframes echo-text-sway {
+    0%, 100% {
+        --echo-text-rotate: 15deg;
+        --echo-text-translate-x: 0.1em;
+        --echo-text-translate-y: -0.05em;
+        animation-timing-function: ease-in;
+    }
+    25%, 75% {
+        --echo-text-rotate: 0deg;
+        --echo-text-translate-x: 0em;
+        --echo-text-translate-y: 0em;
+        animation-timing-function: ease-out;
+    }
+    50% {
+        --echo-text-rotate: -15deg;
+        --echo-text-translate-x: -0.1em;
+        --echo-text-translate-y: -0.05em;
+        animation-timing-function: ease-in;
+    }
+}
+
+
+
+/* 脉动 */
+
+.echo-text-pulse-1 .echo-chr,
+.echo-text-pulse-2 .echo-chr,
+.echo-text-pulse-3 .echo-chr {
+    text-indent: 0;
+    display: inline-block;
+    animation: echo-text-pulse 0.7s infinite;
+    animation-delay: -0.35s;
+}
+
+.echo-text-pulse-1 .echo-chr {
+    animation-duration: 2s;
+    animation-delay: -1s;
+}
+
+.echo-text-pulse-2 .echo-chr {
+    animation-duration: 1.2s;
+    animation-delay: -0.6s;
+}
+
+.echo-text-pulse-3 .echo-chr {
+    animation-duration: 0.7s;
+    animation-delay: -0.35s;
+}
+
+@keyframes echo-text-pulse {
+    0%, 100% {
+        transform: scale(1.1);
+        animation-timing-function: ease-in;
+    }
+    50% {
+        transform: scale(0.9);
+        animation-timing-function: ease-out;
+    }
 }

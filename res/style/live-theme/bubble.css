@@ -10,23 +10,8 @@
  * 这里是 Echo Live 的样式文件
 **/
 
-/* 导入：基本样式 */
-@import url("../live-common/base.css");
-
-/* 导入：默认字体 */
-@import url("../live-common/font-family.css");
-
-/* 导入：字符打印效果 */
-@import url("../live-common/char-effect.css");
-
-/* 导入：引用符号缩进 */
-@import url("../live-common/char-indent.css");
-
-/* 导入：多国语言适配 */
-@import url("../live-common/i18n.css");
-
-/* 导入：事件动效 */
-@import url("../live-common/event-effect.css");
+/* 导入前置样式库 */
+@import url("../live-common/index.css");
 
 * {
     margin: 0;
@@ -235,13 +220,13 @@
     left: var(--echo-live-left, 0px);
     height: 
         calc(
-            100vh
+            calc(100vh / var(--zoom))
             - var(--echo-live-bottom, var(--echo-live-box-shadow-distance, 0px))
             - var(--echo-live-top, 0px)
         );
     width:
         calc(
-            100vw
+            calc(100vh / var(--zoom))
             - var(--echo-live-right, var(--echo-live-box-shadow-distance, 0px))
             - var(--echo-live-left, 0px)
         );

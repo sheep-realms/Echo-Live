@@ -1234,6 +1234,7 @@ const lang_zho_Hant_HK = {
                 custom_class: {
                     title: "高級樣式",
                     style: {
+                        bounce: "彈跳",
                         gradient_aqua_splash: "海洋巨星",
                         gradient_perfect_blue: "宇宙之眼",
                         gradient_dusty_grass: "固沙草原",
@@ -1249,15 +1250,20 @@ const lang_zho_Hant_HK = {
                         gradient_sunny_morning: "明媚早晨",
                         gradient_winter_neva: "冰天雪地",
                         jitter: "抖動",
+                        laugh: "哈哈大笑",
                         orbit_1: "木星軌道",
                         orbit_2: "地球軌道",
                         orbit_3: "月球軌道",
+                        pulse_1: "低速脈動",
+                        pulse_2: "中速脈動",
+                        pulse_3: "高速脈動",
                         rainbow: "彩虹",
                         roll_down: "旋轉倒置",
                         shine_copper: "銅色掃光",
                         shine_gold: "金色掃光",
                         shine_metal: "黑色掃光",
                         shine_sliver: "銀色掃光",
+                        sway: "搖擺",
                         wave_1: "微波起伏",
                         wave_2: "波濤洶湧",
                         wave_3: "驚濤駭浪"

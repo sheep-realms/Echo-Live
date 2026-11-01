@@ -104,7 +104,22 @@ function resetEchoTrack(subTrackCount) {
 function messageOutput(text = '', hasHTML = false, track = 'main') {
     if (text === '') return;
     if (text === '<br>') hasHTML = true;
-    let textDOM = hasHTML ? text : `<span class="echo-chr ${echoTrack[track].inTypewriteEnd ? 'echo-typewrite-enter' : ''}">${EchoLiveTools.safeHTML(text, false, { amp: false })}</span>`;
+
+    let textDOM;
+
+    if (hasHTML) {
+        textDOM = text;
+    } else if (echoTrack[track].inTypewriteEnd) {
+        let typewriteText = EchoLiveTools.safeHTML(text, false, { amp: false });
+        textDOM = '<span class="echo-typewrite-enter">';
+        [...typewriteText].forEach((e) => {
+            textDOM += `<span class="echo-chr${ config.echolive.print_effect !== 'none' ? ' in-print-effect' : '' }">${e}</span>`
+        });
+        textDOM += `</span>`
+    } else {
+        textDOM = `<span class="echo-chr${ config.echolive.print_effect !== 'none' ? ' in-print-effect' : '' }">${EchoLiveTools.safeHTML(text, false, { amp: false })}</span>`
+    }
+
     let exsel = echoTrack[track].inRuby ? ' ruby' : '';
     if (echoTrack[track].inTypewriteEnd) {
         echoTrack[track].inTypewriteEnd = false;
@@ -532,6 +547,10 @@ $(document).on('click', function() {
         echoTrack.main.groupIndex = 0;
         echo.next();
     }
+});
+
+$(document).on('animationend', '.in-print-effect', function() {
+    $(this).removeClass('in-print-effect');
 });
 
 // $('#echo-live .name').text(data.username);

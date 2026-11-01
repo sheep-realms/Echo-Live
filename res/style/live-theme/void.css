@@ -127,7 +127,7 @@
 #echo-live {
     /* min-height: 150px;
     max-height: 500px; */
-    height: 100vh;
+    height: calc(100vh / var(--zoom));
     background-color: var(--echo-live-bg-color);
     display: flex;
     flex-direction: column;

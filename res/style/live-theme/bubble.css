@@ -220,13 +220,13 @@
     left: var(--echo-live-left, 0px);
     height: 
         calc(
-            100vh
+            calc(100vh / var(--zoom))
             - var(--echo-live-bottom, var(--echo-live-box-shadow-distance, 0px))
             - var(--echo-live-top, 0px)
         );
     width:
         calc(
-            100vw
+            calc(100vh / var(--zoom))
             - var(--echo-live-right, var(--echo-live-box-shadow-distance, 0px))
             - var(--echo-live-left, 0px)
         );

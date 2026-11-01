@@ -203,7 +203,7 @@
 #echo-live {
     /* min-height: 150px;
     max-height: 500px; */
-    height: 100vh;
+    height: calc(100vh / var(--zoom));
     background-color: transparent;
     background-image: linear-gradient(to var(--echo-live-visual-top), var(--echo-live-bg-gradient-color) var(--echo-live-bg-gradient-hint-start), transparent var(--echo-live-bg-gradient-hint-end));
     display: flex;

@@ -95,3 +95,25 @@
     inherits: true;
     initial-value: 0;
 }
+
+
+
+/* 旋转 */
+
+@property --echo-text-rotate {
+    syntax: "<angle>";
+    inherits: true;
+    initial-value: 0deg;
+}
+
+@property --echo-text-odd-rotate {
+    syntax: "<angle>";
+    inherits: true;
+    initial-value: 0deg;
+}
+
+@property --echo-text-even-rotate {
+    syntax: "<angle>";
+    inherits: true;
+    initial-value: 0deg;
+}

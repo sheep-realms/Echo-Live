@@ -449,6 +449,30 @@ echoLiveSystem.registry.loadRegistry('palette', e => e.meta.name, [
                 title: { name: '旋转倒置', translate: 'custom_class.style.roll_down' },
                 image: 'res/image/editor/palette/roll_down.png'
             },
+            {
+                type: 'class',
+                value: 'sway',
+                title: { name: '摇摆', translate: 'custom_class.style.sway' },
+                image: 'res/image/editor/palette/sway.png'
+            },
+            {
+                type: 'class',
+                value: 'pulse-1',
+                title: { name: '', translate: 'custom_class.style.pulse_1' },
+                image: 'res/image/editor/palette/pulse_1.png'
+            },
+            {
+                type: 'class',
+                value: 'pulse-2',
+                title: { name: '', translate: 'custom_class.style.pulse_2' },
+                image: 'res/image/editor/palette/pulse_2.png'
+            },
+            {
+                type: 'class',
+                value: 'pulse-3',
+                title: { name: '', translate: 'custom_class.style.pulse_3' },
+                image: 'res/image/editor/palette/pulse_3.png'
+            },
 
             { type: 'group', value: { name: '多彩渐变', translate: 'custom_class.group.colorful' } },
             {

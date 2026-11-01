@@ -14,7 +14,8 @@
     --char-effect-timing-function: ease-out;
 }
 
-.echo-chr {
+.echo-chr.in-print-effect {
+    display: inline-block;
     animation-name: var(--char-effect-name);
     animation-duration: var(--char-effect-speed);
     animation-timing-function: var(--char-effect-timing-function);
@@ -22,7 +23,8 @@
     animation-iteration-count: 1;
 }
 
-.echo-chr::after {
+.echo-chr.in-print-effect::after {
+    display: inline-block;
     animation-name: none;
     animation-duration: var(--char-effect-speed);
     animation-timing-function: var(--char-effect-timing-function);

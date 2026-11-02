@@ -77,6 +77,8 @@ class Commander {
                         required: true
                     }, {
                         type: 'any'
+                    }, {
+                        type: 'any'
                     }
                 ]
             }, {
@@ -517,9 +519,9 @@ class Commander {
         return this.__broadcastMessageConstructor('shutdown');
     }
 
-    theme(name, target) {
+    theme(name, variantName, target) {
         if (this.link.broadcast === undefined) return this.__messageConstructor('common', StateMessage.getFail('not_broadcast'));
-        this.link.broadcast.sendTheme(name, target);
+        this.link.broadcast.sendTheme(name, variantName, target);
 
         return this.__broadcastMessageConstructor('set_theme', target);
     }

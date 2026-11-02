@@ -106,6 +106,11 @@ class EchoLiveBroadcast {
         this.broadcast.onmessage = (e) => {
             this.getData(e.data);
         };
+
+        window.addEventListener("beforeunload", () => {
+            this?.close();
+            this.broadcast = undefined;
+        });
     }
 
     /**
@@ -171,6 +176,8 @@ class EchoLiveBroadcast {
      * @returns {Object} 发送的数据
      */
     sendData(data = {}, action = EchoLiveBroadcast.API_NAME_MESSAGE_DATA, target = undefined) {
+        if (this.broadcast === undefined) return;
+
         let d = {
             action: action,
             target: target,
@@ -1023,7 +1030,10 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      */
     close() {
         this.sendData({}, EchoLiveBroadcast.API_NAME_CLOSE);
-        return this.broadcast.close();
+        this.websocketClose();
+        this.broadcast.close();
+        this.broadcast = undefined;
+        return;
     }
 
     /**

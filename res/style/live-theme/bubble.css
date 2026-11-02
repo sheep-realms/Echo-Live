@@ -358,13 +358,13 @@
     left: var(--echo-live-history-left, 0px);
     height: 
         calc(
-            100vh
+            calc(100vh / var(--zoom))
             - var(--echo-live-history-bottom, var(--echo-live-history-box-shadow-distance, 0px))
             - var(--echo-live-history-top, 0px)
         );
     width:
         calc(
-            100vw
+            calc(100vh / var(--zoom))
             - var(--echo-live-history-right, var(--echo-live-history-box-shadow-distance, 0px))
             - var(--echo-live-history-left, 0px)
         );

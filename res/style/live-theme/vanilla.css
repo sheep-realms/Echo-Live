@@ -303,7 +303,7 @@
 :root[user-custom-mini] #echo-live .center-center,
 :root[user-custom-mini] #echo-live .center-bottom {
     flex: unset !important;
-    width: calc(var(--echo-live-mini-size-width, 33vw) + 64px);
+    width: calc(var(--echo-live-mini-size-width, calc(33vw / var(--zoom))) + 64px);
 }
 
 :root[user-custom-mini] #echo-live .controller {

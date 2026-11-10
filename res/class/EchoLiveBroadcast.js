@@ -64,6 +64,7 @@ class EchoLiveBroadcast {
             API_NAME_SET_LIVE_DISPLAY:      'set_live_display',
             API_NAME_SET_THEME:             'set_theme',
             API_NAME_SET_THEME_STYLE_URL:   'set_theme_style_url',
+            API_NAME_SET_THEME_VARIANT:     'set_theme_variant',
             API_NAME_SHUTDOWN:              'shutdown',
             API_NAME_WEBSOCKET_CLOSE:       'websocket_close',
             API_NAME_WEBSOCKET_HEARTBEAT:   'websocket_heartbeat',
@@ -106,6 +107,11 @@ class EchoLiveBroadcast {
         this.broadcast.onmessage = (e) => {
             this.getData(e.data);
         };
+
+        window.addEventListener("beforeunload", () => {
+            this?.close();
+            this.broadcast = undefined;
+        });
     }
 
     /**
@@ -171,6 +177,8 @@ class EchoLiveBroadcast {
      * @returns {Object} 发送的数据
      */
     sendData(data = {}, action = EchoLiveBroadcast.API_NAME_MESSAGE_DATA, target = undefined) {
+        if (this.broadcast === undefined) return;
+
         let d = {
             action: action,
             target: target,
@@ -656,13 +664,27 @@ class EchoLiveBroadcastServer extends EchoLiveBroadcast {
     /**
      * 发送命令：设置主题
      * @param {String} name 主题名称
+     * @param {String} [variantName] 主题变体名称
      * @param {String} [target] 发送目标
      * @returns {Object} 发送的消息
      */
-    sendTheme(name, target = undefined) {
+    sendTheme(name, variantName = undefined, target = undefined) {
         return this.sendData({
-            name: name
+            name: name,
+            variant_name: variantName
         }, EchoLiveBroadcast.API_NAME_SET_THEME, target);
+    }
+
+    /**
+     * 发送命令：设置主题变体
+     * @param {String} name 主题变体名称
+     * @param {String} [target] 发送目标
+     * @returns {Object} 发送的消息
+     */
+    sendThemeVariant(name, target = undefined) {
+        return this.sendData({
+            name: name,
+        }, EchoLiveBroadcast.API_NAME_SET_THEME_VARIANT, target);
     }
 
     /**
@@ -1023,7 +1045,10 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      */
     close() {
         this.sendData({}, EchoLiveBroadcast.API_NAME_CLOSE);
-        return this.broadcast.close();
+        this.websocketClose();
+        this.broadcast.close();
+        this.broadcast = undefined;
+        return;
     }
 
     /**
@@ -1155,11 +1180,21 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
     /**
      * 设置主题
      * @param {String} name 主题名称
+     * @param {String} variantName 主题变体名称
      * @returns {String} 设置的主题
      */
-    setTheme(name) {
+    setTheme(name, variantName) {
         if (this.isServer) return;
-        return this.echolive.setTheme(name);
+        return this.echolive.setTheme(name, variantName);
+    }
+
+    /**
+     * 设置主题变体
+     * @param {String} name 主题变体名称
+     */
+    setThemeVariant(name) {
+        if (this.isServer) return;
+        return this.echolive.setThemeVariant(name);
     }
 
     /**
@@ -1253,7 +1288,11 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
                 break;
 
             case EchoLiveBroadcast.API_NAME_SET_THEME:
-                listener.setTheme(data.data?.name);
+                listener.setTheme(data.data?.name, data.data?.variant_name);
+                break;
+
+            case EchoLiveBroadcast.API_NAME_SET_THEME_VARIANT:
+                listener.setThemeVariant(data.data?.name);
                 break;
         
             default:

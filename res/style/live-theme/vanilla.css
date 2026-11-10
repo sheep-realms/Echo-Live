@@ -78,11 +78,11 @@
     /* 历史记录发送时间部分的最小宽度 */
     --echo-live-history-min-width-time: 4.5em;
 
-    /* 历史记录说话人部分的最小宽度 */
+    /* 历史记录说话人部分的最大宽度 */
     --echo-live-history-max-width-username: 8em;
-    /* 历史记录消息内容部分的最小宽度 */
+    /* 历史记录消息内容部分的最大宽度 */
     --echo-live-history-max-width-message: unset;
-    /* 历史记录发送时间部分的最小宽度 */
+    /* 历史记录发送时间部分的最大宽度 */
     --echo-live-history-max-width-time: 5em;
 
     /* 历史记录字体大小 */
@@ -303,7 +303,7 @@
 :root[user-custom-mini] #echo-live .center-center,
 :root[user-custom-mini] #echo-live .center-bottom {
     flex: unset !important;
-    width: calc(var(--echo-live-mini-size-width, 33vw) + 64px);
+    width: calc(var(--echo-live-mini-size-width, calc(33vw / var(--zoom))) + 64px);
 }
 
 :root[user-custom-mini] #echo-live .controller {

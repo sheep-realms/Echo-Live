@@ -130,9 +130,10 @@ class EchoLiveHistory {
     /**
      * 设置主题
      * @param {String} name 主题ID
+     * @param {String} variantName 主题变体ID
      * @returns {String} 主题入口样式文件URL
      */
-    setTheme(name) {
+    setTheme(name, variantName) {
         const theme = this.findTheme(name);
         if (theme === undefined) return;
 
@@ -155,9 +156,15 @@ class EchoLiveHistory {
 
         this.event.emit('theme_script_load');
 
+        if (variantName !== undefined) this.setThemeVariant(variantName);
+
         return theme.style;
     }
 
+    /**
+     * 设置主题变体
+     * @param {String} name 主题变体ID
+     */
     setThemeVariant(name) {
         if (name === '' || name === undefined) return;
         const theme = this.findTheme(this.currentTheme);

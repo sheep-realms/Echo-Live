@@ -113,11 +113,11 @@ function messageOutput(text = '', hasHTML = false, track = 'main') {
         let typewriteText = EchoLiveTools.safeHTML(text, false, { amp: false });
         textDOM = '<span class="echo-typewrite-enter">';
         [...typewriteText].forEach((e) => {
-            textDOM += `<span class="echo-chr${ config.echolive.print_effect !== 'none' ? ' in-print-effect' : '' }">${e}</span>`
+            textDOM += `<span class="echo-chr${ config.echolive.print_effect.name !== 'none' ? ' in-print-effect' : '' }">${e}</span>`
         });
         textDOM += `</span>`
     } else {
-        textDOM = `<span class="echo-chr${ config.echolive.print_effect !== 'none' ? ' in-print-effect' : '' }">${EchoLiveTools.safeHTML(text, false, { amp: false })}</span>`
+        textDOM = `<span class="echo-chr${ config.echolive.print_effect.name !== 'none' ? ' in-print-effect' : '' }">${EchoLiveTools.safeHTML(text, false, { amp: false })}</span>`
     }
 
     let exsel = echoTrack[track].inRuby ? ' ruby' : '';

@@ -109,7 +109,7 @@ class EchoLiveBroadcast {
         };
 
         window.addEventListener("beforeunload", () => {
-            this?.close();
+            if (typeof this.close === 'function') this.close();
             this.broadcast = undefined;
         });
     }
@@ -1044,10 +1044,12 @@ class EchoLiveBroadcastClient extends EchoLiveBroadcast {
      * @returns {Object} 发送的消息
      */
     close() {
-        this.sendData({}, EchoLiveBroadcast.API_NAME_CLOSE);
-        this.websocketClose();
-        this.broadcast.close();
-        this.broadcast = undefined;
+        try {
+            this.sendData({}, EchoLiveBroadcast.API_NAME_CLOSE);
+            this.websocketClose();
+            this.broadcast.close();
+            this.broadcast = undefined;
+        } catch (_) {}
         return;
     }
 
@@ -1225,14 +1227,16 @@ class EchoLiveBroadcastPortal extends EchoLiveBroadcastClient {
     /**
      * Echo 打印内容广播
      * @param {String} username 说话人
-     * @param {String|Object|Array} message 单条消息
+     * @param {String} message 单条纯文本消息
+     * @param {String|Object|Array} original_message 单条原始消息
      * @param {String} [target] 发送目标
      * @returns 
      */
-    echoPrinting(username, message, target = undefined) {
+    echoPrinting(username, message, original_message, target = undefined) {
         return this.sendData({
-            username:   username,
-            message:    message
+            username:           username,
+            message:            message,
+            original_message:   original_message
         }, EchoLiveBroadcast.API_NAME_ECHO_PRINTING, target);
     }
 
@@ -1367,8 +1371,9 @@ class EchoLiveBroadcastHistory extends EchoLiveBroadcastClient {
         switch (data.action) {
             case EchoLiveBroadcast.API_NAME_ECHO_PRINTING:
                 listener.echoLiveHistory.send({
-                    username:   data.data?.username,
-                    message:    data.data?.message
+                    username:           data.data?.username,
+                    message:            data.data?.message,
+                    original_message:   data.data?.original_message
                 });
                 break;
 

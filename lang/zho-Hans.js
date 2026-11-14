@@ -697,6 +697,30 @@ const lang_zho_Hans = {
                     _title: "对话框隐去时显示最新的历史记录",
                     _description: "在对话框隐去时显示被隐藏的最新的历史记录。"
                 }
+            },
+            text_style: {
+                _title: "文本样式",
+                _description: "控制历史记录解析哪些文本样式",
+                enable: {
+                    _title: "启用富文本解析",
+                    _description: "启用历史记录的富文本解析，不支持图片、动效等高级样式。<br>若禁用则只显示纯文本。"
+                },
+                allow_basic_style: {
+                    _title: "允许解析基本样式",
+                    _description: "包括粗体、斜体、下划线、删除线、字重、上标和下标。"
+                },
+                allow_color: {
+                    _title: "允许解析文本颜色",
+                    _description: "请留意历史记录的背景，某些文本颜色可能难以辨认。"
+                },
+                allow_background_color: {
+                    _title: "允许解析背景颜色",
+                    _description: "背景颜色与文本颜色对比度过低会难以辨认。"
+                },
+                allow_font_size: {
+                    _title: "允许解析字号",
+                    _description: "过大的字号可能会导致内容过于拥挤，过小的字号可能会难以辨认。"
+                }
             }
         },
         character: {

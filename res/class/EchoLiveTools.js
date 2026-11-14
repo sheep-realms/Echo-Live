@@ -38,9 +38,18 @@ class EchoLiveTools {
     /**
      * 解析段落格式样式
      * @param {Object} data 单一段落格式
+     * @param {String[]} allowStyle 要解析的样式名称
+     * @param {Object} options 选项
+     * @param {Boolean} options.allow_class 允许 class 字段
+     * @param {Boolean} options.allow_typewrite 允许 typewrite 字段
      * @returns {Object} 类与样式
      */
-    static messageStyleGenerator(data) {
+    static messageStyleGenerator(data, allowStyle = undefined, options = {}) {
+        const {
+            allow_class = true,
+            allow_typewrite = true
+        } = options;
+
         function __setClassAndStyle(styleData) {
             const value = data.style[styleData.name];
             if (
@@ -85,33 +94,65 @@ class EchoLiveTools {
             }
         }
 
+        function __checkAllow(styleName) {
+            if (!Array.isArray(allowStyle)) return true;
+            return allowStyle.includes(styleName);
+        }
+
         let cls = '';
-        if (data?.class) {
+        if (allow_class && data?.class) {
             cls = data.class + ' ';
         }
         let style = '';
-        if (data?.typewrite) cls += 'echo-text-typewrite '
+        if (allow_typewrite && data?.typewrite) cls += 'echo-text-typewrite '
         if (data?.style) {
             if (!config.advanced.performance.foreach_text_style_by_message_data) {
                 echoLiveSystem.registry.forEach('text_style', e => {
-                    __setClassAndStyle(e);
+                    if (__checkAllow(e.name)) __setClassAndStyle(e);
                 });
             } else {
                 for (const key in data.style) {
                     if (Object.prototype.hasOwnProperty.call(data.style, key)) {
                         let r = echoLiveSystem.registry.getRegistryValue('text_style', key);
                         if (r === undefined) continue;
-                        __setClassAndStyle(r);
+                        if (__checkAllow(e.name)) __setClassAndStyle(r);
                     }
                 }
             }
-            // if (data.style?.rock)               cls     += 'echo-text-rock-'            + data.style.rock           + ' ';
         }
 
         return {
             class: cls,
             style: style
         }
+    }
+
+    /**
+     * 获取段落格式富文本
+     * @param {String|Object|Object[]} message 
+     * @param {String[]|undefined} allowStyle 要解析的样式名称
+     * @param {Object} options 选项
+     * @param {Boolean} options.allow_class 允许 class 字段
+     * @param {Boolean} options.allow_typewrite 允许 typewrite 字段
+     * @returns {String} DOM
+     */
+    static getMessageRichText(message, allowStyle = undefined, options = {}) {
+        if (typeof message === 'string') {
+            return EchoLiveTools.safeHTML(message);
+        }
+        if (typeof message !== 'object') return;
+        if (!Array.isArray(message)) message = [message];
+
+        let dom = '';
+        let r;
+        message.forEach(e => {
+            r = {}
+            if (typeof e !== 'string') r = EchoLiveTools.messageStyleGenerator(e, allowStyle, options);
+            const plainText = EchoLiveTools.getMessagePlainText(e);
+            dom += `<span class="${ r.class }" style="${ r.style }">${ EchoLiveTools.safeHTML(plainText) }</span>`
+        });
+
+        return dom;
     }
 
     /**

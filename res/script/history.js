@@ -23,8 +23,20 @@ echoLiveHistory.setTheme(urlTheme || config.history.style.history_theme || confi
 echoLiveHistory.setThemeVariant(urlThemeVariant || config.history.style.history_theme_variant || config.global.theme_variant || '');
 if (urlZoom) $('html').css('--zoom', urlZoom);
 
+let emojiHako;
+
+$(document).ready(function() {
+    translator.ready(() => {
+        emojiHako = new EmojiHako();
+    })
+});
+
 echoLiveHistory.on('new_history', function(e) {
-    sendHistory(e.username, e.message);
+    if (config.history.text_style.enable) {
+        sendHistory(e.username, e.original_message);
+    } else {
+        sendHistory(e.username, e.message);
+    }
 });
 
 echoLiveHistory.on('clear_history', function() {
@@ -59,12 +71,27 @@ function sendHistory(username = '', message = '') {
     if (message == '' || message == undefined) message = $t('message_preview.empty_message');
 
     username = username.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/ /g, '&ensp;');
-    message = EchoLiveTools.getMessagePlainText(message);
+    
+    let allowStyle = [];
+    if (config.history.text_style.allow_basic_style) allowStyle.push('bold', 'italic', 'underline', 'strikethrough', 'weight', 'sub', 'super');
+    if (config.history.text_style.allow_color) allowStyle.push('color');
+    if (config.history.text_style.allow_background_color) allowStyle.push('backgroundColor');
+    if (config.history.text_style.allow_font_size) allowStyle.push('size');
+
+    if (config.history.text_style.enable) {
+        message = EchoLiveTools.getMessageRichText(message, allowStyle, {
+            allow_class: false,
+            allow_typewrite: false
+        });
+    } else {
+        EchoLiveTools.getMessagePlainText(message, true);
+    }
+    
 
     $('#echo-live-history-message-list').append(
         `<div class="history-message-item">
             <div class="username"><div class="content">${EchoLiveTools.safeHTML(username)}</div></div>
-            <div class="message"><div class="content echo-output" data-before="${message.substring(0, 1).replace(/"/g, '&quot;')}">${EchoLiveTools.safeHTML(message)}</div></div>
+            <div class="message"><div class="content echo-output" data-before="${message.substring(0, 1).replace(/"/g, '&quot;')}">${message}</div></div>
             <div class="time"><div class="content">${EchoLiveTools.formatDate(undefined, 'time_common')}</div></div>
         </div>`
     );

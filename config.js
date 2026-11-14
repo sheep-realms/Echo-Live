@@ -1,5 +1,5 @@
 const config = {
-    "data_version": 17,
+    "data_version": 18,
     "global": {
         "language": "zho-Hans",
         "theme": "vanilla",
@@ -154,6 +154,13 @@ const config = {
             "remove_continuous_duplicate": true,
             "latest_message_hide": true,
             "live_display_hidden_latest_message_show": true
+        },
+        "text_style": {
+            "enable": false,
+            "allow_basic_style": true,
+            "allow_color": false,
+            "allow_background_color": false,
+            "allow_font_size": false
         }
     },
     "character": {

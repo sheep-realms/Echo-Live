@@ -9,9 +9,6 @@ echoLiveSystem.registry.loadRegistry('text_style', 'name', [
         name: 'backgroundColor',
         style: 'background-color'
     }, {
-        name: 'backgroundColor',
-        style: 'background-color'
-    }, {
         name: 'bold',
         class: 'echo-text-bold'
     }, {

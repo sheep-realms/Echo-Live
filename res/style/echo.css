@@ -28,6 +28,9 @@
 }
 .echo-text-typewrite {background-color: rgba(0, 0, 0, 0.05); border-bottom: 1px dotted var(--echo-span-color, #000);}
 .echo-text-strikethrough {text-decoration: line-through;}
+.echo-text-underline.echo-text-strikethrough {
+    text-decoration: underline line-through;
+}
 
 .echo-text-emphasis {
     text-emphasis: dot;

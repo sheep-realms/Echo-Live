@@ -234,7 +234,7 @@ echoLiveSystem.registry.loadRegistry('script', 'name', [
     {
         name: 'echolive_script:history',
         dependencies: [
-            'echolive_class:echolive_history',
+            'echolive_class:echolive_history'
         ],
         src: 'res/script/history.js'
     },

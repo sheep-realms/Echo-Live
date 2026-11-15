@@ -697,6 +697,30 @@ const lang_zho_Hant_HK = {
                     _title: "對話框隱去時顯示最新的歷史記錄",
                     _description: "在對話框隱去時顯示被隱藏的最新的歷史記錄。"
                 }
+            },
+            text_style: {
+                _title: "文本樣式",
+                _description: "控制歷史記錄解析哪些文本樣式",
+                enable: {
+                    _title: "啓用富文本解析",
+                    _description: "啓用歷史記錄的富文本解析，不支持圖片、動效等高級樣式。<br>若禁用則只顯示純文本。"
+                },
+                allow_basic_style: {
+                    _title: "允許解析基本樣式",
+                    _description: "包括粗體、斜體、下劃線、刪除線、字重、上標和下標。"
+                },
+                allow_color: {
+                    _title: "允許解析文本顏色",
+                    _description: "請留意歷史記錄的背景，某些文本顏色可能難以辨認。"
+                },
+                allow_background_color: {
+                    _title: "允許解析背景顏色",
+                    _description: "背景顏色與文本顏色對比度過低會難以辨認。"
+                },
+                allow_font_size: {
+                    _title: "允許解析字號",
+                    _description: "過大的字號可能會導致內容過於擁擠，過小的字號可能會難以辨認。"
+                }
             }
         },
         character: {

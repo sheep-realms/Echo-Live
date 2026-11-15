@@ -1,4 +1,4 @@
-const db_config_version = 17;
+const db_config_version = 18;
 
 const db_config_define = [
     {
@@ -1196,6 +1196,64 @@ const db_config_define = [
         conditions: [
             {
                 name: 'history.message.latest_message_hide',
+                value: true
+            }
+        ]
+    }, {
+        name: 'history.text_style',
+        icon: 'material:format-size',
+        type: 'object',
+        created: 18
+    }, {
+        name: 'history.text_style.enable',
+        type: 'boolean',
+        default: false,
+        created: 18
+    }, {
+        name: 'history.text_style.allow_basic_style',
+        icon: 'material:format-bold',
+        type: 'boolean',
+        default: true,
+        created: 18,
+        conditions: [
+            {
+                name: 'history.text_style.enable',
+                value: true
+            }
+        ]
+    }, {
+        name: 'history.text_style.allow_color',
+        icon: 'material:palette',
+        type: 'boolean',
+        default: false,
+        created: 18,
+        conditions: [
+            {
+                name: 'history.text_style.enable',
+                value: true
+            }
+        ]
+    }, {
+        name: 'history.text_style.allow_background_color',
+        icon: 'material:palette',
+        type: 'boolean',
+        default: false,
+        created: 18,
+        conditions: [
+            {
+                name: 'history.text_style.enable',
+                value: true
+            }
+        ]
+    }, {
+        name: 'history.text_style.allow_font_size',
+        icon: 'material:format-size',
+        type: 'boolean',
+        default: false,
+        created: 18,
+        conditions: [
+            {
+                name: 'history.text_style.enable',
                 value: true
             }
         ]

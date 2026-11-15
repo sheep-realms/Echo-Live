@@ -162,7 +162,7 @@ echo.on('next', function(msg, option) {
     };
 
     echolive.username = EchoLiveTools.getMessageUsername(echolive.username, msg);
-    if(config.echolive.broadcast.enable) echolive.broadcast.echoPrinting(echolive.username, EchoLiveTools.getMessagePlainText(msg));
+    if(config.echolive.broadcast.enable) echolive.broadcast.echoPrinting(echolive.username, EchoLiveTools.getMessagePlainText(msg), msg.message);
 
     $('#echo-live').attr('class', '');
 

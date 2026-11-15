@@ -16,6 +16,7 @@
 
 .echo-chr.in-print-effect {
     display: inline-block;
+    text-indent: 0;
     animation-name: var(--char-effect-name);
     animation-duration: var(--char-effect-speed);
     animation-timing-function: var(--char-effect-timing-function);

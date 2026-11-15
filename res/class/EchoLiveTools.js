@@ -279,6 +279,7 @@ class EchoLiveTools {
      * @returns {String|Object|Object[]} 段落格式
      */
     static formattingCodeToMessage(text, data = {}) {
+        if (text === '') return '';
         let message = [];
         data        = JSON.parse(JSON.stringify(data));
 
@@ -432,7 +433,8 @@ class EchoLiveTools {
             }
         }
 
-        if (message.length == 1) return message[0];
+        if (message.length === 1) return message[0];
+        if (message.length === 0) return '';
         return message;
     }
 
